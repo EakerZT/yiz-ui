@@ -1,0 +1,42 @@
+{
+  "name": "yiz-ui",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [
+    "ui",
+    "vue"
+  ],
+  "homepage": "https://github.com/EakerZT/yiz-ui#readme",
+  "bugs": {
+    "url": "https://github.com/EakerZT/yiz-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EakerZT/yiz-ui.git"
+  },
+  "license": "MIT",
+  "author": "EakerZT",
+  "scripts": {
+    "demo": "vite"
+  },
+  "peerDependencies": {
+    "vue": ">=3.2.0"
+  },
+  "volta": {
+    "node": "25.1.0",
+    "yarn": "1.22.22"
+  },
+  "devDependencies": {
+    "@vicons/fluent": "^0.13.0",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "eslint": "^9.39.1",
+    "less": "^4.4.2",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.2",
+    "vue": "^3.5.24"
+  },
+  "dependencies": {
+    "@ctrl/tinycolor": "^4.2.0"
+  }
+}
