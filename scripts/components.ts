@@ -1,6 +1,7 @@
 export * from './button'
 export * from './checkbox'
 export * from './checkbox-group'
+export * from './drawer'
 export * from './input'
 export * from './icon'
 export * from './radio'

@@ -28,11 +28,13 @@ import CheckboxDemo from './pages/CheckboxDemo.vue'
 import InputDemo from './pages/InputDemo.vue'
 import IconDemo from './pages/IconDemo.vue'
 import RadioDemo from './pages/RadioDemo.vue'
+import DrawerDemo from './pages/DrawerDemo.vue'
 import TooltipDemo from './pages/TooltipDemo.vue'
 
 const pages: Record<string, any> = {
   button: ButtonDemo,
   checkbox: CheckboxDemo,
+  drawer: DrawerDemo,
   input: InputDemo,
   radio: RadioDemo,
   tooltip: TooltipDemo,
@@ -42,6 +44,7 @@ const pages: Record<string, any> = {
 const navItems = [
   { id: 'button', label: 'Button 按钮' },
   { id: 'checkbox', label: 'Checkbox 复选' },
+  { id: 'drawer', label: 'Drawer 抽屉' },
   { id: 'input', label: 'Input 输入框' },
   { id: 'radio', label: 'Radio 单选' },
   { id: 'tooltip', label: 'Tooltip 提示' },

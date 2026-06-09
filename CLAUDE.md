@@ -35,30 +35,47 @@ Each component lives in `scripts/<name>/` with two files:
 
 `scripts/components.ts` is the barrel file that gathers all component modules; `scripts/index.ts` re-exports everything from there.
 
+### Adding a new component
+
+1. Create `scripts/<name>/<Name>.vue` and `scripts/<name>/index.ts` (named export)
+2. Add `export * from './<name>'` to `scripts/components.ts` (alphabetical order)
+3. Create `demo/pages/<Name>Demo.vue`
+4. Register the demo page in `demo/App.vue`: add import, `pages` entry, and `navItems` entry
+
+Everything else (plugin registration, path alias, global component name) is automatic.
+
+### Group component pattern (provide/inject)
+
+`CheckboxGroup` and `RadioGroup` use `provide('yizCheckboxGroup' | 'yizRadioGroup', { modelValue, disabled, toggleValue })` to share state with child `Checkbox`/`Radio` components. Children call `inject` with the group context and fall back to standalone mode when no group is found. This pattern should be followed for any future group components.
+
+### Option-based rendering
+
+`CheckboxGroup` and `RadioGroup` accept an `options` prop (`CheckboxOption[]` / `RadioOption[]` — interfaces exported from the `.vue` file) that auto-renders children. When `options` is omitted, a `<slot>` is used instead.
+
+### Ripple wave animation
+
+Button, Checkbox, and Radio share a ripple wave effect. The `yiz-wave` span uses CSS keyframes `yiz-wave-spread` and `yiz-wave-opacity` defined in `scripts/style.less`. The effect is triggered by briefly adding/removing the `yiz-wave` element via a `ref` toggle with a `nextTick` → `setTimeout` pattern.
+
+### Native input overlay pattern
+
+Checkbox and Radio hide a native `<input>` behind a styled `<span>` (the visual indicator). The native input is made transparent but remains interactive for accessibility. This avoids custom keyboard/ARIA handling.
+
 ### Theming
 
 All design tokens are CSS custom properties defined in `scripts/style.less`, prefixed with `--yiz-`. The palette includes primary, success, warning, and error color scales (each with light/heavy variants). Individual components reference these tokens and can also accept arbitrary hex colors at runtime via `@ctrl/tinycolor` manipulation applied to inline `--yiz-button-color-*` custom properties.
 
 ### Path aliases
 
-During development, `yiz-ui` is aliased to `./scripts` via `vite.config.mts` so the demo can import from `'yiz-ui'` as a consumer would. In production builds, the alias is removed so the real package import resolves from `node_modules`.
-
-### Current components
-
-| Component | Directory | Notes |
-|-----------|-----------|-------|
-| Button    | `scripts/button/`   | `type`: default / primary / plain; `color`: default / primary / success / warning / error / hex; `shape`: default / round / circle; supports disabled state and ripple wave animation |
-| Input     | `scripts/input/`    | v-model binding via `defineModel`, clearable, prefix/suffix slots or props, focus ring |
-| Icon      | `scripts/icon/`     | Wrapper that accepts a component (from `@vicons/fluent`) via prop or slot, configurable `size` |
+During development, `yiz-ui` is aliased to `./scripts` via both `vite.config.mts` and `tsconfig.json` paths so the demo can import from `'yiz-ui'` as a consumer would. In production builds, the alias is removed so the real package import resolves from `node_modules`.
 
 ### Key dependencies
 
 - **Vue 3.2+** (peer dependency)
-- **@vicons/fluent** — icon set used by Input (clear button) and demo
+- **@vicons/fluent** — icon set used by Input (clear button) and demo pages
 - **@ctrl/tinycolor** — runtime color manipulation for hex-to-tinted-variant buttons
 - **Vite** — dev server and build
 - **Less** — CSS preprocessor
-- **TypeScript** — strict mode with `noUnusedLocals` and `noImplicitAny`
+- **TypeScript** — strict mode with `noUnusedLocals`, `noImplicitAny`, `strictNullChecks`
 
 ## Conventions
 
@@ -66,3 +83,5 @@ During development, `yiz-ui` is aliased to `./scripts` via `vite.config.mts` so 
 - Components use `<script setup lang="ts">` with typed props via `defineProps` / `withDefaults`
 - Slots are typed with `defineSlots`
 - v-model uses `defineModel` (Vue 3.4+)
+- Styles are non-scoped Less, namespaced with `yiz-` prefix
+- Components that share state use `provide`/`inject` with a string key prefixed `yiz` (e.g. `'yizCheckboxGroup'`)
