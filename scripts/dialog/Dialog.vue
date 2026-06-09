@@ -4,8 +4,8 @@
       <div v-if="visible && mask" class="yiz-dialog-mask" :style="{ zIndex: currentZIndex }" @click="onMaskClick" />
     </Transition>
     <Transition name="yiz-dialog-fade">
-      <div v-if="visible" class="yiz-dialog-wrapper" @click.self="onWrapperClick">
-        <div class="yiz-dialog" :style="panelStyle">
+      <div v-if="visible" class="yiz-dialog-wrapper" :style="{ zIndex: currentZIndex + 1 }" @click.self="onWrapperClick">
+        <div class="yiz-dialog" :style="{ width: props.width, ...dragStyle }">
           <div
             class="yiz-dialog-header"
             :class="{ 'yiz-dialog-header-draggable': drag }"
@@ -80,12 +80,11 @@ watch(visible, (val) => {
   }
 })
 
-const panelStyle = computed(() => {
-  const style: Record<string, string | number> = { width: props.width, zIndex: currentZIndex.value + 1 }
+const dragStyle = computed(() => {
   if (dragPosition.value.x !== 0 || dragPosition.value.y !== 0) {
-    style.transform = `translate(${dragPosition.value.x}px, ${dragPosition.value.y}px)`
+    return { transform: `translate(${dragPosition.value.x}px, ${dragPosition.value.y}px)` }
   }
-  return style
+  return {}
 })
 
 // body scroll lock

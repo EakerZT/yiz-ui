@@ -76,6 +76,49 @@
         >
       </div>
     </div>
+
+    <div class="demo-row">
+      <span class="demo-label">Link 文字按钮</span>
+      <div class="demo-items">
+        <span class="demo-item"><y-link-button>primary</y-link-button></span>
+        <span class="demo-item"><y-link-button color="default">default</y-link-button></span>
+        <span class="demo-item"><y-link-button color="success">success</y-link-button></span>
+        <span class="demo-item"><y-link-button color="warning">warning</y-link-button></span>
+        <span class="demo-item"><y-link-button color="error">error</y-link-button></span>
+      </div>
+    </div>
+
+    <div class="demo-row">
+      <span class="demo-label">Link 自定义色</span>
+      <div class="demo-items">
+        <span class="demo-item"><y-link-button color="#8a2be2">#8a2be2</y-link-button></span>
+        <span class="demo-item"><y-link-button color="#ff6b35">#ff6b35</y-link-button></span>
+      </div>
+    </div>
+
+    <div class="demo-row">
+      <span class="demo-label">Link 下划线</span>
+      <div class="demo-items">
+        <span class="demo-item"><y-link-button underline>hover 显示下划线</y-link-button></span>
+      </div>
+    </div>
+
+    <div class="demo-row">
+      <span class="demo-label">Link 禁用</span>
+      <div class="demo-items">
+        <span class="demo-item"><y-link-button disabled>disabled</y-link-button></span>
+        <span class="demo-item"><y-link-button color="error" disabled>error disabled</y-link-button></span>
+      </div>
+    </div>
+
+    <div class="demo-row">
+      <span class="demo-label">Link 点击</span>
+      <div class="demo-items">
+        <span class="demo-item"
+          ><y-link-button @click="linkCount++">点击次数: {{ linkCount }}</y-link-button></span
+        >
+      </div>
+    </div>
   </section>
 </template>
 
@@ -84,4 +127,5 @@ import { ref } from 'vue'
 import { Flash20Regular } from '@vicons/fluent'
 
 const count = ref(0)
+const linkCount = ref(0)
 </script>

@@ -4,7 +4,7 @@
     <p class="demo-section-desc">用于展示多行结构化的数据，支持排序、边框、条纹等。</p>
 
     <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 20px">
-      <div style="width: 100%">
+      <div style="width: 100%; height: 250px">
         <y-table :data="data">
           <y-table-column label="姓名" field="name" width="120px" sortable />
           <y-table-column label="年龄" field="age" width="80px" sortable align="center" />
@@ -16,7 +16,7 @@
 
     <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 20px; margin-top: 24px">
       <span class="demo-label" style="text-align: left; width: auto">边框 + 条纹</span>
-      <div style="width: 100%">
+      <div style="width: 100%; height: 250px">
         <y-table :data="data" bordered stripe>
           <y-table-column label="姓名" field="name" sortable />
           <y-table-column label="年龄" field="age" sortable align="center" />
@@ -28,7 +28,7 @@
 
     <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 20px; margin-top: 24px">
       <span class="demo-label" style="text-align: left; width: auto">小尺寸</span>
-      <div style="width: 100%">
+      <div style="width: 100%; height: 250px">
         <y-table :data="data" bordered size="small">
           <y-table-column label="姓名" field="name" />
           <y-table-column label="年龄" field="age" align="center" />
@@ -40,7 +40,7 @@
 
     <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 20px; margin-top: 24px">
       <span class="demo-label" style="text-align: left; width: auto">自定义列渲染 + 插槽</span>
-      <div style="width: 100%">
+      <div style="width: 100%; height: 250px">
         <y-table :data="data" bordered>
           <y-table-column label="姓名" field="name" />
           <y-table-column label="年龄" field="age" align="center">
@@ -58,7 +58,7 @@
 
     <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 20px; margin-top: 24px">
       <span class="demo-label" style="text-align: left; width: auto">列宽拖动</span>
-      <div style="width: 100%">
+      <div style="width: 100%; height: 250px">
         <y-table :data="data" bordered resize>
           <y-table-column label="姓名" field="name" width="120px" />
           <y-table-column label="年龄" field="age" width="80px" align="center" />
@@ -70,7 +70,7 @@
 
     <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 20px; margin-top: 24px">
       <span class="demo-label" style="text-align: left; width: auto">空数据</span>
-      <div style="width: 100%">
+      <div style="width: 100%; height: 300px">
         <y-table :data="[]" bordered>
           <y-table-column label="姓名" field="name" />
           <y-table-column label="年龄" field="age" />
@@ -82,7 +82,7 @@
 
     <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 20px; margin-top: 24px">
       <span class="demo-label" style="text-align: left; width: auto">显示序号</span>
-      <div style="width: 100%">
+      <div style="width: 100%; height: 250px">
         <y-table :data="data" bordered no>
           <y-table-column label="姓名" field="name" />
           <y-table-column label="年龄" field="age" align="center" />
@@ -94,7 +94,7 @@
 
     <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 20px; margin-top: 24px">
       <span class="demo-label" style="text-align: left; width: auto">拖动约束（minWidth: 100 / maxWidth: 300）</span>
-      <div style="width: 100%">
+      <div style="width: 100%; height: 250px">
         <y-table :data="data" bordered resize>
           <y-table-column label="姓名" field="name" width="150px" :min-width="100" :max-width="300" />
           <y-table-column label="年龄" field="age" width="80px" :min-width="60" :max-width="150" align="center" />
@@ -106,33 +106,36 @@
 
     <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 20px; margin-top: 24px">
       <span class="demo-label" style="text-align: left; width: auto">单选</span>
-      <div style="width: 100%">
-        <y-table :data="data" bordered select-mode="single" v-model:selected="singleSelected" resize>
+      <div style="width: 100%; height: 250px">
+        <y-table :data="data" bordered select-mode="single" v-model:selected="singleSelected" @select="onSingleSelect">
           <y-table-column label="姓名" field="name" />
           <y-table-column label="年龄" field="age" align="center" />
           <y-table-column label="城市" field="city" />
           <y-table-column label="状态" field="status" align="center" />
         </y-table>
         <p style="margin-top: 8px; color: #666">选中值: {{ singleSelected }}</p>
+        <p style="margin-top: 4px; color: #666">选中行: {{ singleSelectRow ? JSON.stringify(singleSelectRow) : '无' }}</p>
       </div>
     </div>
 
     <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 20px; margin-top: 24px">
       <span class="demo-label" style="text-align: left; width: auto">多选</span>
-      <div style="width: 100%">
-        <y-table :data="data" bordered select-mode="multi" v-model:selected="multiSelected" resize>
+      <div style="width: 100%; height: 250px">
+        <y-table :data="data" bordered select-mode="multi" v-model:selected="multiSelected" @select="onMultiSelect">
           <y-table-column label="姓名" field="name" />
           <y-table-column label="年龄" field="age" align="center" />
           <y-table-column label="城市" field="city" />
           <y-table-column label="状态" field="status" align="center" />
         </y-table>
         <p style="margin-top: 8px; color: #666">选中值: {{ multiSelected }}</p>
+        <p style="margin-top: 4px; color: #666">选中行: {{ multiSelectRows.length }} 行</p>
       </div>
     </div>
+
     <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 20px; margin-top: 24px">
       <span class="demo-label" style="text-align: left; width: auto">固定列</span>
-      <div style="width: 100%">
-        <y-table :data="fixedData" bordered resize no selectMode="single">
+      <div style="width: 100%; height: 300px">
+        <y-table :data="fixedData" bordered resize no select-mode="single">
           <y-table-column label="姓名" field="name" width="120px" fixed="left" />
           <y-table-column label="年龄" field="age" width="80px" align="center" fixed="left" />
           <y-table-column label="部门" field="dept" width="150px" />
@@ -143,6 +146,37 @@
           <y-table-column label="入职日期" field="date" width="120px" />
           <y-table-column label="操作" field="action" width="100px" align="center" fixed="right" />
         </y-table>
+      </div>
+    </div>
+
+    <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 20px; margin-top: 24px">
+      <span class="demo-label" style="text-align: left; width: auto">固定表头</span>
+      <div style="width: 100%; height: 300px">
+        <y-table :data="tallData" bordered>
+          <y-table-column label="姓名" field="name" width="120px" sortable />
+          <y-table-column label="年龄" field="age" width="80px" sortable align="center" />
+          <y-table-column label="城市" field="city" width="120px" sortable />
+          <y-table-column label="状态" field="status" align="center" />
+        </y-table>
+      </div>
+    </div>
+
+    <div class="demo-row" style="flex-direction: column; align-items: stretch; gap: 20px; margin-top: 24px">
+      <span class="demo-label" style="text-align: left; width: auto">禁止某些行选择</span>
+      <div style="width: 100%; height: 250px">
+        <y-table
+          :data="data"
+          bordered
+          select-mode="multi"
+          v-model:selected="disabledSelected"
+          :select-disabled="isSelectDisabled"
+        >
+          <y-table-column label="姓名" field="name" />
+          <y-table-column label="年龄" field="age" align="center" />
+          <y-table-column label="城市" field="city" />
+          <y-table-column label="状态" field="status" align="center" />
+        </y-table>
+        <p style="margin-top: 8px; color: #666">选中值: {{ disabledSelected }}</p>
       </div>
     </div>
   </section>
@@ -236,6 +270,39 @@ const fixedData: FixedRow[] = [
   }
 ]
 
+const tallData: Row[] = [
+  { name: '张三', age: 28, city: '北京', status: '启用' },
+  { name: '李四', age: 35, city: '上海', status: '禁用' },
+  { name: '王五', age: 22, city: '广州', status: '启用' },
+  { name: '赵六', age: 30, city: '深圳', status: '启用' },
+  { name: '孙七', age: 41, city: '杭州', status: '禁用' },
+  { name: '周八', age: 27, city: '成都', status: '启用' },
+  { name: '吴九', age: 33, city: '武汉', status: '禁用' },
+  { name: '郑十', age: 29, city: '南京', status: '启用' },
+  { name: '冯一', age: 36, city: '天津', status: '启用' },
+  { name: '陈二', age: 24, city: '重庆', status: '禁用' },
+  { name: '褚三', age: 31, city: '西安', status: '启用' },
+  { name: '卫四', age: 39, city: '长沙', status: '启用' },
+  { name: '蒋五', age: 26, city: '苏州', status: '禁用' },
+  { name: '沈六', age: 42, city: '东莞', status: '启用' },
+  { name: '韩七', age: 23, city: '青岛', status: '禁用' }
+]
+
 const singleSelected = ref(null)
 const multiSelected = ref([])
+const disabledSelected = ref([])
+
+const singleSelectRow = ref<Row | null>(null)
+function onSingleSelect(selected: any) {
+  singleSelectRow.value = selected
+}
+
+const multiSelectRows = ref<Row[]>([])
+function onMultiSelect(selected: any) {
+  multiSelectRows.value = selected ?? []
+}
+
+function isSelectDisabled(row: Row, index: number) {
+  return row.status === '禁用'
+}
 </script>

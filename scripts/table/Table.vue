@@ -1,103 +1,124 @@
 <template>
-  <div ref="tableWrapperRef" class="yiz-table-wrapper">
-    <div ref="tableRef" class="yiz-table" :class="vClass">
-      <div class="yiz-table-header">
-        <div class="yiz-table-row">
-          <div
-            v-for="col in displayColumns"
-            :key="col.field"
-            class="yiz-table-th"
-            :class="{
-              'yiz-table-sortable': col.sortable,
-              'yiz-table-resizing': resizing === col.field,
-              'yiz-table-fixed': col.fixed !== 'none',
-              'yiz-table-fixed-left': col.fixed === 'left',
-              'yiz-table-fixed-right': col.fixed === 'right'
-            }"
-            :style="getCellStyle(col)"
-            @click="col.sortable && onSort(col)"
-          >
-            <label
-              v-if="col.field === '__yiz_select' && selectMode === 'multi'"
-              class="yiz-table-select-cell"
-              @click.stop
+  <div ref="tableWrapperRef" class="yiz-table-wrapper" :class="vClass">
+    <!-- Header table -->
+    <div class="yiz-table-header-wrapper" ref="headerWrapperRef" :style="{ paddingRight: headerScrollbarGap }">
+      <table class="yiz-table-header-table">
+        <colgroup>
+          <col v-for="col in displayColumns" :key="col.field" :style="{ width: colWidth(col) }" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th
+              v-for="col in displayColumns"
+              :key="col.field"
+              class="yiz-table-th"
+              :class="{
+                'yiz-table-sortable': col.sortable,
+                'yiz-table-resizing': resizing === col.field,
+                'yiz-table-fixed': col.fixed !== 'none',
+                'yiz-table-fixed-left': col.fixed === 'left',
+                'yiz-table-fixed-right': col.fixed === 'right',
+                'yiz-table-last-non-fixed': borderMarkerFields.lastNonFixed === col.field,
+                'yiz-table-first-right-fixed': borderMarkerFields.firstRightFixed === col.field
+              }"
+              :style="{ textAlign: col.align || 'left', ...getCellStyle(col) }"
+              @click="col.sortable && onSort(col)"
             >
-              <Checkbox v-model:checked="headerChecked" />
-            </label>
-            <span v-else class="yiz-table-th-label">{{ col.label }}</span>
-            <span v-if="col.sortable" class="yiz-table-sort">
-              <span class="yiz-table-sort-icon" :class="{ active: sortKey === col.field && sortOrder === 'asc' }"
-                >▲</span
+              <label
+                v-if="col.field === '__yiz_select' && selectMode === 'multi'"
+                class="yiz-table-select-cell"
+                @click.stop
               >
-              <span class="yiz-table-sort-icon" :class="{ active: sortKey === col.field && sortOrder === 'desc' }"
-                >▼</span
-              >
-            </span>
-            <span
-              v-if="resize && col.field !== '__yiz_select' && col.field !== '__yiz_row_no'"
-              class="yiz-table-resize-handle"
-              @mousedown.stop="onResizeStart($event, col)"
-              @click.stop
-            />
-          </div>
-        </div>
-      </div>
-      <div class="yiz-table-body">
-        <div v-if="sortedData.length === 0" class="yiz-table-row">
-          <div class="yiz-table-td yiz-table-empty-cell">
-            <slot name="empty">
-              <div class="yiz-table-empty">暂无数据</div>
-            </slot>
-          </div>
-        </div>
-        <div
-          v-for="(row, idx) in sortedData"
-          :key="idx"
-          class="yiz-table-row"
-          :class="{ 'yiz-table-row-stripe': stripe && idx % 2 === 1 }"
-        >
-          <div
-            v-for="col in displayColumns"
-            :key="col.field"
-            class="yiz-table-td"
-            :class="{
-              'yiz-table-fixed': col.fixed !== 'none',
-              'yiz-table-fixed-left': col.fixed === 'left',
-              'yiz-table-fixed-right': col.fixed === 'right'
-            }"
-            :style="getCellStyle(col)"
-          >
-            <template v-if="col.field === '__yiz_select'">
-              <label class="yiz-table-select-cell" @click.stop>
-                <Radio
-                  v-if="selectMode === 'single'"
-                  v-model="selected"
-                  :value="getRowKey(row, idx)"
-                />
-                <Checkbox
-                  v-else
-                  :checked="isSelected(row, idx)"
-                  @update:checked="toggleSelect(row, idx)"
-                />
+                <Checkbox v-model:checked="headerChecked" />
               </label>
-            </template>
-            <template v-else-if="col.field === '__yiz_row_no'">
-              {{ idx + 1 }}
-            </template>
-            <template v-else>
-              <CellRenderer
-                v-if="col.renderFn"
-                :render-fn="col.renderFn"
-                :value="row[col.field]"
-                :row="row"
-                :index="idx"
+              <span v-else class="yiz-table-th-label">{{ col.label }}</span>
+              <span v-if="col.sortable" class="yiz-table-sort">
+                <span class="yiz-table-sort-icon" :class="{ active: sortKey === col.field && sortOrder === 'asc' }"
+                  >▲</span
+                >
+                <span class="yiz-table-sort-icon" :class="{ active: sortKey === col.field && sortOrder === 'desc' }"
+                  >▼</span
+                >
+              </span>
+              <span
+                v-if="resize && col.field !== '__yiz_select' && col.field !== '__yiz_row_no'"
+                class="yiz-table-resize-handle"
+                @mousedown.stop="onResizeStart($event, col)"
+                @click.stop
               />
-              <span v-else>{{ row[col.field] }}</span>
-            </template>
-          </div>
-        </div>
-      </div>
+            </th>
+          </tr>
+        </thead>
+      </table>
     </div>
+
+    <!-- Body table -->
+    <div class="yiz-table-body-wrapper" ref="bodyWrapperRef" @scroll="onBodyScroll">
+      <table class="yiz-table-body-table">
+        <colgroup>
+          <col v-for="col in displayColumns" :key="col.field" :style="{ width: colWidth(col) }" />
+        </colgroup>
+        <tbody>
+          <tr v-if="sortedData.length === 0">
+            <td :colspan="displayColumns.length" class="yiz-table-td yiz-table-empty-cell">
+              <slot name="empty">
+                <div class="yiz-table-empty">暂无数据</div>
+              </slot>
+            </td>
+          </tr>
+          <tr
+            v-for="(row, idx) in sortedData"
+            :key="idx"
+            :class="{ 'yiz-table-row-stripe': stripe && idx % 2 === 1 }"
+          >
+            <td
+              v-for="col in displayColumns"
+              :key="col.field"
+              class="yiz-table-td"
+              :class="{
+                'yiz-table-fixed': col.fixed !== 'none',
+                'yiz-table-fixed-left': col.fixed === 'left',
+                'yiz-table-fixed-right': col.fixed === 'right',
+                'yiz-table-last-non-fixed': borderMarkerFields.lastNonFixed === col.field,
+                'yiz-table-first-right-fixed': borderMarkerFields.firstRightFixed === col.field
+              }"
+              :style="{ textAlign: col.align || 'left', ...getCellStyle(col) }"
+            >
+              <template v-if="col.field === '__yiz_select'">
+                <label class="yiz-table-select-cell" @click.stop>
+                  <Radio
+                    v-if="selectMode === 'single'"
+                    v-model="selected"
+                    :value="getRowKey(row, idx)"
+                    :disabled="isRowDisabled(row, idx)"
+                  />
+                  <Checkbox
+                    v-else
+                    :checked="isSelected(row, idx)"
+                    :disabled="isRowDisabled(row, idx)"
+                    @update:checked="toggleSelect(row, idx)"
+                  />
+                </label>
+              </template>
+              <template v-else-if="col.field === '__yiz_row_no'">
+                {{ idx + 1 }}
+              </template>
+              <template v-else>
+                <CellRenderer
+                  v-if="col.renderFn"
+                  :render-fn="col.renderFn"
+                  :value="row[col.field]"
+                  :row="row"
+                  :index="idx"
+                />
+                <span v-else>{{ row[col.field] }}</span>
+              </template>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <div style="display: none"><slot /></div>
   </div>
   <Teleport to="body">
@@ -140,6 +161,7 @@ const props = withDefaults(
     no?: boolean
     selectMode?: 'none' | 'single' | 'multi'
     rowKey?: string
+    selectDisabled?: (row: Record<string, any>, index: number) => boolean
   }>(),
   {
     data: () => [],
@@ -148,7 +170,8 @@ const props = withDefaults(
     size: 'default',
     resize: false,
     no: false,
-    selectMode: 'none'
+    selectMode: 'none',
+    selectDisabled: undefined
   }
 )
 
@@ -207,6 +230,24 @@ const displayColumns = computed<TableColumn[]>(() => {
   return result
 })
 
+const borderMarkerFields = computed(() => {
+  const cols = displayColumns.value
+  let lastNonFixed: string | null = null
+  let firstRightFixed: string | null = null
+  for (let i = 0; i < cols.length; i++) {
+    if (cols[i].fixed === 'none' && i + 1 < cols.length && cols[i + 1].fixed === 'right') {
+      lastNonFixed = cols[i].field
+    }
+  }
+  for (let i = 0; i < cols.length; i++) {
+    if (cols[i].fixed === 'right' && i > 0 && cols[i - 1].fixed === 'none') {
+      firstRightFixed = cols[i].field
+      break
+    }
+  }
+  return { lastNonFixed, firstRightFixed }
+})
+
 const fixedOffsets = computed(() => {
   const offsets: Record<string, { left?: string; right?: string }> = {}
   const cols = displayColumns.value
@@ -234,12 +275,12 @@ const fixedOffsets = computed(() => {
   return offsets
 })
 
+function colWidth(col: TableColumn): string {
+  return columnWidths.value[col.field] || col.width || 'auto'
+}
+
 function getCellStyle(col: TableColumn): Record<string, string> {
-  const width = columnWidths.value[col.field] || col.width || ''
-  const style: Record<string, string> = {
-    width,
-    textAlign: col.align || 'left'
-  }
+  const style: Record<string, string> = {}
   if (col.fixed === 'left') {
     style.position = 'sticky'
     style.left = fixedOffsets.value[col.field]?.left || '0'
@@ -256,13 +297,29 @@ function getRowKey(row: Record<string, any>, index: number) {
   return props.rowKey ? row[props.rowKey] : index
 }
 
+function isRowDisabled(row: Record<string, any>, index: number) {
+  return props.selectDisabled ? props.selectDisabled(row, index) : false
+}
+
 function isSelected(row: Record<string, any>, index: number) {
   if (props.selectMode === 'single') return selected.value === getRowKey(row, index)
   if (props.selectMode === 'multi') return (selected.value ?? []).includes(getRowKey(row, index))
   return false
 }
 
+function getSelectedRows() {
+  if (props.selectMode === 'none') return null
+  if (props.selectMode === 'single') {
+    if (selected.value == null) return null
+    const idx = sortedData.value.findIndex((row, i) => getRowKey(row, i) === selected.value)
+    return idx >= 0 ? sortedData.value[idx] : null
+  }
+  const keys = (selected.value ?? []) as any[]
+  return sortedData.value.filter((row, i) => keys.includes(getRowKey(row, i)))
+}
+
 function toggleSelect(row: Record<string, any>, index: number) {
+  if (isRowDisabled(row, index)) return
   const key = getRowKey(row, index)
   if (props.selectMode === 'single') {
     selected.value = selected.value === key ? null : key
@@ -273,12 +330,14 @@ function toggleSelect(row: Record<string, any>, index: number) {
     else arr.push(key)
     selected.value = arr
   }
+  emit('select', getSelectedRows())
 }
 
 const allSelected = computed(() => {
   if (props.selectMode !== 'multi') return false
+  const selectableCount = sortedData.value.filter((row, i) => !isRowDisabled(row, i)).length
   const keys = (selected.value ?? []) as any[]
-  return sortedData.value.length > 0 && keys.length === sortedData.value.length
+  return selectableCount > 0 && keys.length === selectableCount
 })
 
 const headerChecked = computed({
@@ -286,10 +345,15 @@ const headerChecked = computed({
   set: (v: boolean) => {
     if (props.selectMode !== 'multi') return
     if (v) {
-      selected.value = sortedData.value.map((row, i) => getRowKey(row, i))
+      const keys: any[] = []
+      sortedData.value.forEach((row, i) => {
+        if (!isRowDisabled(row, i)) keys.push(getRowKey(row, i))
+      })
+      selected.value = keys
     } else {
       selected.value = []
     }
+    emit('select', getSelectedRows())
   }
 })
 
@@ -298,6 +362,10 @@ function registerColumn(col: TableColumn) {
 }
 
 provide('yizTableRegisterColumn', registerColumn)
+
+const emit = defineEmits<{
+  select: [selected: Record<string, any> | Record<string, any>[] | null]
+}>()
 
 defineSlots<{
   default?: any
@@ -347,13 +415,24 @@ const vClass = computed(() => ({
 }))
 
 const tableWrapperRef = ref<HTMLDivElement>()
-const tableRef = ref<HTMLDivElement>()
+const headerWrapperRef = ref<HTMLDivElement>()
+const bodyWrapperRef = ref<HTMLDivElement>()
 const columnWidths = ref<Record<string, string>>({})
 
+const headerScrollbarGap = ref('')
+
+function syncScrollbarGap() {
+  const body = bodyWrapperRef.value
+  const header = headerWrapperRef.value
+  if (!body || !header) return
+  const gap = body.offsetWidth - body.clientWidth
+  headerScrollbarGap.value = gap > 0 ? `${gap}px` : ''
+}
+
 function computeWidths() {
-  const table = tableRef.value
-  if (!table) return
-  const tableWidth = table.clientWidth
+  const wrapper = tableWrapperRef.value
+  if (!wrapper) return
+  const tableWidth = wrapper.clientWidth
   const cols = displayColumns.value
   if (cols.length === 0) return
 
@@ -402,8 +481,18 @@ function computeWidths() {
   columnWidths.value = widths
 }
 
+function onBodyScroll() {
+  if (headerWrapperRef.value && bodyWrapperRef.value) {
+    headerWrapperRef.value.scrollLeft = bodyWrapperRef.value.scrollLeft
+  }
+  syncScrollbarGap()
+}
+
 onMounted(() => {
-  nextTick(computeWidths)
+  nextTick(() => {
+    computeWidths()
+    syncScrollbarGap()
+  })
 })
 
 const resizing = ref<string | null>(null)
@@ -417,7 +506,7 @@ function onResizeStart(e: MouseEvent, col: TableColumn) {
   const th = (e.target as HTMLElement).closest('.yiz-table-th') as HTMLElement
   if (!th) return
 
-  const allThs = th.closest('.yiz-table-row')?.querySelectorAll('.yiz-table-th')
+  const allThs = th.parentElement?.querySelectorAll('.yiz-table-th')
   const widths: Record<string, string> = { ...columnWidths.value }
   const cols = displayColumns.value
   if (allThs) {
@@ -475,28 +564,37 @@ onUnmounted(() => {
 
 <style lang="less">
 .yiz-table-wrapper {
-  overflow-x: auto;
-}
-
-.yiz-table {
-  width: 100%;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   font-size: 14px;
   color: #333;
   line-height: 1.6;
 }
 
-.yiz-table-row {
-  display: flex;
+.yiz-table-header-wrapper {
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
-.yiz-table-header {
-  background: #fafafa;
+.yiz-table-body-wrapper {
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
 }
 
+.yiz-table-header-table,
+.yiz-table-body-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-sizing: border-box;
+}
+
+// th / td base
 .yiz-table-th {
   position: relative;
-  flex-shrink: 0;
   box-sizing: border-box;
   background: #fafafa;
   font-weight: 600;
@@ -507,13 +605,14 @@ onUnmounted(() => {
 }
 
 .yiz-table-td {
-  flex-shrink: 0;
   box-sizing: border-box;
   padding: 12px 16px;
   border-bottom: 1px solid var(--yiz-color-border, #d9d9d9);
+  background: #fff;
+  word-break: break-all;
 }
 
-.yiz-table-row:hover .yiz-table-td {
+.yiz-table-body-table tbody tr:hover .yiz-table-td {
   background: #f5f7fa;
 }
 
@@ -533,16 +632,16 @@ onUnmounted(() => {
   border-right: none;
 }
 
-.yiz-table-bordered .yiz-table-row:last-child .yiz-table-td {
+.yiz-table-bordered .yiz-table-body-table tbody tr:last-child .yiz-table-td {
   border-bottom: none;
 }
 
 // stripe
-.yiz-table-stripe .yiz-table-row-stripe .yiz-table-td {
+.yiz-table-stripe .yiz-table-body-table tbody .yiz-table-row-stripe .yiz-table-td {
   background: #fafafa;
 }
 
-.yiz-table-stripe .yiz-table-row-stripe:hover .yiz-table-td {
+.yiz-table-stripe .yiz-table-body-table tbody .yiz-table-row-stripe:hover .yiz-table-td {
   background: #f0f2f5;
 }
 
@@ -592,7 +691,7 @@ onUnmounted(() => {
 
 // empty
 .yiz-table-empty-cell {
-  flex: 1;
+  text-align: center;
 }
 
 .yiz-table-empty {
@@ -608,18 +707,17 @@ onUnmounted(() => {
 
 .yiz-table-td.yiz-table-fixed {
   z-index: 2;
-  background: #fff;
 }
 
-.yiz-table-row:hover .yiz-table-td.yiz-table-fixed {
+.yiz-table-body-table tbody tr:hover .yiz-table-td.yiz-table-fixed {
   background: #f5f7fa;
 }
 
-.yiz-table-stripe .yiz-table-row-stripe .yiz-table-td.yiz-table-fixed {
+.yiz-table-stripe .yiz-table-body-table tbody .yiz-table-row-stripe .yiz-table-td.yiz-table-fixed {
   background: #fafafa;
 }
 
-.yiz-table-stripe .yiz-table-row-stripe:hover .yiz-table-td.yiz-table-fixed {
+.yiz-table-stripe .yiz-table-body-table tbody .yiz-table-row-stripe:hover .yiz-table-td.yiz-table-fixed {
   background: #f0f2f5;
 }
 
@@ -659,5 +757,25 @@ onUnmounted(() => {
   font-size: 12px;
   pointer-events: none;
   white-space: nowrap;
+}
+
+// right-fixed boundary: remove right border from last non-fixed column
+.yiz-table-th.yiz-table-last-non-fixed,
+.yiz-table-td.yiz-table-last-non-fixed,
+.yiz-table-bordered .yiz-table-th.yiz-table-last-non-fixed,
+.yiz-table-bordered .yiz-table-td.yiz-table-last-non-fixed,
+.yiz-table-resizable .yiz-table-th.yiz-table-last-non-fixed,
+.yiz-table-resizable .yiz-table-td.yiz-table-last-non-fixed {
+  border-right: none;
+}
+
+// right-fixed boundary: add left border to first right-fixed column
+.yiz-table-th.yiz-table-first-right-fixed,
+.yiz-table-td.yiz-table-first-right-fixed,
+.yiz-table-bordered .yiz-table-th.yiz-table-first-right-fixed,
+.yiz-table-bordered .yiz-table-td.yiz-table-first-right-fixed,
+.yiz-table-resizable .yiz-table-th.yiz-table-first-right-fixed,
+.yiz-table-resizable .yiz-table-td.yiz-table-first-right-fixed {
+  border-left: 1px solid var(--yiz-color-border, #d9d9d9);
 }
 </style>
