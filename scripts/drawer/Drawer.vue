@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
     <Transition name="yiz-drawer-mask-fade">
-      <div v-if="visible && mask" class="yiz-drawer-mask" @click="onMaskClick" />
+      <div v-if="visible && mask" class="yiz-drawer-mask" :style="{ zIndex: currentZIndex }" @click="onMaskClick" />
     </Transition>
     <Transition :name="transitionName">
       <div v-if="visible" class="yiz-drawer" :class="`yiz-drawer-${placement}`" :style="panelStyle">
@@ -21,7 +21,7 @@
         <div class="yiz-drawer-body">
           <slot />
         </div>
-        <div v-if="drag" class="yiz-drawer-resize" :class="{ 'yiz-drawer-resize-active': dragging }" @mousedown="onResizeStart" />
+        <div v-if="resize" class="yiz-drawer-resize" :class="{ 'yiz-drawer-resize-active': resizing }" @mousedown="onResizeStart" />
         <div v-if="$slots.footer" class="yiz-drawer-footer">
           <slot name="footer" />
         </div>
@@ -32,6 +32,9 @@
 
 <script lang="ts" setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { nextZIndex } from '../zIndex'
+
+const currentZIndex = ref(0)
 
 const props = withDefaults(
   defineProps<{
@@ -42,9 +45,9 @@ const props = withDefaults(
     closable?: boolean
     mask?: boolean
     maskClosable?: boolean
-    drag?: boolean
-    dragMin?: string
-    dragMax?: string
+    resize?: boolean
+    resizeMin?: string
+    resizeMax?: string
   }>(),
   {
     title: '',
@@ -54,9 +57,9 @@ const props = withDefaults(
     closable: true,
     mask: true,
     maskClosable: false,
-    drag: false,
-    dragMin: '200px',
-    dragMax: '',
+    resize: false,
+    resizeMin: '200px',
+    resizeMax: '',
   }
 )
 
@@ -72,20 +75,22 @@ const visible = defineModel<boolean>('modelValue', { default: false })
 
 const transitionName = computed(() => `yiz-drawer-slide-${props.placement}`)
 
-const currentDragSize = ref('')
+const currentResizeSize = ref('')
 
 watch(visible, (val) => {
   if (!val) {
-    currentDragSize.value = ''
+    currentResizeSize.value = ''
   }
 })
 
 const panelStyle = computed(() => {
-  const style: Record<string, string> = {}
+  const style: Record<string, string | number> = {
+    zIndex: currentZIndex.value + 1,
+  }
   if (props.placement === 'left' || props.placement === 'right') {
-    style.width = currentDragSize.value || props.width
+    style.width = currentResizeSize.value || props.width
   } else {
-    style.height = currentDragSize.value || props.height
+    style.height = currentResizeSize.value || props.height
   }
   return style
 })
@@ -94,6 +99,7 @@ const panelStyle = computed(() => {
 const originalOverflow = ref('')
 watch(visible, (val) => {
   if (val) {
+    currentZIndex.value = nextZIndex()
     originalOverflow.value = document.body.style.overflow
     document.body.style.overflow = 'hidden'
   } else {
@@ -118,14 +124,14 @@ function onMaskClick() {
   }
 }
 
-// drag resize
-const dragging = ref(false)
-let dragStart = { x: 0, y: 0, size: 0 }
+// resize
+const resizing = ref(false)
+let resizeStart = { x: 0, y: 0, size: 0 }
 
 function onResizeStart(e: MouseEvent) {
   e.preventDefault()
-  dragging.value = true
-  dragStart = {
+  resizing.value = true
+  resizeStart = {
     x: e.clientX,
     y: e.clientY,
     size: getCurrentSize(),
@@ -136,41 +142,41 @@ function onResizeStart(e: MouseEvent) {
 }
 
 function onResizeMove(e: MouseEvent) {
-  if (!dragging.value) return
+  if (!resizing.value) return
   const isHorizontal = props.placement === 'left' || props.placement === 'right'
   const refSize = isHorizontal ? window.innerWidth : window.innerHeight
   let newSize: number
   if (isHorizontal) {
-    const dx = e.clientX - dragStart.x
+    const dx = e.clientX - resizeStart.x
     const sign = props.placement === 'right' ? -1 : 1
-    newSize = dragStart.size + dx * sign
+    newSize = resizeStart.size + dx * sign
   } else {
-    const dy = e.clientY - dragStart.y
+    const dy = e.clientY - resizeStart.y
     const sign = props.placement === 'bottom' ? -1 : 1
-    newSize = dragStart.size + dy * sign
+    newSize = resizeStart.size + dy * sign
   }
-  const minSize = parseSize(props.dragMin, refSize)
-  const maxSize = parseSize(props.dragMax, refSize) || refSize
+  const minSize = parseSize(props.resizeMin, refSize)
+  const maxSize = parseSize(props.resizeMax, refSize) || refSize
   newSize = Math.min(Math.max(newSize, minSize), maxSize)
-  currentDragSize.value = `${newSize}px`
+  currentResizeSize.value = `${newSize}px`
 }
 
 function onResizeEnd() {
-  dragging.value = false
+  resizing.value = false
   document.removeEventListener('mousemove', onResizeMove)
   document.removeEventListener('mouseup', onResizeEnd)
   document.body.style.userSelect = ''
 }
 
 function onViewportResize() {
-  if (!currentDragSize.value) return
+  if (!currentResizeSize.value) return
   const isHorizontal = props.placement === 'left' || props.placement === 'right'
   const refSize = isHorizontal ? window.innerWidth : window.innerHeight
-  const curSize = parseFloat(currentDragSize.value)
+  const curSize = parseFloat(currentResizeSize.value)
   if (isNaN(curSize)) return
-  const maxSize = parseSize(props.dragMax, refSize) || refSize
+  const maxSize = parseSize(props.resizeMax, refSize) || refSize
   if (curSize > maxSize) {
-    currentDragSize.value = `${maxSize}px`
+    currentResizeSize.value = `${maxSize}px`
   }
 }
 

@@ -71,14 +71,14 @@
     </div>
 
     <div class="demo-row">
-      <span class="demo-label">拖动调整</span>
+      <span class="demo-label">拖拽调整</span>
       <div class="demo-items">
-        <y-button @click="visible11 = true">横向拖动</y-button>
-        <y-button @click="visible12 = true">竖向拖动</y-button>
-        <y-drawer v-model="visible11" title="横向拖动" :drag="true" drag-min="200px" drag-max="80%">
+        <y-button @click="visible11 = true">横向调整</y-button>
+        <y-button @click="visible12 = true">竖向调整</y-button>
+        <y-drawer v-model="visible11" title="横向调整宽度" :resize="true" resize-min="200px" resize-max="80%">
           <p>最小 200px，最大 80% 屏幕宽度。</p>
         </y-drawer>
-        <y-drawer v-model="visible12" title="竖向拖动" placement="bottom" :drag="true" drag-min="150px" drag-max="60%">
+        <y-drawer v-model="visible12" title="竖向调整高度" placement="bottom" :resize="true" resize-min="150px" resize-max="60%">
           <p>最小 150px，最大 60% 屏幕高度。</p>
         </y-drawer>
       </div>
@@ -115,6 +115,23 @@
     </div>
 
     <div class="demo-row">
+      <span class="demo-label">二级抽屉</span>
+      <div class="demo-items">
+        <y-button @click="visible13 = true">二级抽屉</y-button>
+        <y-drawer v-model="visible13" title="一级抽屉" width="500px">
+          <p>这是一级抽屉的内容。</p>
+          <div style="margin-top: 16px">
+            <y-button type="primary" @click="visible14 = true">打开二级抽屉</y-button>
+          </div>
+          <y-drawer v-model="visible14" title="二级抽屉" width="360px">
+            <p>这是在一级抽屉中弹出的二级抽屉。</p>
+            <p style="margin-top: 8px; color: #888">二级抽屉遮罩覆盖一级抽屉。</p>
+          </y-drawer>
+        </y-drawer>
+      </div>
+    </div>
+
+    <div class="demo-row">
       <span class="demo-label">close 事件</span>
       <div class="demo-items">
         <y-button @click="visible10 = true">打开</y-button>
@@ -142,6 +159,8 @@ const visible9 = ref(false)
 const visible10 = ref(false)
 const visible11 = ref(false)
 const visible12 = ref(false)
+const visible13 = ref(false)
+const visible14 = ref(false)
 
 const placement = ref<'left' | 'right' | 'top' | 'bottom'>('right')
 const closeCount = ref(0)
