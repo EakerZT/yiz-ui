@@ -11,7 +11,9 @@
         class="yiz-tooltip-pop"
         :class="`yiz-tooltip-${placement}`"
       >
-        <div class="yiz-tooltip-content">{{ content }}</div>
+        <div class="yiz-tooltip-content">
+          <slot name="content">{{ content }}</slot>
+        </div>
         <div class="yiz-tooltip-arrow"></div>
       </div>
     </transition>
@@ -23,7 +25,7 @@ import { ref } from 'vue'
 
 withDefaults(
   defineProps<{
-    content: string
+    content?: string
     placement?: 'top' | 'bottom' | 'left' | 'right'
   }>(),
   {
@@ -33,6 +35,7 @@ withDefaults(
 
 defineSlots<{
   default?: any
+  content?: any
 }>()
 
 const visible = ref(false)
