@@ -34,6 +34,8 @@ defineSlots<{
   default?: any
 }>()
 
+const emit = defineEmits<{ change: [checked: boolean] }>()
+
 const modelValue = defineModel<boolean>('checked')
 
 const group = inject<CheckboxGroupContext | null>('yizCheckboxGroup', null)
@@ -72,6 +74,8 @@ function onChange(e: Event) {
   } else {
     modelValue.value = checked
   }
+
+  emit('change', isChecked.value)
 
   if (isWave.value) {
     clearTimeout(waveTimerId)

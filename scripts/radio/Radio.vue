@@ -35,6 +35,8 @@ defineSlots<{
   default?: any
 }>()
 
+const emit = defineEmits<{ change: [value: string | number] }>()
+
 const modelValue = defineModel<string | number>()
 
 const vClass = computed(() => {
@@ -54,6 +56,7 @@ let waveTimerId: ReturnType<typeof setTimeout>
 function onChange() {
   if (props.disabled) return
   modelValue.value = props.value!
+  emit('change', props.value!)
   if (isWave.value) {
     clearTimeout(waveTimerId)
     isWave.value = false

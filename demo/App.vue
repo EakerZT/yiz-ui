@@ -28,6 +28,7 @@ import CheckboxDemo from './pages/CheckboxDemo.vue'
 import InputDemo from './pages/InputDemo.vue'
 import IconDemo from './pages/IconDemo.vue'
 import RadioDemo from './pages/RadioDemo.vue'
+import TableDemo from './pages/TableDemo.vue'
 import DialogDemo from './pages/DialogDemo.vue'
 import DrawerDemo from './pages/DrawerDemo.vue'
 import TooltipDemo from './pages/TooltipDemo.vue'
@@ -39,6 +40,7 @@ const pages: Record<string, any> = {
   drawer: DrawerDemo,
   input: InputDemo,
   radio: RadioDemo,
+  table: TableDemo,
   tooltip: TooltipDemo,
   icon: IconDemo,
 }
@@ -50,6 +52,7 @@ const navItems = [
   { id: 'drawer', label: 'Drawer 抽屉' },
   { id: 'input', label: 'Input 输入框' },
   { id: 'radio', label: 'Radio 单选' },
+  { id: 'table', label: 'Table 表格' },
   { id: 'tooltip', label: 'Tooltip 提示' },
   { id: 'icon', label: 'Icon 图标' },
 ]
