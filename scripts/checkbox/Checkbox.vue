@@ -1,22 +1,28 @@
 <template>
   <label class="yiz-checkbox" :class="vClass">
     <span class="yiz-checkbox-input">
-      <input type="checkbox" :checked="modelValue" :disabled="disabled" @change="onChange" />
+      <input type="checkbox" :checked="isChecked" :disabled="mergedDisabled" @change="onChange" />
       <span class="yiz-checkbox-inner"></span>
       <span class="yiz-wave" v-if="isWave"></span>
     </span>
-    <span v-if="label || $slots.default" class="yiz-checkbox-label">
-      <slot>{{ label }}</slot>
+    <span v-if="$slots.default" class="yiz-checkbox-label">
+      <slot />
     </span>
   </label>
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, ref } from 'vue'
+import { computed, inject, nextTick, ref, type Ref } from 'vue'
+
+interface CheckboxGroupContext {
+  modelValue: Ref<(string | number)[]>
+  disabled: Ref<boolean>
+  toggleValue: (val: string | number) => void
+}
 
 const props = withDefaults(
   defineProps<{
-    label?: string
+    value?: string | number
     disabled?: boolean
   }>(),
   {
@@ -28,14 +34,27 @@ defineSlots<{
   default?: any
 }>()
 
-const modelValue = defineModel<boolean>('value')
+const modelValue = defineModel<boolean>('checked')
+
+const group = inject<CheckboxGroupContext | null>('yizCheckboxGroup', null)
+
+const isChecked = computed(() => {
+  if (group) {
+    return group.modelValue.value.includes(props.value!)
+  }
+  return modelValue.value
+})
+
+const mergedDisabled = computed(() => {
+  return (group?.disabled.value ?? false) || props.disabled
+})
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
-  if (modelValue.value) {
+  if (isChecked.value) {
     c['yiz-checkbox-checked'] = true
   }
-  if (props.disabled) {
+  if (mergedDisabled.value) {
     c['yiz-checkbox-disabled'] = true
   }
   return c
@@ -45,8 +64,15 @@ const isWave = ref(false)
 let waveTimerId: ReturnType<typeof setTimeout>
 
 function onChange(e: Event) {
-  if (props.disabled) return
-  modelValue.value = (e.target as HTMLInputElement).checked
+  const checked = (e.target as HTMLInputElement).checked
+  if (mergedDisabled.value) return
+
+  if (group) {
+    group.toggleValue(props.value!)
+  } else {
+    modelValue.value = checked
+  }
+
   if (isWave.value) {
     clearTimeout(waveTimerId)
     isWave.value = false
@@ -113,7 +139,7 @@ function onChange(e: Event) {
   width: 16px;
   height: 16px;
   border: 1px solid var(--yiz-color-border);
-  border-radius: 4px;
+  border-radius: 2px;
   background-color: #fff;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -121,15 +147,15 @@ function onChange(e: Event) {
   &::after {
     content: '';
     position: absolute;
-    top: 50%;
-    width: 5.7142857142857135px;
-    height: 9.142857142857142px;
-    inset-inline-start: 21%;
+    top: 1px;
+    left: 4px;
+    width: 6px;
+    height: 9px;
     border: 2px solid #fff;
     border-top: 0;
     border-left: 0;
-    transform: rotate(45deg) scale(1) translate(-50%, -50%);
-    transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
@@ -143,7 +169,7 @@ function onChange(e: Event) {
     border-color: var(--yiz-color-primary);
 
     &::after {
-      transform: rotate(45deg) scale(1) translate(-50%, -50%);
+      transform: rotate(45deg) scale(1);
     }
   }
 
@@ -156,6 +182,7 @@ function onChange(e: Event) {
 .yiz-checkbox-label {
   margin-left: 8px;
 }
+
 
 .yiz-checkbox-input .yiz-wave {
   --yiz-color-wave: var(--yiz-color-primary);

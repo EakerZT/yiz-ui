@@ -28,12 +28,14 @@ import CheckboxDemo from './pages/CheckboxDemo.vue'
 import InputDemo from './pages/InputDemo.vue'
 import IconDemo from './pages/IconDemo.vue'
 import RadioDemo from './pages/RadioDemo.vue'
+import TooltipDemo from './pages/TooltipDemo.vue'
 
 const pages: Record<string, any> = {
   button: ButtonDemo,
   checkbox: CheckboxDemo,
   input: InputDemo,
   radio: RadioDemo,
+  tooltip: TooltipDemo,
   icon: IconDemo,
 }
 
@@ -42,6 +44,7 @@ const navItems = [
   { id: 'checkbox', label: 'Checkbox 复选' },
   { id: 'input', label: 'Input 输入框' },
   { id: 'radio', label: 'Radio 单选' },
+  { id: 'tooltip', label: 'Tooltip 提示' },
   { id: 'icon', label: 'Icon 图标' },
 ]
 

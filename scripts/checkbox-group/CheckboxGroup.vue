@@ -1,17 +1,14 @@
 <template>
-  <div class="yiz-checkbox-group" :class="[`yiz-checkbox-group-${direction}`, { 'yiz-checkbox-group-disabled': disabled }]">
-    <Checkbox
-      v-for="opt in options"
-      :key="opt.value"
-      :label="opt.label"
-      :disabled="disabled"
-      :value="isChecked(opt.value)"
-      @update:value="(val: boolean) => onCheck(opt.value, val)"
-    />
+  <div class="yiz-checkbox-group" :class="[`yiz-checkbox-group-${direction}`]">
+    <template v-if="options">
+      <Checkbox v-for="opt in options" :key="opt.value" :value="opt.value">{{ opt.label }}</Checkbox>
+    </template>
+    <slot v-else />
   </div>
 </template>
 
 <script lang="ts" setup>
+import { provide, toRef } from 'vue'
 import { Checkbox } from '../checkbox'
 
 export interface CheckboxOption {
@@ -21,29 +18,35 @@ export interface CheckboxOption {
 
 const props = withDefaults(
   defineProps<{
-    options: CheckboxOption[]
+    options?: CheckboxOption[]
     direction?: 'horizontal' | 'vertical' | 'free'
     disabled?: boolean
   }>(),
   {
     direction: 'horizontal',
-    disabled: false,
+    disabled: false
   }
 )
 
+defineSlots<{
+  default?: any
+}>()
+
 const modelValue = defineModel<(string | number)[]>('value', { default: () => [] })
 
-function isChecked(val: string | number): boolean {
-  return modelValue.value.includes(val)
-}
-
-function onCheck(val: string | number, checked: boolean) {
-  if (checked) {
-    modelValue.value = [...modelValue.value, val]
-  } else {
+function toggleValue(val: string | number) {
+  if (modelValue.value.includes(val)) {
     modelValue.value = modelValue.value.filter((v) => v !== val)
+  } else {
+    modelValue.value = [...modelValue.value, val]
   }
 }
+
+provide('yizCheckboxGroup', {
+  modelValue,
+  disabled: toRef(props, 'disabled'),
+  toggleValue
+})
 </script>
 
 <style lang="less">
@@ -54,16 +57,25 @@ function onCheck(val: string | number, checked: boolean) {
 
 .yiz-checkbox-group-horizontal {
   flex-wrap: wrap;
-  gap: 8px 16px;
+
+  .yiz-checkbox + .yiz-checkbox {
+    margin-left: 16px;
+  }
 }
 
 .yiz-checkbox-group-vertical {
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+
+  .yiz-checkbox + .yiz-checkbox {
+    margin-top: 8px;
+  }
 }
 
 .yiz-checkbox-group-free {
-  gap: 8px 16px;
+  display: block;
+  .yiz-checkbox + .yiz-checkbox {
+    margin-left: 16px;
+  }
 }
 </style>
