@@ -1,43 +1,48 @@
 <template>
   <button class="yiz-button" :class="vClass" :style="vStyle" @click="onClick" :disabled="$props.disabled">
-    <component v-for="i in c" :key="i" :is="i"/>
-    <div class="yiz-wave" v-if="isWave"/>
+    <component v-for="i in c" :key="i" :is="i" />
+    <div class="yiz-wave" v-if="isWave" />
   </button>
 </template>
 
 <script lang="ts" setup>
-import {computed, h, isVNode, nextTick, ref, Text} from "vue";
-import {TinyColor} from "@ctrl/tinycolor";
+import { computed, h, isVNode, nextTick, ref, Text } from 'vue'
+import { TinyColor } from '@ctrl/tinycolor'
 
 const slots = defineSlots<{
-  default: any,
+  default: any
 }>()
 
-const c = computed(() => (slots.default?.() ?? []).map(s => {
-  if (isVNode(s) && s.type === Text) {
-    return h("span", {}, s.children as string)
-  } else {
-    return s
-  }
-}))
+const c = computed(() =>
+  (slots.default?.() ?? []).map((s) => {
+    if (isVNode(s) && s.type === Text) {
+      return h('span', {}, s.children as string)
+    } else {
+      return s
+    }
+  })
+)
 
-const props = withDefaults(defineProps<{
-  type?: 'default' | 'primary'
-  color?: 'default' | 'primary' | 'success'
-  shape?: 'default' | 'round' | 'circle'
-  disabled?: boolean
-}>(), {
-  type: 'default',
-  color: 'default',
-  shape: 'default',
-  disabled: false,
-})
+const props = withDefaults(
+  defineProps<{
+    type?: 'default' | 'primary'
+    color?: 'default' | 'success' | 'warning' | 'error' | string
+    shape?: 'default' | 'round' | 'circle'
+    disabled?: boolean
+  }>(),
+  {
+    type: 'default',
+    color: 'default',
+    shape: 'default',
+    disabled: false
+  }
+)
 const vClass = computed(() => {
   const c: Record<string, boolean> = {
     [`yiz-button-type-${props.type}`]: true,
-    [`yiz-button-shape-${props.shape}`]: true,
+    [`yiz-button-shape-${props.shape}`]: true
   }
-  if (['primary', 'success', 'default', 'warning', 'error'].includes(props.color)) {
+  if (['success', 'default', 'warning', 'error'].includes(props.color)) {
     c[`yiz-button-color-${props.color}`] = true
   }
   if (props.disabled) {
@@ -49,17 +54,17 @@ const isWave = ref(false)
 const vStyle = computed(() => {
   const s: Record<string, string> = {}
   if (props.color && props.color.match(/^#[\da-fA-F]{6}$/g)) {
-    const color = new TinyColor(props.color);
-    s['--yiz-button-color-text'] = 'white';
-    s['--yiz-button-color-text2'] = 'black';
-    s['--yiz-button-color-disabled-text'] = color.tint(50).toString();
-    s['--yiz-button-color-disabled-border'] = color.tint(80).toString();
-    s['--yiz-button-color-disabled-bg'] = color.tint(90).toString();
-    s['--yiz-button-color-bg'] = color.tint(90).toString();
-    s['--yiz-button-color-primary'] = props.color;
-    s['--yiz-button-color-hover'] = color.tint(30).toString();
-    s['--yiz-button-color-press'] = color.mix('#000000', 20).toString();
-    s['--yiz-color-wave'] = props.color;
+    const color = new TinyColor(props.color)
+    s['--yiz-button-color-text'] = 'white'
+    s['--yiz-button-color-text2'] = 'black'
+    s['--yiz-button-color-disabled-text'] = color.tint(50).toString()
+    s['--yiz-button-color-disabled-border'] = color.tint(80).toString()
+    s['--yiz-button-color-disabled-bg'] = color.tint(90).toString()
+    s['--yiz-button-color-bg'] = color.tint(90).toString()
+    s['--yiz-button-color-primary'] = props.color
+    s['--yiz-button-color-hover'] = color.tint(30).toString()
+    s['--yiz-button-color-press'] = color.mix('#000000', 20).toString()
+    s['--yiz-color-wave'] = props.color
   }
   return s
 })
@@ -67,11 +72,11 @@ const emits = defineEmits(['click'])
 let waveTimerId = 0
 const onClick = (e: MouseEvent) => {
   if (props.disabled) {
-    return;
+    return
   }
   if (isWave.value) {
-    clearInterval(waveTimerId);
-    isWave.value = false;
+    clearInterval(waveTimerId)
+    isWave.value = false
   }
   nextTick(() => {
     isWave.value = true
@@ -104,7 +109,11 @@ const onClick = (e: MouseEvent) => {
   text-align: center;
   cursor: pointer;
   text-decoration: none;
-  transition: color .3s cubic-bezier(.4, 0, .2, 1), background-color .3s cubic-bezier(.4, 0, .2, 1), opacity .3s cubic-bezier(.4, 0, .2, 1), border-color .3s cubic-bezier(.4, 0, .2, 1);
+  transition:
+    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid transparent;
 
   &.yiz-button-disabled {
@@ -176,14 +185,14 @@ const onClick = (e: MouseEvent) => {
 .yiz-button-color-success {
   --yiz-button-color-text: white;
   --yiz-button-color-text2: black;
-  --yiz-button-color-disabled-text: var(--yiz-color-primary-light5);
-  --yiz-button-color-disabled-border: var(--yiz-color-primary-light8);
-  --yiz-button-color-disabled-bg: var(--yiz-color-primary-light9);
-  --yiz-button-color-bg: var(--yiz-color-primary-light9);
-  --yiz-button-color-primary: var(--yiz-color-primary);
-  --yiz-button-color-hover: var(--yiz-color-primary-light2);
-  --yiz-button-color-press: var(--yiz-color-primary-heary);
-  --yiz-color-wave: var(--yiz-color-primary);
+  --yiz-button-color-disabled-text: var(--yiz-color-success-light5);
+  --yiz-button-color-disabled-border: var(--yiz-color-success-light8);
+  --yiz-button-color-disabled-bg: var(--yiz-color-success-light9);
+  --yiz-button-color-bg: var(--yiz-color-success-light9);
+  --yiz-button-color-primary: var(--yiz-color-success);
+  --yiz-button-color-hover: var(--yiz-color-success-light2);
+  --yiz-button-color-press: var(--yiz-color-success-heary);
+  --yiz-color-wave: var(--yiz-color-success);
 }
 
 .yiz-button-color-warning {
@@ -244,7 +253,6 @@ const onClick = (e: MouseEvent) => {
   background-color: var(--yiz-button-color-primary);
   border-color: var(--yiz-button-color-primary);
   color: var(--yiz-button-color-text);
-
 
   &:not(.yiz-button-disabled):hover {
     background-color: var(--yiz-button-color-hover);
