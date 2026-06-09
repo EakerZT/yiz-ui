@@ -1,0 +1,243 @@
+<template>
+  <label class="yiz-switch" :class="vClass" :style="vStyle">
+    <span class="yiz-switch-input">
+      <input
+        type="checkbox"
+        :checked="modelValue"
+        :disabled="disabled || loading"
+        @change="onChange"
+      />
+    </span>
+    <span class="yiz-switch-track">
+      <span class="yiz-wave" v-if="isWave" />
+      <span class="yiz-switch-thumb">
+        <svg v-if="loading" class="yiz-switch-loading" viewBox="0 0 24 24" width="12" height="12">
+          <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="31.4 31.4" stroke-linecap="round">
+            <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="0.8s" repeatCount="indefinite" />
+          </circle>
+        </svg>
+      </span>
+    </span>
+  </label>
+</template>
+
+<script lang="ts" setup>
+import { computed, nextTick, ref } from 'vue'
+import { TinyColor } from '@ctrl/tinycolor'
+
+const props = withDefaults(
+  defineProps<{
+    disabled?: boolean
+    size?: 'default' | 'small'
+    color?: string
+    loading?: boolean
+  }>(),
+  {
+    disabled: false,
+    size: 'default',
+    loading: false
+  }
+)
+
+const emit = defineEmits<{
+  change: [value: boolean]
+}>()
+
+const modelValue = defineModel<boolean>('modelValue', { default: false })
+
+const vClass = computed(() => {
+  const c: Record<string, boolean> = {}
+  if (modelValue.value) c['yiz-switch-checked'] = true
+  if (props.disabled) c['yiz-switch-disabled'] = true
+  if (props.size === 'small') c['yiz-switch-small'] = true
+  if (props.loading) c['yiz-switch-loading-state'] = true
+  return c
+})
+
+const vStyle = computed(() => {
+  const s: Record<string, string> = {}
+  if (props.color && props.color.match(/^#[\da-fA-F]{6}$/g)) {
+    const color = new TinyColor(props.color)
+    s['--yiz-switch-checked-bg'] = props.color
+    s['--yiz-switch-checked-hover'] = color.tint(20).toString()
+    s['--yiz-color-wave'] = props.color
+  } else {
+    s['--yiz-color-wave'] = 'var(--yiz-color-primary)'
+  }
+  return s
+})
+
+const isWave = ref(false)
+let waveTimerId: ReturnType<typeof setTimeout>
+
+function onChange(e: Event) {
+  if (props.disabled || props.loading) return
+  const checked = (e.target as HTMLInputElement).checked
+  modelValue.value = checked
+  emit('change', checked)
+  if (isWave.value) {
+    clearTimeout(waveTimerId)
+    isWave.value = false
+  }
+  nextTick(() => {
+    isWave.value = true
+    waveTimerId = setTimeout(() => {
+      isWave.value = false
+    }, 600)
+  })
+}
+</script>
+
+<style lang="less">
+.yiz-switch {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.yiz-switch-input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+
+  input {
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+}
+
+.yiz-switch-track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 44px;
+  height: 22px;
+  border-radius: 11px;
+  background: #c0c4cc;
+  transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+
+  .yiz-wave {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 11px;
+    animation-duration: 0.6s;
+    animation-name: yiz-wave-spread, yiz-wave-opacity;
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1), cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.yiz-switch-thumb {
+  position: absolute;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// checked
+.yiz-switch-checked {
+  .yiz-switch-track {
+    background: var(--yiz-switch-checked-bg, var(--yiz-color-primary));
+  }
+
+  .yiz-switch-thumb {
+    transform: translateX(22px);
+  }
+}
+
+// hover
+.yiz-switch:not(.yiz-switch-disabled):not(.yiz-switch-loading-state) {
+  &:hover .yiz-switch-track {
+    opacity: 0.9;
+  }
+
+  &.yiz-switch-checked:hover .yiz-switch-track {
+    background: var(--yiz-switch-checked-hover, var(--yiz-color-primary-light2));
+  }
+
+  &:active .yiz-switch-thumb {
+    transform: scale(1.1);
+  }
+
+  &.yiz-switch-checked:active .yiz-switch-thumb {
+    transform: translateX(22px) scale(1.1);
+  }
+}
+
+// disabled
+.yiz-switch-disabled {
+  cursor: not-allowed;
+
+  .yiz-switch-track {
+    opacity: 0.5;
+    background: #c0c4cc;
+  }
+
+  &.yiz-switch-checked .yiz-switch-track {
+    background: var(--yiz-switch-checked-bg, var(--yiz-color-primary-light5));
+  }
+}
+
+// loading
+.yiz-switch-loading-state {
+  cursor: wait;
+
+  .yiz-switch-track {
+    opacity: 0.8;
+  }
+}
+
+.yiz-switch-loading {
+  color: var(--yiz-switch-checked-bg, var(--yiz-color-primary));
+  animation: yiz-switch-spin 0.8s linear infinite;
+}
+
+@keyframes yiz-switch-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+// small
+.yiz-switch-small {
+  .yiz-switch-track {
+    width: 32px;
+    height: 16px;
+    border-radius: 8px;
+  }
+
+  .yiz-switch-thumb {
+    width: 12px;
+    height: 12px;
+  }
+
+  &.yiz-switch-checked .yiz-switch-thumb {
+    transform: translateX(16px);
+  }
+
+  &:active .yiz-switch-thumb {
+    transform: scale(1.1);
+  }
+
+  &.yiz-switch-checked:active .yiz-switch-thumb {
+    transform: translateX(16px) scale(1.1);
+  }
+}
+</style>
