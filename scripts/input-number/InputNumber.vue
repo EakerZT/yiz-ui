@@ -16,6 +16,7 @@
     </button>
     <div class="yiz-input-number-input-wrap">
       <input
+        ref="inputRef"
         class="yiz-input-number-input"
         :value="displayValue"
         :disabled="disabled"
@@ -23,6 +24,7 @@
         @input="onInput"
         @blur="onBlur"
         @focus="isFocus = true"
+        @keydown="onInputKeydown"
         @keydown.up.prevent="increase"
         @keydown.down.prevent="decrease"
       />
@@ -78,8 +80,11 @@ defineSlots<{
   suffix?: any
 }>()
 
+const emit = defineEmits<{ pressEnter: [] }>()
+
 const modelValue = defineModel<number | null>('modelValue')
 
+const inputRef = ref<HTMLInputElement>()
 const isFocus = ref(false)
 
 const vClass = computed(() => {
@@ -145,6 +150,12 @@ function onInput(e: Event) {
   modelValue.value = toPrecision(num)
 }
 
+function onInputKeydown(e: KeyboardEvent) {
+  if (e.key === 'Enter') {
+    emit('pressEnter')
+  }
+}
+
 function onBlur() {
   isFocus.value = false
   if (modelValue.value == null) return
@@ -156,6 +167,10 @@ function onBlur() {
   }
   modelValue.value = toPrecision(modelValue.value)
 }
+
+defineExpose({
+  focus: () => inputRef.value?.focus()
+})
 </script>
 
 <style lang="less">

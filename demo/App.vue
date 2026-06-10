@@ -25,9 +25,14 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import ButtonDemo from './pages/ButtonDemo.vue'
 import CheckboxDemo from './pages/CheckboxDemo.vue'
+import ContextMenuDemo from './pages/ContextMenuDemo.vue'
 import InputDemo from './pages/InputDemo.vue'
+import InputNumberDemo from './pages/InputNumberDemo.vue'
+import MenuDemo from './pages/MenuDemo.vue'
 import IconDemo from './pages/IconDemo.vue'
 import RadioDemo from './pages/RadioDemo.vue'
+import SelectDemo from './pages/SelectDemo.vue'
+import SwitchDemo from './pages/SwitchDemo.vue'
 import TableDemo from './pages/TableDemo.vue'
 import DialogDemo from './pages/DialogDemo.vue'
 import DrawerDemo from './pages/DrawerDemo.vue'
@@ -36,10 +41,15 @@ import TooltipDemo from './pages/TooltipDemo.vue'
 const pages: Record<string, any> = {
   button: ButtonDemo,
   checkbox: CheckboxDemo,
+  'context-menu': ContextMenuDemo,
   dialog: DialogDemo,
   drawer: DrawerDemo,
   input: InputDemo,
+  'input-number': InputNumberDemo,
+  menu: MenuDemo,
   radio: RadioDemo,
+  select: SelectDemo,
+  switch: SwitchDemo,
   table: TableDemo,
   tooltip: TooltipDemo,
   icon: IconDemo,
@@ -48,17 +58,22 @@ const pages: Record<string, any> = {
 const navItems = [
   { id: 'button', label: 'Button 按钮' },
   { id: 'checkbox', label: 'Checkbox 复选' },
+  { id: 'context-menu', label: 'ContextMenu 菜单' },
   { id: 'dialog', label: 'Dialog 弹窗' },
   { id: 'drawer', label: 'Drawer 抽屉' },
   { id: 'input', label: 'Input 输入框' },
+  { id: 'input-number', label: 'InputNumber 数字' },
+  { id: 'menu', label: 'Menu 菜单' },
   { id: 'radio', label: 'Radio 单选' },
+  { id: 'select', label: 'Select 下拉框' },
+  { id: 'switch', label: 'Switch 开关' },
   { id: 'table', label: 'Table 表格' },
   { id: 'tooltip', label: 'Tooltip 提示' },
   { id: 'icon', label: 'Icon 图标' },
 ]
 
 function getPageFromHash(): string {
-  const m = location.hash.match(/^#\/(\w+)/)
+  const m = location.hash.match(/^#\/([\w-]+)/)
   return m?.[1] || 'button'
 }
 

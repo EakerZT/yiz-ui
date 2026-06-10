@@ -7,8 +7,8 @@
       <slot v-else name="prefix"/>
     </div>
     <div class="yiz-input_outer">
-      <input :value="modelValue" @input="e=>modelValue=e.target!.value" @focus="isFocus = true" @blur="isFocus=false"
-             class="yiz-input_inner" :placeholder="$props.placeholder">
+      <input ref="inputRef" :value="modelValue" @input="e=>modelValue=e.target!.value" @focus="isFocus = true" @blur="isFocus=false"
+             @keydown="onKeydown" class="yiz-input_inner" :placeholder="$props.placeholder">
     </div>
     <div class="yiz-input_clear" v-if="$props.clearable && modelValue" @click="onClearClick">
       <Icon size="14" :icon="DismissCircle32Filled"/>
@@ -42,7 +42,9 @@ const props = withDefaults(defineProps<{
 })
 
 const modelValue = defineModel('value')
+const emit = defineEmits<{ pressEnter: [] }>()
 
+const inputRef = ref<HTMLInputElement>()
 const isFocus = ref(false)
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
@@ -54,6 +56,16 @@ const vClass = computed(() => {
 const onClearClick = ()=>{
   modelValue.value = ''
 }
+
+function onKeydown(e: KeyboardEvent) {
+  if (e.key === 'Enter') {
+    emit('pressEnter')
+  }
+}
+
+defineExpose({
+  focus: () => inputRef.value?.focus()
+})
 </script>
 
 <style lang="less">
