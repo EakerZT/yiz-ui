@@ -143,22 +143,24 @@ function onChange(e: Event) {
   width: 16px;
   height: 16px;
   border: 1px solid var(--yiz-color-border);
-  border-radius: 2px;
+  border-radius: 4px;
   background-color: #fff;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  box-sizing: border-box;
 
   &::after {
+    box-sizing: border-box;
     content: '';
     position: absolute;
-    top: 1px;
-    left: 4px;
-    width: 6px;
-    height: 9px;
+    top: 50%;
+    inset-inline-start: 21.5%;
+    width: 5.7142857142857135px;
+    height: 9.142857142857142px;
     border: 2px solid #fff;
     border-top: 0;
     border-left: 0;
-    transform: rotate(45deg) scale(0);
+    transform: rotate(45deg) scale(0) translate(-50%, -50%);
     transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
@@ -173,7 +175,7 @@ function onChange(e: Event) {
     border-color: var(--yiz-color-primary);
 
     &::after {
-      transform: rotate(45deg) scale(1);
+      transform: rotate(45deg) scale(1) translate(-50%, -50%);
     }
   }
 
@@ -186,7 +188,6 @@ function onChange(e: Event) {
 .yiz-checkbox-label {
   margin-left: 8px;
 }
-
 
 .yiz-checkbox-input .yiz-wave {
   --yiz-color-wave: var(--yiz-color-primary);

@@ -8,7 +8,14 @@
         <Icon size="14" :icon="DismissCircle32Filled" />
       </span>
       <svg class="yiz-select-arrow" :class="{ 'yiz-select-arrow-up': open }" viewBox="0 0 16 16" width="14" height="14">
-        <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        <path
+          d="M4 6l4 4 4-4"
+          stroke="currentColor"
+          stroke-width="1.5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </svg>
     </span>
   </div>
@@ -16,12 +23,7 @@
     <Transition name="yiz-select-dropdown-fade">
       <div v-if="open" class="yiz-select-dropdown" :style="dropdownStyle" ref="dropdownRef">
         <div v-if="search" class="yiz-select-search-wrap" @click.stop>
-          <Input
-            ref="searchInputRef"
-            v-model:value="searchQuery"
-            placeholder="输入关键词筛选"
-            @keydown.stop
-          />
+          <Input ref="searchInputRef" v-model:value="searchQuery" placeholder="输入关键词筛选" @keydown.stop />
         </div>
         <div
           v-for="(opt, idx) in filteredOptions"
@@ -252,7 +254,9 @@ onBeforeUnmount(() => {
   background: #fff;
   cursor: pointer;
   user-select: none;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
   font-size: 14px;
   color: #333;
   min-width: 120px;
@@ -340,7 +344,9 @@ onBeforeUnmount(() => {
 }
 
 .yiz-select-option {
+  margin: 4px;
   padding: 8px 12px;
+  border-radius: 4px;
   font-size: 14px;
   color: #333;
   cursor: pointer;
@@ -348,15 +354,16 @@ onBeforeUnmount(() => {
   white-space: nowrap;
 
   &:hover {
-    background: #f5f7fa;
+    background: var(--yiz-color-hover-bg);
   }
 
   &.yiz-select-option-hover {
-    background: #f5f7fa;
+    background: var(--yiz-color-hover-bg);
   }
 
   &.yiz-select-option-selected {
     color: var(--yiz-color-primary);
+    background-color: var(--yiz-color-primary-light8);
     font-weight: 500;
   }
 }
@@ -371,7 +378,9 @@ onBeforeUnmount(() => {
 // dropdown transition
 .yiz-select-dropdown-fade-enter-active,
 .yiz-select-dropdown-fade-leave-active {
-  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .yiz-select-dropdown-fade-enter-from,

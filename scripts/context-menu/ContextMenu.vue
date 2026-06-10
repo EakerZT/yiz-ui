@@ -29,13 +29,21 @@
           </slot>
         </span>
         <svg viewBox="0 0 16 16" width="10" height="10" class="yiz-context-menu-sub-arrow">
-          <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        <div v-if="hoveredSubmenu === item.value && item.children?.length" class="yiz-context-menu-sub" :style="submenuStyle">
-          <ContextMenu
-            :items="item.children"
-            @select="onChildSelect"
+          <path
+            d="M6 4l4 4-4 4"
+            stroke="currentColor"
+            stroke-width="1.5"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           />
+        </svg>
+        <div
+          v-if="hoveredSubmenu === item.value && item.children?.length"
+          class="yiz-context-menu-sub"
+          :style="submenuStyle"
+        >
+          <ContextMenu :items="item.children" @select="onChildSelect" />
         </div>
       </div>
 
@@ -49,7 +57,14 @@
       >
         <span class="yiz-context-menu-item-check">
           <svg v-if="isChecked(item)" viewBox="0 0 16 16" width="14" height="14">
-            <path d="M3 8l3 3 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M3 8l3 3 6-6"
+              stroke="currentColor"
+              stroke-width="2"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </span>
         <slot name="item" :item="item" :index="idx">
@@ -286,6 +301,8 @@ function onChildSelect(item: ContextMenuItem) {
   display: flex;
   align-items: center;
   height: 36px;
+  border-radius: 4px;
+  margin: 4px;
   padding: 0 12px;
   font-size: 14px;
   color: #333;
@@ -295,11 +312,11 @@ function onChildSelect(item: ContextMenuItem) {
   position: relative;
 
   &:hover {
-    background: var(--yiz-color-primary-light5);
+    background: var(--yiz-color-hover-bg);
   }
 
   &.yiz-context-menu-item-hover {
-    background: var(--yiz-color-primary-light5);
+    background: var(--yiz-color-hover-bg);
   }
 
   &.yiz-context-menu-item-disabled {

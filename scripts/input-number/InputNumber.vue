@@ -280,7 +280,7 @@ defineExpose({
   outline: none;
   font-size: 14px;
   font-family: inherit;
-  padding: 0 4px;
+  padding: 0 8px;
   background: transparent;
   box-sizing: border-box;
   -moz-appearance: textfield;

@@ -40,7 +40,7 @@ Each component lives in `scripts/<name>/` with two files:
 1. Create `scripts/<name>/<Name>.vue` and `scripts/<name>/index.ts` (named export)
 2. Add `export * from './<name>'` to `scripts/components.ts` (alphabetical order)
 3. Create `demo/pages/<Name>Demo.vue`
-4. Register the demo page in `demo/App.vue`: add import, `pages` entry, and `navItems` entry
+4. Register the demo page in `demo/App.vue`: add import, `pages` entry, and `menuItems` entry
 
 Everything else (plugin registration, path alias, global component name) is automatic.
 
@@ -94,29 +94,40 @@ The most complex component. Three files:
 
 ### LinkButton (`scripts/link-button/`)
 
-A text-only button styled as an inline link. Props: `color` (`'default' | 'primary' | 'success' | 'warning' | 'error' | hex`), `disabled`, `underline` (shows underline on hover). Uses the same `@ctrl/tinycolor` hex manipulation pattern as Button for custom colors. Styled via `--yiz-link-button-color-*` CSS custom properties. No border, no background — pure text with color transitions on hover/active/disabled.
+A text-only button styled as an inline link. Uses the same `@ctrl/tinycolor` hex manipulation pattern as Button for custom colors. Styled via `--yiz-link-button-color-*` CSS custom properties.
 
 ### Loading (`scripts/loading/`)
 
-A spinner component with three built-in indicator presets, selected via the `indicator` prop:
+Spinner with three `indicator` presets (`ring`, `spin`, `think`), `size` prop, and a `delay` prop (ms before showing — `setTimeout` cleared on unmount/prop change). **Container mode:** when the default slot is used, the spinner is absolutely centered over the content and the content gets `opacity: 0.5; pointer-events: none`. The `#indicator` slot overrides the preset; `#tip` slot overrides the tip text.
 
-- **`ring`** (default) — Google-style expanding/contracting ring. SVG `<circle>` with `loading-dash` keyframe animating `stroke-dasharray` + `stroke-dashoffset`, wrapped in a rotating SVG.
-- **`spin`** — Ant Design four-dot spinner. Four `<i>` dots absolutely positioned in corners of a 45°-rotated square, each with staggered `animation-delay` and an opacity `alternate` animation. The container rotates continuously.
-- **`think`** — Three bouncing dots with staggered `animationDelay` (0.15s steps), using `yiz-loading-ms-bounce` keyframes.
+### Switch (`scripts/switch/`)
 
-**Key props:** `loading` (boolean, default `true`), `size` (`'small' | 'default' | 'large'`), `delay` (ms before showing — uses a `setTimeout` that is cleared on unmount/prop change), `tip` (text below spinner).
+Toggle switch using the native input overlay pattern (hidden `<input type="checkbox">` behind a styled track/thumb). Uses `defineModel<boolean>('modelValue')`. Supports `loading` state (renders an inline SVG spinner via SMIL `<animateTransform>`, sets cursor to `wait`), `color` prop (hex → `@ctrl/tinycolor` manipulation for `--yiz-switch-checked-bg` and `--yiz-switch-checked-hover`), and the shared `yiz-wave` ripple animation on click. Emits `change` event.
 
-**Container mode:** When the default slot is used, the spinner is absolutely centered over the content and the content gets `opacity: 0.5; pointer-events: none`. The spinner uses a `<Transition name="yiz-loading-fade">` for enter/leave.
+### InputNumber (`scripts/input-number/`)
 
-**Custom indicator:** The `#indicator` slot overrides the built-in preset. The `#tip` slot overrides the tip text.
+Number input with increment/decrement buttons. Uses `defineModel<number | null>('modelValue')` — null represents empty input. Props: `min`, `max`, `step`, `precision`, `controls` (show +/- buttons), `prefix`/`suffix` (text or slots), `align`. Supports ArrowUp/ArrowDown keyboard shortcuts and Enter key (`pressEnter` event). Uses `defineExpose({ focus })` to expose a focus method to parents. Hides native spinner buttons via `-webkit-appearance: none` / `-moz-appearance: textfield`.
+
+### Icon (`scripts/icon/`)
+
+Renders a Vue component (via `:is`) with 1em-based `width`/`height`. Use the `size` prop to set an explicit `font-size` in px. `display: inline-block` so it behaves like an inline icon; wrap in a flex container when vertical centering is needed.
+
+### Tooltip (`scripts/tooltip/`)
+
+Hover-triggered tooltip with `placement` (`top` | `bottom` | `left` | `right`), CSS arrow border trick, and `<Transition name="yiz-tooltip-fade">`. Content via `content` prop or `#content` slot. Uses a hardcoded `z-index: 2000` (does NOT use `nextZIndex()` — it's positioned `absolute` relative to the trigger, not Teleported).
+
+### Tab (`scripts/tab/`)
+
+- **`Tab.vue`** — main container using slot-based child extraction to find `TabPane` children. Extracts `label`, `value`, `disabled` props from each pane, renders a header row with a sliding active indicator bar, and renders the default slot (which TabPane children control via `v-show`). Uses `v-model:active` (`defineModel`), emits `select` event.
+- **`TabPane.vue`** — renderless child that declares `label` / `value` / `disabled` props and a default slot for content. Injects `'yizTab'` context and uses `v-show` to toggle visibility based on whether its `value` matches the parent's `active`.
 
 ### Ripple wave animation
 
-Button, Checkbox, and Radio share a ripple wave effect. The `yiz-wave` span uses CSS keyframes `yiz-wave-spread` and `yiz-wave-opacity` defined in `scripts/style.less`. The effect is triggered by briefly adding/removing the `yiz-wave` element via a `ref` toggle with a `nextTick` → `setTimeout` pattern.
+Button, Checkbox, Radio, and Switch share a ripple wave effect. The `yiz-wave` span uses CSS keyframes `yiz-wave-spread` and `yiz-wave-opacity` defined in `scripts/style.less`. The effect is triggered by briefly adding/removing the `yiz-wave` element via a `ref` toggle with a `nextTick` → `setTimeout` pattern.
 
 ### Native input overlay pattern
 
-Checkbox and Radio hide a native `<input>` behind a styled `<span>` (the visual indicator). The native input is made transparent but remains interactive for accessibility. This avoids custom keyboard/ARIA handling.
+Checkbox, Radio, and Switch hide a native `<input>` behind a styled `<span>` (the visual indicator). The native input is made transparent but remains interactive for accessibility. This avoids custom keyboard/ARIA handling.
 
 ### Theming
 
@@ -135,7 +146,7 @@ During development, `yiz-ui` is aliased to `./scripts` via both `vite.config.mts
 - **Less** — CSS preprocessor
 - **TypeScript** — strict mode with `noUnusedLocals`, `noImplicitAny`, `strictNullChecks`
 
-### Slot-based declarative children (Menu, ContextMenu, Select, Table)
+### Slot-based declarative children (Menu, ContextMenu, Select, Table, Tab)
 
 Menu, ContextMenu, and Select mirror Table's slot-based child extraction pattern. Each has a renderless `-option` child component (`MenuOption`, `ContextMenuOption`, `SelectOption`) whose props and default slot functions are extracted via `useSlots()`:
 
@@ -154,18 +165,19 @@ The `allItems` computed falls back to the `items` prop when no slot children are
 ### Menu and ContextMenu
 
 Both components share the same architecture:
-- **`Menu.vue` / `ContextMenu.vue`** — main SFC rendering a vertical list of items (label, icon, arrow for submenus)
+- **`Menu.vue`** — main SFC rendering items with select/expand logic. Delegates submenus to `SubMenu` (inline expand) and `PopupSubMenu` (teleported popups).
+- **`SubMenu.vue`** (`scripts/menu/SubMenu.vue`) — renders items directly with expand/collapse and slide `<Transition>`. Recursively renders nested `SubMenu` for children. Owns its own `expandedKeys` state.
+- **`PopupSubMenu.vue`** (`scripts/menu/PopupSubMenu.vue`) — renders items directly in a `<Teleport>`-ed popup. Handles recursive nested hover popups with edge detection. Owns its own hover/timer state.
 - **`MenuOption.vue` / `ContextMenuOption.vue`** — renderless declarative child for slot-based usage
 - **`IconRenderer.vue`** (`scripts/menu/IconRenderer.vue`) — shared internal utility that renders icon VNodes; used by both Menu and ContextMenu
 
 **Menu modes:**
 - **Default** — sidebar with expandable submenus (inline expand/collapse with `<Transition>`)
 - **`collapsed`** — sidebar collapsed to icon-only width (56px); childless items wrap in `<Tooltip>`; items with children show Teleported popups at `z-index: 3000`
-- **`popup`** — floating menu for nested submenus; uses Teleported popups at `z-index: 3100` with viewport edge detection for horizontal overflow
 
 **ContextMenu submenus** — nested submenus render inline and position with `position: absolute; left: 100%`. Submenu placement flips to `right: 100%` when the submenu would overflow the viewport right edge, and flips vertically when it would overflow the bottom.
 
-**v-model:** Menu uses `defineModel<any>('modelValue')` to track the currently selected item value.
+**v-model:select:** Menu uses `defineModel<any>('select')` to track the currently selected item value.
 
 ### Select
 
@@ -194,4 +206,5 @@ Always pair `onMounted` listeners with corresponding `onBeforeUnmount` cleanup.
 - Styles are non-scoped Less, namespaced with `yiz-` prefix
 - Components that share state use `provide`/`inject` with a string key prefixed `yiz` (e.g. `'yizCheckboxGroup'`)
 - Overlay components (Dialog, Drawer, Select) use `<Teleport to="body">` with `scripts/zIndex.ts` for stacking
+- Components that need to expose methods to parents use `defineExpose({ focus, ... })` (see InputNumber)
 - Document event listeners registered in `onMounted` must be cleaned up in `onBeforeUnmount`

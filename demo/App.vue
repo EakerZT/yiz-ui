@@ -5,15 +5,12 @@
       <span class="demo-header-sub">Vue 3 组件库</span>
     </header>
     <div class="demo-body">
-      <nav class="demo-nav">
-        <a
-          v-for="item in navItems"
-          :key="item.id"
-          :href="`#/${item.id}`"
-          class="demo-nav-item"
-          :class="{ active: currentPage === item.id }"
-        >{{ item.label }}</a>
-      </nav>
+      <y-menu
+        v-model:select="currentPage"
+        :items="menuItems"
+        :width="200"
+        @select="onNavSelect"
+      />
       <main class="demo-main">
         <component :is="currentDemo" />
       </main>
@@ -22,7 +19,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { Menu } from 'yiz-ui'
 import ButtonDemo from './pages/ButtonDemo.vue'
 import CheckboxDemo from './pages/CheckboxDemo.vue'
 import ContextMenuDemo from './pages/ContextMenuDemo.vue'
@@ -34,6 +32,7 @@ import IconDemo from './pages/IconDemo.vue'
 import RadioDemo from './pages/RadioDemo.vue'
 import SelectDemo from './pages/SelectDemo.vue'
 import SwitchDemo from './pages/SwitchDemo.vue'
+import TabDemo from './pages/TabDemo.vue'
 import TableDemo from './pages/TableDemo.vue'
 import DialogDemo from './pages/DialogDemo.vue'
 import DrawerDemo from './pages/DrawerDemo.vue'
@@ -52,27 +51,29 @@ const pages: Record<string, any> = {
   radio: RadioDemo,
   select: SelectDemo,
   switch: SwitchDemo,
+  tab: TabDemo,
   table: TableDemo,
   tooltip: TooltipDemo,
   icon: IconDemo,
 }
 
-const navItems = [
-  { id: 'button', label: 'Button 按钮' },
-  { id: 'checkbox', label: 'Checkbox 复选' },
-  { id: 'context-menu', label: 'ContextMenu 菜单' },
-  { id: 'dialog', label: 'Dialog 弹窗' },
-  { id: 'drawer', label: 'Drawer 抽屉' },
-  { id: 'input', label: 'Input 输入框' },
-  { id: 'input-number', label: 'InputNumber 数字' },
-  { id: 'loading', label: 'Loading 加载' },
-  { id: 'menu', label: 'Menu 菜单' },
-  { id: 'radio', label: 'Radio 单选' },
-  { id: 'select', label: 'Select 下拉框' },
-  { id: 'switch', label: 'Switch 开关' },
-  { id: 'table', label: 'Table 表格' },
-  { id: 'tooltip', label: 'Tooltip 提示' },
-  { id: 'icon', label: 'Icon 图标' },
+const menuItems = [
+  { label: 'Button 按钮', value: 'button' },
+  { label: 'Checkbox 复选', value: 'checkbox' },
+  { label: 'ContextMenu 菜单', value: 'context-menu' },
+  { label: 'Dialog 弹窗', value: 'dialog' },
+  { label: 'Drawer 抽屉', value: 'drawer' },
+  { label: 'Icon 图标', value: 'icon' },
+  { label: 'Input 输入框', value: 'input' },
+  { label: 'InputNumber 数字', value: 'input-number' },
+  { label: 'Loading 加载', value: 'loading' },
+  { label: 'Menu 菜单', value: 'menu' },
+  { label: 'Radio 单选', value: 'radio' },
+  { label: 'Select 下拉框', value: 'select' },
+  { label: 'Switch 开关', value: 'switch' },
+  { label: 'Tab 标签页', value: 'tab' },
+  { label: 'Table 表格', value: 'table' },
+  { label: 'Tooltip 提示', value: 'tooltip' },
 ]
 
 function getPageFromHash(): string {
@@ -88,18 +89,16 @@ function onHashChange() {
   currentPage.value = getPageFromHash()
 }
 
+function onNavSelect(item: any) {
+  location.hash = `#/${item.value}`
+}
+
 onMounted(() => {
   window.addEventListener('hashchange', onHashChange)
 })
 
 onUnmounted(() => {
   window.removeEventListener('hashchange', onHashChange)
-})
-
-watch(currentPage, (val) => {
-  if (location.hash !== `#/${val}`) {
-    history.replaceState(null, '', `#/${val}`)
-  }
 })
 </script>
 
@@ -139,36 +138,6 @@ watch(currentPage, (val) => {
 .demo-body {
   display: flex;
   flex: 1;
-}
-
-.demo-nav {
-  width: 200px;
-  padding: 16px 0;
-  background: #fff;
-  border-right: 1px solid #e8e8e8;
-  position: sticky;
-  top: 56px;
-  height: calc(100vh - 56px);
-  overflow-y: auto;
-  flex-shrink: 0;
-}
-.demo-nav-item {
-  display: block;
-  padding: 8px 24px;
-  font-size: 14px;
-  color: #555;
-  text-decoration: none;
-  border-left: 3px solid transparent;
-  transition: all 0.2s;
-}
-.demo-nav-item:hover {
-  color: var(--yiz-color-primary);
-  background: #f0f5ff;
-}
-.demo-nav-item.active {
-  color: var(--yiz-color-primary);
-  border-left-color: var(--yiz-color-primary);
-  background: #f0f5ff;
 }
 
 .demo-main {
