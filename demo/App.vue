@@ -28,6 +28,7 @@ import CheckboxDemo from './pages/CheckboxDemo.vue'
 import ContextMenuDemo from './pages/ContextMenuDemo.vue'
 import InputDemo from './pages/InputDemo.vue'
 import InputNumberDemo from './pages/InputNumberDemo.vue'
+import LoadingDemo from './pages/LoadingDemo.vue'
 import MenuDemo from './pages/MenuDemo.vue'
 import IconDemo from './pages/IconDemo.vue'
 import RadioDemo from './pages/RadioDemo.vue'
@@ -46,6 +47,7 @@ const pages: Record<string, any> = {
   drawer: DrawerDemo,
   input: InputDemo,
   'input-number': InputNumberDemo,
+  loading: LoadingDemo,
   menu: MenuDemo,
   radio: RadioDemo,
   select: SelectDemo,
@@ -63,6 +65,7 @@ const navItems = [
   { id: 'drawer', label: 'Drawer 抽屉' },
   { id: 'input', label: 'Input 输入框' },
   { id: 'input-number', label: 'InputNumber 数字' },
+  { id: 'loading', label: 'Loading 加载' },
   { id: 'menu', label: 'Menu 菜单' },
   { id: 'radio', label: 'Radio 单选' },
   { id: 'select', label: 'Select 下拉框' },

@@ -289,7 +289,9 @@ function onCollapsedPopupEnter() {
   if (popupTimer) { clearTimeout(popupTimer); popupTimer = null }
 }
 
-function onCollapsedPopupLeave() {
+function onCollapsedPopupLeave(e: MouseEvent) {
+  const related = e.relatedTarget as HTMLElement | null
+  if (related?.closest('.yiz-menu-popup-sub')) return
   popupItem.value = null
 }
 
@@ -303,7 +305,9 @@ function onPopupSubEnterNested() {
   if (popupSubTimer) { clearTimeout(popupSubTimer); popupSubTimer = null }
 }
 
-function onPopupSubLeaveNested() {
+function onPopupSubLeaveNested(e: MouseEvent) {
+  const related = e.relatedTarget as HTMLElement | null
+  if (related?.closest('.yiz-menu-popup-sub')) return
   popupSubItem.value = null
 }
 

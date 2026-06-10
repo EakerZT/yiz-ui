@@ -96,6 +96,20 @@ The most complex component. Three files:
 
 A text-only button styled as an inline link. Props: `color` (`'default' | 'primary' | 'success' | 'warning' | 'error' | hex`), `disabled`, `underline` (shows underline on hover). Uses the same `@ctrl/tinycolor` hex manipulation pattern as Button for custom colors. Styled via `--yiz-link-button-color-*` CSS custom properties. No border, no background — pure text with color transitions on hover/active/disabled.
 
+### Loading (`scripts/loading/`)
+
+A spinner component with three built-in indicator presets, selected via the `indicator` prop:
+
+- **`ring`** (default) — Google-style expanding/contracting ring. SVG `<circle>` with `loading-dash` keyframe animating `stroke-dasharray` + `stroke-dashoffset`, wrapped in a rotating SVG.
+- **`spin`** — Ant Design four-dot spinner. Four `<i>` dots absolutely positioned in corners of a 45°-rotated square, each with staggered `animation-delay` and an opacity `alternate` animation. The container rotates continuously.
+- **`think`** — Three bouncing dots with staggered `animationDelay` (0.15s steps), using `yiz-loading-ms-bounce` keyframes.
+
+**Key props:** `loading` (boolean, default `true`), `size` (`'small' | 'default' | 'large'`), `delay` (ms before showing — uses a `setTimeout` that is cleared on unmount/prop change), `tip` (text below spinner).
+
+**Container mode:** When the default slot is used, the spinner is absolutely centered over the content and the content gets `opacity: 0.5; pointer-events: none`. The spinner uses a `<Transition name="yiz-loading-fade">` for enter/leave.
+
+**Custom indicator:** The `#indicator` slot overrides the built-in preset. The `#tip` slot overrides the tip text.
+
 ### Ripple wave animation
 
 Button, Checkbox, and Radio share a ripple wave effect. The `yiz-wave` span uses CSS keyframes `yiz-wave-spread` and `yiz-wave-opacity` defined in `scripts/style.less`. The effect is triggered by briefly adding/removing the `yiz-wave` element via a `ref` toggle with a `nextTick` → `setTimeout` pattern.
@@ -121,6 +135,56 @@ During development, `yiz-ui` is aliased to `./scripts` via both `vite.config.mts
 - **Less** — CSS preprocessor
 - **TypeScript** — strict mode with `noUnusedLocals`, `noImplicitAny`, `strictNullChecks`
 
+### Slot-based declarative children (Menu, ContextMenu, Select, Table)
+
+Menu, ContextMenu, and Select mirror Table's slot-based child extraction pattern. Each has a renderless `-option` child component (`MenuOption`, `ContextMenuOption`, `SelectOption`) whose props and default slot functions are extracted via `useSlots()`:
+
+```ts
+const slotItems = computed(() => {
+  const nodes = slots.default?.() ?? []
+  // iterate VNodes, match on child component type, extract props
+  for (const vnode of nodes) {
+    if (vnode.type === MenuOptionComp && vnode.props) { ... }
+  }
+})
+```
+
+The `allItems` computed falls back to the `items` prop when no slot children are provided. Both APIs coexist — consumers can use either `<y-menu-option>` children or `:items`.
+
+### Menu and ContextMenu
+
+Both components share the same architecture:
+- **`Menu.vue` / `ContextMenu.vue`** — main SFC rendering a vertical list of items (label, icon, arrow for submenus)
+- **`MenuOption.vue` / `ContextMenuOption.vue`** — renderless declarative child for slot-based usage
+- **`IconRenderer.vue`** (`scripts/menu/IconRenderer.vue`) — shared internal utility that renders icon VNodes; used by both Menu and ContextMenu
+
+**Menu modes:**
+- **Default** — sidebar with expandable submenus (inline expand/collapse with `<Transition>`)
+- **`collapsed`** — sidebar collapsed to icon-only width (56px); childless items wrap in `<Tooltip>`; items with children show Teleported popups at `z-index: 3000`
+- **`popup`** — floating menu for nested submenus; uses Teleported popups at `z-index: 3100` with viewport edge detection for horizontal overflow
+
+**ContextMenu submenus** — nested submenus render inline and position with `position: absolute; left: 100%`. Submenu placement flips to `right: 100%` when the submenu would overflow the viewport right edge, and flips vertically when it would overflow the bottom.
+
+**v-model:** Menu uses `defineModel<any>('modelValue')` to track the currently selected item value.
+
+### Select
+
+A dropdown selection component combining several patterns:
+- **Teleported dropdown** — `<Teleport to="body">` with `position: fixed` positioned via `getBoundingClientRect()` on the trigger element
+- **z-index** — calls `nextZIndex()` on open, dropdown renders at `zIndex + 1`
+- **Click-outside** — document-level `click` listener (capture phase) closes the dropdown when clicking outside trigger + dropdown refs
+- **Keyboard** — Escape to close, ArrowUp/ArrowDown to navigate `hoverIndex`, Enter to select
+- **Search** — optional `search` prop (sync or async function returning filtered `SelectOption[]`); renders an `<Input>` in the dropdown
+- **`defineModel`** — `defineModel<any>('modelValue')` tracks selected value
+
+### Click-outside and document listeners
+
+Select and Dialog/Drawer register document-level event listeners on mount and remove them on unmount:
+- **Select** — document `click` (capture), document `keydown`, window `resize`
+- **Dialog/Drawer** — document `keydown` (Escape to close)
+
+Always pair `onMounted` listeners with corresponding `onBeforeUnmount` cleanup.
+
 ## Conventions
 
 - No semicolons, single quotes, 120-char print width, trailing commas disabled (see `.prettierrc`)
@@ -129,4 +193,5 @@ During development, `yiz-ui` is aliased to `./scripts` via both `vite.config.mts
 - v-model uses `defineModel` (Vue 3.4+)
 - Styles are non-scoped Less, namespaced with `yiz-` prefix
 - Components that share state use `provide`/`inject` with a string key prefixed `yiz` (e.g. `'yizCheckboxGroup'`)
-- Overlay components (Dialog, Drawer) use `<Teleport to="body">` with `scripts/zIndex.ts` for stacking
+- Overlay components (Dialog, Drawer, Select) use `<Teleport to="body">` with `scripts/zIndex.ts` for stacking
+- Document event listeners registered in `onMounted` must be cleaned up in `onBeforeUnmount`
