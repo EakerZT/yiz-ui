@@ -3,91 +3,62 @@
     <h2 class="demo-section-title">Menu 导航菜单</h2>
     <p class="demo-section-desc">垂直导航菜单，支持子菜单和选中状态。</p>
 
-    <div class="demo-row">
-      <span class="demo-label">基础</span>
-      <div class="demo-items">
-        <span class="demo-item"><y-menu v-model:select="v1" :items="opts" @select="onSelect" /></span>
-        <span class="demo-item-hint">选中: {{ v1 }}</span>
-      </div>
-    </div>
+    <y-card title="基础" style="margin-top: 8px">
+      <y-menu v-model:select="v1" :items="opts" @select="onSelect" />
+      <span class="demo-hint">选中: {{ v1 }}</span>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">子菜单</span>
-      <div class="demo-items">
-        <span class="demo-item"><y-menu v-model:select="v2" :items="navItems" @select="onSelect2" /></span>
-        <span class="demo-item-hint">选中: {{ v2 }}</span>
-      </div>
-    </div>
+    <y-card title="子菜单" style="margin-top: 8px">
+      <y-menu v-model:select="v2" :items="navItems" @select="onSelect2" />
+      <span class="demo-hint">选中: {{ v2 }}</span>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">插槽</span>
-      <div class="demo-items">
-        <span class="demo-item">
-          <y-menu v-model:select="v3" @select="onSelect3">
-            <y-menu-option label="查看" value="view" />
-            <y-menu-option label="编辑" value="edit" />
-            <y-menu-option label="删除" value="delete" />
-          </y-menu>
-        </span>
-        <span class="demo-item-hint">选中: {{ v3 }}</span>
-      </div>
-    </div>
+    <y-card title="插槽" style="margin-top: 8px">
+      <y-menu v-model:select="v3" @select="onSelect3">
+        <y-menu-option label="查看" value="view" />
+        <y-menu-option label="编辑" value="edit" />
+        <y-menu-option label="删除" value="delete" />
+      </y-menu>
+      <span class="demo-hint">选中: {{ v3 }}</span>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">自定义渲染</span>
-      <div class="demo-items">
-        <span class="demo-item">
-          <y-menu v-model:select="v4" :items="navItems" @select="onSelect4">
-            <template #item="{ item }">
-              <span style="display: flex; align-items: center; gap: 6px">
-                <span style="color: var(--yiz-color-primary); font-weight: 600">·</span>
-                {{ item.label }}
-              </span>
-            </template>
-          </y-menu>
-        </span>
-        <span class="demo-item-hint">选中: {{ v4 }}</span>
-      </div>
-    </div>
+    <y-card title="自定义渲染" style="margin-top: 8px">
+      <y-menu v-model:select="v4" :items="navItems" @select="onSelect4">
+        <template #item="{ item }">
+          <span style="display: flex; align-items: center; gap: 6px">
+            <span style="color: var(--yiz-color-primary); font-weight: 600">·</span>
+            {{ item.label }}
+          </span>
+        </template>
+      </y-menu>
+      <span class="demo-hint">选中: {{ v4 }}</span>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">图标-字符串</span>
-      <div class="demo-items">
-        <span class="demo-item">
-          <y-menu v-model:select="v5" :items="iconItems" @select="onSelect5">
-            <template #icon="{ icon }">
-              <Icon :icon="iconMap[icon]" />
-            </template>
-          </y-menu>
-        </span>
-        <span class="demo-item-hint">选中: {{ v5 }}</span>
-      </div>
-    </div>
+    <y-card title="图标-字符串" style="margin-top: 8px">
+      <y-menu v-model:select="v5" :items="iconItems" @select="onSelect5">
+        <template #icon="{ icon }">
+          <Icon :icon="iconMap[icon]" />
+        </template>
+      </y-menu>
+      <span class="demo-hint">选中: {{ v5 }}</span>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">图标-函数</span>
-      <div class="demo-items">
-        <span class="demo-item">
-          <y-menu v-model:select="v6" :items="fnIconItems" @select="onSelect6" />
-        </span>
-        <span class="demo-item-hint">选中: {{ v6 }}</span>
-      </div>
-    </div>
+    <y-card title="图标-函数" style="margin-top: 8px">
+      <y-menu v-model:select="v6" :items="fnIconItems" @select="onSelect6" />
+      <span class="demo-hint">选中: {{ v6 }}</span>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">折叠</span>
-      <div class="demo-items">
-        <span class="demo-item" style="display: flex; align-items: flex-start; gap: 12px">
-          <y-menu v-model:select="v7" :items="collapsedItems" :collapsed="collapsed" @select="onSelect7">
-            <template #icon="{ icon }">
-              <Icon :icon="iconMap[icon]" />
-            </template>
-          </y-menu>
-          <y-button size="small" @click="collapsed = !collapsed">{{ collapsed ? '展开' : '折叠' }}</y-button>
-        </span>
-        <span class="demo-item-hint">选中: {{ v7 }}</span>
+    <y-card title="折叠" style="margin-top: 8px">
+      <div style="display: flex; align-items: flex-start; gap: 12px">
+        <y-menu v-model:select="v7" :items="collapsedItems" :collapsed="collapsed" @select="onSelect7">
+          <template #icon="{ icon }">
+            <Icon :icon="iconMap[icon]" />
+          </template>
+        </y-menu>
+        <y-button size="small" @click="collapsed = !collapsed">{{ collapsed ? '展开' : '折叠' }}</y-button>
       </div>
-    </div>
+      <span class="demo-hint">选中: {{ v7 }}</span>
+    </y-card>
   </section>
 </template>
 
@@ -216,11 +187,20 @@ const fnIconItems = [
   { label: '关于', value: 'info', icon: () => h(Icon, { icon: Info20Regular }) }
 ]
 
-function onSelect(item: any) {}
-function onSelect2(item: any) {}
-function onSelect3(item: any) {}
-function onSelect4(item: any) {}
-function onSelect5(item: any) {}
-function onSelect6(item: any) {}
-function onSelect7(item: any) {}
+function onSelect(_item: any) {}
+function onSelect2(_item: any) {}
+function onSelect3(_item: any) {}
+function onSelect4(_item: any) {}
+function onSelect5(_item: any) {}
+function onSelect6(_item: any) {}
+function onSelect7(_item: any) {}
 </script>
+
+<style scoped>
+.demo-hint {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 12px;
+  color: #999;
+}
+</style>

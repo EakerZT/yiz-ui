@@ -5,12 +5,9 @@
       <span class="demo-header-sub">Vue 3 组件库</span>
     </header>
     <div class="demo-body">
-      <y-menu
-        v-model:select="currentPage"
-        :items="menuItems"
-        :width="200"
-        @select="onNavSelect"
-      />
+      <aside class="demo-sidebar">
+        <y-menu v-model:select="currentPage" :items="menuItems" :width="200" @select="onNavSelect" />
+      </aside>
       <main class="demo-main">
         <component :is="currentDemo" />
       </main>
@@ -20,8 +17,8 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { Menu } from 'yiz-ui'
 import ButtonDemo from './pages/ButtonDemo.vue'
+import CardDemo from './pages/CardDemo.vue'
 import CheckboxDemo from './pages/CheckboxDemo.vue'
 import ContextMenuDemo from './pages/ContextMenuDemo.vue'
 import InputDemo from './pages/InputDemo.vue'
@@ -34,12 +31,14 @@ import SelectDemo from './pages/SelectDemo.vue'
 import SwitchDemo from './pages/SwitchDemo.vue'
 import TabDemo from './pages/TabDemo.vue'
 import TableDemo from './pages/TableDemo.vue'
+import TagDemo from './pages/TagDemo.vue'
 import DialogDemo from './pages/DialogDemo.vue'
 import DrawerDemo from './pages/DrawerDemo.vue'
 import TooltipDemo from './pages/TooltipDemo.vue'
 
 const pages: Record<string, any> = {
   button: ButtonDemo,
+  card: CardDemo,
   checkbox: CheckboxDemo,
   'context-menu': ContextMenuDemo,
   dialog: DialogDemo,
@@ -53,12 +52,14 @@ const pages: Record<string, any> = {
   switch: SwitchDemo,
   tab: TabDemo,
   table: TableDemo,
+  tag: TagDemo,
   tooltip: TooltipDemo,
-  icon: IconDemo,
+  icon: IconDemo
 }
 
 const menuItems = [
   { label: 'Button 按钮', value: 'button' },
+  { label: 'Card 卡片', value: 'card' },
   { label: 'Checkbox 复选', value: 'checkbox' },
   { label: 'ContextMenu 菜单', value: 'context-menu' },
   { label: 'Dialog 弹窗', value: 'dialog' },
@@ -73,7 +74,8 @@ const menuItems = [
   { label: 'Switch 开关', value: 'switch' },
   { label: 'Tab 标签页', value: 'tab' },
   { label: 'Table 表格', value: 'table' },
-  { label: 'Tooltip 提示', value: 'tooltip' },
+  { label: 'Tag 标签', value: 'tag' },
+  { label: 'Tooltip 提示', value: 'tooltip' }
 ]
 
 function getPageFromHash(): string {
@@ -103,14 +105,19 @@ onUnmounted(() => {
 </script>
 
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 .demo-layout {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   background: #f5f7fa;
   color: #333;
+  overflow: hidden;
 }
 
 .demo-header {
@@ -121,9 +128,7 @@ onUnmounted(() => {
   padding: 0 24px;
   background: #fff;
   border-bottom: 1px solid #e8e8e8;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  flex-shrink: 0;
 }
 .demo-header h1 {
   font-size: 20px;
@@ -138,12 +143,19 @@ onUnmounted(() => {
 .demo-body {
   display: flex;
   flex: 1;
+  overflow: hidden;
+}
+
+.demo-sidebar {
+  height: 100%;
+  overflow-y: auto;
+  flex-shrink: 0;
 }
 
 .demo-main {
   flex: 1;
   padding: 24px 32px;
-  max-width: 960px;
+  overflow-y: auto;
 }
 
 .demo-section {

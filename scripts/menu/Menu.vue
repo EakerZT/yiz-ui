@@ -1,13 +1,13 @@
 <template>
-  <div
-    class="yiz-menu"
-    :class="{ 'yiz-menu-collapsed': collapsed }"
-    :style="{ width: collapsed ? '56px' : menuWidth }"
-  >
+  <div class="yiz-menu" :class="{ 'yiz-menu-collapsed': collapsed }" :style="{ width: collapsed ? '56px' : menuWidth }">
     <template v-for="(item, idx) in allItems" :key="idx">
       <!-- collapsed item without children: wrap in Tooltip -->
       <Tooltip v-if="collapsed && !item.children?.length" :content="item.label" placement="right">
-        <div class="yiz-menu-item" :class="{ 'yiz-menu-item-selected': isSelected(item), 'yiz-menu-item-ancestor': isAncestor(item) }" @click="onItemClick(item)">
+        <div
+          class="yiz-menu-item"
+          :class="{ 'yiz-menu-item-selected': isSelected(item), 'yiz-menu-item-ancestor': isAncestor(item) }"
+          @click="onItemClick(item)"
+        >
           <span class="yiz-menu-item-icon">
             <template v-if="item.icon">
               <template v-if="typeof item.icon === 'string'">
@@ -112,7 +112,6 @@
     <template #icon="scope"><slot name="icon" v-bind="scope" /></template>
     <template #item="scope"><slot name="item" v-bind="scope" /></template>
   </PopupSubMenu>
-
 </template>
 
 <script lang="ts" setup>
@@ -284,7 +283,6 @@ function onCollapsedPopupSelect(item: MenuItem) {
   emit('select', item)
   popupItem.value = null
 }
-
 </script>
 
 <style lang="less">
@@ -294,6 +292,7 @@ function onCollapsedPopupSelect(item: MenuItem) {
   background: #fff;
   padding: 4px 0;
   transition: width 0.2s;
+  height: 100%;
 }
 
 .yiz-menu-collapsed {
@@ -375,5 +374,4 @@ function onCollapsedPopupSelect(item: MenuItem) {
     transform: rotate(90deg);
   }
 }
-
 </style>

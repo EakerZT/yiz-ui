@@ -1,132 +1,97 @@
 <template>
-  <div class="demo-section">
+  <section class="demo-section">
     <h2 class="demo-section-title">Loading 加载</h2>
     <p class="demo-section-desc">页面或容器局部加载时使用的动画图标。</p>
 
-    <!-- indicator 类型 -->
-    <h3 class="demo-sub-title">Indicator 类型</h3>
-    <div class="demo-row">
-      <div class="demo-items" style="gap: 48px">
-        <div class="demo-item-icon">
-          <Loading />
-          <em>google</em>
-        </div>
-        <div class="demo-item-icon">
-          <Loading indicator="spin" />
-          <em>ant</em>
-        </div>
-        <div class="demo-item-icon">
-          <Loading indicator="think" />
-          <em>microsoft</em>
-        </div>
-      </div>
-    </div>
+    <y-card title="Indicator 类型" style="margin-top: 8px">
+      <y-button-group>
+        <span class="demo-loading-item">
+          <y-loading />
+          <em>ring</em>
+        </span>
+        <span class="demo-loading-item">
+          <y-loading indicator="spin" />
+          <em>spin</em>
+        </span>
+        <span class="demo-loading-item">
+          <y-loading indicator="think" />
+          <em>think</em>
+        </span>
+      </y-button-group>
+    </y-card>
 
-    <!-- 尺寸 -->
-    <h3 class="demo-sub-title">尺寸</h3>
-    <div class="demo-row">
-      <div class="demo-items" style="gap: 24px">
-        <div class="demo-item-icon">
-          <Loading size="small" />
+    <y-card title="尺寸" style="margin-top: 8px">
+      <y-button-group>
+        <span class="demo-loading-item">
+          <y-loading size="small" />
           <em>small</em>
-        </div>
-        <div class="demo-item-icon">
-          <Loading />
+        </span>
+        <span class="demo-loading-item">
+          <y-loading />
           <em>default</em>
-        </div>
-        <div class="demo-item-icon">
-          <Loading size="large" />
+        </span>
+        <span class="demo-loading-item">
+          <y-loading size="large" />
           <em>large</em>
+        </span>
+      </y-button-group>
+    </y-card>
+
+    <y-card title="加载文案" style="margin-top: 8px">
+      <y-loading tip="Loading..." />
+    </y-card>
+
+    <y-card title="容器模式" style="margin-top: 8px">
+      <y-loading :loading="containerLoading">
+        <div class="demo-loading-content">
+          <p>这是被包裹的内容区域</p>
+          <p>加载中时会半透明且不可交互</p>
         </div>
+      </y-loading>
+      <div style="margin-top: 8px">
+        <y-button size="small" @click="containerLoading = !containerLoading">
+          {{ containerLoading ? '停止加载' : '开始加载' }}
+        </y-button>
       </div>
-    </div>
+    </y-card>
 
-    <!-- 加载文案 -->
-    <h3 class="demo-sub-title">加载文案</h3>
-    <div class="demo-row">
-      <div class="demo-items">
-        <Loading tip="Loading..." />
+    <y-card title="延迟显示" style="margin-top: 8px">
+      <y-loading :loading="delayLoading" :delay="500" tip="延迟 500ms 显示" />
+      <div style="margin-top: 8px">
+        <y-button size="small" @click="delayLoading = !delayLoading">
+          {{ delayLoading ? '停止加载' : '开始加载' }}
+        </y-button>
       </div>
-    </div>
-
-    <!-- 容器模式 -->
-    <h3 class="demo-sub-title">容器模式</h3>
-    <div class="demo-row">
-      <div class="demo-items">
-        <Loading :loading="containerLoading" style="width: 100%">
-          <div class="demo-loading-content">
-            <h4>内容区域</h4>
-            <p>这是被 loading 覆盖的内容区域。</p>
-            <p>当 loading 状态为 true 时，内容会被遮罩覆盖。</p>
-          </div>
-        </Loading>
-      </div>
-    </div>
-    <div class="demo-row">
-      <button class="demo-btn" @click="containerLoading = !containerLoading">
-        {{ containerLoading ? '停止' : '开始' }}加载
-      </button>
-    </div>
-
-    <!-- 延迟显示 -->
-    <h3 class="demo-sub-title">延迟显示</h3>
-    <p class="demo-section-desc">设置 delay 可以避免接口响应过快时出现闪烁。</p>
-    <div class="demo-row">
-      <div class="demo-items">
-        <Loading :loading="delayLoading" :delay="500" tip="延迟 500ms 显示" />
-      </div>
-    </div>
-    <div class="demo-row">
-      <button class="demo-btn" @click="delayLoading = !delayLoading">toggle（500ms delay）</button>
-    </div>
-  </div>
+    </y-card>
+  </section>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Loading } from 'yiz-ui'
 
 const containerLoading = ref(true)
 const delayLoading = ref(false)
 </script>
 
 <style scoped>
-h3.demo-sub-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  margin-top: 28px;
-  color: #444;
+.demo-loading-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
 }
-
-.demo-btn {
-  padding: 6px 16px;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  background: #fff;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s;
+.demo-loading-item em {
+  font-style: normal;
+  color: #bbb;
 }
-
-.demo-btn:hover {
-  border-color: var(--yiz-color-primary);
-  color: var(--yiz-color-primary);
-}
-
 .demo-loading-content {
-  padding: 24px;
-  border: 1px solid #e8e8e8;
+  padding: 20px;
+  background: #fafafa;
+  border: 1px dashed #d9d9d9;
   border-radius: 4px;
-  background: #fff;
-  min-height: 120px;
-  line-height: 1.8;
+  font-size: 14px;
   color: #666;
-}
-
-.demo-loading-content h4 {
-  font-size: 16px;
-  margin-bottom: 8px;
-  color: #333;
+  line-height: 1.8;
 }
 </style>

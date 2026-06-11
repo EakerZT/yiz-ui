@@ -121,6 +121,10 @@ Hover-triggered tooltip with `placement` (`top` | `bottom` | `left` | `right`), 
 - **`Tab.vue`** — main container using slot-based child extraction to find `TabPane` children. Extracts `label`, `value`, `disabled` props from each pane, renders a header row with a sliding active indicator bar, and renders the default slot (which TabPane children control via `v-show`). Uses `v-model:active` (`defineModel`), emits `select` event.
 - **`TabPane.vue`** — renderless child that declares `label` / `value` / `disabled` props and a default slot for content. Injects `'yizTab'` context and uses `v-show` to toggle visibility based on whether its `value` matches the parent's `active`.
 
+### Tag (`scripts/tag/`)
+
+Small label/tag component with preset colors and custom hex color support. Props: `color` (`'default' | 'primary' | 'success' | 'warning' | 'error'` or a `#rrggbb` hex string — hex values use `@ctrl/tinycolor` to derive `--yiz-tag-*` CSS custom properties for background, text, border, and close-button hover), `closable` (renders an inline SVG close icon, emits `close`), `size` (`'default' | 'small' | 'large'`), `bordered`. Default slot for tag content.
+
 ### Ripple wave animation
 
 Button, Checkbox, Radio, and Switch share a ripple wave effect. The `yiz-wave` span uses CSS keyframes `yiz-wave-spread` and `yiz-wave-opacity` defined in `scripts/style.less`. The effect is triggered by briefly adding/removing the `yiz-wave` element via a `ref` toggle with a `nextTick` → `setTimeout` pattern.
@@ -174,6 +178,8 @@ Both components share the same architecture:
 **Menu modes:**
 - **Default** — sidebar with expandable submenus (inline expand/collapse with `<Transition>`)
 - **`collapsed`** — sidebar collapsed to icon-only width (56px); childless items wrap in `<Tooltip>`; items with children show Teleported popups at `z-index: 3000`
+
+**ContextMenu item types** — ContextMenu supports five item `type` values: `item`, `divider`, `submenu`, `checkbox`, and `radiogroup`. The `checkbox` and `radiogroup` types are unique to ContextMenu (not in Menu). Checkbox items maintain a `checkedValues: Set<any>` so multiple can be toggled independently. Radiogroup items use `name` to group selections and store the active value in `radioValues: Map<string, any>`. Both emit `select` with the item + a `checked` boolean.
 
 **ContextMenu submenus** — nested submenus render inline and position with `position: absolute; left: 100%`. Submenu placement flips to `right: 100%` when the submenu would overflow the viewport right edge, and flips vertically when it would overflow the bottom.
 

@@ -5,120 +5,94 @@
       支持 default / primary / plain 三种类型，多种预设颜色和自定义颜色，以及圆形、圆角形状。
     </p>
 
-    <div class="demo-row">
-      <span class="demo-label">Type</span>
-      <div class="demo-items">
-        <span class="demo-item"><y-button>default</y-button></span>
-        <span class="demo-item"><y-button type="primary">primary</y-button></span>
-        <span class="demo-item"><y-button type="plain">plain</y-button></span>
-      </div>
-    </div>
+    <y-card title="基本">
+      <y-button-group>
+        <y-button>default</y-button>
+        <y-button type="primary">primary</y-button>
+        <y-button type="plain">plain</y-button>
+      </y-button-group>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">Color</span>
-      <div class="demo-items">
-        <span class="demo-item"><y-button type="primary">default</y-button></span>
-        <span class="demo-item"><y-button type="primary" color="success">success</y-button></span>
-        <span class="demo-item"><y-button type="primary" color="warning">warning</y-button></span>
-        <span class="demo-item"><y-button type="primary" color="error">error</y-button></span>
-      </div>
-    </div>
+    <y-card title="Color" style="margin-top: 8px">
+      <y-button-group>
+        <y-button type="primary">default</y-button>
+        <y-button type="primary" color="success">success</y-button>
+        <y-button type="primary" color="warning">warning</y-button>
+        <y-button type="primary" color="error">error</y-button>
+      </y-button-group>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">自定义色</span>
-      <div class="demo-items">
-        <span class="demo-item"><y-button color="#8a2be2">#8a2be2</y-button></span>
-        <span class="demo-item"><y-button type="primary" color="#8a2be2">#8a2be2</y-button></span>
-        <span class="demo-item"><y-button type="plain" color="#8a2be2">#8a2be2</y-button></span>
-      </div>
-    </div>
+    <y-card title="自定义色" style="margin-top: 8px">
+      <y-button-group>
+        <y-button color="#8a2be2">#8a2be2</y-button>
+        <y-button type="primary" color="#8a2be2">#8a2be2</y-button>
+        <y-button type="plain" color="#8a2be2">#8a2be2</y-button>
+      </y-button-group>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">Shape</span>
-      <div class="demo-items">
-        <span class="demo-item"><y-button type="primary">default</y-button></span>
-        <span class="demo-item"><y-button type="primary" shape="round">round</y-button></span>
-        <span class="demo-item"><y-button type="primary" shape="circle">A</y-button></span>
-      </div>
-    </div>
+    <y-card title="Shape" style="margin-top: 8px">
+      <y-button-group>
+        <y-button type="primary">default</y-button>
+        <y-button type="primary" shape="round">round</y-button>
+        <y-button type="primary" shape="circle">A</y-button>
+      </y-button-group>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">带图标</span>
-      <div class="demo-items">
-        <span class="demo-item">
-          <y-button type="primary">
-            <y-icon :icon="Flash20Regular" />
-            Search
-          </y-button>
-        </span>
-        <span class="demo-item">
-          <y-button type="primary" shape="circle">
-            <y-icon :icon="Flash20Regular" />
-          </y-button>
-        </span>
-      </div>
-    </div>
+    <y-card title="带图标" style="margin-top: 8px">
+      <y-button-group>
+        <y-button type="primary">
+          <y-icon :icon="Flash20Regular" />
+          Search
+        </y-button>
+        <y-button type="primary" shape="circle">
+          <y-icon :icon="Flash20Regular" />
+        </y-button>
+      </y-button-group>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">Disabled</span>
-      <div class="demo-items">
-        <span class="demo-item"><y-button disabled>default</y-button></span>
-        <span class="demo-item"><y-button type="primary" disabled>primary</y-button></span>
-        <span class="demo-item"><y-button type="plain" disabled>plain</y-button></span>
-      </div>
-    </div>
+    <y-card title="Disabled" style="margin-top: 8px">
+      <y-button-group>
+        <y-button disabled>default</y-button>
+        <y-button type="primary" disabled>primary</y-button>
+        <y-button type="plain" disabled>plain</y-button>
+      </y-button-group>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">点击事件</span>
-      <div class="demo-items">
-        <span class="demo-item"
-          ><y-button @click="count++">点击次数: {{ count }}</y-button></span
-        >
-      </div>
-    </div>
+    <y-card title="点击事件" style="margin-top: 8px">
+      <y-button @click="count++">点击次数: {{ count }}</y-button>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">Link 文字按钮</span>
-      <div class="demo-items">
-        <span class="demo-item"><y-link-button>primary</y-link-button></span>
-        <span class="demo-item"><y-link-button color="default">default</y-link-button></span>
-        <span class="demo-item"><y-link-button color="success">success</y-link-button></span>
-        <span class="demo-item"><y-link-button color="warning">warning</y-link-button></span>
-        <span class="demo-item"><y-link-button color="error">error</y-link-button></span>
-      </div>
-    </div>
+    <y-card title="Link 文字按钮" style="margin-top: 8px">
+      <y-button-group>
+        <y-link-button>primary</y-link-button>
+        <y-link-button color="default">default</y-link-button>
+        <y-link-button color="success">success</y-link-button>
+        <y-link-button color="warning">warning</y-link-button>
+        <y-link-button color="error">error</y-link-button>
+      </y-button-group>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">Link 自定义色</span>
-      <div class="demo-items">
-        <span class="demo-item"><y-link-button color="#8a2be2">#8a2be2</y-link-button></span>
-        <span class="demo-item"><y-link-button color="#ff6b35">#ff6b35</y-link-button></span>
-      </div>
-    </div>
+    <y-card title="Link 自定义色" style="margin-top: 8px">
+      <y-button-group>
+        <y-link-button color="#8a2be2">#8a2be2</y-link-button>
+        <y-link-button color="#ff6b35">#ff6b35</y-link-button>
+      </y-button-group>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">Link 下划线</span>
-      <div class="demo-items">
-        <span class="demo-item"><y-link-button underline>hover 显示下划线</y-link-button></span>
-      </div>
-    </div>
+    <y-card title="Link 下划线" style="margin-top: 8px">
+      <y-link-button underline>hover 显示下划线</y-link-button>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">Link 禁用</span>
-      <div class="demo-items">
-        <span class="demo-item"><y-link-button disabled>disabled</y-link-button></span>
-        <span class="demo-item"><y-link-button color="error" disabled>error disabled</y-link-button></span>
-      </div>
-    </div>
+    <y-card title="Link 禁用" style="margin-top: 8px">
+      <y-button-group>
+        <y-link-button disabled>disabled</y-link-button>
+        <y-link-button color="error" disabled>error disabled</y-link-button>
+      </y-button-group>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">Link 点击</span>
-      <div class="demo-items">
-        <span class="demo-item"
-          ><y-link-button @click="linkCount++">点击次数: {{ linkCount }}</y-link-button></span
-        >
-      </div>
-    </div>
+    <y-card title="Link 点击" style="margin-top: 8px">
+      <y-link-button @click="linkCount++">点击次数: {{ linkCount }}</y-link-button>
+    </y-card>
   </section>
 </template>
 

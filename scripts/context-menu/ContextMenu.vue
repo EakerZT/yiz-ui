@@ -300,7 +300,7 @@ function onChildSelect(item: ContextMenuItem) {
 .yiz-context-menu-item {
   display: flex;
   align-items: center;
-  height: 36px;
+  height: 24px;
   border-radius: 4px;
   margin: 4px;
   padding: 0 12px;

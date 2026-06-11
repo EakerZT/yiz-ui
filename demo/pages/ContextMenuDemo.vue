@@ -3,29 +3,19 @@
     <h2 class="demo-section-title">ContextMenu 右键菜单</h2>
     <p class="demo-section-desc">弹出式菜单，支持普通项、分割线、子菜单、复选框和单选框。</p>
 
-    <div class="demo-row">
-      <span class="demo-label">综合</span>
-      <div class="demo-items">
-        <span class="demo-item">
-          <y-context-menu :items="allItems" @select="onSelect1">
-            <template #icon="{ icon }">
-              <Icon size="16" :icon="iconMap[icon]" />
-            </template>
-          </y-context-menu>
-        </span>
-        <span class="demo-item-hint">选中: {{ last1 }}</span>
-      </div>
-    </div>
+    <y-card title="综合" style="margin-top: 8px">
+      <y-context-menu :items="allItems" @select="onSelect1">
+        <template #icon="{ icon }">
+          <Icon size="16" :icon="iconMap[icon]" />
+        </template>
+      </y-context-menu>
+      <span class="demo-hint">选中: {{ last1 }}</span>
+    </y-card>
 
-    <div class="demo-row">
-      <span class="demo-label">函数调用</span>
-      <div class="demo-items">
-        <span class="demo-item">
-          <y-button @click="onShowMenu">点击弹出</y-button>
-        </span>
-        <span class="demo-item-hint">{{ last2 }}</span>
-      </div>
-    </div>
+    <y-card title="函数调用" style="margin-top: 8px">
+      <y-button @click="onShowMenu">点击弹出</y-button>
+      <span class="demo-hint">{{ last2 }}</span>
+    </y-card>
   </section>
 </template>
 
@@ -94,3 +84,12 @@ function onShowMenu(e: MouseEvent) {
   })
 }
 </script>
+
+<style scoped>
+.demo-hint {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 12px;
+  color: #999;
+}
+</style>
