@@ -7,7 +7,7 @@
     @pointerleave="onHostPointerLeave"
     @pointermove="onHostPointerMove"
   >
-    <div class="yiz-scroll-box-viewport" ref="viewportRef" @scroll="onScroll">
+    <div class="yiz-scroll-box-viewport" ref="viewportRef" @scroll="onScroll($event)">
       <slot />
     </div>
 
@@ -15,7 +15,7 @@
       ref="trackVRef"
       class="yiz-scroll-box-track yiz-scroll-box-track-v"
       :class="trackVClasses"
-      :style="trackVStyle"
+      :style="{ ...trackVStyle, zIndex: props.zIndex }"
       @pointerenter="onTrackPointerEnter"
       @pointerleave="onTrackPointerLeave"
       @pointerdown="onTrackPointerDown($event, 'v')"
@@ -31,7 +31,7 @@
       ref="trackHRef"
       class="yiz-scroll-box-track yiz-scroll-box-track-h"
       :class="trackHClasses"
-      :style="trackHStyle"
+      :style="{ ...trackHStyle, zIndex: props.zIndex }"
       @pointerenter="onTrackPointerEnter"
       @pointerleave="onTrackPointerLeave"
       @pointerdown="onTrackPointerDown($event, 'h')"
@@ -43,7 +43,7 @@
       />
     </div>
 
-    <div v-if="vVisible && hVisible" class="yiz-scroll-box-corner" />
+    <div v-if="vVisible && hVisible" class="yiz-scroll-box-corner" :style="{ zIndex: props.zIndex }" />
   </div>
 </template>
 
@@ -62,18 +62,24 @@ const props = withDefaults(
     theme?: string | null
     overflowX?: 'hidden' | 'visible' | 'scroll' | 'auto'
     overflowY?: 'hidden' | 'visible' | 'scroll' | 'auto'
+    zIndex?: number
   }>(),
   {
     autoHide: 'never',
     autoHideDelay: 1300,
     theme: null,
     overflowX: 'auto',
-    overflowY: 'auto'
+    overflowY: 'auto',
+    zIndex: 1
   }
 )
 
 defineSlots<{
   default?: any
+}>()
+
+const emit = defineEmits<{
+  scroll: [event: Event]
 }>()
 
 // ==================== Refs ====================
@@ -223,9 +229,10 @@ function sync() {
 
 // ==================== Scroll ====================
 
-function onScroll() {
+function onScroll(e: Event) {
   sync()
   handleAutoHideOnScroll()
+  emit('scroll', e)
 }
 
 // ==================== Auto-hide ====================
@@ -418,17 +425,39 @@ function onScrollbarWheel(e: WheelEvent, _dir: 'v' | 'h') {
 // ==================== Lifecycle ====================
 
 let resizeObserver: ResizeObserver | null = null
+let mutationObserver: MutationObserver | null = null
+let mutationRafId: number | null = null
+
+function scheduleSync() {
+  if (mutationRafId !== null) return
+  mutationRafId = requestAnimationFrame(() => {
+    mutationRafId = null
+    sync()
+    handleAutoHideOnScroll()
+  })
+}
 
 onMounted(() => {
   sync()
 
-  // observe viewport for size changes
   if (viewportRef.value) {
+    // observe viewport for size changes
     resizeObserver = new ResizeObserver(() => {
       sync()
       handleAutoHideOnScroll()
     })
     resizeObserver.observe(viewportRef.value)
+
+    // observe content changes (dynamic content, images loading, etc.)
+    mutationObserver = new MutationObserver(() => {
+      scheduleSync()
+    })
+    mutationObserver.observe(viewportRef.value, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributes: true
+    })
   }
 
   // detect RTL
@@ -445,12 +474,22 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   resizeObserver?.disconnect()
+  mutationObserver?.disconnect()
+  if (mutationRafId !== null) {
+    cancelAnimationFrame(mutationRafId)
+    mutationRafId = null
+  }
   clearAutoHideTimers()
 
   if (dragState) {
     document.body.style.userSelect = ''
     dragState = null
   }
+})
+
+defineExpose({
+  viewport: viewportRef,
+  sync
 })
 </script>
 

@@ -124,7 +124,7 @@
     </y-card>
 
     <y-card title="固定列" style="margin-top: 8px">
-      <div style="height: 300px">
+      <div style="height: 200px">
         <y-table :data="fixedData" bordered resize no select-mode="single">
           <y-table-column label="姓名" field="name" width="120px" fixed="left" />
           <y-table-column label="年龄" field="age" width="80px" align="center" fixed="left" />
@@ -201,11 +201,61 @@ interface FixedRow {
 }
 
 const fixedData: FixedRow[] = [
-  { name: '张三', age: 28, dept: '技术部', title: '前端开发', city: '北京', phone: '13800138001', email: 'zhangsan@test.com', date: '2022-03-15', action: '编辑' },
-  { name: '李四', age: 35, dept: '产品部', title: '产品经理', city: '上海', phone: '13800138002', email: 'lisi@test.com', date: '2020-07-01', action: '编辑' },
-  { name: '王五', age: 22, dept: '技术部', title: '后端开发', city: '广州', phone: '13800138003', email: 'wangwu@test.com', date: '2024-01-10', action: '编辑' },
-  { name: '赵六', age: 30, dept: '设计部', title: 'UI设计', city: '深圳', phone: '13800138004', email: 'zhaoliu@test.com', date: '2021-06-20', action: '编辑' },
-  { name: '孙七', age: 41, dept: '技术部', title: '架构师', city: '杭州', phone: '13800138005', email: 'sunqi@test.com', date: '2019-09-01', action: '编辑' }
+  {
+    name: '张三',
+    age: 28,
+    dept: '技术部',
+    title: '前端开发',
+    city: '北京',
+    phone: '13800138001',
+    email: 'zhangsan@test.com',
+    date: '2022-03-15',
+    action: '编辑'
+  },
+  {
+    name: '李四',
+    age: 35,
+    dept: '产品部',
+    title: '产品经理',
+    city: '上海',
+    phone: '13800138002',
+    email: 'lisi@test.com',
+    date: '2020-07-01',
+    action: '编辑'
+  },
+  {
+    name: '王五',
+    age: 22,
+    dept: '技术部',
+    title: '后端开发',
+    city: '广州',
+    phone: '13800138003',
+    email: 'wangwu@test.com',
+    date: '2024-01-10',
+    action: '编辑'
+  },
+  {
+    name: '赵六',
+    age: 30,
+    dept: '设计部',
+    title: 'UI设计',
+    city: '深圳',
+    phone: '13800138004',
+    email: 'zhaoliu@test.com',
+    date: '2021-06-20',
+    action: '编辑'
+  },
+  {
+    name: '孙七',
+    age: 41,
+    dept: '技术部',
+    title: '架构师',
+    city: '杭州',
+    phone: '13800138005',
+    email: 'sunqi@test.com',
+    date: '2019-09-01',
+    action: '编辑'
+  }
 ]
 
 const tallData: Row[] = [

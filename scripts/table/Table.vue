@@ -1,7 +1,7 @@
 <template>
   <div ref="tableWrapperRef" class="yiz-table-wrapper" :class="vClass">
     <!-- Header table -->
-    <div class="yiz-table-header-wrapper" ref="headerWrapperRef" :style="{ paddingRight: headerScrollbarGap }">
+    <div class="yiz-table-header-wrapper" ref="headerWrapperRef">
       <table class="yiz-table-header-table">
         <colgroup>
           <col v-for="col in displayColumns" :key="col.field" :style="{ width: colWidth(col) }" />
@@ -53,8 +53,8 @@
     </div>
 
     <!-- Body table -->
-    <div class="yiz-table-body-wrapper" ref="bodyWrapperRef" @scroll="onBodyScroll">
-      <table class="yiz-table-body-table">
+    <ScrollBox ref="bodyScrollBoxRef" class="yiz-table-body-scrollbox" :z-index="4" @scroll="onBodyScroll">
+      <table class="yiz-table-body-table" :class="{ 'yiz-table-no-overflow': !bodyHasOverflow }">
         <colgroup>
           <col v-for="col in displayColumns" :key="col.field" :style="{ width: colWidth(col) }" />
         </colgroup>
@@ -117,7 +117,7 @@
           </tr>
         </tbody>
       </table>
-    </div>
+    </ScrollBox>
 
     <div style="display: none"><slot /></div>
   </div>
@@ -134,6 +134,7 @@ import TableColumnComp from './TableColumn.vue'
 import CellRenderer from './CellRenderer.vue'
 import Checkbox from '../checkbox/Checkbox.vue'
 import Radio from '../radio/Radio.vue'
+import { ScrollBox } from '../scroll-box'
 
 export interface TableColumn {
   label: string
@@ -416,18 +417,8 @@ const vClass = computed(() => ({
 
 const tableWrapperRef = ref<HTMLDivElement>()
 const headerWrapperRef = ref<HTMLDivElement>()
-const bodyWrapperRef = ref<HTMLDivElement>()
+const bodyScrollBoxRef = ref<InstanceType<typeof ScrollBox>>()
 const columnWidths = ref<Record<string, string>>({})
-
-const headerScrollbarGap = ref('')
-
-function syncScrollbarGap() {
-  const body = bodyWrapperRef.value
-  const header = headerWrapperRef.value
-  if (!body || !header) return
-  const gap = body.offsetWidth - body.clientWidth
-  headerScrollbarGap.value = gap > 0 ? `${gap}px` : ''
-}
 
 function computeWidths() {
   const wrapper = tableWrapperRef.value
@@ -481,17 +472,27 @@ function computeWidths() {
   columnWidths.value = widths
 }
 
-function onBodyScroll() {
-  if (headerWrapperRef.value && bodyWrapperRef.value) {
-    headerWrapperRef.value.scrollLeft = bodyWrapperRef.value.scrollLeft
+const bodyHasOverflow = ref(false)
+
+function checkBodyOverflow() {
+  const vp = bodyScrollBoxRef.value?.viewport as HTMLElement | undefined
+  if (vp) {
+    bodyHasOverflow.value = vp.scrollHeight > vp.clientHeight + 1
   }
-  syncScrollbarGap()
+}
+
+function onBodyScroll() {
+  const bodyViewport = bodyScrollBoxRef.value?.viewport as HTMLElement | undefined
+  if (headerWrapperRef.value && bodyViewport) {
+    headerWrapperRef.value.scrollLeft = bodyViewport.scrollLeft
+  }
+  checkBodyOverflow()
 }
 
 onMounted(() => {
   nextTick(() => {
     computeWidths()
-    syncScrollbarGap()
+    onBodyScroll()
   })
 })
 
@@ -577,10 +578,13 @@ onUnmounted(() => {
   overflow: hidden;
 }
 
-.yiz-table-body-wrapper {
+.yiz-table-body-scrollbox {
   flex: 1;
-  overflow: auto;
   min-height: 0;
+}
+
+.yiz-table-bordered .yiz-table-body-scrollbox {
+  border-bottom: 1px solid var(--yiz-color-border, #d9d9d9);
 }
 
 .yiz-table-header-table,
@@ -619,6 +623,7 @@ onUnmounted(() => {
 // bordered
 .yiz-table-bordered {
   border: 1px solid var(--yiz-color-border, #d9d9d9);
+  border-bottom: none;
 }
 
 .yiz-table-bordered .yiz-table-th,
@@ -634,6 +639,11 @@ onUnmounted(() => {
 
 .yiz-table-bordered .yiz-table-body-table tbody tr:last-child .yiz-table-td {
   border-bottom: none;
+}
+
+/* 内容不溢出时，最后一行恢复下边框 */
+.yiz-table-bordered .yiz-table-body-table.yiz-table-no-overflow tbody tr:last-child .yiz-table-td {
+  border-bottom: 1px solid var(--yiz-color-border, #d9d9d9);
 }
 
 // stripe
