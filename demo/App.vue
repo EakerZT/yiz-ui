@@ -27,6 +27,7 @@ import LoadingDemo from './pages/LoadingDemo.vue'
 import MenuDemo from './pages/MenuDemo.vue'
 import IconDemo from './pages/IconDemo.vue'
 import RadioDemo from './pages/RadioDemo.vue'
+import ScrollBoxDemo from './pages/ScrollBoxDemo.vue'
 import SelectDemo from './pages/SelectDemo.vue'
 import SwitchDemo from './pages/SwitchDemo.vue'
 import TabDemo from './pages/TabDemo.vue'
@@ -48,6 +49,7 @@ const pages: Record<string, any> = {
   loading: LoadingDemo,
   menu: MenuDemo,
   radio: RadioDemo,
+  'scroll-box': ScrollBoxDemo,
   select: SelectDemo,
   switch: SwitchDemo,
   tab: TabDemo,
@@ -70,6 +72,7 @@ const menuItems = [
   { label: 'Loading 加载', value: 'loading' },
   { label: 'Menu 菜单', value: 'menu' },
   { label: 'Radio 单选', value: 'radio' },
+  { label: 'ScrollBox 滚动框', value: 'scroll-box' },
   { label: 'Select 下拉框', value: 'select' },
   { label: 'Switch 开关', value: 'switch' },
   { label: 'Tab 标签页', value: 'tab' },
