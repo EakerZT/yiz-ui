@@ -25,22 +25,24 @@
         <div v-if="search" class="yiz-select-search-wrap" @click.stop>
           <Input ref="searchInputRef" v-model:value="searchQuery" placeholder="输入关键词筛选" @keydown.stop />
         </div>
-        <div
-          v-for="(opt, idx) in filteredOptions"
-          :key="idx"
-          class="yiz-select-option"
-          :class="{
-            'yiz-select-option-selected': isSelected(opt),
-            'yiz-select-option-hover': hoverIndex === idx
-          }"
-          @click.stop="onSelect(opt)"
-          @mouseenter="hoverIndex = idx"
-        >
-          <slot name="option" :option="opt" :index="idx" :selected="isSelected(opt)">
-            {{ opt.label }}
-          </slot>
-        </div>
-        <div v-if="filteredOptions.length === 0" class="yiz-select-empty">无数据</div>
+        <ScrollBox :max-height="scrollBoxMaxHeight">
+          <div
+            v-for="(opt, idx) in filteredOptions"
+            :key="idx"
+            class="yiz-select-option"
+            :class="{
+              'yiz-select-option-selected': isSelected(opt),
+              'yiz-select-option-hover': hoverIndex === idx
+            }"
+            @click.stop="onSelect(opt)"
+            @mouseenter="hoverIndex = idx"
+          >
+            <slot name="option" :option="opt" :index="idx" :selected="isSelected(opt)">
+              {{ opt.label }}
+            </slot>
+          </div>
+          <div v-if="filteredOptions.length === 0" class="yiz-select-empty">无数据</div>
+        </ScrollBox>
       </div>
     </Transition>
   </Teleport>
@@ -48,10 +50,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
 import { DismissCircle32Filled } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { Input } from '../input'
+import { ScrollBox } from '../scroll-box'
 import SelectOptionComp from '../select-option/SelectOption.vue'
 import { nextZIndex } from '../zIndex'
 
@@ -117,6 +120,8 @@ const dropdownRef = ref<HTMLElement>()
 const hoverIndex = ref(-1)
 const searchQuery = ref('')
 const searchInputRef = ref<HTMLInputElement>()
+const scrollBoxMaxHeight = ref(240)
+const dropdownPos = ref<{ top?: string; bottom?: string; left?: string }>({})
 
 const filteredOptions = ref<SelectOption[]>([...allOptions.value])
 
@@ -151,12 +156,9 @@ const dropdownStyle = computed(() => {
     zIndex: currentZIndex.value + 1
   }
   if (triggerRef.value) {
-    const rect = triggerRef.value.getBoundingClientRect()
-    s.top = `${rect.bottom + 4}px`
-    s.left = `${rect.left}px`
-    s.minWidth = `${rect.width}px`
+    s.minWidth = `${triggerRef.value.getBoundingClientRect().width}px`
   }
-  return s
+  return { ...s, ...dropdownPos.value }
 })
 
 function isSelected(opt: SelectOption) {
@@ -179,6 +181,60 @@ function onTriggerClick() {
 
 watch(allOptions, () => {
   filteredOptions.value = [...allOptions.value]
+})
+
+function repositionDropdown() {
+  if (!dropdownRef.value || !triggerRef.value || !open.value) return
+  const ddRect = dropdownRef.value.getBoundingClientRect()
+  const triggerRect = triggerRef.value.getBoundingClientRect()
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+  const gap = 4
+  const margin = 8
+  const maxDropdownHeight = 240
+
+  const searchWrap = dropdownRef.value.querySelector('.yiz-select-search-wrap') as HTMLElement
+  const searchHeight = searchWrap ? searchWrap.offsetHeight : 0
+  const dropdownPaddingV = 8
+
+  const spaceBelow = vh - triggerRect.bottom - gap - margin
+  const spaceAbove = triggerRect.top - gap - margin
+
+  const preferBelow = spaceBelow >= spaceAbove || spaceBelow >= maxDropdownHeight
+
+  const pos: { top?: string; bottom?: string; left?: string } = {}
+
+  if (preferBelow) {
+    scrollBoxMaxHeight.value = Math.max(28, Math.min(maxDropdownHeight, spaceBelow) - searchHeight - dropdownPaddingV)
+    pos.top = `${triggerRect.bottom + gap}px`
+  } else {
+    scrollBoxMaxHeight.value = Math.max(28, Math.min(maxDropdownHeight, spaceAbove) - searchHeight - dropdownPaddingV)
+    pos.bottom = `${vh - triggerRect.top + gap}px`
+  }
+
+  // 水平方向：默认对齐触发器左边缘，右侧溢出时翻转
+  let left = triggerRect.left
+  if (left + ddRect.width > vw - margin) {
+    // 右侧溢出：尝试右边缘对齐触发器右边缘
+    left = triggerRect.right - ddRect.width
+    if (left < margin) {
+      left = margin
+    }
+  }
+  if (left < margin) {
+    left = margin
+  }
+  pos.left = `${left}px`
+
+  dropdownPos.value = pos
+}
+
+// 打开后微调位置
+watch(open, async (val) => {
+  if (val) {
+    await nextTick()
+    repositionDropdown()
+  }
 })
 
 function onSelect(opt: SelectOption) {
@@ -224,21 +280,25 @@ function onKeydown(e: KeyboardEvent) {
   }
 }
 
-// close on window resize
-function onResize() {
-  open.value = false
+// 滚动 / 窗口大小变化时重新定位
+function onReposition() {
+  if (open.value) {
+    repositionDropdown()
+  }
 }
 
 onMounted(() => {
   document.addEventListener('click', onClickOutside, true)
   document.addEventListener('keydown', onKeydown)
-  window.addEventListener('resize', onResize)
+  window.addEventListener('scroll', onReposition, true)
+  window.addEventListener('resize', onReposition)
 })
 
 onBeforeUnmount(() => {
   document.removeEventListener('click', onClickOutside, true)
   document.removeEventListener('keydown', onKeydown)
-  window.removeEventListener('resize', onResize)
+  window.removeEventListener('scroll', onReposition, true)
+  window.removeEventListener('resize', onReposition)
 })
 </script>
 
@@ -334,8 +394,6 @@ onBeforeUnmount(() => {
   border-radius: 4px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   padding: 4px 0;
-  max-height: 240px;
-  overflow-y: auto;
 }
 
 .yiz-select-search-wrap {

@@ -9,7 +9,9 @@
         <y-menu v-model:select="currentPage" :items="menuItems" :width="200" @select="onNavSelect" />
       </aside>
       <main class="demo-main">
-        <component :is="currentDemo" />
+        <scroll-box height="100%" width="100%">
+          <component :is="currentDemo" />
+        </scroll-box>
       </main>
     </div>
   </div>
@@ -36,6 +38,7 @@ import TagDemo from './pages/TagDemo.vue'
 import DialogDemo from './pages/DialogDemo.vue'
 import DrawerDemo from './pages/DrawerDemo.vue'
 import TooltipDemo from './pages/TooltipDemo.vue'
+import { ScrollBox } from 'yiz-ui'
 
 const pages: Record<string, any> = {
   button: ButtonDemo,
@@ -157,12 +160,11 @@ onUnmounted(() => {
 
 .demo-main {
   flex: 1;
-  padding: 24px 32px;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .demo-section {
-  margin-bottom: 48px;
+  padding: 24px 32px;
 }
 .demo-section-title {
   font-size: 22px;

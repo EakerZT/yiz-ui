@@ -195,6 +195,52 @@ A dropdown selection component combining several patterns:
 - **Search** — optional `search` prop (sync or async function returning filtered `SelectOption[]`); renders an `<Input>` in the dropdown
 - **`defineModel`** — `defineModel<any>('modelValue')` tracks selected value
 
+### ScrollBox (`scripts/scroll-box/`)
+
+Custom scrollbar component with GPU-accelerated thumb positioning via CSS `@property`. Single file: `ScrollBox.vue`.
+
+**DOM structure** — flex layout: host (`display: flex; flex-direction: column`) → viewport (flex child, `min-height: 0` is critical to allow shrinking below content) → slot content. Track+thumb elements are absolutely positioned, always rendered but hidden via `opacity: 0; visibility: hidden` when not needed. A corner element renders when both axes overflow.
+
+**CSS `@property` GPU positioning** — three registered custom properties drive thumb position entirely on the compositor, avoiding layout/paint:
+- `--yiz-scroll-percent` (0..1) — current scroll position
+- `--yiz-viewport-percent` (0..1) — ratio of visible area to total content
+- `--yiz-scroll-direction` (0=default, 1=RTL/reversed)
+
+JS writes these as numbers on track elements via computed styles; CSS `calc()` positions the thumb:
+```css
+.yiz-scroll-box-thumb-v {
+  top: calc(var(--yiz-scroll-percent) * 100%);
+  transform: translateY(calc(var(--yiz-scroll-percent) * -100%));
+  height: calc(var(--yiz-viewport-percent) * 100%);
+}
+```
+
+**Pointer capture drag** — `setPointerCapture` on thumb `pointerdown`, `pointermove` calculates `deltaScroll = deltaPointer * contentSize / viewportSize`, cleanup on `pointerup`/`lostpointercapture`. Track click jumps to position proportionally.
+
+**Auto-hide system** — four modes controlled by `autoHide` prop:
+- `'never'` (default) — always visible when overflow exists
+- `'scroll'` — show on scroll, hide after `autoHideDelay` ms
+- `'move'` — show on pointermove over host, hide after delay
+- `'leave'` — show on pointerenter, hide on pointerleave after delay
+
+CSS classes `--active` (overflow exists), `--auto-hidden` (auto-hide hides), `--interacting` (drag/hover overrides hide) combine with `opacity`/`visibility` transitions. The `elementFromPoint` check in `pointerup` prevents interaction state from being cleared when the pointer is still over a track after drag.
+
+**RTL support** — detected via `getComputedStyle('direction')`. The `--yiz-scroll-direction` custom property flips thumb positioning via a CSS calc formula: `directionalPercent = scrollPercent when direction=0, 1 - scrollPercent when direction=1`.
+
+**Theme system** — CSS custom properties on `.yiz-scroll-box-track` (`--yiz-scroll-thumb-bg`, `--yiz-scroll-thumb-bg-hover`, `--yiz-scroll-thumb-bg-active`, `--yiz-scroll-thumb-radius`, `--yiz-scroll-track-size`, `--yiz-scroll-track-offset`, `--yiz-scroll-thumb-min-size`). Pass a class name via `theme` prop to override these.
+
+**Observers** — `ResizeObserver` on viewport triggers `sync()` + auto-hide refresh. Scroll events on viewport drive the primary update cycle. Wheel events on scrollbar surfaces are forwarded to viewport via `e.preventDefault()` + manual `scrollTop`/`scrollLeft` adjustment.
+
+**Key props:** `height`, `maxHeight`, `width` (number → px, string → passed as-is e.g. `'100%'`, `'calc(100vh - 80px)'`), `autoHide`, `autoHideDelay`, `theme`, `overflowX`, `overflowY`.
+
+### Card (`scripts/card/`)
+
+Content container with structured slots: `#cover` (full-width image area at top), `#title` / `#extra` (header left/right — `title` prop is string fallback when `#title` slot is omitted), `#default` (body), `#footer` (bottom, auto-adds `border-top`). Props: `bordered`, `shadow` (`'never' | 'hover' | 'always'`), `size` (`'default' | 'small'`). Pure layout component — no Teleport, no z-index.
+
+### ButtonGroup (`scripts/button-group/`)
+
+Flex container for grouping buttons. Props: `direction` (`'horizontal' | 'vertical'`), `size` (`'small' | 'default' | 'large'` or a number for gap in px), `align`, `wrap`. Styled via `--yiz-button-group-gap` and `--yiz-button-group-align` CSS custom properties. Simple slot container, no provide/inject.
+
 ### Click-outside and document listeners
 
 Select and Dialog/Drawer register document-level event listeners on mount and remove them on unmount:
