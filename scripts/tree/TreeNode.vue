@@ -35,7 +35,14 @@
       <span class="yiz-tree-node-label">{{ node.label }}</span>
     </div>
 
-    <Transition name="yiz-tree-expand">
+    <Transition
+      name="yiz-tree-expand"
+      @before-enter="onExpandBeforeEnter"
+      @enter="onExpandEnter"
+      @after-enter="onExpandAfterEnter"
+      @before-leave="onExpandBeforeLeave"
+      @leave="onExpandLeave"
+    >
       <div v-if="hasChildren && expanded" class="yiz-tree-node-children">
         <TreeNode v-for="child in node.children" :key="child.key" :node="child" :level="level + 1" />
       </div>
@@ -57,11 +64,13 @@ const props = defineProps<{
   level: number
 }>()
 
-const context = inject<TreeContext>('yizTree')
+const treeContext = inject<TreeContext>('yizTree')
 
-if (!context) {
+if (!treeContext) {
   throw new Error('TreeNode must be used inside Tree')
 }
+
+const context = treeContext
 
 const hasChildren = computed(() => Array.isArray(props.node.children) && props.node.children.length > 0)
 const expanded = computed(() => context.isExpanded(props.node))
@@ -72,5 +81,31 @@ function onContentClick() {
     context.toggleExpand(props.node)
   }
   context.selectNode(props.node)
+}
+
+function onExpandBeforeEnter(el: Element) {
+  const target = el as HTMLElement
+  target.style.height = '0'
+}
+
+function onExpandEnter(el: Element) {
+  const target = el as HTMLElement
+  target.style.height = `${target.scrollHeight}px`
+}
+
+function onExpandAfterEnter(el: Element) {
+  const target = el as HTMLElement
+  target.style.height = ''
+}
+
+function onExpandBeforeLeave(el: Element) {
+  const target = el as HTMLElement
+  target.style.height = `${target.scrollHeight}px`
+}
+
+function onExpandLeave(el: Element) {
+  const target = el as HTMLElement
+  target.offsetHeight
+  target.style.height = '0'
 }
 </script>

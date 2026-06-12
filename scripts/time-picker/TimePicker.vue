@@ -76,8 +76,8 @@
           </div>
         </div>
         <div class="yiz-time-picker-footer">
-          <span class="yiz-time-picker-now" @click="onNow">此刻</span>
-          <button class="yiz-time-picker-confirm" @click="onConfirm">确定</button>
+          <LinkButton @click="onNow">此刻</LinkButton>
+          <Button type="primary" @click="onConfirm">确定</Button>
         </div>
       </div>
     </Transition>
@@ -86,6 +86,8 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import Button from '../button/Button.vue'
+import LinkButton from '../link-button/LinkButton.vue'
 import { nextZIndex } from '../zIndex'
 
 const props = withDefaults(
@@ -207,6 +209,7 @@ function scrollToSelected() {
 // ==================== 计算属性 ====================
 
 const displayText = computed(() => {
+  if (open.value) return buildValue()
   if (modelValue.value == null) return ''
   return modelValue.value
 })
@@ -235,11 +238,6 @@ function buildValue(): string {
 }
 
 function parseValue(val: string) {
-  // 尝试从格式化的值中解析时分秒
-  const hh = val.match(/(\d{1,2})[:：时]/)
-  const mm = val.match(/[:：时](\d{1,2})/)
-  const ss = val.match(/(\d{1,2})[秒]?$/)
-
   if (val.length >= 5) {
     const parts = val.split(/[:：]/)
     if (parts.length >= 2) {
@@ -325,6 +323,10 @@ onBeforeUnmount(() => {
   document.removeEventListener('keydown', onKeydown)
   window.removeEventListener('scroll', onReposition, true)
   window.removeEventListener('resize', onReposition)
+})
+
+defineExpose({
+  focus: () => inputRef.value?.focus()
 })
 </script>
 
@@ -494,32 +496,6 @@ onBeforeUnmount(() => {
   justify-content: space-between;
   padding: 6px 8px;
   border-top: 1px solid var(--yiz-color-border, #d9d9d9);
-}
-
-.yiz-time-picker-now {
-  font-size: 13px;
-  color: var(--yiz-color-primary);
-  cursor: pointer;
-  transition: opacity 0.2s;
-
-  &:hover {
-    opacity: 0.8;
-  }
-}
-
-.yiz-time-picker-confirm {
-  padding: 4px 14px;
-  font-size: 13px;
-  background: var(--yiz-color-primary);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s;
-
-  &:hover {
-    background: var(--yiz-color-primary-heary);
-  }
 }
 
 // 过渡

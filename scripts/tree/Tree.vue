@@ -313,12 +313,19 @@ provide<TreeContext>('yizTree', {
 .yiz-tree-expand-enter-active,
 .yiz-tree-expand-leave-active {
   overflow: hidden;
-  transition: height 0.2s ease, opacity 0.2s ease;
+  transition:
+    height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.2s ease;
 }
 
 .yiz-tree-expand-enter-from,
 .yiz-tree-expand-leave-to {
   height: 0;
   opacity: 0;
+}
+
+.yiz-tree-expand-enter-to,
+.yiz-tree-expand-leave-from {
+  opacity: 1;
 }
 </style>

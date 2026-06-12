@@ -114,7 +114,7 @@
 
         <!-- 底部 -->
         <div class="yiz-date-picker-footer">
-          <span class="yiz-date-picker-today" @click="onToday">今天</span>
+          <LinkButton @click="onToday">今天</LinkButton>
         </div>
       </div>
     </Transition>
@@ -123,6 +123,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import LinkButton from '../link-button/LinkButton.vue'
 import { nextZIndex } from '../zIndex'
 
 const props = withDefaults(

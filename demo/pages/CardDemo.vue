@@ -84,7 +84,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Button, Card } from 'yiz-ui'
+import { Card } from 'yiz-ui'
 </script>
 
 <style scoped>

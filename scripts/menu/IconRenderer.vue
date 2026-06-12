@@ -5,11 +5,11 @@ export default defineComponent({
   props: {
     content: { default: null }
   },
-  setup(props) {
+  setup(props: { content: unknown }) {
     return () => {
       if (props.content == null) return null
       if (typeof props.content === 'function') {
-        return props.content()
+        return (props.content as () => unknown)()
       }
       return props.content
     }

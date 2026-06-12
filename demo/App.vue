@@ -26,6 +26,7 @@ import CardDemo from './pages/CardDemo.vue'
 import CheckboxDemo from './pages/CheckboxDemo.vue'
 import ContextMenuDemo from './pages/ContextMenuDemo.vue'
 import DatePickerDemo from './pages/DatePickerDemo.vue'
+import DateRangePickerDemo from './pages/DateRangePickerDemo.vue'
 import EmptyDemo from './pages/EmptyDemo.vue'
 import InputDemo from './pages/InputDemo.vue'
 import InputNumberDemo from './pages/InputNumberDemo.vue'
@@ -41,6 +42,7 @@ import TabDemo from './pages/TabDemo.vue'
 import TableDemo from './pages/TableDemo.vue'
 import TagDemo from './pages/TagDemo.vue'
 import TimePickerDemo from './pages/TimePickerDemo.vue'
+import TimeRangePickerDemo from './pages/TimeRangePickerDemo.vue'
 import DialogDemo from './pages/DialogDemo.vue'
 import DrawerDemo from './pages/DrawerDemo.vue'
 import TooltipDemo from './pages/TooltipDemo.vue'
@@ -53,6 +55,7 @@ const pages: Record<string, any> = {
   checkbox: CheckboxDemo,
   'context-menu': ContextMenuDemo,
   'date-picker': DatePickerDemo,
+  'date-range-picker': DateRangePickerDemo,
   empty: EmptyDemo,
   dialog: DialogDemo,
   drawer: DrawerDemo,
@@ -69,6 +72,7 @@ const pages: Record<string, any> = {
   table: TableDemo,
   tag: TagDemo,
   'time-picker': TimePickerDemo,
+  'time-range-picker': TimeRangePickerDemo,
   tooltip: TooltipDemo,
   tree: TreeDemo,
   icon: IconDemo
@@ -80,6 +84,7 @@ const menuItems = [
   { label: 'Checkbox 复选', value: 'checkbox' },
   { label: 'ContextMenu 菜单', value: 'context-menu' },
   { label: 'DatePicker 日期', value: 'date-picker' },
+  { label: 'DateRangePicker 日期段', value: 'date-range-picker' },
   { label: 'Empty 空状态', value: 'empty' },
   { label: 'Dialog 弹窗', value: 'dialog' },
   { label: 'Drawer 抽屉', value: 'drawer' },
@@ -97,6 +102,7 @@ const menuItems = [
   { label: 'Table 表格', value: 'table' },
   { label: 'Tag 标签', value: 'tag' },
   { label: 'TimePicker 时间', value: 'time-picker' },
+  { label: 'TimeRangePicker 时间段', value: 'time-range-picker' },
   { label: 'Tooltip 提示', value: 'tooltip' },
   { label: 'Tree 树', value: 'tree' }
 ]

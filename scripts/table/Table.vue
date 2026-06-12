@@ -594,7 +594,7 @@ function onResizeStart(e: MouseEvent, col: TableColumn) {
   if (allThs) {
     allThs.forEach((thEl, i) => {
       if (i < cols.length && cols[i].fixed === 'none' && cols[i].field !== '__yiz_gap') {
-        widths[cols[i].field] = `${thEl.offsetWidth}px`
+        widths[cols[i].field] = `${(thEl as HTMLElement).offsetWidth}px`
       }
     })
   }

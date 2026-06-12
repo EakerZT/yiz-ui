@@ -82,6 +82,7 @@ const props = withDefaults(
 )
 
 defineSlots<{
+  default?: () => any
   option?: (props: { option: SelectOption; index: number; selected: boolean }) => any
 }>()
 
@@ -119,7 +120,7 @@ const triggerRef = ref<HTMLElement>()
 const dropdownRef = ref<HTMLElement>()
 const hoverIndex = ref(-1)
 const searchQuery = ref('')
-const searchInputRef = ref<HTMLInputElement>()
+const searchInputRef = ref<InstanceType<typeof Input>>()
 const scrollBoxMaxHeight = ref(240)
 const dropdownPos = ref<{ top?: string; bottom?: string; left?: string }>({})
 

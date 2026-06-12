@@ -7,7 +7,7 @@
       :value="opt.value"
       :disabled="disabled"
       :model-value="modelValue"
-      @update:model-value="(val: string | number) => (modelValue = val)"
+      @update:model-value="onUpdateValue"
     />
   </div>
 </template>
@@ -33,6 +33,12 @@ withDefaults(
 )
 
 const modelValue = defineModel<string | number>('value')
+
+function onUpdateValue(val: string | number | undefined) {
+  if (val !== undefined) {
+    modelValue.value = val
+  }
+}
 </script>
 
 <style lang="less">

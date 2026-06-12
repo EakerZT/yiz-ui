@@ -458,6 +458,9 @@ function scheduleSync() {
 }
 
 onMounted(() => {
+  void hostRef.value
+  void trackVRef.value
+  void trackHRef.value
   sync()
 
   if (viewportRef.value) {

@@ -44,7 +44,7 @@ const isChecked = computed(() => {
   if (group) {
     return group.modelValue.value.includes(props.value!)
   }
-  return modelValue.value
+  return modelValue.value ?? false
 })
 
 const mergedDisabled = computed(() => {

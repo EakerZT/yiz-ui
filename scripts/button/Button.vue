@@ -10,11 +10,11 @@ import { computed, h, isVNode, nextTick, ref, Text } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
 
 const slots = defineSlots<{
-  default: any
+  default?: () => any[]
 }>()
 
 const c = computed(() =>
-  (slots.default?.() ?? []).map((s) => {
+  (slots.default?.() ?? []).map((s: any) => {
     if (isVNode(s) && s.type === Text) {
       return h('span', {}, s.children as string)
     } else {
@@ -69,13 +69,13 @@ const vStyle = computed(() => {
   return s
 })
 const emits = defineEmits(['click'])
-let waveTimerId = 0
+let waveTimerId: ReturnType<typeof setTimeout>
 const onClick = (e: MouseEvent) => {
   if (props.disabled) {
     return
   }
   if (isWave.value) {
-    clearInterval(waveTimerId)
+    clearTimeout(waveTimerId)
     isWave.value = false
   }
   nextTick(() => {

@@ -1,0 +1,851 @@
+<template>
+  <div ref="triggerRef" class="yiz-date-range-picker" :class="vClass" @click="onTriggerClick">
+    <div class="yiz-date-range-picker-input">
+      <button
+        class="yiz-date-range-picker-segment"
+        :class="{ 'yiz-date-range-picker-segment-active': open && activeSide === 'start' }"
+        type="button"
+        :disabled="disabled"
+        @click.stop="onSegmentClick('start')"
+      >
+        <span :class="{ 'yiz-date-range-picker-placeholder': !displayStartText }">
+          {{ displayStartText || startPlaceholder }}
+        </span>
+      </button>
+      <span class="yiz-date-range-picker-separator">{{ separator }}</span>
+      <button
+        class="yiz-date-range-picker-segment"
+        :class="{ 'yiz-date-range-picker-segment-active': open && activeSide === 'end' }"
+        type="button"
+        :disabled="disabled"
+        @click.stop="onSegmentClick('end')"
+      >
+        <span :class="{ 'yiz-date-range-picker-placeholder': !displayEndText }">
+          {{ displayEndText || endPlaceholder }}
+        </span>
+      </button>
+      <span v-if="clearable && (startModel != null || endModel != null)" class="yiz-date-range-picker-clear" @click.stop="onClear">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+          <path d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1zm2.35 4.65a.5.5 0 0 0-.7 0L8 7.29 6.35 5.65a.5.5 0 1 0-.7.7L7.29 8 5.65 9.65a.5.5 0 1 0 .7.7L8 8.71l1.65 1.64a.5.5 0 0 0 .7-.7L8.71 8l1.64-1.65a.5.5 0 0 0 0-.7z" />
+        </svg>
+      </span>
+      <svg class="yiz-date-range-picker-suffix" viewBox="0 0 16 16" width="14" height="14">
+        <path d="M5.5 1a.5.5 0 0 1 .5.5V2h4v-.5a.5.5 0 0 1 1 0V2h1.5A1.5 1.5 0 0 1 14 3.5v9A1.5 1.5 0 0 1 12.5 14h-9A1.5 1.5 0 0 1 2 12.5v-9A1.5 1.5 0 0 1 3.5 2H5v-.5a.5.5 0 0 1 .5-.5zM3.5 3a.5.5 0 0 0-.5.5V5h10V3.5a.5.5 0 0 0-.5-.5h-9zM13 6H3v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V6z" fill="currentColor" />
+      </svg>
+    </div>
+  </div>
+
+  <Teleport to="body">
+    <Transition name="yiz-date-range-picker-panel-fade">
+      <div v-if="open" ref="panelRef" class="yiz-date-range-picker-panel" :style="panelStyle" @click.stop>
+        <div class="yiz-date-range-picker-panels">
+          <div class="yiz-date-range-picker-side" :class="{ 'yiz-date-range-picker-side-active': activeSide === 'start' }">
+            <div class="yiz-date-range-picker-side-title" @click="activeSide = 'start'">{{ startLabel }}</div>
+            <div class="yiz-date-range-picker-header">
+              <svg class="yiz-date-range-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="shiftYear('start', -1)">
+                <path d="M12 12L8 8l4-4M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <svg class="yiz-date-range-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="shiftMonth('start', -1)">
+                <path d="M11 12L7 8l4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span class="yiz-date-range-picker-month-year" @click="startShowYearPicker = !startShowYearPicker">
+                {{ startViewYear }}-{{ pad(startViewMonth) }}
+              </span>
+              <svg class="yiz-date-range-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="shiftMonth('start', 1)">
+                <path d="M5 12L9 8 5 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <svg class="yiz-date-range-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="shiftYear('start', 1)">
+                <path d="M4 12L8 8l-4-4M9 12l4-4-4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <div v-if="startShowYearPicker" class="yiz-date-range-picker-year-grid">
+              <div
+                v-for="y in startYearRange"
+                :key="y"
+                class="yiz-date-range-picker-year-item"
+                :class="{ 'yiz-date-range-picker-year-item-active': y === startViewYear }"
+                @click="selectYear('start', y)"
+              >
+                {{ y }}
+              </div>
+            </div>
+            <DateRangeCalendar
+              v-else
+              :cells="startCalendarCells"
+              :week-days="weekDays"
+              @select="onCellClick('start', $event)"
+            />
+          </div>
+
+          <div class="yiz-date-range-picker-side" :class="{ 'yiz-date-range-picker-side-active': activeSide === 'end' }">
+            <div class="yiz-date-range-picker-side-title" @click="activeSide = 'end'">{{ endLabel }}</div>
+            <div class="yiz-date-range-picker-header">
+              <svg class="yiz-date-range-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="shiftYear('end', -1)">
+                <path d="M12 12L8 8l4-4M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <svg class="yiz-date-range-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="shiftMonth('end', -1)">
+                <path d="M11 12L7 8l4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span class="yiz-date-range-picker-month-year" @click="endShowYearPicker = !endShowYearPicker">
+                {{ endViewYear }}-{{ pad(endViewMonth) }}
+              </span>
+              <svg class="yiz-date-range-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="shiftMonth('end', 1)">
+                <path d="M5 12L9 8 5 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <svg class="yiz-date-range-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="shiftYear('end', 1)">
+                <path d="M4 12L8 8l-4-4M9 12l4-4-4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <div v-if="endShowYearPicker" class="yiz-date-range-picker-year-grid">
+              <div
+                v-for="y in endYearRange"
+                :key="y"
+                class="yiz-date-range-picker-year-item"
+                :class="{ 'yiz-date-range-picker-year-item-active': y === endViewYear }"
+                @click="selectYear('end', y)"
+              >
+                {{ y }}
+              </div>
+            </div>
+            <DateRangeCalendar
+              v-else
+              :cells="endCalendarCells"
+              :week-days="weekDays"
+              @select="onCellClick('end', $event)"
+            />
+          </div>
+        </div>
+
+        <div class="yiz-date-range-picker-footer">
+          <LinkButton @click="onToday">Today</LinkButton>
+          <Button type="primary" :disabled="confirmDisabled" @click="onConfirm">OK</Button>
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
+</template>
+
+<script lang="ts" setup>
+import { computed, defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, watch, type PropType } from 'vue'
+import Button from '../button/Button.vue'
+import LinkButton from '../link-button/LinkButton.vue'
+import { nextZIndex } from '../zIndex'
+
+type DateRangeSide = 'start' | 'end'
+
+interface CalendarCell {
+  day: number
+  current: boolean
+  isToday: boolean
+  isSelected: boolean
+  disabled: boolean
+  date: Date
+}
+
+const DateRangeCalendar = defineComponent({
+  props: {
+    cells: { type: Array as PropType<CalendarCell[]>, required: true },
+    weekDays: { type: Array as PropType<string[]>, required: true }
+  },
+  emits: {
+    select: (_cell: CalendarCell) => true
+  },
+  setup(calendarProps, { emit }) {
+    return () =>
+      h('div', { class: 'yiz-date-range-picker-body' }, [
+        h(
+          'div',
+          { class: 'yiz-date-range-picker-weekdays' },
+          calendarProps.weekDays.map((day) => h('span', { class: 'yiz-date-range-picker-weekday' }, day))
+        ),
+        h(
+          'div',
+          { class: 'yiz-date-range-picker-dates' },
+          calendarProps.cells.map((cell, idx) =>
+            h(
+              'div',
+              {
+                key: idx,
+                class: {
+                  'yiz-date-range-picker-cell': true,
+                  'yiz-date-range-picker-cell-other': !cell.current,
+                  'yiz-date-range-picker-cell-today': cell.isToday,
+                  'yiz-date-range-picker-cell-selected': cell.isSelected,
+                  'yiz-date-range-picker-cell-disabled': cell.disabled
+                },
+                onClick: () => emit('select', cell)
+              },
+              [h('span', { class: 'yiz-date-range-picker-cell-inner' }, cell.day)]
+            )
+          )
+        )
+      ])
+  }
+})
+
+const startModel = defineModel<Date | null>('start')
+const endModel = defineModel<Date | null>('end')
+
+const props = withDefaults(
+  defineProps<{
+    disabled?: boolean
+    clearable?: boolean
+    forceRange?: boolean
+    autoSort?: boolean
+    size?: 'default' | 'small'
+    disabledDate?: (date: Date) => boolean
+    format?: string
+    startPlaceholder?: string
+    endPlaceholder?: string
+    startLabel?: string
+    endLabel?: string
+    separator?: string
+  }>(),
+  {
+    disabled: false,
+    clearable: false,
+    forceRange: false,
+    autoSort: true,
+    size: 'default',
+    format: 'yyyy-MM-dd',
+    startPlaceholder: 'Start date',
+    endPlaceholder: 'End date',
+    startLabel: 'Start',
+    endLabel: 'End',
+    separator: '-'
+  }
+)
+
+const emit = defineEmits<{
+  change: [start: Date | null, end: Date | null]
+}>()
+
+const now = new Date()
+const open = ref(false)
+const activeSide = ref<DateRangeSide>('start')
+const currentZIndex = ref(0)
+const triggerRef = ref<HTMLElement>()
+const panelRef = ref<HTMLElement>()
+const draftStart = ref<Date | null>(null)
+const draftEnd = ref<Date | null>(null)
+const startViewYear = ref(now.getFullYear())
+const startViewMonth = ref(now.getMonth() + 1)
+const endViewYear = ref(now.getFullYear())
+const endViewMonth = ref(now.getMonth() + 1)
+const startShowYearPicker = ref(false)
+const endShowYearPicker = ref(false)
+const dropdownPos = ref<{ top?: string; bottom?: string; left?: string }>({})
+
+const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+const displayStartText = computed(() => {
+  const value = open.value ? draftStart.value : startModel.value
+  return value ? formatDate(value, props.format) : ''
+})
+const displayEndText = computed(() => {
+  const value = open.value ? draftEnd.value : endModel.value
+  return value ? formatDate(value, props.format) : ''
+})
+const startPlaceholder = computed(() => props.startPlaceholder)
+const endPlaceholder = computed(() => props.endPlaceholder)
+const startLabel = computed(() => props.startLabel)
+const endLabel = computed(() => props.endLabel)
+const separator = computed(() => props.separator)
+const disabled = computed(() => props.disabled)
+const clearable = computed(() => props.clearable)
+const confirmDisabled = computed(() => props.forceRange && (draftStart.value == null || draftEnd.value == null))
+
+const panelStyle = computed(() => ({
+  zIndex: currentZIndex.value + 1,
+  ...dropdownPos.value
+}))
+
+const vClass = computed(() => ({
+  'yiz-date-range-picker-open': open.value,
+  'yiz-date-range-picker-disabled': props.disabled,
+  'yiz-date-range-picker-small': props.size === 'small'
+}))
+
+const startYearRange = computed(() => makeYearRange(startViewYear.value))
+const endYearRange = computed(() => makeYearRange(endViewYear.value))
+const startCalendarCells = computed(() => makeCalendarCells('start', startViewYear.value, startViewMonth.value))
+const endCalendarCells = computed(() => makeCalendarCells('end', endViewYear.value, endViewMonth.value))
+
+watch(open, async (val) => {
+  if (val) {
+    await nextTick()
+    repositionPanel()
+  }
+})
+
+function pad(n: number): string {
+  return n < 10 ? `0${n}` : `${n}`
+}
+
+function sameDate(a: Date | null | undefined, b: Date) {
+  return !!a && a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
+}
+
+function cloneDate(date: Date | null | undefined) {
+  return date ? new Date(date.getFullYear(), date.getMonth(), date.getDate()) : null
+}
+
+function formatDate(date: Date, fmt: string): string {
+  const map: Record<string, string> = {
+    yyyy: `${date.getFullYear()}`,
+    MM: pad(date.getMonth() + 1),
+    dd: pad(date.getDate()),
+    M: `${date.getMonth() + 1}`,
+    d: `${date.getDate()}`
+  }
+  return fmt.replace(/yyyy|MM|dd|M|d/g, (key) => map[key] || key)
+}
+
+function makeYearRange(year: number) {
+  const result: number[] = []
+  const start = year - 6
+  for (let i = 0; i < 12; i++) {
+    result.push(start + i)
+  }
+  return result
+}
+
+function makeCalendarCells(side: DateRangeSide, year: number, month: number): CalendarCell[] {
+  const cells: CalendarCell[] = []
+  const firstDay = new Date(year, month - 1, 1)
+  const lastDay = new Date(year, month, 0)
+  const daysInMonth = lastDay.getDate()
+  const startWeekDay = firstDay.getDay()
+  const prevLastDay = new Date(year, month - 1, 0)
+  const prevDays = prevLastDay.getDate()
+
+  for (let i = startWeekDay - 1; i >= 0; i--) {
+    cells.push(makeCell(side, year, month - 1, prevDays - i, false))
+  }
+  for (let day = 1; day <= daysInMonth; day++) {
+    cells.push(makeCell(side, year, month, day, true))
+  }
+  const remaining = 42 - cells.length
+  for (let day = 1; day <= remaining; day++) {
+    cells.push(makeCell(side, year, month + 1, day, false))
+  }
+  return cells
+}
+
+function makeCell(side: DateRangeSide, year: number, month: number, day: number, current: boolean): CalendarCell {
+  const date = new Date(year, month - 1, day)
+  const today = new Date()
+  const selected = side === 'start' ? draftStart.value : draftEnd.value
+  return {
+    day,
+    current,
+    isToday: sameDate(today, date),
+    isSelected: sameDate(selected, date),
+    disabled: props.disabledDate ? props.disabledDate(date) : false,
+    date
+  }
+}
+
+function syncViewFromDraft() {
+  const start = draftStart.value ?? now
+  const end = draftEnd.value ?? draftStart.value ?? now
+  startViewYear.value = start.getFullYear()
+  startViewMonth.value = start.getMonth() + 1
+  endViewYear.value = end.getFullYear()
+  endViewMonth.value = end.getMonth() + 1
+}
+
+function openPanel(side: DateRangeSide) {
+  if (props.disabled) return
+  activeSide.value = side
+  draftStart.value = cloneDate(startModel.value)
+  draftEnd.value = cloneDate(endModel.value)
+  startShowYearPicker.value = false
+  endShowYearPicker.value = false
+  syncViewFromDraft()
+  currentZIndex.value = nextZIndex()
+  open.value = true
+}
+
+function onTriggerClick() {
+  if (!open.value) {
+    openPanel('start')
+  }
+}
+
+function onSegmentClick(side: DateRangeSide) {
+  if (!open.value) {
+    openPanel(side)
+    return
+  }
+  activeSide.value = side
+}
+
+function onCellClick(side: DateRangeSide, cell: CalendarCell) {
+  if (cell.disabled) return
+  activeSide.value = side
+  if (!cell.current) {
+    setView(side, cell.date.getFullYear(), cell.date.getMonth() + 1)
+    return
+  }
+  if (side === 'start') {
+    draftStart.value = cloneDate(cell.date)
+  } else {
+    draftEnd.value = cloneDate(cell.date)
+  }
+}
+
+function onToday() {
+  const today = new Date()
+  const date = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+  if (activeSide.value === 'start') {
+    draftStart.value = date
+    setView('start', date.getFullYear(), date.getMonth() + 1)
+  } else {
+    draftEnd.value = date
+    setView('end', date.getFullYear(), date.getMonth() + 1)
+  }
+}
+
+function onConfirm() {
+  if (confirmDisabled.value) return
+  let nextStart = cloneDate(draftStart.value)
+  let nextEnd = cloneDate(draftEnd.value)
+  if (props.autoSort && nextStart && nextEnd && nextEnd.getTime() < nextStart.getTime()) {
+    const temp = nextStart
+    nextStart = nextEnd
+    nextEnd = temp
+  }
+  startModel.value = nextStart
+  endModel.value = nextEnd
+  emit('change', startModel.value ?? null, endModel.value ?? null)
+  open.value = false
+}
+
+function onClear() {
+  startModel.value = null
+  endModel.value = null
+  draftStart.value = null
+  draftEnd.value = null
+  emit('change', null, null)
+}
+
+function setView(side: DateRangeSide, year: number, month: number) {
+  if (side === 'start') {
+    startViewYear.value = year
+    startViewMonth.value = month
+  } else {
+    endViewYear.value = year
+    endViewMonth.value = month
+  }
+}
+
+function shiftMonth(side: DateRangeSide, offset: number) {
+  const year = side === 'start' ? startViewYear.value : endViewYear.value
+  const month = side === 'start' ? startViewMonth.value : endViewMonth.value
+  const next = new Date(year, month - 1 + offset, 1)
+  setView(side, next.getFullYear(), next.getMonth() + 1)
+}
+
+function shiftYear(side: DateRangeSide, offset: number) {
+  if (side === 'start') {
+    startViewYear.value += offset
+  } else {
+    endViewYear.value += offset
+  }
+}
+
+function selectYear(side: DateRangeSide, year: number) {
+  if (side === 'start') {
+    startViewYear.value = year
+    startShowYearPicker.value = false
+  } else {
+    endViewYear.value = year
+    endShowYearPicker.value = false
+  }
+}
+
+function repositionPanel() {
+  if (!panelRef.value || !triggerRef.value || !open.value) return
+  const panelRect = panelRef.value.getBoundingClientRect()
+  const triggerRect = triggerRef.value.getBoundingClientRect()
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+  const gap = 4
+  const margin = 8
+  const spaceBelow = vh - triggerRect.bottom - gap - margin
+  const spaceAbove = triggerRect.top - gap - margin
+  const pos: { top?: string; bottom?: string; left?: string } = {}
+
+  if (spaceBelow >= panelRect.height || spaceBelow >= spaceAbove) {
+    pos.top = `${triggerRect.bottom + gap}px`
+  } else {
+    pos.bottom = `${vh - triggerRect.top + gap}px`
+  }
+
+  let left = triggerRect.left
+  if (left + panelRect.width > vw - margin) {
+    left = triggerRect.right - panelRect.width
+    if (left < margin) left = margin
+  }
+  if (left < margin) left = margin
+  pos.left = `${left}px`
+  dropdownPos.value = pos
+}
+
+function onClickOutside(e: MouseEvent) {
+  if (!open.value) return
+  const target = e.target as HTMLElement
+  if (triggerRef.value?.contains(target)) return
+  if (panelRef.value?.contains(target)) return
+  open.value = false
+}
+
+function onReposition() {
+  if (open.value) {
+    repositionPanel()
+  }
+}
+
+function onKeydown(e: KeyboardEvent) {
+  if (!open.value) return
+  if (e.key === 'Escape') {
+    open.value = false
+  }
+  if (e.key === 'Enter') {
+    onConfirm()
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', onClickOutside, true)
+  document.addEventListener('keydown', onKeydown)
+  window.addEventListener('scroll', onReposition, true)
+  window.addEventListener('resize', onReposition)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', onClickOutside, true)
+  document.removeEventListener('keydown', onKeydown)
+  window.removeEventListener('scroll', onReposition, true)
+  window.removeEventListener('resize', onReposition)
+})
+</script>
+
+<style lang="less">
+.yiz-date-range-picker {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  min-width: 280px;
+  box-sizing: border-box;
+}
+
+.yiz-date-range-picker-input {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid var(--yiz-color-border, #d9d9d9);
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
+  box-sizing: border-box;
+  gap: 4px;
+}
+
+.yiz-date-range-picker:not(.yiz-date-range-picker-disabled) .yiz-date-range-picker-input:hover {
+  border-color: var(--yiz-color-primary);
+}
+
+.yiz-date-range-picker-open .yiz-date-range-picker-input {
+  border-color: var(--yiz-color-primary);
+  box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+}
+
+.yiz-date-range-picker-disabled .yiz-date-range-picker-input {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.yiz-date-range-picker-segment {
+  flex: 1;
+  min-width: 0;
+  height: 24px;
+  padding: 0 4px;
+  border: none;
+  border-radius: 3px;
+  background: transparent;
+  color: #333;
+  cursor: pointer;
+  font: inherit;
+  text-align: center;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.yiz-date-range-picker-segment:disabled {
+  color: #c0c4cc;
+  cursor: not-allowed;
+}
+
+.yiz-date-range-picker-segment:not(:disabled):hover,
+.yiz-date-range-picker-segment-active {
+  background: var(--yiz-color-primary-light9);
+  color: var(--yiz-color-primary);
+}
+
+.yiz-date-range-picker-placeholder {
+  color: #c0c4cc;
+}
+
+.yiz-date-range-picker-separator {
+  color: #999;
+  flex-shrink: 0;
+}
+
+.yiz-date-range-picker-clear,
+.yiz-date-range-picker-suffix {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  color: #999;
+}
+
+.yiz-date-range-picker-clear {
+  cursor: pointer;
+  color: #c0c4cc;
+  transition: color 0.2s;
+}
+
+.yiz-date-range-picker-clear:hover {
+  color: #999;
+}
+
+.yiz-date-range-picker-small .yiz-date-range-picker-input {
+  height: 24px;
+  font-size: 13px;
+}
+
+.yiz-date-range-picker-panel {
+  position: fixed;
+  width: 560px;
+  background: #fff;
+  border: 1px solid var(--yiz-color-border, #d9d9d9);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  user-select: none;
+}
+
+.yiz-date-range-picker-panels {
+  display: flex;
+  align-items: stretch;
+}
+
+.yiz-date-range-picker-side {
+  width: 50%;
+  min-width: 0;
+  flex: 0 0 50%;
+  padding: 8px 12px;
+  box-sizing: border-box;
+}
+
+.yiz-date-range-picker-side + .yiz-date-range-picker-side {
+  border-left: 1px solid var(--yiz-color-border, #d9d9d9);
+}
+
+.yiz-date-range-picker-side-title {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+  border-radius: 4px;
+  color: #666;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.yiz-date-range-picker-side-active .yiz-date-range-picker-side-title,
+.yiz-date-range-picker-side-title:hover {
+  background: var(--yiz-color-primary-light9);
+  color: var(--yiz-color-primary);
+}
+
+.yiz-date-range-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 2px;
+}
+
+.yiz-date-range-picker-nav {
+  cursor: pointer;
+  color: #666;
+  padding: 2px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  transition:
+    color 0.2s,
+    background 0.2s;
+}
+
+.yiz-date-range-picker-nav:hover {
+  color: var(--yiz-color-primary);
+  background: var(--yiz-color-hover-bg);
+}
+
+.yiz-date-range-picker-month-year {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  padding: 2px 0;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.yiz-date-range-picker-month-year:hover {
+  background: var(--yiz-color-hover-bg);
+}
+
+.yiz-date-range-picker-year-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding: 4px 0;
+}
+
+.yiz-date-range-picker-year-item {
+  padding: 6px 0;
+  text-align: center;
+  font-size: 13px;
+  color: #666;
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.yiz-date-range-picker-year-item:hover {
+  background: var(--yiz-color-hover-bg);
+}
+
+.yiz-date-range-picker-year-item-active {
+  color: var(--yiz-color-primary);
+  background: var(--yiz-color-primary-light8);
+  font-weight: 600;
+}
+
+.yiz-date-range-picker-weekdays {
+  display: flex;
+  border-bottom: 1px solid var(--yiz-color-border, #d9d9d9);
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+}
+
+.yiz-date-range-picker-weekday {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #999;
+  height: 28px;
+  line-height: 28px;
+}
+
+.yiz-date-range-picker-dates {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.yiz-date-range-picker-cell {
+  width: calc(100% / 7);
+  text-align: center;
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+.yiz-date-range-picker-cell-other {
+  cursor: default;
+}
+
+.yiz-date-range-picker-cell-disabled {
+  cursor: not-allowed;
+}
+
+.yiz-date-range-picker-cell-other .yiz-date-range-picker-cell-inner,
+.yiz-date-range-picker-cell-disabled .yiz-date-range-picker-cell-inner {
+  color: #d9d9d9;
+}
+
+.yiz-date-range-picker-cell-today .yiz-date-range-picker-cell-inner {
+  color: var(--yiz-color-primary);
+  font-weight: 600;
+}
+
+.yiz-date-range-picker-cell-selected .yiz-date-range-picker-cell-inner {
+  background: var(--yiz-color-primary);
+  color: #fff;
+  border-radius: 4px;
+}
+
+.yiz-date-range-picker-cell-inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  font-size: 13px;
+  color: #333;
+  border-radius: 4px;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.yiz-date-range-picker-cell-inner:hover {
+  background: var(--yiz-color-hover-bg);
+}
+
+.yiz-date-range-picker-cell-selected .yiz-date-range-picker-cell-inner:hover {
+  background: var(--yiz-color-primary-heary);
+}
+
+.yiz-date-range-picker-cell-disabled .yiz-date-range-picker-cell-inner:hover,
+.yiz-date-range-picker-cell-other .yiz-date-range-picker-cell-inner:hover {
+  background: transparent;
+}
+
+.yiz-date-range-picker-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-top: 1px solid var(--yiz-color-border, #d9d9d9);
+}
+
+.yiz-date-range-picker-panel-fade-enter-active,
+.yiz-date-range-picker-panel-fade-leave-active {
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+}
+
+.yiz-date-range-picker-panel-fade-enter-from,
+.yiz-date-range-picker-panel-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+</style>

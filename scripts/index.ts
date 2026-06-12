@@ -1,15 +1,13 @@
-import type {App, Component, DefineComponent} from 'vue'
+import type { App, Component } from 'vue'
 
 import * as components from './components'
 
 export * from './components'
 
 const install = (app: App): void => {
-    for (let key of Object.keys(components)) {
-        app.component(
-            'Y' + key, components[key] as Component<any> | DefineComponent<any>
-        )
-    }
+  for (const [key, component] of Object.entries(components)) {
+    app.component('Y' + key, component as Component)
+  }
 }
 
-export default {install}
+export default { install }

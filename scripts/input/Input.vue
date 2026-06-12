@@ -10,7 +10,7 @@
       <input
         ref="inputRef"
         :value="modelValue"
-        @input="(e) => (modelValue = e.target!.value)"
+        @input="onInput"
         @focus="isFocus = true"
         @blur="isFocus = false"
         @keydown="onKeydown"
@@ -66,6 +66,10 @@ const vClass = computed(() => {
 })
 const onClearClick = () => {
   modelValue.value = ''
+}
+
+function onInput(e: Event) {
+  modelValue.value = (e.target as HTMLInputElement).value
 }
 
 function onKeydown(e: KeyboardEvent) {

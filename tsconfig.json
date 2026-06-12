@@ -8,9 +8,11 @@
     "lib": ["ESNext", "DOM"],
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "baseUrl": ".",
     "paths": {
-      "yiz-ui": ["./scripts"],
+      "yiz-ui": ["./scripts"]
     },
+    "types": ["vite/client", "node"],
     "resolveJsonModule": true,
     "strict": true,
     "strictNullChecks": true,
@@ -21,5 +23,6 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
-  }
+  },
+  "include": ["scripts/**/*.ts", "scripts/**/*.vue", "demo/**/*.ts", "demo/**/*.vue", "vite.config.mts"]
 }

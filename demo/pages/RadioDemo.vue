@@ -39,6 +39,48 @@
       <y-radio-group v-model:value="group3" :options="groupOptions" disabled />
     </y-card>
   </section>
+  <section class="demo-section">
+    <h2 class="demo-section-title">RadioButton</h2>
+    <p class="demo-section-desc">Button style radio controls. Adjacent items are grouped as a segmented control.</p>
+
+    <y-card title="Standalone" style="margin-top: 8px">
+      <y-radio-button v-model="buttonRadio1" value="left">Left</y-radio-button>
+      <y-radio-button v-model="buttonRadio1" value="right">Right</y-radio-button>
+      <span class="demo-hint">{{ buttonRadio1 }}</span>
+    </y-card>
+
+    <y-card title="Group options" style="margin-top: 8px">
+      <y-radio-button-group v-model:value="buttonGroup1" :options="buttonOptions" />
+      <span class="demo-hint">{{ buttonGroup1 }}</span>
+    </y-card>
+
+    <y-card title="Slot group" style="margin-top: 8px">
+      <y-radio-button-group v-model:value="buttonGroup2">
+        <y-radio-button value="day">Day</y-radio-button>
+        <y-radio-button value="week">Week</y-radio-button>
+        <y-radio-button value="month">Month</y-radio-button>
+      </y-radio-button-group>
+      <span class="demo-hint">{{ buttonGroup2 }}</span>
+    </y-card>
+
+    <y-card title="Size" style="margin-top: 8px">
+      <div class="demo-radio-button-stack">
+        <y-radio-button-group v-model:value="buttonSize1" :options="buttonOptions" size="small" />
+        <y-radio-button-group v-model:value="buttonSize2" :options="buttonOptions" />
+        <y-radio-button-group v-model:value="buttonSize3" :options="buttonOptions" size="large" />
+      </div>
+    </y-card>
+
+    <y-card title="Disabled" style="margin-top: 8px">
+      <y-radio-button-group v-model:value="buttonGroup3" :options="buttonOptionsWithDisabled" />
+      <y-radio-button-group
+        v-model:value="buttonGroup4"
+        :options="buttonOptions"
+        disabled
+        style="margin-left: 12px"
+      />
+    </y-card>
+  </section>
 </template>
 
 <script lang="ts" setup>
@@ -57,6 +99,27 @@ const groupOptions = [
 const group1 = ref('apple')
 const group2 = ref('banana')
 const group3 = ref('orange')
+
+const buttonOptions = [
+  { label: 'Apple', value: 'apple' },
+  { label: 'Banana', value: 'banana' },
+  { label: 'Orange', value: 'orange' }
+]
+
+const buttonOptionsWithDisabled = [
+  { label: 'Apple', value: 'apple' },
+  { label: 'Banana', value: 'banana', disabled: true },
+  { label: 'Orange', value: 'orange' }
+]
+
+const buttonRadio1 = ref('left')
+const buttonGroup1 = ref('apple')
+const buttonGroup2 = ref('week')
+const buttonGroup3 = ref('orange')
+const buttonGroup4 = ref('banana')
+const buttonSize1 = ref('apple')
+const buttonSize2 = ref('banana')
+const buttonSize3 = ref('orange')
 </script>
 
 <style scoped>
@@ -65,5 +128,12 @@ const group3 = ref('orange')
   margin-left: 8px;
   font-size: 12px;
   color: #999;
+}
+
+.demo-radio-button-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
 }
 </style>

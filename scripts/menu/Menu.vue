@@ -149,6 +149,7 @@ const menuWidth = computed(() => {
 })
 
 defineSlots<{
+  default?: () => any
   item?: (props: { item: MenuItem; index: number }) => any
   icon?: (props: { icon: string; item: MenuItem }) => any
 }>()
