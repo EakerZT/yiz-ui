@@ -54,6 +54,17 @@
       </div>
     </y-card>
 
+    <y-card title="formater 格式化" style="margin-top: 8px">
+      <div style="height: 250px">
+        <y-table :data="data" bordered>
+          <y-table-column label="姓名" field="name" />
+          <y-table-column label="年龄" field="age" align="center" :formater="formatAge" />
+          <y-table-column label="城市" field="city" />
+          <y-table-column label="状态" field="status" align="center" :formater="formatStatus" />
+        </y-table>
+      </div>
+    </y-card>
+
     <y-card title="列宽拖动" style="margin-top: 8px">
       <div style="height: 250px">
         <y-table :data="data" bordered resize>
@@ -189,6 +200,14 @@ const data: Row[] = [
   { name: '赵六', age: 30, city: '深圳', status: '启用' },
   { name: '孙七', age: 41, city: '杭州', status: '禁用' }
 ]
+
+function formatAge(value: number) {
+  return `${value} 岁`
+}
+
+function formatStatus(value: string, _row: Row, index: number) {
+  return `${index + 1}. ${value}`
+}
 
 interface FixedRow {
   name: string

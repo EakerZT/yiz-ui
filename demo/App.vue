@@ -24,6 +24,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 import ButtonDemo from './pages/ButtonDemo.vue'
 import CardDemo from './pages/CardDemo.vue'
 import CheckboxDemo from './pages/CheckboxDemo.vue'
+import ColorPickerDemo from './pages/ColorPickerDemo.vue'
 import ContextMenuDemo from './pages/ContextMenuDemo.vue'
 import DatePickerDemo from './pages/DatePickerDemo.vue'
 import DateRangePickerDemo from './pages/DateRangePickerDemo.vue'
@@ -53,6 +54,7 @@ const pages: Record<string, any> = {
   button: ButtonDemo,
   card: CardDemo,
   checkbox: CheckboxDemo,
+  'color-picker': ColorPickerDemo,
   'context-menu': ContextMenuDemo,
   'date-picker': DatePickerDemo,
   'date-range-picker': DateRangePickerDemo,
@@ -82,6 +84,7 @@ const menuItems = [
   { label: 'Button 按钮', value: 'button' },
   { label: 'Card 卡片', value: 'card' },
   { label: 'Checkbox 复选', value: 'checkbox' },
+  { label: 'ColorPicker 颜色', value: 'color-picker' },
   { label: 'ContextMenu 菜单', value: 'context-menu' },
   { label: 'DatePicker 日期', value: 'date-picker' },
   { label: 'DateRangePicker 日期段', value: 'date-range-picker' },

@@ -126,8 +126,9 @@
               </template>
               <template v-else>
                 <CellRenderer
-                  v-if="col.renderFn"
+                  v-if="col.renderFn || col.formater"
                   :render-fn="col.renderFn"
+                  :formater="col.formater"
                   :value="row[col.field]"
                   :row="row"
                   :index="idx"
@@ -168,6 +169,7 @@ export interface TableColumn {
   maxWidth?: number
   fixed?: 'none' | 'left' | 'right'
   renderFn?: (scope: { value: any; row: Record<string, any>; index: number }) => any
+  formater?: (value: any, row: Record<string, any>, index: number) => any
 }
 
 const slots = useSlots()
@@ -222,7 +224,8 @@ const columns = computed(() => {
           minWidth: minWidth != null ? Number(minWidth) : undefined,
           maxWidth: maxWidth != null ? Number(maxWidth) : undefined,
           fixed: (fixed as 'none' | 'left' | 'right') || 'none',
-          renderFn: defaultSlot
+          renderFn: defaultSlot,
+          formater: p.formater
         })
       }
     }
