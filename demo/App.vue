@@ -32,6 +32,7 @@ import InputNumberDemo from './pages/InputNumberDemo.vue'
 import LoadingDemo from './pages/LoadingDemo.vue'
 import MenuDemo from './pages/MenuDemo.vue'
 import IconDemo from './pages/IconDemo.vue'
+import PaginationDemo from './pages/PaginationDemo.vue'
 import RadioDemo from './pages/RadioDemo.vue'
 import ScrollBoxDemo from './pages/ScrollBoxDemo.vue'
 import SelectDemo from './pages/SelectDemo.vue'
@@ -43,6 +44,7 @@ import TimePickerDemo from './pages/TimePickerDemo.vue'
 import DialogDemo from './pages/DialogDemo.vue'
 import DrawerDemo from './pages/DrawerDemo.vue'
 import TooltipDemo from './pages/TooltipDemo.vue'
+import TreeDemo from './pages/TreeDemo.vue'
 import { ScrollBox } from 'yiz-ui'
 
 const pages: Record<string, any> = {
@@ -58,6 +60,7 @@ const pages: Record<string, any> = {
   'input-number': InputNumberDemo,
   loading: LoadingDemo,
   menu: MenuDemo,
+  pagination: PaginationDemo,
   radio: RadioDemo,
   'scroll-box': ScrollBoxDemo,
   select: SelectDemo,
@@ -67,6 +70,7 @@ const pages: Record<string, any> = {
   tag: TagDemo,
   'time-picker': TimePickerDemo,
   tooltip: TooltipDemo,
+  tree: TreeDemo,
   icon: IconDemo
 }
 
@@ -84,6 +88,7 @@ const menuItems = [
   { label: 'InputNumber 数字', value: 'input-number' },
   { label: 'Loading 加载', value: 'loading' },
   { label: 'Menu 菜单', value: 'menu' },
+  { label: 'Pagination 分页', value: 'pagination' },
   { label: 'Radio 单选', value: 'radio' },
   { label: 'ScrollBox 滚动框', value: 'scroll-box' },
   { label: 'Select 下拉框', value: 'select' },
@@ -92,7 +97,8 @@ const menuItems = [
   { label: 'Table 表格', value: 'table' },
   { label: 'Tag 标签', value: 'tag' },
   { label: 'TimePicker 时间', value: 'time-picker' },
-  { label: 'Tooltip 提示', value: 'tooltip' }
+  { label: 'Tooltip 提示', value: 'tooltip' },
+  { label: 'Tree 树', value: 'tree' }
 ]
 
 function getPageFromHash(): string {

@@ -21,7 +21,11 @@
                 'yiz-table-fixed-right': col.fixed === 'right',
                 'yiz-table-last-non-fixed': borderMarkerFields.lastNonFixed === col.field,
                 'yiz-table-first-right-fixed': borderMarkerFields.firstRightFixed === col.field,
-                'yiz-table-last-right-fixed': borderMarkerFields.lastRightFixed === col.field
+                'yiz-table-last-right-fixed': borderMarkerFields.lastRightFixed === col.field,
+                'yiz-table-left-fixed-shadow':
+                  borderMarkerFields.lastLeftFixed === col.field && leftFixedShadowVisible,
+                'yiz-table-right-fixed-shadow':
+                  borderMarkerFields.firstRightFixed === col.field && rightFixedShadowVisible
               }"
               :style="{ textAlign: col.align || 'left', ...getCellStyle(col) }"
               @click="col.sortable && onSort(col)"
@@ -93,7 +97,11 @@
                 'yiz-table-fixed-right': col.fixed === 'right',
                 'yiz-table-last-non-fixed': borderMarkerFields.lastNonFixed === col.field,
                 'yiz-table-first-right-fixed': borderMarkerFields.firstRightFixed === col.field,
-                'yiz-table-last-right-fixed': borderMarkerFields.lastRightFixed === col.field
+                'yiz-table-last-right-fixed': borderMarkerFields.lastRightFixed === col.field,
+                'yiz-table-left-fixed-shadow':
+                  borderMarkerFields.lastLeftFixed === col.field && leftFixedShadowVisible,
+                'yiz-table-right-fixed-shadow':
+                  borderMarkerFields.firstRightFixed === col.field && rightFixedShadowVisible
               }"
               :style="{ textAlign: col.align || 'left', ...getCellStyle(col) }"
             >
@@ -263,9 +271,15 @@ const tableContentWidth = computed(() => {
 
 const borderMarkerFields = computed(() => {
   const cols = renderedColumns.value
+  let lastLeftFixed: string | null = null
   let lastNonFixed: string | null = null
   let firstRightFixed: string | null = null
   let lastRightFixed: string | null = null
+  for (let i = 0; i < cols.length; i++) {
+    if (cols[i].fixed === 'left') {
+      lastLeftFixed = cols[i].field
+    }
+  }
   for (let i = 0; i < cols.length; i++) {
     if (cols[i].fixed === 'none' && i + 1 < cols.length && cols[i + 1].fixed === 'right') {
       lastNonFixed = cols[i].field
@@ -283,7 +297,7 @@ const borderMarkerFields = computed(() => {
       break
     }
   }
-  return { lastNonFixed, firstRightFixed, lastRightFixed }
+  return { lastLeftFixed, lastNonFixed, firstRightFixed, lastRightFixed }
 })
 
 const fixedOffsets = computed(() => {
@@ -509,9 +523,15 @@ function computeWidths() {
   // 总列宽不足时启用空列吸收剩余宽度，否则隐藏
   const totalW = Object.values(widths).reduce((sum, w) => sum + parseFloat(w), 0)
   showGapColumn.value = totalW < tableWidth
+  nextTick(() => {
+    checkBodyOverflow()
+    checkFixedColumnShadow()
+  })
 }
 
 const bodyHasOverflow = ref(false)
+const leftFixedShadowVisible = ref(false)
+const rightFixedShadowVisible = ref(false)
 
 function checkBodyOverflow() {
   const vp = bodyScrollBoxRef.value?.viewport as HTMLElement | undefined
@@ -520,12 +540,27 @@ function checkBodyOverflow() {
   }
 }
 
+function checkFixedColumnShadow() {
+  const vp = bodyScrollBoxRef.value?.viewport as HTMLElement | undefined
+  if (!vp) {
+    leftFixedShadowVisible.value = false
+    rightFixedShadowVisible.value = false
+    return
+  }
+
+  const maxScrollLeft = vp.scrollWidth - vp.clientWidth
+  const hasHorizontalOverflow = maxScrollLeft > 1
+  leftFixedShadowVisible.value = hasHorizontalOverflow && vp.scrollLeft > 1
+  rightFixedShadowVisible.value = hasHorizontalOverflow && vp.scrollLeft < maxScrollLeft - 1
+}
+
 function onBodyScroll() {
   const bodyViewport = bodyScrollBoxRef.value?.viewport as HTMLElement | undefined
   if (headerWrapperRef.value && bodyViewport) {
     headerWrapperRef.value.scrollLeft = bodyViewport.scrollLeft
   }
   checkBodyOverflow()
+  checkFixedColumnShadow()
 }
 
 let wrapperResizeObserver: ResizeObserver | null = null
@@ -606,6 +641,10 @@ function onResizeEnd() {
   if (wrapper) {
     const totalW = Object.values(columnWidths.value).reduce((sum, w) => sum + parseFloat(w), 0)
     showGapColumn.value = totalW < wrapper.clientWidth
+    nextTick(() => {
+      checkBodyOverflow()
+      checkFixedColumnShadow()
+    })
   }
 }
 
@@ -788,6 +827,26 @@ onUnmounted(() => {
 
 .yiz-table-stripe .yiz-table-body-table tbody .yiz-table-row-stripe:hover .yiz-table-td.yiz-table-fixed {
   background: #f0f2f5;
+}
+
+.yiz-table-left-fixed-shadow::after,
+.yiz-table-right-fixed-shadow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: -1px;
+  width: 12px;
+  pointer-events: none;
+}
+
+.yiz-table-left-fixed-shadow::after {
+  right: -12px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0));
+}
+
+.yiz-table-right-fixed-shadow::before {
+  left: -12px;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0));
 }
 
 // resize

@@ -100,7 +100,7 @@ const hVisible = ref(false)
 const isRTL = ref(false)
 
 // auto-hide state
-const autoHideVisible = ref(props.autoHide !== 'leave')
+const autoHideVisible = ref(props.autoHide === 'never')
 const autoHideInteracting = ref(false)
 const mouseInHost = ref(false)
 
@@ -231,7 +231,7 @@ function sync() {
 
 function onScroll(e: Event) {
   sync()
-  handleAutoHideOnScroll()
+  handleAutoHideOnScroll(true)
   emit('scroll', e)
 }
 
@@ -260,14 +260,28 @@ function manageAutoHide(show: boolean, delayless?: boolean) {
   }
 }
 
-function handleAutoHideOnScroll() {
+function handleAutoHideOnScroll(fromScrollEvent = false) {
   if (props.autoHide === 'never') return
   if (autoHideInteracting.value) return
+
+  if (!fromScrollEvent) {
+    if (props.autoHide === 'leave') {
+      autoHideVisible.value = mouseInHost.value
+    } else if (props.autoHide === 'move') {
+      autoHideVisible.value = false
+    }
+    return
+  }
 
   clearAutoHideTimers()
 
   if (props.autoHide === 'leave') {
     autoHideVisible.value = mouseInHost.value
+    return
+  }
+
+  if (props.autoHide === 'move') {
+    autoHideVisible.value = false
     return
   }
 
@@ -425,7 +439,7 @@ function onScrollbarWheel(e: WheelEvent, _dir: 'v' | 'h') {
   vp.scrollTop += e.deltaY
   vp.scrollLeft += e.deltaX
 
-  handleAutoHideOnScroll()
+  handleAutoHideOnScroll(true)
 }
 
 // ==================== Lifecycle ====================
@@ -474,7 +488,7 @@ onMounted(() => {
 
   // initial auto-hide state
   if (props.autoHide !== 'never') {
-    autoHideVisible.value = props.autoHide !== 'leave'
+    autoHideVisible.value = false
   }
 })
 
