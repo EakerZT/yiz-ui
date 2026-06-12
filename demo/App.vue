@@ -6,7 +6,9 @@
     </header>
     <div class="demo-body">
       <aside class="demo-sidebar">
-        <y-menu v-model:select="currentPage" :items="menuItems" :width="200" @select="onNavSelect" />
+        <scroll-box height="100%" width="100%">
+          <y-menu v-model:select="currentPage" :items="menuItems" :width="200" @select="onNavSelect" />
+        </scroll-box>
       </aside>
       <main class="demo-main">
         <scroll-box height="100%" width="100%">
@@ -23,6 +25,8 @@ import ButtonDemo from './pages/ButtonDemo.vue'
 import CardDemo from './pages/CardDemo.vue'
 import CheckboxDemo from './pages/CheckboxDemo.vue'
 import ContextMenuDemo from './pages/ContextMenuDemo.vue'
+import DatePickerDemo from './pages/DatePickerDemo.vue'
+import EmptyDemo from './pages/EmptyDemo.vue'
 import InputDemo from './pages/InputDemo.vue'
 import InputNumberDemo from './pages/InputNumberDemo.vue'
 import LoadingDemo from './pages/LoadingDemo.vue'
@@ -35,6 +39,7 @@ import SwitchDemo from './pages/SwitchDemo.vue'
 import TabDemo from './pages/TabDemo.vue'
 import TableDemo from './pages/TableDemo.vue'
 import TagDemo from './pages/TagDemo.vue'
+import TimePickerDemo from './pages/TimePickerDemo.vue'
 import DialogDemo from './pages/DialogDemo.vue'
 import DrawerDemo from './pages/DrawerDemo.vue'
 import TooltipDemo from './pages/TooltipDemo.vue'
@@ -45,6 +50,8 @@ const pages: Record<string, any> = {
   card: CardDemo,
   checkbox: CheckboxDemo,
   'context-menu': ContextMenuDemo,
+  'date-picker': DatePickerDemo,
+  empty: EmptyDemo,
   dialog: DialogDemo,
   drawer: DrawerDemo,
   input: InputDemo,
@@ -58,6 +65,7 @@ const pages: Record<string, any> = {
   tab: TabDemo,
   table: TableDemo,
   tag: TagDemo,
+  'time-picker': TimePickerDemo,
   tooltip: TooltipDemo,
   icon: IconDemo
 }
@@ -67,6 +75,8 @@ const menuItems = [
   { label: 'Card 卡片', value: 'card' },
   { label: 'Checkbox 复选', value: 'checkbox' },
   { label: 'ContextMenu 菜单', value: 'context-menu' },
+  { label: 'DatePicker 日期', value: 'date-picker' },
+  { label: 'Empty 空状态', value: 'empty' },
   { label: 'Dialog 弹窗', value: 'dialog' },
   { label: 'Drawer 抽屉', value: 'drawer' },
   { label: 'Icon 图标', value: 'icon' },
@@ -81,6 +91,7 @@ const menuItems = [
   { label: 'Tab 标签页', value: 'tab' },
   { label: 'Table 表格', value: 'table' },
   { label: 'Tag 标签', value: 'tag' },
+  { label: 'TimePicker 时间', value: 'time-picker' },
   { label: 'Tooltip 提示', value: 'tooltip' }
 ]
 

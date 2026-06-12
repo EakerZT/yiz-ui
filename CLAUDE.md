@@ -48,7 +48,7 @@ Everything else (plugin registration, path alias, global component name) is auto
 
 The most complex component. Three files:
 
-- **`Table.vue`** — main SFC using a dual-table structure: separate `<table>` elements for header and body, synchronized via `<colgroup>` + `table-layout: fixed`. Flex column layout fills parent height (no `height` prop). Features: sorting, column resize with min/max constraints, single/multi selection (v-model via `defineModel`), row-level select disabling (`selectDisabled`), `select` event (emits full row data), row numbers, empty state slot, fixed columns with sticky positioning, header scrollbar-gap compensation.
+- **`Table.vue`** — main SFC using a dual-table structure: separate `<table>` elements for header and body, synchronized via `<colgroup>` + `table-layout: fixed`. Flex column layout fills parent height (no `height` prop). Features: sorting, column resize with min/max constraints, single/multi selection (v-model via `defineModel`), row-level select disabling (`selectDisabled`), `select` event (emits full row data), row numbers, empty state slot, fixed columns with sticky positioning.
 - **`TableColumn.vue`** — renderless declarative component; declares column config via props (`label`, `field`, `width`, `sortable`, `align`, `minWidth`, `maxWidth`, `fixed`). Supports a `#default` slot for custom cell rendering.
 - **`CellRenderer.vue`** — internal helper that calls a slot render function with `{ value, row, index }` scope and returns VNodes. Uses `defineComponent` with a setup-returning-render-function pattern (NOT `<script setup>`).
 
@@ -70,6 +70,10 @@ The most complex component. Three files:
 **Key props on `y-table`:** `data`, `bordered`, `stripe`, `size`, `resize`, `no`, `selectMode`, `rowKey`, `selectDisabled`, `v-model:selected`.
 
 **Key events:** `select` — fires when selection changes, payload is the selected row data (single object for single mode, array for multi mode, null when deselected in single mode).
+
+**Body scrolling with ScrollBox:** The body area uses `<ScrollBox ref="bodyScrollBoxRef" :z-index="4" @scroll="onBodyScroll">`. Header horizontal sync reads `bodyScrollBoxRef.value.viewport.scrollLeft` (exposed via `defineExpose`). The `:z-index="4"` ensures scrollbar tracks render above fixed columns (z-index 2–3). `bodyHasOverflow` ref tracks `viewport.scrollHeight > clientHeight` to conditionally restore the last row's bottom border when content doesn't overflow.
+
+**Last row border logic:** For bordered tables, `tr:last-child td { border-bottom: none }` is the default. When `bodyHasOverflow` is false (content doesn't fill the viewport), the `.yiz-table-no-overflow` class overrides this to restore the border. When content overflows, the ScrollBox host's `border-bottom` provides the visual closure instead.
 
 **Right-fixed column border:** `borderMarkerFields` computed identifies the last non-fixed column before right-fixed columns and the first right-fixed column. CSS removes `border-right` from the former and adds `border-left` to the latter, creating a clean boundary line.
 
@@ -192,8 +196,12 @@ A dropdown selection component combining several patterns:
 - **z-index** — calls `nextZIndex()` on open, dropdown renders at `zIndex + 1`
 - **Click-outside** — document-level `click` listener (capture phase) closes the dropdown when clicking outside trigger + dropdown refs
 - **Keyboard** — Escape to close, ArrowUp/ArrowDown to navigate `hoverIndex`, Enter to select
-- **Search** — optional `search` prop (sync or async function returning filtered `SelectOption[]`); renders an `<Input>` in the dropdown
+- **Search** — optional `search` prop (sync or async function returning filtered `SelectOption[]`); renders an `<Input>` in the dropdown. Search input is fixed outside the ScrollBox so it doesn't scroll with options.
 - **`defineModel`** — `defineModel<any>('modelValue')` tracks selected value
+
+**Options scrolling:** The options list is wrapped in `<ScrollBox :max-height="scrollBoxMaxHeight">`. `scrollBoxMaxHeight` is a ref (default 240) dynamically adjusted by `repositionDropdown()` based on available viewport space minus search bar height. The search input sits outside the ScrollBox, staying fixed at the top of the dropdown.
+
+**Positioning:** `repositionDropdown()` is the central position function, called on open (via `watch(open)` + `nextTick`) and on window `scroll`/`resize`. It decides below-vs-above by comparing `spaceBelow` vs `spaceAbove`, writes position to `dropdownPos` (a reactive ref), which `dropdownStyle` computed spreads into the style binding. Upward popups use `bottom` CSS (not `top`) so the dropdown's bottom edge automatically aligns to the trigger's top edge without manual height calculation. The `scroll` listener uses capture phase (`true`) because scroll events don't bubble.
 
 ### ScrollBox (`scripts/scroll-box/`)
 
@@ -229,9 +237,11 @@ CSS classes `--active` (overflow exists), `--auto-hidden` (auto-hide hides), `--
 
 **Theme system** — CSS custom properties on `.yiz-scroll-box-track` (`--yiz-scroll-thumb-bg`, `--yiz-scroll-thumb-bg-hover`, `--yiz-scroll-thumb-bg-active`, `--yiz-scroll-thumb-radius`, `--yiz-scroll-track-size`, `--yiz-scroll-track-offset`, `--yiz-scroll-thumb-min-size`). Pass a class name via `theme` prop to override these.
 
-**Observers** — `ResizeObserver` on viewport triggers `sync()` + auto-hide refresh. Scroll events on viewport drive the primary update cycle. Wheel events on scrollbar surfaces are forwarded to viewport via `e.preventDefault()` + manual `scrollTop`/`scrollLeft` adjustment.
+**Observers** — `ResizeObserver` on viewport triggers `sync()` + auto-hide refresh. `MutationObserver` on viewport (childList, subtree, characterData, attributes) detects content changes (dynamic content, images loading, column resize) and schedules a rAF-coalesced `sync()`. Scroll events on viewport drive the primary update cycle. Wheel events on scrollbar surfaces are forwarded to viewport via `e.preventDefault()` + manual `scrollTop`/`scrollLeft` adjustment.
 
-**Key props:** `height`, `maxHeight`, `width` (number → px, string → passed as-is e.g. `'100%'`, `'calc(100vh - 80px)'`), `autoHide`, `autoHideDelay`, `theme`, `overflowX`, `overflowY`.
+**External API** — `defineExpose({ viewport, sync })` exposes the viewport ref for external scroll position reading and manual sync. `emit('scroll', event)` fires on scroll for parent components to react (e.g. Table's header sync).
+
+**Key props:** `height`, `maxHeight`, `width` (number → px, string → passed as-is e.g. `'100%'`, `'calc(100vh - 80px)'`), `autoHide`, `autoHideDelay`, `theme`, `overflowX`, `overflowY`, `zIndex` (default 1, sets scrollbar track z-index for stacking context priority).
 
 ### Card (`scripts/card/`)
 

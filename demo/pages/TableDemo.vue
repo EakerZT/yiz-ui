@@ -46,7 +46,8 @@
           <y-table-column label="城市" field="city" />
           <y-table-column label="状态" field="status" align="center">
             <template #default="{ value }">
-              <span :style="{ color: value === '启用' ? '#67c23a' : '#f56c6c' }">{{ value }}</span>
+              <LinkButton v-if="value === '禁用'">启用</LinkButton>
+              <LinkButton v-else color="error">禁用</LinkButton>
             </template>
           </y-table-column>
         </y-table>
@@ -172,6 +173,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { LinkButton } from 'yiz-ui'
 
 interface Row {
   name: string

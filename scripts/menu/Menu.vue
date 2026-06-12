@@ -292,7 +292,7 @@ function onCollapsedPopupSelect(item: MenuItem) {
   background: #fff;
   padding: 4px 0;
   transition: width 0.2s;
-  height: 100%;
+  min-height: 100%;
 }
 
 .yiz-menu-collapsed {

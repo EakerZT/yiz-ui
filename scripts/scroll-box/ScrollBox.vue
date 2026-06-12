@@ -100,7 +100,7 @@ const hVisible = ref(false)
 const isRTL = ref(false)
 
 // auto-hide state
-const autoHideVisible = ref(true)
+const autoHideVisible = ref(props.autoHide !== 'leave')
 const autoHideInteracting = ref(false)
 const mouseInHost = ref(false)
 
@@ -264,8 +264,14 @@ function handleAutoHideOnScroll() {
   if (props.autoHide === 'never') return
   if (autoHideInteracting.value) return
 
-  autoHideVisible.value = true
   clearAutoHideTimers()
+
+  if (props.autoHide === 'leave') {
+    autoHideVisible.value = mouseInHost.value
+    return
+  }
+
+  autoHideVisible.value = true
 
   if (props.autoHide === 'scroll') {
     autoHideScrollTimer = setTimeout(() => {

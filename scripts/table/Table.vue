@@ -2,24 +2,26 @@
   <div ref="tableWrapperRef" class="yiz-table-wrapper" :class="vClass">
     <!-- Header table -->
     <div class="yiz-table-header-wrapper" ref="headerWrapperRef">
-      <table class="yiz-table-header-table">
+      <table class="yiz-table-header-table" :style="{ width: tableContentWidth }">
         <colgroup>
-          <col v-for="col in displayColumns" :key="col.field" :style="{ width: colWidth(col) }" />
+          <col v-for="col in renderedColumns" :key="col.field" :style="{ width: colWidth(col) }" />
         </colgroup>
         <thead>
           <tr>
             <th
-              v-for="col in displayColumns"
+              v-for="col in renderedColumns"
               :key="col.field"
               class="yiz-table-th"
               :class="{
+                'yiz-table-gap-col': col.field === '__yiz_gap',
                 'yiz-table-sortable': col.sortable,
                 'yiz-table-resizing': resizing === col.field,
                 'yiz-table-fixed': col.fixed !== 'none',
                 'yiz-table-fixed-left': col.fixed === 'left',
                 'yiz-table-fixed-right': col.fixed === 'right',
                 'yiz-table-last-non-fixed': borderMarkerFields.lastNonFixed === col.field,
-                'yiz-table-first-right-fixed': borderMarkerFields.firstRightFixed === col.field
+                'yiz-table-first-right-fixed': borderMarkerFields.firstRightFixed === col.field,
+                'yiz-table-last-right-fixed': borderMarkerFields.lastRightFixed === col.field
               }"
               :style="{ textAlign: col.align || 'left', ...getCellStyle(col) }"
               @click="col.sortable && onSort(col)"
@@ -41,7 +43,7 @@
                 >
               </span>
               <span
-                v-if="resize && col.field !== '__yiz_select' && col.field !== '__yiz_row_no'"
+                v-if="resize && col.field !== '__yiz_select' && col.field !== '__yiz_row_no' && col.field !== '__yiz_gap'"
                 class="yiz-table-resize-handle"
                 @mousedown.stop="onResizeStart($event, col)"
                 @click.stop
@@ -53,34 +55,45 @@
     </div>
 
     <!-- Body table -->
-    <ScrollBox ref="bodyScrollBoxRef" class="yiz-table-body-scrollbox" :z-index="4" @scroll="onBodyScroll">
-      <table class="yiz-table-body-table" :class="{ 'yiz-table-no-overflow': !bodyHasOverflow }">
+    <ScrollBox
+      auto-hide="leave"
+      ref="bodyScrollBoxRef"
+      class="yiz-table-body-scrollbox"
+      :class="{ 'yiz-table-body-empty': sortedData.length === 0 }"
+      :z-index="4"
+      @scroll="onBodyScroll"
+    >
+      <!-- 空状态：脱离表格，居中不滚动 -->
+      <div v-if="sortedData.length === 0" class="yiz-table-empty-wrap">
+        <slot name="empty">
+          <Empty description="暂无数据" size="small" />
+        </slot>
+      </div>
+
+      <!-- 数据表格 -->
+      <table
+        v-else
+        class="yiz-table-body-table"
+        :class="{ 'yiz-table-no-overflow': !bodyHasOverflow }"
+        :style="{ width: tableContentWidth }"
+      >
         <colgroup>
-          <col v-for="col in displayColumns" :key="col.field" :style="{ width: colWidth(col) }" />
+          <col v-for="col in renderedColumns" :key="col.field" :style="{ width: colWidth(col) }" />
         </colgroup>
         <tbody>
-          <tr v-if="sortedData.length === 0">
-            <td :colspan="displayColumns.length" class="yiz-table-td yiz-table-empty-cell">
-              <slot name="empty">
-                <div class="yiz-table-empty">暂无数据</div>
-              </slot>
-            </td>
-          </tr>
-          <tr
-            v-for="(row, idx) in sortedData"
-            :key="idx"
-            :class="{ 'yiz-table-row-stripe': stripe && idx % 2 === 1 }"
-          >
+          <tr v-for="(row, idx) in sortedData" :key="idx" :class="{ 'yiz-table-row-stripe': stripe && idx % 2 === 1 }">
             <td
-              v-for="col in displayColumns"
+              v-for="col in renderedColumns"
               :key="col.field"
               class="yiz-table-td"
               :class="{
+                'yiz-table-gap-col': col.field === '__yiz_gap',
                 'yiz-table-fixed': col.fixed !== 'none',
                 'yiz-table-fixed-left': col.fixed === 'left',
                 'yiz-table-fixed-right': col.fixed === 'right',
                 'yiz-table-last-non-fixed': borderMarkerFields.lastNonFixed === col.field,
-                'yiz-table-first-right-fixed': borderMarkerFields.firstRightFixed === col.field
+                'yiz-table-first-right-fixed': borderMarkerFields.firstRightFixed === col.field,
+                'yiz-table-last-right-fixed': borderMarkerFields.lastRightFixed === col.field
               }"
               :style="{ textAlign: col.align || 'left', ...getCellStyle(col) }"
             >
@@ -135,6 +148,7 @@ import CellRenderer from './CellRenderer.vue'
 import Checkbox from '../checkbox/Checkbox.vue'
 import Radio from '../radio/Radio.vue'
 import { ScrollBox } from '../scroll-box'
+import { Empty } from '../empty'
 
 export interface TableColumn {
   label: string
@@ -227,14 +241,31 @@ const displayColumns = computed<TableColumn[]>(() => {
     else normal.push(col)
   }
 
-  result.push(...leftFixed, ...normal, ...rightFixed)
+  result.push(...leftFixed, ...normal)
+  // 空列：放在非固定列之后、右固定列之前，吸收剩余宽度
+  result.push({ label: '', field: '__yiz_gap', width: undefined, fixed: 'none' })
+  result.push(...rightFixed)
   return result
 })
 
+const renderedColumns = computed(() => {
+  return displayColumns.value.filter((col) => col.field !== '__yiz_gap' || showGapColumn.value)
+})
+
+const tableContentWidth = computed(() => {
+  const wrapperWidth = tableWrapperRef.value?.clientWidth ?? 0
+  const totalWidth = renderedColumns.value.reduce((sum, col) => {
+    const width = columnWidths.value[col.field] || col.width
+    return sum + (width ? parseFloat(width) || 0 : 0)
+  }, 0)
+  return totalWidth > wrapperWidth ? `${totalWidth}px` : '100%'
+})
+
 const borderMarkerFields = computed(() => {
-  const cols = displayColumns.value
+  const cols = renderedColumns.value
   let lastNonFixed: string | null = null
   let firstRightFixed: string | null = null
+  let lastRightFixed: string | null = null
   for (let i = 0; i < cols.length; i++) {
     if (cols[i].fixed === 'none' && i + 1 < cols.length && cols[i + 1].fixed === 'right') {
       lastNonFixed = cols[i].field
@@ -246,12 +277,18 @@ const borderMarkerFields = computed(() => {
       break
     }
   }
-  return { lastNonFixed, firstRightFixed }
+  for (let i = cols.length - 1; i >= 0; i--) {
+    if (cols[i].fixed === 'right') {
+      lastRightFixed = cols[i].field
+      break
+    }
+  }
+  return { lastNonFixed, firstRightFixed, lastRightFixed }
 })
 
 const fixedOffsets = computed(() => {
   const offsets: Record<string, { left?: string; right?: string }> = {}
-  const cols = displayColumns.value
+  const cols = renderedColumns.value
   const widths = columnWidths.value
 
   let leftPx = 0
@@ -419,6 +456,9 @@ const tableWrapperRef = ref<HTMLDivElement>()
 const headerWrapperRef = ref<HTMLDivElement>()
 const bodyScrollBoxRef = ref<InstanceType<typeof ScrollBox>>()
 const columnWidths = ref<Record<string, string>>({})
+const showGapColumn = ref(false)
+
+const widthsInitialized = ref(false)
 
 function computeWidths() {
   const wrapper = tableWrapperRef.value
@@ -427,49 +467,48 @@ function computeWidths() {
   const cols = displayColumns.value
   if (cols.length === 0) return
 
-  const fixedFields = new Set(['__yiz_select', '__yiz_row_no'])
   const widths: Record<string, string> = {}
-  let fixedSpace = 0
+  const prev = columnWidths.value
 
+  // 所有列（除空列）：优先保留已调整过的宽度，否则用初始值
   for (const col of cols) {
-    if (fixedFields.has(col.field) && col.width) {
-      widths[col.field] = col.width
-      fixedSpace += parseFloat(col.width)
+    if (col.field === '__yiz_gap') continue
+    const w = prev[col.field] || col.width
+    if (w) {
+      widths[col.field] = w
     }
   }
 
-  const userCols = cols.filter((c) => !fixedFields.has(c.field))
-  if (userCols.length === 0) {
-    columnWidths.value = widths
-    return
-  }
-
-  const remainingWidth = tableWidth - fixedSpace
-  let totalFixed = 0
-  const parsed: number[] = []
-  for (const col of userCols) {
-    const num = col.width ? parseFloat(col.width) : NaN
-    if (!isNaN(num)) {
-      parsed.push(num)
-      totalFixed += num
-    } else {
-      parsed.push(0)
-    }
-  }
-
-  if (totalFixed > 0 && totalFixed >= remainingWidth) {
-    for (let i = 0; i < userCols.length; i++) {
-      if (parsed[i] > 0) {
-        widths[userCols[i].field] = `${parsed[i]}px`
+  // 初始化：未指定宽度的列均分剩余空间
+  if (!widthsInitialized.value) {
+    widthsInitialized.value = true
+    const colsWithWidth: typeof cols = []
+    const colsWithoutWidth: typeof cols = []
+    for (const col of cols) {
+      if (col.field === '__yiz_gap') continue
+      if (widths[col.field]) {
+        colsWithWidth.push(col)
+      } else {
+        colsWithoutWidth.push(col)
       }
     }
-  } else {
-    const extraPerCol = (remainingWidth - totalFixed) / userCols.length
-    for (let i = 0; i < userCols.length; i++) {
-      widths[userCols[i].field] = `${parsed[i] + extraPerCol}px`
+    if (colsWithoutWidth.length > 0) {
+      const fixedTotal = colsWithWidth.reduce((sum, c) => sum + parseFloat(widths[c.field]), 0)
+      const remaining = tableWidth - fixedTotal
+      if (remaining > 0) {
+        const each = remaining / colsWithoutWidth.length
+        for (const col of colsWithoutWidth) {
+          widths[col.field] = `${each}px`
+        }
+      }
     }
   }
+
   columnWidths.value = widths
+
+  // 总列宽不足时启用空列吸收剩余宽度，否则隐藏
+  const totalW = Object.values(widths).reduce((sum, w) => sum + parseFloat(w), 0)
+  showGapColumn.value = totalW < tableWidth
 }
 
 const bodyHasOverflow = ref(false)
@@ -489,10 +528,17 @@ function onBodyScroll() {
   checkBodyOverflow()
 }
 
+let wrapperResizeObserver: ResizeObserver | null = null
+
 onMounted(() => {
   nextTick(() => {
     computeWidths()
     onBodyScroll()
+    // 监听 wrapper 尺寸变化，重新计算列宽（窗口缩放、父级布局变化等）
+    if (tableWrapperRef.value) {
+      wrapperResizeObserver = new ResizeObserver(() => computeWidths())
+      wrapperResizeObserver.observe(tableWrapperRef.value)
+    }
   })
 })
 
@@ -512,11 +558,12 @@ function onResizeStart(e: MouseEvent, col: TableColumn) {
   const cols = displayColumns.value
   if (allThs) {
     allThs.forEach((thEl, i) => {
-      if (i < cols.length && cols[i].fixed === 'none') {
+      if (i < cols.length && cols[i].fixed === 'none' && cols[i].field !== '__yiz_gap') {
         widths[cols[i].field] = `${thEl.offsetWidth}px`
       }
     })
   }
+  console.log(widths)
   columnWidths.value = widths
 
   resizing.value = col.field
@@ -553,9 +600,17 @@ function onResizeEnd() {
   document.removeEventListener('mouseup', onResizeEnd)
   document.body.style.userSelect = ''
   document.body.style.cursor = ''
+
+  // 拖拽结束后重新判断是否需要空列
+  const wrapper = tableWrapperRef.value
+  if (wrapper) {
+    const totalW = Object.values(columnWidths.value).reduce((sum, w) => sum + parseFloat(w), 0)
+    showGapColumn.value = totalW < wrapper.clientWidth
+  }
 }
 
 onUnmounted(() => {
+  wrapperResizeObserver?.disconnect()
   document.removeEventListener('mousemove', onResizeMove)
   document.removeEventListener('mouseup', onResizeEnd)
   document.body.style.userSelect = ''
@@ -700,14 +755,18 @@ onUnmounted(() => {
 }
 
 // empty
-.yiz-table-empty-cell {
-  text-align: center;
+.yiz-table-empty-wrap {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.yiz-table-empty {
-  text-align: center;
-  padding: 48px 0;
-  color: #999;
+// gap column: absorbs remaining table width
+.yiz-table-gap-col {
+  padding: 0 !important;
+  border: none !important;
+  min-width: 0;
 }
 
 // fixed columns
@@ -787,5 +846,15 @@ onUnmounted(() => {
 .yiz-table-resizable .yiz-table-th.yiz-table-first-right-fixed,
 .yiz-table-resizable .yiz-table-td.yiz-table-first-right-fixed {
   border-left: 1px solid var(--yiz-color-border, #d9d9d9);
+}
+
+// right-fixed boundary: remove right border from last right-fixed column
+.yiz-table-th.yiz-table-last-right-fixed,
+.yiz-table-td.yiz-table-last-right-fixed,
+.yiz-table-bordered .yiz-table-th.yiz-table-last-right-fixed,
+.yiz-table-bordered .yiz-table-td.yiz-table-last-right-fixed,
+.yiz-table-resizable .yiz-table-th.yiz-table-last-right-fixed,
+.yiz-table-resizable .yiz-table-td.yiz-table-last-right-fixed {
+  border-right: none;
 }
 </style>
