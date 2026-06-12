@@ -28,19 +28,22 @@ const props = withDefaults(
     type?: 'default' | 'primary'
     color?: 'default' | 'success' | 'warning' | 'error' | string
     shape?: 'default' | 'round' | 'circle'
+    size?: 'small' | 'middle' | 'large'
     disabled?: boolean
   }>(),
   {
     type: 'default',
     color: 'default',
     shape: 'default',
+    size: 'middle',
     disabled: false
   }
 )
 const vClass = computed(() => {
   const c: Record<string, boolean> = {
     [`yiz-button-type-${props.type}`]: true,
-    [`yiz-button-shape-${props.shape}`]: true
+    [`yiz-button-shape-${props.shape}`]: true,
+    [`yiz-button-size-${props.size}`]: true
   }
   if (['success', 'default', 'warning', 'error'].includes(props.color)) {
     c[`yiz-button-color-${props.color}`] = true
@@ -113,7 +116,12 @@ const onClick = (e: MouseEvent) => {
     color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
     background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
     opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    font-size 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    border-radius 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid transparent;
 
   &.yiz-button-disabled {
@@ -166,6 +174,60 @@ const onClick = (e: MouseEvent) => {
 
   & > .yiz-wave {
     border-radius: 20px;
+  }
+}
+
+.yiz-button-size-small {
+  height: 28px;
+  font-size: 14px;
+
+  &.yiz-button-shape-default {
+    padding: 0 10px;
+  }
+
+  &.yiz-button-shape-round {
+    border-radius: 14px;
+    padding: 0 12px;
+  }
+
+  &.yiz-button-shape-circle {
+    width: 28px;
+  }
+}
+
+.yiz-button-size-middle {
+  height: 34px;
+  font-size: 14px;
+
+  &.yiz-button-shape-default {
+    padding: 0 14px;
+  }
+
+  &.yiz-button-shape-round {
+    border-radius: 20px;
+    padding: 0 15px;
+  }
+
+  &.yiz-button-shape-circle {
+    width: 34px;
+  }
+}
+
+.yiz-button-size-large {
+  height: 40px;
+  font-size: 16px;
+
+  &.yiz-button-shape-default {
+    padding: 0 18px;
+  }
+
+  &.yiz-button-shape-round {
+    border-radius: 20px;
+    padding: 0 20px;
+  }
+
+  &.yiz-button-shape-circle {
+    width: 40px;
   }
 }
 

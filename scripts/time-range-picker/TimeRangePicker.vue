@@ -138,7 +138,7 @@
 
         <div class="yiz-time-range-picker-footer">
           <LinkButton @click="onNow">Now</LinkButton>
-          <Button type="primary" :disabled="confirmDisabled" @click="onConfirm">OK</Button>
+          <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">OK</Button>
         </div>
       </div>
     </Transition>

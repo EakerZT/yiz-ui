@@ -38,6 +38,28 @@
       </y-button-group>
     </y-card>
 
+    <y-card title="Size" style="margin-top: 8px">
+      <div class="demo-button-size-panel">
+        <y-radio-button-group v-model:value="buttonSize" :options="buttonSizeOptions" />
+        <y-button-group wrap gap="8">
+          <y-button :size="buttonSize">default</y-button>
+          <y-button type="primary" :size="buttonSize">primary</y-button>
+          <y-button type="plain" :size="buttonSize">plain</y-button>
+          <y-button type="primary" color="success" :size="buttonSize">success</y-button>
+          <y-button type="primary" color="warning" :size="buttonSize">warning</y-button>
+          <y-button type="primary" color="error" :size="buttonSize">error</y-button>
+          <y-button type="primary" :size="buttonSize">
+            <y-icon :icon="Flash20Regular" />
+            Search
+          </y-button>
+          <y-button type="primary" shape="round" :size="buttonSize">round</y-button>
+          <y-button type="primary" shape="circle" :size="buttonSize">
+            <y-icon :icon="Flash20Regular" />
+          </y-button>
+        </y-button-group>
+      </div>
+    </y-card>
+
     <y-card title="带图标" style="margin-top: 8px">
       <y-button-group>
         <y-button type="primary">
@@ -102,4 +124,19 @@ import { Flash20Regular } from '@vicons/fluent'
 
 const count = ref(0)
 const linkCount = ref(0)
+const buttonSize = ref<'small' | 'middle' | 'large'>('middle')
+const buttonSizeOptions = [
+  { label: 'small', value: 'small' },
+  { label: 'middle', value: 'middle' },
+  { label: 'large', value: 'large' }
+]
 </script>
+
+<style scoped>
+.demo-button-size-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+</style>

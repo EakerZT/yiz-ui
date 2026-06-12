@@ -77,7 +77,7 @@
         </div>
         <div class="yiz-time-picker-footer">
           <LinkButton @click="onNow">此刻</LinkButton>
-          <Button type="primary" @click="onConfirm">确定</Button>
+          <Button type="primary" size="small" @click="onConfirm">确定</Button>
         </div>
       </div>
     </Transition>

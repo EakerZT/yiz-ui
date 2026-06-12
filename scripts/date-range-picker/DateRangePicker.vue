@@ -118,7 +118,7 @@
 
         <div class="yiz-date-range-picker-footer">
           <LinkButton @click="onToday">Today</LinkButton>
-          <Button type="primary" :disabled="confirmDisabled" @click="onConfirm">OK</Button>
+          <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">OK</Button>
         </div>
       </div>
     </Transition>
