@@ -10,13 +10,13 @@ import { computed } from 'vue'
 const props = withDefaults(
   defineProps<{
     direction?: 'horizontal' | 'vertical'
-    size?: 'small' | 'default' | 'large' | number
+    gap?: number | string
     align?: 'start' | 'center' | 'end' | 'baseline'
     wrap?: boolean
   }>(),
   {
     direction: 'horizontal',
-    size: 'default',
+    gap: 12,
     align: 'center',
     wrap: false
   }
@@ -25,12 +25,6 @@ const props = withDefaults(
 defineSlots<{
   default?: any
 }>()
-
-const sizeMap: Record<string, number> = {
-  small: 8,
-  default: 12,
-  large: 20
-}
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
@@ -43,7 +37,8 @@ const vClass = computed(() => {
 
 const vStyle = computed(() => {
   const s: Record<string, string> = {}
-  const gap = typeof props.size === 'number' ? props.size : (sizeMap[props.size] ?? 12)
+  const parsedGap = typeof props.gap === 'number' ? props.gap : Number(props.gap)
+  const gap = Number.isFinite(parsedGap) ? parsedGap : 12
   s['--yiz-button-group-gap'] = `${gap}px`
   s['--yiz-button-group-align'] = props.align
   return s

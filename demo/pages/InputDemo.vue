@@ -13,14 +13,12 @@
     </y-card>
 
     <y-card title="前缀 / 后缀" style="margin-top: 8px">
-      <y-button-group direction="vertical" size="small">
-        <y-input v-model:value="affixText" placeholder="prop 方式">
-          <template #prefix>
-            <y-icon :icon="Flash20Regular" />
-          </template>
-          <template #suffix>.com</template>
-        </y-input>
-      </y-button-group>
+      <y-input v-model:value="affixText" placeholder="prop 方式">
+        <template #prefix>
+          <y-icon :icon="Flash20Regular" />
+        </template>
+        <template #suffix>.com</template>
+      </y-input>
     </y-card>
   </section>
 </template>
