@@ -147,6 +147,11 @@
     "@eslint/core" "^0.17.0"
     levn "^0.4.1"
 
+"@fluentui/svg-icons@^1.1.330":
+  version "1.1.330"
+  resolved "https://registry.npmmirror.com/@fluentui/svg-icons/-/svg-icons-1.1.330.tgz#6de59476cf19e055a5a196f7e0cc7872c01f6528"
+  integrity sha512-yREGomPwVEQ7gVRFSxg1kTBnvH65KvpClekhcN7/uZvmO/PSEFwrBGI+lQC/rqGXvTzISYxk9hYJbN3SHJepFQ==
+
 "@humanfs/core@^0.19.1":
   version "0.19.1"
   resolved "https://registry.npmmirror.com/@humanfs/core/-/core-0.19.1.tgz#17c55ca7d426733fe3c561906b8173c336b40a77"

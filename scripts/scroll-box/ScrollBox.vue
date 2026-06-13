@@ -65,7 +65,7 @@ const props = withDefaults(
     zIndex?: number
   }>(),
   {
-    autoHide: 'never',
+    autoHide: 'leave',
     autoHideDelay: 1300,
     theme: null,
     overflowX: 'auto',

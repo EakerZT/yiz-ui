@@ -7,7 +7,7 @@
       @mouseenter="$emit('mouseenter')"
       @mouseleave="$emit('mouseleave', $event)"
     >
-      <div class="yiz-menu">
+      <div class="yiz-menu" :class="{ 'yiz-menu-dark': dark }">
         <template v-for="(item, idx) in items" :key="idx">
           <div
             class="yiz-menu-item"
@@ -54,6 +54,7 @@
         :items="hoveredItem?.children"
         :selected="selected"
         :position="childStyle"
+        :dark="dark"
         popup-class="yiz-menu-popup-sub"
         @select="onChildSelect"
         @mouseenter="onChildEnter"
@@ -77,6 +78,7 @@ const props = defineProps<{
   visible?: boolean
   position?: Record<string, string>
   popupClass?: string
+  dark?: boolean
 }>()
 
 defineSlots<{

@@ -19,6 +19,7 @@
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "declaration": true,
+    "tsBuildInfoFile": "./tsconfig.tsbuildinfo",
     "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

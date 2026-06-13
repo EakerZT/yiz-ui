@@ -28,6 +28,7 @@
     "yarn": "1.22.22"
   },
   "devDependencies": {
+    "@fluentui/svg-icons": "^1.1.330",
     "@types/node": "^25.9.3",
     "@vicons/fluent": "^0.13.0",
     "@vitejs/plugin-vue": "^6.0.7",

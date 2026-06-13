@@ -33,6 +33,7 @@ import InputDemo from './pages/InputDemo.vue'
 import InputNumberDemo from './pages/InputNumberDemo.vue'
 import LoadingDemo from './pages/LoadingDemo.vue'
 import MenuDemo from './pages/MenuDemo.vue'
+import NotificationDemo from './pages/NotificationDemo.vue'
 import IconDemo from './pages/IconDemo.vue'
 import PaginationDemo from './pages/PaginationDemo.vue'
 import RadioDemo from './pages/RadioDemo.vue'
@@ -65,6 +66,7 @@ const pages: Record<string, any> = {
   'input-number': InputNumberDemo,
   loading: LoadingDemo,
   menu: MenuDemo,
+  notification: NotificationDemo,
   pagination: PaginationDemo,
   radio: RadioDemo,
   'scroll-box': ScrollBoxDemo,
@@ -96,6 +98,7 @@ const menuItems = [
   { label: 'InputNumber 数字', value: 'input-number' },
   { label: 'Loading 加载', value: 'loading' },
   { label: 'Menu 菜单', value: 'menu' },
+  { label: 'Notification 通知', value: 'notification' },
   { label: 'Pagination 分页', value: 'pagination' },
   { label: 'Radio 单选', value: 'radio' },
   { label: 'ScrollBox 滚动框', value: 'scroll-box' },

@@ -1,5 +1,9 @@
 <template>
-  <div class="yiz-menu" :class="{ 'yiz-menu-collapsed': collapsed }" :style="{ width: collapsed ? '56px' : menuWidth }">
+  <div
+    class="yiz-menu"
+    :class="{ 'yiz-menu-collapsed': collapsed, 'yiz-menu-dark': props.dark }"
+    :style="{ width: collapsed ? '56px' : menuWidth }"
+  >
     <template v-for="(item, idx) in allItems" :key="idx">
       <!-- collapsed item without children: wrap in Tooltip -->
       <Tooltip v-if="collapsed && !item.children?.length" :content="item.label" placement="right">
@@ -104,6 +108,7 @@
     :items="popupItem?.children"
     :selected="selected"
     :position="popupStyle"
+    :dark="props.dark"
     popup-class="yiz-menu-popup"
     @select="onCollapsedPopupSelect"
     @mouseenter="onCollapsedPopupEnter"
@@ -134,11 +139,13 @@ const props = withDefaults(
     items?: MenuItem[]
     width?: number | string
     collapsed?: boolean
+    dark?: boolean
   }>(),
   {
     items: () => [],
     width: 256,
-    collapsed: false
+    collapsed: false,
+    dark: false
   }
 )
 
@@ -294,6 +301,29 @@ function onCollapsedPopupSelect(item: MenuItem) {
   padding: 4px 0;
   transition: width 0.2s;
   min-height: 100%;
+}
+
+.yiz-menu-dark {
+  background: rgb(0, 20, 40);
+  color: #fff;
+  border-right-color: rgb(0, 20, 40);
+
+  .yiz-menu-item {
+    color: #fff;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    &.yiz-menu-item-selected {
+      background: var(--yiz-color-primary-heary);
+      color: #fff;
+    }
+
+    &.yiz-menu-item-ancestor {
+      color: #fff;
+    }
+  }
 }
 
 .yiz-menu-collapsed {

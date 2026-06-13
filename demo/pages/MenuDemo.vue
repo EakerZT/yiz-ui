@@ -49,13 +49,18 @@
     </y-card>
 
     <y-card title="折叠" style="margin-top: 8px">
+      <div class="demo-menu-toolbar">
+        <y-switch v-model="dark" />
+        <span class="demo-hint">{{ dark ? 'dark' : 'light' }}</span>
+        <y-switch v-model="collapsed" />
+        <span class="demo-hint">{{ collapsed ? 'collapsed' : 'expanded' }}</span>
+      </div>
       <div style="display: flex; align-items: flex-start; gap: 12px">
-        <y-menu v-model:select="v7" :items="collapsedItems" :collapsed="collapsed" @select="onSelect7">
+        <y-menu v-model:select="v7" :items="collapsedItems" :collapsed="collapsed" :dark="dark" @select="onSelect7">
           <template #icon="{ icon }">
             <Icon :icon="iconMap[icon]" />
           </template>
         </y-menu>
-        <y-button size="small" @click="collapsed = !collapsed">{{ collapsed ? '展开' : '折叠' }}</y-button>
       </div>
       <span class="demo-hint">选中: {{ v7 }}</span>
     </y-card>
@@ -115,6 +120,7 @@ const v5 = ref()
 const v6 = ref()
 const v7 = ref()
 const collapsed = ref(true)
+const dark = ref(true)
 
 const iconMap: Record<string, any> = {
   home: Home20Regular,
@@ -197,6 +203,12 @@ function onSelect7(_item: any) {}
 </script>
 
 <style scoped>
+.demo-menu-toolbar {
+  display: flex;
+  align-items: center;
+  margin: 12px 0 8px;
+}
+
 .demo-hint {
   display: inline-block;
   margin-left: 8px;
