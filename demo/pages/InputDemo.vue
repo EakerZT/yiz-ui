@@ -1,19 +1,19 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">Input 输入框</h2>
-    <p class="demo-section-desc">支持 v-model 双向绑定、clearable 清空、prefix/suffix 前后缀。</p>
+    <h2 class="demo-section-title">{{ $t('demo.nav.input') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.input.desc') }}</p>
 
-    <y-card title="基本" style="margin-top: 8px">
-      <y-input v-model:value="inputText" placeholder="请输入内容" />
+    <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
+      <y-input v-model:value="inputText" :placeholder="$t('demo.common.pleaseInput')" />
       <span class="demo-hint">当前值：{{ inputText || '空' }}</span>
     </y-card>
 
-    <y-card title="可清空" style="margin-top: 8px">
-      <y-input v-model:value="clearText" placeholder="可清空" clearable />
+    <y-card :title="$t('demo.common.clearable')" style="margin-top: 8px">
+      <y-input v-model:value="clearText" :placeholder="$t('demo.common.clearable')" clearable />
     </y-card>
 
-    <y-card title="前缀 / 后缀" style="margin-top: 8px">
-      <y-input v-model:value="affixText" placeholder="prop 方式">
+    <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
+      <y-input v-model:value="affixText" :placeholder="$t('demo.input.propMode')">
         <template #prefix>
           <y-icon :icon="Flash20Regular" />
         </template>
@@ -24,6 +24,7 @@
 </template>
 
 <script lang="ts" setup>
+import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 import { Flash20Regular } from '@vicons/fluent'
 

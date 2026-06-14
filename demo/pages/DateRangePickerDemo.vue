@@ -1,11 +1,11 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">DateRangePicker 日期段</h2>
-    <p class="demo-section-desc">用于选择日期范围，支持开始和结束日期独立绑定。</p>
+    <h2 class="demo-section-title">{{ $t('demo.nav.dateRangePicker') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.dateRangePicker.desc') }}</p>
 
-    <y-card title="基础用法">
+    <y-card :title="$t('demo.common.basic')">
       <div class="demo-row">
-        <span class="demo-label">日期范围</span>
+        <span class="demo-label">{{ $t('demo.dateRangePicker.dateRange') }}</span>
         <div class="demo-items">
           <y-date-range-picker v-model:start="start" v-model:end="end" clearable @change="onChange" />
           <span class="demo-item-hint">{{ format(start) }} - {{ format(end) }}</span>
@@ -14,9 +14,9 @@
       <p class="demo-date-range-info">上次变更：{{ lastChange }}</p>
     </y-card>
 
-    <y-card title="允许单侧为空" style="margin-top: 8px">
+    <y-card :title="$t('demo.dateRangePicker.allowSingle')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">可选</span>
+        <span class="demo-label">{{ $t('demo.dateRangePicker.optional') }}</span>
         <div class="demo-items">
           <y-date-range-picker v-model:start="optionalStart" v-model:end="optionalEnd" clearable />
           <span class="demo-item-hint">{{ format(optionalStart) }} - {{ format(optionalEnd) }}</span>
@@ -24,9 +24,9 @@
       </div>
     </y-card>
 
-    <y-card title="强制范围" style="margin-top: 8px">
+    <y-card :title="$t('demo.dateRangePicker.requiredRange')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">必填</span>
+        <span class="demo-label">{{ $t('demo.dateRangePicker.required') }}</span>
         <div class="demo-items">
           <y-date-range-picker v-model:start="requiredStart" v-model:end="requiredEnd" force-range clearable />
           <span class="demo-item-hint">{{ format(requiredStart) }} - {{ format(requiredEnd) }}</span>
@@ -34,9 +34,9 @@
       </div>
     </y-card>
 
-    <y-card title="关闭自动排序" style="margin-top: 8px">
+    <y-card :title="$t('demo.dateRangePicker.disableAutoSort')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">手动</span>
+        <span class="demo-label">{{ $t('demo.dateRangePicker.manual') }}</span>
         <div class="demo-items">
           <y-date-range-picker v-model:start="manualStart" v-model:end="manualEnd" :auto-sort="false" clearable />
           <span class="demo-item-hint">{{ format(manualStart) }} - {{ format(manualEnd) }}</span>
@@ -44,9 +44,9 @@
       </div>
     </y-card>
 
-    <y-card title="禁用日期" style="margin-top: 8px">
+    <y-card :title="$t('demo.dateRangePicker.disableDates')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">周末</span>
+        <span class="demo-label">{{ $t('demo.dateRangePicker.weekends') }}</span>
         <div class="demo-items">
           <y-date-range-picker
             v-model:start="workStart"
@@ -62,6 +62,7 @@
 </template>
 
 <script lang="ts" setup>
+import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 
 const start = ref<Date | null>(new Date(2026, 5, 1))

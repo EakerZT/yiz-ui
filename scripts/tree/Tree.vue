@@ -7,7 +7,7 @@
 
 <script lang="ts" setup>
 import { computed, provide, ref, watch, type ComputedRef } from 'vue'
-import { t } from '../locale'
+import { $t } from '../locale'
 import TreeNode from './TreeNode.vue'
 
 export type TreeKey = string | number
@@ -87,7 +87,7 @@ const vClass = computed(() => ({
 }))
 
 const indentValue = computed(() => Math.max(12, props.indent))
-const emptyTextValue = computed(() => props.emptyText ?? t('common.noData'))
+const emptyTextValue = computed(() => props.emptyText ?? $t('common.noData'))
 const checkableValue = computed(() => props.checkable)
 const selectableValue = computed(() => props.selectable)
 const expandOnClickNodeValue = computed(() => props.expandOnClickNode)

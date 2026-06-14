@@ -1,13 +1,13 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">Notification 通知</h2>
-    <p class="demo-section-desc">悬浮通知提醒，通过函数调用展示全局反馈信息。</p>
+    <h2 class="demo-section-title">{{ $t('demo.nav.notification') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.notification.desc') }}</p>
 
-    <y-card title="基础用法" style="margin-top: 8px">
-      <y-button type="primary" @click="openBasic">打开通知</y-button>
+    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
+      <y-button type="primary" @click="openBasic">{{ $t('demo.notification.open') }}</y-button>
     </y-card>
 
-    <y-card title="不同类型" style="margin-top: 8px">
+    <y-card :title="$t('demo.notification.types')" style="margin-top: 8px">
       <y-button-group>
         <y-button @click="openInfo">info</y-button>
         <y-button color="success" @click="openSuccess">success</y-button>
@@ -16,7 +16,7 @@
       </y-button-group>
     </y-card>
 
-    <y-card title="不同位置" style="margin-top: 8px">
+    <y-card :title="$t('demo.notification.positions')" style="margin-top: 8px">
       <y-button-group>
         <y-button @click="openTopLeft">top-left</y-button>
         <y-button @click="openTopRight">top-right</y-button>
@@ -25,26 +25,27 @@
       </y-button-group>
     </y-card>
 
-    <y-card title="多条堆叠" style="margin-top: 8px">
-      <y-button @click="openMultiple">连续打开 4 条</y-button>
+    <y-card :title="$t('demo.notification.stack')" style="margin-top: 8px">
+      <y-button @click="openMultiple">{{ $t('demo.notification.stackOpen') }}</y-button>
     </y-card>
 
-    <y-card title="不自动关闭" style="margin-top: 8px">
-      <y-button @click="openManual">需要手动关闭</y-button>
+    <y-card :title="$t('demo.notification.noAutoClose')" style="margin-top: 8px">
+      <y-button @click="openManual">{{ $t('demo.notification.needManualClose') }}</y-button>
     </y-card>
 
-    <y-card title="自定义内容" style="margin-top: 8px">
-      <y-button @click="openCustom">打开自定义通知</y-button>
+    <y-card :title="$t('demo.common.customContent')" style="margin-top: 8px">
+      <y-button @click="openCustom">{{ $t('demo.notification.openCustom') }}</y-button>
     </y-card>
 
-    <y-card title="close 事件" style="margin-top: 8px">
-      <y-button @click="openCloseEvent">打开</y-button>
+    <y-card :title="$t('demo.dialog.closeEvent')" style="margin-top: 8px">
+      <y-button @click="openCloseEvent">{{ $t('demo.common.open') }}</y-button>
       <span class="demo-hint">关闭次数：{{ closeCount }}</span>
     </y-card>
   </section>
 </template>
 
 <script lang="ts" setup>
+import { $t } from 'yiz-ui'
 import { h, ref } from 'vue'
 import { notification } from 'yiz-ui'
 
@@ -52,75 +53,75 @@ const closeCount = ref(0)
 
 function openBasic() {
   notification({
-    title: '系统通知',
-    content: '这是一条基础通知，会在 4.5 秒后自动关闭。'
+    title: $t('demo.notification.systemNotification'),
+    content: $t('demo.notification.basicMsg')
   })
 }
 
 function openInfo() {
   notification.info({
-    title: '提示',
-    content: '这是一条信息通知。'
+    title: $t('demo.common.info'),
+    content: $t('demo.notification.infoMsg')
   })
 }
 
 function openSuccess() {
   notification.success({
-    title: '成功',
-    content: '操作已成功完成。'
+    title: $t('demo.common.success'),
+    content: $t('demo.notification.successMsg')
   })
 }
 
 function openWarning() {
   notification.warning({
-    title: '警告',
-    content: '请检查当前配置是否正确。'
+    title: $t('demo.common.warning'),
+    content: $t('demo.notification.warningMsg')
   })
 }
 
 function openError() {
   notification.error({
-    title: '错误',
-    content: '操作失败，请稍后重试。'
+    title: $t('demo.common.error'),
+    content: $t('demo.notification.errorMsg')
   })
 }
 
 function openTopLeft() {
   notification({
-    title: '左上角',
-    content: '通知显示在左上角。',
+    title: $t('demo.notification.topLeft'),
+    content: $t('demo.notification.topLeftHint'),
     placement: 'top-left'
   })
 }
 
 function openTopRight() {
   notification({
-    title: '右上角',
-    content: '通知显示在右上角。',
+    title: $t('demo.notification.topRight'),
+    content: $t('demo.notification.topRightHint'),
     placement: 'top-right'
   })
 }
 
 function openBottomLeft() {
   notification({
-    title: '左下角',
-    content: '通知显示在左下角。',
+    title: $t('demo.notification.bottomLeft'),
+    content: $t('demo.notification.bottomLeftHint'),
     placement: 'bottom-left'
   })
 }
 
 function openBottomRight() {
   notification({
-    title: '右下角',
-    content: '通知显示在右下角。',
+    title: $t('demo.notification.bottomRight'),
+    content: $t('demo.notification.bottomRightHint'),
     placement: 'bottom-right'
   })
 }
 
 function openManual() {
   notification({
-    title: '手动关闭',
-    content: 'duration 设置为 0 时不会自动关闭。',
+    title: $t('demo.notification.manualClose'),
+    content: $t('demo.notification.manualCloseHint'),
     duration: 0
   })
 }
@@ -138,10 +139,10 @@ function openMultiple() {
 
 function openCustom() {
   notification.success({
-    title: h('span', { style: 'color: var(--yiz-color-success)' }, '自定义标题'),
+    title: h('span', { style: 'color: var(--yiz-color-success)' }, $t('demo.common.customTitle')),
     content: h('div', [
-      '可以通过函数参数传入 VNode 内容。',
-      h('div', { style: 'margin-top: 8px; color: #999' }, '这条通知不会自动关闭。')
+      $t('demo.notification.customTitleHint'),
+      h('div', { style: 'margin-top: 8px; color: #999' }, $t('demo.notification.noAutoCloseHint'))
     ]),
     duration: 0
   })
@@ -149,8 +150,8 @@ function openCustom() {
 
 function openCloseEvent() {
   notification({
-    title: 'close 事件',
-    content: '关闭时会触发 close 回调。',
+    title: $t('demo.dialog.closeEvent'),
+    content: $t('demo.notification.closeEventHint'),
     onClose: () => {
       closeCount.value++
     }

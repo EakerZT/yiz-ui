@@ -64,8 +64,8 @@
         </div>
 
         <div class="yiz-color-picker-actions">
-          <Button size="small" @click="cancel">{{ t('common.cancel') }}</Button>
-          <Button type="primary" size="small" @click="confirm">{{ t('common.confirm') }}</Button>
+          <Button size="small" @click="cancel">{{ $t('common.cancel') }}</Button>
+          <Button type="primary" size="small" @click="confirm">{{ $t('common.confirm') }}</Button>
         </div>
       </div>
     </Transition>
@@ -76,7 +76,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import Button from '../button/Button.vue'
 import Input from '../input/Input.vue'
-import { t } from '../locale'
+import { $t } from '../locale'
 import { nextZIndex } from '../zIndex'
 
 interface HsvColor {

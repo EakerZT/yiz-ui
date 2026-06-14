@@ -2,9 +2,9 @@
   <div class="demo-layout">
     <header class="demo-header">
       <h1>Yiz UI</h1>
-      <span class="demo-header-sub">Vue 3 组件库</span>
+      <span class="demo-header-sub">{{ $t('demo.app.title') }}</span>
       <div class="demo-header-actions">
-        <span class="demo-lang-label">语言</span>
+        <span class="demo-lang-label">{{ $t('demo.app.lang') }}</span>
         <y-select
           :model-value="demoLang"
           :options="demoLangOptions"
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import ButtonDemo from './pages/ButtonDemo.vue'
 import CardDemo from './pages/CardDemo.vue'
 import CheckboxDemo from './pages/CheckboxDemo.vue'
@@ -60,7 +60,7 @@ import DrawerDemo from './pages/DrawerDemo.vue'
 import TooltipDemo from './pages/TooltipDemo.vue'
 import TreeDemo from './pages/TreeDemo.vue'
 import { ScrollBox } from 'yiz-ui'
-import { demoLang, demoLangOptions, setDemoLang, startDemoI18n, stopDemoI18n, translateDemo } from './i18n'
+import { demoLang, demoLangOptions, setDemoLang, $t } from './i18n'
 
 const pages: Record<string, any> = {
   button: ButtonDemo,
@@ -93,36 +93,36 @@ const pages: Record<string, any> = {
   icon: IconDemo
 }
 
-const menuItems = [
-  { label: 'Button 按钮', value: 'button' },
-  { label: 'Card 卡片', value: 'card' },
-  { label: 'Checkbox 复选', value: 'checkbox' },
-  { label: 'ColorPicker 颜色', value: 'color-picker' },
-  { label: 'ContextMenu 菜单', value: 'context-menu' },
-  { label: 'DatePicker 日期', value: 'date-picker' },
-  { label: 'DateRangePicker 日期段', value: 'date-range-picker' },
-  { label: 'Empty 空状态', value: 'empty' },
-  { label: 'Dialog 弹窗', value: 'dialog' },
-  { label: 'Drawer 抽屉', value: 'drawer' },
-  { label: 'Icon 图标', value: 'icon' },
-  { label: 'Input 输入框', value: 'input' },
-  { label: 'InputNumber 数字', value: 'input-number' },
-  { label: 'Loading 加载', value: 'loading' },
-  { label: 'Menu 菜单', value: 'menu' },
-  { label: 'Notification 通知', value: 'notification' },
-  { label: 'Pagination 分页', value: 'pagination' },
-  { label: 'Radio 单选', value: 'radio' },
-  { label: 'ScrollBox 滚动框', value: 'scroll-box' },
-  { label: 'Select 下拉框', value: 'select' },
-  { label: 'Switch 开关', value: 'switch' },
-  { label: 'Tab 标签页', value: 'tab' },
-  { label: 'Table 表格', value: 'table' },
-  { label: 'Tag 标签', value: 'tag' },
-  { label: 'TimePicker 时间', value: 'time-picker' },
-  { label: 'TimeRangePicker 时间段', value: 'time-range-picker' },
-  { label: 'Tooltip 提示', value: 'tooltip' },
-  { label: 'Tree 树', value: 'tree' }
-]
+const menuItems = computed(() => [
+  { label: $t('demo.nav.button'), value: 'button' },
+  { label: $t('demo.nav.card'), value: 'card' },
+  { label: $t('demo.nav.checkbox'), value: 'checkbox' },
+  { label: $t('demo.nav.colorPicker'), value: 'color-picker' },
+  { label: $t('demo.nav.contextMenu'), value: 'context-menu' },
+  { label: $t('demo.nav.datePicker'), value: 'date-picker' },
+  { label: $t('demo.nav.dateRangePicker'), value: 'date-range-picker' },
+  { label: $t('demo.nav.empty'), value: 'empty' },
+  { label: $t('demo.nav.dialog'), value: 'dialog' },
+  { label: $t('demo.nav.drawer'), value: 'drawer' },
+  { label: $t('demo.nav.icon'), value: 'icon' },
+  { label: $t('demo.nav.input'), value: 'input' },
+  { label: $t('demo.nav.inputNumber'), value: 'input-number' },
+  { label: $t('demo.nav.loading'), value: 'loading' },
+  { label: $t('demo.nav.menu'), value: 'menu' },
+  { label: $t('demo.nav.notification'), value: 'notification' },
+  { label: $t('demo.nav.pagination'), value: 'pagination' },
+  { label: $t('demo.nav.radio'), value: 'radio' },
+  { label: $t('demo.nav.scrollBox'), value: 'scroll-box' },
+  { label: $t('demo.nav.select'), value: 'select' },
+  { label: $t('demo.nav.switch'), value: 'switch' },
+  { label: $t('demo.nav.tab'), value: 'tab' },
+  { label: $t('demo.nav.table'), value: 'table' },
+  { label: $t('demo.nav.tag'), value: 'tag' },
+  { label: $t('demo.nav.timePicker'), value: 'time-picker' },
+  { label: $t('demo.nav.timeRangePicker'), value: 'time-range-picker' },
+  { label: $t('demo.nav.tooltip'), value: 'tooltip' },
+  { label: $t('demo.nav.tree'), value: 'tree' }
+])
 
 function getPageFromHash(): string {
   const m = location.hash.match(/^#\/([\w-]+)/)
@@ -135,7 +135,6 @@ const currentDemo = computed(() => pages[currentPage.value] || ButtonDemo)
 
 function onHashChange() {
   currentPage.value = getPageFromHash()
-  void nextTick(() => translateDemo(document.querySelector('.demo-layout') ?? document))
 }
 
 function onNavSelect(item: any) {
@@ -144,12 +143,10 @@ function onNavSelect(item: any) {
 
 onMounted(() => {
   window.addEventListener('hashchange', onHashChange)
-  startDemoI18n()
 })
 
 onUnmounted(() => {
   window.removeEventListener('hashchange', onHashChange)
-  stopDemoI18n()
 })
 </script>
 

@@ -1,11 +1,11 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">ColorPicker 颜色选择器</h2>
-    <p class="demo-section-desc">用于选择 HEX 颜色，支持 v-model、预设色和禁用状态。</p>
+    <h2 class="demo-section-title">{{ $t('demo.colorPicker.title') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.colorPicker.desc') }}</p>
 
-    <y-card title="基本" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">默认</span>
+        <span class="demo-label">{{ $t('demo.common.default') }}</span>
         <div class="demo-items">
           <y-color-picker v-model:value="color" />
           <span class="demo-color-value">{{ color }}</span>
@@ -13,7 +13,7 @@
       </div>
     </y-card>
 
-    <y-card title="透明通道" style="margin-top: 8px">
+    <y-card :title="$t('demo.colorPicker.alpha')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">Alpha</span>
         <div class="demo-items">
@@ -24,9 +24,9 @@
       </div>
     </y-card>
 
-    <y-card title="自定义预设" style="margin-top: 8px">
+    <y-card :title="$t('demo.colorPicker.customPresets')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">品牌色</span>
+        <span class="demo-label">{{ $t('demo.colorPicker.brandColor') }}</span>
         <div class="demo-items">
           <y-color-picker v-model:value="brandColor" :presets="brandPresets" />
           <span class="demo-color-preview" :style="{ backgroundColor: brandColor }" />
@@ -35,15 +35,15 @@
       </div>
     </y-card>
 
-    <y-card title="尺寸与禁用" style="margin-top: 8px">
+    <y-card :title="$t('demo.colorPicker.sizeAndDisabled')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">小尺寸</span>
+        <span class="demo-label">{{ $t('demo.common.smallSize') }}</span>
         <div class="demo-items">
           <y-color-picker v-model:value="smallColor" size="small" />
         </div>
       </div>
       <div class="demo-row">
-        <span class="demo-label">禁用</span>
+        <span class="demo-label">{{ $t('demo.common.disabled') }}</span>
         <div class="demo-items">
           <y-color-picker v-model:value="disabledColor" disabled />
         </div>
@@ -53,6 +53,7 @@
 </template>
 
 <script lang="ts" setup>
+import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 
 const color = ref('#1677ff')

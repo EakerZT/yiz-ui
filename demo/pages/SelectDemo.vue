@@ -1,53 +1,53 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">Select 下拉框</h2>
-    <p class="demo-section-desc">从一组选项中选择一个值。</p>
+    <h2 class="demo-section-title">{{ $t('demo.nav.select') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.select.desc') }}</p>
 
-    <y-card title="基本" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <y-select v-model="v1" :options="opts" />
       <span class="demo-hint">值: {{ v1 }}</span>
     </y-card>
 
-    <y-card title="占位符" style="margin-top: 8px">
-      <y-select v-model="v2" :options="opts" placeholder="请选择城市" />
+    <y-card :title="$t('demo.select.placeholder')" style="margin-top: 8px">
+      <y-select v-model="v2" :options="opts" :placeholder="$t('demo.select.cityPlaceholder')" />
     </y-card>
 
-    <y-card title="可清空" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.clearable')" style="margin-top: 8px">
       <y-select v-model="v3" :options="opts" clearable />
     </y-card>
 
-    <y-card title="禁用" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-select v-model="v4" :options="opts" disabled />
     </y-card>
 
-    <y-card title="尺寸" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <y-button-group>
         <y-select v-model="v5" :options="opts" />
         <y-select v-model="v6" :options="opts" size="small" />
       </y-button-group>
     </y-card>
 
-    <y-card title="事件" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.event')" style="margin-top: 8px">
       <y-select v-model="v7" :options="opts" @change="onChange" />
       <span class="demo-hint">change 次数: {{ changeCount }}</span>
     </y-card>
 
-    <y-card title="搜索" style="margin-top: 8px">
+    <y-card :title="$t('demo.select.search')" style="margin-top: 8px">
       <y-select v-model="v8" :options="opts" :search="onSearch" />
     </y-card>
 
-    <y-card title="插槽" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.slot')" style="margin-top: 8px">
       <y-select v-model="v9">
-        <y-select-option label="北京" value="beijing" />
-        <y-select-option label="上海" value="shanghai" />
-        <y-select-option label="广州" value="guangzhou" />
-        <y-select-option label="深圳" value="shenzhen" />
-        <y-select-option label="杭州" value="hangzhou" />
+        <y-select-option :label="$t('demo.common.beijing')" value="beijing" />
+        <y-select-option :label="$t('demo.common.shanghai')" value="shanghai" />
+        <y-select-option :label="$t('demo.common.guangzhou')" value="guangzhou" />
+        <y-select-option :label="$t('demo.common.shenzhen')" value="shenzhen" />
+        <y-select-option :label="$t('demo.common.hangzhou')" value="hangzhou" />
       </y-select>
       <span class="demo-hint">值: {{ v9 }}</span>
     </y-card>
 
-    <y-card title="自定义渲染" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.customRender')" style="margin-top: 8px">
       <y-select v-model="v10" :options="opts">
         <template #option="{ option, selected }">
           <span :style="{ color: selected ? 'var(--yiz-color-primary)' : '#333' }">
@@ -62,14 +62,15 @@
 </template>
 
 <script lang="ts" setup>
+import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 
 const opts = [
-  { label: '北京', value: 'beijing' },
-  { label: '上海', value: 'shanghai' },
-  { label: '广州', value: 'guangzhou' },
-  { label: '深圳', value: 'shenzhen' },
-  { label: '杭州', value: 'hangzhou' },
+  { label: $t('demo.common.beijing'), value: 'beijing' },
+  { label: $t('demo.common.shanghai'), value: 'shanghai' },
+  { label: $t('demo.common.guangzhou'), value: 'guangzhou' },
+  { label: $t('demo.common.shenzhen'), value: 'shenzhen' },
+  { label: $t('demo.common.hangzhou'), value: 'hangzhou' },
 ]
 
 const v1 = ref()

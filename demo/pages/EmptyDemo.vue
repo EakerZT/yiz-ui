@@ -1,22 +1,22 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">Empty 空状态</h2>
-    <p class="demo-section-desc">用于展示空数据或无结果时的占位提示。</p>
+    <h2 class="demo-section-title">{{ $t('demo.nav.empty') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.empty.desc') }}</p>
 
-    <y-card title="基础用法" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
       <Empty />
     </y-card>
 
-    <y-card title="自定义描述" style="margin-top: 8px">
-      <Empty description="没有找到相关结果" />
+    <y-card :title="$t('demo.common.customDesc')" style="margin-top: 8px">
+      <Empty :description="$t('demo.empty.noResult')" />
     </y-card>
 
-    <y-card title="小尺寸" style="margin-top: 8px">
-      <Empty size="small" description="列表为空" />
+    <y-card :title="$t('demo.common.smallSize')" style="margin-top: 8px">
+      <Empty size="small" :description="$t('demo.empty.listEmpty')" />
     </y-card>
 
-    <y-card title="自定义图片" style="margin-top: 8px">
-      <Empty description="网络连接失败，请检查网络后重试">
+    <y-card :title="$t('demo.common.customImage')" style="margin-top: 8px">
+      <Empty :description="$t('demo.empty.networkError')">
         <template #image>
           <svg viewBox="0 0 64 64" width="64" height="64" fill="none">
             <circle cx="32" cy="32" r="30" stroke="#d9d9d9" stroke-width="2" />
@@ -26,20 +26,21 @@
       </Empty>
     </y-card>
 
-    <y-card title="带操作" style="margin-top: 8px">
-      <Empty description="购物车是空的">
-        <y-button type="primary" size="small">去逛逛</y-button>
+    <y-card :title="$t('demo.empty.withAction')" style="margin-top: 8px">
+      <Empty :description="$t('demo.empty.cartEmpty')">
+        <y-button type="primary" size="small">{{ $t('demo.empty.goBrowse') }}</y-button>
       </Empty>
     </y-card>
 
-    <y-card title="表格空状态" style="margin-top: 8px">
+    <y-card :title="$t('demo.empty.tableEmpty')" style="margin-top: 8px">
       <div style="border: 1px solid #d9d9d9; border-radius: 4px">
-        <Empty description="暂无数据" size="small" />
+        <Empty :description="$t('demo.empty.noData')" size="small" />
       </div>
     </y-card>
   </section>
 </template>
 
 <script lang="ts" setup>
+import { $t } from 'yiz-ui'
 import { Empty } from 'yiz-ui'
 </script>

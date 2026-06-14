@@ -1,9 +1,9 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">ContextMenu 右键菜单</h2>
-    <p class="demo-section-desc">弹出式菜单，支持普通项、分割线、子菜单、复选框和单选框。</p>
+    <h2 class="demo-section-title">{{ $t('demo.contextMenu.title') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.contextMenu.desc') }}</p>
 
-    <y-card title="综合" style="margin-top: 8px">
+    <y-card :title="$t('demo.contextMenu.comprehensive')" style="margin-top: 8px">
       <y-context-menu :items="allItems" @select="onSelect1">
         <template #icon="{ icon }">
           <Icon size="16" :icon="iconMap[icon]" />
@@ -12,14 +12,15 @@
       <span class="demo-hint">选中: {{ last1 }}</span>
     </y-card>
 
-    <y-card title="函数调用" style="margin-top: 8px">
-      <y-button @click="onShowMenu">点击弹出</y-button>
+    <y-card :title="$t('demo.contextMenu.fnCall')" style="margin-top: 8px">
+      <y-button @click="onShowMenu">{{ $t('demo.contextMenu.clickToOpen') }}</y-button>
       <span class="demo-hint">{{ last2 }}</span>
     </y-card>
   </section>
 </template>
 
 <script lang="ts" setup>
+import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 import { Cut20Filled, Copy16Filled, Delete16Filled } from '@vicons/fluent'
 import { Icon, showContextMenu } from 'yiz-ui'
@@ -34,42 +35,42 @@ const iconMap: Record<string, any> = {
 }
 
 const allItems = [
-  { label: '新建', value: 'new', icon: 'new' },
-  { label: '打开', value: 'open', icon: 'open' },
+  { label: $t('demo.common.create'), value: 'new', icon: 'new' },
+  { label: $t('demo.common.open'), value: 'open', icon: 'open' },
   { type: 'divider' as const },
   {
-    label: '排列方式',
+    label: $t('demo.contextMenu.layout'),
     value: 'layout',
     type: 'submenu' as const,
     children: [
-      { label: '列表', value: 'list', type: 'radiogroup' as const, name: 'layout', checked: true },
-      { label: '网格', value: 'grid', type: 'radiogroup' as const, name: 'layout' },
-      { label: '缩略图', value: 'thumb', type: 'radiogroup' as const, name: 'layout' }
+      { label: $t('demo.contextMenu.list'), value: 'list', type: 'radiogroup' as const, name: 'layout', checked: true },
+      { label: $t('demo.contextMenu.grid'), value: 'grid', type: 'radiogroup' as const, name: 'layout' },
+      { label: $t('demo.contextMenu.thumbnail'), value: 'thumb', type: 'radiogroup' as const, name: 'layout' }
     ]
   },
   {
-    label: '显示项',
+    label: $t('demo.contextMenu.visibleItems'),
     value: 'show',
     type: 'submenu' as const,
     children: [
-      { label: '工具栏', value: 'toolbar', type: 'checkbox' as const, checked: true },
-      { label: '状态栏', value: 'statusbar', type: 'checkbox' as const },
+      { label: $t('demo.contextMenu.toolbar'), value: 'toolbar', type: 'checkbox' as const, checked: true },
+      { label: $t('demo.contextMenu.statusBar'), value: 'statusbar', type: 'checkbox' as const },
       {
-        label: '更多面板',
+        label: $t('demo.contextMenu.morePanels'),
         value: 'more-panels',
         type: 'submenu' as const,
         children: [
-          { label: '大纲', value: 'outline', type: 'checkbox' as const },
-          { label: '时间轴', value: 'timeline', type: 'checkbox' as const, checked: true },
-          { label: '终端', value: 'terminal', type: 'checkbox' as const }
+          { label: $t('demo.contextMenu.outline'), value: 'outline', type: 'checkbox' as const },
+          { label: $t('demo.contextMenu.timeline'), value: 'timeline', type: 'checkbox' as const, checked: true },
+          { label: $t('demo.contextMenu.terminal'), value: 'terminal', type: 'checkbox' as const }
         ]
       }
     ]
   },
   { type: 'divider' as const },
-  { label: '保存', value: 'save', icon: 'save' },
-  { label: '导出', value: 'export' },
-  { label: '属性', value: 'properties', disabled: true }
+  { label: $t('demo.common.save'), value: 'save', icon: 'save' },
+  { label: $t('demo.common.export'), value: 'export' },
+  { label: $t('demo.contextMenu.properties'), value: 'properties', disabled: true }
 ]
 
 function onSelect1(item: any) {

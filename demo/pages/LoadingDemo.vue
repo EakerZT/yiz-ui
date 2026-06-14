@@ -1,9 +1,9 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">Loading 加载</h2>
-    <p class="demo-section-desc">页面或容器局部加载时使用的动画图标。</p>
+    <h2 class="demo-section-title">{{ $t('demo.nav.loading') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.loading.desc') }}</p>
 
-    <y-card title="Indicator 类型" style="margin-top: 8px">
+    <y-card :title="$t('demo.loading.indicatorType')" style="margin-top: 8px">
       <y-button-group>
         <span class="demo-loading-item">
           <y-loading />
@@ -20,7 +20,7 @@
       </y-button-group>
     </y-card>
 
-    <y-card title="尺寸" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <y-button-group>
         <span class="demo-loading-item">
           <y-loading size="small" />
@@ -37,15 +37,15 @@
       </y-button-group>
     </y-card>
 
-    <y-card title="加载文案" style="margin-top: 8px">
+    <y-card :title="$t('demo.loading.tipText')" style="margin-top: 8px">
       <y-loading tip="Loading..." />
     </y-card>
 
-    <y-card title="容器模式" style="margin-top: 8px">
+    <y-card :title="$t('demo.loading.containerMode')" style="margin-top: 8px">
       <y-loading :loading="containerLoading">
         <div class="demo-loading-content">
-          <p>这是被包裹的内容区域</p>
-          <p>加载中时会半透明且不可交互</p>
+          <p>{{ $t('demo.loading.wrappedContent') }}</p>
+          <p>{{ $t('demo.loading.wrappedHint') }}</p>
         </div>
       </y-loading>
       <div style="margin-top: 8px">
@@ -55,7 +55,7 @@
       </div>
     </y-card>
 
-    <y-card title="延迟显示" style="margin-top: 8px">
+    <y-card :title="$t('demo.loading.delayShow')" style="margin-top: 8px">
       <y-loading :loading="delayLoading" :delay="500" tip="延迟 500ms 显示" />
       <div style="margin-top: 8px">
         <y-button size="small" @click="delayLoading = !delayLoading">
@@ -67,6 +67,7 @@
 </template>
 
 <script lang="ts" setup>
+import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 
 const containerLoading = ref(true)

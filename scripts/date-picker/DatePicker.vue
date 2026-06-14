@@ -54,7 +54,7 @@
             <path d="M11 12L7 8l4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           <span class="yiz-date-picker-month-year" @click="showYearPicker = !showYearPicker">
-            {{ t('datePicker.yearMonth', { year, month }) }}
+            {{ $t('datePicker.yearMonth', { year, month }) }}
           </span>
           <svg
             class="yiz-date-picker-nav"
@@ -114,7 +114,7 @@
 
         <!-- 底部 -->
         <div class="yiz-date-picker-footer">
-          <LinkButton @click="onToday">{{ t('datePicker.today') }}</LinkButton>
+          <LinkButton @click="onToday">{{ $t('datePicker.today') }}</LinkButton>
         </div>
       </div>
     </Transition>
@@ -124,7 +124,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import LinkButton from '../link-button/LinkButton.vue'
-import { t, tList } from '../locale'
+import { $t, $tList } from '../locale'
 import { nextZIndex } from '../zIndex'
 
 const props = withDefaults(
@@ -163,13 +163,13 @@ const now = new Date()
 const viewYear = ref(now.getFullYear())
 const viewMonth = ref(now.getMonth() + 1)
 
-const weekDays = computed(() => tList('datePicker.weekdays'))
+const weekDays = computed(() => $tList('datePicker.weekdays'))
 
 // ==================== 计算属性 ====================
 
 const year = computed(() => viewYear.value)
 const month = computed(() => viewMonth.value)
-const placeholderText = computed(() => props.placeholder ?? t('datePicker.placeholder'))
+const placeholderText = computed(() => props.placeholder ?? $t('datePicker.placeholder'))
 
 const yearRange = computed(() => {
   const start = viewYear.value - 6

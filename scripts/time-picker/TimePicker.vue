@@ -31,7 +31,7 @@
         <div class="yiz-time-picker-body">
           <!-- 时 -->
           <div class="yiz-time-picker-col">
-            <div class="yiz-time-picker-col-header">{{ t('timePicker.hour') }}</div>
+            <div class="yiz-time-picker-col-header">{{ $t('timePicker.hour') }}</div>
             <div class="yiz-time-picker-col-list" ref="hourListRef">
               <div
                 v-for="h in hours"
@@ -46,7 +46,7 @@
           </div>
           <!-- 分 -->
           <div class="yiz-time-picker-col">
-            <div class="yiz-time-picker-col-header">{{ t('timePicker.minute') }}</div>
+            <div class="yiz-time-picker-col-header">{{ $t('timePicker.minute') }}</div>
             <div class="yiz-time-picker-col-list" ref="minuteListRef">
               <div
                 v-for="m in minutes"
@@ -61,7 +61,7 @@
           </div>
           <!-- 秒 -->
           <div v-if="showSeconds" class="yiz-time-picker-col">
-            <div class="yiz-time-picker-col-header">{{ t('timePicker.second') }}</div>
+            <div class="yiz-time-picker-col-header">{{ $t('timePicker.second') }}</div>
             <div class="yiz-time-picker-col-list">
               <div
                 v-for="s in 60"
@@ -76,8 +76,8 @@
           </div>
         </div>
         <div class="yiz-time-picker-footer">
-          <LinkButton @click="onNow">{{ t('timePicker.now') }}</LinkButton>
-          <Button type="primary" size="small" @click="onConfirm">{{ t('common.confirm') }}</Button>
+          <LinkButton @click="onNow">{{ $t('timePicker.now') }}</LinkButton>
+          <Button type="primary" size="small" @click="onConfirm">{{ $t('common.confirm') }}</Button>
         </div>
       </div>
     </Transition>
@@ -88,7 +88,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import Button from '../button/Button.vue'
 import LinkButton from '../link-button/LinkButton.vue'
-import { t } from '../locale'
+import { $t } from '../locale'
 import { nextZIndex } from '../zIndex'
 
 const props = withDefaults(
@@ -131,7 +131,7 @@ const pickedSecond = ref(0)
 
 const hours = Array.from({ length: 24 }, (_, i) => i)
 const minutes = Array.from({ length: 60 }, (_, i) => i)
-const placeholderText = computed(() => props.placeholder ?? t('timePicker.placeholder'))
+const placeholderText = computed(() => props.placeholder ?? $t('timePicker.placeholder'))
 
 function pad(n: number): string {
   return n < 10 ? `0${n}` : `${n}`

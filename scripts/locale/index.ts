@@ -28,14 +28,14 @@ export function registerLangItem(lang: Lang, itemObject: LangMessages) {
   }
 }
 
-export function t(key: string, params: Record<string, string | number> = {}): string {
+export function $t(key: string, params: Record<string, string | number> = {}): string {
   const value = (messages[currentLang.value] as Record<string, MessageValue>)[key]
   const fallback = (messages['zh-CN'] as Record<string, MessageValue>)[key]
   const text = Array.isArray(value) ? value.join(',') : value ?? fallback ?? key
   return String(text).replace(/\{(\w+)\}/g, (_, name: string) => String(params[name] ?? `{${name}}`))
 }
 
-export function tList(key: string): string[] {
+export function $tList(key: string): string[] {
   const value = (messages[currentLang.value] as Record<string, MessageValue>)[key]
   const fallback = (messages['zh-CN'] as Record<string, MessageValue>)[key]
   if (Array.isArray(value)) return value

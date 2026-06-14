@@ -117,8 +117,8 @@
         </div>
 
         <div class="yiz-date-range-picker-footer">
-          <LinkButton @click="onToday">{{ t('datePicker.today') }}</LinkButton>
-          <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">{{ t('common.confirm') }}</Button>
+          <LinkButton @click="onToday">{{ $t('datePicker.today') }}</LinkButton>
+          <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">{{ $t('common.confirm') }}</Button>
         </div>
       </div>
     </Transition>
@@ -129,7 +129,7 @@
 import { computed, defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, watch, type PropType } from 'vue'
 import Button from '../button/Button.vue'
 import LinkButton from '../link-button/LinkButton.vue'
-import { t, tList } from '../locale'
+import { $t, $tList } from '../locale'
 import { nextZIndex } from '../zIndex'
 
 type DateRangeSide = 'start' | 'end'
@@ -233,7 +233,7 @@ const startShowYearPicker = ref(false)
 const endShowYearPicker = ref(false)
 const dropdownPos = ref<{ top?: string; bottom?: string; left?: string }>({})
 
-const weekDays = computed(() => tList('datePicker.weekdays'))
+const weekDays = computed(() => $tList('datePicker.weekdays'))
 
 const displayStartText = computed(() => {
   const value = open.value ? draftStart.value : startModel.value
@@ -243,10 +243,10 @@ const displayEndText = computed(() => {
   const value = open.value ? draftEnd.value : endModel.value
   return value ? formatDate(value, props.format) : ''
 })
-const startPlaceholder = computed(() => props.startPlaceholder ?? t('dateRangePicker.startPlaceholder'))
-const endPlaceholder = computed(() => props.endPlaceholder ?? t('dateRangePicker.endPlaceholder'))
-const startLabel = computed(() => props.startLabel ?? t('dateRangePicker.startLabel'))
-const endLabel = computed(() => props.endLabel ?? t('dateRangePicker.endLabel'))
+const startPlaceholder = computed(() => props.startPlaceholder ?? $t('dateRangePicker.startPlaceholder'))
+const endPlaceholder = computed(() => props.endPlaceholder ?? $t('dateRangePicker.endPlaceholder'))
+const startLabel = computed(() => props.startLabel ?? $t('dateRangePicker.startLabel'))
+const endLabel = computed(() => props.endLabel ?? $t('dateRangePicker.endLabel'))
 const separator = computed(() => props.separator)
 const disabled = computed(() => props.disabled)
 const clearable = computed(() => props.clearable)

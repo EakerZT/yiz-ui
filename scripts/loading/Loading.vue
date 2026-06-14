@@ -41,7 +41,7 @@
 
 <script lang="ts" setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import { t } from '../locale'
+import { $t } from '../locale'
 
 type IndicatorType = 'ring' | 'spin' | 'think'
 
@@ -68,7 +68,7 @@ defineSlots<{
 }>()
 
 const visible = ref(false)
-const tipText = computed(() => props.tip ?? t('loading.tip'))
+const tipText = computed(() => props.tip ?? $t('loading.tip'))
 let timer: ReturnType<typeof setTimeout> | null = null
 
 function update() {

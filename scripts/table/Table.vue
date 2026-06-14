@@ -145,7 +145,7 @@
   </div>
   <Teleport to="body">
     <div v-if="resizing" class="yiz-table-resize-tooltip" :style="{ left: tooltipX + 'px', top: tooltipY + 'px' }">
-      {{ t('table.width') }}:{{ tooltipWidth }}px
+      {{ $t('table.width') }}:{{ tooltipWidth }}px
     </div>
   </Teleport>
 </template>
@@ -158,7 +158,7 @@ import Checkbox from '../checkbox/Checkbox.vue'
 import Radio from '../radio/Radio.vue'
 import { ScrollBox } from '../scroll-box'
 import { Empty } from '../empty'
-import { t } from '../locale'
+import { $t } from '../locale'
 
 export interface TableColumn {
   label: string

@@ -1,49 +1,50 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">Tooltip 文字提示</h2>
-    <p class="demo-section-desc">鼠标悬停时显示提示信息，支持上、下、左、右四个方向，content 支持 prop 和插槽两种方式。</p>
+    <h2 class="demo-section-title">{{ $t('demo.tooltip.title') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.tooltip.desc') }}</p>
 
-    <y-card title="方向" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.placement')" style="margin-top: 8px">
       <y-button-group>
-        <y-tooltip content="这是提示文字" placement="top">
-          <y-button>上方</y-button>
+        <y-tooltip :content="$t('demo.tooltip.tipText')" placement="top">
+          <y-button>{{ $t('demo.tooltip.top') }}</y-button>
         </y-tooltip>
-        <y-tooltip content="这是提示文字" placement="bottom">
-          <y-button>下方</y-button>
+        <y-tooltip :content="$t('demo.tooltip.tipText')" placement="bottom">
+          <y-button>{{ $t('demo.tooltip.bottom') }}</y-button>
         </y-tooltip>
-        <y-tooltip content="这是提示文字" placement="left">
-          <y-button>左侧</y-button>
+        <y-tooltip :content="$t('demo.tooltip.tipText')" placement="left">
+          <y-button>{{ $t('demo.tooltip.left') }}</y-button>
         </y-tooltip>
-        <y-tooltip content="这是提示文字" placement="right">
-          <y-button>右侧</y-button>
+        <y-tooltip :content="$t('demo.tooltip.tipText')" placement="right">
+          <y-button>{{ $t('demo.tooltip.right') }}</y-button>
         </y-tooltip>
       </y-button-group>
     </y-card>
 
-    <y-card title="长文本" style="margin-top: 8px">
-      <y-tooltip content="这是一段比较长的提示文字，用于测试 tooltip 在较长内容下的展示效果。" placement="top">
-        <y-button type="primary">悬停查看</y-button>
+    <y-card :title="$t('demo.tooltip.longText')" style="margin-top: 8px">
+      <y-tooltip :content="$t('demo.tooltip.longTip')" placement="top">
+        <y-button type="primary">{{ $t('demo.tooltip.hoverToView') }}</y-button>
       </y-tooltip>
     </y-card>
 
-    <y-card title="内联元素" style="margin-top: 8px">
-      <y-tooltip content="提示文字" placement="top">
-        <span class="demo-link">鼠标悬停这里</span>
+    <y-card :title="$t('demo.tooltip.inline')" style="margin-top: 8px">
+      <y-tooltip :content="$t('demo.tooltip.tipHint')" placement="top">
+        <span class="demo-link">{{ $t('demo.tooltip.hoverHere') }}</span>
       </y-tooltip>
     </y-card>
 
-    <y-card title="自定义内容" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.customContent')" style="margin-top: 8px">
       <y-tooltip placement="top">
         <template #content>
-          <span style="color: #f56c6c; font-weight: 600">红色加粗提示</span>
+          <span style="color: #f56c6c; font-weight: 600">{{ $t('demo.tooltip.redBoldTip') }}</span>
         </template>
-        <y-button>自定义插槽</y-button>
+        <y-button>{{ $t('demo.common.customSlot') }}</y-button>
       </y-tooltip>
     </y-card>
   </section>
 </template>
 
 <script lang="ts" setup>
+import { $t } from 'yiz-ui'
 </script>
 
 <style scoped>

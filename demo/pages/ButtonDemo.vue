@@ -1,11 +1,11 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">Button 按钮</h2>
+    <h2 class="demo-section-title">{{ $t('demo.nav.button') }}</h2>
     <p class="demo-section-desc">
-      支持 default / primary / plain 三种类型，多种预设颜色和自定义颜色，以及圆形、圆角形状。
+      {{ $t('demo.button.desc') }}
     </p>
 
-    <y-card title="基本">
+    <y-card :title="$t('demo.common.basicShort')">
       <y-button-group>
         <y-button>default</y-button>
         <y-button type="primary">primary</y-button>
@@ -22,7 +22,7 @@
       </y-button-group>
     </y-card>
 
-    <y-card title="自定义色" style="margin-top: 8px">
+    <y-card :title="$t('demo.button.customColor')" style="margin-top: 8px">
       <y-button-group>
         <y-button color="#8a2be2">#8a2be2</y-button>
         <y-button type="primary" color="#8a2be2">#8a2be2</y-button>
@@ -60,7 +60,7 @@
       </div>
     </y-card>
 
-    <y-card title="带图标" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.withIcon')" style="margin-top: 8px">
       <y-button-group>
         <y-button type="primary">
           <y-icon :icon="Flash20Regular" />
@@ -80,11 +80,11 @@
       </y-button-group>
     </y-card>
 
-    <y-card title="点击事件" style="margin-top: 8px">
+    <y-card :title="$t('demo.button.clickEvent')" style="margin-top: 8px">
       <y-button @click="count++">点击次数: {{ count }}</y-button>
     </y-card>
 
-    <y-card title="Link 文字按钮" style="margin-top: 8px">
+    <y-card :title="$t('demo.button.link')" style="margin-top: 8px">
       <y-button-group>
         <y-link-button>primary</y-link-button>
         <y-link-button color="default">default</y-link-button>
@@ -94,31 +94,32 @@
       </y-button-group>
     </y-card>
 
-    <y-card title="Link 自定义色" style="margin-top: 8px">
+    <y-card :title="$t('demo.button.linkColor')" style="margin-top: 8px">
       <y-button-group>
         <y-link-button color="#8a2be2">#8a2be2</y-link-button>
         <y-link-button color="#ff6b35">#ff6b35</y-link-button>
       </y-button-group>
     </y-card>
 
-    <y-card title="Link 下划线" style="margin-top: 8px">
-      <y-link-button underline>hover 显示下划线</y-link-button>
+    <y-card :title="$t('demo.button.linkUnderline')" style="margin-top: 8px">
+      <y-link-button underline>{{ $t('demo.button.linkUnderlineHint') }}</y-link-button>
     </y-card>
 
-    <y-card title="Link 禁用" style="margin-top: 8px">
+    <y-card :title="$t('demo.button.linkDisabled')" style="margin-top: 8px">
       <y-button-group>
         <y-link-button disabled>disabled</y-link-button>
         <y-link-button color="error" disabled>error disabled</y-link-button>
       </y-button-group>
     </y-card>
 
-    <y-card title="Link 点击" style="margin-top: 8px">
+    <y-card :title="$t('demo.button.linkClick')" style="margin-top: 8px">
       <y-link-button @click="linkCount++">点击次数: {{ linkCount }}</y-link-button>
     </y-card>
   </section>
 </template>
 
 <script lang="ts" setup>
+import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 import { Flash20Regular } from '@vicons/fluent'
 

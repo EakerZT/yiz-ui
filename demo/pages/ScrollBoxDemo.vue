@@ -1,15 +1,15 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">ScrollBox 滚动框</h2>
-    <p class="demo-section-desc">提供固定高度区域的滚动容器，自定义 track + thumb 滚动条，支持拖拽和点击定位。</p>
+    <h2 class="demo-section-title">{{ $t('demo.nav.scrollBox') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.scrollBox.desc') }}</p>
 
-    <y-card title="基础用法" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
       <ScrollBox :height="120" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
         <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">第 {{ i }} 行内容，用于演示滚动效果。</p>
       </ScrollBox>
     </y-card>
 
-    <y-card title="最大高度" style="margin-top: 8px">
+    <y-card :title="$t('demo.scrollBox.maxHeight')" style="margin-top: 8px">
       <ScrollBox :max-height="150" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
         <p v-for="i in 10" :key="i" style="margin-bottom: 8px; color: #666">
           内容行 {{ i }}，超出 max-height 时出现滚动条。
@@ -17,7 +17,7 @@
       </ScrollBox>
     </y-card>
 
-    <y-card title="横向滚动" style="margin-top: 8px">
+    <y-card :title="$t('demo.scrollBox.horizontalScroll')" style="margin-top: 8px">
       <ScrollBox :height="80" style="width: 360px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
         <div style="white-space: nowrap">
           <span v-for="i in 12" :key="i" class="demo-h-item">项 {{ i }}</span>
@@ -25,8 +25,8 @@
       </ScrollBox>
     </y-card>
 
-    <y-card title="卡片内嵌" style="margin-top: 8px">
-      <Card title="滚动列表" style="width: 360px">
+    <y-card :title="$t('demo.scrollBox.embedCard')" style="margin-top: 8px">
+      <Card :title="$t('demo.scrollBox.scrollList')" style="width: 360px">
         <ScrollBox :height="160">
           <div
             v-for="i in 6"
@@ -39,42 +39,42 @@
       </Card>
     </y-card>
 
-    <y-card title="autoHide: never (默认)" style="margin-top: 8px">
-      <p style="margin-bottom: 12px; font-size: 13px; color: #888">滚动条始终可见（出现溢出时）。</p>
+    <y-card :title="$t('demo.scrollBox.autoHideNever')" style="margin-top: 8px">
+      <p style="margin-bottom: 12px; font-size: 13px; color: #888">{{ $t('demo.scrollBox.autoHideNeverHint') }}</p>
       <ScrollBox :height="120" auto-hide="never" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
         <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">第 {{ i }} 行内容，滚动条始终可见。</p>
       </ScrollBox>
     </y-card>
 
-    <y-card title="autoHide: scroll (滚动后自动隐藏)" style="margin-top: 8px">
+    <y-card :title="$t('demo.scrollBox.autoHideScroll')" style="margin-top: 8px">
       <p style="margin-bottom: 12px; font-size: 13px; color: #888">滚动时显示，停止滚动 {{ 1300 }}ms 后自动隐藏。</p>
       <ScrollBox :height="120" auto-hide="scroll" :auto-hide-delay="1300" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
-        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">滚动一下试试，滚动条会在停止滚动后自动隐藏。</p>
+        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">{{ $t('demo.scrollBox.autoHideScrollHint2') }}</p>
       </ScrollBox>
     </y-card>
 
-    <y-card title="autoHide: move (鼠标移动时显示)" style="margin-top: 8px">
+    <y-card :title="$t('demo.scrollBox.autoHideMove')" style="margin-top: 8px">
       <p style="margin-bottom: 12px; font-size: 13px; color: #888">鼠标在容器内移动时显示，停止移动 {{ 800 }}ms 后自动隐藏。</p>
       <ScrollBox :height="120" auto-hide="move" :auto-hide-delay="800" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
-        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">移动鼠标到这片区域，滚动条会出现；鼠标静止则隐藏。</p>
+        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">{{ $t('demo.scrollBox.autoHideMoveHint2') }}</p>
       </ScrollBox>
     </y-card>
 
-    <y-card title="autoHide: leave (鼠标离开时隐藏)" style="margin-top: 8px">
+    <y-card :title="$t('demo.scrollBox.autoHideLeave')" style="margin-top: 8px">
       <p style="margin-bottom: 12px; font-size: 13px; color: #888">鼠标进入容器时显示，离开后 {{ 600 }}ms 自动隐藏。</p>
       <ScrollBox :height="120" auto-hide="leave" :auto-hide-delay="600" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
-        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">鼠标移入显示滚动条，移出后滚动条消失。拖拽滚动条时不会消失。</p>
+        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">{{ $t('demo.scrollBox.autoHideLeaveHint2') }}</p>
       </ScrollBox>
     </y-card>
 
-    <y-card title="自定义主题" style="margin-top: 8px">
-      <p style="margin-bottom: 12px; font-size: 13px; color: #888">通过 theme 属性设置自定义类名，覆盖滚动条的 CSS 变量。</p>
+    <y-card :title="$t('demo.scrollBox.customTheme')" style="margin-top: 8px">
+      <p style="margin-bottom: 12px; font-size: 13px; color: #888">{{ $t('demo.scrollBox.customThemeHint') }}</p>
       <ScrollBox :height="120" theme="demo-scroll-theme" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
         <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">第 {{ i }} 行内容，蓝色主题滚动条。</p>
       </ScrollBox>
     </y-card>
 
-    <y-card title="拖动外框 — 滚动条的动态出现与消失" style="margin-top: 8px">
+    <y-card :title="$t('demo.scrollBox.dragResize')" style="margin-top: 8px">
       <p style="margin-bottom: 12px; font-size: 13px; color: #888">
         拖拽右下角的蓝色手柄改变容器尺寸，观察滚动条在内容溢出时出现、不溢出时消失。当前尺寸：<b>{{ boxWidth }} × {{ boxHeight }}</b>
       </p>
@@ -104,6 +104,7 @@
 </template>
 
 <script lang="ts" setup>
+import { $t } from 'yiz-ui'
 import { onBeforeUnmount, ref } from 'vue'
 import { Card, ScrollBox } from 'yiz-ui'
 

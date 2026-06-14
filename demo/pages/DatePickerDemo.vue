@@ -1,56 +1,57 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">DatePicker 日期选择</h2>
-    <p class="demo-section-desc">用于选择日期，支持年月快速切换、今天标记、禁用日期等。</p>
+    <h2 class="demo-section-title">{{ $t('demo.datePicker.title') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.datePicker.desc') }}</p>
 
-    <y-card title="基础用法" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">选择日期</span>
+        <span class="demo-label">{{ $t('demo.common.selectDate') }}</span>
         <DatePicker v-model="value1" />
         <span class="demo-item-hint">已选：{{ value1 ? fmt(value1) : '未选择' }}</span>
       </div>
     </y-card>
 
-    <y-card title="可清空" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.clearable')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">带清除</span>
+        <span class="demo-label">{{ $t('demo.common.withClear') }}</span>
         <DatePicker v-model="value2" clearable />
-        <span class="demo-item-hint">点击右侧 × 清除</span>
+        <span class="demo-item-hint">{{ $t('demo.common.clearByX') }}</span>
       </div>
     </y-card>
 
-    <y-card title="禁用" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">禁用状态</span>
+        <span class="demo-label">{{ $t('demo.common.disabledState') }}</span>
         <DatePicker v-model="value3" disabled />
       </div>
     </y-card>
 
-    <y-card title="小尺寸" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.smallSize')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">小号</span>
+        <span class="demo-label">{{ $t('demo.common.small') }}</span>
         <DatePicker v-model="value4" size="small" />
       </div>
     </y-card>
 
-    <y-card title="禁用部分日期" style="margin-top: 8px">
+    <y-card :title="$t('demo.datePicker.disableDates')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">限制范围</span>
+        <span class="demo-label">{{ $t('demo.datePicker.limitRange') }}</span>
         <DatePicker v-model="value5" :disabled-date="disabledDate" />
-        <span class="demo-item-hint">只能选今天之后</span>
+        <span class="demo-item-hint">{{ $t('demo.datePicker.onlyAfterToday') }}</span>
       </div>
     </y-card>
 
-    <y-card title="自定义格式" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.customFormat')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">年月日</span>
-        <DatePicker v-model="value6" format="yyyy 年 MM 月 dd 日" placeholder="请选择" />
+        <span class="demo-label">{{ $t('demo.datePicker.yearMonthDay') }}</span>
+        <DatePicker v-model="value6" format="yyyy 年 MM 月 dd 日" :placeholder="$t('demo.common.placeholder')" />
       </div>
     </y-card>
   </section>
 </template>
 
 <script lang="ts" setup>
+import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 import { DatePicker } from 'yiz-ui'
 

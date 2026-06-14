@@ -1,11 +1,11 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">TimeRangePicker 时间段</h2>
-    <p class="demo-section-desc">用于选择时间范围，支持开始和结束时间独立绑定。</p>
+    <h2 class="demo-section-title">{{ $t('demo.timeRangePicker.title') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.timeRangePicker.desc') }}</p>
 
-    <y-card title="基础用法">
+    <y-card :title="$t('demo.common.basic')">
       <div class="demo-row">
-        <span class="demo-label">时间范围</span>
+        <span class="demo-label">{{ $t('demo.timeRangePicker.timeRange') }}</span>
         <div class="demo-items">
           <y-time-range-picker v-model:start="start" v-model:end="end" clearable @change="onChange" />
           <span class="demo-item-hint">{{ start ?? '空' }} - {{ end ?? '空' }}</span>
@@ -14,9 +14,9 @@
       <p class="demo-time-range-info">上次变更：{{ lastChange }}</p>
     </y-card>
 
-    <y-card title="允许单侧为空" style="margin-top: 8px">
+    <y-card :title="$t('demo.dateRangePicker.allowSingle')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">可选</span>
+        <span class="demo-label">{{ $t('demo.dateRangePicker.optional') }}</span>
         <div class="demo-items">
           <y-time-range-picker v-model:start="optionalStart" v-model:end="optionalEnd" clearable />
           <span class="demo-item-hint">{{ optionalStart ?? '空' }} - {{ optionalEnd ?? '空' }}</span>
@@ -24,9 +24,9 @@
       </div>
     </y-card>
 
-    <y-card title="强制范围" style="margin-top: 8px">
+    <y-card :title="$t('demo.dateRangePicker.requiredRange')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">必填</span>
+        <span class="demo-label">{{ $t('demo.dateRangePicker.required') }}</span>
         <div class="demo-items">
           <y-time-range-picker
             v-model:start="requiredStart"
@@ -39,9 +39,9 @@
       </div>
     </y-card>
 
-    <y-card title="显示秒" style="margin-top: 8px">
+    <y-card :title="$t('demo.timePicker.showSeconds')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">含秒</span>
+        <span class="demo-label">{{ $t('demo.timePicker.withSeconds') }}</span>
         <div class="demo-items">
           <y-time-range-picker
             v-model:start="secondStart"
@@ -57,6 +57,7 @@
 </template>
 
 <script lang="ts" setup>
+import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 
 const start = ref<string | null>('09:00:00')

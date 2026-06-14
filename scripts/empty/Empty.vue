@@ -29,7 +29,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { t } from '../locale'
+import { $t } from '../locale'
 
 const props = withDefaults(
   defineProps<{
@@ -41,7 +41,7 @@ const props = withDefaults(
   }
 )
 
-const descriptionText = computed(() => props.description ?? t('common.noData'))
+const descriptionText = computed(() => props.description ?? $t('common.noData'))
 
 defineSlots<{
   image?: any

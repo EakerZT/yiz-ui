@@ -1,28 +1,28 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">Menu 导航菜单</h2>
-    <p class="demo-section-desc">垂直导航菜单，支持子菜单和选中状态。</p>
+    <h2 class="demo-section-title">{{ $t('demo.menu.title') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.menu.desc') }}</p>
 
     <y-card title="基础" style="margin-top: 8px">
       <y-menu v-model:select="v1" :items="opts" @select="onSelect" />
       <span class="demo-hint">选中: {{ v1 }}</span>
     </y-card>
 
-    <y-card title="子菜单" style="margin-top: 8px">
+    <y-card :title="$t('demo.menu.submenu')" style="margin-top: 8px">
       <y-menu v-model:select="v2" :items="navItems" @select="onSelect2" />
       <span class="demo-hint">选中: {{ v2 }}</span>
     </y-card>
 
-    <y-card title="插槽" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.slot')" style="margin-top: 8px">
       <y-menu v-model:select="v3" @select="onSelect3">
-        <y-menu-option label="查看" value="view" />
-        <y-menu-option label="编辑" value="edit" />
-        <y-menu-option label="删除" value="delete" />
+        <y-menu-option :label="$t('demo.common.view')" value="view" />
+        <y-menu-option :label="$t('demo.common.edit')" value="edit" />
+        <y-menu-option :label="$t('demo.common.delete')" value="delete" />
       </y-menu>
       <span class="demo-hint">选中: {{ v3 }}</span>
     </y-card>
 
-    <y-card title="自定义渲染" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.customRender')" style="margin-top: 8px">
       <y-menu v-model:select="v4" :items="navItems" @select="onSelect4">
         <template #item="{ item }">
           <span style="display: flex; align-items: center; gap: 6px">
@@ -34,7 +34,7 @@
       <span class="demo-hint">选中: {{ v4 }}</span>
     </y-card>
 
-    <y-card title="图标-字符串" style="margin-top: 8px">
+    <y-card :title="$t('demo.menu.iconString')" style="margin-top: 8px">
       <y-menu v-model:select="v5" :items="iconItems" @select="onSelect5">
         <template #icon="{ icon }">
           <Icon :icon="iconMap[icon]" />
@@ -43,12 +43,12 @@
       <span class="demo-hint">选中: {{ v5 }}</span>
     </y-card>
 
-    <y-card title="图标-函数" style="margin-top: 8px">
+    <y-card :title="$t('demo.menu.iconFn')" style="margin-top: 8px">
       <y-menu v-model:select="v6" :items="fnIconItems" @select="onSelect6" />
       <span class="demo-hint">选中: {{ v6 }}</span>
     </y-card>
 
-    <y-card title="折叠" style="margin-top: 8px">
+    <y-card :title="$t('demo.menu.collapsed')" style="margin-top: 8px">
       <div class="demo-menu-toolbar">
         <y-switch v-model="dark" />
         <span class="demo-hint">{{ dark ? 'dark' : 'light' }}</span>
@@ -68,6 +68,7 @@
 </template>
 
 <script lang="ts" setup>
+import { $t } from 'yiz-ui'
 import { h, ref } from 'vue'
 import {
   Box20Regular,
@@ -85,31 +86,31 @@ import {
 import { Icon } from 'yiz-ui'
 
 const opts = [
-  { label: '查看', value: 'view' },
-  { label: '编辑', value: 'edit' },
-  { label: '删除', value: 'delete' }
+  { label: $t('demo.common.view'), value: 'view' },
+  { label: $t('demo.common.edit'), value: 'edit' },
+  { label: $t('demo.common.delete'), value: 'delete' }
 ]
 
 const navItems = [
-  { label: '首页', value: 'home' },
+  { label: $t('demo.common.home'), value: 'home' },
   {
-    label: '产品',
+    label: $t('demo.common.products'),
     value: 'products',
     children: [
-      { label: '全部产品', value: 'all-products' },
-      { label: '分类管理', value: 'categories' },
-      { label: '标签管理', value: 'tags' }
+      { label: $t('demo.common.allProducts'), value: 'all-products' },
+      { label: $t('demo.common.categories'), value: 'categories' },
+      { label: $t('demo.common.tags'), value: 'tags' }
     ]
   },
   {
-    label: '设置',
+    label: $t('demo.common.settings'),
     value: 'settings',
     children: [
-      { label: '个人设置', value: 'profile' },
-      { label: '系统设置', value: 'system' }
+      { label: $t('demo.common.profile'), value: 'profile' },
+      { label: $t('demo.common.systemSettings'), value: 'system' }
     ]
   },
-  { label: '关于', value: 'about' }
+  { label: $t('demo.common.about'), value: 'about' }
 ]
 
 const v1 = ref()
@@ -141,56 +142,56 @@ const iconMap: Record<string, any> = {
 }
 
 const collapsedItems = [
-  { label: '首页', value: 'home', icon: 'home' },
+  { label: $t('demo.common.home'), value: 'home', icon: 'home' },
   {
-    label: '产品',
+    label: $t('demo.common.products'),
     value: 'products',
     icon: 'products',
     children: [
-      { label: '全部产品', value: 'all-products', icon: 'all-products' },
+      { label: $t('demo.common.allProducts'), value: 'all-products', icon: 'all-products' },
       {
-        label: '分类管理',
+        label: $t('demo.common.categories'),
         value: 'categories',
         icon: 'categories',
         children: [
-          { label: '电子产品', value: 'electronics', icon: 'electronics' },
-          { label: '服装', value: 'clothing', icon: 'clothing' },
-          { label: '食品', value: 'food', icon: 'food' }
+          { label: $t('demo.common.electronics'), value: 'electronics', icon: 'electronics' },
+          { label: $t('demo.common.clothing'), value: 'clothing', icon: 'clothing' },
+          { label: $t('demo.common.food'), value: 'food', icon: 'food' }
         ]
       },
-      { label: '标签管理', value: 'tags', icon: 'tags' }
+      { label: $t('demo.common.tags'), value: 'tags', icon: 'tags' }
     ]
   },
   {
-    label: '设置',
+    label: $t('demo.common.settings'),
     value: 'settings',
     icon: 'settings',
     children: [
-      { label: '个人设置', value: 'profile', icon: 'profile' },
+      { label: $t('demo.common.profile'), value: 'profile', icon: 'profile' },
       {
-        label: '系统设置',
+        label: $t('demo.common.systemSettings'),
         value: 'system',
         icon: 'system',
         children: [
-          { label: '安全设置', value: 'security', icon: 'security' },
-          { label: '通知设置', value: 'notification', icon: 'notification' }
+          { label: $t('demo.common.securitySettings'), value: 'security', icon: 'security' },
+          { label: $t('demo.common.notificationSettings'), value: 'notification', icon: 'notification' }
         ]
       }
     ]
   },
-  { label: '关于', value: 'about', icon: 'about' }
+  { label: $t('demo.common.about'), value: 'about', icon: 'about' }
 ]
 
 const iconItems = [
-  { label: '首页', value: 'home', icon: 'home' },
-  { label: '设置', value: 'settings', icon: 'settings' },
-  { label: '关于', value: 'info', icon: 'info' }
+  { label: $t('demo.common.home'), value: 'home', icon: 'home' },
+  { label: $t('demo.common.settings'), value: 'settings', icon: 'settings' },
+  { label: $t('demo.common.about'), value: 'info', icon: 'info' }
 ]
 
 const fnIconItems = [
-  { label: '首页', value: 'home', icon: () => h(Icon, { icon: Home20Regular }) },
-  { label: '设置', value: 'settings', icon: () => h(Icon, { icon: Settings20Regular }) },
-  { label: '关于', value: 'info', icon: () => h(Icon, { icon: Info20Regular }) }
+  { label: $t('demo.common.home'), value: 'home', icon: () => h(Icon, { icon: Home20Regular }) },
+  { label: $t('demo.common.settings'), value: 'settings', icon: () => h(Icon, { icon: Settings20Regular }) },
+  { label: $t('demo.common.about'), value: 'info', icon: () => h(Icon, { icon: Info20Regular }) }
 ]
 
 function onSelect(_item: any) {}

@@ -11,9 +11,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 # Start the demo/dev server
 yarn demo
+
+# Type-check the entire project (no emit)
+yarn typecheck
 ```
 
-There are currently no test or lint scripts configured.
+There are currently no test or lint scripts configured. ESLint and Prettier are installed as devDependencies but have no project-level config files (Prettier config is in `.prettierrc`).
 
 ## Architecture
 
@@ -43,6 +46,54 @@ Each component lives in `scripts/<name>/` with two files:
 4. Register the demo page in `demo/App.vue`: add import, `pages` entry, and `menuItems` entry
 
 Everything else (plugin registration, path alias, global component name) is automatic.
+
+### i18n / Locale system (`scripts/locale/`)
+
+A simple reactive i18n system. Key exports from `scripts/locale/index.ts`:
+
+- **`$t(key, params?)`** — translate a key with `{placeholder}` interpolation. Falls back to `zh-CN` if the key is missing in the current language, then to the raw key.
+- **`$tList(key)`** — translate a key that holds a `string[]` (used for weekday names, etc.)
+- **`setLang(lang)`** — switch the active language; falls back to `zh-CN` if the language isn't registered
+- **`registerLang(lang, messages)`** — register a full language message object
+- **`registerLangItem(lang, messages)`** — merge partial messages into an existing language
+
+Built-in languages: `zh-CN` (default, defined in `zh-CN.json`) and `en-US` (defined in `en-US.json`). The active language is a reactive `ref` — components calling `$t()` will re-render when it changes.
+
+**Usage in components:**
+
+```ts
+import { $t } from '../locale'
+const placeholderText = computed(() => props.placeholder ?? $t('select.placeholder'))
+```
+
+Components that display user-facing text (Empty, Pagination, Select, DatePicker, TimePicker, Table, Loading) use `$t()` for their default labels/placeholders. When adding a new component with text, add keys to both `zh-CN.json` and the demo's i18n registration.
+
+**The demo app** (`demo/i18n.ts`) registers its own UI strings via `registerLangItem('zh-CN', ...)` and `registerLangItem('en-US', ...)`, then calls `setLang()` with the demo's language selector.
+
+### Notification imperative API (`scripts/notification/`)
+
+Unlike most components, Notification is used **imperatively** via a function call, not declaratively in templates:
+
+```ts
+import { notification } from 'yiz-ui'
+
+// Basic usage
+notification({ title: 'Success', content: 'Operation completed.', type: 'success' })
+
+// Convenience methods
+notification.info({ content: 'Info message' })
+notification.success({ content: 'Success message' })
+notification.warning({ content: 'Warning message' })
+notification.error({ content: 'Error message' })
+
+// Returns a handle for manual close
+const handle = notification({ content: 'Loading...', duration: 0 })
+handle.close()
+```
+
+**Implementation:** `notification.ts` uses `createVNode` + `render()` to mount `Notification.vue` instances onto dynamically created DOM containers. A **holder** element (one per `placement` corner) manages stacking — notifications stack with gap via CSS `margin` and height transitions. Each holder is `position: fixed` at `z-index: 3000` with `pointer-events: none` (children re-enable it). When all notifications in a holder are destroyed, the holder is removed from the DOM.
+
+Key options: `title`, `content` (string or VNode), `type` (`'info' | 'success' | 'warning' | 'error'`), `placement` (`'top-right'` | `'top-left'` | `'bottom-right'` | `'bottom-left'`), `duration` (ms, 0 = no auto-close), `closable`, `showIcon`, `width`, `onClose` callback.
 
 ### Table component (`scripts/table/`)
 
@@ -250,6 +301,55 @@ Content container with structured slots: `#cover` (full-width image area at top)
 ### ButtonGroup (`scripts/button-group/`)
 
 Flex container for grouping buttons. Props: `direction` (`'horizontal' | 'vertical'`), `size` (`'small' | 'default' | 'large'` or a number for gap in px), `align`, `wrap`. Styled via `--yiz-button-group-gap` and `--yiz-button-group-align` CSS custom properties. Simple slot container, no provide/inject.
+
+### Button (`scripts/button/`)
+
+The foundational interactive component. Props: `type` (`'default' | 'primary'`), `color` (`'default' | 'success' | 'warning' | 'error'` or a `#rrggbb` hex string), `shape` (`'default' | 'round' | 'circle'`), `size`, `disabled`. When `color` is a hex string, `@ctrl/tinycolor` derives `--yiz-button-color-*` CSS custom properties for hover/press/disabled states. Text children are automatically wrapped in `<span>` for proper flex alignment alongside icons. Emits `click`. Includes the `yiz-wave` ripple animation.
+
+### Input (`scripts/input/`)
+
+Text input with `v-model:value` (`defineModel`), `placeholder`, `prefix`/`suffix` (string props or `#prefix`/`#suffix` slots — props take priority), `clearable` (renders a clear button using `@vicons/fluent` `DismissCircle32Filled` via `Icon`), and focus ring styling. Emits `pressEnter` on Enter key. Exposes `focus()` via `defineExpose`.
+
+### Empty (`scripts/empty/`)
+
+Placeholder for empty states. Slots: `#image` (default is an inline SVG illustration), `#description` (falls back to `$t('common.noData')`), `#default` (footer actions). Props: `description` (string override), `size` (`'default' | 'small'`). Uses `$t()` from the locale system.
+
+### ColorPicker (`scripts/color-picker/`)
+
+HSV color picker with a Teleported dropdown panel. Follows the same Teleport + `nextZIndex()` + click-outside + scroll/resize reposition pattern as Select. Features: saturation/brightness panel (2D gradient), hue slider, optional alpha channel, hex input field (uses project's `Input` component), preset color swatches, and confirm/cancel actions. Mouse drag for panel, hue, and alpha via `document` mousemove/mouseup listeners (cleaned up in `onBeforeUnmount`). Internal color conversion: hex ↔ HSV. Uses `defineModel<string>('value')`.
+
+### DatePicker and DateRangePicker (`scripts/date-picker/`, `scripts/date-range-picker/`)
+
+Date selection with a Teleported calendar panel. Features: month/year navigation with double-arrow fast-forward, year grid quick-select, today marker, date disabling (via `disabledDate` function prop), clearable input. Follows the Select dropdown pattern (Teleport, `nextZIndex()`, click-outside, scroll/resize reposition). Uses `$t()` for i18n (weekday names, month labels, placeholders). **DateRangePicker** has two independent v-model bindings (`v-model:start`, `v-model:end`) and allows single-side empty when `required` is false. When both dates are set, auto-sorts so start ≤ end (unless `autoSort` is false).
+
+### TimePicker and TimeRangePicker (`scripts/time-picker/`, `scripts/time-range-picker/`)
+
+Time selection with a Teleported column-based panel (hour / minute / optional seconds columns). Each column is a scrollable list of values; clicking selects. Footer has a "now" `LinkButton` and a confirm `Button`. Uses `$t()` for i18n (column headers, placeholder). **TimeRangePicker** has two independent v-model bindings (`v-model:start`, `v-model:end`) with the same single-side-empty and auto-sort semantics as DateRangePicker.
+
+### Tree (`scripts/tree/`)
+
+Hierarchical data display using recursive `TreeNode` components. Uses `provide('yizTree', { ... })` so any level of TreeNode can access tree state. The TreeContext includes: `indent`, `checkable`, `selectable`, `expandOnClickNode`, plus functions: `isExpanded`, `isSelected`, `isChecked`, `isHalfChecked`, `toggleExpand`, `selectNode`, `toggleCheck`. Props: `data` (`TreeNodeData[]` — each node has `label`, `key`, optional `children`, `disabled`, `selectable`, `checkable`), `checkable`, `selectable`, `defaultExpandAll`, `expandOnClickNode`, `indent`, `emptyText`. v-model: `v-model:selected` (single key), `v-model:checked` (key array), `v-model:expanded` (key array). Emits: `select`, `check`, `expand`. Half-checked state: a parent is half-checked when some (but not all) of its checkable descendants are checked and the parent itself is not checked. Expand/collapse uses a CSS height transition.
+
+### Pagination (`scripts/pagination/`)
+
+Page navigation with computed pager items (ellipsis logic for large page counts). Uses two `defineModel` bindings: `v-model:page` and `v-model:pageSize`. Props: `total`, `pageSizes` (array, used as options in an embedded `Select`), `pagerCount` (must be odd, defaults to 7), `showTotal`, `showSizeChanger`, `showQuickJumper`, `disabled`, `simple` (compact mode with a page input), `size`. Emits: `change(page, pageSize)`, `pageSizeChange(pageSize)`. Uses `$t()` for i18n (total label, page size labels, aria labels, jumper text).
+
+### RadioButton and RadioButtonGroup (`scripts/radio-button/`, `scripts/radio-button-group/`)
+
+Button-style radio selection. `RadioButton` uses the native input overlay pattern (hidden `<input type="radio">`). Supports standalone `v-model` or group mode via `inject('yizRadioButtonGroup')`. `RadioButtonGroup` provides `{ modelValue, disabled, size, changeValue }` and renders children in a flex row. Props on the group: `size` (`'small' | 'default' | 'large'`), `disabled`.
+
+### Dialog drag and Drawer resize
+
+**Dialog** supports a `drag` prop — when enabled, the header is draggable (`mousedown` on header → `document` mousemove/mouseup to update `transform: translate()`). Drag is constrained to the viewport; position auto-corrects on window resize.
+
+**Drawer** supports a `resize` prop with `resizeMin`/`resizeMax` constraints. A resize handle at the edge of the drawer uses `mousedown` → `document` mousemove/mouseup to adjust width (for left/right placement) or height (for top/bottom placement). The handle uses `setPointerCapture` for reliable tracking.
+
+### Encoding rules (from AGENTS.md)
+
+- All source files use **UTF-8 without BOM**. Never use GBK or ANSI.
+- When reading/writing files, explicitly use UTF-8 encoding.
+- Never rewrite garbled Chinese text — verify the encoding of your read first.
+- If terminal output shows garbled Chinese, that's a terminal encoding issue, not a file encoding issue.
 
 ### Click-outside and document listeners
 

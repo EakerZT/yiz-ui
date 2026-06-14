@@ -1,9 +1,9 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">Icon 图标</h2>
-    <p class="demo-section-desc">渲染 @vicons/fluent 图标，支持自定义尺寸。</p>
+    <h2 class="demo-section-title">{{ $t('demo.nav.icon') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.icon.desc') }}</p>
 
-    <y-card title="尺寸" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <y-button-group>
         <span v-for="s in [12, 16, 20, 28, 36]" :key="s" class="demo-icon-item">
           <y-icon :icon="Flash20Regular" :size="s" />
@@ -15,6 +15,7 @@
 </template>
 
 <script lang="ts" setup>
+import { $t } from 'yiz-ui'
 import { Flash20Regular } from '@vicons/fluent'
 </script>
 

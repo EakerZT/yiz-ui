@@ -1,105 +1,106 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">Dialog 弹窗</h2>
-    <p class="demo-section-desc">模态对话框，用于重要信息的提示或操作确认。</p>
+    <h2 class="demo-section-title">{{ $t('demo.nav.dialog') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.dialog.desc') }}</p>
 
-    <y-card title="基础用法" style="margin-top: 8px">
-      <y-button type="primary" @click="visible1 = true">打开弹窗</y-button>
+    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
+      <y-button type="primary" @click="visible1 = true">{{ $t('demo.dialog.openDialog') }}</y-button>
     </y-card>
 
-    <y-card title="拖动" style="margin-top: 8px">
-      <y-button @click="visible10 = true">可拖动弹窗</y-button>
+    <y-card :title="$t('demo.common.drag')" style="margin-top: 8px">
+      <y-button @click="visible10 = true">{{ $t('demo.dialog.draggable') }}</y-button>
     </y-card>
 
-    <y-card title="自定义宽度" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.customWidth')" style="margin-top: 8px">
       <y-button-group>
         <y-button @click="visible2 = true">width="600px"</y-button>
         <y-button @click="visible3 = true">width="300px"</y-button>
       </y-button-group>
     </y-card>
 
-    <y-card title="无遮罩" style="margin-top: 8px">
-      <y-button @click="visible4 = true">无遮罩</y-button>
+    <y-card :title="$t('demo.common.noMask')" style="margin-top: 8px">
+      <y-button @click="visible4 = true">{{ $t('demo.common.noMask') }}</y-button>
     </y-card>
 
-    <y-card title="点击遮罩关闭" style="margin-top: 8px">
-      <y-button @click="visible5 = true">点击遮罩关闭</y-button>
+    <y-card :title="$t('demo.common.maskClosable')" style="margin-top: 8px">
+      <y-button @click="visible5 = true">{{ $t('demo.common.maskClosable') }}</y-button>
     </y-card>
 
-    <y-card title="隐藏关闭按钮" style="margin-top: 8px">
-      <y-button @click="visible6 = true">隐藏关闭按钮</y-button>
+    <y-card :title="$t('demo.common.hideCloseButton')" style="margin-top: 8px">
+      <y-button @click="visible6 = true">{{ $t('demo.common.hideCloseButton') }}</y-button>
     </y-card>
 
-    <y-card title="页脚" style="margin-top: 8px">
-      <y-button type="primary" @click="visible7 = true">确认弹窗</y-button>
+    <y-card :title="$t('demo.common.footer')" style="margin-top: 8px">
+      <y-button type="primary" @click="visible7 = true">{{ $t('demo.dialog.confirmDialog') }}</y-button>
     </y-card>
 
-    <y-card title="自定义标题" style="margin-top: 8px">
-      <y-button @click="visible8 = true">自定义标题</y-button>
+    <y-card :title="$t('demo.common.customTitle')" style="margin-top: 8px">
+      <y-button @click="visible8 = true">{{ $t('demo.common.customTitle') }}</y-button>
     </y-card>
 
-    <y-card title="close 事件" style="margin-top: 8px">
-      <y-button @click="visible9 = true">打开</y-button>
+    <y-card :title="$t('demo.dialog.closeEvent')" style="margin-top: 8px">
+      <y-button @click="visible9 = true">{{ $t('demo.common.open') }}</y-button>
       <span v-if="closeCount > 0" class="demo-hint">close 触发次数：{{ closeCount }}</span>
     </y-card>
 
     <!-- Dialogs -->
-    <y-dialog v-model="visible1" title="基础弹窗">
-      <p>这是弹窗内容区域。</p>
+    <y-dialog v-model="visible1" :title="$t('demo.dialog.basicDialog')">
+      <p>{{ $t('demo.dialog.basicContent') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible10" title="拖动标题移动" :drag="true">
-      <p>拖拽标题栏可以移动弹窗位置。</p>
-      <p style="margin-top: 8px; color: #888">弹窗不会被拖出屏幕外，视口变化时自动修正位置。</p>
+    <y-dialog v-model="visible10" :title="$t('demo.dialog.dragTitle')" :drag="true">
+      <p>{{ $t('demo.dialog.dragTitleHint') }}</p>
+      <p style="margin-top: 8px; color: #888">{{ $t('demo.dialog.dragTitleHint2') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible2" title="宽弹窗" width="600px">
-      <p>宽度为 600px 的弹窗。</p>
+    <y-dialog v-model="visible2" :title="$t('demo.dialog.wideDialog')" width="600px">
+      <p>{{ $t('demo.dialog.wideDialogHint') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible3" title="窄弹窗" width="300px">
-      <p>宽度为 300px 的弹窗。</p>
+    <y-dialog v-model="visible3" :title="$t('demo.dialog.narrowDialog')" width="300px">
+      <p>{{ $t('demo.dialog.narrowDialogHint') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible4" title="无遮罩" :mask="false">
-      <p>没有遮罩层的弹窗。</p>
+    <y-dialog v-model="visible4" :title="$t('demo.common.noMask')" :mask="false">
+      <p>{{ $t('demo.dialog.noMaskHint') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible5" title="点击遮罩关闭" :mask-closable="true">
-      <p>点击遮罩即可关闭弹窗。</p>
+    <y-dialog v-model="visible5" :title="$t('demo.common.maskClosable')" :mask-closable="true">
+      <p>{{ $t('demo.dialog.maskClosableHint') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible6" title="无关闭按钮" :closable="false">
-      <p>没有关闭按钮和遮罩关闭，只能通过代码控制关闭。</p>
+    <y-dialog v-model="visible6" :title="$t('demo.common.noCloseButton')" :closable="false">
+      <p>{{ $t('demo.dialog.noCloseHint') }}</p>
       <div style="margin-top: 16px">
-        <y-button type="primary" @click="visible6 = false">关闭弹窗</y-button>
+        <y-button type="primary" @click="visible6 = false">{{ $t('demo.common.close') }}</y-button>
       </div>
     </y-dialog>
 
-    <y-dialog v-model="visible7" title="确认操作">
-      <p>确定要执行此操作吗？</p>
+    <y-dialog v-model="visible7" :title="$t('demo.card.confirmAction')">
+      <p>{{ $t('demo.card.confirmMsg') }}</p>
       <template #footer>
         <div style="display: flex; gap: 12px; justify-content: flex-end">
-          <y-button @click="visible7 = false">取消</y-button>
-          <y-button type="primary" @click="visible7 = false">确定</y-button>
+          <y-button @click="visible7 = false">{{ $t('demo.common.cancel') }}</y-button>
+          <y-button type="primary" @click="visible7 = false">{{ $t('demo.common.confirm') }}</y-button>
         </div>
       </template>
     </y-dialog>
 
     <y-dialog v-model="visible8">
       <template #title>
-        <span style="color: var(--yiz-color-primary)">自定义标题颜色</span>
+        <span style="color: var(--yiz-color-primary)">{{ $t('demo.common.customTitleColor') }}</span>
       </template>
-      <p>通过 title 插槽可以自定义标题内容。</p>
+      <p>{{ $t('demo.dialog.customTitleHint') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible9" title="close 事件" @close="closeCount++">
-      <p>每次关闭时触发 close 事件。</p>
+    <y-dialog v-model="visible9" :title="$t('demo.dialog.closeEvent')" @close="closeCount++">
+      <p>{{ $t('demo.dialog.closeEventHint') }}</p>
     </y-dialog>
   </section>
 </template>
 
 <script lang="ts" setup>
+import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 
 const visible1 = ref(false)
