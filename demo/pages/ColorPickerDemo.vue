@@ -15,7 +15,7 @@
 
     <y-card :title="$t('demo.colorPicker.alpha')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">Alpha</span>
+        <span class="demo-label">{{ $t('demo.colorPicker.alphaLabel') }}</span>
         <div class="demo-items">
           <y-color-picker v-model:value="alphaColor" alpha />
           <span class="demo-color-preview" :style="{ backgroundColor: alphaColor }" />

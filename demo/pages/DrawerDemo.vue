@@ -11,8 +11,8 @@
       <y-button-group>
         <y-button @click="openDrawer('left')">Left</y-button>
         <y-button @click="openDrawer('right')">Right</y-button>
-        <y-button @click="openDrawer('top')">Top</y-button>
-        <y-button @click="openDrawer('bottom')">Bottom</y-button>
+        <y-button @click="openDrawer('top')">{{ $t('demo.drawer.top') }}</y-button>
+        <y-button @click="openDrawer('bottom')">{{ $t('demo.drawer.bottom') }}</y-button>
       </y-button-group>
     </y-card>
 

@@ -53,7 +53,7 @@
         <div>
           <div style="font-size:13px;color:#999;margin-bottom:4px;">{{ $t('demo.checkbox.group2') }}</div>
           <y-checkbox value="orange">Orange</y-checkbox>
-          <y-checkbox value="mango">Mango</y-checkbox>
+          <y-checkbox value="mango">{{ $t('demo.checkbox.optionC') }}</y-checkbox>
         </div>
       </y-checkbox-group>
       <span class="demo-hint">{{ group3 }}</span>

@@ -6,10 +6,10 @@
     <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
       <y-button-group>
         <y-tag>{{ $t('demo.tab.tab1') }}</y-tag>
-        <y-tag color="primary">Primary</y-tag>
-        <y-tag color="success">Success</y-tag>
-        <y-tag color="warning">Warning</y-tag>
-        <y-tag color="error">Error</y-tag>
+        <y-tag color="primary">{{ $t('demo.common.primary') }}</y-tag>
+        <y-tag color="success">{{ $t('demo.common.success') }}</y-tag>
+        <y-tag color="warning">{{ $t('demo.common.warning') }}</y-tag>
+        <y-tag color="error">{{ $t('demo.common.error') }}</y-tag>
       </y-button-group>
     </y-card>
 
@@ -35,10 +35,10 @@
     <y-card :title="$t('demo.common.withoutBorder')" style="margin-top: 8px">
       <y-button-group>
         <y-tag :bordered="false">{{ $t('demo.common.default') }}</y-tag>
-        <y-tag color="primary" :bordered="false">Primary</y-tag>
-        <y-tag color="success" :bordered="false">Success</y-tag>
-        <y-tag color="warning" :bordered="false">Warning</y-tag>
-        <y-tag color="error" :bordered="false">Error</y-tag>
+        <y-tag color="primary" :bordered="false">{{ $t('demo.common.primary') }}</y-tag>
+        <y-tag color="success" :bordered="false">{{ $t('demo.common.success') }}</y-tag>
+        <y-tag color="warning" :bordered="false">{{ $t('demo.common.warning') }}</y-tag>
+        <y-tag color="error" :bordered="false">{{ $t('demo.common.error') }}</y-tag>
       </y-button-group>
     </y-card>
 
