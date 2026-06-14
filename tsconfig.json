@@ -25,5 +25,5 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["scripts/**/*.ts", "scripts/**/*.vue", "demo/**/*.ts", "demo/**/*.vue", "vite.config.mts"]
+  "include": ["scripts/**/*.ts", "scripts/**/*.vue", "scripts/**/*.json", "demo/**/*.ts", "demo/**/*.vue", "vite.config.mts"]
 }

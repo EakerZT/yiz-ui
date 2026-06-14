@@ -3,6 +3,7 @@ import type { App, Component } from 'vue'
 import * as components from './components'
 
 export * from './components'
+export * from './locale'
 export * from './notification'
 
 const install = (app: App): void => {

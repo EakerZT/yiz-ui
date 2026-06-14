@@ -43,7 +43,7 @@
             <div class="yiz-time-range-picker-side-title" @click="activeSide = 'start'">{{ startLabel }}</div>
             <div class="yiz-time-range-picker-body">
               <div class="yiz-time-range-picker-col">
-                <div class="yiz-time-range-picker-col-header">Hour</div>
+                <div class="yiz-time-range-picker-col-header">{{ t('timePicker.hour') }}</div>
                 <div ref="startHourListRef" class="yiz-time-range-picker-col-list">
                   <div
                     v-for="h in hours"
@@ -57,7 +57,7 @@
                 </div>
               </div>
               <div class="yiz-time-range-picker-col">
-                <div class="yiz-time-range-picker-col-header">Minute</div>
+                <div class="yiz-time-range-picker-col-header">{{ t('timePicker.minute') }}</div>
                 <div ref="startMinuteListRef" class="yiz-time-range-picker-col-list">
                   <div
                     v-for="m in minutes"
@@ -71,7 +71,7 @@
                 </div>
               </div>
               <div v-if="showSeconds" class="yiz-time-range-picker-col">
-                <div class="yiz-time-range-picker-col-header">Second</div>
+                <div class="yiz-time-range-picker-col-header">{{ t('timePicker.second') }}</div>
                 <div ref="startSecondListRef" class="yiz-time-range-picker-col-list">
                   <div
                     v-for="s in 60"
@@ -91,7 +91,7 @@
             <div class="yiz-time-range-picker-side-title" @click="activeSide = 'end'">{{ endLabel }}</div>
             <div class="yiz-time-range-picker-body">
               <div class="yiz-time-range-picker-col">
-                <div class="yiz-time-range-picker-col-header">Hour</div>
+                <div class="yiz-time-range-picker-col-header">{{ t('timePicker.hour') }}</div>
                 <div ref="endHourListRef" class="yiz-time-range-picker-col-list">
                   <div
                     v-for="h in hours"
@@ -105,7 +105,7 @@
                 </div>
               </div>
               <div class="yiz-time-range-picker-col">
-                <div class="yiz-time-range-picker-col-header">Minute</div>
+                <div class="yiz-time-range-picker-col-header">{{ t('timePicker.minute') }}</div>
                 <div ref="endMinuteListRef" class="yiz-time-range-picker-col-list">
                   <div
                     v-for="m in minutes"
@@ -119,7 +119,7 @@
                 </div>
               </div>
               <div v-if="showSeconds" class="yiz-time-range-picker-col">
-                <div class="yiz-time-range-picker-col-header">Second</div>
+                <div class="yiz-time-range-picker-col-header">{{ t('timePicker.second') }}</div>
                 <div ref="endSecondListRef" class="yiz-time-range-picker-col-list">
                   <div
                     v-for="s in 60"
@@ -137,8 +137,8 @@
         </div>
 
         <div class="yiz-time-range-picker-footer">
-          <LinkButton @click="onNow">Now</LinkButton>
-          <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">OK</Button>
+          <LinkButton @click="onNow">{{ t('timePicker.now') }}</LinkButton>
+          <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">{{ t('common.confirm') }}</Button>
         </div>
       </div>
     </Transition>
@@ -149,6 +149,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import Button from '../button/Button.vue'
 import LinkButton from '../link-button/LinkButton.vue'
+import { t } from '../locale'
 import { nextZIndex } from '../zIndex'
 
 type TimeRangeSide = 'start' | 'end'
@@ -178,10 +179,6 @@ const props = withDefaults(
     size: 'default',
     showSeconds: false,
     format: 'HH:mm:ss',
-    startPlaceholder: 'Start time',
-    endPlaceholder: 'End time',
-    startLabel: 'Start',
-    endLabel: 'End',
     separator: '-'
   }
 )
@@ -217,10 +214,10 @@ const minutes = Array.from({ length: 60 }, (_, i) => i)
 
 const dropdownPos = ref<{ top?: string; bottom?: string; left?: string }>({})
 
-const startPlaceholder = computed(() => props.startPlaceholder)
-const endPlaceholder = computed(() => props.endPlaceholder)
-const startLabel = computed(() => props.startLabel)
-const endLabel = computed(() => props.endLabel)
+const startPlaceholder = computed(() => props.startPlaceholder ?? t('timeRangePicker.startPlaceholder'))
+const endPlaceholder = computed(() => props.endPlaceholder ?? t('timeRangePicker.endPlaceholder'))
+const startLabel = computed(() => props.startLabel ?? t('timeRangePicker.startLabel'))
+const endLabel = computed(() => props.endLabel ?? t('timeRangePicker.endLabel'))
 const separator = computed(() => props.separator)
 const disabled = computed(() => props.disabled)
 const clearable = computed(() => props.clearable)

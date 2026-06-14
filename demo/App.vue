@@ -3,6 +3,16 @@
     <header class="demo-header">
       <h1>Yiz UI</h1>
       <span class="demo-header-sub">Vue 3 组件库</span>
+      <div class="demo-header-actions">
+        <span class="demo-lang-label">语言</span>
+        <y-select
+          :model-value="demoLang"
+          :options="demoLangOptions"
+          size="small"
+          style="width: 120px"
+          @update:model-value="setDemoLang"
+        />
+      </div>
     </header>
     <div class="demo-body">
       <aside class="demo-sidebar">
@@ -20,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import ButtonDemo from './pages/ButtonDemo.vue'
 import CardDemo from './pages/CardDemo.vue'
 import CheckboxDemo from './pages/CheckboxDemo.vue'
@@ -50,6 +60,7 @@ import DrawerDemo from './pages/DrawerDemo.vue'
 import TooltipDemo from './pages/TooltipDemo.vue'
 import TreeDemo from './pages/TreeDemo.vue'
 import { ScrollBox } from 'yiz-ui'
+import { demoLang, demoLangOptions, setDemoLang, startDemoI18n, stopDemoI18n, translateDemo } from './i18n'
 
 const pages: Record<string, any> = {
   button: ButtonDemo,
@@ -124,6 +135,7 @@ const currentDemo = computed(() => pages[currentPage.value] || ButtonDemo)
 
 function onHashChange() {
   currentPage.value = getPageFromHash()
+  void nextTick(() => translateDemo(document.querySelector('.demo-layout') ?? document))
 }
 
 function onNavSelect(item: any) {
@@ -132,10 +144,12 @@ function onNavSelect(item: any) {
 
 onMounted(() => {
   window.addEventListener('hashchange', onHashChange)
+  startDemoI18n()
 })
 
 onUnmounted(() => {
   window.removeEventListener('hashchange', onHashChange)
+  stopDemoI18n()
 })
 </script>
 
@@ -173,6 +187,17 @@ onUnmounted(() => {
 .demo-header-sub {
   font-size: 13px;
   color: #999;
+}
+.demo-header-actions {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.demo-lang-label {
+  font-size: 13px;
+  color: #666;
+  white-space: nowrap;
 }
 
 .demo-body {

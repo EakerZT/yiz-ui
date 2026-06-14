@@ -1,7 +1,7 @@
 <template>
   <div ref="triggerRef" class="yiz-select" :class="vClass" @click="onTriggerClick">
     <span class="yiz-select-label" :class="{ 'yiz-select-placeholder': !selectedLabel }">
-      {{ selectedLabel || placeholder }}
+      {{ selectedLabel || placeholderText }}
     </span>
     <span class="yiz-select-suffix">
       <span v-if="clearable && modelValue != null" class="yiz-select-clear" @click.stop="onClear">
@@ -23,7 +23,7 @@
     <Transition name="yiz-select-dropdown-fade">
       <div v-if="open" class="yiz-select-dropdown" :style="dropdownStyle" ref="dropdownRef">
         <div v-if="search" class="yiz-select-search-wrap" @click.stop>
-          <Input ref="searchInputRef" v-model:value="searchQuery" placeholder="输入关键词筛选" @keydown.stop />
+          <Input ref="searchInputRef" v-model:value="searchQuery" :placeholder="t('select.searchPlaceholder')" @keydown.stop />
         </div>
         <ScrollBox :max-height="scrollBoxMaxHeight">
           <div
@@ -41,7 +41,7 @@
               {{ opt.label }}
             </slot>
           </div>
-          <div v-if="filteredOptions.length === 0" class="yiz-select-empty">无数据</div>
+          <div v-if="filteredOptions.length === 0" class="yiz-select-empty">{{ t('common.noData') }}</div>
         </ScrollBox>
       </div>
     </Transition>
@@ -54,6 +54,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch } 
 import { DismissCircle32Filled } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { Input } from '../input'
+import { t } from '../locale'
 import { ScrollBox } from '../scroll-box'
 import SelectOptionComp from '../select-option/SelectOption.vue'
 import { nextZIndex } from '../zIndex'
@@ -74,7 +75,6 @@ const props = withDefaults(
   }>(),
   {
     options: () => [],
-    placeholder: '请选择',
     disabled: false,
     clearable: false,
     size: 'default'
@@ -151,6 +151,7 @@ const selectedLabel = computed(() => {
   const opt = allOptions.value.find((o) => o.value === modelValue.value)
   return opt ? opt.label : ''
 })
+const placeholderText = computed(() => props.placeholder ?? t('select.placeholder'))
 
 const dropdownStyle = computed(() => {
   const s: Record<string, string | number> = {

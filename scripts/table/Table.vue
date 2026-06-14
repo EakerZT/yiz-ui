@@ -70,7 +70,7 @@
       <!-- 空状态：脱离表格，居中不滚动 -->
       <div v-if="sortedData.length === 0" class="yiz-table-empty-wrap">
         <slot name="empty">
-          <Empty description="暂无数据" size="small" />
+          <Empty size="small" />
         </slot>
       </div>
 
@@ -145,7 +145,7 @@
   </div>
   <Teleport to="body">
     <div v-if="resizing" class="yiz-table-resize-tooltip" :style="{ left: tooltipX + 'px', top: tooltipY + 'px' }">
-      宽度:{{ tooltipWidth }}px
+      {{ t('table.width') }}:{{ tooltipWidth }}px
     </div>
   </Teleport>
 </template>
@@ -158,6 +158,7 @@ import Checkbox from '../checkbox/Checkbox.vue'
 import Radio from '../radio/Radio.vue'
 import { ScrollBox } from '../scroll-box'
 import { Empty } from '../empty'
+import { t } from '../locale'
 
 export interface TableColumn {
   label: string

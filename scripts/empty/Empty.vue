@@ -18,7 +18,7 @@
     </div>
     <div class="yiz-empty-description">
       <slot name="description">
-        <span>{{ description }}</span>
+        <span>{{ descriptionText }}</span>
       </slot>
     </div>
     <div v-if="$slots.default" class="yiz-empty-footer">
@@ -28,16 +28,20 @@
 </template>
 
 <script lang="ts" setup>
-withDefaults(
+import { computed } from 'vue'
+import { t } from '../locale'
+
+const props = withDefaults(
   defineProps<{
     description?: string
     size?: 'default' | 'small'
   }>(),
   {
-    description: '暂无数据',
     size: 'default'
   }
 )
+
+const descriptionText = computed(() => props.description ?? t('common.noData'))
 
 defineSlots<{
   image?: any

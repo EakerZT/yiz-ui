@@ -1,0 +1,456 @@
+import { nextTick, ref, watch } from 'vue'
+import { setLang, type Lang } from 'yiz-ui'
+
+export const demoLang = ref<Lang>('zh-CN')
+
+export const demoLangOptions = [
+  { label: '中文', value: 'zh-CN' },
+  { label: 'English', value: 'en-US' }
+]
+
+const textMap = new WeakMap<Text, string>()
+const attrMap = new WeakMap<Element, Record<string, string>>()
+const translatableAttrs = ['title', 'content', 'placeholder', 'aria-label']
+
+const en: Record<string, string> = {
+  'Vue 3 组件库': 'Vue 3 component library',
+  '语言': 'Language',
+  'Button 按钮': 'Button',
+  'Card 卡片': 'Card',
+  'Checkbox 复选': 'Checkbox',
+  'ColorPicker 颜色': 'ColorPicker',
+  'ContextMenu 菜单': 'ContextMenu',
+  'DatePicker 日期': 'DatePicker',
+  'DateRangePicker 日期段': 'DateRangePicker',
+  'Empty 空状态': 'Empty',
+  'Dialog 弹窗': 'Dialog',
+  'Drawer 抽屉': 'Drawer',
+  'Icon 图标': 'Icon',
+  'Input 输入框': 'Input',
+  'InputNumber 数字输入': 'InputNumber',
+  'InputNumber 数字': 'InputNumber',
+  'Loading 加载': 'Loading',
+  'Menu 导航菜单': 'Menu',
+  'Menu 菜单': 'Menu',
+  'Notification 通知': 'Notification',
+  'Pagination 分页': 'Pagination',
+  'Radio 单选': 'Radio',
+  'ScrollBox 滚动框': 'ScrollBox',
+  'Select 下拉框': 'Select',
+  'Switch 开关': 'Switch',
+  'Tab 标签页': 'Tab',
+  'Table 表格': 'Table',
+  'Tag 标签': 'Tag',
+  'TimePicker 时间选择': 'TimePicker',
+  'TimePicker 时间': 'TimePicker',
+  'TimeRangePicker 时间段': 'TimeRangePicker',
+  'Tooltip 文字提示': 'Tooltip',
+  'Tree 树': 'Tree',
+  '基础用法': 'Basic',
+  '基础': 'Basic',
+  '基本': 'Basic',
+  '类型': 'Type',
+  '尺寸': 'Size',
+  '禁用': 'Disabled',
+  '禁用状态': 'Disabled',
+  '小尺寸': 'Small size',
+  '小号': 'Small',
+  '默认': 'Default',
+  '默认值': 'Default value',
+  '可清空': 'Clearable',
+  '自定义': 'Custom',
+  '自定义内容': 'Custom content',
+  '自定义标题': 'Custom title',
+  '自定义宽度': 'Custom width',
+  '自定义颜色': 'Custom color',
+  '无边框': 'Borderless',
+  '可关闭': 'Closable',
+  '方向': 'Placement',
+  '长文本': 'Long text',
+  '内联元素': 'Inline element',
+  '拖动': 'Drag',
+  '无遮罩': 'No mask',
+  '点击遮罩关闭': 'Mask closable',
+  '隐藏关闭按钮': 'Hide close button',
+  '页脚': 'Footer',
+  '确认弹窗': 'Confirm dialog',
+  '打开': 'Open',
+  '打开弹窗': 'Open dialog',
+  '可拖动弹窗': 'Draggable dialog',
+  '关闭弹窗': 'Close dialog',
+  '取消': 'Cancel',
+  '确定': 'OK',
+  '确认操作': 'Confirm action',
+  '宽弹窗': 'Wide dialog',
+  '窄弹窗': 'Narrow dialog',
+  '基础弹窗': 'Basic dialog',
+  '拖动标题移动': 'Drag title to move',
+  '无关闭按钮': 'No close button',
+  '输入框': 'Input',
+  '文本域': 'Textarea',
+  '密码': 'Password',
+  '带清除': 'Clearable',
+  '前后缀': 'Prefix and suffix',
+  '字符计数': 'Character count',
+  '步长': 'Step',
+  '范围': 'Range',
+  '精度': 'Precision',
+  '无按钮': 'No buttons',
+  '选择时间': 'Select time',
+  '含秒': 'With seconds',
+  '预设时间': 'Preset time',
+  '选择日期': 'Select date',
+  '禁用日期': 'Disabled date',
+  '日期格式': 'Date format',
+  '开始日期': 'Start date',
+  '结束日期': 'End date',
+  '开始时间': 'Start time',
+  '结束时间': 'End time',
+  '选择范围': 'Select range',
+  '强制范围': 'Required range',
+  '自动排序': 'Auto sort',
+  '标签一': 'Tag 1',
+  '标签二': 'Tag 2',
+  '标签三': 'Tag 3',
+  '标签四': 'Tag 4',
+  '小标签': 'Small tag',
+  '默认标签': 'Default tag',
+  '大标签': 'Large tag',
+  '+ 添加标签': '+ Add tag',
+  '姓名': 'Name',
+  '年龄': 'Age',
+  '城市': 'City',
+  '状态': 'Status',
+  '部门': 'Department',
+  '职位': 'Title',
+  '电话': 'Phone',
+  '邮箱': 'Email',
+  '入职日期': 'Start date',
+  '操作': 'Action',
+  '启用': 'Enabled',
+  '编辑': 'Edit',
+  '技术部': 'Engineering',
+  '产品部': 'Product',
+  '设计部': 'Design',
+  '前端开发': 'Frontend developer',
+  '后端开发': 'Backend developer',
+  '产品经理': 'Product manager',
+  'UI设计': 'UI designer',
+  '架构师': 'Architect',
+  '北京': 'Beijing',
+  '上海': 'Shanghai',
+  '广州': 'Guangzhou',
+  '深圳': 'Shenzhen',
+  '杭州': 'Hangzhou',
+  '成都': 'Chengdu',
+  '武汉': 'Wuhan',
+  '南京': 'Nanjing',
+  '天津': 'Tianjin',
+  '重庆': 'Chongqing',
+  '西安': "Xi'an",
+  '长沙': 'Changsha',
+  '苏州': 'Suzhou',
+  '东莞': 'Dongguan',
+  '青岛': 'Qingdao',
+  '张三': 'Zhang San',
+  '李四': 'Li Si',
+  '王五': 'Wang Wu',
+  '赵六': 'Zhao Liu',
+  '孙七': 'Sun Qi',
+  '周八': 'Zhou Ba',
+  '吴九': 'Wu Jiu',
+  '郑十': 'Zheng Shi',
+  '冯一': 'Feng Yi',
+  '陈二': 'Chen Er',
+  '褚三': 'Chu San',
+  '卫四': 'Wei Si',
+  '蒋五': 'Jiang Wu',
+  '沈六': 'Shen Liu',
+  '韩七': 'Han Qi',
+  '边框 + 条纹': 'Bordered + striped',
+  '自定义列渲染 + 插槽': 'Custom column render + slot',
+  '列宽拖动': 'Resizable columns',
+  '空数据': 'Empty data',
+  '显示序号': 'Show row number',
+  '拖动约束（minWidth: 100 / maxWidth: 300）': 'Resize constraints (minWidth: 100 / maxWidth: 300)',
+  '单选': 'Single select',
+  '多选': 'Multiple select',
+  '固定列': 'Fixed columns',
+  '固定表头': 'Fixed header',
+  '禁止某些行选择': 'Disable some rows',
+  '查看': 'View',
+  '删除': 'Delete',
+  '首页': 'Home',
+  '产品': 'Products',
+  '全部产品': 'All products',
+  '分类管理': 'Categories',
+  '标签管理': 'Tags',
+  '设置': 'Settings',
+  '个人设置': 'Profile settings',
+  '系统设置': 'System settings',
+  '安全设置': 'Security settings',
+  '通知设置': 'Notification settings',
+  '关于': 'About',
+  '电子产品': 'Electronics',
+  '服装': 'Clothing',
+  '食品': 'Food',
+  '图标-字符串': 'Icon as string',
+  '图标-函数': 'Icon as function',
+  '折叠': 'Collapsed',
+  '子菜单': 'Submenu',
+  '插槽': 'Slot',
+  '自定义渲染': 'Custom render',
+  '选中': 'Selected',
+  '选中值': 'Selected value',
+  '选中行': 'Selected rows',
+  '无': 'None',
+  '基础列表': 'Basic list',
+  '成功': 'Success',
+  '警告': 'Warning',
+  '错误': 'Error',
+  '信息': 'Info',
+  '渲染 @vicons/fluent 图标，支持自定义尺寸。': 'Render @vicons/fluent icons with custom sizes.',
+  '鼠标悬停时显示提示信息，支持上、下、左、右四个方向，content 支持 prop 和插槽两种方式。': 'Show tips on hover with top, bottom, left, and right placements. Content supports both prop and slot usage.',
+  '这是提示文字': 'This is tooltip text',
+  '提示文字': 'Tooltip text',
+  '悬停查看': 'Hover to view',
+  '鼠标悬停这里': 'Hover here',
+  '红色加粗提示': 'Red bold tip',
+  '自定义插槽': 'Custom slot',
+  '用于选择时间，支持时分秒列选择、此刻快捷选项。': 'Select time with hour, minute, second columns and a quick now action.',
+  '用于标记和分类的标签。': 'Tags for marking and categorizing content.',
+  '用于展示多行结构化的数据，支持排序、边框、条纹等。': 'Display structured rows with sorting, borders, stripes, and more.',
+  '页面或容器局部加载时使用的动画图标。': 'Animated indicators for page or container loading states.',
+  '提供固定高度区域的滚动容器，自定义 track + thumb 滚动条，支持拖拽和点击定位。': 'A fixed-height scroll container with custom track and thumb, drag, and click positioning.',
+  '模态对话框，用于重要信息的提示或操作确认。': 'Modal dialogs for important messages and action confirmations.',
+  '通过鼠标或键盘输入数值，可配合按钮或方向键增减。': 'Enter numbers with mouse or keyboard, using buttons or arrow keys to adjust.',
+  '垂直导航菜单，支持子菜单和选中状态。': 'Vertical navigation menu with submenus and selected state.',
+  '通用卡片容器，用于承载文字、图片等内容。': 'A general card container for text, images, and other content.',
+  '默认大小的卡片。': 'Default-size card.',
+  '默认带边框的卡片。': 'Card with border by default.',
+  '紧凑的小卡片。': 'Compact small card.',
+  '卡片可以包含封面图，适合展示文章、商品等。': 'Cards can include cover images for articles, products, and more.',
+  '头部右侧可以放置额外操作。': 'Extra actions can be placed on the right side of the header.',
+  '支持 v-model 双向绑定、clearable 清空、prefix/suffix 前后缀。': 'Supports v-model, clearable input, prefix, and suffix.',
+  '请输入内容': 'Please enter content',
+  '占位符': 'Placeholder',
+  '前缀 / 后缀': 'Prefix / suffix',
+  '当前值：': 'Current value:',
+  '空': 'Empty',
+  '支持 v-model 双向绑定、插槽文本、disabled 状态。': 'Supports v-model, slot text, and disabled state.',
+  '支持 v-model 双向绑定、label 文本、disabled 状态。': 'Supports v-model, label text, and disabled state.',
+  '从一组选项中选择一个值。': 'Select a value from a set of options.',
+  '传入选项数组，': 'Pass an options array,',
+  '绑定选中值，': 'bind the selected value,',
+  '绑定选中值数组，': 'bind the selected value array,',
+  '没有找到相关结果': 'No matching results',
+  '请选择': 'Select',
+  '请选择城市': 'Select city',
+  '搜索': 'Search',
+  '选项 A': 'Option A',
+  '选项 B': 'Option B',
+  '自定义 A': 'Custom A',
+  '自定义 B': 'Custom B',
+  '自定义 C': 'Custom C',
+  '用于在两种状态间切换的选择器。': 'A control for switching between two states.',
+  '开': 'On',
+  '关': 'Off',
+  '切换次数': 'Toggle count',
+  'change 次数': 'Change count',
+  '点击次数': 'Click count',
+  '点击事件': 'Click event',
+  '不同类型': 'Types',
+  '不同位置': 'Placements',
+  '不自动关闭': 'No auto close',
+  '手动关闭': 'Manual close',
+  '多条堆叠': 'Stacked notifications',
+  '带操作': 'With action',
+  '打开通知': 'Open notification',
+  '打开自定义通知': 'Open custom notification',
+  '连续打开 4 条': 'Open 4 notifications',
+  '悬浮通知提醒，通过函数调用展示全局反馈信息。': 'Floating notifications for global feedback through function calls.',
+  '通知显示在右上角。': 'Notification appears at top right.',
+  '通知显示在右下角。': 'Notification appears at bottom right.',
+  '通知显示在左上角。': 'Notification appears at top left.',
+  '通知显示在左下角。': 'Notification appears at bottom left.',
+  '这是一条基础通知，会在 4.5 秒后自动关闭。': 'This basic notification closes automatically after 4.5 seconds.',
+  '这是一条信息通知。': 'This is an info notification.',
+  '这条通知不会自动关闭。': 'This notification will not close automatically.',
+  'duration 设置为 0 时不会自动关闭。': 'Set duration to 0 to disable auto close.',
+  '操作已成功完成。': 'The operation was completed successfully.',
+  '操作失败，请稍后重试。': 'The operation failed. Please try again later.',
+  '网络连接失败，请检查网络后重试': 'Network connection failed. Check the network and try again.',
+  '请检查当前配置是否正确。': 'Please check whether the current configuration is correct.',
+  '保存': 'Save',
+  '去逛逛': 'Go browse',
+  '购物车是空的': 'Your cart is empty',
+  '用于展示空数据或无结果时的占位提示。': 'Placeholder display for empty data or no results.',
+  '自定义描述': 'Custom description',
+  '自定义图片': 'Custom image',
+  '表格空状态': 'Table empty state',
+  '列表为空': 'The list is empty',
+  '从屏幕边缘滑出的浮层面板，常用于表单、详情展示等场景。': 'A panel sliding from the screen edge, often used for forms or details.',
+  '打开抽屉': 'Open drawer',
+  '基础抽屉': 'Basic drawer',
+  '这里是抽屉内容区域。': 'This is the drawer content area.',
+  '没有遮罩层的抽屉。': 'Drawer without mask.',
+  '点击遮罩即可关闭抽屉。': 'Click the mask to close the drawer.',
+  '没有关闭按钮，只能通过代码控制关闭。': 'No close button; it can only be closed by code.',
+  '宽度为 500px 的右侧抽屉。': 'Right drawer with 500px width.',
+  '高度为 300px 的底部抽屉。': 'Bottom drawer with 300px height.',
+  '横向调整': 'Horizontal resize',
+  '竖向调整': 'Vertical resize',
+  '横向调整宽度': 'Resize width',
+  '竖向调整高度': 'Resize height',
+  '最小 200px，最大 80% 屏幕宽度。': 'Minimum 200px, maximum 80% of screen width.',
+  '最小 150px，最大 60% 屏幕高度。': 'Minimum 150px, maximum 60% of screen height.',
+  '带页脚': 'With footer',
+  '这是抽屉主体内容。': 'This is the drawer body content.',
+  '可以在这里放置表单或其他内容。': 'Forms or other content can be placed here.',
+  '一级抽屉': 'First-level drawer',
+  '二级抽屉': 'Second-level drawer',
+  '打开二级抽屉': 'Open second-level drawer',
+  '这是一级抽屉的内容。': 'This is the first-level drawer content.',
+  '这是在一级抽屉中弹出的二级抽屉。': 'This second-level drawer opens inside the first-level drawer.',
+  '二级抽屉遮罩覆盖一级抽屉。': 'The second-level drawer mask covers the first-level drawer.',
+  '每次关闭时触发 close 事件。': 'The close event fires every time it closes.',
+  '这是弹窗内容区域。': 'This is the dialog content area.',
+  '拖拽标题栏可以移动弹窗位置。': 'Drag the title bar to move the dialog.',
+  '弹窗不会被拖出屏幕外，视口变化时自动修正位置。': 'The dialog cannot be dragged outside the viewport and adjusts when the viewport changes.',
+  '宽度为 600px 的弹窗。': 'Dialog with 600px width.',
+  '宽度为 300px 的弹窗。': 'Dialog with 300px width.',
+  '没有遮罩层的弹窗。': 'Dialog without mask.',
+  '点击遮罩即可关闭弹窗。': 'Click the mask to close the dialog.',
+  '没有关闭按钮和遮罩关闭，只能通过代码控制关闭。': 'No close button or mask close; it can only be closed by code.',
+  '确定要执行此操作吗？': 'Are you sure you want to perform this action?',
+  '自定义标题颜色': 'Custom title color',
+  '通过 title 插槽可以自定义标题内容。': 'Use the title slot to customize title content.',
+  '通过 #title 插槽可以完全自定义标题区域。': 'Use the #title slot to fully customize the title area.',
+  '右上角': 'Top right',
+  '右下角': 'Bottom right',
+  '左上角': 'Top left',
+  '左下角': 'Bottom left',
+  '上方': 'Top',
+  '下方': 'Bottom',
+  '左侧': 'Left',
+  '右侧': 'Right',
+  '加载文案': 'Loading text',
+  '容器模式': 'Container mode',
+  '延迟显示': 'Delayed display',
+  '加载中': 'Loading',
+  '停止加载': 'Stop loading',
+  '开始加载': 'Start loading',
+  '延迟 500ms 显示': 'Show after 500ms delay',
+  '这是被包裹的内容区域': 'This is the wrapped content area',
+  '加载中时会半透明且不可交互': 'While loading, it becomes translucent and non-interactive',
+  '最大高度': 'Max height',
+  '横向滚动': 'Horizontal scroll',
+  '卡片内嵌': 'Embedded in card',
+  '滚动列表': 'Scroll list',
+  'autoHide: never (默认)': 'autoHide: never (default)',
+  'autoHide: scroll (滚动后自动隐藏)': 'autoHide: scroll (hide after scrolling)',
+  'autoHide: move (鼠标移动时显示)': 'autoHide: move (show on mouse move)',
+  'autoHide: leave (鼠标离开时隐藏)': 'autoHide: leave (hide after mouse leave)',
+  '自定义主题': 'Custom theme',
+  '拖动外框 — 滚动条的动态出现与消失': 'Resize container - dynamic scrollbar visibility',
+  '滚动条始终可见（出现溢出时）。': 'The scrollbar is always visible when content overflows.',
+  '滚动时显示，停止滚动 {{ 1300 }}ms 后自动隐藏。': 'Show while scrolling, then hide 1300ms after scrolling stops.',
+  '滚动一下试试，滚动条会在停止滚动后自动隐藏。': 'Try scrolling; the scrollbar hides after scrolling stops.',
+  '鼠标在容器内移动时显示，停止移动 {{ 800 }}ms 后自动隐藏。': 'Show when the mouse moves inside the container, then hide 800ms after movement stops.',
+  '移动鼠标到这片区域，滚动条会出现；鼠标静止则隐藏。': 'Move the mouse into this area to show the scrollbar; it hides when the mouse is still.',
+  '鼠标进入容器时显示，离开后 {{ 600 }}ms 自动隐藏。': 'Show when the mouse enters the container, then hide 600ms after leaving.',
+  '鼠标移入显示滚动条，移出后滚动条消失。拖拽滚动条时不会消失。': 'The scrollbar appears on mouse enter and disappears on leave. It stays visible while dragging.',
+  '通过 theme 属性设置自定义类名，覆盖滚动条的 CSS 变量。': 'Use the theme prop to set a custom class and override scrollbar CSS variables.',
+  '透明通道': 'Alpha channel',
+  '自定义预设': 'Custom presets',
+  '用于选择 HEX 颜色，支持 v-model、预设色和禁用状态。': 'Select HEX colors with v-model, presets, and disabled state.',
+  '用于选择日期，支持年月快速切换、今天标记、禁用日期等。': 'Select dates with quick year/month switching, today mark, disabled dates, and more.',
+  '年月日': 'Year month day',
+  'yyyy 年 MM 月 dd 日': 'yyyy MM dd',
+  '只能选今天之后': 'Only dates after today can be selected',
+  '未选择': 'Not selected',
+  '格式 HH:mm': 'Format HH:mm'
+}
+
+function translateText(source: string) {
+  if (demoLang.value === 'zh-CN') return source
+  const trimmed = source.trim()
+  const prefix = source.match(/^\s*/)?.[0] ?? ''
+  const suffix = source.match(/\s*$/)?.[0] ?? ''
+  const translated = en[trimmed] ?? translateByRule(trimmed)
+  return translated === trimmed ? source : `${prefix}${translated}${suffix}`
+}
+
+function translateByRule(text: string) {
+  const rules: Array<[RegExp, (...args: string[]) => string]> = [
+    [/^已选：(.+)$/, (_all, value) => `Selected: ${value}`],
+    [/^当前值：(.+)$/, (_all, value) => `Current value: ${value}`],
+    [/^选中值:\s*(.+)$/, (_all, value) => `Selected value: ${value}`],
+    [/^选中行:\s*(.+)$/, (_all, value) => `Selected rows: ${value}`],
+    [/^(.+) 岁$/, (_all, value) => `${value} years old`],
+    [/^标签(\d+)$/, (_all, value) => `Tag ${value}`],
+    [/^第 (\d+) 行内容，用于演示滚动效果。$/, (_all, value) => `Line ${value}, used to demonstrate scrolling.`],
+    [/^内容行 (\d+)，超出 max-height 时出现滚动条。$/, (_all, value) => `Content line ${value}; a scrollbar appears when max-height is exceeded.`],
+    [/^项 (\d+)$/, (_all, value) => `Item ${value}`],
+    [/^列表项 (\d+)$/, (_all, value) => `List item ${value}`]
+  ]
+  for (const [pattern, replacer] of rules) {
+    const match = text.match(pattern)
+    if (match) return replacer(...match)
+  }
+  return text
+}
+
+function translateNodeText(node: Text) {
+  if (!textMap.has(node)) textMap.set(node, node.data)
+  const source = textMap.get(node) ?? node.data
+  const nextText = translateText(source)
+  if (node.data !== nextText) node.data = nextText
+}
+
+function translateAttrs(el: Element) {
+  const originalAttrs = attrMap.get(el) ?? {}
+  for (const attr of translatableAttrs) {
+    if (!el.hasAttribute(attr)) continue
+    if (originalAttrs[attr] == null) originalAttrs[attr] = el.getAttribute(attr) ?? ''
+    const nextValue = translateText(originalAttrs[attr])
+    if (el.getAttribute(attr) !== nextValue) el.setAttribute(attr, nextValue)
+  }
+  if (Object.keys(originalAttrs).length > 0) attrMap.set(el, originalAttrs)
+}
+
+export function translateDemo(root: ParentNode = document) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT)
+  let node = walker.nextNode()
+  while (node) {
+    if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
+      translateNodeText(node as Text)
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      translateAttrs(node as Element)
+    }
+    node = walker.nextNode()
+  }
+}
+
+export function setDemoLang(lang: Lang) {
+  demoLang.value = lang
+  setLang(lang)
+  void nextTick(() => translateDemo(document.querySelector('.demo-layout') ?? document))
+}
+
+let observer: MutationObserver | null = null
+
+export function startDemoI18n() {
+  observer?.disconnect()
+  observer = new MutationObserver(() => translateDemo(document.querySelector('.demo-layout') ?? document))
+  const root = document.querySelector('.demo-layout')
+  if (root) observer.observe(root, { childList: true, subtree: true, characterData: true, attributes: true })
+  translateDemo(root ?? document)
+}
+
+export function stopDemoI18n() {
+  observer?.disconnect()
+  observer = null
+}
+
+watch(demoLang, (lang) => setLang(lang), { immediate: true })

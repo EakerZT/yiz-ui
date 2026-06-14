@@ -1,12 +1,12 @@
 <template>
-  <nav class="yiz-pagination" :class="vClass" aria-label="Pagination">
+  <nav class="yiz-pagination" :class="vClass" :aria-label="t('pagination.ariaLabel')">
     <span v-if="showTotal" class="yiz-pagination-total">{{ totalLabel }}</span>
 
     <button
       class="yiz-pagination-item yiz-pagination-nav"
       type="button"
       :disabled="disabled || currentPage <= 1"
-      aria-label="Previous page"
+      :aria-label="t('pagination.previousPage')"
       @click="goToPage(currentPage - 1)"
     >
       &lt;
@@ -50,7 +50,7 @@
       class="yiz-pagination-item yiz-pagination-nav"
       type="button"
       :disabled="disabled || currentPage >= pageCount"
-      aria-label="Next page"
+      :aria-label="t('pagination.nextPage')"
       @click="goToPage(currentPage + 1)"
     >
       &gt;
@@ -67,7 +67,7 @@
     </span>
 
     <span v-if="showQuickJumper" class="yiz-pagination-jumper">
-      <span>Go to</span>
+      <span>{{ t('pagination.goTo') }}</span>
       <input
         class="yiz-pagination-input"
         :value="quickJumpInput"
@@ -76,13 +76,14 @@
         @input="quickJumpInput = ($event.target as HTMLInputElement).value"
         @keydown.enter="commitQuickJump"
       />
-      <button class="yiz-pagination-go" type="button" :disabled="disabled" @click="commitQuickJump">Go</button>
+      <button class="yiz-pagination-go" type="button" :disabled="disabled" @click="commitQuickJump">{{ t('pagination.go') }}</button>
     </span>
   </nav>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
+import { t } from '../locale'
 import Select from '../select/Select.vue'
 
 type PagerItem = number | 'prev-more' | 'next-more'
@@ -129,7 +130,7 @@ const pageCount = computed(() => Math.max(1, Math.ceil(normalizedTotal.value / p
 const currentPage = computed(() => clampPage(Number(page.value) || 1))
 const pageSizeOptions = computed(() => {
   return props.pageSizes.map((sizeOption) => ({
-    label: `${sizeOption} / page`,
+    label: t('pagination.pageSize', { size: sizeOption }),
     value: sizeOption
   }))
 })
@@ -141,10 +142,10 @@ const vClass = computed(() => ({
 }))
 
 const totalLabel = computed(() => {
-  if (normalizedTotal.value === 0) return 'Total 0'
+  if (normalizedTotal.value === 0) return t('pagination.total', { total: 0 })
   const start = (currentPage.value - 1) * pageSizeValue.value + 1
   const end = Math.min(currentPage.value * pageSizeValue.value, normalizedTotal.value)
-  return `Total ${normalizedTotal.value}, ${start}-${end}`
+  return t('pagination.totalRange', { total: normalizedTotal.value, start, end })
 })
 
 const normalizedPagerCount = computed(() => {

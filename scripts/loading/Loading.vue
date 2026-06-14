@@ -28,8 +28,8 @@
             </span>
           </slot>
         </span>
-        <div v-if="tip || $slots.tip" class="yiz-loading-text">
-          <slot name="tip">{{ tip }}</slot>
+        <div v-if="tipText || $slots.tip" class="yiz-loading-text">
+          <slot name="tip">{{ tipText }}</slot>
         </div>
       </div>
     </Transition>
@@ -40,7 +40,8 @@
 </template>
 
 <script lang="ts" setup>
-import { onBeforeUnmount, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { t } from '../locale'
 
 type IndicatorType = 'ring' | 'spin' | 'think'
 
@@ -53,7 +54,6 @@ const props = withDefaults(
     delay?: number
   }>(),
   {
-    tip: '加载中...',
     loading: true,
     size: 'default',
     indicator: 'ring',
@@ -68,6 +68,7 @@ defineSlots<{
 }>()
 
 const visible = ref(false)
+const tipText = computed(() => props.tip ?? t('loading.tip'))
 let timer: ReturnType<typeof setTimeout> | null = null
 
 function update() {

@@ -1,12 +1,13 @@
 <template>
   <div class="yiz-tree" :class="vClass">
-    <div v-if="data.length === 0" class="yiz-tree-empty">{{ emptyText }}</div>
+    <div v-if="data.length === 0" class="yiz-tree-empty">{{ emptyTextValue }}</div>
     <TreeNode v-for="node in data" v-else :key="node.key" :node="node" :level="0" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, provide, ref, watch, type ComputedRef } from 'vue'
+import { t } from '../locale'
 import TreeNode from './TreeNode.vue'
 
 export type TreeKey = string | number
@@ -54,8 +55,7 @@ const props = withDefaults(
     selectable: true,
     defaultExpandAll: false,
     expandOnClickNode: true,
-    indent: 24,
-    emptyText: 'No data'
+    indent: 24
   }
 )
 
@@ -87,6 +87,7 @@ const vClass = computed(() => ({
 }))
 
 const indentValue = computed(() => Math.max(12, props.indent))
+const emptyTextValue = computed(() => props.emptyText ?? t('common.noData'))
 const checkableValue = computed(() => props.checkable)
 const selectableValue = computed(() => props.selectable)
 const expandOnClickNodeValue = computed(() => props.expandOnClickNode)
