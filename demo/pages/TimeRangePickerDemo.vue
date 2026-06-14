@@ -1,32 +1,32 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">TimeRangePicker</h2>
-    <p class="demo-section-desc">Time range selection with independent start and end model bindings.</p>
+    <h2 class="demo-section-title">TimeRangePicker 时间段</h2>
+    <p class="demo-section-desc">用于选择时间范围，支持开始和结束时间独立绑定。</p>
 
-    <y-card title="Basic">
+    <y-card title="基础用法">
       <div class="demo-row">
-        <span class="demo-label">Range</span>
+        <span class="demo-label">时间范围</span>
         <div class="demo-items">
           <y-time-range-picker v-model:start="start" v-model:end="end" clearable @change="onChange" />
-          <span class="demo-item-hint">{{ start ?? 'empty' }} - {{ end ?? 'empty' }}</span>
+          <span class="demo-item-hint">{{ start ?? '空' }} - {{ end ?? '空' }}</span>
         </div>
       </div>
-      <p class="demo-time-range-info">Last change: {{ lastChange }}</p>
+      <p class="demo-time-range-info">上次变更：{{ lastChange }}</p>
     </y-card>
 
-    <y-card title="Single side allowed" style="margin-top: 8px">
+    <y-card title="允许单侧为空" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">Optional</span>
+        <span class="demo-label">可选</span>
         <div class="demo-items">
           <y-time-range-picker v-model:start="optionalStart" v-model:end="optionalEnd" clearable />
-          <span class="demo-item-hint">{{ optionalStart ?? 'empty' }} - {{ optionalEnd ?? 'empty' }}</span>
+          <span class="demo-item-hint">{{ optionalStart ?? '空' }} - {{ optionalEnd ?? '空' }}</span>
         </div>
       </div>
     </y-card>
 
-    <y-card title="Force range" style="margin-top: 8px">
+    <y-card title="强制范围" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">Required</span>
+        <span class="demo-label">必填</span>
         <div class="demo-items">
           <y-time-range-picker
             v-model:start="requiredStart"
@@ -34,14 +34,14 @@
             force-range
             clearable
           />
-          <span class="demo-item-hint">{{ requiredStart ?? 'empty' }} - {{ requiredEnd ?? 'empty' }}</span>
+          <span class="demo-item-hint">{{ requiredStart ?? '空' }} - {{ requiredEnd ?? '空' }}</span>
         </div>
       </div>
     </y-card>
 
-    <y-card title="Show seconds" style="margin-top: 8px">
+    <y-card title="显示秒" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">Seconds</span>
+        <span class="demo-label">含秒</span>
         <div class="demo-items">
           <y-time-range-picker
             v-model:start="secondStart"
@@ -49,7 +49,7 @@
             show-seconds
             clearable
           />
-          <span class="demo-item-hint">{{ secondStart ?? 'empty' }} - {{ secondEnd ?? 'empty' }}</span>
+          <span class="demo-item-hint">{{ secondStart ?? '空' }} - {{ secondEnd ?? '空' }}</span>
         </div>
       </div>
     </y-card>
@@ -67,10 +67,10 @@ const requiredStart = ref<string | null>(null)
 const requiredEnd = ref<string | null>(null)
 const secondStart = ref<string | null>('08:15:30')
 const secondEnd = ref<string | null>('12:45:00')
-const lastChange = ref('none')
+const lastChange = ref('无')
 
 function onChange(startValue: string | null, endValue: string | null) {
-  lastChange.value = `${startValue ?? 'empty'} - ${endValue ?? 'empty'}`
+  lastChange.value = `${startValue ?? '空'} - ${endValue ?? '空'}`
 }
 </script>
 

@@ -1,22 +1,22 @@
 <template>
   <section class="demo-section">
-    <h2 class="demo-section-title">DateRangePicker</h2>
-    <p class="demo-section-desc">Date range selection with independent start and end model bindings.</p>
+    <h2 class="demo-section-title">DateRangePicker 日期段</h2>
+    <p class="demo-section-desc">用于选择日期范围，支持开始和结束日期独立绑定。</p>
 
-    <y-card title="Basic">
+    <y-card title="基础用法">
       <div class="demo-row">
-        <span class="demo-label">Range</span>
+        <span class="demo-label">日期范围</span>
         <div class="demo-items">
           <y-date-range-picker v-model:start="start" v-model:end="end" clearable @change="onChange" />
           <span class="demo-item-hint">{{ format(start) }} - {{ format(end) }}</span>
         </div>
       </div>
-      <p class="demo-date-range-info">Last change: {{ lastChange }}</p>
+      <p class="demo-date-range-info">上次变更：{{ lastChange }}</p>
     </y-card>
 
-    <y-card title="Single side allowed" style="margin-top: 8px">
+    <y-card title="允许单侧为空" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">Optional</span>
+        <span class="demo-label">可选</span>
         <div class="demo-items">
           <y-date-range-picker v-model:start="optionalStart" v-model:end="optionalEnd" clearable />
           <span class="demo-item-hint">{{ format(optionalStart) }} - {{ format(optionalEnd) }}</span>
@@ -24,9 +24,9 @@
       </div>
     </y-card>
 
-    <y-card title="Force range" style="margin-top: 8px">
+    <y-card title="强制范围" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">Required</span>
+        <span class="demo-label">必填</span>
         <div class="demo-items">
           <y-date-range-picker v-model:start="requiredStart" v-model:end="requiredEnd" force-range clearable />
           <span class="demo-item-hint">{{ format(requiredStart) }} - {{ format(requiredEnd) }}</span>
@@ -34,9 +34,9 @@
       </div>
     </y-card>
 
-    <y-card title="Disable auto sort" style="margin-top: 8px">
+    <y-card title="关闭自动排序" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">Manual</span>
+        <span class="demo-label">手动</span>
         <div class="demo-items">
           <y-date-range-picker v-model:start="manualStart" v-model:end="manualEnd" :auto-sort="false" clearable />
           <span class="demo-item-hint">{{ format(manualStart) }} - {{ format(manualEnd) }}</span>
@@ -44,9 +44,9 @@
       </div>
     </y-card>
 
-    <y-card title="Disabled dates" style="margin-top: 8px">
+    <y-card title="禁用日期" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">Weekends</span>
+        <span class="demo-label">周末</span>
         <div class="demo-items">
           <y-date-range-picker
             v-model:start="workStart"
@@ -74,14 +74,14 @@ const manualStart = ref<Date | null>(new Date(2026, 5, 20))
 const manualEnd = ref<Date | null>(new Date(2026, 5, 10))
 const workStart = ref<Date | null>(null)
 const workEnd = ref<Date | null>(null)
-const lastChange = ref('none')
+const lastChange = ref('无')
 
 function pad(n: number) {
   return n < 10 ? `0${n}` : `${n}`
 }
 
 function format(date: Date | null) {
-  if (!date) return 'empty'
+  if (!date) return '空'
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
 }
 
