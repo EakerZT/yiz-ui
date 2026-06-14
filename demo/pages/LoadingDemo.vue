@@ -50,16 +50,16 @@
       </y-loading>
       <div style="margin-top: 8px">
         <y-button size="small" @click="containerLoading = !containerLoading">
-          {{ containerLoading ? '停止加载' : '开始加载' }}
+          {{ containerLoading ? $t('demo.loading.stopLoading') : $t('demo.loading.startLoading') }}
         </y-button>
       </div>
     </y-card>
 
     <y-card :title="$t('demo.loading.delayShow')" style="margin-top: 8px">
-      <y-loading :loading="delayLoading" :delay="500" tip="延迟 500ms 显示" />
+      <y-loading :loading="delayLoading" :delay="500" :tip="$t('demo.loading.delayHint')" />
       <div style="margin-top: 8px">
         <y-button size="small" @click="delayLoading = !delayLoading">
-          {{ delayLoading ? '停止加载' : '开始加载' }}
+          {{ delayLoading ? $t('demo.loading.stopLoading') : $t('demo.loading.startLoading') }}
         </y-button>
       </div>
     </y-card>

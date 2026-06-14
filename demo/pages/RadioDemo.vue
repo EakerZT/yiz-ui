@@ -9,7 +9,7 @@
       <span class="demo-hint">{{ radio1 }}</span>
     </y-card>
 
-    <y-card title="Disabled" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-radio v-model="radio2" value="a" disabled :label="$t('demo.common.unselectedDisabled')" />
       <y-radio v-model="radio2" value="b" disabled :label="$t('demo.common.selectedDisabled')" />
     </y-card>
@@ -23,7 +23,7 @@
 
   <section class="demo-section">
     <h2 class="demo-section-title">{{ $t('demo.radio.groupTitle') }}</h2>
-    <p class="demo-section-desc">通过 <code>options</code> 传入选项数组，<code>v-model:value</code> 绑定选中值，<code>direction</code> 控制排列方向。</p>
+    <p class="demo-section-desc">{{ $t('demo.radio.groupDesc1') }} <code>options</code> {{ $t('demo.radio.groupDesc2') }}<code>v-model:value</code> {{ $t('demo.radio.groupDesc3') }}<code>direction</code> {{ $t('demo.radio.groupDesc4') }}</p>
 
     <y-card :title="$t('demo.common.horizontal')" style="margin-top: 8px">
       <y-radio-group v-model:value="group1" :options="groupOptions" direction="horizontal" />
@@ -35,35 +35,35 @@
       <span class="demo-hint">{{ group2 }}</span>
     </y-card>
 
-    <y-card title="Disabled" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-radio-group v-model:value="group3" :options="groupOptions" disabled />
     </y-card>
   </section>
   <section class="demo-section">
-    <h2 class="demo-section-title">RadioButton</h2>
-    <p class="demo-section-desc">Button style radio controls. Adjacent items are grouped as a segmented control.</p>
+    <h2 class="demo-section-title">{{ $t('demo.radio.radioButton') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.radio.radioButtonDesc') }}</p>
 
-    <y-card title="Standalone" style="margin-top: 8px">
-      <y-radio-button v-model="buttonRadio1" value="left">Left</y-radio-button>
-      <y-radio-button v-model="buttonRadio1" value="right">Right</y-radio-button>
+    <y-card :title="$t('demo.radio.standalone')" style="margin-top: 8px">
+      <y-radio-button v-model="buttonRadio1" value="left">{{ $t('demo.radio.left') }}</y-radio-button>
+      <y-radio-button v-model="buttonRadio1" value="right">{{ $t('demo.radio.right') }}</y-radio-button>
       <span class="demo-hint">{{ buttonRadio1 }}</span>
     </y-card>
 
-    <y-card title="Group options" style="margin-top: 8px">
+    <y-card :title="$t('demo.radio.groupOptions')" style="margin-top: 8px">
       <y-radio-button-group v-model:value="buttonGroup1" :options="buttonOptions" />
       <span class="demo-hint">{{ buttonGroup1 }}</span>
     </y-card>
 
-    <y-card title="Slot group" style="margin-top: 8px">
+    <y-card :title="$t('demo.radio.slotGroup')" style="margin-top: 8px">
       <y-radio-button-group v-model:value="buttonGroup2">
-        <y-radio-button value="day">Day</y-radio-button>
-        <y-radio-button value="week">Week</y-radio-button>
-        <y-radio-button value="month">Month</y-radio-button>
+        <y-radio-button value="day">{{ $t('demo.radio.day') }}</y-radio-button>
+        <y-radio-button value="week">{{ $t('demo.radio.week') }}</y-radio-button>
+        <y-radio-button value="month">{{ $t('demo.radio.month') }}</y-radio-button>
       </y-radio-button-group>
       <span class="demo-hint">{{ buttonGroup2 }}</span>
     </y-card>
 
-    <y-card title="Size" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-radio-button-stack">
         <y-radio-button-group v-model:value="buttonSize1" :options="buttonOptions" size="small" />
         <y-radio-button-group v-model:value="buttonSize2" :options="buttonOptions" />
@@ -71,7 +71,7 @@
       </div>
     </y-card>
 
-    <y-card title="Disabled" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-radio-button-group v-model:value="buttonGroup3" :options="buttonOptionsWithDisabled" />
       <y-radio-button-group
         v-model:value="buttonGroup4"
@@ -85,33 +85,33 @@
 
 <script lang="ts" setup>
 import { $t } from 'yiz-ui'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const radio1 = ref('a')
 const radio2 = ref('b')
 const radio3 = ref('x')
 
-const groupOptions = [
-  { label: 'Apple', value: 'apple' },
-  { label: 'Banana', value: 'banana' },
-  { label: 'Orange', value: 'orange' },
-]
+const groupOptions = computed(() => [
+  { label: $t('demo.radio.apple'), value: 'apple' },
+  { label: $t('demo.radio.banana'), value: 'banana' },
+  { label: $t('demo.radio.orange'), value: 'orange' },
+])
 
 const group1 = ref('apple')
 const group2 = ref('banana')
 const group3 = ref('orange')
 
-const buttonOptions = [
-  { label: 'Apple', value: 'apple' },
-  { label: 'Banana', value: 'banana' },
-  { label: 'Orange', value: 'orange' }
-]
+const buttonOptions = computed(() => [
+  { label: $t('demo.radio.apple'), value: 'apple' },
+  { label: $t('demo.radio.banana'), value: 'banana' },
+  { label: $t('demo.radio.orange'), value: 'orange' }
+])
 
-const buttonOptionsWithDisabled = [
-  { label: 'Apple', value: 'apple' },
-  { label: 'Banana', value: 'banana', disabled: true },
-  { label: 'Orange', value: 'orange' }
-]
+const buttonOptionsWithDisabled = computed(() => [
+  { label: $t('demo.radio.apple'), value: 'apple' },
+  { label: $t('demo.radio.banana'), value: 'banana', disabled: true },
+  { label: $t('demo.radio.orange'), value: 'orange' }
+])
 
 const buttonRadio1 = ref('left')
 const buttonGroup1 = ref('apple')

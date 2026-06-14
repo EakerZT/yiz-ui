@@ -5,7 +5,7 @@
 
     <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <y-switch v-model="v1" />
-      <span class="demo-hint">{{ v1 ? '开' : '关' }}</span>
+      <span class="demo-hint">{{ v1 ? $t('demo.switch.on') : $t('demo.switch.off') }}</span>
     </y-card>
 
     <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
@@ -35,7 +35,7 @@
 
     <y-card :title="$t('demo.common.event')" style="margin-top: 8px">
       <y-switch v-model="v9" @change="onChange" />
-      <span class="demo-hint">切换次数：{{ changeCount }}</span>
+      <span class="demo-hint">{{ $t('demo.switch.toggleCount', { count: changeCount }) }}</span>
     </y-card>
   </section>
 </template>

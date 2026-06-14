@@ -40,7 +40,7 @@
 
     <y-card :title="$t('demo.dialog.closeEvent')" style="margin-top: 8px">
       <y-button @click="visible9 = true">{{ $t('demo.common.open') }}</y-button>
-      <span v-if="closeCount > 0" class="demo-hint">close 触发次数：{{ closeCount }}</span>
+      <span v-if="closeCount > 0" class="demo-hint">{{ $t('demo.dialog.closeCount', { count: closeCount }) }}</span>
     </y-card>
 
     <!-- Dialogs -->

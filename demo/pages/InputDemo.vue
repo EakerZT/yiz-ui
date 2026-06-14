@@ -5,7 +5,7 @@
 
     <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <y-input v-model:value="inputText" :placeholder="$t('demo.common.pleaseInput')" />
-      <span class="demo-hint">当前值：{{ inputText || '空' }}</span>
+      <span class="demo-hint">{{ $t('demo.input.currentValue', { value: inputText || $t('demo.common.empty') }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.common.clearable')" style="margin-top: 8px">

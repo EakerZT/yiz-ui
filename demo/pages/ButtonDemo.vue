@@ -13,7 +13,7 @@
       </y-button-group>
     </y-card>
 
-    <y-card title="Color" style="margin-top: 8px">
+    <y-card :title="$t('demo.button.color')" style="margin-top: 8px">
       <y-button-group>
         <y-button type="primary">default</y-button>
         <y-button type="primary" color="success">success</y-button>
@@ -30,7 +30,7 @@
       </y-button-group>
     </y-card>
 
-    <y-card title="Shape" style="margin-top: 8px">
+    <y-card :title="$t('demo.button.shape')" style="margin-top: 8px">
       <y-button-group>
         <y-button type="primary">default</y-button>
         <y-button type="primary" shape="round">round</y-button>
@@ -38,7 +38,7 @@
       </y-button-group>
     </y-card>
 
-    <y-card title="Size" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-button-size-panel">
         <y-radio-button-group v-model:value="buttonSize" :options="buttonSizeOptions" />
         <y-button-group wrap gap="8">
@@ -72,7 +72,7 @@
       </y-button-group>
     </y-card>
 
-    <y-card title="Disabled" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-button-group>
         <y-button disabled>default</y-button>
         <y-button type="primary" disabled>primary</y-button>
@@ -81,7 +81,7 @@
     </y-card>
 
     <y-card :title="$t('demo.button.clickEvent')" style="margin-top: 8px">
-      <y-button @click="count++">点击次数: {{ count }}</y-button>
+      <y-button @click="count++">{{ $t('demo.button.clickCount', { count }) }}</y-button>
     </y-card>
 
     <y-card :title="$t('demo.button.link')" style="margin-top: 8px">
@@ -113,7 +113,7 @@
     </y-card>
 
     <y-card :title="$t('demo.button.linkClick')" style="margin-top: 8px">
-      <y-link-button @click="linkCount++">点击次数: {{ linkCount }}</y-link-button>
+      <y-link-button @click="linkCount++">{{ $t('demo.button.clickCount', { count: linkCount }) }}</y-link-button>
     </y-card>
   </section>
 </template>

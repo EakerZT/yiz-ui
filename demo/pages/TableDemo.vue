@@ -41,12 +41,12 @@
         <y-table :data="data" bordered>
           <y-table-column :label="$t('demo.common.name')" field="name" />
           <y-table-column :label="$t('demo.common.age')" field="age" align="center">
-            <template #default="{ value }">{{ value }} 岁</template>
+            <template #default="{ value }">{{ $t('demo.table.ageTemplate', { value }) }}</template>
           </y-table-column>
           <y-table-column :label="$t('demo.common.city')" field="city" />
           <y-table-column :label="$t('demo.common.status')" field="status" align="center">
             <template #default="{ value }">
-              <LinkButton v-if="value === '禁用'">{{ $t('demo.common.enabled') }}</LinkButton>
+              <LinkButton v-if="value === $t('demo.common.disabled')">{{ $t('demo.common.enabled') }}</LinkButton>
               <LinkButton v-else color="error">{{ $t('demo.common.disabled') }}</LinkButton>
             </template>
           </y-table-column>
@@ -117,8 +117,8 @@
           <y-table-column :label="$t('demo.common.city')" field="city" />
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
-        <p class="demo-table-info">选中值: {{ singleSelected }}</p>
-        <p class="demo-table-info">选中行: {{ singleSelectRow ? JSON.stringify(singleSelectRow) : '无' }}</p>
+        <p class="demo-table-info">{{ $t('demo.table.selectedValue', { value: singleSelected ?? '' }) }}</p>
+        <p class="demo-table-info">{{ $t('demo.table.selectedValue', { value: singleSelectRow ? JSON.stringify(singleSelectRow) : $t('demo.common.none') }) }}</p>
       </div>
     </y-card>
 
@@ -130,8 +130,8 @@
           <y-table-column :label="$t('demo.common.city')" field="city" />
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
-        <p class="demo-table-info">选中值: {{ multiSelected }}</p>
-        <p class="demo-table-info">选中行: {{ multiSelectRows.length }} 行</p>
+        <p class="demo-table-info">{{ $t('demo.table.selectedValue', { value: multiSelected.join(', ') }) }}</p>
+        <p class="demo-table-info">{{ $t('demo.table.selectedCount', { count: multiSelectRows.length }) }}</p>
       </div>
     </y-card>
 
@@ -176,7 +176,7 @@
           <y-table-column :label="$t('demo.common.city')" field="city" />
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
-        <p class="demo-table-info">选中值: {{ disabledSelected }}</p>
+        <p class="demo-table-info">{{ $t('demo.table.selectedValue', { value: disabledSelected.join(', ') }) }}</p>
       </div>
     </y-card>
   </section>
@@ -203,7 +203,7 @@ const data: Row[] = [
 ]
 
 function formatAge(value: number) {
-  return `${value} 岁`
+  return $t('demo.table.ageTemplate', { value })
 }
 
 function formatStatus(value: string, _row: Row, index: number) {

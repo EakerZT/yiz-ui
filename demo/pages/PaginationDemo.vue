@@ -5,7 +5,7 @@
 
     <y-card :title="$t('demo.common.basic')">
       <y-pagination v-model:page="page" :total="128" />
-      <p class="demo-pagination-info">当前页：{{ page }}</p>
+      <p class="demo-pagination-info">{{ $t('demo.pagination.currentPage', { page }) }}</p>
     </y-card>
 
     <y-card :title="$t('demo.pagination.totalAndSize')" style="margin-top: 8px">
@@ -17,8 +17,8 @@
         show-size-changer
         @change="onChange"
       />
-      <p class="demo-pagination-info">页码：{{ sizePage }}，每页条数：{{ pageSize }}</p>
-      <p class="demo-pagination-info">上次变更：{{ lastChange }}</p>
+      <p class="demo-pagination-info">{{ $t('demo.pagination.pageAndSize', { page: sizePage, pageSize }) }}</p>
+      <p class="demo-pagination-info">{{ $t('demo.pagination.lastChange', { value: lastChange }) }}</p>
     </y-card>
 
     <y-card :title="$t('demo.pagination.quickJumper')" style="margin-top: 8px">
@@ -49,10 +49,10 @@ const pageSize = ref(20)
 const jumpPage = ref(5)
 const smallPage = ref(3)
 const simplePage = ref(8)
-const lastChange = ref('无')
+const lastChange = ref($t('demo.common.none'))
 
 function onChange(pageValue: number, pageSizeValue: number) {
-  lastChange.value = `页码 ${pageValue}，每页条数 ${pageSizeValue}`
+  lastChange.value = $t('demo.pagination.changeLabel', { page: pageValue, pageSize: pageSizeValue })
 }
 </script>
 

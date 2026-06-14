@@ -15,7 +15,7 @@
       <span class="demo-hint">A: {{ checked1 }}, B: {{ checked2 }}</span>
     </y-card>
 
-    <y-card title="Disabled" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-button-group>
         <y-checkbox v-model:checked="checked3" disabled>{{ $t('demo.common.unselectedDisabled') }}</y-checkbox>
         <y-checkbox v-model:checked="checked4" disabled>{{ $t('demo.common.selectedDisabled') }}</y-checkbox>
@@ -31,7 +31,7 @@
 
   <section class="demo-section">
     <h2 class="demo-section-title">{{ $t('demo.checkbox.groupTitle') }}</h2>
-    <p class="demo-section-desc">通过 <code>options</code> 传入选项数组，<code>v-model:value</code> 绑定选中值数组，<code>direction</code> 控制排列方向。也支持插槽方式手动放置子元素。</p>
+    <p class="demo-section-desc">{{ $t('demo.checkbox.groupDesc1') }} <code>options</code> {{ $t('demo.checkbox.groupDesc2') }}<code>v-model:value</code> {{ $t('demo.checkbox.groupDesc3') }}<code>direction</code> {{ $t('demo.checkbox.groupDesc4') }}</p>
 
     <y-card :title="$t('demo.common.horizontal')" style="margin-top: 8px">
       <y-checkbox-group v-model:value="group1" :options="groupOptions" direction="horizontal" />
@@ -59,7 +59,7 @@
       <span class="demo-hint">{{ group3 }}</span>
     </y-card>
 
-    <y-card title="Disabled" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-checkbox-group v-model:value="group4" :options="groupOptions" disabled />
     </y-card>
 

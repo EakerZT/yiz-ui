@@ -5,22 +5,22 @@
 
     <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <y-input-number v-model="v1" />
-      <span class="demo-hint">当前值：{{ v1 }}</span>
+      <span class="demo-hint">{{ $t('demo.inputNumber.currentValue', { value: v1 ?? '' }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.inputNumber.step')" style="margin-top: 8px">
       <y-input-number v-model="v2" :step="0.5" />
-      <span class="demo-hint">当前值：{{ v2 }}</span>
+      <span class="demo-hint">{{ $t('demo.inputNumber.currentValue', { value: v2 ?? '' }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.inputNumber.range')" style="margin-top: 8px">
       <y-input-number v-model="v3" :min="0" :max="100" />
-      <span class="demo-hint">当前值：{{ v3 }}（范围 0 ~ 100）</span>
+      <span class="demo-hint">{{ $t('demo.inputNumber.rangeValue', { value: v3 ?? '' }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.inputNumber.precision')" style="margin-top: 8px">
       <y-input-number v-model="v4" :step="0.1" :precision="1" />
-      <span class="demo-hint">当前值：{{ v4 }}</span>
+      <span class="demo-hint">{{ $t('demo.inputNumber.currentValue', { value: v4 ?? '' }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
@@ -45,7 +45,7 @@
     <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
       <y-button-group>
         <y-input-number v-model="v10" prefix="¥" />
-        <y-input-number v-model="v10" suffix="元" />
+        <y-input-number v-model="v10" :suffix="$t('demo.inputNumber.yuan')" />
         <y-input-number v-model="v10" prefix="$" suffix="USD" />
       </y-button-group>
     </y-card>

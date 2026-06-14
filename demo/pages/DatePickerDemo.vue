@@ -7,7 +7,7 @@
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.common.selectDate') }}</span>
         <DatePicker v-model="value1" />
-        <span class="demo-item-hint">已选：{{ value1 ? fmt(value1) : '未选择' }}</span>
+        <span class="demo-item-hint">{{ value1 ? fmt(value1) : $t('demo.common.notSelected') }}</span>
       </div>
     </y-card>
 
@@ -44,7 +44,7 @@
     <y-card :title="$t('demo.common.customFormat')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.datePicker.yearMonthDay') }}</span>
-        <DatePicker v-model="value6" format="yyyy 年 MM 月 dd 日" :placeholder="$t('demo.common.placeholder')" />
+        <DatePicker v-model="value6" :format="$t('demo.datePicker.yearMonthDay')" :placeholder="$t('demo.common.placeholder')" />
       </div>
     </y-card>
   </section>

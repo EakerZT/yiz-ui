@@ -5,14 +5,14 @@
 
     <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
       <ScrollBox :height="120" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
-        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">第 {{ i }} 行内容，用于演示滚动效果。</p>
+        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">{{ $t('demo.scrollBox.demoRow', { index: i }) }}</p>
       </ScrollBox>
     </y-card>
 
     <y-card :title="$t('demo.scrollBox.maxHeight')" style="margin-top: 8px">
       <ScrollBox :max-height="150" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
         <p v-for="i in 10" :key="i" style="margin-bottom: 8px; color: #666">
-          内容行 {{ i }}，超出 max-height 时出现滚动条。
+          {{ $t('demo.scrollBox.maxHeightRow', { index: i }) }}
         </p>
       </ScrollBox>
     </y-card>
@@ -20,7 +20,7 @@
     <y-card :title="$t('demo.scrollBox.horizontalScroll')" style="margin-top: 8px">
       <ScrollBox :height="80" style="width: 360px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
         <div style="white-space: nowrap">
-          <span v-for="i in 12" :key="i" class="demo-h-item">项 {{ i }}</span>
+          <span v-for="i in 12" :key="i" class="demo-h-item">{{ $t('demo.scrollBox.item', { index: i }) }}</span>
         </div>
       </ScrollBox>
     </y-card>
@@ -33,7 +33,7 @@
             :key="i"
             style="padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; color: #333"
           >
-            列表项 {{ i }}
+            {{ $t('demo.scrollBox.listItem', { index: i }) }}
           </div>
         </ScrollBox>
       </Card>
@@ -42,26 +42,26 @@
     <y-card :title="$t('demo.scrollBox.autoHideNever')" style="margin-top: 8px">
       <p style="margin-bottom: 12px; font-size: 13px; color: #888">{{ $t('demo.scrollBox.autoHideNeverHint') }}</p>
       <ScrollBox :height="120" auto-hide="never" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
-        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">第 {{ i }} 行内容，滚动条始终可见。</p>
+        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">{{ $t('demo.scrollBox.autoHideNeverRow', { index: i }) }}</p>
       </ScrollBox>
     </y-card>
 
     <y-card :title="$t('demo.scrollBox.autoHideScroll')" style="margin-top: 8px">
-      <p style="margin-bottom: 12px; font-size: 13px; color: #888">滚动时显示，停止滚动 {{ 1300 }}ms 后自动隐藏。</p>
+      <p style="margin-bottom: 12px; font-size: 13px; color: #888">{{ $t('demo.scrollBox.autoHideScrollHint', { delay: 1300 }) }}</p>
       <ScrollBox :height="120" auto-hide="scroll" :auto-hide-delay="1300" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
         <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">{{ $t('demo.scrollBox.autoHideScrollHint2') }}</p>
       </ScrollBox>
     </y-card>
 
     <y-card :title="$t('demo.scrollBox.autoHideMove')" style="margin-top: 8px">
-      <p style="margin-bottom: 12px; font-size: 13px; color: #888">鼠标在容器内移动时显示，停止移动 {{ 800 }}ms 后自动隐藏。</p>
+      <p style="margin-bottom: 12px; font-size: 13px; color: #888">{{ $t('demo.scrollBox.autoHideMoveHint', { delay: 800 }) }}</p>
       <ScrollBox :height="120" auto-hide="move" :auto-hide-delay="800" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
         <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">{{ $t('demo.scrollBox.autoHideMoveHint2') }}</p>
       </ScrollBox>
     </y-card>
 
     <y-card :title="$t('demo.scrollBox.autoHideLeave')" style="margin-top: 8px">
-      <p style="margin-bottom: 12px; font-size: 13px; color: #888">鼠标进入容器时显示，离开后 {{ 600 }}ms 自动隐藏。</p>
+      <p style="margin-bottom: 12px; font-size: 13px; color: #888">{{ $t('demo.scrollBox.autoHideLeaveHint', { delay: 600 }) }}</p>
       <ScrollBox :height="120" auto-hide="leave" :auto-hide-delay="600" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
         <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">{{ $t('demo.scrollBox.autoHideLeaveHint2') }}</p>
       </ScrollBox>
@@ -70,13 +70,13 @@
     <y-card :title="$t('demo.scrollBox.customTheme')" style="margin-top: 8px">
       <p style="margin-bottom: 12px; font-size: 13px; color: #888">{{ $t('demo.scrollBox.customThemeHint') }}</p>
       <ScrollBox :height="120" theme="demo-scroll-theme" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
-        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">第 {{ i }} 行内容，蓝色主题滚动条。</p>
+        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">{{ $t('demo.scrollBox.customThemeRow', { index: i }) }}</p>
       </ScrollBox>
     </y-card>
 
     <y-card :title="$t('demo.scrollBox.dragResize')" style="margin-top: 8px">
       <p style="margin-bottom: 12px; font-size: 13px; color: #888">
-        拖拽右下角的蓝色手柄改变容器尺寸，观察滚动条在内容溢出时出现、不溢出时消失。当前尺寸：<b>{{ boxWidth }} × {{ boxHeight }}</b>
+        {{ $t('demo.scrollBox.dragResizeHint') }}<b>{{ boxWidth }} × {{ boxHeight }}</b>
       </p>
       <div
         class="demo-resize-wrapper"
@@ -88,10 +88,10 @@
             :key="i"
             style="margin-bottom: 8px; color: #555; white-space: nowrap"
           >
-            第 {{ i }} 行 — 拖动手柄缩小宽度试试看横向滚动条。
+            {{ $t('demo.scrollBox.dragResizeRow', { index: i }) }}
           </p>
           <p style="color: #999; margin-top: 16px; white-space: nowrap">
-            这是一段很长的横向内容，用来演示水平滚动条的动态出现……
+            {{ $t('demo.scrollBox.dragResizeLong') }}
           </p>
         </ScrollBox>
         <div
@@ -160,7 +160,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style>
-/* ScrollBox 自定义主题 — 蓝色系 */
+/* ScrollBox custom theme - blue */
 .demo-scroll-theme {
   --yiz-scroll-thumb-bg: rgba(22, 119, 255, 0.25);
   --yiz-scroll-thumb-bg-hover: rgba(22, 119, 255, 0.45);

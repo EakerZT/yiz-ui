@@ -9,7 +9,7 @@
           <Icon size="16" :icon="iconMap[icon]" />
         </template>
       </y-context-menu>
-      <span class="demo-hint">选中: {{ last1 }}</span>
+      <span class="demo-hint">{{ $t('demo.contextMenu.selected', { value: last1 }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.contextMenu.fnCall')" style="margin-top: 8px">

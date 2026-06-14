@@ -7,7 +7,7 @@
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.common.selectTime') }}</span>
         <TimePicker v-model="value1" />
-        <span class="demo-item-hint">已选：{{ value1 || '未选择' }}</span>
+        <span class="demo-item-hint">{{ value1 || $t('demo.common.notSelected') }}</span>
       </div>
     </y-card>
 
@@ -23,7 +23,7 @@
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.timePicker.withSeconds') }}</span>
         <TimePicker v-model="value3" :show-seconds="true" />
-        <span class="demo-item-hint">已选：{{ value3 || '未选择' }}</span>
+        <span class="demo-item-hint">{{ value3 || $t('demo.common.notSelected') }}</span>
       </div>
     </y-card>
 

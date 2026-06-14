@@ -5,7 +5,7 @@
 
     <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <y-select v-model="v1" :options="opts" />
-      <span class="demo-hint">值: {{ v1 }}</span>
+      <span class="demo-hint">{{ $t('demo.select.value', { value: v1 }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.select.placeholder')" style="margin-top: 8px">
@@ -29,7 +29,7 @@
 
     <y-card :title="$t('demo.common.event')" style="margin-top: 8px">
       <y-select v-model="v7" :options="opts" @change="onChange" />
-      <span class="demo-hint">change 次数: {{ changeCount }}</span>
+      <span class="demo-hint">{{ $t('demo.select.changeCount', { count: changeCount }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.select.search')" style="margin-top: 8px">
@@ -44,7 +44,7 @@
         <y-select-option :label="$t('demo.common.shenzhen')" value="shenzhen" />
         <y-select-option :label="$t('demo.common.hangzhou')" value="hangzhou" />
       </y-select>
-      <span class="demo-hint">值: {{ v9 }}</span>
+      <span class="demo-hint">{{ $t('demo.select.value', { value: v9 }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.common.customRender')" style="margin-top: 8px">
@@ -56,7 +56,7 @@
           </span>
         </template>
       </y-select>
-      <span class="demo-hint">值: {{ v10 }}</span>
+      <span class="demo-hint">{{ $t('demo.select.value', { value: v10 }) }}</span>
     </y-card>
   </section>
 </template>

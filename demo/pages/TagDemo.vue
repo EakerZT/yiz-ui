@@ -66,6 +66,6 @@ function handleClose(tag: string) {
 
 function addTag() {
   const n = tags.value.length + 1
-  tags.value.push(`标签${n}`)
+  tags.value.push($t('demo.tag.tagN', { index: n }))
 }
 </script>

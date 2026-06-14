@@ -33,8 +33,8 @@
 
     <y-card :title="$t('demo.tab.moreTabs')" style="margin-top: 8px">
       <y-tab v-model:active="tab3">
-        <y-tab-pane v-for="i in 6" :key="i" :label="`标签${i}`" :value="i">
-          <p style="padding: 12px 0">标签{{ i }} 的内容</p>
+        <y-tab-pane v-for="i in 6" :key="i" :label="$t('demo.tab.tabN', { index: i })" :value="i">
+          <p style="padding: 12px 0">{{ $t('demo.tab.tabNContent', { index: i }) }}</p>
         </y-tab-pane>
       </y-tab>
     </y-card>

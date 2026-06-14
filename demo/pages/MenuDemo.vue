@@ -3,14 +3,14 @@
     <h2 class="demo-section-title">{{ $t('demo.menu.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.menu.desc') }}</p>
 
-    <y-card title="基础" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <y-menu v-model:select="v1" :items="opts" @select="onSelect" />
-      <span class="demo-hint">选中: {{ v1 }}</span>
+      <span class="demo-hint">{{ $t('demo.menu.selected', { value: v1 }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.menu.submenu')" style="margin-top: 8px">
       <y-menu v-model:select="v2" :items="navItems" @select="onSelect2" />
-      <span class="demo-hint">选中: {{ v2 }}</span>
+      <span class="demo-hint">{{ $t('demo.menu.selected', { value: v2 }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.common.slot')" style="margin-top: 8px">
@@ -19,7 +19,7 @@
         <y-menu-option :label="$t('demo.common.edit')" value="edit" />
         <y-menu-option :label="$t('demo.common.delete')" value="delete" />
       </y-menu>
-      <span class="demo-hint">选中: {{ v3 }}</span>
+      <span class="demo-hint">{{ $t('demo.menu.selected', { value: v3 }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.common.customRender')" style="margin-top: 8px">
@@ -31,7 +31,7 @@
           </span>
         </template>
       </y-menu>
-      <span class="demo-hint">选中: {{ v4 }}</span>
+      <span class="demo-hint">{{ $t('demo.menu.selected', { value: v4 }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.menu.iconString')" style="margin-top: 8px">
@@ -40,12 +40,12 @@
           <Icon :icon="iconMap[icon]" />
         </template>
       </y-menu>
-      <span class="demo-hint">选中: {{ v5 }}</span>
+      <span class="demo-hint">{{ $t('demo.menu.selected', { value: v5 }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.menu.iconFn')" style="margin-top: 8px">
       <y-menu v-model:select="v6" :items="fnIconItems" @select="onSelect6" />
-      <span class="demo-hint">选中: {{ v6 }}</span>
+      <span class="demo-hint">{{ $t('demo.menu.selected', { value: v6 }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.menu.collapsed')" style="margin-top: 8px">
@@ -62,7 +62,7 @@
           </template>
         </y-menu>
       </div>
-      <span class="demo-hint">选中: {{ v7 }}</span>
+      <span class="demo-hint">{{ $t('demo.menu.selected', { value: v7 }) }}</span>
     </y-card>
   </section>
 </template>

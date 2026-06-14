@@ -56,7 +56,7 @@
 
     <y-card :title="$t('demo.dialog.closeEvent')" style="margin-top: 8px">
       <y-button @click="visible10 = true">{{ $t('demo.common.open') }}</y-button>
-      <span v-if="closeCount > 0" class="demo-hint">close 触发次数：{{ closeCount }}</span>
+      <span v-if="closeCount > 0" class="demo-hint">{{ $t('demo.drawer.closeCount', { count: closeCount }) }}</span>
     </y-card>
 
     <!-- Drawers -->
@@ -64,8 +64,8 @@
       <p>{{ $t('demo.drawer.basicContent') }}</p>
     </y-drawer>
 
-    <y-drawer v-model="visible2" :title="`${placement} 抽屉`" :placement="placement">
-      <p>从 {{ placement }} 方向滑出。</p>
+    <y-drawer v-model="visible2" :title="$t('demo.drawer.placementLabel', { placement })" :placement="placement">
+      <p>{{ $t('demo.drawer.placementHint', { placement }) }}</p>
     </y-drawer>
 
     <y-drawer v-model="visible3" :title="$t('demo.common.noMask')" :mask="false">

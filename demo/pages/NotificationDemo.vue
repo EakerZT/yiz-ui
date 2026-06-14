@@ -39,7 +39,7 @@
 
     <y-card :title="$t('demo.dialog.closeEvent')" style="margin-top: 8px">
       <y-button @click="openCloseEvent">{{ $t('demo.common.open') }}</y-button>
-      <span class="demo-hint">关闭次数：{{ closeCount }}</span>
+      <span class="demo-hint">{{ $t('demo.notification.closeCount', { count: closeCount }) }}</span>
     </y-card>
   </section>
 </template>
@@ -129,8 +129,8 @@ function openManual() {
 function openMultiple() {
   for (let i = 1; i <= 4; i++) {
     notification({
-      title: `通知 ${i}`,
-      content: `这是第 ${i} 条通知，用于观察多条通知的位置堆叠。`,
+      title: $t('demo.notification.notifLabel', { index: i }),
+      content: $t('demo.notification.notifMsg', { index: i }),
       type: i % 2 === 0 ? 'success' : 'info',
       duration: 5000
     })

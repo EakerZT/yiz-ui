@@ -11,7 +11,7 @@
           <span class="demo-item-hint">{{ format(start) }} - {{ format(end) }}</span>
         </div>
       </div>
-      <p class="demo-date-range-info">上次变更：{{ lastChange }}</p>
+      <p class="demo-date-range-info">{{ $t('demo.dateRangePicker.lastChange', { value: lastChange }) }}</p>
     </y-card>
 
     <y-card :title="$t('demo.dateRangePicker.allowSingle')" style="margin-top: 8px">
@@ -75,14 +75,14 @@ const manualStart = ref<Date | null>(new Date(2026, 5, 20))
 const manualEnd = ref<Date | null>(new Date(2026, 5, 10))
 const workStart = ref<Date | null>(null)
 const workEnd = ref<Date | null>(null)
-const lastChange = ref('无')
+const lastChange = ref($t('demo.common.none'))
 
 function pad(n: number) {
   return n < 10 ? `0${n}` : `${n}`
 }
 
 function format(date: Date | null) {
-  if (!date) return '空'
+  if (!date) return $t('demo.common.empty')
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
 }
 
