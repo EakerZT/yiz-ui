@@ -3,3 +3,4 @@ dist
 .idea
 .claude
 *.log
+tsconfig.tsbuildinfo

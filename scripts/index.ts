@@ -1,5 +1,7 @@
 import type { App, Component } from 'vue'
 
+import './style.less'
+
 import * as components from './components'
 
 export * from './components'
