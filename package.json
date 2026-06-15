@@ -1,6 +1,6 @@
 {
   "name": "@eakerzt/yiz-ui",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "keywords": [
     "ui",
@@ -25,7 +25,7 @@
       "import": "./dist/yiz-ui.mjs",
       "require": "./dist/yiz-ui.cjs"
     },
-    "./dist/style.css": "./dist/style.css"
+    "./dist/yiz-ui.css": "./dist/yiz-ui.css"
   },
   "files": [
     "dist",
