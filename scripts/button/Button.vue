@@ -25,7 +25,7 @@ const c = computed(() =>
 
 const props = withDefaults(
   defineProps<{
-    type?: 'default' | 'primary'
+    type?: 'default' | 'primary' | 'plain'
     color?: 'default' | 'success' | 'warning' | 'error' | string
     shape?: 'default' | 'round' | 'circle'
     size?: 'small' | 'middle' | 'large'

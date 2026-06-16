@@ -101,8 +101,21 @@
     <y-card :title="$t('demo.table.resizeConstraint')" style="margin-top: 8px">
       <div style="height: 250px">
         <y-table :data="data" bordered resize>
-          <y-table-column :label="$t('demo.common.name')" field="name" width="150px" :min-width="100" :max-width="300" />
-          <y-table-column :label="$t('demo.common.age')" field="age" width="80px" :min-width="60" :max-width="150" align="center" />
+          <y-table-column
+            :label="$t('demo.common.name')"
+            field="name"
+            width="150px"
+            :min-width="100"
+            :max-width="300"
+          />
+          <y-table-column
+            :label="$t('demo.common.age')"
+            field="age"
+            width="80px"
+            :min-width="60"
+            :max-width="150"
+            align="center"
+          />
           <y-table-column :label="$t('demo.common.city')" field="city" width="120px" :min-width="80" :max-width="250" />
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
@@ -118,7 +131,13 @@
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
         <p class="demo-table-info">{{ $t('demo.table.selectedValue', { value: singleSelected ?? '' }) }}</p>
-        <p class="demo-table-info">{{ $t('demo.table.selectedValue', { value: singleSelectRow ? JSON.stringify(singleSelectRow) : $t('demo.common.none') }) }}</p>
+        <p class="demo-table-info">
+          {{
+            $t('demo.table.selectedValue', {
+              value: singleSelectRow ? JSON.stringify(singleSelectRow) : $t('demo.common.none')
+            })
+          }}
+        </p>
       </div>
     </y-card>
 
@@ -184,7 +203,7 @@
 
 <script lang="ts" setup>
 import { $t } from 'yiz-ui'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { LinkButton } from 'yiz-ui'
 
 interface Row {
@@ -194,13 +213,28 @@ interface Row {
   status: string
 }
 
-const data: Row[] = [
-  { name: $t('demo.common.personZhangsan'), age: 28, city: $t('demo.common.beijing'), status: $t('demo.common.enabled') },
+const data = computed<Row[]>(() => [
+  {
+    name: $t('demo.common.personZhangsan'),
+    age: 28,
+    city: $t('demo.common.beijing'),
+    status: $t('demo.common.enabled')
+  },
   { name: $t('demo.common.personLisi'), age: 35, city: $t('demo.common.shanghai'), status: $t('demo.common.disabled') },
-  { name: $t('demo.common.personWangwu'), age: 22, city: $t('demo.common.guangzhou'), status: $t('demo.common.enabled') },
-  { name: $t('demo.common.personZhaoliu'), age: 30, city: $t('demo.common.shenzhen'), status: $t('demo.common.enabled') },
+  {
+    name: $t('demo.common.personWangwu'),
+    age: 22,
+    city: $t('demo.common.guangzhou'),
+    status: $t('demo.common.enabled')
+  },
+  {
+    name: $t('demo.common.personZhaoliu'),
+    age: 30,
+    city: $t('demo.common.shenzhen'),
+    status: $t('demo.common.enabled')
+  },
   { name: $t('demo.common.personSunqi'), age: 41, city: $t('demo.common.hangzhou'), status: $t('demo.common.disabled') }
-]
+])
 
 function formatAge(value: number) {
   return $t('demo.table.ageTemplate', { value })
@@ -222,7 +256,7 @@ interface FixedRow {
   action: string
 }
 
-const fixedData: FixedRow[] = [
+const fixedData = computed<FixedRow[]>(() => [
   {
     name: $t('demo.common.personZhangsan'),
     age: 28,
@@ -278,25 +312,65 @@ const fixedData: FixedRow[] = [
     date: '2019-09-01',
     action: $t('demo.common.edit')
   }
-]
+])
 
-const tallData: Row[] = [
-  { name: $t('demo.common.personZhangsan'), age: 28, city: $t('demo.common.beijing'), status: $t('demo.common.enabled') },
+const tallData = computed<Row[]>(() =>[
+  {
+    name: $t('demo.common.personZhangsan'),
+    age: 28,
+    city: $t('demo.common.beijing'),
+    status: $t('demo.common.enabled')
+  },
   { name: $t('demo.common.personLisi'), age: 35, city: $t('demo.common.shanghai'), status: $t('demo.common.disabled') },
-  { name: $t('demo.common.personWangwu'), age: 22, city: $t('demo.common.guangzhou'), status: $t('demo.common.enabled') },
-  { name: $t('demo.common.personZhaoliu'), age: 30, city: $t('demo.common.shenzhen'), status: $t('demo.common.enabled') },
-  { name: $t('demo.common.personSunqi'), age: 41, city: $t('demo.common.hangzhou'), status: $t('demo.common.disabled') },
+  {
+    name: $t('demo.common.personWangwu'),
+    age: 22,
+    city: $t('demo.common.guangzhou'),
+    status: $t('demo.common.enabled')
+  },
+  {
+    name: $t('demo.common.personZhaoliu'),
+    age: 30,
+    city: $t('demo.common.shenzhen'),
+    status: $t('demo.common.enabled')
+  },
+  {
+    name: $t('demo.common.personSunqi'),
+    age: 41,
+    city: $t('demo.common.hangzhou'),
+    status: $t('demo.common.disabled')
+  },
   { name: $t('demo.common.personZhouba'), age: 27, city: $t('demo.common.chengdu'), status: $t('demo.common.enabled') },
   { name: $t('demo.common.personWujiu'), age: 33, city: $t('demo.common.wuhan'), status: $t('demo.common.disabled') },
-  { name: $t('demo.common.personZhengshi'), age: 29, city: $t('demo.common.nanjing'), status: $t('demo.common.enabled') },
+  {
+    name: $t('demo.common.personZhengshi'),
+    age: 29,
+    city: $t('demo.common.nanjing'),
+    status: $t('demo.common.enabled')
+  },
   { name: $t('demo.common.personFengyi'), age: 36, city: $t('demo.common.tianjin'), status: $t('demo.common.enabled') },
-  { name: $t('demo.common.personChener'), age: 24, city: $t('demo.common.chongqing'), status: $t('demo.common.disabled') },
+  {
+    name: $t('demo.common.personChener'),
+    age: 24,
+    city: $t('demo.common.chongqing'),
+    status: $t('demo.common.disabled')
+  },
   { name: $t('demo.common.personChusan'), age: 31, city: $t('demo.common.xian'), status: $t('demo.common.enabled') },
   { name: $t('demo.common.personWeisi'), age: 39, city: $t('demo.common.changsha'), status: $t('demo.common.enabled') },
-  { name: $t('demo.common.personJiangwu'), age: 26, city: $t('demo.common.suzhou'), status: $t('demo.common.disabled') },
-  { name: $t('demo.common.personShenliu'), age: 42, city: $t('demo.common.dongguan'), status: $t('demo.common.enabled') },
+  {
+    name: $t('demo.common.personJiangwu'),
+    age: 26,
+    city: $t('demo.common.suzhou'),
+    status: $t('demo.common.disabled')
+  },
+  {
+    name: $t('demo.common.personShenliu'),
+    age: 42,
+    city: $t('demo.common.dongguan'),
+    status: $t('demo.common.enabled')
+  },
   { name: $t('demo.common.personHanqi'), age: 23, city: $t('demo.common.qingdao'), status: $t('demo.common.disabled') }
-]
+])
 
 const singleSelected = ref(null)
 const multiSelected = ref([])

@@ -1,6 +1,7 @@
 import type { App, Component } from 'vue'
 
 import './style.less'
+import './global-components'
 
 import * as components from './components'
 
