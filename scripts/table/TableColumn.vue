@@ -11,7 +11,7 @@ withDefaults(
     minWidth?: string | number
     maxWidth?: string | number
     fixed?: 'none' | 'left' | 'right'
-    formater?: (value: any, row: Record<string, any>, index: number) => any
+    formater?: (value: any, row: any, index: number) => any
   }>(),
   {
     label: '',

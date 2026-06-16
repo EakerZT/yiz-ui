@@ -169,8 +169,8 @@ export interface TableColumn {
   minWidth?: number
   maxWidth?: number
   fixed?: 'none' | 'left' | 'right'
-  renderFn?: (scope: { value: any; row: Record<string, any>; index: number }) => any
-  formater?: (value: any, row: Record<string, any>, index: number) => any
+  renderFn?: (scope: { value: any; row: any; index: number }) => any
+  formater?: (value: any, row: any, index: number) => any
 }
 
 const slots = useSlots()
@@ -187,7 +187,7 @@ const props = withDefaults(
     no?: boolean
     selectMode?: 'none' | 'single' | 'multi'
     rowKey?: string
-    selectDisabled?: (row: Record<string, any>, index: number) => boolean
+    selectDisabled?: (row: any, index: number) => boolean
   }>(),
   {
     data: () => [],
