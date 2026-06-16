@@ -478,6 +478,19 @@ onBeforeUnmount(() => {
   box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
 }
 
+.yiz-form-item-error-status .yiz-date-picker:not(.yiz-date-picker-disabled) .yiz-date-picker-input {
+  border-color: var(--yiz-color-error);
+
+  &:hover {
+    border-color: var(--yiz-color-error);
+  }
+}
+
+.yiz-form-item-error-status .yiz-date-picker-open:not(.yiz-date-picker-disabled) .yiz-date-picker-input {
+  border-color: var(--yiz-color-error);
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+}
+
 .yiz-date-picker-disabled .yiz-date-picker-input {
   background: #f5f5f5;
   cursor: not-allowed;

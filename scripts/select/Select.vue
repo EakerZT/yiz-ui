@@ -348,6 +348,19 @@ onBeforeUnmount(() => {
     height: 24px;
     font-size: 13px;
   }
+
+  .yiz-form-item-error-status &:not(.yiz-select-disabled) {
+    border-color: var(--yiz-color-error);
+
+    &:hover {
+      border-color: var(--yiz-color-error);
+    }
+
+    &.yiz-select-open {
+      border-color: var(--yiz-color-error);
+      box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+    }
+  }
 }
 
 .yiz-select-label {

@@ -495,6 +495,19 @@ onBeforeUnmount(() => {
       height: 14px;
     }
   }
+
+  .yiz-form-item-error-status &:not(.yiz-color-picker-disabled) {
+    border-color: var(--yiz-color-error);
+
+    &:hover {
+      border-color: var(--yiz-color-error);
+    }
+
+    &.yiz-color-picker-open {
+      border-color: var(--yiz-color-error);
+      box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+    }
+  }
 }
 
 .yiz-color-picker-swatch {

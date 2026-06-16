@@ -105,6 +105,19 @@ defineExpose({
     box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
   }
 
+  .yiz-form-item-error-status & {
+    border-color: var(--yiz-color-error);
+
+    &:hover {
+      border-color: var(--yiz-color-error);
+    }
+
+    &.focus {
+      border-color: var(--yiz-color-error);
+      box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+    }
+  }
+
   .yiz-input_prefix {
     display: inline-flex;
     align-items: center;

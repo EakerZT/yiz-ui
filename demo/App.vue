@@ -39,6 +39,7 @@ import ContextMenuDemo from './pages/ContextMenuDemo.vue'
 import DatePickerDemo from './pages/DatePickerDemo.vue'
 import DateRangePickerDemo from './pages/DateRangePickerDemo.vue'
 import EmptyDemo from './pages/EmptyDemo.vue'
+import FormDemo from './pages/FormDemo.vue'
 import InputDemo from './pages/InputDemo.vue'
 import InputNumberDemo from './pages/InputNumberDemo.vue'
 import LoadingDemo from './pages/LoadingDemo.vue'
@@ -71,6 +72,7 @@ const pages: Record<string, any> = {
   'date-picker': DatePickerDemo,
   'date-range-picker': DateRangePickerDemo,
   empty: EmptyDemo,
+  form: FormDemo,
   dialog: DialogDemo,
   drawer: DrawerDemo,
   input: InputDemo,
@@ -102,6 +104,7 @@ const menuItems = computed(() => [
   { label: $t('demo.nav.datePicker'), value: 'date-picker' },
   { label: $t('demo.nav.dateRangePicker'), value: 'date-range-picker' },
   { label: $t('demo.nav.empty'), value: 'empty' },
+  { label: $t('demo.nav.form'), value: 'form' },
   { label: $t('demo.nav.dialog'), value: 'dialog' },
   { label: $t('demo.nav.drawer'), value: 'drawer' },
   { label: $t('demo.nav.icon'), value: 'icon' },

@@ -207,6 +207,19 @@ defineExpose({
   &.yiz-input-number-small {
     height: 24px;
   }
+
+  .yiz-form-item-error-status &:not(.yiz-input-number-disabled) {
+    border-color: var(--yiz-color-error);
+
+    &:hover {
+      border-color: var(--yiz-color-error);
+    }
+
+    &.yiz-input-number-focus {
+      border-color: var(--yiz-color-error);
+      box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+    }
+  }
 }
 
 .yiz-input-number-prefix {

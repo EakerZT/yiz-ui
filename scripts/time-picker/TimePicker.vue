@@ -384,6 +384,19 @@ defineExpose({
   box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
 }
 
+.yiz-form-item-error-status .yiz-time-picker:not(.yiz-time-picker-disabled) .yiz-time-picker-input {
+  border-color: var(--yiz-color-error);
+
+  &:hover {
+    border-color: var(--yiz-color-error);
+  }
+}
+
+.yiz-form-item-error-status .yiz-time-picker-open:not(.yiz-time-picker-disabled) .yiz-time-picker-input {
+  border-color: var(--yiz-color-error);
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+}
+
 .yiz-time-picker-disabled .yiz-time-picker-input {
   background: #f5f5f5;
   cursor: not-allowed;

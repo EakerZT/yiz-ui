@@ -141,6 +141,8 @@ handle.close()
 | Dialog | `YDialog` | 对话框 — 支持拖拽、ESC 关闭 |
 | Drawer | `YDrawer` | 抽屉 — 四方向、可调节尺寸 |
 | Empty | `YEmpty` | 空状态 — 可自定义图标和文案 |
+| Form | `YForm` | 表单 — 字段校验、标签布局、重置 |
+| FormItem | `YFormItem` | 表单项 — 标签、必填标记、错误提示 |
 | Icon | `YIcon` | 图标 — 渲染 Vue 组件为图标 |
 | Input | `YInput` | 输入框 — 前后缀、可清空 |
 | InputNumber | `YInputNumber` | 数字输入 — 步进按钮、键盘操作 |
