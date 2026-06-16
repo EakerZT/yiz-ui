@@ -159,8 +159,8 @@ handle.close()
 | Select | `YSelect` | 选择器 — 支持搜索、键盘导航 |
 | SelectOption | `YSelectOption` | 选择器选项 — 声明式子项 |
 | Switch | `YSwitch` | 开关 — 支持加载态、自定义颜色 |
-| Tab | `YTab` | 标签页 — 滑动指示器动画 |
-| TabPane | `YTabPane` | 标签页面板 |
+| Tab | `YTab` | 标签页 — 四方向、卡片风格、切换动画、flex 弹性布局 |
+| TabPane | `YTabPane` | 标签页面板 — label 插槽、closable 关闭 |
 | Table | `YTable` | 表格 — 排序、列宽拖拽、行选择、固定列 |
 | TableColumn | `YTableColumn` | 表格列 — 声明式列定义 + 自定义渲染 |
 | Tag | `YTag` | 标签 — 预设色/自定义色、可关闭 |

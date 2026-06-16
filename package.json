@@ -29,13 +29,15 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "sideEffects": [
     "**/*.css"
   ],
   "scripts": {
     "demo": "vite",
+    "demo:build": "vite build --config vite.config.demo.mts",
     "typecheck": "vue-tsc --noEmit",
     "build": "vite build --config vite.config.lib.mts && vue-tsc --project tsconfig.build.json",
     "prepublishOnly": "yarn typecheck && yarn build"
