@@ -1,12 +1,12 @@
 {
   "name": "@eakerzt/yiz-ui",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "",
   "keywords": [
     "ui",
     "vue"
   ],
-  "homepage": "https://github.com/EakerZT/yiz-ui#readme",
+  "homepage": "https://eakerzt.github.io/yiz-ui/",
   "bugs": {
     "url": "https://github.com/EakerZT/yiz-ui/issues"
   },
