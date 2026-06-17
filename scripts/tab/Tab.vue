@@ -422,11 +422,11 @@ provide('yizTab', {
 // ========================= Card type =========================
 
 .yiz-tab-type-card {
-  .yiz-tab-header-scroll {
+  > .yiz-tab-header-scroll {
     // card 不需要底部/侧边 border，由 item 自己画
   }
 
-  .yiz-tab-header-item {
+  > .yiz-tab-header-item {
     border: 1px solid var(--yiz-color-border, #d9d9d9);
     border-bottom-color: var(--yiz-color-border, #d9d9d9);
     border-radius: 4px 4px 0 0;
@@ -448,7 +448,7 @@ provide('yizTab', {
     }
   }
 
-  .yiz-tab-content {
+  > .yiz-tab-content {
     border: 1px solid var(--yiz-color-border, #d9d9d9);
     border-top: none;
     border-radius: 0 0 4px 4px;
@@ -456,14 +456,14 @@ provide('yizTab', {
   }
 
   // bar 在 card 模式下隐藏（边框自身形成视觉连接）
-  .yiz-tab-header-bar {
+  > .yiz-tab-header-bar {
     display: none;
   }
 }
 
 // card + bottom
 .yiz-tab-type-card.yiz-tab-bottom {
-  .yiz-tab-header-item {
+  > .yiz-tab-header-item {
     border-radius: 0 0 4px 4px;
     border-top-color: var(--yiz-color-border, #d9d9d9);
     border-bottom-color: var(--yiz-color-border, #d9d9d9);
@@ -473,7 +473,7 @@ provide('yizTab', {
     }
   }
 
-  .yiz-tab-content {
+  > .yiz-tab-content {
     border: 1px solid var(--yiz-color-border, #d9d9d9);
     border-bottom: none;
     border-radius: 4px 4px 0 0;
@@ -482,7 +482,7 @@ provide('yizTab', {
 
 // card + left
 .yiz-tab-type-card.yiz-tab-left {
-  .yiz-tab-header-item {
+  > .yiz-tab-header-item {
     border-radius: 4px 0 0 4px;
     margin-right: 0;
     margin-bottom: 2px;
@@ -493,7 +493,7 @@ provide('yizTab', {
     }
   }
 
-  .yiz-tab-content {
+  > .yiz-tab-content {
     border: 1px solid var(--yiz-color-border, #d9d9d9);
     border-left: none;
     border-radius: 0 4px 4px 0;
@@ -502,7 +502,7 @@ provide('yizTab', {
 
 // card + right
 .yiz-tab-type-card.yiz-tab-right {
-  .yiz-tab-header-item {
+  > .yiz-tab-header-item {
     border-radius: 0 4px 4px 0;
     margin-left: 0;
     margin-bottom: 2px;
@@ -513,7 +513,7 @@ provide('yizTab', {
     }
   }
 
-  .yiz-tab-content {
+  > .yiz-tab-content {
     border: 1px solid var(--yiz-color-border, #d9d9d9);
     border-right: none;
     border-radius: 4px 0 0 4px;
@@ -559,22 +559,22 @@ provide('yizTab', {
   width: 100%;
   height: 100%;
 
-  .yiz-tab-content {
+  > .yiz-tab-content {
     overflow: hidden;
   }
 
-  .yiz-tab-pane {
+  > .yiz-tab-pane {
     height: 100%;
   }
 }
 
 .yiz-tab-flex.yiz-tab-top,
 .yiz-tab-flex.yiz-tab-bottom {
-  .yiz-tab-header {
+  > .yiz-tab-header {
     flex-shrink: 0;
   }
 
-  .yiz-tab-content {
+  > .yiz-tab-content {
     flex: 1;
     min-height: 0;
   }
@@ -582,11 +582,11 @@ provide('yizTab', {
 
 .yiz-tab-flex.yiz-tab-left,
 .yiz-tab-flex.yiz-tab-right {
-  .yiz-tab-header {
+  > .yiz-tab-header {
     flex-shrink: 0;
   }
 
-  .yiz-tab-content {
+  > .yiz-tab-content {
     flex: 1;
     min-width: 0;
   }
