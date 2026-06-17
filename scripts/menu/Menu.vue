@@ -120,7 +120,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, useSlots } from 'vue'
+import { computed, Fragment, ref, useSlots } from 'vue'
 import MenuOptionComp from '../menu-option/MenuOption.vue'
 import IconRenderer from './IconRenderer.vue'
 import Tooltip from '../tooltip/Tooltip.vue'
@@ -176,11 +176,27 @@ let popupTimer: ReturnType<typeof setTimeout> | null = null
 
 const slots = useSlots()
 
+// 递归展平 Fragment，确保包裹组件或 v-for 生成的 MenuOption 能被正确提取
+function collectOptionVNodes(nodes: any[]): any[] {
+  const result: any[] = []
+  for (const vnode of nodes) {
+    if (vnode && (vnode as any).type === Fragment) {
+      const children = (vnode as any).children as any[]
+      if (children) {
+        result.push(...collectOptionVNodes(children))
+      }
+    } else if (vnode && vnode.type === MenuOptionComp) {
+      result.push(vnode)
+    }
+  }
+  return result
+}
+
 const slotItems = computed(() => {
-  const nodes = slots.default?.() ?? []
+  const nodes = collectOptionVNodes(slots.default?.() ?? [])
   const items: MenuItem[] = []
   for (const vnode of nodes) {
-    if (vnode.type === MenuOptionComp && vnode.props) {
+    if (vnode.props) {
       const p = vnode.props as Record<string, any>
       if (p.item) {
         items.push({ ...p.item, children: p.children ?? p.item.children, icon: p.icon ?? p.item.icon })

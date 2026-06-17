@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
+import { computed, Fragment, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
 import { DismissCircle32Filled } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { Input } from '../input'
@@ -94,11 +94,27 @@ const modelValue = defineModel<any>('modelValue')
 
 const slots = useSlots()
 
+// 递归展平 Fragment，确保包裹组件或 v-for 生成的 SelectOption 能被正确提取
+function collectOptionVNodes(nodes: any[]): any[] {
+  const result: any[] = []
+  for (const vnode of nodes) {
+    if (vnode && (vnode as any).type === Fragment) {
+      const children = (vnode as any).children as any[]
+      if (children) {
+        result.push(...collectOptionVNodes(children))
+      }
+    } else if (vnode && vnode.type === SelectOptionComp) {
+      result.push(vnode)
+    }
+  }
+  return result
+}
+
 const slotOptions = computed(() => {
-  const nodes = slots.default?.() ?? []
+  const nodes = collectOptionVNodes(slots.default?.() ?? [])
   const opts: SelectOption[] = []
   for (const vnode of nodes) {
-    if (vnode.type === SelectOptionComp && vnode.props) {
+    if (vnode.props) {
       const p = vnode.props as Record<string, any>
       if (p.item) {
         opts.push(p.item)

@@ -118,7 +118,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, useSlots } from 'vue'
+import { computed, Fragment, ref, useSlots } from 'vue'
 import ContextMenuOptionComp from '../context-menu-option/ContextMenuOption.vue'
 import IconRenderer from '../menu/IconRenderer.vue'
 
@@ -167,11 +167,27 @@ const radioValues = ref<Map<string, any>>(new Map())
 const hoveredSubmenu = ref<any>(null)
 const submenuStyle = ref<Record<string, string>>({})
 
+// 递归展平 Fragment，确保包裹组件或 v-for 生成的 ContextMenuOption 能被正确提取
+function collectOptionVNodes(nodes: any[]): any[] {
+  const result: any[] = []
+  for (const vnode of nodes) {
+    if (vnode && (vnode as any).type === Fragment) {
+      const children = (vnode as any).children as any[]
+      if (children) {
+        result.push(...collectOptionVNodes(children))
+      }
+    } else if (vnode && vnode.type === ContextMenuOptionComp) {
+      result.push(vnode)
+    }
+  }
+  return result
+}
+
 const slotItems = computed(() => {
-  const nodes = slots.default?.() ?? []
+  const nodes = collectOptionVNodes(slots.default?.() ?? [])
   const items: ContextMenuItem[] = []
   for (const vnode of nodes) {
-    if (vnode.type === ContextMenuOptionComp && vnode.props) {
+    if (vnode.props) {
       const p = vnode.props as Record<string, any>
       if (p.item) {
         items.push({
