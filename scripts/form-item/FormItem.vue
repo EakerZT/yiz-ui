@@ -90,8 +90,8 @@ const fieldValue = computed(() => {
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
-  if (form?.labelPosition.value) {
-    c[`yiz-form-item-label-${form.labelPosition.value}`] = true
+  if (form?.layout.value) {
+    c[`yiz-form-item-layout-${form.layout.value}`] = true
   }
   if (validateState.value === 'error') {
     c['yiz-form-item-error-status'] = true
@@ -107,13 +107,13 @@ const vClass = computed(() => {
 
 const labelStyle = computed(() => {
   const s: Record<string, string> = {}
-  const position = form?.labelPosition.value ?? 'right'
-  if (position !== 'top') {
+  const layout = form?.layout.value ?? 'horizontal'
+  if (layout !== 'vertical') {
     const width = props.labelWidth ?? form?.labelWidth.value
     if (width !== undefined) {
       s.width = typeof width === 'number' ? `${width}px` : width
     }
-    s.textAlign = position
+    s.textAlign = 'right'
   }
   return s
 })
@@ -338,7 +338,8 @@ defineExpose({
   line-height: 32px;
 }
 
-.yiz-form-item-label-top {
+// vertical — label 在上，content 在下
+.yiz-form-item-layout-vertical {
   display: block;
 
   .yiz-form-item-label {
@@ -349,6 +350,12 @@ defineExpose({
     line-height: 1.4;
     text-align: left;
   }
+}
+
+// inline — form-item 横向排列
+.yiz-form-item-layout-inline {
+  display: inline-flex;
+  vertical-align: top;
 }
 
 .yiz-form-item-error {

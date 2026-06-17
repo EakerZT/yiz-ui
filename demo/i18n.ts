@@ -396,6 +396,10 @@ const zhCN: LangMessages = {
   'demo.form.profileDesc': '资料描述',
   'demo.form.profileNamePlaceholder': '请输入资料名称',
   'demo.form.profileDescPlaceholder': '请输入资料描述',
+  'demo.form.layout': '表单布局',
+  'demo.form.layoutHorizontal': '水平',
+  'demo.form.layoutVertical': '垂直',
+  'demo.form.layoutInline': '行内',
 
   'demo.icon.title': 'Icon 图标',
   'demo.icon.desc': '渲染 @vicons/fluent 图标，支持自定义尺寸。',
@@ -1087,6 +1091,10 @@ const enUS: LangMessages = {
   'demo.form.profileDesc': 'Profile description',
   'demo.form.profileNamePlaceholder': 'Enter profile name',
   'demo.form.profileDescPlaceholder': 'Enter profile description',
+  'demo.form.layout': 'Form Layout',
+  'demo.form.layoutHorizontal': 'Horizontal',
+  'demo.form.layoutVertical': 'Vertical',
+  'demo.form.layoutInline': 'Inline',
 
   'demo.icon.title': 'Icon',
   'demo.icon.desc': 'Render @vicons/fluent icons with custom sizes.',

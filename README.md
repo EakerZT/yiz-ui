@@ -143,7 +143,7 @@ handle.close()
 | Drawer | `YDrawer` | 抽屉 — 四方向、可调节尺寸 |
 | Dropmenu | `YDropmenu` | 下拉菜单 — 基于 Menu 的弹出菜单 |
 | Empty | `YEmpty` | 空状态 — 可自定义图标和文案 |
-| Form | `YForm` | 表单 — 字段校验、标签布局、重置 |
+| Form | `YForm` | 表单 — layout 布局（水平/垂直/行内）、字段校验、重置 |
 | FormItem | `YFormItem` | 表单项 — 标签、必填标记、错误提示 |
 | Icon | `YIcon` | 图标 — 渲染 Vue 组件为图标 |
 | Input | `YInput` | 输入框 — 前后缀、可清空 |

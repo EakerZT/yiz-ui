@@ -1,5 +1,16 @@
 # update
 
+## 0.0.9
+
+`2026/06/18`
+
+* 修复 多个组件attr无法传递
+* 修复 Tab组件样式穿透
+* 添加 Form组件支持layout
+* 添加 divider组件
+* 添加 dropmenu组件
+* 添加 input-password组件
+
 ## 0.0.8
 
 `2026/06/16`

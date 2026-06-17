@@ -6,20 +6,20 @@
 
 <script lang="ts" setup>
 import { computed, provide, toRef } from 'vue'
-import { formContextKey, type FormContext, type FormItemContext, type FormLabelPosition, type FormRules } from './types'
+import { formContextKey, type FormContext, type FormItemContext, type FormLayout, type FormRules } from './types'
 
 const props = withDefaults(
   defineProps<{
     model?: Record<string, any>
     rules?: FormRules
     labelWidth?: string | number
-    labelPosition?: FormLabelPosition
+    layout?: FormLayout
   }>(),
   {
     model: () => ({}),
     rules: () => ({}),
     labelWidth: 96,
-    labelPosition: 'right'
+    layout: 'horizontal'
   }
 )
 
@@ -39,7 +39,7 @@ const rulesRef = computed(() => props.rules)
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
-  c[`yiz-form-label-${props.labelPosition}`] = true
+  c[`yiz-form-layout-${props.layout}`] = true
   return c
 })
 
@@ -91,7 +91,7 @@ const context: FormContext = {
   model: modelRef,
   rules: rulesRef,
   labelWidth: toRef(props, 'labelWidth'),
-  labelPosition: toRef(props, 'labelPosition'),
+  layout: toRef(props, 'layout'),
   addItem,
   removeItem
 }
@@ -111,5 +111,12 @@ defineExpose({
   display: block;
   font-size: 14px;
   color: #333;
+}
+
+.yiz-form-layout-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-start;
 }
 </style>

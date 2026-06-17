@@ -1,7 +1,7 @@
 import type { ComputedRef, InjectionKey, Ref } from 'vue'
 
 export type FormModel = Record<string, any>
-export type FormLabelPosition = 'left' | 'right' | 'top'
+export type FormLayout = 'horizontal' | 'vertical' | 'inline'
 export type FormValidateTrigger = 'blur' | 'change' | 'submit'
 
 export interface FormRule {
@@ -34,7 +34,7 @@ export interface FormContext {
   model: ComputedRef<FormModel>
   rules: ComputedRef<FormRules>
   labelWidth: Ref<string | number | undefined>
-  labelPosition: Ref<FormLabelPosition>
+  layout: Ref<FormLayout>
   addItem: (item: FormItemContext) => void
   removeItem: (item: FormItemContext) => void
 }
