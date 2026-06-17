@@ -26,7 +26,6 @@ interface TabContext {
 
 const props = defineProps<{
   label?: string
-  key?: any
   disabled?: boolean
   closable?: boolean
 }>()

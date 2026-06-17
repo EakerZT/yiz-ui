@@ -1,5 +1,5 @@
 <template>
-  <div ref="triggerRef" class="yiz-select" :class="vClass" @click="onTriggerClick">
+  <div ref="triggerRef" class="yiz-select" :class="vClass" @click="onTriggerClick" v-bind="$attrs">
     <span class="yiz-select-prefix" v-if="$props.prefix || $slots.prefix">
       <template v-if="$props.prefix">{{ $props.prefix }}</template>
       <slot v-else name="prefix" />
@@ -31,7 +31,12 @@
     <Transition name="yiz-select-dropdown-fade">
       <div v-if="open" class="yiz-select-dropdown" :style="dropdownStyle" ref="dropdownRef">
         <div v-if="search" class="yiz-select-search-wrap" @click.stop>
-          <Input ref="searchInputRef" v-model:value="searchQuery" :placeholder="$t('select.searchPlaceholder')" @keydown.stop />
+          <Input
+            ref="searchInputRef"
+            v-model:value="searchQuery"
+            :placeholder="$t('select.searchPlaceholder')"
+            @keydown.stop
+          />
         </div>
         <ScrollBox :max-height="scrollBoxMaxHeight">
           <div
