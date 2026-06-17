@@ -89,12 +89,12 @@
 
     <y-card :title="$t('demo.table.showRowNumber')" style="margin-top: 8px">
       <div style="height: 250px">
-        <y-table :data="data" bordered no>
+        <table-box :value="data">
           <y-table-column :label="$t('demo.common.name')" field="name" />
           <y-table-column :label="$t('demo.common.age')" field="age" align="center" />
           <y-table-column :label="$t('demo.common.city')" field="city" />
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
-        </y-table>
+        </table-box>
       </div>
     </y-card>
 
@@ -205,6 +205,7 @@
 import { $t } from 'yiz-ui'
 import { computed, ref } from 'vue'
 import { LinkButton } from 'yiz-ui'
+import TableBox from '../components/TableBox.vue'
 
 interface Row {
   name: string

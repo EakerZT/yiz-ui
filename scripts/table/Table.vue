@@ -151,7 +151,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, onUnmounted, provide, ref, useSlots } from 'vue'
+import { computed, Fragment, nextTick, onMounted, onUnmounted, provide, ref, useSlots } from 'vue'
 import TableColumnComp from './TableColumn.vue'
 import CellRenderer from './CellRenderer.vue'
 import Checkbox from '../checkbox/Checkbox.vue'
@@ -201,11 +201,27 @@ const props = withDefaults(
   }
 )
 
+// 递归展平 Fragment，确保包裹组件或 v-for 生成的 TableColumn 能被正确提取
+function collectColumnVNodes(nodes: any[]): any[] {
+  const result: any[] = []
+  for (const vnode of nodes) {
+    if (vnode && (vnode as any).type === Fragment) {
+      const children = (vnode as any).children as any[]
+      if (children) {
+        result.push(...collectColumnVNodes(children))
+      }
+    } else if (vnode && vnode.type === TableColumnComp) {
+      result.push(vnode)
+    }
+  }
+  return result
+}
+
 const columns = computed(() => {
-  const nodes = slots.default?.() ?? []
+  const nodes = collectColumnVNodes(slots.default?.() ?? [])
   const cols: TableColumn[] = []
   for (const vnode of nodes) {
-    if (vnode.type === TableColumnComp && vnode.props) {
+    if (vnode.props) {
       const p = vnode.props as Record<string, any>
       if (p.field) {
         const vnodeSlots = (vnode as any).children
