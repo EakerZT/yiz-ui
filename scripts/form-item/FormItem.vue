@@ -99,6 +99,9 @@ const vClass = computed(() => {
   if (isRequired.value) {
     c['yiz-form-item-is-required'] = true
   }
+  if (!hasValidationRules.value) {
+    c['yiz-form-item-no-rules'] = true
+  }
   return c
 })
 
@@ -293,6 +296,11 @@ defineExpose({
   &:last-child {
     margin-bottom: 0;
   }
+}
+
+// 无校验规则时，补偿 .yiz-form-item-error 的占位空间（min-height 19px + padding-top 2px）
+.yiz-form-item-no-rules {
+  margin-bottom: 21px;
 }
 
 .yiz-form-item-label {
