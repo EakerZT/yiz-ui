@@ -333,7 +333,7 @@ defineExpose({
 
 <style lang="less">
 .yiz-time-picker {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   position: relative;
   min-width: 140px;
@@ -343,6 +343,8 @@ defineExpose({
 .yiz-time-picker-input {
   display: inline-flex;
   align-items: center;
+  flex: 1;
+  min-width: 0;
   width: 100%;
   height: 32px;
   padding: 0 11px;

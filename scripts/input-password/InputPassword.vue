@@ -1,5 +1,5 @@
 <template>
-  <div class="yiz-input" :class="vClass">
+  <div class="yiz-input yiz-input-password" :class="vClass">
     <div class="yiz-input_prefix" v-if="$props.prefix || $slots.prefix">
       <template v-if="$props.prefix">
         {{ $props.prefix }}
@@ -10,17 +10,30 @@
       <input
         ref="inputRef"
         :value="modelValue"
+        :type="passwordVisible ? 'text' : 'password'"
+        :autocomplete="props.autocomplete"
+        class="yiz-input_inner"
+        :placeholder="$props.placeholder"
         @input="onInput"
         @focus="isFocus = true"
         @blur="isFocus = false"
         @keydown="onKeydown"
-        class="yiz-input_inner"
-        :placeholder="$props.placeholder"
       />
     </div>
     <div class="yiz-input_clear" v-if="$props.clearable && modelValue" @click="onClearClick">
       <Icon size="14" :icon="DismissCircle32Filled" />
     </div>
+    <button
+      v-if="props.showToggle"
+      type="button"
+      class="yiz-input-password_toggle"
+      :aria-label="passwordVisible ? $t('inputPassword.hidePassword') : $t('inputPassword.showPassword')"
+      :aria-pressed="passwordVisible"
+      @mousedown.prevent
+      @click="passwordVisible = !passwordVisible"
+    >
+      <Icon size="16" :icon="passwordVisible ? EyeOff20Regular : Eye20Regular" />
+    </button>
     <div class="yiz-input_suffix" v-if="$props.suffix || $slots.suffix">
       <template v-if="$props.suffix">
         {{ $props.suffix }}
@@ -32,8 +45,9 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { DismissCircle32Filled } from '@vicons/fluent'
+import { DismissCircle32Filled, Eye20Regular, EyeOff20Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
+import { $t } from '../locale'
 
 defineSlots<{
   prefix: unknown
@@ -46,17 +60,23 @@ const props = withDefaults(
     prefix?: string
     suffix?: string
     clearable?: boolean
+    showToggle?: boolean
+    autocomplete?: string
   }>(),
   {
-    clearable: false
+    clearable: false,
+    showToggle: true,
+    autocomplete: 'current-password'
   }
 )
 
-const modelValue = defineModel('value')
+const modelValue = defineModel<string>('value')
 const emit = defineEmits<{ pressEnter: [] }>()
 
 const inputRef = ref<HTMLInputElement>()
 const isFocus = ref(false)
+const passwordVisible = ref(false)
+
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
   if (isFocus.value) {
@@ -64,6 +84,7 @@ const vClass = computed(() => {
   }
   return c
 })
+
 const onClearClick = () => {
   modelValue.value = ''
 }
@@ -84,70 +105,7 @@ defineExpose({
 </script>
 
 <style lang="less">
-.yiz-input {
-  border-radius: 4px;
-  border: 1px solid var(--yiz-color-border);
-  transition: 0.3s all;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  padding: 0 4px;
-  font-family: inherit;
-  font-size: 14px;
-  background: var(--yiz-color-bg);
-
-  &:hover {
-    border: 1px solid var(--yiz-color-primary);
-  }
-
-  &.focus {
-    border: 1px solid var(--yiz-color-primary);
-    box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
-  }
-
-  .yiz-form-item-error-status & {
-    border-color: var(--yiz-color-error);
-
-    &:hover {
-      border-color: var(--yiz-color-error);
-    }
-
-    &.focus {
-      border-color: var(--yiz-color-error);
-      box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
-    }
-  }
-
-  .yiz-input_prefix {
-    display: inline-flex;
-    align-items: center;
-    margin-left: 4px;
-    margin-right: 4px;
-    user-select: none;
-  }
-
-  .yiz-input_clear {
-    display: inline-flex;
-    margin-left: 8px;
-    margin-right: 4px;
-    user-select: none;
-    cursor: pointer;
-    color: rgba(0, 0, 0, 0.45);
-    transition: 0.3s all;
-
-    &:hover {
-      color: rgba(0, 0, 0, 0.88);
-    }
-  }
-
-  .yiz-input_suffix {
-    display: inline-flex;
-    align-items: center;
-    margin-left: 8px;
-    margin-right: 4px;
-    user-select: none;
-  }
-
+.yiz-input-password {
   .yiz-input_outer {
     display: flex;
     flex: 1;
@@ -155,16 +113,28 @@ defineExpose({
 
     .yiz-input_inner {
       flex: 1;
-      padding: 0 4px;
-      height: 30px;
-      line-height: 30px;
-      border: 0;
-      outline: none;
-      width: 100%;
-      box-sizing: border-box;
-      font-size: 14px;
-      font-family: inherit;
       min-width: 0;
+    }
+  }
+
+  .yiz-input-password_toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    margin-left: 8px;
+    margin-right: 4px;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+    transition: color 0.3s;
+
+    &:hover {
+      color: rgba(0, 0, 0, 0.88);
     }
   }
 }

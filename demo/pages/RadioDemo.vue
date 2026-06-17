@@ -23,7 +23,6 @@
 
   <section class="demo-section">
     <h2 class="demo-section-title">{{ $t('demo.radio.groupTitle') }}</h2>
-    <p class="demo-section-desc">{{ $t('demo.radio.groupDesc1') }} <code>options</code> {{ $t('demo.radio.groupDesc2') }}<code>v-model:value</code> {{ $t('demo.radio.groupDesc3') }}<code>direction</code> {{ $t('demo.radio.groupDesc4') }}</p>
 
     <y-card :title="$t('demo.common.horizontal')" style="margin-top: 8px">
       <y-radio-group v-model:value="group1" :options="groupOptions" direction="horizontal" />
@@ -41,7 +40,6 @@
   </section>
   <section class="demo-section">
     <h2 class="demo-section-title">{{ $t('demo.radio.radioButton') }}</h2>
-    <p class="demo-section-desc">{{ $t('demo.radio.radioButtonDesc') }}</p>
 
     <y-card :title="$t('demo.radio.standalone')" style="margin-top: 8px">
       <y-radio-button v-model="buttonRadio1" value="left">{{ $t('demo.radio.left') }}</y-radio-button>

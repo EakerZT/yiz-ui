@@ -15,9 +15,9 @@
 
     <y-card :title="$t('demo.common.slot')" style="margin-top: 8px">
       <y-menu v-model:select="v3" @select="onSelect3">
-        <y-menu-option :label="$t('demo.common.view')" value="view" />
-        <y-menu-option :label="$t('demo.common.edit')" value="edit" />
-        <y-menu-option :label="$t('demo.common.delete')" value="delete" />
+        <y-menu-option :label="$t('demo.common.view')" key="view" />
+        <y-menu-option :label="$t('demo.common.edit')" key="edit" />
+        <y-menu-option :label="$t('demo.common.delete')" key="delete" />
       </y-menu>
       <span class="demo-hint">{{ $t('demo.menu.selected', { value: v3 }) }}</span>
     </y-card>
@@ -86,31 +86,31 @@ import {
 import { Icon } from 'yiz-ui'
 
 const opts = [
-  { label: $t('demo.common.view'), value: 'view' },
-  { label: $t('demo.common.edit'), value: 'edit' },
-  { label: $t('demo.common.delete'), value: 'delete' }
+  { label: $t('demo.common.view'), key: 'view' },
+  { label: $t('demo.common.edit'), key: 'edit' },
+  { label: $t('demo.common.delete'), key: 'delete' }
 ]
 
 const navItems = [
-  { label: $t('demo.common.home'), value: 'home' },
+  { label: $t('demo.common.home'), key: 'home' },
   {
     label: $t('demo.common.products'),
-    value: 'products',
+    key: 'products',
     children: [
-      { label: $t('demo.common.allProducts'), value: 'all-products' },
-      { label: $t('demo.common.categories'), value: 'categories' },
-      { label: $t('demo.common.tags'), value: 'tags' }
+      { label: $t('demo.common.allProducts'), key: 'all-products' },
+      { label: $t('demo.common.categories'), key: 'categories' },
+      { label: $t('demo.common.tags'), key: 'tags' }
     ]
   },
   {
     label: $t('demo.common.settings'),
-    value: 'settings',
+    key: 'settings',
     children: [
-      { label: $t('demo.common.profile'), value: 'profile' },
-      { label: $t('demo.common.systemSettings'), value: 'system' }
+      { label: $t('demo.common.profile'), key: 'profile' },
+      { label: $t('demo.common.systemSettings'), key: 'system' }
     ]
   },
-  { label: $t('demo.common.about'), value: 'about' }
+  { label: $t('demo.common.about'), key: 'about' }
 ]
 
 const v1 = ref()
@@ -142,56 +142,56 @@ const iconMap: Record<string, any> = {
 }
 
 const collapsedItems = [
-  { label: $t('demo.common.home'), value: 'home', icon: 'home' },
+  { label: $t('demo.common.home'), key: 'home', icon: 'home' },
   {
     label: $t('demo.common.products'),
-    value: 'products',
+    key: 'products',
     icon: 'products',
     children: [
-      { label: $t('demo.common.allProducts'), value: 'all-products', icon: 'all-products' },
+      { label: $t('demo.common.allProducts'), key: 'all-products', icon: 'all-products' },
       {
         label: $t('demo.common.categories'),
-        value: 'categories',
+        key: 'categories',
         icon: 'categories',
         children: [
-          { label: $t('demo.common.electronics'), value: 'electronics', icon: 'electronics' },
-          { label: $t('demo.common.clothing'), value: 'clothing', icon: 'clothing' },
-          { label: $t('demo.common.food'), value: 'food', icon: 'food' }
+          { label: $t('demo.common.electronics'), key: 'electronics', icon: 'electronics' },
+          { label: $t('demo.common.clothing'), key: 'clothing', icon: 'clothing' },
+          { label: $t('demo.common.food'), key: 'food', icon: 'food' }
         ]
       },
-      { label: $t('demo.common.tags'), value: 'tags', icon: 'tags' }
+      { label: $t('demo.common.tags'), key: 'tags', icon: 'tags' }
     ]
   },
   {
     label: $t('demo.common.settings'),
-    value: 'settings',
+    key: 'settings',
     icon: 'settings',
     children: [
-      { label: $t('demo.common.profile'), value: 'profile', icon: 'profile' },
+      { label: $t('demo.common.profile'), key: 'profile', icon: 'profile' },
       {
         label: $t('demo.common.systemSettings'),
-        value: 'system',
+        key: 'system',
         icon: 'system',
         children: [
-          { label: $t('demo.common.securitySettings'), value: 'security', icon: 'security' },
-          { label: $t('demo.common.notificationSettings'), value: 'notification', icon: 'notification' }
+          { label: $t('demo.common.securitySettings'), key: 'security', icon: 'security' },
+          { label: $t('demo.common.notificationSettings'), key: 'notification', icon: 'notification' }
         ]
       }
     ]
   },
-  { label: $t('demo.common.about'), value: 'about', icon: 'about' }
+  { label: $t('demo.common.about'), key: 'about', icon: 'about' }
 ]
 
 const iconItems = [
-  { label: $t('demo.common.home'), value: 'home', icon: 'home' },
-  { label: $t('demo.common.settings'), value: 'settings', icon: 'settings' },
-  { label: $t('demo.common.about'), value: 'info', icon: 'info' }
+  { label: $t('demo.common.home'), key: 'home', icon: 'home' },
+  { label: $t('demo.common.settings'), key: 'settings', icon: 'settings' },
+  { label: $t('demo.common.about'), key: 'info', icon: 'info' }
 ]
 
 const fnIconItems = [
-  { label: $t('demo.common.home'), value: 'home', icon: () => h(Icon, { icon: Home20Regular }) },
-  { label: $t('demo.common.settings'), value: 'settings', icon: () => h(Icon, { icon: Settings20Regular }) },
-  { label: $t('demo.common.about'), value: 'info', icon: () => h(Icon, { icon: Info20Regular }) }
+  { label: $t('demo.common.home'), key: 'home', icon: () => h(Icon, { icon: Home20Regular }) },
+  { label: $t('demo.common.settings'), key: 'settings', icon: () => h(Icon, { icon: Settings20Regular }) },
+  { label: $t('demo.common.about'), key: 'info', icon: () => h(Icon, { icon: Info20Regular }) }
 ]
 
 function onSelect(_item: any) {}
@@ -211,8 +211,8 @@ function onSelect7(_item: any) {}
 }
 
 .demo-hint {
-  display: inline-block;
-  margin-left: 8px;
+  display: block;
+  margin-top: 6px;
   font-size: 12px;
   color: #999;
 }

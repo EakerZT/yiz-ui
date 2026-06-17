@@ -96,8 +96,8 @@ function onSearch(query: string) {
 
 <style scoped>
 .demo-hint {
-  display: inline-block;
-  margin-left: 8px;
+  display: block;
+  margin-top: 6px;
   font-size: 12px;
   color: #999;
 }

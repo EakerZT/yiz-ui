@@ -448,7 +448,7 @@ onBeforeUnmount(() => {
 
 <style lang="less">
 .yiz-color-picker {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 8px;
   height: 32px;
@@ -538,9 +538,14 @@ onBeforeUnmount(() => {
 }
 
 .yiz-color-picker-value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   line-height: 1;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .yiz-color-picker-dropdown {

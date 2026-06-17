@@ -427,7 +427,7 @@ onBeforeUnmount(() => {
 
 <style lang="less">
 .yiz-date-picker {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   position: relative;
   min-width: 160px;
@@ -437,6 +437,8 @@ onBeforeUnmount(() => {
 .yiz-date-picker-input {
   display: inline-flex;
   align-items: center;
+  flex: 1;
+  min-width: 0;
   width: 100%;
   height: 32px;
   padding: 0 11px;

@@ -1,30 +1,32 @@
 <template>
   <template v-if="transitionName">
     <Transition :name="transitionName">
-      <div v-if="isActive" class="yiz-tab-pane">
+      <div v-if="isActive" class="yiz-tab-pane" :style="paneStyle">
         <slot />
       </div>
     </Transition>
   </template>
   <template v-else>
-    <div v-show="isActive" class="yiz-tab-pane">
+    <div v-show="isActive" class="yiz-tab-pane" :style="paneStyle">
       <slot />
     </div>
   </template>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, type Ref } from 'vue'
+import { computed, getCurrentInstance, inject, type CSSProperties, type Ref } from 'vue'
 
 interface TabContext {
   active: Ref<any>
   transitionType: Ref<'none' | 'fade' | 'slide'>
   direction: Ref<'top' | 'bottom' | 'left' | 'right'>
+  flex: Ref<boolean>
+  overflow: Ref<CSSProperties['overflow']>
 }
 
 const props = defineProps<{
   label?: string
-  value?: any
+  key?: any
   disabled?: boolean
   closable?: boolean
 }>()
@@ -35,10 +37,18 @@ defineSlots<{
 }>()
 
 const tabContext = inject<TabContext | null>('yizTab', null)
+const instance = getCurrentInstance()
+
+const paneKey = computed(() => instance?.vnode.key ?? props.key)
+
+const paneStyle = computed<CSSProperties>(() => {
+  if (!tabContext?.flex.value) return {}
+  return { overflow: tabContext.overflow.value }
+})
 
 const isActive = computed(() => {
   if (!tabContext) return true
-  return tabContext.active.value != null && tabContext.active.value === props.value
+  return tabContext.active.value != null && tabContext.active.value === paneKey.value
 })
 
 const transitionName = computed(() => {

@@ -69,8 +69,8 @@ const v10 = ref<number | null>(0)
 
 <style scoped>
 .demo-hint {
-  display: inline-block;
-  margin-left: 8px;
+  display: block;
+  margin-top: 6px;
   font-size: 12px;
   color: #999;
 }

@@ -129,7 +129,7 @@ import PopupSubMenu from './PopupSubMenu.vue'
 
 export interface MenuItem {
   label: string
-  value: any
+  key: any
   children?: MenuItem[]
   icon?: string | (() => any) | any
 }
@@ -201,7 +201,7 @@ const slotItems = computed(() => {
       if (p.item) {
         items.push({ ...p.item, children: p.children ?? p.item.children, icon: p.icon ?? p.item.icon })
       } else {
-        items.push({ label: p.label, value: p.value, children: p.children, icon: p.icon })
+        items.push({ label: p.label, key: vnode.key ?? p.key, children: p.children, icon: p.icon })
       }
     }
   }
@@ -214,10 +214,10 @@ const allItems = computed(() => {
 
 function findAncestors(items: MenuItem[], target: any, ancestors = new Set<any>()): Set<any> | null {
   for (const item of items) {
-    if (item.value === target) return ancestors
+    if (item.key === target) return ancestors
     if (item.children?.length) {
       const next = new Set(ancestors)
-      next.add(item.value)
+      next.add(item.key)
       const result = findAncestors(item.children, target, next)
       if (result) return result
     }
@@ -231,21 +231,21 @@ const ancestorKeys = computed(() => {
 })
 
 function isAncestor(item: MenuItem) {
-  return ancestorKeys.value.has(item.value)
+  return ancestorKeys.value.has(item.key)
 }
 
 function isSelected(item: MenuItem) {
-  return selected.value != null && item.value === selected.value
+  return selected.value != null && item.key === selected.value
 }
 
 function isExpanded(item: MenuItem) {
-  return expandedKeys.value.has(item.value)
+  return expandedKeys.value.has(item.key)
 }
 
 function onItemClick(item: MenuItem) {
   if (item.children?.length) {
     if (props.collapsed) return
-    const key = item.value
+    const key = item.key
     if (expandedKeys.value.has(key)) {
       expandedKeys.value.delete(key)
     } else {
@@ -253,13 +253,13 @@ function onItemClick(item: MenuItem) {
     }
     expandedKeys.value = new Set(expandedKeys.value)
   } else {
-    selected.value = item.value
+    selected.value = item.key
     emit('select', item)
   }
 }
 
 function onChildSelect(item: MenuItem) {
-  selected.value = item.value
+  selected.value = item.key
   emit('select', item)
 }
 
@@ -303,7 +303,7 @@ function onCollapsedPopupLeave(e: MouseEvent) {
 }
 
 function onCollapsedPopupSelect(item: MenuItem) {
-  selected.value = item.value
+  selected.value = item.key
   emit('select', item)
   popupItem.value = null
 }

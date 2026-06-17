@@ -61,6 +61,7 @@ import DateRangePickerDemo from './pages/DateRangePickerDemo.vue'
 import EmptyDemo from './pages/EmptyDemo.vue'
 import FormDemo from './pages/FormDemo.vue'
 import InputDemo from './pages/InputDemo.vue'
+import InputPasswordDemo from './pages/InputPasswordDemo.vue'
 import InputNumberDemo from './pages/InputNumberDemo.vue'
 import LoadingDemo from './pages/LoadingDemo.vue'
 import MenuDemo from './pages/MenuDemo.vue'
@@ -97,6 +98,7 @@ const pages: Record<string, any> = {
   dialog: DialogDemo,
   drawer: DrawerDemo,
   input: InputDemo,
+  'input-password': InputPasswordDemo,
   'input-number': InputNumberDemo,
   loading: LoadingDemo,
   menu: MenuDemo,
@@ -118,36 +120,37 @@ const pages: Record<string, any> = {
 }
 
 const menuItems = computed(() => [
-  { label: $t('demo.nav.button'), value: 'button' },
-  { label: $t('demo.nav.card'), value: 'card' },
-  { label: $t('demo.nav.checkbox'), value: 'checkbox' },
-  { label: $t('demo.nav.colorPicker'), value: 'color-picker' },
-  { label: $t('demo.nav.contextMenu'), value: 'context-menu' },
-  { label: $t('demo.nav.datePicker'), value: 'date-picker' },
-  { label: $t('demo.nav.dateRangePicker'), value: 'date-range-picker' },
-  { label: $t('demo.nav.empty'), value: 'empty' },
-  { label: $t('demo.nav.form'), value: 'form' },
-  { label: $t('demo.nav.dialog'), value: 'dialog' },
-  { label: $t('demo.nav.drawer'), value: 'drawer' },
-  { label: $t('demo.nav.icon'), value: 'icon' },
-  { label: $t('demo.nav.input'), value: 'input' },
-  { label: $t('demo.nav.inputNumber'), value: 'input-number' },
-  { label: $t('demo.nav.loading'), value: 'loading' },
-  { label: $t('demo.nav.menu'), value: 'menu' },
-  { label: $t('demo.nav.notification'), value: 'notification' },
-  { label: $t('demo.nav.pagination'), value: 'pagination' },
-  { label: $t('demo.nav.radio'), value: 'radio' },
-  { label: $t('demo.nav.scrollBox'), value: 'scroll-box' },
-  { label: $t('demo.nav.select'), value: 'select' },
-  { label: $t('demo.nav.switch'), value: 'switch' },
-  { label: $t('demo.nav.tab'), value: 'tab' },
-  { label: $t('demo.nav.textarea'), value: 'textarea' },
-  { label: $t('demo.nav.table'), value: 'table' },
-  { label: $t('demo.nav.tag'), value: 'tag' },
-  { label: $t('demo.nav.timePicker'), value: 'time-picker' },
-  { label: $t('demo.nav.timeRangePicker'), value: 'time-range-picker' },
-  { label: $t('demo.nav.tooltip'), value: 'tooltip' },
-  { label: $t('demo.nav.tree'), value: 'tree' }
+  { label: $t('demo.nav.button'), key: 'button' },
+  { label: $t('demo.nav.card'), key: 'card' },
+  { label: $t('demo.nav.checkbox'), key: 'checkbox' },
+  { label: $t('demo.nav.colorPicker'), key: 'color-picker' },
+  { label: $t('demo.nav.contextMenu'), key: 'context-menu' },
+  { label: $t('demo.nav.datePicker'), key: 'date-picker' },
+  { label: $t('demo.nav.dateRangePicker'), key: 'date-range-picker' },
+  { label: $t('demo.nav.empty'), key: 'empty' },
+  { label: $t('demo.nav.form'), key: 'form' },
+  { label: $t('demo.nav.dialog'), key: 'dialog' },
+  { label: $t('demo.nav.drawer'), key: 'drawer' },
+  { label: $t('demo.nav.icon'), key: 'icon' },
+  { label: $t('demo.nav.input'), key: 'input' },
+  { label: $t('demo.nav.inputPassword'), key: 'input-password' },
+  { label: $t('demo.nav.inputNumber'), key: 'input-number' },
+  { label: $t('demo.nav.loading'), key: 'loading' },
+  { label: $t('demo.nav.menu'), key: 'menu' },
+  { label: $t('demo.nav.notification'), key: 'notification' },
+  { label: $t('demo.nav.pagination'), key: 'pagination' },
+  { label: $t('demo.nav.radio'), key: 'radio' },
+  { label: $t('demo.nav.scrollBox'), key: 'scroll-box' },
+  { label: $t('demo.nav.select'), key: 'select' },
+  { label: $t('demo.nav.switch'), key: 'switch' },
+  { label: $t('demo.nav.tab'), key: 'tab' },
+  { label: $t('demo.nav.textarea'), key: 'textarea' },
+  { label: $t('demo.nav.table'), key: 'table' },
+  { label: $t('demo.nav.tag'), key: 'tag' },
+  { label: $t('demo.nav.timePicker'), key: 'time-picker' },
+  { label: $t('demo.nav.timeRangePicker'), key: 'time-range-picker' },
+  { label: $t('demo.nav.tooltip'), key: 'tooltip' },
+  { label: $t('demo.nav.tree'), key: 'tree' }
 ])
 
 function getPageFromHash(): string {
@@ -164,7 +167,7 @@ function onHashChange() {
 }
 
 function onNavSelect(item: any) {
-  location.hash = `#/${item.value}`
+  location.hash = `#/${item.key}`
 }
 
 onMounted(() => {
@@ -270,7 +273,8 @@ onUnmounted(() => {
 
 .demo-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
   margin-bottom: 12px;
   gap: 16px;
 }
@@ -283,15 +287,24 @@ onUnmounted(() => {
 }
 .demo-items {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   flex-wrap: wrap;
+  flex: 1;
+  min-width: 0;
 }
 .demo-item {
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
 }
 .demo-item-hint {
+  flex-basis: 100%;
+  margin-left: 106px;
+  margin-top: -6px;
   font-size: 13px;
   color: #bbb;
 }

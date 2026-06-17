@@ -322,7 +322,7 @@ onBeforeUnmount(() => {
 
 <style lang="less">
 .yiz-select {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: space-between;
   height: 32px;
@@ -381,6 +381,7 @@ onBeforeUnmount(() => {
 
 .yiz-select-label {
   flex: 1;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

@@ -175,7 +175,7 @@ defineExpose({
 
 <style lang="less">
 .yiz-input-number {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   height: 32px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
@@ -282,11 +282,14 @@ defineExpose({
 }
 
 .yiz-input-number-input-wrap {
+  display: flex;
   flex: 1;
   height: 100%;
+  min-width: 0;
 }
 
 .yiz-input-number-input {
+  flex: 1;
   width: 100%;
   height: 100%;
   border: none;
@@ -296,6 +299,7 @@ defineExpose({
   padding: 0 8px;
   background: transparent;
   box-sizing: border-box;
+  min-width: 0;
   -moz-appearance: textfield;
 
   &::-webkit-outer-spin-button,

@@ -6,7 +6,7 @@
     <y-card :title="$t('demo.common.basic')">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.timeRangePicker.timeRange') }}</span>
-        <div class="demo-items">
+        <div class="demo-picker-field">
           <y-time-range-picker v-model:start="start" v-model:end="end" clearable @change="onChange" />
           <span class="demo-item-hint">{{ (start ?? $t('demo.common.empty')) + ' - ' + (end ?? $t('demo.common.empty')) }}</span>
         </div>
@@ -17,7 +17,7 @@
     <y-card :title="$t('demo.dateRangePicker.allowSingle')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.dateRangePicker.optional') }}</span>
-        <div class="demo-items">
+        <div class="demo-picker-field">
           <y-time-range-picker v-model:start="optionalStart" v-model:end="optionalEnd" clearable />
           <span class="demo-item-hint">{{ (optionalStart ?? $t('demo.common.empty')) + ' - ' + (optionalEnd ?? $t('demo.common.empty')) }}</span>
         </div>
@@ -27,7 +27,7 @@
     <y-card :title="$t('demo.dateRangePicker.requiredRange')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.dateRangePicker.required') }}</span>
-        <div class="demo-items">
+        <div class="demo-picker-field">
           <y-time-range-picker
             v-model:start="requiredStart"
             v-model:end="requiredEnd"
@@ -42,7 +42,7 @@
     <y-card :title="$t('demo.timePicker.showSeconds')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.timePicker.withSeconds') }}</span>
-        <div class="demo-items">
+        <div class="demo-picker-field">
           <y-time-range-picker
             v-model:start="secondStart"
             v-model:end="secondEnd"
@@ -80,5 +80,21 @@ function onChange(startValue: string | null, endValue: string | null) {
   margin-top: 8px;
   color: #666;
   font-size: 13px;
+}
+
+.demo-picker-field {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.demo-picker-field :deep(.yiz-time-range-picker) {
+  width: 100%;
+}
+
+.demo-picker-field .demo-item-hint {
+  margin: 0;
 }
 </style>

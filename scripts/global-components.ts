@@ -16,6 +16,7 @@ import type {
   FormItem,
   Icon,
   Input,
+  InputPassword,
   InputNumber,
   LinkButton,
   Loading,
@@ -77,6 +78,8 @@ declare module 'vue' {
     'y-icon': typeof Icon
     YInput: typeof Input
     'y-input': typeof Input
+    YInputPassword: typeof InputPassword
+    'y-input-password': typeof InputPassword
     YInputNumber: typeof InputNumber
     'y-input-number': typeof InputNumber
     YLinkButton: typeof LinkButton

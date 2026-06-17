@@ -27,6 +27,7 @@ const zhCN: LangMessages = {
   'demo.nav.drawer': 'Drawer 抽屉',
   'demo.nav.icon': 'Icon 图标',
   'demo.nav.input': 'Input 输入框',
+  'demo.nav.inputPassword': 'InputPassword 密码',
   'demo.nav.inputNumber': 'InputNumber 数字',
   'demo.nav.loading': 'Loading 加载',
   'demo.nav.menu': 'Menu 菜单',
@@ -383,6 +384,12 @@ const zhCN: LangMessages = {
   'demo.input.currentValue': '当前值：{value}',
   'demo.input.propMode': 'prop 方式',
 
+  'demo.inputPassword.title': 'InputPassword 密码输入',
+  'demo.inputPassword.desc': '密码输入框，支持显示/隐藏密码、清空和回车事件。',
+  'demo.inputPassword.placeholder': '请输入密码',
+  'demo.inputPassword.currentValue': '当前密码：{value}',
+  'demo.inputPassword.noToggle': '隐藏切换按钮',
+
   'demo.inputNumber.title': 'InputNumber 数字输入',
   'demo.inputNumber.desc': '通过鼠标或键盘输入数值，可配合按钮或方向键增减。',
   'demo.inputNumber.currentValue': '当前值：{value}',
@@ -684,6 +691,7 @@ const enUS: LangMessages = {
   'demo.nav.drawer': 'Drawer',
   'demo.nav.icon': 'Icon',
   'demo.nav.input': 'Input',
+  'demo.nav.inputPassword': 'InputPassword',
   'demo.nav.inputNumber': 'InputNumber',
   'demo.nav.loading': 'Loading',
   'demo.nav.menu': 'Menu',
@@ -1039,6 +1047,12 @@ const enUS: LangMessages = {
   'demo.input.desc': 'Supports v-model, clearable input, prefix, and suffix.',
   'demo.input.currentValue': 'Current value: {value}',
   'demo.input.propMode': 'Prop mode',
+
+  'demo.inputPassword.title': 'InputPassword',
+  'demo.inputPassword.desc': 'Password input with show/hide toggle, clearable support, and Enter event.',
+  'demo.inputPassword.placeholder': 'Enter password',
+  'demo.inputPassword.currentValue': 'Current password: {value}',
+  'demo.inputPassword.noToggle': 'Without toggle',
 
   'demo.inputNumber.title': 'InputNumber',
   'demo.inputNumber.desc': 'Enter numbers with mouse or keyboard, using buttons or arrow keys to adjust.',

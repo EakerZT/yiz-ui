@@ -6,45 +6,61 @@
     <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.common.selectDate') }}</span>
-        <DatePicker v-model="value1" />
-        <span class="demo-item-hint">{{ value1 ? fmt(value1) : $t('demo.common.notSelected') }}</span>
+        <div class="demo-picker-field">
+          <DatePicker v-model="value1" />
+          <span class="demo-item-hint">{{ value1 ? fmt(value1) : $t('demo.common.notSelected') }}</span>
+        </div>
       </div>
     </y-card>
 
     <y-card :title="$t('demo.common.clearable')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.common.withClear') }}</span>
-        <DatePicker v-model="value2" clearable />
-        <span class="demo-item-hint">{{ $t('demo.common.clearByX') }}</span>
+        <div class="demo-picker-field">
+          <DatePicker v-model="value2" clearable />
+          <span class="demo-item-hint">{{ $t('demo.common.clearByX') }}</span>
+        </div>
       </div>
     </y-card>
 
     <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.common.disabledState') }}</span>
-        <DatePicker v-model="value3" disabled />
+        <div class="demo-picker-field">
+          <DatePicker v-model="value3" disabled />
+        </div>
       </div>
     </y-card>
 
     <y-card :title="$t('demo.common.smallSize')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.common.small') }}</span>
-        <DatePicker v-model="value4" size="small" />
+        <div class="demo-picker-field">
+          <DatePicker v-model="value4" size="small" />
+        </div>
       </div>
     </y-card>
 
     <y-card :title="$t('demo.datePicker.disableDates')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.datePicker.limitRange') }}</span>
-        <DatePicker v-model="value5" :disabled-date="disabledDate" />
-        <span class="demo-item-hint">{{ $t('demo.datePicker.onlyAfterToday') }}</span>
+        <div class="demo-picker-field">
+          <DatePicker v-model="value5" :disabled-date="disabledDate" />
+          <span class="demo-item-hint">{{ $t('demo.datePicker.onlyAfterToday') }}</span>
+        </div>
       </div>
     </y-card>
 
     <y-card :title="$t('demo.common.customFormat')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.datePicker.yearMonthDay') }}</span>
-        <DatePicker v-model="value6" :format="$t('demo.datePicker.yearMonthDay')" :placeholder="$t('demo.common.placeholder')" />
+        <div class="demo-picker-field">
+          <DatePicker
+            v-model="value6"
+            :format="$t('demo.datePicker.yearMonthDay')"
+            :placeholder="$t('demo.common.placeholder')"
+          />
+        </div>
       </div>
     </y-card>
   </section>
@@ -75,3 +91,21 @@ function disabledDate(d: Date): boolean {
   return d.getTime() < today.getTime()
 }
 </script>
+
+<style scoped>
+.demo-picker-field {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.demo-picker-field :deep(.yiz-date-picker) {
+  width: 100%;
+}
+
+.demo-picker-field .demo-item-hint {
+  margin: 0;
+}
+</style>

@@ -5,9 +5,9 @@ import type { MenuItem } from '../menu/Menu.vue'
 
 defineProps<{
   label?: string
-  value?: any
+  key?: any
   icon?: string | (() => any) | any
   children?: MenuItem[]
-  item?: { label: string; value: any; icon?: any; children?: MenuItem[]; [key: string]: any }
+  item?: { label: string; key: any; icon?: any; children?: MenuItem[]; [key: string]: any }
 }>()
 </script>

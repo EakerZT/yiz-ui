@@ -15,6 +15,8 @@
   "form.length": "{label}长度应为 {len}",
   "form.min": "{label}不能小于 {min}",
   "form.max": "{label}不能大于 {max}",
+  "inputPassword.showPassword": "显示密码",
+  "inputPassword.hidePassword": "隐藏密码",
   "loading.tip": "加载中...",
   "pagination.ariaLabel": "分页",
   "pagination.previousPage": "上一页",

@@ -15,6 +15,8 @@
   "form.length": "{label} length should be {len}",
   "form.min": "{label} should be at least {min}",
   "form.max": "{label} should be no more than {max}",
+  "inputPassword.showPassword": "Show password",
+  "inputPassword.hidePassword": "Hide password",
   "loading.tip": "Loading...",
   "pagination.ariaLabel": "Pagination",
   "pagination.previousPage": "Previous page",

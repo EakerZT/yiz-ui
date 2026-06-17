@@ -98,10 +98,10 @@ let childTimer: ReturnType<typeof setTimeout> | null = null
 
 function findAncestors(items: MenuItem[], target: any, ancestors = new Set<any>()): Set<any> | null {
   for (const item of items) {
-    if (item.value === target) return ancestors
+    if (item.key === target) return ancestors
     if (item.children?.length) {
       const next = new Set(ancestors)
-      next.add(item.value)
+      next.add(item.key)
       const result = findAncestors(item.children, target, next)
       if (result) return result
     }
@@ -115,11 +115,11 @@ const ancestorKeys = computed(() => {
 })
 
 function isAncestor(item: MenuItem) {
-  return ancestorKeys.value.has(item.value)
+  return ancestorKeys.value.has(item.key)
 }
 
 function isSelected(item: MenuItem) {
-  return props.selected != null && item.value === props.selected
+  return props.selected != null && item.key === props.selected
 }
 
 function onItemClick(item: MenuItem) {

@@ -15,7 +15,7 @@
         <div class="yiz-tab-header-inner">
           <div
             v-for="(pane, idx) in panes"
-            :key="pane.value ?? idx"
+            :key="pane.key ?? idx"
             :ref="(el: any) => setItemRef(el, idx)"
             class="yiz-tab-header-item"
             :class="{
@@ -57,13 +57,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, Fragment, h, nextTick, provide, reactive, ref, useSlots, watch } from 'vue'
+import { computed, Fragment, h, nextTick, provide, reactive, ref, useSlots, watch, type CSSProperties } from 'vue'
 import TabPaneComp from './TabPane.vue'
 import ScrollBox from '../scroll-box/ScrollBox.vue'
 
 interface PaneData {
   label: string
-  value: any
+  key: any
   disabled: boolean
   closable: boolean
   labelSlot: (() => any) | undefined
@@ -75,12 +75,14 @@ const props = withDefaults(
     type?: 'default' | 'card'
     transitionType?: 'none' | 'fade' | 'slide'
     flex?: boolean
+    overflow?: CSSProperties['overflow']
   }>(),
   {
     direction: 'top',
     type: 'default',
     transitionType: 'none',
-    flex: false
+    flex: false,
+    overflow: 'hidden'
   }
 )
 
@@ -91,15 +93,15 @@ defineSlots<{
 }>()
 
 const emit = defineEmits<{
-  select: [value: any]
-  close: [value: any]
+  select: [key: any]
+  close: [key: any]
 }>()
 
 const slots = useSlots()
 
 const active = defineModel<any>('active')
 
-const closedValues = reactive(new Set<any>())
+const closedKeys = reactive(new Set<any>())
 
 // 递归展平 Fragment，确保 v-for 生成的 TabPane 能被正确提取
 function collectPaneVNodes(nodes: any[]): any[] {
@@ -125,36 +127,36 @@ const panes = computed<PaneData[]>(() => {
       const p = vnode.props as Record<string, any>
       return {
         label: p.label ?? `Tab ${idx + 1}`,
-        value: p.value ?? idx,
+        key: vnode.key ?? p.key ?? idx,
         disabled: p.disabled != null && p.disabled !== false,
         closable: p.closable != null && p.closable !== false,
         labelSlot: (vnode as any).children?.label as (() => any) | undefined
       }
     })
-    .filter((v) => !closedValues.has(v.value))
+    .filter((v) => !closedKeys.has(v.key))
 })
 
 if (active.value == null && panes.value.length > 0) {
-  active.value = panes.value[0]?.value
+  active.value = panes.value[0]?.key
 }
 
 function isActive(pane: PaneData) {
-  return active.value != null && pane.value === active.value
+  return active.value != null && pane.key === active.value
 }
 
 function onTabClick(pane: PaneData) {
   if (pane.disabled) return
-  active.value = pane.value
-  emit('select', pane.value)
+  active.value = pane.key
+  emit('select', pane.key)
 }
 
 function onClosePane(pane: PaneData) {
-  closedValues.add(pane.value)
-  emit('close', pane.value)
-  if (active.value === pane.value) {
-    const remaining = panes.value.filter(p => p.value !== pane.value)
+  closedKeys.add(pane.key)
+  emit('close', pane.key)
+  if (active.value === pane.key) {
+    const remaining = panes.value.filter(p => p.key !== pane.key)
     if (remaining.length > 0) {
-      active.value = remaining[0].value
+      active.value = remaining[0].key
     }
   }
 }
@@ -178,7 +180,7 @@ function setItemRef(el: HTMLElement | null, idx: number) {
 const barMeasure = ref({ width: 0, height: 0, left: 0, top: 0 })
 
 function updateBarMeasure() {
-  const idx = panes.value.findIndex((p) => p.value === active.value)
+  const idx = panes.value.findIndex((p) => p.key === active.value)
   if (idx < 0) {
     barMeasure.value = { width: 0, height: 0, left: 0, top: 0 }
     return
@@ -221,7 +223,9 @@ const flexStyle = computed(() => {
 provide('yizTab', {
   active,
   transitionType: computed(() => props.transitionType),
-  direction: computed(() => props.direction)
+  direction: computed(() => props.direction),
+  flex: computed(() => props.flex),
+  overflow: computed(() => props.overflow)
 })
 </script>
 
@@ -551,6 +555,14 @@ provide('yizTab', {
 .yiz-tab-flex {
   width: 100%;
   height: 100%;
+
+  .yiz-tab-content {
+    overflow: hidden;
+  }
+
+  .yiz-tab-pane {
+    height: 100%;
+  }
 }
 
 .yiz-tab-flex.yiz-tab-top,
@@ -562,7 +574,6 @@ provide('yizTab', {
   .yiz-tab-content {
     flex: 1;
     min-height: 0;
-    overflow-y: auto;
   }
 }
 
@@ -575,7 +586,6 @@ provide('yizTab', {
   .yiz-tab-content {
     flex: 1;
     min-width: 0;
-    overflow-x: auto;
   }
 }
 

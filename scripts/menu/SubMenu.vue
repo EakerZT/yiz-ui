@@ -90,10 +90,10 @@ const itemStyle = computed(() => ({
 
 function findAncestors(items: MenuItem[], target: any, ancestors = new Set<any>()): Set<any> | null {
   for (const item of items) {
-    if (item.value === target) return ancestors
+    if (item.key === target) return ancestors
     if (item.children?.length) {
       const next = new Set(ancestors)
-      next.add(item.value)
+      next.add(item.key)
       const result = findAncestors(item.children, target, next)
       if (result) return result
     }
@@ -107,20 +107,20 @@ const ancestorKeys = computed(() => {
 })
 
 function isAncestor(item: MenuItem) {
-  return ancestorKeys.value.has(item.value)
+  return ancestorKeys.value.has(item.key)
 }
 
 function isSelected(item: MenuItem) {
-  return props.selected != null && item.value === props.selected
+  return props.selected != null && item.key === props.selected
 }
 
 function isExpanded(item: MenuItem) {
-  return expandedKeys.value.has(item.value)
+  return expandedKeys.value.has(item.key)
 }
 
 function onItemClick(item: MenuItem) {
   if (item.children?.length) {
-    const key = item.value
+    const key = item.key
     if (expandedKeys.value.has(key)) {
       expandedKeys.value.delete(key)
     } else {

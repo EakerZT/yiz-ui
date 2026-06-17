@@ -458,7 +458,7 @@ onBeforeUnmount(() => {
 
 <style lang="less">
 .yiz-time-range-picker {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   position: relative;
   min-width: 260px;
@@ -468,6 +468,8 @@ onBeforeUnmount(() => {
 .yiz-time-range-picker-input {
   display: inline-flex;
   align-items: center;
+  flex: 1;
+  min-width: 0;
   width: 100%;
   height: 32px;
   padding: 0 8px;

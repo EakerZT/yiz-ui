@@ -6,7 +6,7 @@
     <y-card :title="$t('demo.common.basic')">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.dateRangePicker.dateRange') }}</span>
-        <div class="demo-items">
+        <div class="demo-picker-field">
           <y-date-range-picker v-model:start="start" v-model:end="end" clearable @change="onChange" />
           <span class="demo-item-hint">{{ format(start) }} - {{ format(end) }}</span>
         </div>
@@ -17,7 +17,7 @@
     <y-card :title="$t('demo.dateRangePicker.allowSingle')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.dateRangePicker.optional') }}</span>
-        <div class="demo-items">
+        <div class="demo-picker-field">
           <y-date-range-picker v-model:start="optionalStart" v-model:end="optionalEnd" clearable />
           <span class="demo-item-hint">{{ format(optionalStart) }} - {{ format(optionalEnd) }}</span>
         </div>
@@ -27,7 +27,7 @@
     <y-card :title="$t('demo.dateRangePicker.requiredRange')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.dateRangePicker.required') }}</span>
-        <div class="demo-items">
+        <div class="demo-picker-field">
           <y-date-range-picker v-model:start="requiredStart" v-model:end="requiredEnd" force-range clearable />
           <span class="demo-item-hint">{{ format(requiredStart) }} - {{ format(requiredEnd) }}</span>
         </div>
@@ -37,7 +37,7 @@
     <y-card :title="$t('demo.dateRangePicker.disableAutoSort')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.dateRangePicker.manual') }}</span>
-        <div class="demo-items">
+        <div class="demo-picker-field">
           <y-date-range-picker v-model:start="manualStart" v-model:end="manualEnd" :auto-sort="false" clearable />
           <span class="demo-item-hint">{{ format(manualStart) }} - {{ format(manualEnd) }}</span>
         </div>
@@ -47,7 +47,7 @@
     <y-card :title="$t('demo.dateRangePicker.disableDates')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.dateRangePicker.weekends') }}</span>
-        <div class="demo-items">
+        <div class="demo-picker-field">
           <y-date-range-picker
             v-model:start="workStart"
             v-model:end="workEnd"
@@ -100,5 +100,21 @@ function disabledWeekend(date: Date) {
   margin-top: 8px;
   color: #666;
   font-size: 13px;
+}
+
+.demo-picker-field {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.demo-picker-field :deep(.yiz-date-range-picker) {
+  width: 100%;
+}
+
+.demo-picker-field .demo-item-hint {
+  margin: 0;
 }
 </style>

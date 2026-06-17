@@ -31,7 +31,6 @@
 
   <section class="demo-section">
     <h2 class="demo-section-title">{{ $t('demo.checkbox.groupTitle') }}</h2>
-    <p class="demo-section-desc">{{ $t('demo.checkbox.groupDesc1') }} <code>options</code> {{ $t('demo.checkbox.groupDesc2') }}<code>v-model:value</code> {{ $t('demo.checkbox.groupDesc3') }}<code>direction</code> {{ $t('demo.checkbox.groupDesc4') }}</p>
 
     <y-card :title="$t('demo.common.horizontal')" style="margin-top: 8px">
       <y-checkbox-group v-model:value="group1" :options="groupOptions" direction="horizontal" />
