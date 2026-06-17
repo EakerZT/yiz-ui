@@ -3,40 +3,24 @@
     <h2 class="demo-section-title">{{ $t('demo.contextMenu.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.contextMenu.desc') }}</p>
 
-    <y-card :title="$t('demo.contextMenu.comprehensive')" style="margin-top: 8px">
-      <y-context-menu :items="allItems" @select="onSelect1">
-        <template #icon="{ icon }">
-          <Icon size="16" :icon="iconMap[icon]" />
-        </template>
-      </y-context-menu>
-      <span class="demo-hint">{{ $t('demo.contextMenu.selected', { value: last1 }) }}</span>
-    </y-card>
-
     <y-card :title="$t('demo.contextMenu.fnCall')" style="margin-top: 8px">
       <y-button @click="onShowMenu">{{ $t('demo.contextMenu.clickToOpen') }}</y-button>
-      <span class="demo-hint">{{ last2 }}</span>
+      <span class="demo-hint">{{ $t('demo.contextMenu.selected', { value: last }) }}</span>
     </y-card>
   </section>
 </template>
 
 <script lang="ts" setup>
-import { $t } from 'yiz-ui'
-import { ref } from 'vue'
+import { $t, Icon, showContextMenu } from 'yiz-ui'
+import { h, ref } from 'vue'
 import { Cut20Filled, Copy16Filled, Delete16Filled } from '@vicons/fluent'
-import { Icon, showContextMenu } from 'yiz-ui'
 
-const last1 = ref('')
-const last2 = ref('')
-
-const iconMap: Record<string, any> = {
-  new: Cut20Filled,
-  open: Copy16Filled,
-  save: Delete16Filled
-}
+const last = ref($t('demo.common.none'))
+const renderIcon = (icon: any) => () => h(Icon, { size: 16, icon })
 
 const allItems = [
-  { label: $t('demo.common.create'), value: 'new', icon: 'new' },
-  { label: $t('demo.common.open'), value: 'open', icon: 'open' },
+  { label: $t('demo.common.create'), value: 'new', icon: renderIcon(Cut20Filled) },
+  { label: $t('demo.common.open'), value: 'open', icon: renderIcon(Copy16Filled) },
   { type: 'divider' as const },
   {
     label: $t('demo.contextMenu.layout'),
@@ -68,20 +52,16 @@ const allItems = [
     ]
   },
   { type: 'divider' as const },
-  { label: $t('demo.common.save'), value: 'save', icon: 'save' },
+  { label: $t('demo.common.save'), value: 'save', icon: renderIcon(Delete16Filled) },
   { label: $t('demo.common.export'), value: 'export' },
   { label: $t('demo.contextMenu.properties'), value: 'properties', disabled: true }
 ]
-
-function onSelect1(item: any) {
-  last1.value = item.label
-}
 
 function onShowMenu(e: MouseEvent) {
   const el = e.currentTarget as HTMLElement
   const rect = el.getBoundingClientRect()
   showContextMenu(rect.left, rect.bottom + 4, allItems, (item: any) => {
-    last2.value = item.label
+    last.value = item.label
   })
 }
 </script>

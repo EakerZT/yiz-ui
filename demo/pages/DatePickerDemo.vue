@@ -63,6 +63,16 @@
         </div>
       </div>
     </y-card>
+
+    <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
+      <div class="demo-row">
+        <span class="demo-label">{{ $t('demo.common.customContent') }}</span>
+        <div class="demo-picker-field">
+          <DatePicker v-model="value7" prefix="Due" suffix="CST" clearable />
+          <span class="demo-item-hint">{{ value7 ? fmt(value7) : $t('demo.common.notSelected') }}</span>
+        </div>
+      </div>
+    </y-card>
   </section>
 </template>
 
@@ -77,6 +87,7 @@ const value3 = ref<Date | null>(new Date())
 const value4 = ref<Date | null>(null)
 const value5 = ref<Date | null>(null)
 const value6 = ref<Date | null>(new Date())
+const value7 = ref<Date | null>(new Date(2026, 5, 17))
 
 function fmt(d: Date): string {
   const y = d.getFullYear()

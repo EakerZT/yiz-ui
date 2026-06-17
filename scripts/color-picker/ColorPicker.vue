@@ -1,7 +1,15 @@
 <template>
   <div ref="triggerRef" class="yiz-color-picker" :class="vClass" @click="onTriggerClick">
+    <span class="yiz-color-picker-prefix" v-if="$props.prefix || $slots.prefix">
+      <template v-if="$props.prefix">{{ $props.prefix }}</template>
+      <slot v-else name="prefix" />
+    </span>
     <span class="yiz-color-picker-swatch" :style="{ '--yiz-color-picker-swatch-color': displayColor }" />
     <span class="yiz-color-picker-value">{{ displayColor }}</span>
+    <span class="yiz-color-picker-suffix" v-if="$props.suffix || $slots.suffix">
+      <template v-if="$props.suffix">{{ $props.suffix }}</template>
+      <slot v-else name="suffix" />
+    </span>
   </div>
   <Teleport to="body">
     <Transition name="yiz-color-picker-dropdown-fade">
@@ -91,6 +99,8 @@ const props = withDefaults(
     size?: 'default' | 'small'
     alpha?: boolean
     presets?: string[]
+    prefix?: string
+    suffix?: string
   }>(),
   {
     disabled: false,
@@ -535,6 +545,15 @@ onBeforeUnmount(() => {
     8px 8px;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
   flex-shrink: 0;
+}
+
+.yiz-color-picker-prefix,
+.yiz-color-picker-suffix {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: #666;
+  user-select: none;
 }
 
 .yiz-color-picker-value {

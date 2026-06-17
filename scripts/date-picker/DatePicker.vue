@@ -1,6 +1,10 @@
 <template>
   <div ref="triggerRef" class="yiz-date-picker" :class="vClass" @click="onTriggerClick">
     <div class="yiz-date-picker-input">
+      <span class="yiz-date-picker-prefix" v-if="$props.prefix || $slots.prefix">
+        <template v-if="$props.prefix">{{ $props.prefix }}</template>
+        <slot v-else name="prefix" />
+      </span>
       <input
         ref="inputRef"
         :value="displayText"
@@ -9,11 +13,11 @@
         readonly
       />
       <span v-if="clearable && modelValue" class="yiz-date-picker-clear" @click.stop="onClear">
-        <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
-          <path
-            d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1zm2.35 4.65a.5.5 0 0 0-.7 0L8 7.29 6.35 5.65a.5.5 0 1 0-.7.7L7.29 8 5.65 9.65a.5.5 0 1 0 .7.7L8 8.71l1.65 1.64a.5.5 0 0 0 .7-.7L8.71 8l1.64-1.65a.5.5 0 0 0 0-.7z"
-          />
-        </svg>
+        <Icon size="14" :icon="DismissCircle32Filled" />
+      </span>
+      <span class="yiz-date-picker-extra-suffix" v-if="$props.suffix || $slots.suffix">
+        <template v-if="$props.suffix">{{ $props.suffix }}</template>
+        <slot v-else name="suffix" />
       </span>
       <svg class="yiz-date-picker-suffix" viewBox="0 0 16 16" width="14" height="14">
         <path
@@ -123,6 +127,8 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { DismissCircle32Filled } from '@vicons/fluent'
+import { Icon } from '../icon'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t, $tList } from '../locale'
 import { nextZIndex } from '../zIndex'
@@ -135,6 +141,8 @@ const props = withDefaults(
     size?: 'default' | 'small'
     disabledDate?: (date: Date) => boolean
     format?: string
+    prefix?: string
+    suffix?: string
   }>(),
   {
     disabled: false,
@@ -516,16 +524,27 @@ onBeforeUnmount(() => {
 }
 
 .yiz-date-picker-clear {
-  flex-shrink: 0;
-  cursor: pointer;
-  color: #c0c4cc;
   display: inline-flex;
   align-items: center;
-  transition: color 0.2s;
+  margin-left: 8px;
+  margin-right: 4px;
+  user-select: none;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.45);
+  transition: 0.3s all;
 
   &:hover {
-    color: #999;
+    color: rgba(0, 0, 0, 0.88);
   }
+}
+
+.yiz-date-picker-prefix,
+.yiz-date-picker-extra-suffix {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: #666;
+  user-select: none;
 }
 
 .yiz-date-picker-suffix {

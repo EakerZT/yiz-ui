@@ -53,6 +53,24 @@
         </div>
       </div>
     </y-card>
+
+    <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
+      <div class="demo-row">
+        <span class="demo-label">{{ $t('demo.common.customContent') }}</span>
+        <div class="demo-picker-field">
+          <y-time-range-picker
+            v-model:start="affixStart"
+            v-model:end="affixEnd"
+            prefix="Work"
+            suffix="UTC+8"
+            clearable
+          />
+          <span class="demo-item-hint">{{
+            (affixStart ?? $t('demo.common.empty')) + ' - ' + (affixEnd ?? $t('demo.common.empty'))
+          }}</span>
+        </div>
+      </div>
+    </y-card>
   </section>
 </template>
 
@@ -68,6 +86,8 @@ const requiredStart = ref<string | null>(null)
 const requiredEnd = ref<string | null>(null)
 const secondStart = ref<string | null>('08:15:30')
 const secondEnd = ref<string | null>('12:45:00')
+const affixStart = ref<string | null>('09:00:00')
+const affixEnd = ref<string | null>('18:00:00')
 const lastChange = ref($t('demo.common.none'))
 
 function onChange(startValue: string | null, endValue: string | null) {

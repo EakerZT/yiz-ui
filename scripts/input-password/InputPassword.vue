@@ -23,6 +23,12 @@
     <div class="yiz-input_clear" v-if="$props.clearable && modelValue" @click="onClearClick">
       <Icon size="14" :icon="DismissCircle32Filled" />
     </div>
+    <div class="yiz-input_suffix" v-if="$props.suffix || $slots.suffix">
+      <template v-if="$props.suffix">
+        {{ $props.suffix }}
+      </template>
+      <slot v-else name="suffix" />
+    </div>
     <button
       v-if="props.showToggle"
       type="button"
@@ -34,12 +40,6 @@
     >
       <Icon size="16" :icon="passwordVisible ? EyeOff20Regular : Eye20Regular" />
     </button>
-    <div class="yiz-input_suffix" v-if="$props.suffix || $slots.suffix">
-      <template v-if="$props.suffix">
-        {{ $props.suffix }}
-      </template>
-      <slot v-else name="suffix" />
-    </div>
   </div>
 </template>
 

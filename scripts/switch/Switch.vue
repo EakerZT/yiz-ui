@@ -1,19 +1,30 @@
 <template>
   <label class="yiz-switch" :class="vClass" :style="vStyle">
     <span class="yiz-switch-input">
-      <input
-        type="checkbox"
-        :checked="modelValue"
-        :disabled="disabled || loading"
-        @change="onChange"
-      />
+      <input type="checkbox" :checked="isChecked" :disabled="disabled || loading" @change="onChange" />
     </span>
     <span class="yiz-switch-track">
       <span class="yiz-wave" v-if="isWave" />
       <span class="yiz-switch-thumb">
         <svg v-if="loading" class="yiz-switch-loading" viewBox="0 0 24 24" width="12" height="12">
-          <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="31.4 31.4" stroke-linecap="round">
-            <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="0.8s" repeatCount="indefinite" />
+          <circle
+            cx="12"
+            cy="12"
+            r="10"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-dasharray="31.4 31.4"
+            stroke-linecap="round"
+          >
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from="0 12 12"
+              to="360 12 12"
+              dur="0.8s"
+              repeatCount="indefinite"
+            />
           </circle>
         </svg>
       </span>
@@ -31,23 +42,28 @@ const props = withDefaults(
     size?: 'default' | 'small'
     color?: string
     loading?: boolean
+    checkedValue?: any
+    uncheckedValue?: any
   }>(),
   {
     disabled: false,
     size: 'default',
-    loading: false
+    loading: false,
+    checkedValue: true,
+    uncheckedValue: false
   }
 )
 
 const emit = defineEmits<{
-  change: [value: boolean]
+  change: [value: any]
 }>()
 
-const modelValue = defineModel<boolean>('modelValue', { default: false })
+const modelValue = defineModel<any>('value')
+const isChecked = computed(() => Object.is(modelValue.value, props.checkedValue))
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
-  if (modelValue.value) c['yiz-switch-checked'] = true
+  if (isChecked.value) c['yiz-switch-checked'] = true
   if (props.disabled) c['yiz-switch-disabled'] = true
   if (props.size === 'small') c['yiz-switch-small'] = true
   if (props.loading) c['yiz-switch-loading-state'] = true
@@ -73,8 +89,9 @@ let waveTimerId: ReturnType<typeof setTimeout>
 function onChange(e: Event) {
   if (props.disabled || props.loading) return
   const checked = (e.target as HTMLInputElement).checked
-  modelValue.value = checked
-  emit('change', checked)
+  const value = checked ? props.checkedValue : props.uncheckedValue
+  modelValue.value = value
+  emit('change', value)
   if (isWave.value) {
     clearTimeout(waveTimerId)
     isWave.value = false
@@ -145,7 +162,9 @@ function onChange(e: Event) {
   height: 18px;
   border-radius: 50%;
   background: #fff;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
@@ -211,8 +230,12 @@ function onChange(e: Event) {
 }
 
 @keyframes yiz-switch-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 // small

@@ -17,14 +17,8 @@
       <span v-if="props.showCount && props.maxlength" class="yiz-textarea-count">
         {{ String(modelValue ?? '').length }} / {{ props.maxlength }}
       </span>
-      <div
-        v-if="props.clearable && modelValue"
-        class="yiz-textarea-clear"
-        @click="onClearClick"
-      >
-        <svg viewBox="0 0 12 12" fill="currentColor">
-          <path d="M6 5.293l4.146-4.147a.5.5 0 01.708.708L6.707 6l4.147 4.146a.5.5 0 01-.708.708L6 6.707l-4.146 4.147a.5.5 0 01-.708-.708L5.293 6 1.146 1.854a.5.5 0 11.708-.708L6 5.293z" />
-        </svg>
+      <div v-if="props.clearable && modelValue" class="yiz-textarea-clear" @click="onClearClick">
+        <Icon size="14" :icon="DismissCircle32Filled" />
       </div>
     </div>
   </div>
@@ -32,6 +26,8 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
+import { DismissCircle32Filled } from '@vicons/fluent'
+import { Icon } from '../icon'
 
 const props = withDefaults(
   defineProps<{
@@ -153,21 +149,15 @@ defineExpose({
 .yiz-textarea-clear {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
+  margin-left: 8px;
+  margin-right: 4px;
+  user-select: none;
   cursor: pointer;
-  color: rgba(0, 0, 0, 0.25);
-  transition: color 0.3s;
-  flex-shrink: 0;
+  color: rgba(0, 0, 0, 0.45);
+  transition: 0.3s all;
 
   &:hover {
-    color: rgba(0, 0, 0, 0.45);
-  }
-
-  svg {
-    width: 12px;
-    height: 12px;
+    color: rgba(0, 0, 0, 0.88);
   }
 }
 </style>

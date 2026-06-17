@@ -257,6 +257,7 @@ provide('yizTab', {
 .yiz-tab-header {
   display: flex;
   position: relative;
+  background-color: var(--yiz-color-bg);
 }
 
 .yiz-tab-top .yiz-tab-header,

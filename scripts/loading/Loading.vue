@@ -1,5 +1,5 @@
 <template>
-  <div class="yiz-loading" :class="{ 'yiz-loading-container': $slots.default }">
+  <div class="yiz-loading" :class="{ 'yiz-loading-container': $slots.default, 'yiz-loading-full-height': fullHeight }">
     <Transition name="yiz-loading-fade">
       <div v-if="visible" class="yiz-loading-spinner" :class="[`yiz-loading-${size}`]">
         <span class="yiz-loading-indicator">
@@ -33,7 +33,7 @@
         </div>
       </div>
     </Transition>
-    <div v-if="$slots.default" class="yiz-loading-content" :class="{ 'yiz-loading-blur': visible }">
+    <div v-if="$slots.default" class="yiz-loading-content" :class="{ 'yiz-loading-blur': visible, 'yiz-loading-content-full-height': fullHeight }">
       <slot />
     </div>
   </div>
@@ -52,12 +52,14 @@ const props = withDefaults(
     indicator?: IndicatorType
     tip?: string
     delay?: number
+    fullHeight?: boolean
   }>(),
   {
     loading: true,
     size: 'default',
     indicator: 'ring',
-    delay: 0
+    delay: 0,
+    fullHeight: false
   }
 )
 
@@ -158,6 +160,14 @@ onBeforeUnmount(() => {
 // content wrapper
 .yiz-loading-content {
   transition: opacity 0.3s;
+}
+
+.yiz-loading-full-height {
+  height: 100%;
+}
+
+.yiz-loading-content-full-height {
+  height: 100%;
 }
 
 .yiz-loading-blur {

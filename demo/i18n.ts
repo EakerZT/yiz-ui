@@ -24,6 +24,8 @@ const zhCN: LangMessages = {
   'demo.nav.empty': 'Empty 空状态',
   'demo.nav.form': 'Form 表单',
   'demo.nav.dialog': 'Dialog 弹窗',
+  'demo.nav.divider': 'Divider 分割线',
+  'demo.nav.dropmenu': 'Dropmenu 下拉菜单',
   'demo.nav.drawer': 'Drawer 抽屉',
   'demo.nav.icon': 'Icon 图标',
   'demo.nav.input': 'Input 输入框',
@@ -339,6 +341,25 @@ const zhCN: LangMessages = {
   'demo.drawer.secondLevel': '二级抽屉',
   'demo.drawer.closeEventHint': '每次关闭时触发 close 事件。',
 
+  'demo.divider.title': 'Divider 分割线',
+  'demo.divider.desc': '用于分隔内容区域，支持水平、垂直、虚线和带文本分割线。',
+  'demo.divider.paragraph': '这是一段示例内容，用于展示分割线在文本之间的间距。',
+  'demo.divider.withText': '带文本',
+  'demo.divider.centerText': '居中文本',
+  'demo.divider.leftText': '左侧文本',
+  'demo.divider.rightText': '右侧文本',
+  'demo.divider.dashed': '虚线',
+  'demo.divider.dashedText': '虚线文本',
+  'demo.divider.vertical': '垂直分割线',
+
+  'demo.dropmenu.title': 'Dropmenu 下拉菜单',
+  'demo.dropmenu.desc': '基于菜单弹层的下拉菜单，支持 options 属性和 y-menu-option 插槽声明。',
+  'demo.dropmenu.options': 'Options 配置',
+  'demo.dropmenu.open': '打开菜单',
+  'demo.dropmenu.slotOpen': '插槽菜单',
+  'demo.dropmenu.openNested': '子菜单',
+  'demo.dropmenu.selected': '已选择：{value}',
+
   'demo.empty.title': 'Empty 空状态',
   'demo.empty.desc': '用于展示空数据或无结果时的占位提示。',
   'demo.empty.noResult': '没有找到相关结果',
@@ -378,6 +399,8 @@ const zhCN: LangMessages = {
 
   'demo.icon.title': 'Icon 图标',
   'demo.icon.desc': '渲染 @vicons/fluent 图标，支持自定义尺寸。',
+  'demo.icon.renderSvg': 'renderSvg',
+  'demo.icon.svgString': 'SVG 字符串',
 
   'demo.input.title': 'Input 输入框',
   'demo.input.desc': '支持 v-model 双向绑定、clearable 清空、prefix/suffix 前后缀。',
@@ -510,7 +533,8 @@ const zhCN: LangMessages = {
   'demo.scrollBox.customThemeHint': '通过 theme 属性设置自定义类名，覆盖滚动条的 CSS 变量。',
   'demo.scrollBox.customThemeRow': '第 {index} 行内容，蓝色主题滚动条。',
   'demo.scrollBox.dragResize': '拖动外框 — 滚动条的动态出现与消失',
-  'demo.scrollBox.dragResizeHint': '拖拽右下角的蓝色手柄改变容器尺寸，观察滚动条在内容溢出时出现、不溢出时消失。当前尺寸：',
+  'demo.scrollBox.dragResizeHint':
+    '拖拽右下角的蓝色手柄改变容器尺寸，观察滚动条在内容溢出时出现、不溢出时消失。当前尺寸：',
   'demo.scrollBox.dragResizeRow': '第 {index} 行 — 拖动手柄缩小宽度试试看横向滚动条。',
   'demo.scrollBox.dragResizeLong': '这是一段很长的横向内容，用来演示水平滚动条的动态出现……',
 
@@ -522,10 +546,11 @@ const zhCN: LangMessages = {
   'demo.select.search': '搜索',
 
   'demo.switch.title': 'Switch 开关',
-  'demo.switch.desc': '用于在两种状态间切换的选择器。',
+  'demo.switch.desc': '用于在两种状态间切换的选择器，支持 v-model:value 和自定义选中/非选中值。',
   'demo.switch.on': '开',
   'demo.switch.off': '关',
   'demo.switch.toggleCount': '切换次数：{count}',
+  'demo.switch.customValue': '自定义值',
 
   'demo.tab.title': 'Tab 标签页',
   'demo.tab.desc': '分隔内容上有关联但属于不同类别的数据集合。',
@@ -671,7 +696,7 @@ const zhCN: LangMessages = {
   'demo.tree.disabledGroup': '禁用分组',
   'demo.tree.childNode': '子节点',
   'demo.tree.checkEvent': '勾选 {label}；共 {total} 项',
-  'demo.tree.uncheckEvent': '取消勾选 {label}；共 {total} 项',
+  'demo.tree.uncheckEvent': '取消勾选 {label}；共 {total} 项'
 }
 
 const enUS: LangMessages = {
@@ -688,6 +713,8 @@ const enUS: LangMessages = {
   'demo.nav.empty': 'Empty',
   'demo.nav.form': 'Form',
   'demo.nav.dialog': 'Dialog',
+  'demo.nav.divider': 'Divider',
+  'demo.nav.dropmenu': 'Dropmenu',
   'demo.nav.drawer': 'Drawer',
   'demo.nav.icon': 'Icon',
   'demo.nav.input': 'Input',
@@ -965,7 +992,8 @@ const enUS: LangMessages = {
   'demo.dialog.basicContent': 'This is the dialog content area.',
   'demo.dialog.dragTitle': 'Drag title to move',
   'demo.dialog.dragTitleHint': 'Drag the title bar to move the dialog.',
-  'demo.dialog.dragTitleHint2': 'The dialog cannot be dragged outside the viewport and adjusts when the viewport changes.',
+  'demo.dialog.dragTitleHint2':
+    'The dialog cannot be dragged outside the viewport and adjusts when the viewport changes.',
   'demo.dialog.customTitleHint': 'Use the title slot to customize title content.',
   'demo.dialog.closeEvent': 'close event',
   'demo.dialog.closeCount': 'close trigger count: {count}',
@@ -1003,6 +1031,25 @@ const enUS: LangMessages = {
   'demo.drawer.secondLevel': 'Second-level drawer',
   'demo.drawer.closeEventHint': 'The close event fires every time it closes.',
 
+  'demo.divider.title': 'Divider',
+  'demo.divider.desc': 'Separates content areas. Supports horizontal, vertical, dashed, and text dividers.',
+  'demo.divider.paragraph': 'This is sample content for showing divider spacing between text blocks.',
+  'demo.divider.withText': 'With text',
+  'demo.divider.centerText': 'Center text',
+  'demo.divider.leftText': 'Left text',
+  'demo.divider.rightText': 'Right text',
+  'demo.divider.dashed': 'Dashed',
+  'demo.divider.dashedText': 'Dashed text',
+  'demo.divider.vertical': 'Vertical divider',
+
+  'demo.dropmenu.title': 'Dropmenu',
+  'demo.dropmenu.desc': 'Dropdown menu based on menu popups. Supports options and y-menu-option slots.',
+  'demo.dropmenu.options': 'Options',
+  'demo.dropmenu.open': 'Open menu',
+  'demo.dropmenu.slotOpen': 'Slot menu',
+  'demo.dropmenu.openNested': 'Nested menu',
+  'demo.dropmenu.selected': 'Selected: {value}',
+
   'demo.empty.title': 'Empty',
   'demo.empty.desc': 'Placeholder display for empty data or no results.',
   'demo.empty.noResult': 'No results found',
@@ -1015,7 +1062,8 @@ const enUS: LangMessages = {
   'demo.empty.noData': 'No data',
 
   'demo.form.title': 'Form',
-  'demo.form.desc': 'Form container and form item components with label layout, required marks, field validation, reset, and validation clearing.',
+  'demo.form.desc':
+    'Form container and form item components with label layout, required marks, field validation, reset, and validation clearing.',
   'demo.form.namePlaceholder': 'Enter name',
   'demo.form.nameTooltip': 'Name length should be 2 to 12 characters.',
   'demo.form.cityPlaceholder': 'Select city',
@@ -1042,6 +1090,8 @@ const enUS: LangMessages = {
 
   'demo.icon.title': 'Icon',
   'demo.icon.desc': 'Render @vicons/fluent icons with custom sizes.',
+  'demo.icon.renderSvg': 'renderSvg',
+  'demo.icon.svgString': 'SVG string',
 
   'demo.input.title': 'Input',
   'demo.input.desc': 'Supports v-model, clearable input, prefix, and suffix.',
@@ -1118,7 +1168,8 @@ const enUS: LangMessages = {
   'demo.notification.closeCount': 'Close count: {count}',
 
   'demo.pagination.title': 'Pagination',
-  'demo.pagination.desc': 'Page navigation for long lists. Supports page size, quick jump, simple mode and disabled state.',
+  'demo.pagination.desc':
+    'Page navigation for long lists. Supports page size, quick jump, simple mode and disabled state.',
   'demo.pagination.currentPage': 'Current page: {page}',
   'demo.pagination.totalAndSize': 'Total and page size',
   'demo.pagination.pageAndSize': 'Page: {page}, page size: {pageSize}',
@@ -1166,17 +1217,21 @@ const enUS: LangMessages = {
   'demo.scrollBox.autoHideScrollHint2': 'Try scrolling; the scrollbar hides after scrolling stops.',
   'demo.scrollBox.autoHideMove': 'autoHide: move',
   'demo.scrollBox.autoHideMoveHint': 'Shows while the pointer moves inside, hides {delay}ms after stopping.',
-  'demo.scrollBox.autoHideMoveHint2': 'Move the mouse into this area to show the scrollbar; it hides when the mouse is still.',
+  'demo.scrollBox.autoHideMoveHint2':
+    'Move the mouse into this area to show the scrollbar; it hides when the mouse is still.',
   'demo.scrollBox.autoHideLeave': 'autoHide: leave',
   'demo.scrollBox.autoHideLeaveHint': 'Shows on mouseenter, hides {delay}ms after mouseleave.',
-  'demo.scrollBox.autoHideLeaveHint2': 'The scrollbar appears on mouse enter and disappears on leave. It stays visible while dragging.',
+  'demo.scrollBox.autoHideLeaveHint2':
+    'The scrollbar appears on mouse enter and disappears on leave. It stays visible while dragging.',
   'demo.scrollBox.customTheme': 'Custom theme',
   'demo.scrollBox.customThemeHint': 'Use the theme prop to set a custom class and override scrollbar CSS variables.',
   'demo.scrollBox.customThemeRow': 'Row {index}, blue-themed scrollbar.',
   'demo.scrollBox.dragResize': 'Resize container - dynamic scrollbar visibility',
-  'demo.scrollBox.dragResizeHint': 'Drag the blue handle to resize. The scrollbar appears when content overflows. Current size: ',
+  'demo.scrollBox.dragResizeHint':
+    'Drag the blue handle to resize. The scrollbar appears when content overflows. Current size: ',
   'demo.scrollBox.dragResizeRow': 'Row {index} — try narrowing the width to see the horizontal scrollbar.',
-  'demo.scrollBox.dragResizeLong': 'This is a long horizontal content to demonstrate the dynamic appearance of the horizontal scrollbar...',
+  'demo.scrollBox.dragResizeLong':
+    'This is a long horizontal content to demonstrate the dynamic appearance of the horizontal scrollbar...',
 
   'demo.select.title': 'Select',
   'demo.select.desc': 'Select one value from a group of options.',
@@ -1186,10 +1241,12 @@ const enUS: LangMessages = {
   'demo.select.search': 'Search',
 
   'demo.switch.title': 'Switch',
-  'demo.switch.desc': 'A control for switching between two states.',
+  'demo.switch.desc':
+    'A control for switching between two states. Supports v-model:value and custom checked/unchecked values.',
   'demo.switch.on': 'On',
   'demo.switch.off': 'Off',
   'demo.switch.toggleCount': 'Toggle count: {count}',
+  'demo.switch.customValue': 'Custom value',
 
   'demo.tab.title': 'Tab',
   'demo.tab.desc': 'Separate related content groups that belong to different categories.',
@@ -1225,7 +1282,8 @@ const enUS: LangMessages = {
   'demo.tab.fadeTransition': 'Fade',
   'demo.tab.slideTransition': 'Slide',
   'demo.tab.flexMode': 'Flex layout',
-  'demo.tab.flexModeDesc': 'With flex enabled, the container fills the parent, header stays fixed, and content uses flex:1.',
+  'demo.tab.flexModeDesc':
+    'With flex enabled, the container fills the parent, header stays fixed, and content uses flex:1.',
   'demo.tab.overflowTabs': 'Overflow scroll',
   'demo.tab.overflowTabsDesc': 'When there are too many tabs, ScrollBox provides scrolling.',
   'demo.tab.extraSlots': 'Extra slots',
@@ -1291,7 +1349,8 @@ const enUS: LangMessages = {
   'demo.timeRangePicker.optional': 'Optional',
 
   'demo.tooltip.title': 'Tooltip',
-  'demo.tooltip.desc': 'Show tips on hover with top, bottom, left, and right placements. Content supports both prop and slot usage.',
+  'demo.tooltip.desc':
+    'Show tips on hover with top, bottom, left, and right placements. Content supports both prop and slot usage.',
   'demo.tooltip.tipText': 'This is tooltip text',
   'demo.tooltip.top': 'Top',
   'demo.tooltip.bottom': 'Bottom',
@@ -1335,7 +1394,7 @@ const enUS: LangMessages = {
   'demo.tree.disabledGroup': 'Disabled group',
   'demo.tree.childNode': 'Child item',
   'demo.tree.checkEvent': 'checked {label}; total {total}',
-  'demo.tree.uncheckEvent': 'unchecked {label}; total {total}',
+  'demo.tree.uncheckEvent': 'unchecked {label}; total {total}'
 }
 
 registerLangItem('zh-CN', zhCN)

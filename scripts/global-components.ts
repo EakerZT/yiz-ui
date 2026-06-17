@@ -5,11 +5,11 @@ import type {
   Checkbox,
   CheckboxGroup,
   ColorPicker,
-  ContextMenu,
-  ContextMenuOption,
   DatePicker,
   DateRangePicker,
   Dialog,
+  Divider,
+  Dropmenu,
   Drawer,
   Empty,
   Form,
@@ -56,16 +56,16 @@ declare module 'vue' {
     'y-checkbox-group': typeof CheckboxGroup
     YColorPicker: typeof ColorPicker
     'y-color-picker': typeof ColorPicker
-    YContextMenu: typeof ContextMenu
-    'y-context-menu': typeof ContextMenu
-    YContextMenuOption: typeof ContextMenuOption
-    'y-context-menu-option': typeof ContextMenuOption
     YDatePicker: typeof DatePicker
     'y-date-picker': typeof DatePicker
     YDateRangePicker: typeof DateRangePicker
     'y-date-range-picker': typeof DateRangePicker
     YDialog: typeof Dialog
     'y-dialog': typeof Dialog
+    YDivider: typeof Divider
+    'y-divider': typeof Divider
+    YDropmenu: typeof Dropmenu
+    'y-dropmenu': typeof Dropmenu
     YDrawer: typeof Drawer
     'y-drawer': typeof Drawer
     YEmpty: typeof Empty

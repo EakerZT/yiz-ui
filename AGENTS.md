@@ -1,5 +1,10 @@
 # Project Instructions
 
+## 2. Language & Output
+- Default response language: Chinese (unless user requests otherwise).
+- Code comments: Chinese or English depending on repo style.
+- Keep explanations concise unless explicitly asked for deep reasoning.
+
 ## Encoding Rules
 
 - Always use UTF-8 without BOM.

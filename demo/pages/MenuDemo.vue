@@ -50,9 +50,9 @@
 
     <y-card :title="$t('demo.menu.collapsed')" style="margin-top: 8px">
       <div class="demo-menu-toolbar">
-        <y-switch v-model="dark" />
+        <y-switch v-model:value="dark" />
         <span class="demo-hint">{{ dark ? 'dark' : 'light' }}</span>
-        <y-switch v-model="collapsed" />
+        <y-switch v-model:value="collapsed" />
         <span class="demo-hint">{{ collapsed ? 'collapsed' : 'expanded' }}</span>
       </div>
       <div style="display: flex; align-items: flex-start; gap: 12px">

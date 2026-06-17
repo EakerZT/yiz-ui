@@ -58,6 +58,22 @@
         </div>
       </div>
     </y-card>
+
+    <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
+      <div class="demo-row">
+        <span class="demo-label">{{ $t('demo.common.customContent') }}</span>
+        <div class="demo-picker-field">
+          <y-date-range-picker
+            v-model:start="affixStart"
+            v-model:end="affixEnd"
+            prefix="Sprint"
+            suffix="UTC+8"
+            clearable
+          />
+          <span class="demo-item-hint">{{ format(affixStart) }} - {{ format(affixEnd) }}</span>
+        </div>
+      </div>
+    </y-card>
   </section>
 </template>
 
@@ -75,6 +91,8 @@ const manualStart = ref<Date | null>(new Date(2026, 5, 20))
 const manualEnd = ref<Date | null>(new Date(2026, 5, 10))
 const workStart = ref<Date | null>(null)
 const workEnd = ref<Date | null>(null)
+const affixStart = ref<Date | null>(new Date(2026, 5, 15))
+const affixEnd = ref<Date | null>(new Date(2026, 5, 21))
 const lastChange = ref($t('demo.common.none'))
 
 function pad(n: number) {

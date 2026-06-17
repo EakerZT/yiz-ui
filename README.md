@@ -139,15 +139,18 @@ handle.close()
 | DatePicker | `YDatePicker` | 日期选择器 — 月份/年份快速跳转 |
 | DateRangePicker | `YDateRangePicker` | 日期范围选择器 — 自动排序起止日期 |
 | Dialog | `YDialog` | 对话框 — 支持拖拽、ESC 关闭 |
+| Divider | `YDivider` | 分割线 — 水平/垂直、虚线、带文本 |
 | Drawer | `YDrawer` | 抽屉 — 四方向、可调节尺寸 |
+| Dropmenu | `YDropmenu` | 下拉菜单 — 基于 Menu 的弹出菜单 |
 | Empty | `YEmpty` | 空状态 — 可自定义图标和文案 |
 | Form | `YForm` | 表单 — 字段校验、标签布局、重置 |
 | FormItem | `YFormItem` | 表单项 — 标签、必填标记、错误提示 |
 | Icon | `YIcon` | 图标 — 渲染 Vue 组件为图标 |
 | Input | `YInput` | 输入框 — 前后缀、可清空 |
 | InputNumber | `YInputNumber` | 数字输入 — 步进按钮、键盘操作 |
+| InputPassword | `YInputPassword` | 密码输入 — 显示/隐藏切换 |
 | LinkButton | `YLinkButton` | 链接按钮 — 文字按钮样式 |
-| Loading | `YLoading` | 加载 — 三种动画、容器模式 |
+| Loading | `YLoading` | 加载 — 三种动画、容器模式、fullHeight 撑满 |
 | Menu | `YMenu` | 菜单 — 支持展开/折叠模式 |
 | MenuOption | `YMenuOption` | 菜单选项 — 声明式子项 |
 | Pagination | `YPagination` | 分页 — 页码省略逻辑、快速跳转 |

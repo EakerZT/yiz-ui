@@ -14,6 +14,16 @@
       <y-input-password v-model:value="clearPassword" :placeholder="$t('demo.common.clearable')" clearable />
     </y-card>
 
+    <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
+      <y-input-password
+        v-model:value="affixPassword"
+        :placeholder="$t('demo.inputPassword.placeholder')"
+        prefix="Key"
+        suffix="Safe"
+        clearable
+      />
+    </y-card>
+
     <y-card :title="$t('demo.inputPassword.noToggle')" style="margin-top: 8px">
       <y-input-password
         v-model:value="fixedPassword"
@@ -30,6 +40,7 @@ import { ref } from 'vue'
 
 const password = ref('')
 const clearPassword = ref('')
+const affixPassword = ref('')
 const fixedPassword = ref('')
 </script>
 

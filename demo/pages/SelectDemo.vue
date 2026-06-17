@@ -20,6 +20,11 @@
       <y-select v-model="v4" :options="opts" disabled />
     </y-card>
 
+    <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
+      <y-select v-model="v11" :options="opts" prefix="City" suffix="CN" clearable />
+      <span class="demo-hint">{{ $t('demo.select.value', { value: v11 ?? $t('demo.common.empty') }) }}</span>
+    </y-card>
+
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <y-button-group>
         <y-select v-model="v5" :options="opts" />
@@ -83,6 +88,7 @@ const v7 = ref()
 const v8 = ref()
 const v9 = ref()
 const v10 = ref()
+const v11 = ref()
 
 const changeCount = ref(0)
 function onChange(_val: any) {

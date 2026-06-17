@@ -60,6 +60,16 @@
         </div>
       </div>
     </y-card>
+
+    <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
+      <div class="demo-row">
+        <span class="demo-label">{{ $t('demo.common.customContent') }}</span>
+        <div class="demo-picker-field">
+          <TimePicker v-model="value7" prefix="Start" suffix="UTC+8" clearable />
+          <span class="demo-item-hint">{{ value7 || $t('demo.common.notSelected') }}</span>
+        </div>
+      </div>
+    </y-card>
   </section>
 </template>
 
@@ -74,6 +84,7 @@ const value3 = ref<string | null>('09:15:30')
 const value4 = ref<string | null>('08:00:00')
 const value5 = ref<string | null>(null)
 const value6 = ref<string | null>('10:00')
+const value7 = ref<string | null>('09:30:00')
 </script>
 
 <style scoped>

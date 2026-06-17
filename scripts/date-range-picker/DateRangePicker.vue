@@ -1,6 +1,10 @@
 <template>
   <div ref="triggerRef" class="yiz-date-range-picker" :class="vClass" @click="onTriggerClick">
     <div class="yiz-date-range-picker-input">
+      <span class="yiz-date-range-picker-prefix" v-if="$props.prefix || $slots.prefix">
+        <template v-if="$props.prefix">{{ $props.prefix }}</template>
+        <slot v-else name="prefix" />
+      </span>
       <button
         class="yiz-date-range-picker-segment"
         :class="{ 'yiz-date-range-picker-segment-active': open && activeSide === 'start' }"
@@ -25,9 +29,11 @@
         </span>
       </button>
       <span v-if="clearable && (startModel != null || endModel != null)" class="yiz-date-range-picker-clear" @click.stop="onClear">
-        <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
-          <path d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1zm2.35 4.65a.5.5 0 0 0-.7 0L8 7.29 6.35 5.65a.5.5 0 1 0-.7.7L7.29 8 5.65 9.65a.5.5 0 1 0 .7.7L8 8.71l1.65 1.64a.5.5 0 0 0 .7-.7L8.71 8l1.64-1.65a.5.5 0 0 0 0-.7z" />
-        </svg>
+        <Icon size="14" :icon="DismissCircle32Filled" />
+      </span>
+      <span class="yiz-date-range-picker-extra-suffix" v-if="$props.suffix || $slots.suffix">
+        <template v-if="$props.suffix">{{ $props.suffix }}</template>
+        <slot v-else name="suffix" />
       </span>
       <svg class="yiz-date-range-picker-suffix" viewBox="0 0 16 16" width="14" height="14">
         <path d="M5.5 1a.5.5 0 0 1 .5.5V2h4v-.5a.5.5 0 0 1 1 0V2h1.5A1.5 1.5 0 0 1 14 3.5v9A1.5 1.5 0 0 1 12.5 14h-9A1.5 1.5 0 0 1 2 12.5v-9A1.5 1.5 0 0 1 3.5 2H5v-.5a.5.5 0 0 1 .5-.5zM3.5 3a.5.5 0 0 0-.5.5V5h10V3.5a.5.5 0 0 0-.5-.5h-9zM13 6H3v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V6z" fill="currentColor" />
@@ -127,7 +133,9 @@
 
 <script lang="ts" setup>
 import { computed, defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, watch, type PropType } from 'vue'
+import { DismissCircle32Filled } from '@vicons/fluent'
 import Button from '../button/Button.vue'
+import { Icon } from '../icon'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t, $tList } from '../locale'
 import { nextZIndex } from '../zIndex'
@@ -201,6 +209,8 @@ const props = withDefaults(
     startLabel?: string
     endLabel?: string
     separator?: string
+    prefix?: string
+    suffix?: string
   }>(),
   {
     disabled: false,
@@ -631,14 +641,26 @@ onBeforeUnmount(() => {
   color: #999;
 }
 
+.yiz-date-range-picker-prefix,
+.yiz-date-range-picker-extra-suffix {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  color: #666;
+  user-select: none;
+}
+
 .yiz-date-range-picker-clear {
+  margin-left: 8px;
+  margin-right: 4px;
+  user-select: none;
   cursor: pointer;
-  color: #c0c4cc;
-  transition: color 0.2s;
+  color: rgba(0, 0, 0, 0.45);
+  transition: 0.3s all;
 }
 
 .yiz-date-range-picker-clear:hover {
-  color: #999;
+  color: rgba(0, 0, 0, 0.88);
 }
 
 .yiz-date-range-picker-small .yiz-date-range-picker-input {

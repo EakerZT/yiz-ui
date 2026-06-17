@@ -39,6 +39,15 @@
       </div>
     </y-card>
 
+    <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
+      <div class="demo-row">
+        <span class="demo-label">{{ $t('demo.common.customContent') }}</span>
+        <div class="demo-picker-field">
+          <y-color-picker v-model:value="affixColor" prefix="HEX" suffix="Theme" />
+        </div>
+      </div>
+    </y-card>
+
     <y-card :title="$t('demo.colorPicker.sizeAndDisabled')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.common.smallSize') }}</span>
@@ -63,6 +72,7 @@ import { ref } from 'vue'
 const color = ref('#1677ff')
 const alphaColor = ref('#1677ff80')
 const brandColor = ref('#13c2c2')
+const affixColor = ref('#722ed1')
 const smallColor = ref('#52c41a')
 const disabledColor = ref('#d9d9d9')
 

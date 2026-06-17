@@ -1,11 +1,19 @@
 <template>
   <div ref="triggerRef" class="yiz-select" :class="vClass" @click="onTriggerClick">
+    <span class="yiz-select-prefix" v-if="$props.prefix || $slots.prefix">
+      <template v-if="$props.prefix">{{ $props.prefix }}</template>
+      <slot v-else name="prefix" />
+    </span>
     <span class="yiz-select-label" :class="{ 'yiz-select-placeholder': !selectedLabel }">
       {{ selectedLabel || placeholderText }}
     </span>
     <span class="yiz-select-suffix">
       <span v-if="clearable && modelValue != null" class="yiz-select-clear" @click.stop="onClear">
         <Icon size="14" :icon="DismissCircle32Filled" />
+      </span>
+      <span class="yiz-select-extra-suffix" v-if="$props.suffix || $slots.suffix">
+        <template v-if="$props.suffix">{{ $props.suffix }}</template>
+        <slot v-else name="suffix" />
       </span>
       <svg class="yiz-select-arrow" :class="{ 'yiz-select-arrow-up': open }" viewBox="0 0 16 16" width="14" height="14">
         <path
@@ -71,6 +79,8 @@ const props = withDefaults(
     disabled?: boolean
     clearable?: boolean
     size?: 'default' | 'small'
+    prefix?: string
+    suffix?: string
     search?: (query: string) => SelectOption[] | Promise<SelectOption[]>
   }>(),
   {
@@ -83,6 +93,8 @@ const props = withDefaults(
 
 defineSlots<{
   default?: () => any
+  prefix?: any
+  suffix?: any
   option?: (props: { option: SelectOption; index: number; selected: boolean }) => any
 }>()
 
@@ -387,6 +399,23 @@ onBeforeUnmount(() => {
   white-space: nowrap;
 }
 
+.yiz-select-prefix,
+.yiz-select-extra-suffix {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: #666;
+  user-select: none;
+}
+
+.yiz-select-prefix {
+  margin-right: 8px;
+}
+
+.yiz-select-extra-suffix {
+  margin-right: 4px;
+}
+
 .yiz-select-placeholder {
   color: #c0c4cc;
 }
@@ -409,12 +438,17 @@ onBeforeUnmount(() => {
 }
 
 .yiz-select-clear {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  margin-right: 4px;
+  user-select: none;
   cursor: pointer;
-  color: #c0c4cc;
-  transition: color 0.2s;
+  color: rgba(0, 0, 0, 0.45);
+  transition: 0.3s all;
 
   &:hover {
-    color: #999;
+    color: rgba(0, 0, 0, 0.88);
   }
 }
 

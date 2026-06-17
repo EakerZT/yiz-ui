@@ -9,14 +9,27 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
+# Install dependencies (Yarn Classic 1.x)
+yarn
+
 # Start the demo/dev server
 yarn demo
 
+# Build the demo site for deployment
+yarn demo:build
+
 # Type-check the entire project (no emit)
 yarn typecheck
+
+# Build the library (Vite + vue-tsc declarations)
+yarn build
 ```
 
 There are currently no test or lint scripts configured. ESLint and Prettier are installed as devDependencies but have no project-level config files (Prettier config is in `.prettierrc`).
+
+**Package manager:** Yarn Classic (1.22.22 per Volta). Node version: 25.9.0 (Volta). Do not use `npm` or `yarn dlx` — use `yarn` for all package operations.
+
+**Build output:** `yarn build` produces dual CJS/ESM output in `dist/` (`yiz-ui.cjs`, `yiz-ui.mjs`, `index.d.ts`, `yiz-ui.css`). Never edit files in `dist/` — it is generated output.
 
 ## Architecture
 
@@ -167,6 +180,8 @@ Number input with increment/decrement buttons. Uses `defineModel<number | null>(
 
 Renders a Vue component (via `:is`) with 1em-based `width`/`height`. Use the `size` prop to set an explicit `font-size` in px. `display: inline-block` so it behaves like an inline icon; wrap in a flex container when vertical centering is needed.
 
+**`renderSvg`** (`scripts/icon/renderSvg.ts`) — utility that converts an SVG string into a Vue component for use with `<y-icon>`. Exported from `scripts/index.ts`.
+
 ### Tooltip (`scripts/tooltip/`)
 
 Hover-triggered tooltip with `placement` (`top` | `bottom` | `left` | `right`), CSS arrow border trick, and `<Transition name="yiz-tooltip-fade">`. Content via `content` prop or `#content` slot. Uses a hardcoded `z-index: 2000` (does NOT use `nextZIndex()` — it's positioned `absolute` relative to the trigger, not Teleported).
@@ -238,6 +253,8 @@ Both components share the same architecture:
 
 **ContextMenu submenus** — nested submenus render inline and position with `position: absolute; left: 100%`. Submenu placement flips to `right: 100%` when the submenu would overflow the viewport right edge, and flips vertically when it would overflow the bottom.
 
+**ContextMenu imperative API** — unlike Menu (which is used declaratively in templates), ContextMenu also exposes `showContextMenu(options, event)` as an imperative function from `scripts/context-menu/index.ts`. It follows the same `createVNode` + `render()` pattern as Notification, mounting a ContextMenu instance at the pointer position on right-click or at a specified event target.
+
 **v-model:select:** Menu uses `defineModel<any>('select')` to track the currently selected item value.
 
 ### Select
@@ -301,6 +318,14 @@ Content container with structured slots: `#cover` (full-width image area at top)
 ### ButtonGroup (`scripts/button-group/`)
 
 Flex container for grouping buttons. Props: `direction` (`'horizontal' | 'vertical'`), `size` (`'small' | 'default' | 'large'` or a number for gap in px), `align`, `wrap`. Styled via `--yiz-button-group-gap` and `--yiz-button-group-align` CSS custom properties. Simple slot container, no provide/inject.
+
+### Divider (`scripts/divider/`)
+
+Content separator with horizontal and vertical modes. Props: `direction` (`'horizontal' | 'vertical'`), `dashed` (boolean), `text` (string — displayed in the middle of the line). Pure layout component — no Teleport, no z-index.
+
+### Dropmenu (`scripts/dropmenu/`)
+
+Dropdown menu triggered by a click on a trigger element. Wraps a Menu inside a Teleported popup positioned via `getBoundingClientRect()` relative to the trigger. Follows the same Teleport + `nextZIndex()` + click-outside + scroll/resize reposition pattern as Select. Supports both `:items` prop and `<y-menu-option>` slot children. Emits `select` event.
 
 ### Button (`scripts/button/`)
 

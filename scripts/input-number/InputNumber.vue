@@ -1,9 +1,5 @@
 <template>
   <div class="yiz-input-number" :class="vClass">
-    <div class="yiz-input-number-prefix" v-if="$props.prefix || $slots.prefix">
-      <template v-if="$props.prefix">{{ $props.prefix }}</template>
-      <slot v-else name="prefix" />
-    </div>
     <button
       v-if="controls"
       class="yiz-input-number-btn yiz-input-number-decrease"
@@ -14,6 +10,10 @@
         <path d="M3 8h10" stroke="currentColor" stroke-width="1.5" fill="none" />
       </svg>
     </button>
+    <div class="yiz-input-number-prefix" v-if="$props.prefix || $slots.prefix">
+      <template v-if="$props.prefix">{{ $props.prefix }}</template>
+      <slot v-else name="prefix" />
+    </div>
     <div class="yiz-input-number-input-wrap">
       <input
         ref="inputRef"
@@ -29,6 +29,10 @@
         @keydown.down.prevent="decrease"
       />
     </div>
+    <div class="yiz-input-number-suffix" v-if="$props.suffix || $slots.suffix">
+      <template v-if="$props.suffix">{{ $props.suffix }}</template>
+      <slot v-else name="suffix" />
+    </div>
     <button
       v-if="controls"
       class="yiz-input-number-btn yiz-input-number-increase"
@@ -39,10 +43,6 @@
         <path d="M3 8h10M8 3v10" stroke="currentColor" stroke-width="1.5" fill="none" />
       </svg>
     </button>
-    <div class="yiz-input-number-suffix" v-if="$props.suffix || $slots.suffix">
-      <template v-if="$props.suffix">{{ $props.suffix }}</template>
-      <slot v-else name="suffix" />
-    </div>
   </div>
 </template>
 
@@ -269,16 +269,8 @@ defineExpose({
   border-right: 1px solid var(--yiz-color-border, #d9d9d9);
 }
 
-.yiz-input-number-has-prefix .yiz-input-number-decrease {
-  border-left: 1px solid var(--yiz-color-border, #d9d9d9);
-}
-
 .yiz-input-number-increase {
   border-left: 1px solid var(--yiz-color-border, #d9d9d9);
-}
-
-.yiz-input-number-has-suffix .yiz-input-number-increase {
-  border-right: 1px solid var(--yiz-color-border, #d9d9d9);
 }
 
 .yiz-input-number-input-wrap {
