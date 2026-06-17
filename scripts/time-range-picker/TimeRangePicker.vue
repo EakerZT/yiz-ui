@@ -1,5 +1,5 @@
 <template>
-  <div ref="triggerRef" class="yiz-time-range-picker" :class="vClass" @click="onTriggerClick">
+  <div ref="triggerRef" class="yiz-time-range-picker" :class="vClass" @click="onTriggerClick" v-bind="$attrs">
     <div class="yiz-time-range-picker-input">
       <span class="yiz-time-range-picker-prefix" v-if="$props.prefix || $slots.prefix">
         <template v-if="$props.prefix">{{ $props.prefix }}</template>
@@ -28,7 +28,11 @@
           {{ displayEnd || endPlaceholder }}
         </span>
       </button>
-      <span v-if="clearable && (startModel != null || endModel != null)" class="yiz-time-range-picker-clear" @click.stop="onClear">
+      <span
+        v-if="clearable && (startModel != null || endModel != null)"
+        class="yiz-time-range-picker-clear"
+        @click.stop="onClear"
+      >
         <Icon size="14" :icon="DismissCircle32Filled" />
       </span>
       <span class="yiz-time-range-picker-extra-suffix" v-if="$props.suffix || $slots.suffix">
@@ -36,7 +40,10 @@
         <slot v-else name="suffix" />
       </span>
       <svg class="yiz-time-range-picker-suffix" viewBox="0 0 16 16" width="14" height="14">
-        <path d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1zm0 3a.5.5 0 0 0-.5.5v3.5h-3a.5.5 0 0 0 0 1h3.5v3.5a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4.5A.5.5 0 0 0 8 4z" fill="currentColor" />
+        <path
+          d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1zm0 3a.5.5 0 0 0-.5.5v3.5h-3a.5.5 0 0 0 0 1h3.5v3.5a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4.5A.5.5 0 0 0 8 4z"
+          fill="currentColor"
+        />
       </svg>
     </div>
   </div>
@@ -45,7 +52,10 @@
     <Transition name="yiz-time-range-picker-panel-fade">
       <div v-if="open" ref="panelRef" class="yiz-time-range-picker-panel" :style="panelStyle" @click.stop>
         <div class="yiz-time-range-picker-panels">
-          <div class="yiz-time-range-picker-side" :class="{ 'yiz-time-range-picker-side-active': activeSide === 'start' }">
+          <div
+            class="yiz-time-range-picker-side"
+            :class="{ 'yiz-time-range-picker-side-active': activeSide === 'start' }"
+          >
             <div class="yiz-time-range-picker-side-title" @click="activeSide = 'start'">{{ startLabel }}</div>
             <div class="yiz-time-range-picker-body">
               <div class="yiz-time-range-picker-col">
@@ -93,7 +103,10 @@
             </div>
           </div>
 
-          <div class="yiz-time-range-picker-side" :class="{ 'yiz-time-range-picker-side-active': activeSide === 'end' }">
+          <div
+            class="yiz-time-range-picker-side"
+            :class="{ 'yiz-time-range-picker-side-active': activeSide === 'end' }"
+          >
             <div class="yiz-time-range-picker-side-title" @click="activeSide = 'end'">{{ endLabel }}</div>
             <div class="yiz-time-range-picker-body">
               <div class="yiz-time-range-picker-col">
@@ -144,7 +157,9 @@
 
         <div class="yiz-time-range-picker-footer">
           <LinkButton @click="onNow">{{ $t('timePicker.now') }}</LinkButton>
-          <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">{{ $t('common.confirm') }}</Button>
+          <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">{{
+            $t('common.confirm')
+          }}</Button>
         </div>
       </div>
     </Transition>
@@ -513,7 +528,9 @@ onBeforeUnmount(() => {
   border-color: var(--yiz-color-error);
 }
 
-.yiz-form-item-error-status .yiz-time-range-picker-open:not(.yiz-time-range-picker-disabled) .yiz-time-range-picker-input {
+.yiz-form-item-error-status
+  .yiz-time-range-picker-open:not(.yiz-time-range-picker-disabled)
+  .yiz-time-range-picker-input {
   border-color: var(--yiz-color-error);
   box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
 }

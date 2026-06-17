@@ -24,7 +24,7 @@ interface TabContext {
   overflow: Ref<CSSProperties['overflow']>
 }
 
-const props = defineProps<{
+defineProps<{
   label?: string
   disabled?: boolean
   closable?: boolean
@@ -38,7 +38,7 @@ defineSlots<{
 const tabContext = inject<TabContext | null>('yizTab', null)
 const instance = getCurrentInstance()
 
-const paneKey = computed(() => instance?.vnode.key ?? props.key)
+const paneKey = computed(() => instance?.vnode.key)
 
 const paneStyle = computed<CSSProperties>(() => {
   if (!tabContext?.flex.value) return {}

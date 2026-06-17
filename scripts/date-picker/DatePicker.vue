@@ -1,17 +1,11 @@
 <template>
-  <div ref="triggerRef" class="yiz-date-picker" :class="vClass" @click="onTriggerClick">
+  <div ref="triggerRef" class="yiz-date-picker" :class="vClass" @click="onTriggerClick" v-bind="$attrs">
     <div class="yiz-date-picker-input">
       <span class="yiz-date-picker-prefix" v-if="$props.prefix || $slots.prefix">
         <template v-if="$props.prefix">{{ $props.prefix }}</template>
         <slot v-else name="prefix" />
       </span>
-      <input
-        ref="inputRef"
-        :value="displayText"
-        :placeholder="placeholderText"
-        :disabled="disabled"
-        readonly
-      />
+      <input ref="inputRef" :value="displayText" :placeholder="placeholderText" :disabled="disabled" readonly />
       <span v-if="clearable && modelValue" class="yiz-date-picker-clear" @click.stop="onClear">
         <Icon size="14" :icon="DismissCircle32Filled" />
       </span>
@@ -30,53 +24,51 @@
 
   <Teleport to="body">
     <Transition name="yiz-date-picker-panel-fade">
-      <div
-        v-if="open"
-        ref="panelRef"
-        class="yiz-date-picker-panel"
-        :style="panelStyle"
-        @click.stop
-      >
+      <div v-if="open" ref="panelRef" class="yiz-date-picker-panel" :style="panelStyle" @click.stop>
         <!-- 月份导航 -->
         <div class="yiz-date-picker-header">
-          <svg
-            class="yiz-date-picker-nav"
-            viewBox="0 0 16 16"
-            width="14"
-            height="14"
-            @click="prevYear"
-          >
-            <path d="M12 12L8 8l4-4M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+          <svg class="yiz-date-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="prevYear">
+            <path
+              d="M12 12L8 8l4-4M7 12L3 8l4-4"
+              stroke="currentColor"
+              stroke-width="1.5"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
-          <svg
-            class="yiz-date-picker-nav"
-            viewBox="0 0 16 16"
-            width="14"
-            height="14"
-            @click="prevMonth"
-          >
-            <path d="M11 12L7 8l4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+          <svg class="yiz-date-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="prevMonth">
+            <path
+              d="M11 12L7 8l4-4"
+              stroke="currentColor"
+              stroke-width="1.5"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
           <span class="yiz-date-picker-month-year" @click="showYearPicker = !showYearPicker">
             {{ $t('datePicker.yearMonth', { year, month }) }}
           </span>
-          <svg
-            class="yiz-date-picker-nav"
-            viewBox="0 0 16 16"
-            width="14"
-            height="14"
-            @click="nextMonth"
-          >
-            <path d="M5 12L9 8 5 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+          <svg class="yiz-date-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="nextMonth">
+            <path
+              d="M5 12L9 8 5 4"
+              stroke="currentColor"
+              stroke-width="1.5"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
-          <svg
-            class="yiz-date-picker-nav"
-            viewBox="0 0 16 16"
-            width="14"
-            height="14"
-            @click="nextYear"
-          >
-            <path d="M4 12L8 8l-4-4M9 12l4-4-4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+          <svg class="yiz-date-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="nextYear">
+            <path
+              d="M4 12L8 8l-4-4M9 12l4-4-4-4"
+              stroke="currentColor"
+              stroke-width="1.5"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </div>
 
@@ -454,7 +446,9 @@ onBeforeUnmount(() => {
   border-radius: 4px;
   background: #fff;
   cursor: pointer;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
   box-sizing: border-box;
   gap: 4px;
 
@@ -580,7 +574,9 @@ onBeforeUnmount(() => {
   padding: 2px;
   border-radius: 2px;
   flex-shrink: 0;
-  transition: color 0.2s, background 0.2s;
+  transition:
+    color 0.2s,
+    background 0.2s;
 
   &:hover {
     color: var(--yiz-color-primary);
@@ -619,7 +615,9 @@ onBeforeUnmount(() => {
   color: #666;
   border-radius: 4px;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
 
   &:hover {
     background: var(--yiz-color-hover-bg);
@@ -701,7 +699,9 @@ onBeforeUnmount(() => {
   font-size: 13px;
   color: #333;
   border-radius: 4px;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
 
   &:hover {
     background: var(--yiz-color-hover-bg);
@@ -739,7 +739,9 @@ onBeforeUnmount(() => {
 // 过渡
 .yiz-date-picker-panel-fade-enter-active,
 .yiz-date-picker-panel-fade-leave-active {
-  transition: opacity 0.2s, transform 0.2s;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
 }
 
 .yiz-date-picker-panel-fade-enter-from,

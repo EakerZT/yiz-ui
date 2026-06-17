@@ -1,5 +1,5 @@
 <template>
-  <div ref="triggerRef" class="yiz-date-range-picker" :class="vClass" @click="onTriggerClick">
+  <div ref="triggerRef" class="yiz-date-range-picker" :class="vClass" @click="onTriggerClick" v-bind="$attrs">
     <div class="yiz-date-range-picker-input">
       <span class="yiz-date-range-picker-prefix" v-if="$props.prefix || $slots.prefix">
         <template v-if="$props.prefix">{{ $props.prefix }}</template>
@@ -28,7 +28,11 @@
           {{ displayEndText || endPlaceholder }}
         </span>
       </button>
-      <span v-if="clearable && (startModel != null || endModel != null)" class="yiz-date-range-picker-clear" @click.stop="onClear">
+      <span
+        v-if="clearable && (startModel != null || endModel != null)"
+        class="yiz-date-range-picker-clear"
+        @click.stop="onClear"
+      >
         <Icon size="14" :icon="DismissCircle32Filled" />
       </span>
       <span class="yiz-date-range-picker-extra-suffix" v-if="$props.suffix || $slots.suffix">
@@ -36,7 +40,10 @@
         <slot v-else name="suffix" />
       </span>
       <svg class="yiz-date-range-picker-suffix" viewBox="0 0 16 16" width="14" height="14">
-        <path d="M5.5 1a.5.5 0 0 1 .5.5V2h4v-.5a.5.5 0 0 1 1 0V2h1.5A1.5 1.5 0 0 1 14 3.5v9A1.5 1.5 0 0 1 12.5 14h-9A1.5 1.5 0 0 1 2 12.5v-9A1.5 1.5 0 0 1 3.5 2H5v-.5a.5.5 0 0 1 .5-.5zM3.5 3a.5.5 0 0 0-.5.5V5h10V3.5a.5.5 0 0 0-.5-.5h-9zM13 6H3v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V6z" fill="currentColor" />
+        <path
+          d="M5.5 1a.5.5 0 0 1 .5.5V2h4v-.5a.5.5 0 0 1 1 0V2h1.5A1.5 1.5 0 0 1 14 3.5v9A1.5 1.5 0 0 1 12.5 14h-9A1.5 1.5 0 0 1 2 12.5v-9A1.5 1.5 0 0 1 3.5 2H5v-.5a.5.5 0 0 1 .5-.5zM3.5 3a.5.5 0 0 0-.5.5V5h10V3.5a.5.5 0 0 0-.5-.5h-9zM13 6H3v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V6z"
+          fill="currentColor"
+        />
       </svg>
     </div>
   </div>
@@ -45,23 +52,78 @@
     <Transition name="yiz-date-range-picker-panel-fade">
       <div v-if="open" ref="panelRef" class="yiz-date-range-picker-panel" :style="panelStyle" @click.stop>
         <div class="yiz-date-range-picker-panels">
-          <div class="yiz-date-range-picker-side" :class="{ 'yiz-date-range-picker-side-active': activeSide === 'start' }">
+          <div
+            class="yiz-date-range-picker-side"
+            :class="{ 'yiz-date-range-picker-side-active': activeSide === 'start' }"
+          >
             <div class="yiz-date-range-picker-side-title" @click="activeSide = 'start'">{{ startLabel }}</div>
             <div class="yiz-date-range-picker-header">
-              <svg class="yiz-date-range-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="shiftYear('start', -1)">
-                <path d="M12 12L8 8l4-4M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              <svg
+                class="yiz-date-range-picker-nav"
+                viewBox="0 0 16 16"
+                width="14"
+                height="14"
+                @click="shiftYear('start', -1)"
+              >
+                <path
+                  d="M12 12L8 8l4-4M7 12L3 8l4-4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
-              <svg class="yiz-date-range-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="shiftMonth('start', -1)">
-                <path d="M11 12L7 8l4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              <svg
+                class="yiz-date-range-picker-nav"
+                viewBox="0 0 16 16"
+                width="14"
+                height="14"
+                @click="shiftMonth('start', -1)"
+              >
+                <path
+                  d="M11 12L7 8l4-4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
               <span class="yiz-date-range-picker-month-year" @click="startShowYearPicker = !startShowYearPicker">
                 {{ startViewYear }}-{{ pad(startViewMonth) }}
               </span>
-              <svg class="yiz-date-range-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="shiftMonth('start', 1)">
-                <path d="M5 12L9 8 5 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              <svg
+                class="yiz-date-range-picker-nav"
+                viewBox="0 0 16 16"
+                width="14"
+                height="14"
+                @click="shiftMonth('start', 1)"
+              >
+                <path
+                  d="M5 12L9 8 5 4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
-              <svg class="yiz-date-range-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="shiftYear('start', 1)">
-                <path d="M4 12L8 8l-4-4M9 12l4-4-4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              <svg
+                class="yiz-date-range-picker-nav"
+                viewBox="0 0 16 16"
+                width="14"
+                height="14"
+                @click="shiftYear('start', 1)"
+              >
+                <path
+                  d="M4 12L8 8l-4-4M9 12l4-4-4-4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
             </div>
             <div v-if="startShowYearPicker" class="yiz-date-range-picker-year-grid">
@@ -83,23 +145,78 @@
             />
           </div>
 
-          <div class="yiz-date-range-picker-side" :class="{ 'yiz-date-range-picker-side-active': activeSide === 'end' }">
+          <div
+            class="yiz-date-range-picker-side"
+            :class="{ 'yiz-date-range-picker-side-active': activeSide === 'end' }"
+          >
             <div class="yiz-date-range-picker-side-title" @click="activeSide = 'end'">{{ endLabel }}</div>
             <div class="yiz-date-range-picker-header">
-              <svg class="yiz-date-range-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="shiftYear('end', -1)">
-                <path d="M12 12L8 8l4-4M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              <svg
+                class="yiz-date-range-picker-nav"
+                viewBox="0 0 16 16"
+                width="14"
+                height="14"
+                @click="shiftYear('end', -1)"
+              >
+                <path
+                  d="M12 12L8 8l4-4M7 12L3 8l4-4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
-              <svg class="yiz-date-range-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="shiftMonth('end', -1)">
-                <path d="M11 12L7 8l4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              <svg
+                class="yiz-date-range-picker-nav"
+                viewBox="0 0 16 16"
+                width="14"
+                height="14"
+                @click="shiftMonth('end', -1)"
+              >
+                <path
+                  d="M11 12L7 8l4-4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
               <span class="yiz-date-range-picker-month-year" @click="endShowYearPicker = !endShowYearPicker">
                 {{ endViewYear }}-{{ pad(endViewMonth) }}
               </span>
-              <svg class="yiz-date-range-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="shiftMonth('end', 1)">
-                <path d="M5 12L9 8 5 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              <svg
+                class="yiz-date-range-picker-nav"
+                viewBox="0 0 16 16"
+                width="14"
+                height="14"
+                @click="shiftMonth('end', 1)"
+              >
+                <path
+                  d="M5 12L9 8 5 4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
-              <svg class="yiz-date-range-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="shiftYear('end', 1)">
-                <path d="M4 12L8 8l-4-4M9 12l4-4-4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              <svg
+                class="yiz-date-range-picker-nav"
+                viewBox="0 0 16 16"
+                width="14"
+                height="14"
+                @click="shiftYear('end', 1)"
+              >
+                <path
+                  d="M4 12L8 8l-4-4M9 12l4-4-4-4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
             </div>
             <div v-if="endShowYearPicker" class="yiz-date-range-picker-year-grid">
@@ -124,7 +241,9 @@
 
         <div class="yiz-date-range-picker-footer">
           <LinkButton @click="onToday">{{ $t('datePicker.today') }}</LinkButton>
-          <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">{{ $t('common.confirm') }}</Button>
+          <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">{{
+            $t('common.confirm')
+          }}</Button>
         </div>
       </div>
     </Transition>
@@ -586,7 +705,9 @@ onBeforeUnmount(() => {
   border-color: var(--yiz-color-error);
 }
 
-.yiz-form-item-error-status .yiz-date-range-picker-open:not(.yiz-date-range-picker-disabled) .yiz-date-range-picker-input {
+.yiz-form-item-error-status
+  .yiz-date-range-picker-open:not(.yiz-date-range-picker-disabled)
+  .yiz-date-range-picker-input {
   border-color: var(--yiz-color-error);
   box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
 }

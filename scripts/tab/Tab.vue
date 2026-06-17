@@ -28,7 +28,6 @@
             <component
               v-if="pane.labelSlot"
               :is="getLabelComp(pane.labelSlot)"
-              class="yiz-tab-header-item-label"
             />
             <span v-else class="yiz-tab-header-item-label">{{ pane.label }}</span>
             <span
@@ -165,7 +164,10 @@ const isVertical = computed(() => props.direction === 'left' || props.direction 
 
 function getLabelComp(slotFn: (() => any) | undefined) {
   if (!slotFn) return null
-  return { render: () => h(Fragment, slotFn()) }
+  return {
+    inheritAttrs: false,
+    render: () => h('span', { class: 'yiz-tab-header-item-label' }, slotFn())
+  }
 }
 
 // DOM 测量 — bar 精确跟随当前激活 tab 的尺寸和位置

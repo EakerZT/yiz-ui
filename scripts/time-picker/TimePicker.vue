@@ -1,17 +1,11 @@
 <template>
-  <div ref="triggerRef" class="yiz-time-picker" :class="vClass" @click="onTriggerClick">
+  <div ref="triggerRef" class="yiz-time-picker" :class="vClass" @click="onTriggerClick" v-bind="$attrs">
     <div class="yiz-time-picker-input">
       <span class="yiz-time-picker-prefix" v-if="$props.prefix || $slots.prefix">
         <template v-if="$props.prefix">{{ $props.prefix }}</template>
         <slot v-else name="prefix" />
       </span>
-      <input
-        ref="inputRef"
-        :value="displayText"
-        :placeholder="placeholderText"
-        :disabled="disabled"
-        readonly
-      />
+      <input ref="inputRef" :value="displayText" :placeholder="placeholderText" :disabled="disabled" readonly />
       <span v-if="clearable && modelValue != null" class="yiz-time-picker-clear" @click.stop="onClear">
         <Icon size="14" :icon="DismissCircle32Filled" />
       </span>
@@ -20,20 +14,17 @@
         <slot v-else name="suffix" />
       </span>
       <svg class="yiz-time-picker-suffix" viewBox="0 0 16 16" width="14" height="14">
-        <path d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1zm0 3a.5.5 0 0 0-.5.5v3.5h-3a.5.5 0 0 0 0 1h3.5v3.5a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4.5A.5.5 0 0 0 8 4z" fill="currentColor" />
+        <path
+          d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1zm0 3a.5.5 0 0 0-.5.5v3.5h-3a.5.5 0 0 0 0 1h3.5v3.5a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4.5A.5.5 0 0 0 8 4z"
+          fill="currentColor"
+        />
       </svg>
     </div>
   </div>
 
   <Teleport to="body">
     <Transition name="yiz-time-picker-panel-fade">
-      <div
-        v-if="open"
-        ref="panelRef"
-        class="yiz-time-picker-panel"
-        :style="panelStyle"
-        @click.stop
-      >
+      <div v-if="open" ref="panelRef" class="yiz-time-picker-panel" :style="panelStyle" @click.stop>
         <div class="yiz-time-picker-body">
           <!-- 时 -->
           <div class="yiz-time-picker-col">
@@ -73,7 +64,7 @@
                 v-for="s in 60"
                 :key="s - 1"
                 class="yiz-time-picker-col-item"
-                :class="{ 'yiz-time-picker-col-item--active': (s - 1) === pickedSecond }"
+                :class="{ 'yiz-time-picker-col-item--active': s - 1 === pickedSecond }"
                 @click="pickedSecond = s - 1"
               >
                 {{ pad(s - 1) }}
@@ -362,7 +353,9 @@ defineExpose({
   border-radius: 4px;
   background: #fff;
   cursor: pointer;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
   box-sizing: border-box;
   gap: 4px;
 
@@ -513,7 +506,9 @@ defineExpose({
   color: #666;
   cursor: pointer;
   border-radius: 4px;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 
   &:hover {
     background: var(--yiz-color-hover-bg);
@@ -538,7 +533,9 @@ defineExpose({
 // 过渡
 .yiz-time-picker-panel-fade-enter-active,
 .yiz-time-picker-panel-fade-leave-active {
-  transition: opacity 0.2s, transform 0.2s;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
 }
 
 .yiz-time-picker-panel-fade-enter-from,
