@@ -1,61 +1,63 @@
 <template>
   <Teleport to="body">
-    <div
-      v-if="visible"
-      class="yiz-dropmenu-panel"
-      :style="position"
-      @mouseenter="$emit('mouseenter')"
-      @mouseleave="$emit('mouseleave', $event)"
-    >
-      <template v-for="(item, idx) in options" :key="idx">
-        <div v-if="item.type === 'divider'" class="yiz-dropmenu-divider" />
-        <div
-          v-else
-          class="yiz-dropmenu-item"
-          :class="{ 'yiz-dropmenu-item-disabled': item.disabled, 'yiz-dropmenu-item-hover': hoveredItem === item }"
-          @click="onItemClick(item)"
-          @mouseenter="onItemMouseEnter(item, $event)"
-          @mouseleave="onItemMouseLeave"
-        >
-          <span class="yiz-dropmenu-item-content">
-            <span class="yiz-dropmenu-item-icon">
-              <template v-if="item.icon">
-                <template v-if="typeof item.icon === 'string'">
-                  <slot name="icon" :icon="item.icon" :item="item" />
-                </template>
-                <IconRenderer v-else :content="item.icon" />
-              </template>
-            </span>
-            <slot name="item" :item="item" :index="idx">
-              {{ item.label }}
-            </slot>
-          </span>
-          <svg v-if="item.children?.length" class="yiz-dropmenu-sub-arrow" viewBox="0 0 16 16" width="10" height="10">
-            <path
-              d="M6 4l4 4-4 4"
-              stroke="currentColor"
-              stroke-width="1.5"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
-      </template>
-
-      <DropmenuPanel
-        v-if="hoveredItem?.children?.length"
-        :visible="!!hoveredItem"
-        :options="hoveredItem.children"
-        :position="childStyle"
-        @select="onChildSelect"
-        @mouseenter="onChildEnter"
-        @mouseleave="onChildLeave"
+    <Transition name="yiz-dropmenu-panel-fade">
+      <div
+        v-if="visible"
+        class="yiz-dropmenu-panel"
+        :style="position"
+        @mouseenter="$emit('mouseenter')"
+        @mouseleave="$emit('mouseleave', $event)"
       >
-        <template #icon="scope"><slot name="icon" v-bind="scope" /></template>
-        <template #item="scope"><slot name="item" v-bind="scope" /></template>
-      </DropmenuPanel>
-    </div>
+        <template v-for="(item, idx) in options" :key="idx">
+          <div v-if="item.type === 'divider'" class="yiz-dropmenu-divider" />
+          <div
+            v-else
+            class="yiz-dropmenu-item"
+            :class="{ 'yiz-dropmenu-item-disabled': item.disabled, 'yiz-dropmenu-item-hover': hoveredItem === item }"
+            @click="onItemClick(item)"
+            @mouseenter="onItemMouseEnter(item, $event)"
+            @mouseleave="onItemMouseLeave"
+          >
+            <span class="yiz-dropmenu-item-content">
+              <span class="yiz-dropmenu-item-icon">
+                <template v-if="item.icon">
+                  <template v-if="typeof item.icon === 'string'">
+                    <slot name="icon" :icon="item.icon" :item="item" />
+                  </template>
+                  <IconRenderer v-else :content="item.icon" />
+                </template>
+              </span>
+              <slot name="item" :item="item" :index="idx">
+                {{ item.label }}
+              </slot>
+            </span>
+            <svg v-if="item.children?.length" class="yiz-dropmenu-sub-arrow" viewBox="0 0 16 16" width="10" height="10">
+              <path
+                d="M6 4l4 4-4 4"
+                stroke="currentColor"
+                stroke-width="1.5"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </template>
+
+        <DropmenuPanel
+          v-if="hoveredItem?.children?.length"
+          :visible="!!hoveredItem"
+          :options="hoveredItem.children"
+          :position="childStyle"
+          @select="onChildSelect"
+          @mouseenter="onChildEnter"
+          @mouseleave="onChildLeave"
+        >
+          <template #icon="scope"><slot name="icon" v-bind="scope" /></template>
+          <template #item="scope"><slot name="item" v-bind="scope" /></template>
+        </DropmenuPanel>
+      </div>
+    </Transition>
   </Teleport>
 </template>
 
@@ -235,5 +237,18 @@ function onChildSelect(item: DropmenuOption) {
   height: 1px;
   margin: 4px 8px;
   background: var(--yiz-color-border, #d9d9d9);
+}
+
+.yiz-dropmenu-panel-fade-enter-active,
+.yiz-dropmenu-panel-fade-leave-active {
+  transition:
+    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.yiz-dropmenu-panel-fade-enter-from,
+.yiz-dropmenu-panel-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
 }
 </style>
