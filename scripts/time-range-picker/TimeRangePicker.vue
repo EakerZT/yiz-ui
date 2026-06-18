@@ -39,12 +39,7 @@
         <template v-if="$props.suffix">{{ $props.suffix }}</template>
         <slot v-else name="suffix" />
       </span>
-      <svg class="yiz-time-range-picker-suffix" viewBox="0 0 16 16" width="14" height="14">
-        <path
-          d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1zm0 3a.5.5 0 0 0-.5.5v3.5h-3a.5.5 0 0 0 0 1h3.5v3.5a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4.5A.5.5 0 0 0 8 4z"
-          fill="currentColor"
-        />
-      </svg>
+      <Icon class="yiz-time-range-picker-suffix" size="16" :icon="Clock16Regular" />
     </div>
   </div>
 
@@ -168,7 +163,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { DismissCircle32Filled } from '@vicons/fluent'
+import { Clock16Regular, DismissCircle32Filled } from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import { Icon } from '../icon'
 import LinkButton from '../link-button/LinkButton.vue'

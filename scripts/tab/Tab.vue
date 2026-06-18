@@ -35,9 +35,7 @@
               class="yiz-tab-header-item-close"
               @click.stop="onClosePane(pane)"
             >
-              <svg viewBox="0 0 12 12" fill="currentColor">
-                <path d="M6 5.293l4.146-4.147a.5.5 0 01.708.708L6.707 6l4.147 4.146a.5.5 0 01-.708.708L6 6.707l-4.146 4.147a.5.5 0 01-.708-.708L5.293 6 1.146 1.854a.5.5 0 11.708-.708L6 5.293z" />
-              </svg>
+              <Icon size="16" :icon="Dismiss16Regular" />
             </span>
           </div>
           <div v-if="props.type !== 'card'" class="yiz-tab-header-bar" :style="barStyle" />
@@ -57,6 +55,8 @@
 
 <script lang="ts" setup>
 import { computed, Fragment, h, nextTick, provide, reactive, ref, useSlots, watch, type CSSProperties } from 'vue'
+import { Dismiss16Regular } from '@vicons/fluent'
+import { Icon } from '../icon'
 import TabPaneComp from './TabPane.vue'
 import ScrollBox from '../scroll-box/ScrollBox.vue'
 

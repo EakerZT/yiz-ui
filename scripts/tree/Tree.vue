@@ -261,6 +261,9 @@ provide<TreeContext>('yizTree', {
 }
 
 .yiz-tree-switcher {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin: 0;
   padding: 0;
   border: none;
@@ -269,18 +272,11 @@ provide<TreeContext>('yizTree', {
   cursor: pointer;
 }
 
-.yiz-tree-switcher::before {
-  content: '';
-  display: inline-block;
-  width: 0;
-  height: 0;
-  border-top: 4px solid transparent;
-  border-bottom: 4px solid transparent;
-  border-left: 5px solid currentColor;
+.yiz-tree-switcher-icon {
   transition: transform 0.2s;
 }
 
-.yiz-tree-switcher-expanded::before {
+.yiz-tree-switcher-expanded .yiz-tree-switcher-icon {
   transform: rotate(90deg);
 }
 

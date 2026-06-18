@@ -7,18 +7,13 @@
       </span>
       <input ref="inputRef" :value="displayText" :placeholder="placeholderText" :disabled="disabled" readonly />
       <span v-if="clearable && modelValue && !disabled" class="yiz-date-picker-clear" @click.stop="onClear">
-        <Icon size="14" :icon="DismissCircle32Filled" />
+        <Icon size="16" :icon="DismissCircle32Filled" />
       </span>
       <span class="yiz-date-picker-extra-suffix" v-if="$props.suffix || $slots.suffix">
         <template v-if="$props.suffix">{{ $props.suffix }}</template>
         <slot v-else name="suffix" />
       </span>
-      <svg class="yiz-date-picker-suffix" viewBox="0 0 16 16" width="14" height="14">
-        <path
-          d="M5.5 1a.5.5 0 0 1 .5.5V2h4v-.5a.5.5 0 0 1 1 0V2h1.5A1.5 1.5 0 0 1 14 3.5v9A1.5 1.5 0 0 1 12.5 14h-9A1.5 1.5 0 0 1 2 12.5v-9A1.5 1.5 0 0 1 3.5 2H5v-.5a.5.5 0 0 1 .5-.5zM3.5 3a.5.5 0 0 0-.5.5V5h10V3.5a.5.5 0 0 0-.5-.5h-9zM13 6H3v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V6z"
-          fill="currentColor"
-        />
-      </svg>
+      <Icon class="yiz-date-picker-suffix" size="16" :icon="CalendarLtr16Regular" />
     </div>
   </div>
 
@@ -27,49 +22,13 @@
       <div v-if="open" ref="panelRef" class="yiz-date-picker-panel" :style="panelStyle" @click.stop>
         <!-- 月份导航 -->
         <div class="yiz-date-picker-header">
-          <svg class="yiz-date-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="prevYear">
-            <path
-              d="M12 12L8 8l4-4M7 12L3 8l4-4"
-              stroke="currentColor"
-              stroke-width="1.5"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <svg class="yiz-date-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="prevMonth">
-            <path
-              d="M11 12L7 8l4-4"
-              stroke="currentColor"
-              stroke-width="1.5"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <Icon class="yiz-date-picker-nav" size="16" :icon="ChevronDoubleLeft16Regular" @click="prevYear" />
+          <Icon class="yiz-date-picker-nav" size="16" :icon="ChevronLeft16Regular" @click="prevMonth" />
           <span class="yiz-date-picker-month-year" @click="showYearPicker = !showYearPicker">
             {{ $t('datePicker.yearMonth', { year, month }) }}
           </span>
-          <svg class="yiz-date-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="nextMonth">
-            <path
-              d="M5 12L9 8 5 4"
-              stroke="currentColor"
-              stroke-width="1.5"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <svg class="yiz-date-picker-nav" viewBox="0 0 16 16" width="14" height="14" @click="nextYear">
-            <path
-              d="M4 12L8 8l-4-4M9 12l4-4-4-4"
-              stroke="currentColor"
-              stroke-width="1.5"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <Icon class="yiz-date-picker-nav" size="16" :icon="ChevronRight16Regular" @click="nextMonth" />
+          <Icon class="yiz-date-picker-nav" size="16" :icon="ChevronDoubleRight16Regular" @click="nextYear" />
         </div>
 
         <!-- 年份快速选择 -->
@@ -119,7 +78,14 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { DismissCircle32Filled } from '@vicons/fluent'
+import {
+  CalendarLtr16Regular,
+  ChevronDoubleLeft16Regular,
+  ChevronDoubleRight16Regular,
+  ChevronLeft16Regular,
+  ChevronRight16Regular,
+  DismissCircle32Filled
+} from '@vicons/fluent'
 import { Icon } from '../icon'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t, $tList } from '../locale'
@@ -583,7 +549,6 @@ onBeforeUnmount(() => {
 .yiz-date-picker-nav {
   cursor: pointer;
   color: #666;
-  padding: 2px;
   border-radius: 2px;
   flex-shrink: 0;
   transition:

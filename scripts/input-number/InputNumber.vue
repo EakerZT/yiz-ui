@@ -6,9 +6,7 @@
       :disabled="disabled || isMin"
       @click="decrease"
     >
-      <svg viewBox="0 0 16 16" width="14" height="14">
-        <path d="M3 8h10" stroke="currentColor" stroke-width="1.5" fill="none" />
-      </svg>
+      <Icon size="16" :icon="Subtract16Regular" />
     </button>
     <div class="yiz-input-number-prefix" v-if="$props.prefix || $slots.prefix">
       <template v-if="$props.prefix">{{ $props.prefix }}</template>
@@ -39,15 +37,15 @@
       :disabled="disabled || isMax"
       @click="increase"
     >
-      <svg viewBox="0 0 16 16" width="14" height="14">
-        <path d="M3 8h10M8 3v10" stroke="currentColor" stroke-width="1.5" fill="none" />
-      </svg>
+      <Icon size="16" :icon="Add16Regular" />
     </button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref, useSlots } from 'vue'
+import { Add16Regular, Subtract16Regular } from '@vicons/fluent'
+import { Icon } from '../icon'
 
 const slots = useSlots()
 

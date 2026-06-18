@@ -29,22 +29,12 @@
                 {{ item.label }}
               </slot>
             </span>
-            <svg
+            <Icon
               v-if="item.children?.length"
               class="yiz-menu-item-arrow"
-              viewBox="0 0 16 16"
-              width="12"
-              height="12"
-            >
-              <path
-                d="M6 4l4 4-4 4"
-                stroke="currentColor"
-                stroke-width="1.5"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+              size="16"
+              :icon="ChevronRight16Regular"
+            />
           </div>
         </template>
       </div>
@@ -69,6 +59,8 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
+import { ChevronRight16Regular } from '@vicons/fluent'
+import { Icon } from '../icon'
 import type { MenuItem } from './Menu.vue'
 import IconRenderer from './IconRenderer.vue'
 

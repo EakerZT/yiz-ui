@@ -15,16 +15,12 @@
         <template v-if="$props.suffix">{{ $props.suffix }}</template>
         <slot v-else name="suffix" />
       </span>
-      <svg class="yiz-select-arrow" :class="{ 'yiz-select-arrow-up': open }" viewBox="0 0 16 16" width="14" height="14">
-        <path
-          d="M4 6l4 4 4-4"
-          stroke="currentColor"
-          stroke-width="1.5"
-          fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
+      <Icon
+        class="yiz-select-arrow"
+        :class="{ 'yiz-select-arrow-up': open }"
+        size="16"
+        :icon="ChevronDown16Regular"
+      />
     </span>
   </div>
   <Teleport to="body">
@@ -64,7 +60,7 @@
 
 <script lang="ts" setup>
 import { computed, Fragment, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
-import { DismissCircle32Filled } from '@vicons/fluent'
+import { ChevronDown16Regular, DismissCircle32Filled } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { Input } from '../input'
 import { $t } from '../locale'

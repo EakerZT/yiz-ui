@@ -8,22 +8,12 @@
     <slot name="trigger" :open="open">
       <button type="button" class="yiz-dropmenu-trigger" :disabled="disabled">
         <span>{{ label }}</span>
-        <svg
+        <Icon
           class="yiz-dropmenu-arrow"
           :class="{ 'yiz-dropmenu-arrow-open': open }"
-          viewBox="0 0 16 16"
-          width="12"
-          height="12"
-        >
-          <path
-            d="M4 6l4 4 4-4"
-            stroke="currentColor"
-            stroke-width="1.5"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+          size="16"
+          :icon="ChevronDown16Regular"
+        />
       </button>
     </slot>
   </span>
@@ -37,7 +27,9 @@
 
 <script lang="ts" setup>
 import { computed, Fragment, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
+import { ChevronDown16Regular } from '@vicons/fluent'
 import MenuOptionComp from '../menu-option/MenuOption.vue'
+import { Icon } from '../icon'
 import { nextZIndex } from '../zIndex'
 import DropmenuPanel from './DropmenuPanel.vue'
 import type { DropmenuOption } from './types'

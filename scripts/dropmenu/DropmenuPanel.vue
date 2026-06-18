@@ -31,16 +31,12 @@
                 {{ item.label }}
               </slot>
             </span>
-            <svg v-if="item.children?.length" class="yiz-dropmenu-sub-arrow" viewBox="0 0 16 16" width="10" height="10">
-              <path
-                d="M6 4l4 4-4 4"
-                stroke="currentColor"
-                stroke-width="1.5"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <Icon
+              v-if="item.children?.length"
+              class="yiz-dropmenu-sub-arrow"
+              size="16"
+              :icon="ChevronRight16Regular"
+            />
           </div>
         </template>
 
@@ -63,6 +59,8 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
+import { ChevronRight16Regular } from '@vicons/fluent'
+import { Icon } from '../icon'
 import IconRenderer from '../menu/IconRenderer.vue'
 import type { DropmenuOption } from './types'
 

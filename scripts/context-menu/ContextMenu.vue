@@ -28,16 +28,7 @@
             {{ item.label }}
           </slot>
         </span>
-        <svg viewBox="0 0 16 16" width="10" height="10" class="yiz-context-menu-sub-arrow">
-          <path
-            d="M6 4l4 4-4 4"
-            stroke="currentColor"
-            stroke-width="1.5"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <Icon class="yiz-context-menu-sub-arrow" size="10" :icon="ChevronRight16Regular" />
         <div
           v-if="hoveredSubmenu === item.value && item.children?.length"
           class="yiz-context-menu-sub"
@@ -56,16 +47,7 @@
         @mouseenter="onItemHover"
       >
         <span class="yiz-context-menu-item-check">
-          <svg v-if="isChecked(item)" viewBox="0 0 16 16" width="14" height="14">
-            <path
-              d="M3 8l3 3 6-6"
-              stroke="currentColor"
-              stroke-width="2"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <Icon v-if="isChecked(item)" size="14" :icon="Checkmark16Regular" />
         </span>
         <slot name="item" :item="item" :index="idx">
           {{ item.label }}
@@ -81,9 +63,7 @@
         @mouseenter="onItemHover"
       >
         <span class="yiz-context-menu-item-radio">
-          <svg v-if="isChecked(item)" viewBox="0 0 16 16" width="14" height="14">
-            <circle cx="8" cy="8" r="4" fill="currentColor" />
-          </svg>
+          <Icon v-if="isChecked(item)" size="14" :icon="CheckmarkCircle16Regular" />
         </span>
         <slot name="item" :item="item" :index="idx">
           {{ item.label }}
@@ -119,7 +99,9 @@
 
 <script lang="ts" setup>
 import { computed, Fragment, ref, useSlots } from 'vue'
+import { Checkmark16Regular, CheckmarkCircle16Regular, ChevronRight16Regular } from '@vicons/fluent'
 import ContextMenuOptionComp from '../context-menu-option/ContextMenuOption.vue'
+import { Icon } from '../icon'
 import IconRenderer from '../menu/IconRenderer.vue'
 
 export interface ContextMenuItem {

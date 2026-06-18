@@ -2,15 +2,7 @@
   <span class="yiz-tag" :class="vClass" :style="vStyle">
     <slot />
     <span v-if="closable" class="yiz-tag-close" @click.stop="onClose">
-      <svg viewBox="0 0 12 12" width="10" height="10">
-        <path
-          d="M1 1L6 6M6 6L11 11M6 6L11 1M6 6L1 11"
-          stroke="currentColor"
-          stroke-width="1.2"
-          stroke-linecap="round"
-          fill="none"
-        />
-      </svg>
+      <Icon size="16" :icon="Dismiss16Regular" />
     </span>
   </span>
 </template>
@@ -18,6 +10,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
+import { Dismiss16Regular } from '@vicons/fluent'
+import { Icon } from '../icon'
 
 const props = withDefaults(
   defineProps<{

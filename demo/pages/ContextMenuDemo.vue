@@ -13,14 +13,14 @@
 <script lang="ts" setup>
 import { $t, Icon, showContextMenu } from 'yiz-ui'
 import { h, ref } from 'vue'
-import { Cut20Filled, Copy16Filled, Delete16Filled } from '@vicons/fluent'
+import { Copy16Regular, Cut20Regular, Delete16Regular } from '@vicons/fluent'
 
 const last = ref($t('demo.common.none'))
 const renderIcon = (icon: any) => () => h(Icon, { size: 16, icon })
 
 const allItems = [
-  { label: $t('demo.common.create'), value: 'new', icon: renderIcon(Cut20Filled) },
-  { label: $t('demo.common.open'), value: 'open', icon: renderIcon(Copy16Filled) },
+  { label: $t('demo.common.create'), value: 'new', icon: renderIcon(Cut20Regular) },
+  { label: $t('demo.common.open'), value: 'open', icon: renderIcon(Copy16Regular) },
   { type: 'divider' as const },
   {
     label: $t('demo.contextMenu.layout'),
@@ -52,7 +52,7 @@ const allItems = [
     ]
   },
   { type: 'divider' as const },
-  { label: $t('demo.common.save'), value: 'save', icon: renderIcon(Delete16Filled) },
+  { label: $t('demo.common.save'), value: 'save', icon: renderIcon(Delete16Regular) },
   { label: $t('demo.common.export'), value: 'export' },
   { label: $t('demo.contextMenu.properties'), value: 'properties', disabled: true }
 ]

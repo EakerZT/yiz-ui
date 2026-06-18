@@ -25,23 +25,13 @@
               {{ item.label }}
             </slot>
           </span>
-          <svg
+          <Icon
             v-if="item.children?.length"
             class="yiz-menu-item-arrow"
             :class="{ 'yiz-menu-item-arrow-expanded': isExpanded(item), 'yiz-menu-item-arrow-hidden': collapsed }"
-            viewBox="0 0 16 16"
-            width="12"
-            height="12"
-          >
-            <path
-              d="M6 4l4 4-4 4"
-              stroke="currentColor"
-              stroke-width="1.5"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+            size="16"
+            :icon="ChevronRight16Regular"
+          />
         </div>
       </Tooltip>
 
@@ -67,23 +57,13 @@
             {{ item.label }}
           </slot>
         </span>
-        <svg
+        <Icon
           v-if="item.children?.length"
           class="yiz-menu-item-arrow"
           :class="{ 'yiz-menu-item-arrow-expanded': isExpanded(item) }"
-          viewBox="0 0 16 16"
-          width="12"
-          height="12"
-        >
-          <path
-            d="M6 4l4 4-4 4"
-            stroke="currentColor"
-            stroke-width="1.5"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+          size="16"
+          :icon="ChevronRight16Regular"
+        />
       </div>
       <SubMenu
         v-if="!collapsed"
@@ -121,7 +101,9 @@
 
 <script lang="ts" setup>
 import { computed, Fragment, ref, useSlots } from 'vue'
+import { ChevronRight16Regular } from '@vicons/fluent'
 import MenuOptionComp from '../menu-option/MenuOption.vue'
+import { Icon } from '../icon'
 import IconRenderer from './IconRenderer.vue'
 import Tooltip from '../tooltip/Tooltip.vue'
 import SubMenu from './SubMenu.vue'

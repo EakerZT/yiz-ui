@@ -16,7 +16,9 @@
         type="button"
         :disabled="node.disabled"
         @click.stop="context.toggleExpand(node)"
-      />
+      >
+        <Icon class="yiz-tree-switcher-icon" size="16" :icon="CaretRight16Regular" />
+      </button>
       <span v-else class="yiz-tree-switcher-placeholder" />
 
       <span
@@ -52,7 +54,9 @@
 
 <script lang="ts" setup>
 import { computed, inject } from 'vue'
+import { CaretRight16Regular } from '@vicons/fluent'
 import Checkbox from '../checkbox/Checkbox.vue'
+import { Icon } from '../icon'
 import type { TreeContext, TreeNodeData } from './Tree.vue'
 
 defineOptions({

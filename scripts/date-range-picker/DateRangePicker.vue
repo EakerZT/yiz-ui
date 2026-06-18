@@ -39,12 +39,7 @@
         <template v-if="$props.suffix">{{ $props.suffix }}</template>
         <slot v-else name="suffix" />
       </span>
-      <svg class="yiz-date-range-picker-suffix" viewBox="0 0 16 16" width="14" height="14">
-        <path
-          d="M5.5 1a.5.5 0 0 1 .5.5V2h4v-.5a.5.5 0 0 1 1 0V2h1.5A1.5 1.5 0 0 1 14 3.5v9A1.5 1.5 0 0 1 12.5 14h-9A1.5 1.5 0 0 1 2 12.5v-9A1.5 1.5 0 0 1 3.5 2H5v-.5a.5.5 0 0 1 .5-.5zM3.5 3a.5.5 0 0 0-.5.5V5h10V3.5a.5.5 0 0 0-.5-.5h-9zM13 6H3v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V6z"
-          fill="currentColor"
-        />
-      </svg>
+      <Icon class="yiz-date-range-picker-suffix" size="14" :icon="CalendarLtr16Regular" />
     </div>
   </div>
 
@@ -58,73 +53,33 @@
           >
             <div class="yiz-date-range-picker-side-title" @click="activeSide = 'start'">{{ startLabel }}</div>
             <div class="yiz-date-range-picker-header">
-              <svg
+              <Icon
                 class="yiz-date-range-picker-nav"
-                viewBox="0 0 16 16"
-                width="14"
-                height="14"
+                size="14"
+                :icon="ChevronDoubleLeft16Regular"
                 @click="shiftYear('start', -1)"
-              >
-                <path
-                  d="M12 12L8 8l4-4M7 12L3 8l4-4"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <svg
+              />
+              <Icon
                 class="yiz-date-range-picker-nav"
-                viewBox="0 0 16 16"
-                width="14"
-                height="14"
+                size="14"
+                :icon="ChevronLeft16Regular"
                 @click="shiftMonth('start', -1)"
-              >
-                <path
-                  d="M11 12L7 8l4-4"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              />
               <span class="yiz-date-range-picker-month-year" @click="startShowYearPicker = !startShowYearPicker">
                 {{ startViewYear }}-{{ pad(startViewMonth) }}
               </span>
-              <svg
+              <Icon
                 class="yiz-date-range-picker-nav"
-                viewBox="0 0 16 16"
-                width="14"
-                height="14"
+                size="14"
+                :icon="ChevronRight16Regular"
                 @click="shiftMonth('start', 1)"
-              >
-                <path
-                  d="M5 12L9 8 5 4"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <svg
+              />
+              <Icon
                 class="yiz-date-range-picker-nav"
-                viewBox="0 0 16 16"
-                width="14"
-                height="14"
+                size="14"
+                :icon="ChevronDoubleRight16Regular"
                 @click="shiftYear('start', 1)"
-              >
-                <path
-                  d="M4 12L8 8l-4-4M9 12l4-4-4-4"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              />
             </div>
             <div v-if="startShowYearPicker" class="yiz-date-range-picker-year-grid">
               <div
@@ -151,73 +106,33 @@
           >
             <div class="yiz-date-range-picker-side-title" @click="activeSide = 'end'">{{ endLabel }}</div>
             <div class="yiz-date-range-picker-header">
-              <svg
+              <Icon
                 class="yiz-date-range-picker-nav"
-                viewBox="0 0 16 16"
-                width="14"
-                height="14"
+                size="14"
+                :icon="ChevronDoubleLeft16Regular"
                 @click="shiftYear('end', -1)"
-              >
-                <path
-                  d="M12 12L8 8l4-4M7 12L3 8l4-4"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <svg
+              />
+              <Icon
                 class="yiz-date-range-picker-nav"
-                viewBox="0 0 16 16"
-                width="14"
-                height="14"
+                size="14"
+                :icon="ChevronLeft16Regular"
                 @click="shiftMonth('end', -1)"
-              >
-                <path
-                  d="M11 12L7 8l4-4"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              />
               <span class="yiz-date-range-picker-month-year" @click="endShowYearPicker = !endShowYearPicker">
                 {{ endViewYear }}-{{ pad(endViewMonth) }}
               </span>
-              <svg
+              <Icon
                 class="yiz-date-range-picker-nav"
-                viewBox="0 0 16 16"
-                width="14"
-                height="14"
+                size="14"
+                :icon="ChevronRight16Regular"
                 @click="shiftMonth('end', 1)"
-              >
-                <path
-                  d="M5 12L9 8 5 4"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <svg
+              />
+              <Icon
                 class="yiz-date-range-picker-nav"
-                viewBox="0 0 16 16"
-                width="14"
-                height="14"
+                size="14"
+                :icon="ChevronDoubleRight16Regular"
                 @click="shiftYear('end', 1)"
-              >
-                <path
-                  d="M4 12L8 8l-4-4M9 12l4-4-4-4"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              />
             </div>
             <div v-if="endShowYearPicker" class="yiz-date-range-picker-year-grid">
               <div
@@ -252,7 +167,14 @@
 
 <script lang="ts" setup>
 import { computed, defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, watch, type PropType } from 'vue'
-import { DismissCircle32Filled } from '@vicons/fluent'
+import {
+  CalendarLtr16Regular,
+  ChevronDoubleLeft16Regular,
+  ChevronDoubleRight16Regular,
+  ChevronLeft16Regular,
+  ChevronRight16Regular,
+  DismissCircle32Filled
+} from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import { Icon } from '../icon'
 import LinkButton from '../link-button/LinkButton.vue'
@@ -859,7 +781,6 @@ onBeforeUnmount(() => {
 .yiz-date-range-picker-nav {
   cursor: pointer;
   color: #666;
-  padding: 2px;
   border-radius: 2px;
   flex-shrink: 0;
   transition:
