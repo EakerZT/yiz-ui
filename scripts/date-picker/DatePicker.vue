@@ -194,8 +194,7 @@ const vClass = computed(() => {
 })
 
 const panelStyle = computed(() => ({
-  zIndex: currentZIndex.value + 1,
-  minWidth: triggerRef.value ? `${triggerRef.value.getBoundingClientRect().width}px` : undefined
+  zIndex: currentZIndex.value + 1
 }))
 
 interface CalendarCell {
