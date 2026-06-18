@@ -80,6 +80,22 @@
       </y-button-group>
     </y-card>
 
+    <y-card :title="$t('demo.common.loading')" style="margin-top: 8px">
+      <div class="demo-button-loading-panel">
+        <y-switch v-model:value="buttonLoading" />
+        <y-button-group>
+          <y-button :loading="buttonLoading">default</y-button>
+          <y-button type="primary" color="error" :loading="buttonLoading">primary</y-button>
+          <y-button type="primary" :loading="buttonLoading">primary</y-button>
+          <y-button type="plain" :loading="buttonLoading">plain</y-button>
+          <y-button type="plain" color="error" :loading="buttonLoading">plain</y-button>
+          <y-button type="primary" shape="circle" :loading="buttonLoading">
+            <y-icon :icon="Flash20Regular" />
+          </y-button>
+        </y-button-group>
+      </div>
+    </y-card>
+
     <y-card :title="$t('demo.button.clickEvent')" style="margin-top: 8px">
       <y-button @click="count++">{{ $t('demo.button.clickCount', { count }) }}</y-button>
     </y-card>
@@ -125,6 +141,7 @@ import { Flash20Regular } from '@vicons/fluent'
 
 const count = ref(0)
 const linkCount = ref(0)
+const buttonLoading = ref(true)
 const buttonSize = ref<'small' | 'middle' | 'large'>('middle')
 const buttonSizeOptions = [
   { label: 'small', value: 'small' },
@@ -134,7 +151,8 @@ const buttonSizeOptions = [
 </script>
 
 <style scoped>
-.demo-button-size-panel {
+.demo-button-size-panel,
+.demo-button-loading-panel {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
