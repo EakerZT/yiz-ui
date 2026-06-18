@@ -8,7 +8,7 @@
       {{ selectedLabel || placeholderText }}
     </span>
     <span class="yiz-select-suffix">
-      <span v-if="clearable && modelValue != null" class="yiz-select-clear" @click.stop="onClear">
+      <span v-if="clearable && modelValue != null && !disabled" class="yiz-select-clear" @click.stop="onClear">
         <Icon size="14" :icon="DismissCircle32Filled" />
       </span>
       <span class="yiz-select-extra-suffix" v-if="$props.suffix || $slots.suffix">
@@ -218,6 +218,13 @@ watch(allOptions, () => {
   filteredOptions.value = [...allOptions.value]
 })
 
+watch(
+  () => props.disabled,
+  (disabled) => {
+    if (disabled) open.value = false
+  }
+)
+
 function repositionDropdown() {
   if (!dropdownRef.value || !triggerRef.value || !open.value) return
   const ddRect = dropdownRef.value.getBoundingClientRect()
@@ -273,12 +280,14 @@ watch(open, async (val) => {
 })
 
 function onSelect(opt: SelectOption) {
+  if (props.disabled) return
   modelValue.value = opt.value
   open.value = false
   emit('change', opt)
 }
 
 function onClear() {
+  if (props.disabled) return
   modelValue.value = undefined
   emit('change', null)
 }

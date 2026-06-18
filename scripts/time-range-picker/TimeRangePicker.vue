@@ -29,7 +29,7 @@
         </span>
       </button>
       <span
-        v-if="clearable && (startModel != null || endModel != null)"
+        v-if="clearable && (startModel != null || endModel != null) && !disabled"
         class="yiz-time-range-picker-clear"
         @click.stop="onClear"
       >
@@ -270,6 +270,13 @@ watch(open, async (val) => {
   }
 })
 
+watch(
+  () => props.disabled,
+  (disabled) => {
+    if (disabled) open.value = false
+  }
+)
+
 function pad(n: number): string {
   return n < 10 ? `0${n}` : `${n}`
 }
@@ -340,6 +347,7 @@ function onTriggerClick() {
 }
 
 function onSegmentClick(side: TimeRangeSide) {
+  if (props.disabled) return
   if (!open.value) {
     openPanel(side)
     return
@@ -349,6 +357,7 @@ function onSegmentClick(side: TimeRangeSide) {
 }
 
 function setPicked(side: TimeRangeSide, unit: TimeUnit, value: number) {
+  if (props.disabled) return
   activeSide.value = side
   if (side === 'start') {
     if (unit === 'hour') startHour.value = value
@@ -364,6 +373,7 @@ function setPicked(side: TimeRangeSide, unit: TimeUnit, value: number) {
 }
 
 function onNow() {
+  if (props.disabled) return
   const now = getNowParts()
   if (activeSide.value === 'start') {
     startHour.value = now.hour
@@ -380,6 +390,7 @@ function onNow() {
 }
 
 function onConfirm() {
+  if (props.disabled) return
   if (confirmDisabled.value) return
   startModel.value = draftStart.value
   endModel.value = draftEnd.value
@@ -388,6 +399,7 @@ function onConfirm() {
 }
 
 function onClear() {
+  if (props.disabled) return
   startModel.value = null
   endModel.value = null
   draftStart.value = null

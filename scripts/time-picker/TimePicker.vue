@@ -6,7 +6,7 @@
         <slot v-else name="prefix" />
       </span>
       <input ref="inputRef" :value="displayText" :placeholder="placeholderText" :disabled="disabled" readonly />
-      <span v-if="clearable && modelValue != null" class="yiz-time-picker-clear" @click.stop="onClear">
+      <span v-if="clearable && modelValue != null && !disabled" class="yiz-time-picker-clear" @click.stop="onClear">
         <Icon size="14" :icon="DismissCircle32Filled" />
       </span>
       <span class="yiz-time-picker-extra-suffix" v-if="$props.suffix || $slots.suffix">
@@ -35,7 +35,7 @@
                 :key="h"
                 class="yiz-time-picker-col-item"
                 :class="{ 'yiz-time-picker-col-item--active': h === pickedHour }"
-                @click="pickedHour = h"
+                @click="setPicked('hour', h)"
               >
                 {{ pad(h) }}
               </div>
@@ -50,7 +50,7 @@
                 :key="m"
                 class="yiz-time-picker-col-item"
                 :class="{ 'yiz-time-picker-col-item--active': m === pickedMinute }"
-                @click="pickedMinute = m"
+                @click="setPicked('minute', m)"
               >
                 {{ pad(m) }}
               </div>
@@ -65,7 +65,7 @@
                 :key="s - 1"
                 class="yiz-time-picker-col-item"
                 :class="{ 'yiz-time-picker-col-item--active': s - 1 === pickedSecond }"
-                @click="pickedSecond = s - 1"
+                @click="setPicked('second', s - 1)"
               >
                 {{ pad(s - 1) }}
               </div>
@@ -187,6 +187,13 @@ watch(open, async (val) => {
   }
 })
 
+watch(
+  () => props.disabled,
+  (disabled) => {
+    if (disabled) open.value = false
+  }
+)
+
 // ==================== 滚动到选中项 ====================
 
 function scrollToSelected() {
@@ -271,11 +278,20 @@ function onTriggerClick() {
 }
 
 function onClear() {
+  if (props.disabled) return
   modelValue.value = null
   emit('change', null)
 }
 
+function setPicked(unit: 'hour' | 'minute' | 'second', value: number) {
+  if (props.disabled) return
+  if (unit === 'hour') pickedHour.value = value
+  if (unit === 'minute') pickedMinute.value = value
+  if (unit === 'second') pickedSecond.value = value
+}
+
 function onNow() {
+  if (props.disabled) return
   const now = new Date()
   pickedHour.value = now.getHours()
   pickedMinute.value = now.getMinutes()
@@ -284,6 +300,7 @@ function onNow() {
 }
 
 function onConfirm() {
+  if (props.disabled) return
   modelValue.value = buildValue()
   emit('change', modelValue.value)
   open.value = false

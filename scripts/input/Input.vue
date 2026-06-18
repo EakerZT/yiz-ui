@@ -16,9 +16,10 @@
         @keydown="onKeydown"
         class="yiz-input_inner"
         :placeholder="$props.placeholder"
+        :disabled="props.disabled"
       />
     </div>
-    <div class="yiz-input_clear" v-if="$props.clearable && modelValue" @click="onClearClick">
+    <div class="yiz-input_clear" v-if="$props.clearable && modelValue && !props.disabled" @click="onClearClick">
       <Icon size="14" :icon="DismissCircle32Filled" />
     </div>
     <div class="yiz-input_suffix" v-if="$props.suffix || $slots.suffix">
@@ -46,9 +47,11 @@ const props = withDefaults(
     prefix?: string
     suffix?: string
     clearable?: boolean
+    disabled?: boolean
   }>(),
   {
-    clearable: false
+    clearable: false,
+    disabled: false
   }
 )
 
@@ -62,17 +65,23 @@ const vClass = computed(() => {
   if (isFocus.value) {
     c.focus = true
   }
+  if (props.disabled) {
+    c['yiz-input-disabled'] = true
+  }
   return c
 })
 const onClearClick = () => {
+  if (props.disabled) return
   modelValue.value = ''
 }
 
 function onInput(e: Event) {
+  if (props.disabled) return
   modelValue.value = (e.target as HTMLInputElement).value
 }
 
 function onKeydown(e: KeyboardEvent) {
+  if (props.disabled) return
   if (e.key === 'Enter') {
     emit('pressEnter')
   }
@@ -96,16 +105,26 @@ defineExpose({
   font-size: 14px;
   background: var(--yiz-color-bg);
 
-  &:hover {
+  &:not(.yiz-input-disabled):hover {
     border: 1px solid var(--yiz-color-primary);
   }
 
-  &.focus {
+  &.focus:not(.yiz-input-disabled) {
     border: 1px solid var(--yiz-color-primary);
     box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
   }
 
-  .yiz-form-item-error-status & {
+  &.yiz-input-disabled {
+    background: #f5f5f5;
+    cursor: not-allowed;
+    color: #c0c4cc;
+
+    &:hover {
+      border-color: var(--yiz-color-border);
+    }
+  }
+
+  .yiz-form-item-error-status &:not(.yiz-input-disabled) {
     border-color: var(--yiz-color-error);
 
     &:hover {
@@ -165,6 +184,12 @@ defineExpose({
       font-size: 14px;
       font-family: inherit;
       min-width: 0;
+
+      &:disabled {
+        cursor: not-allowed;
+        color: #c0c4cc;
+        background: transparent;
+      }
     }
   }
 }

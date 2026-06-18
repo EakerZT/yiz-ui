@@ -6,7 +6,7 @@
         <slot v-else name="prefix" />
       </span>
       <input ref="inputRef" :value="displayText" :placeholder="placeholderText" :disabled="disabled" readonly />
-      <span v-if="clearable && modelValue" class="yiz-date-picker-clear" @click.stop="onClear">
+      <span v-if="clearable && modelValue && !disabled" class="yiz-date-picker-clear" @click.stop="onClear">
         <Icon size="14" :icon="DismissCircle32Filled" />
       </span>
       <span class="yiz-date-picker-extra-suffix" v-if="$props.suffix || $slots.suffix">
@@ -293,11 +293,13 @@ function onTriggerClick() {
 }
 
 function onClear() {
+  if (props.disabled) return
   modelValue.value = null
   emit('change', null)
 }
 
 function onCellClick(cell: CalendarCell) {
+  if (props.disabled) return
   if (cell.disabled) return
   if (!cell.current) {
     viewYear.value = cell.date.getFullYear()
@@ -310,6 +312,7 @@ function onCellClick(cell: CalendarCell) {
 }
 
 function onToday() {
+  if (props.disabled) return
   const today = new Date()
   modelValue.value = today
   emit('change', today)
@@ -386,6 +389,16 @@ watch(open, async (val) => {
     repositionPanel()
   }
 })
+
+watch(
+  () => props.disabled,
+  (disabled) => {
+    if (disabled) {
+      open.value = false
+      showYearPicker.value = false
+    }
+  }
+)
 
 function onClickOutside(e: MouseEvent) {
   if (!open.value) return

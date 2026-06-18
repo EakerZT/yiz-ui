@@ -14,13 +14,14 @@
         :autocomplete="props.autocomplete"
         class="yiz-input_inner"
         :placeholder="$props.placeholder"
+        :disabled="props.disabled"
         @input="onInput"
         @focus="isFocus = true"
         @blur="isFocus = false"
         @keydown="onKeydown"
       />
     </div>
-    <div class="yiz-input_clear" v-if="$props.clearable && modelValue" @click="onClearClick">
+    <div class="yiz-input_clear" v-if="$props.clearable && modelValue && !props.disabled" @click="onClearClick">
       <Icon size="14" :icon="DismissCircle32Filled" />
     </div>
     <div class="yiz-input_suffix" v-if="$props.suffix || $slots.suffix">
@@ -35,8 +36,9 @@
       class="yiz-input-password_toggle"
       :aria-label="passwordVisible ? $t('inputPassword.hidePassword') : $t('inputPassword.showPassword')"
       :aria-pressed="passwordVisible"
+      :disabled="props.disabled"
       @mousedown.prevent
-      @click="passwordVisible = !passwordVisible"
+      @click="onTogglePassword"
     >
       <Icon size="16" :icon="passwordVisible ? EyeOff20Regular : Eye20Regular" />
     </button>
@@ -60,11 +62,13 @@ const props = withDefaults(
     prefix?: string
     suffix?: string
     clearable?: boolean
+    disabled?: boolean
     showToggle?: boolean
     autocomplete?: string
   }>(),
   {
     clearable: false,
+    disabled: false,
     showToggle: true,
     autocomplete: 'current-password'
   }
@@ -82,18 +86,29 @@ const vClass = computed(() => {
   if (isFocus.value) {
     c.focus = true
   }
+  if (props.disabled) {
+    c['yiz-input-disabled'] = true
+  }
   return c
 })
 
 const onClearClick = () => {
+  if (props.disabled) return
   modelValue.value = ''
 }
 
+function onTogglePassword() {
+  if (props.disabled) return
+  passwordVisible.value = !passwordVisible.value
+}
+
 function onInput(e: Event) {
+  if (props.disabled) return
   modelValue.value = (e.target as HTMLInputElement).value
 }
 
 function onKeydown(e: KeyboardEvent) {
+  if (props.disabled) return
   if (e.key === 'Enter') {
     emit('pressEnter')
   }
@@ -135,6 +150,11 @@ defineExpose({
 
     &:hover {
       color: rgba(0, 0, 0, 0.88);
+    }
+
+    &:disabled {
+      color: #c0c4cc;
+      cursor: not-allowed;
     }
   }
 }

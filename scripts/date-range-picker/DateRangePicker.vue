@@ -29,7 +29,7 @@
         </span>
       </button>
       <span
-        v-if="clearable && (startModel != null || endModel != null)"
+        v-if="clearable && (startModel != null || endModel != null) && !disabled"
         class="yiz-date-range-picker-clear"
         @click.stop="onClear"
       >
@@ -404,6 +404,13 @@ watch(open, async (val) => {
   }
 })
 
+watch(
+  () => props.disabled,
+  (disabled) => {
+    if (disabled) open.value = false
+  }
+)
+
 function pad(n: number): string {
   return n < 10 ? `0${n}` : `${n}`
 }
@@ -500,6 +507,7 @@ function onTriggerClick() {
 }
 
 function onSegmentClick(side: DateRangeSide) {
+  if (props.disabled) return
   if (!open.value) {
     openPanel(side)
     return
@@ -508,6 +516,7 @@ function onSegmentClick(side: DateRangeSide) {
 }
 
 function onCellClick(side: DateRangeSide, cell: CalendarCell) {
+  if (props.disabled) return
   if (cell.disabled) return
   activeSide.value = side
   if (!cell.current) {
@@ -522,6 +531,7 @@ function onCellClick(side: DateRangeSide, cell: CalendarCell) {
 }
 
 function onToday() {
+  if (props.disabled) return
   const today = new Date()
   const date = new Date(today.getFullYear(), today.getMonth(), today.getDate())
   if (activeSide.value === 'start') {
@@ -534,6 +544,7 @@ function onToday() {
 }
 
 function onConfirm() {
+  if (props.disabled) return
   if (confirmDisabled.value) return
   let nextStart = cloneDate(draftStart.value)
   let nextEnd = cloneDate(draftEnd.value)
@@ -549,6 +560,7 @@ function onConfirm() {
 }
 
 function onClear() {
+  if (props.disabled) return
   startModel.value = null
   endModel.value = null
   draftStart.value = null
