@@ -14,6 +14,10 @@
 - Preserve existing Chinese characters and punctuation unless the task explicitly asks for copy changes.
 - Use PowerShell 7 (`pwsh`) for shell commands. If `pwsh` is unavailable, state the fallback before using the active PowerShell host.
 
+## Shell Search Rules
+
+- When running `rg` in PowerShell with a regex that contains `|`, wrap the regex argument in single quotes, for example: `rg -n 'DatePicker|date-picker' scripts demo`. Do not put such regex directly inside an unescaped nested double-quoted `pwsh -Command` string, because PowerShell may parse `|` as a pipeline.
+
 ## Project Overview
 
 - `yiz-ui` is a Vue 3 component library written in TypeScript.

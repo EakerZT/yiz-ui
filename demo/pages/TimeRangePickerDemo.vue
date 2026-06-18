@@ -39,6 +39,18 @@
       </div>
     </y-card>
 
+    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+      <div class="demo-row">
+        <span class="demo-label">{{ $t('demo.common.disabledState') }}</span>
+        <div class="demo-picker-field">
+          <y-time-range-picker v-model:start="disabledStart" v-model:end="disabledEnd" disabled />
+          <span class="demo-item-hint">{{
+            (disabledStart ?? $t('demo.common.empty')) + ' - ' + (disabledEnd ?? $t('demo.common.empty'))
+          }}</span>
+        </div>
+      </div>
+    </y-card>
+
     <y-card :title="$t('demo.timePicker.showSeconds')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.timePicker.withSeconds') }}</span>
@@ -84,6 +96,8 @@ const optionalStart = ref<string | null>('10:30:00')
 const optionalEnd = ref<string | null>(null)
 const requiredStart = ref<string | null>(null)
 const requiredEnd = ref<string | null>(null)
+const disabledStart = ref<string | null>('09:30:00')
+const disabledEnd = ref<string | null>('17:30:00')
 const secondStart = ref<string | null>('08:15:30')
 const secondEnd = ref<string | null>('12:45:00')
 const affixStart = ref<string | null>('09:00:00')

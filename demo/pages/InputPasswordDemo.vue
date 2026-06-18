@@ -14,6 +14,10 @@
       <y-input-password v-model:value="clearPassword" :placeholder="$t('demo.common.clearable')" clearable />
     </y-card>
 
+    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+      <y-input-password v-model:value="disabledPassword" :placeholder="$t('demo.common.disabled')" disabled />
+    </y-card>
+
     <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
       <y-input-password
         v-model:value="affixPassword"
@@ -40,6 +44,7 @@ import { ref } from 'vue'
 
 const password = ref('')
 const clearPassword = ref('')
+const disabledPassword = ref('disabled-password')
 const affixPassword = ref('')
 const fixedPassword = ref('')
 </script>

@@ -34,7 +34,7 @@
 
     <!-- Disabled -->
     <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
-      <y-textarea v-model:value="text7" :placeholder="$t('demo.textarea.disabledPlaceholder')" />
+      <y-textarea v-model:value="text7" :placeholder="$t('demo.textarea.disabledPlaceholder')" disabled />
     </y-card>
   </section>
 </template>

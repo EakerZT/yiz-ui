@@ -34,6 +34,16 @@
       </div>
     </y-card>
 
+    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+      <div class="demo-row">
+        <span class="demo-label">{{ $t('demo.common.disabledState') }}</span>
+        <div class="demo-picker-field">
+          <y-date-range-picker v-model:start="disabledStart" v-model:end="disabledEnd" disabled />
+          <span class="demo-item-hint">{{ format(disabledStart) }} - {{ format(disabledEnd) }}</span>
+        </div>
+      </div>
+    </y-card>
+
     <y-card :title="$t('demo.dateRangePicker.disableAutoSort')" style="margin-top: 8px">
       <div class="demo-row">
         <span class="demo-label">{{ $t('demo.dateRangePicker.manual') }}</span>
@@ -87,6 +97,8 @@ const optionalStart = ref<Date | null>(new Date(2026, 5, 8))
 const optionalEnd = ref<Date | null>(null)
 const requiredStart = ref<Date | null>(null)
 const requiredEnd = ref<Date | null>(null)
+const disabledStart = ref<Date | null>(new Date(2026, 5, 3))
+const disabledEnd = ref<Date | null>(new Date(2026, 5, 9))
 const manualStart = ref<Date | null>(new Date(2026, 5, 20))
 const manualEnd = ref<Date | null>(new Date(2026, 5, 10))
 const workStart = ref<Date | null>(null)

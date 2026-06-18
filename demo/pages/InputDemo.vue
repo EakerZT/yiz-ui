@@ -12,6 +12,10 @@
       <y-input v-model:value="clearText" :placeholder="$t('demo.common.clearable')" clearable />
     </y-card>
 
+    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+      <y-input v-model:value="disabledText" :placeholder="$t('demo.common.disabled')" disabled />
+    </y-card>
+
     <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
       <y-input v-model:value="affixText" :placeholder="$t('demo.input.propMode')">
         <template #prefix>
@@ -30,6 +34,7 @@ import { Flash20Regular } from '@vicons/fluent'
 
 const inputText = ref('')
 const clearText = ref('')
+const disabledText = ref('Disabled input')
 const affixText = ref('')
 </script>
 
