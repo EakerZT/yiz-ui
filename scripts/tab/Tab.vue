@@ -561,10 +561,11 @@ provide('yizTab', {
 
   > .yiz-tab-content {
     overflow: hidden;
-  }
 
-  > .yiz-tab-pane {
-    height: 100%;
+    > .yiz-tab-pane {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 
