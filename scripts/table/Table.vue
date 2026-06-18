@@ -529,11 +529,10 @@ function computeWidths() {
     if (colsWithoutWidth.length > 0) {
       const fixedTotal = colsWithWidth.reduce((sum, c) => sum + parseFloat(widths[c.field]), 0)
       const remaining = tableWidth - fixedTotal
-      if (remaining > 0) {
-        const each = remaining / colsWithoutWidth.length
-        for (const col of colsWithoutWidth) {
-          widths[col.field] = `${each}px`
-        }
+      const each = remaining / colsWithoutWidth.length
+      for (const col of colsWithoutWidth) {
+        const minWidth = col.minWidth ?? 100
+        widths[col.field] = `${Math.max(each, minWidth)}px`
       }
     }
   }
