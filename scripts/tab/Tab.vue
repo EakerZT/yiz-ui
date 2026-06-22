@@ -422,6 +422,24 @@ provide('yizTab', {
 // ========================= Card type =========================
 
 .yiz-tab-type-card {
+  > .yiz-tab-header {
+    border: none;
+
+    &::after {
+      content: '';
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+    }
+  }
+
+  > .yiz-tab-header .yiz-tab-header-left-extra,
+  > .yiz-tab-header .yiz-tab-header-right-extra,
+  > .yiz-tab-header .yiz-tab-header-scroll {
+    position: relative;
+    z-index: 1;
+  }
+
   > .yiz-tab-header .yiz-tab-header-item {
     border: 1px solid var(--yiz-color-border, #d9d9d9);
     border-bottom-color: var(--yiz-color-border, #d9d9d9);
@@ -445,9 +463,7 @@ provide('yizTab', {
   }
 
   > .yiz-tab-content {
-    border: 1px solid var(--yiz-color-border, #d9d9d9);
-    border-top: none;
-    border-radius: 0 0 4px 4px;
+    border: none;
     padding: 12px;
   }
 
@@ -457,8 +473,24 @@ provide('yizTab', {
   }
 }
 
+.yiz-tab-type-card.yiz-tab-top {
+  > .yiz-tab-header::after {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-bottom: 1px solid var(--yiz-color-border, #d9d9d9);
+  }
+}
+
 // card + bottom
 .yiz-tab-type-card.yiz-tab-bottom {
+  > .yiz-tab-header::after {
+    left: 0;
+    right: 0;
+    top: 0;
+    border-top: 1px solid var(--yiz-color-border, #d9d9d9);
+  }
+
   > .yiz-tab-header .yiz-tab-header-item {
     border-radius: 0 0 4px 4px;
     border-top-color: var(--yiz-color-border, #d9d9d9);
@@ -470,14 +502,19 @@ provide('yizTab', {
   }
 
   > .yiz-tab-content {
-    border: 1px solid var(--yiz-color-border, #d9d9d9);
-    border-bottom: none;
-    border-radius: 4px 4px 0 0;
+    border: none;
   }
 }
 
 // card + left
 .yiz-tab-type-card.yiz-tab-left {
+  > .yiz-tab-header::after {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-right: 1px solid var(--yiz-color-border, #d9d9d9);
+  }
+
   > .yiz-tab-header .yiz-tab-header-item {
     border-radius: 4px 0 0 4px;
     margin-right: 0;
@@ -490,14 +527,19 @@ provide('yizTab', {
   }
 
   > .yiz-tab-content {
-    border: 1px solid var(--yiz-color-border, #d9d9d9);
-    border-left: none;
-    border-radius: 0 4px 4px 0;
+    border: none;
   }
 }
 
 // card + right
 .yiz-tab-type-card.yiz-tab-right {
+  > .yiz-tab-header::after {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    border-left: 1px solid var(--yiz-color-border, #d9d9d9);
+  }
+
   > .yiz-tab-header .yiz-tab-header-item {
     border-radius: 0 4px 4px 0;
     margin-left: 0;
@@ -510,9 +552,7 @@ provide('yizTab', {
   }
 
   > .yiz-tab-content {
-    border: 1px solid var(--yiz-color-border, #d9d9d9);
-    border-right: none;
-    border-radius: 4px 0 0 4px;
+    border: none;
   }
 }
 

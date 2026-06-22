@@ -62,46 +62,25 @@
 
     <!-- 方向 -->
     <y-card :title="$t('demo.tab.directions')" style="margin-top: 16px">
-      <y-tab v-model:active="dirTab" direction="top" style="margin-bottom: 16px">
-        <y-tab-pane :label="$t('demo.tab.directionTop')" key="top">
-          <p style="padding: 12px 0">{{ $t('demo.tab.contentTop') }}</p>
-        </y-tab-pane>
-        <y-tab-pane :label="$t('demo.tab.directionBottom')" key="bottom">
-          <p style="padding: 12px 0">{{ $t('demo.tab.contentBottom') }}</p>
-        </y-tab-pane>
-        <y-tab-pane :label="$t('demo.tab.directionLeft')" key="left">
-          <p style="padding: 12px 0">{{ $t('demo.tab.contentLeft') }}</p>
-        </y-tab-pane>
-        <y-tab-pane :label="$t('demo.tab.directionRight')" key="right">
-          <p style="padding: 12px 0">{{ $t('demo.tab.contentRight') }}</p>
-        </y-tab-pane>
-      </y-tab>
+      <div class="demo-tab-direction-control">
+        <y-radio-button-group v-model:value="directionDemoDirection" size="small">
+          <y-radio-button value="top">{{ $t('demo.tab.directionTop') }}</y-radio-button>
+          <y-radio-button value="bottom">{{ $t('demo.tab.directionBottom') }}</y-radio-button>
+          <y-radio-button value="left">{{ $t('demo.tab.directionLeft') }}</y-radio-button>
+          <y-radio-button value="right">{{ $t('demo.tab.directionRight') }}</y-radio-button>
+        </y-radio-button-group>
+      </div>
 
-      <y-tab v-model:active="dirTab2" direction="bottom" style="margin-bottom: 16px">
-        <y-tab-pane :label="$t('demo.tab.tab1')" key="a">
-          <p style="padding: 12px 0">{{ $t('demo.tab.contentBottom') }}</p>
-        </y-tab-pane>
-        <y-tab-pane :label="$t('demo.tab.tab2')" key="b">
-          <p style="padding: 12px 0">{{ $t('demo.tab.content2') }}</p>
-        </y-tab-pane>
-      </y-tab>
-
-      <div style="display: flex; gap: 16px">
-        <y-tab v-model:active="dirTab3" direction="left" style="min-height: 120px">
-          <y-tab-pane :label="$t('demo.tab.directionLeft')" key="left">
-            <p style="padding: 12px 0">{{ $t('demo.tab.contentLeft') }}</p>
-          </y-tab-pane>
-          <y-tab-pane :label="$t('demo.tab.directionRight')" key="right">
-            <p style="padding: 12px 0">{{ $t('demo.tab.contentRight') }}</p>
-          </y-tab-pane>
-        </y-tab>
-
-        <y-tab v-model:active="dirTab4" direction="right" style="min-height: 120px">
+      <div class="demo-tab-direction-preview">
+        <y-tab v-model:active="directionDemoTab" :direction="directionDemoDirection">
           <y-tab-pane :label="$t('demo.tab.tab1')" key="a">
             <p style="padding: 12px 0">{{ $t('demo.tab.content1') }}</p>
           </y-tab-pane>
           <y-tab-pane :label="$t('demo.tab.tab2')" key="b">
             <p style="padding: 12px 0">{{ $t('demo.tab.content2') }}</p>
+          </y-tab-pane>
+          <y-tab-pane :label="$t('demo.tab.tab3')" key="c">
+            <p style="padding: 12px 0">{{ $t('demo.tab.content3') }}</p>
           </y-tab-pane>
         </y-tab>
       </div>
@@ -124,6 +103,32 @@
         </y-tab-pane>
       </y-tab>
       <p v-if="cardCloseMsg" style="margin-top: 8px; color: #999; font-size: 13px">{{ cardCloseMsg }}</p>
+    </y-card>
+
+    <!-- 卡片类型方向 -->
+    <y-card :title="$t('demo.tab.cardDirections')" style="margin-top: 16px">
+      <div class="demo-tab-direction-control">
+        <y-radio-button-group v-model:value="cardDirectionDemoDirection" size="small">
+          <y-radio-button value="top">{{ $t('demo.tab.directionTop') }}</y-radio-button>
+          <y-radio-button value="bottom" closable>{{ $t('demo.tab.directionBottom') }}</y-radio-button>
+          <y-radio-button value="left" closable>{{ $t('demo.tab.directionLeft') }}</y-radio-button>
+          <y-radio-button value="right" closable>{{ $t('demo.tab.directionRight') }}</y-radio-button>
+        </y-radio-button-group>
+      </div>
+
+      <div class="demo-tab-direction-preview">
+        <y-tab v-model:active="cardDirectionDemoTab" :direction="cardDirectionDemoDirection" type="card">
+          <y-tab-pane :label="$t('demo.tab.tab1')" key="a" >
+            <p style="padding: 12px 0">{{ $t('demo.tab.tab1Content') }}</p>
+          </y-tab-pane>
+          <y-tab-pane :label="$t('demo.tab.tab2')" key="b" closable>
+            <p style="padding: 12px 0">{{ $t('demo.tab.tab2Content') }}</p>
+          </y-tab-pane>
+          <y-tab-pane :label="$t('demo.tab.tab3')" key="c" closable>
+            <p style="padding: 12px 0">{{ $t('demo.tab.tab3Content') }}</p>
+          </y-tab-pane>
+        </y-tab>
+      </div>
     </y-card>
 
     <!-- 切换动画 -->
@@ -205,22 +210,24 @@
 import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 
+type TabDirection = 'top' | 'bottom' | 'left' | 'right'
+
 const tab1 = ref('a')
 const tab2 = ref('a')
 const tab3 = ref(1)
 
 const customLabelTab = ref('a')
 
-const dirTab = ref('top')
-const dirTab2 = ref('a')
-const dirTab3 = ref('left')
-const dirTab4 = ref('a')
+const directionDemoDirection = ref<TabDirection>('top')
+const directionDemoTab = ref('a')
 
 const cardTab = ref('a')
 const cardCloseMsg = ref('')
 function onCardClose(value: any) {
   cardCloseMsg.value = $t('demo.tab.cardCloseEvent', { value })
 }
+const cardDirectionDemoDirection = ref<TabDirection>('top')
+const cardDirectionDemoTab = ref('a')
 
 const fadeTab = ref('a')
 const slideTab = ref('a')
@@ -235,3 +242,13 @@ function addExtraTab() {
   extraCount.value++
 }
 </script>
+
+<style lang="less">
+.demo-tab-direction-control {
+  margin-bottom: 12px;
+}
+
+.demo-tab-direction-preview {
+  min-height: 160px;
+}
+</style>
