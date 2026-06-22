@@ -1,19 +1,21 @@
 <template>
-  <div ref="triggerRef" class="yiz-date-picker" :class="vClass" @click="onTriggerClick" v-bind="$attrs">
+  <div ref="triggerRef" class="yiz-date-picker" :class="vClass" @click="onTriggerClick" @mouseenter="isHovering = true" @mouseleave="isHovering = false" v-bind="$attrs">
     <div class="yiz-date-picker-input">
       <span class="yiz-date-picker-prefix" v-if="$props.prefix || $slots.prefix">
         <template v-if="$props.prefix">{{ $props.prefix }}</template>
         <slot v-else name="prefix" />
       </span>
       <input ref="inputRef" :value="displayText" :placeholder="placeholderText" :disabled="disabled" readonly />
-      <span v-if="clearable && modelValue && !disabled" class="yiz-date-picker-clear" @click.stop="onClear">
-        <Icon size="16" :icon="DismissCircle32Filled" />
-      </span>
+      <Transition name="yiz-date-picker-clear-zoom">
+        <span v-if="clearable && modelValue && !disabled && (isHovering || open)" class="yiz-date-picker-clear" @click.stop="onClear">
+          <Icon size="16" :icon="DismissCircle32Filled" />
+        </span>
+      </Transition>
       <span class="yiz-date-picker-extra-suffix" v-if="$props.suffix || $slots.suffix">
         <template v-if="$props.suffix">{{ $props.suffix }}</template>
         <slot v-else name="suffix" />
       </span>
-      <Icon class="yiz-date-picker-suffix" size="16" :icon="CalendarLtr16Regular" />
+      <Icon :class="{ 'yiz-date-picker-suffix--hidden': clearable && modelValue && !disabled && (isHovering || open) }" class="yiz-date-picker-suffix" size="16" :icon="CalendarLtr16Regular" />
     </div>
   </div>
 
@@ -124,6 +126,7 @@ const triggerRef = ref<HTMLElement>()
 const panelRef = ref<HTMLElement>()
 const inputRef = ref<HTMLInputElement>()
 const showYearPicker = ref(false)
+const isHovering = ref(false)
 
 const now = new Date()
 const viewYear = ref(now.getFullYear())
@@ -418,6 +421,7 @@ onBeforeUnmount(() => {
   flex: 1;
   min-width: 0;
   width: 100%;
+  position: relative;
   height: 32px;
   padding: 0 11px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
@@ -496,14 +500,17 @@ onBeforeUnmount(() => {
 }
 
 .yiz-date-picker-clear {
+  position: absolute;
+  right: 11px;
+  top: 50%;
+  transform: translateY(-50%);
   display: inline-flex;
   align-items: center;
-  margin-left: 8px;
-  margin-right: 4px;
   user-select: none;
   cursor: pointer;
   color: rgba(0, 0, 0, 0.45);
-  transition: 0.3s all;
+  transition: color 0.3s;
+  z-index: 1;
 
   &:hover {
     color: rgba(0, 0, 0, 0.88);
@@ -522,6 +529,26 @@ onBeforeUnmount(() => {
 .yiz-date-picker-suffix {
   flex-shrink: 0;
   color: #999;
+  transition: opacity 0.2s;
+}
+
+.yiz-date-picker-suffix--hidden {
+  opacity: 0;
+}
+
+// ==================== clear 缩放过渡 ====================
+
+.yiz-date-picker-clear-zoom-enter-active,
+.yiz-date-picker-clear-zoom-leave-active {
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+}
+
+.yiz-date-picker-clear-zoom-enter-from,
+.yiz-date-picker-clear-zoom-leave-to {
+  transform: translateY(-50%) scale(0);
+  opacity: 0;
 }
 
 // ==================== 面板 ====================
