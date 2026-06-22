@@ -1,5 +1,5 @@
 <template>
-  <div ref="triggerRef" class="yiz-select" :class="vClass" @click="onTriggerClick" v-bind="$attrs">
+  <div ref="triggerRef" class="yiz-select" :class="vClass" @click="onTriggerClick" @mouseenter="isHovering = true" @mouseleave="isHovering = false" v-bind="$attrs">
     <span class="yiz-select-prefix" v-if="$props.prefix || $slots.prefix">
       <template v-if="$props.prefix">{{ $props.prefix }}</template>
       <slot v-else name="prefix" />
@@ -8,20 +8,22 @@
       {{ selectedLabel || placeholderText }}
     </span>
     <span class="yiz-select-suffix">
-      <span v-if="clearable && modelValue != null && !disabled" class="yiz-select-clear" @click.stop="onClear">
-        <Icon size="14" :icon="DismissCircle32Filled" />
-      </span>
       <span class="yiz-select-extra-suffix" v-if="$props.suffix || $slots.suffix">
         <template v-if="$props.suffix">{{ $props.suffix }}</template>
         <slot v-else name="suffix" />
       </span>
       <Icon
         class="yiz-select-arrow"
-        :class="{ 'yiz-select-arrow-up': open }"
+        :class="{ 'yiz-select-arrow-up': open, 'yiz-select-arrow--hidden': clearable && modelValue != null && !disabled && (isHovering || open) }"
         size="16"
         :icon="ChevronDown16Regular"
       />
     </span>
+    <Transition name="yiz-select-clear-zoom">
+      <span v-if="clearable && modelValue != null && !disabled && (isHovering || open)" class="yiz-select-clear" @click.stop="onClear">
+        <Icon size="14" :icon="DismissCircle32Filled" />
+      </span>
+    </Transition>
   </div>
   <Teleport to="body">
     <Transition name="yiz-select-dropdown-fade">
@@ -144,6 +146,7 @@ const allOptions = computed(() => {
 })
 
 const open = ref(false)
+const isHovering = ref(false)
 const currentZIndex = ref(0)
 const triggerRef = ref<HTMLElement>()
 const dropdownRef = ref<HTMLElement>()
@@ -440,22 +443,46 @@ onBeforeUnmount(() => {
 }
 
 .yiz-select-arrow {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.2s;
 
   &.yiz-select-arrow-up {
     transform: rotate(180deg);
   }
+
+  &.yiz-select-arrow--hidden {
+    opacity: 0;
+  }
+}
+
+// ==================== clear 缩放过渡 ====================
+
+.yiz-select-clear-zoom-enter-active,
+.yiz-select-clear-zoom-leave-active {
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+}
+
+.yiz-select-clear-zoom-enter-from,
+.yiz-select-clear-zoom-leave-to {
+  transform: translateY(-50%) scale(0);
+  opacity: 0;
 }
 
 .yiz-select-clear {
+  position: absolute;
+  right: 11px;
+  top: 50%;
+  transform: translateY(-50%);
   display: inline-flex;
   align-items: center;
-  margin-left: 8px;
-  margin-right: 4px;
   user-select: none;
   cursor: pointer;
   color: rgba(0, 0, 0, 0.45);
-  transition: 0.3s all;
+  transition: color 0.3s;
+  z-index: 1;
 
   &:hover {
     color: rgba(0, 0, 0, 0.88);

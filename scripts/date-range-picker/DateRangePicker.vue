@@ -1,5 +1,5 @@
 <template>
-  <div ref="triggerRef" class="yiz-date-range-picker" :class="vClass" @click="onTriggerClick" v-bind="$attrs">
+  <div ref="triggerRef" class="yiz-date-range-picker" :class="vClass" @click="onTriggerClick" @mouseenter="isHovering = true" @mouseleave="isHovering = false" v-bind="$attrs">
     <div class="yiz-date-range-picker-input">
       <span class="yiz-date-range-picker-prefix" v-if="$props.prefix || $slots.prefix">
         <template v-if="$props.prefix">{{ $props.prefix }}</template>
@@ -28,18 +28,20 @@
           {{ displayEndText || endPlaceholder }}
         </span>
       </button>
-      <span
-        v-if="clearable && (startModel != null || endModel != null) && !disabled"
-        class="yiz-date-range-picker-clear"
-        @click.stop="onClear"
-      >
-        <Icon size="14" :icon="DismissCircle32Filled" />
-      </span>
+      <Transition name="yiz-date-range-picker-clear-zoom">
+        <span
+          v-if="clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open)"
+          class="yiz-date-range-picker-clear"
+          @click.stop="onClear"
+        >
+          <Icon size="14" :icon="DismissCircle32Filled" />
+        </span>
+      </Transition>
       <span class="yiz-date-range-picker-extra-suffix" v-if="$props.suffix || $slots.suffix">
         <template v-if="$props.suffix">{{ $props.suffix }}</template>
         <slot v-else name="suffix" />
       </span>
-      <Icon class="yiz-date-range-picker-suffix" size="14" :icon="CalendarLtr16Regular" />
+      <Icon :class="{ 'yiz-date-range-picker-suffix--hidden': clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open) }" class="yiz-date-range-picker-suffix" size="14" :icon="CalendarLtr16Regular" />
     </div>
   </div>
 
@@ -270,6 +272,7 @@ const emit = defineEmits<{
 
 const now = new Date()
 const open = ref(false)
+const isHovering = ref(false)
 const activeSide = ref<DateRangeSide>('start')
 const currentZIndex = ref(0)
 const triggerRef = ref<HTMLElement>()
@@ -607,6 +610,7 @@ onBeforeUnmount(() => {
   flex: 1;
   min-width: 0;
   width: 100%;
+  position: relative;
   height: 32px;
   padding: 0 8px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
@@ -696,6 +700,14 @@ onBeforeUnmount(() => {
   color: #999;
 }
 
+.yiz-date-range-picker-suffix {
+  transition: opacity 0.2s;
+}
+
+.yiz-date-range-picker-suffix--hidden {
+  opacity: 0;
+}
+
 .yiz-date-range-picker-prefix,
 .yiz-date-range-picker-extra-suffix {
   flex-shrink: 0;
@@ -706,12 +718,15 @@ onBeforeUnmount(() => {
 }
 
 .yiz-date-range-picker-clear {
-  margin-left: 8px;
-  margin-right: 4px;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
   user-select: none;
   cursor: pointer;
   color: rgba(0, 0, 0, 0.45);
-  transition: 0.3s all;
+  transition: color 0.3s;
+  z-index: 1;
 }
 
 .yiz-date-range-picker-clear:hover {
@@ -937,5 +952,20 @@ onBeforeUnmount(() => {
 .yiz-date-range-picker-panel-fade-leave-to {
   opacity: 0;
   transform: translateY(-4px);
+}
+
+// ==================== clear 缩放过渡 ====================
+
+.yiz-date-range-picker-clear-zoom-enter-active,
+.yiz-date-range-picker-clear-zoom-leave-active {
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+}
+
+.yiz-date-range-picker-clear-zoom-enter-from,
+.yiz-date-range-picker-clear-zoom-leave-to {
+  transform: translateY(-50%) scale(0);
+  opacity: 0;
 }
 </style>
