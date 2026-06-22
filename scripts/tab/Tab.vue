@@ -422,11 +422,7 @@ provide('yizTab', {
 // ========================= Card type =========================
 
 .yiz-tab-type-card {
-  > .yiz-tab-header-scroll {
-    // card 不需要底部/侧边 border，由 item 自己画
-  }
-
-  > .yiz-tab-header-item {
+  > .yiz-tab-header .yiz-tab-header-item {
     border: 1px solid var(--yiz-color-border, #d9d9d9);
     border-bottom-color: var(--yiz-color-border, #d9d9d9);
     border-radius: 4px 4px 0 0;
@@ -456,14 +452,14 @@ provide('yizTab', {
   }
 
   // bar 在 card 模式下隐藏（边框自身形成视觉连接）
-  > .yiz-tab-header-bar {
+  > .yiz-tab-header .yiz-tab-header-bar {
     display: none;
   }
 }
 
 // card + bottom
 .yiz-tab-type-card.yiz-tab-bottom {
-  > .yiz-tab-header-item {
+  > .yiz-tab-header .yiz-tab-header-item {
     border-radius: 0 0 4px 4px;
     border-top-color: var(--yiz-color-border, #d9d9d9);
     border-bottom-color: var(--yiz-color-border, #d9d9d9);
@@ -482,7 +478,7 @@ provide('yizTab', {
 
 // card + left
 .yiz-tab-type-card.yiz-tab-left {
-  > .yiz-tab-header-item {
+  > .yiz-tab-header .yiz-tab-header-item {
     border-radius: 4px 0 0 4px;
     margin-right: 0;
     margin-bottom: 2px;
@@ -502,7 +498,7 @@ provide('yizTab', {
 
 // card + right
 .yiz-tab-type-card.yiz-tab-right {
-  > .yiz-tab-header-item {
+  > .yiz-tab-header .yiz-tab-header-item {
     border-radius: 0 4px 4px 0;
     margin-left: 0;
     margin-bottom: 2px;
