@@ -456,21 +456,6 @@ onBeforeUnmount(() => {
   }
 }
 
-// ==================== clear 缩放过渡 ====================
-
-.yiz-select-clear-zoom-enter-active,
-.yiz-select-clear-zoom-leave-active {
-  transition:
-    transform 0.2s,
-    opacity 0.2s;
-}
-
-.yiz-select-clear-zoom-enter-from,
-.yiz-select-clear-zoom-leave-to {
-  transform: translateY(-50%) scale(0);
-  opacity: 0;
-}
-
 .yiz-select-clear {
   position: absolute;
   right: 11px;
@@ -487,6 +472,21 @@ onBeforeUnmount(() => {
   &:hover {
     color: rgba(0, 0, 0, 0.88);
   }
+}
+
+// ==================== clear 缩放过渡 ====================
+
+.yiz-select-clear-zoom-enter-active,
+.yiz-select-clear-zoom-leave-active {
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+}
+
+.yiz-select-clear-zoom-enter-from,
+.yiz-select-clear-zoom-leave-to {
+  transform: translateY(-50%) scale(0);
+  opacity: 0;
 }
 
 // dropdown
