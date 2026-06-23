@@ -38,6 +38,7 @@ const zhCN: LangMessages = {
   'demo.nav.radio': 'Radio 单选',
   'demo.nav.scrollBox': 'ScrollBox 滚动框',
   'demo.nav.segmented': 'Segmented 分段器',
+  'demo.nav.slider': 'Slider 滑动选择器',
   'demo.nav.select': 'Select 下拉框',
   'demo.nav.switch': 'Switch 开关',
   'demo.nav.tab': 'Tab 标签页',
@@ -576,6 +577,15 @@ const zhCN: LangMessages = {
   'demo.segmented.done': '已完成',
   'demo.segmented.failed': '失败',
 
+  'demo.slider.title': 'Slider 滑动选择器',
+  'demo.slider.desc': '通过拖动滑块在连续或离散区间内选择数值，支持范围、刻度、标记、禁用和自定义提示。',
+  'demo.slider.step': '步进与间断点',
+  'demo.slider.range': '范围选择',
+  'demo.slider.marks': '标记',
+  'demo.slider.tooltip': '格式化提示',
+  'demo.slider.low': '低',
+  'demo.slider.high': '高',
+
   'demo.switch.title': 'Switch 开关',
   'demo.switch.desc': '用于在两种状态间切换的选择器，支持 v-model:value 和自定义选中/非选中值。',
   'demo.switch.on': '开',
@@ -787,6 +797,7 @@ const enUS: LangMessages = {
   'demo.nav.radio': 'Radio',
   'demo.nav.scrollBox': 'ScrollBox',
   'demo.nav.segmented': 'Segmented',
+  'demo.nav.slider': 'Slider',
   'demo.nav.select': 'Select',
   'demo.nav.switch': 'Switch',
   'demo.nav.tab': 'Tab',
@@ -1331,6 +1342,16 @@ const enUS: LangMessages = {
   'demo.segmented.processing': 'Processing',
   'demo.segmented.done': 'Done',
   'demo.segmented.failed': 'Failed',
+
+  'demo.slider.title': 'Slider',
+  'demo.slider.desc':
+    'Select values in a continuous or stepped range by dragging. Supports range, stops, marks, disabled state, and custom tooltip formatting.',
+  'demo.slider.step': 'Step and stops',
+  'demo.slider.range': 'Range',
+  'demo.slider.marks': 'Marks',
+  'demo.slider.tooltip': 'Formatted tooltip',
+  'demo.slider.low': 'Low',
+  'demo.slider.high': 'High',
 
   'demo.switch.title': 'Switch',
   'demo.switch.desc':
