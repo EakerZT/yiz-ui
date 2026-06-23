@@ -38,6 +38,17 @@
       </div>
     </y-card>
 
+    <y-card :title="$t('demo.common.customRender')" style="margin-top: 8px">
+      <y-segmented v-model:value="renderValue" :options="statusOptions">
+        <template #render="{ option, selected }">
+          <span class="demo-segmented-render" :class="{ 'demo-segmented-render-selected': selected }">
+            <span class="demo-segmented-dot" />
+            {{ option.label }}
+          </span>
+        </template>
+      </y-segmented>
+    </y-card>
+
     <y-card :title="$t('demo.common.event')" style="margin-top: 8px">
       <y-segmented v-model:value="eventValue" :options="periodOptions" @change="onChange" />
       <span class="demo-hint">{{ $t('demo.segmented.changeCount', { count: changeCount }) }}</span>
@@ -68,6 +79,12 @@ const viewOptions = computed(() => [
   { label: $t('demo.segmented.chart'), value: 'chart' }
 ])
 
+const statusOptions = computed(() => [
+  { label: $t('demo.segmented.processing'), value: 'processing' },
+  { label: $t('demo.segmented.done'), value: 'done' },
+  { label: $t('demo.segmented.failed'), value: 'failed' }
+])
+
 const basic = ref('week')
 const disabledItem = ref('month')
 const disabledGroup = ref('week')
@@ -79,6 +96,7 @@ const shapeRoundSmall = ref('day')
 const shapeRound = ref('week')
 const shapeRoundLarge = ref('month')
 const block = ref('card')
+const renderValue = ref('processing')
 const eventValue = ref('day')
 const changeCount = ref(0)
 
@@ -106,5 +124,22 @@ function onChange() {
 .demo-segmented-block {
   width: 360px;
   max-width: 100%;
+}
+
+.demo-segmented-render {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.demo-segmented-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #bfbfbf;
+}
+
+.demo-segmented-render-selected .demo-segmented-dot {
+  background: var(--yiz-color-primary);
 }
 </style>

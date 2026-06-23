@@ -563,6 +563,9 @@ const zhCN: LangMessages = {
   'demo.segmented.list': '列表',
   'demo.segmented.card': '卡片',
   'demo.segmented.chart': '图表',
+  'demo.segmented.processing': '处理中',
+  'demo.segmented.done': '已完成',
+  'demo.segmented.failed': '失败',
 
   'demo.switch.title': 'Switch 开关',
   'demo.switch.desc': '用于在两种状态间切换的选择器，支持 v-model:value 和自定义选中/非选中值。',
@@ -1279,6 +1282,9 @@ const enUS: LangMessages = {
   'demo.segmented.list': 'List',
   'demo.segmented.card': 'Card',
   'demo.segmented.chart': 'Chart',
+  'demo.segmented.processing': 'Processing',
+  'demo.segmented.done': 'Done',
+  'demo.segmented.failed': 'Failed',
 
   'demo.switch.title': 'Switch',
   'demo.switch.desc':

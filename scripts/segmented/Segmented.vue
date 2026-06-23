@@ -12,19 +12,23 @@
         class="yiz-segmented-input"
         type="radio"
         :name="groupName"
-        :checked="modelValue === option.value"
-        :disabled="disabled || option.disabled"
+        :checked="isSelected(option)"
+        :disabled="isDisabled(option)"
         :value="option.value"
         @change="changeValue(option)"
       />
-      <span class="yiz-segmented-content">{{ option.label }}</span>
+      <span class="yiz-segmented-content">
+        <slot name="render" :option="option" :selected="isSelected(option)" :disabled="isDisabled(option)">
+          {{ option.label }}
+        </slot>
+      </span>
     </label>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, getCurrentInstance, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import type { ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance, VNodeChild } from 'vue'
 
 export interface SegmentedOption {
   label: string
@@ -50,6 +54,10 @@ const props = withDefaults(
     name: ''
   }
 )
+
+defineSlots<{
+  render?: (props: { option: SegmentedOption; selected: boolean; disabled: boolean }) => VNodeChild
+}>()
 
 const emit = defineEmits<{ change: [value: string | number] }>()
 const modelValue = defineModel<string | number>('value')
@@ -98,9 +106,17 @@ onBeforeUnmount(() => {
 
 function getItemClass(option: SegmentedOption) {
   return {
-    'yiz-segmented-item-selected': modelValue.value === option.value,
-    'yiz-segmented-item-disabled': props.disabled || option.disabled
+    'yiz-segmented-item-selected': isSelected(option),
+    'yiz-segmented-item-disabled': isDisabled(option)
   }
+}
+
+function isSelected(option: SegmentedOption) {
+  return modelValue.value === option.value
+}
+
+function isDisabled(option: SegmentedOption) {
+  return props.disabled || !!option.disabled
 }
 
 function setItemRef(el: Element | ComponentPublicInstance | null, value: string | number) {
@@ -208,12 +224,11 @@ function setIndicatorStyle(style: Record<string, string>) {
   align-items: center;
   justify-content: center;
   min-width: 68px;
-  height: 30px;
-  padding: 0 12px;
+  padding: 4px 12px;
   border-radius: 3px;
   color: #333;
   font-size: 14px;
-  line-height: 1;
+  line-height: 22px;
   cursor: pointer;
   user-select: none;
   transition:
@@ -260,18 +275,18 @@ function setIndicatorStyle(style: Record<string, string>) {
 .yiz-segmented-small {
   .yiz-segmented-item {
     min-width: 56px;
-    height: 24px;
-    padding: 0 8px;
+    padding: 2px 8px;
     font-size: 13px;
+    line-height: 20px;
   }
 }
 
 .yiz-segmented-large {
   .yiz-segmented-item {
     min-width: 80px;
-    height: 36px;
-    padding: 0 16px;
+    padding: 6px 16px;
     font-size: 15px;
+    line-height: 24px;
   }
 }
 
@@ -284,7 +299,7 @@ function setIndicatorStyle(style: Record<string, string>) {
   }
 
   .yiz-segmented-item {
-    padding: 0 15px;
+    padding: 4px 15px;
   }
 
   &.yiz-segmented-small {
@@ -296,13 +311,13 @@ function setIndicatorStyle(style: Record<string, string>) {
     }
 
     .yiz-segmented-item {
-      padding: 0 12px;
+      padding: 2px 12px;
     }
   }
 
   &.yiz-segmented-large {
     .yiz-segmented-item {
-      padding: 0 20px;
+      padding: 6px 20px;
     }
   }
 }
