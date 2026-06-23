@@ -31,7 +31,10 @@
     </y-card>
 
     <y-card :title="$t('demo.common.footer')" style="margin-top: 8px">
-      <y-button type="primary" @click="visible7 = true">{{ $t('demo.dialog.confirmDialog') }}</y-button>
+      <y-button-group>
+        <y-button type="primary" @click="visible7 = true">{{ $t('demo.dialog.customFooter') }}</y-button>
+        <y-button @click="visible11 = true">{{ $t('demo.dialog.disabledFooter') }}</y-button>
+      </y-button-group>
     </y-card>
 
     <y-card :title="$t('demo.common.customTitle')" style="margin-top: 8px">
@@ -40,7 +43,9 @@
 
     <y-card :title="$t('demo.dialog.closeEvent')" style="margin-top: 8px">
       <y-button @click="visible9 = true">{{ $t('demo.common.open') }}</y-button>
-      <span v-if="closeCount > 0" class="demo-hint">{{ $t('demo.dialog.closeCount', { count: closeCount }) }}</span>
+      <span v-if="closeCount > 0 || okCount > 0" class="demo-hint">
+        {{ $t('demo.dialog.footerEventCount', { close: closeCount, ok: okCount }) }}
+      </span>
     </y-card>
 
     <!-- Dialogs -->
@@ -69,11 +74,15 @@
       <p>{{ $t('demo.dialog.maskClosableHint') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible6" :title="$t('demo.common.noCloseButton')" :closable="false">
+    <y-dialog v-model="visible6" :title="$t('demo.common.noCloseButton')" :closable="false" disabled-footer>
       <p>{{ $t('demo.dialog.noCloseHint') }}</p>
       <div style="margin-top: 16px">
         <y-button type="primary" @click="visible6 = false">{{ $t('demo.common.close') }}</y-button>
       </div>
+    </y-dialog>
+
+    <y-dialog v-model="visible11" :title="$t('demo.dialog.disabledFooter')" disabled-footer>
+      <p>{{ $t('demo.dialog.disabledFooterHint') }}</p>
     </y-dialog>
 
     <y-dialog v-model="visible7" :title="$t('demo.card.confirmAction')">
@@ -93,7 +102,7 @@
       <p>{{ $t('demo.dialog.customTitleHint') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible9" :title="$t('demo.dialog.closeEvent')" @close="closeCount++">
+    <y-dialog v-model="visible9" :title="$t('demo.dialog.closeEvent')" @close="closeCount++" @ok="okCount++">
       <p>{{ $t('demo.dialog.closeEventHint') }}</p>
     </y-dialog>
   </section>
@@ -113,8 +122,10 @@ const visible7 = ref(false)
 const visible8 = ref(false)
 const visible9 = ref(false)
 const visible10 = ref(false)
+const visible11 = ref(false)
 
 const closeCount = ref(0)
+const okCount = ref(0)
 </script>
 
 <style scoped>

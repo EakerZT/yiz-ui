@@ -17,18 +17,25 @@
           <slot />
         </div>
         <div v-if="resize" class="yiz-drawer-resize" :class="{ 'yiz-drawer-resize-active': resizing }" @mousedown="onResizeStart" />
-        <div v-if="$slots.footer" class="yiz-drawer-footer">
-          <slot name="footer" />
+        <div v-if="!disabledFooter" class="yiz-drawer-footer">
+          <slot name="footer">
+            <div class="yiz-drawer-footer-actions">
+              <Button @click="close">{{ $t('common.close') }}</Button>
+              <Button type="primary" @click="ok">{{ $t('common.confirm') }}</Button>
+            </div>
+          </slot>
         </div>
       </div>
     </Transition>
-  </Teleport>`
+  </Teleport>
 </template>
 
 <script lang="ts" setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { Dismiss16Regular } from '@vicons/fluent'
+import { Button } from '../button'
 import { Icon } from '../icon'
+import { $t } from '../locale'
 import { nextZIndex } from '../zIndex'
 
 const currentZIndex = ref(0)
@@ -45,6 +52,7 @@ const props = withDefaults(
     resize?: boolean
     resizeMin?: string
     resizeMax?: string
+    disabledFooter?: boolean
   }>(),
   {
     title: '',
@@ -57,6 +65,7 @@ const props = withDefaults(
     resize: false,
     resizeMin: '200px',
     resizeMax: '',
+    disabledFooter: false
   }
 )
 
@@ -66,7 +75,10 @@ defineSlots<{
   footer?: any
 }>()
 
-const emit = defineEmits(['close'])
+const emit = defineEmits<{
+  close: []
+  ok: []
+}>()
 
 const visible = defineModel<boolean>('modelValue', { default: false })
 
@@ -113,6 +125,10 @@ onBeforeUnmount(() => {
 function close() {
   visible.value = false
   emit('close')
+}
+
+function ok() {
+  emit('ok')
 }
 
 function onMaskClick() {
@@ -361,6 +377,12 @@ function parseSize(val: string, refSize: number): number {
   border-top: 1px solid var(--yiz-color-border, #d9d9d9);
   flex-shrink: 0;
   text-align: right;
+}
+
+.yiz-drawer-footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
 }
 
 // mask fade transition

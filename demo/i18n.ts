@@ -309,6 +309,10 @@ const zhCN: LangMessages = {
   'demo.dialog.closeEvent': 'close 事件',
   'demo.dialog.closeCount': 'close 触发次数：{count}',
   'demo.dialog.closeEventHint': '每次关闭时触发 close 事件。',
+  'demo.dialog.customFooter': '自定义页脚',
+  'demo.dialog.disabledFooter': '禁用页脚',
+  'demo.dialog.disabledFooterHint': '传入 disabled-footer 后不显示弹窗页脚。',
+  'demo.dialog.footerEventCount': 'close：{close}，ok：{ok}',
 
   'demo.drawer.title': 'Drawer 抽屉',
   'demo.drawer.desc': '从屏幕边缘滑出的浮层面板，常用于表单、详情展示等场景。',
@@ -341,6 +345,10 @@ const zhCN: LangMessages = {
   'demo.drawer.secondLevelMaskHint': '二级抽屉遮罩覆盖一级抽屉。',
   'demo.drawer.secondLevel': '二级抽屉',
   'demo.drawer.closeEventHint': '每次关闭时触发 close 事件。',
+  'demo.drawer.customFooter': '自定义页脚',
+  'demo.drawer.disabledFooter': '禁用页脚',
+  'demo.drawer.disabledFooterHint': '传入 disabled-footer 后不显示抽屉页脚。',
+  'demo.drawer.footerEventCount': 'close：{close}，ok：{ok}',
 
   'demo.divider.title': 'Divider 分割线',
   'demo.divider.desc': '用于分隔内容区域，支持水平、垂直、虚线和带文本分割线。',
@@ -1022,6 +1030,10 @@ const enUS: LangMessages = {
   'demo.dialog.closeEvent': 'close event',
   'demo.dialog.closeCount': 'close trigger count: {count}',
   'demo.dialog.closeEventHint': 'The close event fires every time it closes.',
+  'demo.dialog.customFooter': 'Custom footer',
+  'demo.dialog.disabledFooter': 'Disabled footer',
+  'demo.dialog.disabledFooterHint': 'The dialog footer is hidden when disabled-footer is passed.',
+  'demo.dialog.footerEventCount': 'close: {close}, ok: {ok}',
 
   'demo.drawer.title': 'Drawer',
   'demo.drawer.desc': 'A panel that slides from the screen edge, often used for forms and detail views.',
@@ -1054,6 +1066,10 @@ const enUS: LangMessages = {
   'demo.drawer.secondLevelMaskHint': 'The second-level drawer mask covers the first-level drawer.',
   'demo.drawer.secondLevel': 'Second-level drawer',
   'demo.drawer.closeEventHint': 'The close event fires every time it closes.',
+  'demo.drawer.customFooter': 'Custom footer',
+  'demo.drawer.disabledFooter': 'Disabled footer',
+  'demo.drawer.disabledFooterHint': 'The drawer footer is hidden when disabled-footer is passed.',
+  'demo.drawer.footerEventCount': 'close: {close}, ok: {ok}',
 
   'demo.divider.title': 'Divider',
   'demo.divider.desc': 'Separates content areas. Supports horizontal, vertical, dashed, and text dividers.',

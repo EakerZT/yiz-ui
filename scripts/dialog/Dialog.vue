@@ -21,8 +21,13 @@
           <div class="yiz-dialog-body">
             <slot />
           </div>
-          <div v-if="$slots.footer" class="yiz-dialog-footer">
-            <slot name="footer" />
+          <div v-if="!disabledFooter" class="yiz-dialog-footer">
+            <slot name="footer">
+              <div class="yiz-dialog-footer-actions">
+                <Button @click="close">{{ $t('common.close') }}</Button>
+                <Button type="primary" @click="ok">{{ $t('common.confirm') }}</Button>
+              </div>
+            </slot>
           </div>
         </div>
       </div>
@@ -33,7 +38,9 @@
 <script lang="ts" setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { Dismiss16Regular } from '@vicons/fluent'
+import { Button } from '../button'
 import { Icon } from '../icon'
+import { $t } from '../locale'
 import { nextZIndex } from '../zIndex'
 
 const currentZIndex = ref(0)
@@ -46,6 +53,7 @@ const props = withDefaults(
     mask?: boolean
     maskClosable?: boolean
     drag?: boolean
+    disabledFooter?: boolean
   }>(),
   {
     title: '',
@@ -54,6 +62,7 @@ const props = withDefaults(
     mask: true,
     maskClosable: false,
     drag: false,
+    disabledFooter: false
   }
 )
 
@@ -63,7 +72,10 @@ defineSlots<{
   footer?: any
 }>()
 
-const emit = defineEmits(['close'])
+const emit = defineEmits<{
+  close: []
+  ok: []
+}>()
 
 const visible = defineModel<boolean>('modelValue', { default: false })
 
@@ -105,6 +117,10 @@ onBeforeUnmount(() => {
 function close() {
   visible.value = false
   emit('close')
+}
+
+function ok() {
+  emit('ok')
 }
 
 function onMaskClick() {
@@ -273,6 +289,12 @@ onBeforeUnmount(() => window.removeEventListener('resize', onViewportResize))
   border-top: 1px solid var(--yiz-color-border, #d9d9d9);
   flex-shrink: 0;
   text-align: right;
+}
+
+.yiz-dialog-footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
 }
 
 // mask fade

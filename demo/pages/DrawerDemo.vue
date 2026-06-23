@@ -43,7 +43,10 @@
     </y-card>
 
     <y-card :title="$t('demo.common.footer')" style="margin-top: 8px">
-      <y-button type="primary" @click="visible8 = true">{{ $t('demo.common.withFooter') }}</y-button>
+      <y-button-group>
+        <y-button type="primary" @click="visible8 = true">{{ $t('demo.drawer.customFooter') }}</y-button>
+        <y-button @click="visible15 = true">{{ $t('demo.drawer.disabledFooter') }}</y-button>
+      </y-button-group>
     </y-card>
 
     <y-card :title="$t('demo.common.customTitle')" style="margin-top: 8px">
@@ -56,7 +59,9 @@
 
     <y-card :title="$t('demo.dialog.closeEvent')" style="margin-top: 8px">
       <y-button @click="visible10 = true">{{ $t('demo.common.open') }}</y-button>
-      <span v-if="closeCount > 0" class="demo-hint">{{ $t('demo.drawer.closeCount', { count: closeCount }) }}</span>
+      <span v-if="closeCount > 0 || okCount > 0" class="demo-hint">
+        {{ $t('demo.drawer.footerEventCount', { close: closeCount, ok: okCount }) }}
+      </span>
     </y-card>
 
     <!-- Drawers -->
@@ -107,6 +112,10 @@
       </template>
     </y-drawer>
 
+    <y-drawer v-model="visible15" :title="$t('demo.drawer.disabledFooter')" disabled-footer>
+      <p>{{ $t('demo.drawer.disabledFooterHint') }}</p>
+    </y-drawer>
+
     <y-drawer v-model="visible9">
       <template #title>
         <span style="color: var(--yiz-color-primary)">{{ $t('demo.common.customTitleColor') }}</span>
@@ -125,7 +134,7 @@
       </y-drawer>
     </y-drawer>
 
-    <y-drawer v-model="visible10" :title="$t('demo.dialog.closeEvent')" @close="closeCount++">
+    <y-drawer v-model="visible10" :title="$t('demo.dialog.closeEvent')" @close="closeCount++" @ok="okCount++">
       <p>{{ $t('demo.dialog.closeEventHint') }}</p>
     </y-drawer>
   </section>
@@ -149,9 +158,11 @@ const visible11 = ref(false)
 const visible12 = ref(false)
 const visible13 = ref(false)
 const visible14 = ref(false)
+const visible15 = ref(false)
 
 const placement = ref<'left' | 'right' | 'top' | 'bottom'>('right')
 const closeCount = ref(0)
+const okCount = ref(0)
 
 function openDrawer(p: 'left' | 'right' | 'top' | 'bottom') {
   placement.value = p
