@@ -100,13 +100,12 @@ function onChange() {
   align-items: center;
   justify-content: center;
   min-width: 72px;
-  height: 34px;
-  padding: 0 14px;
+  padding: 6px 14px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   background: #fff;
   color: #333;
   font-size: 14px;
-  line-height: 1;
+  line-height: 20px;
   cursor: pointer;
   user-select: none;
   transition:
@@ -166,15 +165,15 @@ function onChange() {
 
 .yiz-radio-button-small {
   min-width: 56px;
-  height: 28px;
-  padding: 0 10px;
+  padding: 4px 10px;
   font-size: 13px;
+  line-height: 18px;
 }
 
 .yiz-radio-button-large {
   min-width: 84px;
-  height: 40px;
-  padding: 0 18px;
+  padding: 8px 18px;
   font-size: 15px;
+  line-height: 22px;
 }
 </style>
