@@ -28,11 +28,15 @@ const props = withDefaults(
     options?: RadioButtonOption[]
     disabled?: boolean
     size?: 'small' | 'default' | 'large'
+    textColor?: string
+    fillColor?: string
   }>(),
   {
     options: () => [],
     disabled: false,
-    size: 'default'
+    size: 'default',
+    textColor: '',
+    fillColor: ''
   }
 )
 
@@ -45,6 +49,8 @@ const modelValue = defineModel<string | number>('value')
 
 const disabledValue = computed(() => props.disabled)
 const sizeValue = computed(() => props.size)
+const textColorValue = computed(() => props.textColor)
+const fillColorValue = computed(() => props.fillColor)
 
 const vClass = computed(() => ({
   'yiz-radio-button-group-disabled': props.disabled,
@@ -61,6 +67,8 @@ provide('yizRadioButtonGroup', {
   modelValue,
   disabled: disabledValue,
   size: sizeValue,
+  textColor: textColorValue,
+  fillColor: fillColorValue,
   changeValue
 })
 </script>

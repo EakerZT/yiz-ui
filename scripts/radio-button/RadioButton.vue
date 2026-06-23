@@ -1,5 +1,5 @@
 <template>
-  <label class="yiz-radio-button" :class="vClass">
+  <label class="yiz-radio-button" :class="vClass" :style="vStyle">
     <input
       class="yiz-radio-button-input"
       type="radio"
@@ -21,6 +21,8 @@ interface RadioButtonGroupContext {
   modelValue: Ref<string | number | undefined>
   disabled: Ref<boolean>
   size: Ref<'small' | 'default' | 'large'>
+  textColor: Ref<string>
+  fillColor: Ref<string>
   changeValue: (value: string | number) => void
 }
 
@@ -30,11 +32,15 @@ const props = withDefaults(
     value?: string | number
     disabled?: boolean
     size?: 'small' | 'default' | 'large'
+    textColor?: string
+    fillColor?: string
   }>(),
   {
     label: '',
     disabled: false,
-    size: 'default'
+    size: 'default',
+    textColor: '',
+    fillColor: ''
   }
 )
 
@@ -50,6 +56,8 @@ const group = inject<RadioButtonGroupContext | null>('yizRadioButtonGroup', null
 const currentValue = computed(() => group?.modelValue.value ?? modelValue.value)
 const mergedDisabled = computed(() => props.disabled || (group?.disabled.value ?? false))
 const mergedSize = computed(() => group?.size.value ?? props.size)
+const mergedTextColor = computed(() => props.textColor || group?.textColor.value || '')
+const mergedFillColor = computed(() => props.fillColor || group?.fillColor.value || '')
 const checked = computed(() => currentValue.value === props.value)
 
 const vClass = computed(() => ({
@@ -57,6 +65,18 @@ const vClass = computed(() => ({
   'yiz-radio-button-disabled': mergedDisabled.value,
   [`yiz-radio-button-${mergedSize.value}`]: true
 }))
+
+const vStyle = computed(() => {
+  const style: Record<string, string> = {}
+  if (mergedTextColor.value) {
+    style['--yiz-radio-button-checked-text-color'] = mergedTextColor.value
+  }
+  if (mergedFillColor.value) {
+    style['--yiz-radio-button-checked-fill-color'] = mergedFillColor.value
+    style['--yiz-radio-button-checked-hover-fill-color'] = mergedFillColor.value
+  }
+  return style
+})
 
 function onChange() {
   if (mergedDisabled.value || props.value == null) return
@@ -71,6 +91,10 @@ function onChange() {
 
 <style lang="less">
 .yiz-radio-button {
+  --yiz-radio-button-checked-text-color: #fff;
+  --yiz-radio-button-checked-fill-color: var(--yiz-color-primary);
+  --yiz-radio-button-checked-hover-fill-color: var(--yiz-color-primary-light2);
+
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -112,16 +136,16 @@ function onChange() {
 }
 
 .yiz-radio-button-checked {
-  background: var(--yiz-color-primary);
-  border-color: var(--yiz-color-primary);
-  color: #fff;
+  background: var(--yiz-radio-button-checked-fill-color);
+  border-color: var(--yiz-radio-button-checked-fill-color);
+  color: var(--yiz-radio-button-checked-text-color);
   z-index: 2;
 }
 
 .yiz-radio-button-checked:not(.yiz-radio-button-disabled):hover {
-  background: var(--yiz-color-primary-light2);
-  border-color: var(--yiz-color-primary-light2);
-  color: #fff;
+  background: var(--yiz-radio-button-checked-hover-fill-color);
+  border-color: var(--yiz-radio-button-checked-hover-fill-color);
+  color: var(--yiz-radio-button-checked-text-color);
 }
 
 .yiz-radio-button-disabled {
