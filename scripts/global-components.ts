@@ -38,6 +38,8 @@ import type {
   TableColumn,
   Tag,
   TimePicker,
+  Timeline,
+  TimelineItem,
   TimeRangePicker,
   Tooltip,
   Tree
@@ -121,6 +123,10 @@ declare module 'vue' {
     'y-table-column': typeof TableColumn
     YTag: typeof Tag
     'y-tag': typeof Tag
+    YTimeline: typeof Timeline
+    'y-timeline': typeof Timeline
+    YTimelineItem: typeof TimelineItem
+    'y-timeline-item': typeof TimelineItem
     YTimePicker: typeof TimePicker
     'y-time-picker': typeof TimePicker
     YTimeRangePicker: typeof TimeRangePicker

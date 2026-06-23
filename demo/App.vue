@@ -74,6 +74,7 @@ import TableDemo from './pages/TableDemo.vue'
 import TagDemo from './pages/TagDemo.vue'
 import TimePickerDemo from './pages/TimePickerDemo.vue'
 import TimeRangePickerDemo from './pages/TimeRangePickerDemo.vue'
+import TimelineDemo from './pages/TimelineDemo.vue'
 import DialogDemo from './pages/DialogDemo.vue'
 import DrawerDemo from './pages/DrawerDemo.vue'
 import TooltipDemo from './pages/TooltipDemo.vue'
@@ -112,6 +113,7 @@ const pages: Record<string, any> = {
   textarea: TextareaDemo,
   table: TableDemo,
   tag: TagDemo,
+  timeline: TimelineDemo,
   'time-picker': TimePickerDemo,
   'time-range-picker': TimeRangePickerDemo,
   tooltip: TooltipDemo,
@@ -150,6 +152,7 @@ const menuItems = computed(() => [
   { label: $t('demo.nav.textarea'), key: 'textarea' },
   { label: $t('demo.nav.table'), key: 'table' },
   { label: $t('demo.nav.tag'), key: 'tag' },
+  { label: $t('demo.nav.timeline'), key: 'timeline' },
   { label: $t('demo.nav.timePicker'), key: 'time-picker' },
   { label: $t('demo.nav.timeRangePicker'), key: 'time-range-picker' },
   { label: $t('demo.nav.tooltip'), key: 'tooltip' },
