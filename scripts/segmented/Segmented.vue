@@ -65,8 +65,10 @@ const instance = getCurrentInstance()
 const segmentedRef = ref<HTMLElement>()
 const itemElements = new Map<string, HTMLElement>()
 const indicatorStyle = ref<Record<string, string>>({ opacity: '0' })
+const indicatorTransitionReady = ref(false)
 
 let resizeObserver: ResizeObserver | null = null
+let transitionFrameId: number | null = null
 
 const groupName = computed(() => props.name || `yiz-segmented-${instance?.uid ?? 'default'}`)
 const selectedOption = computed(() => props.options.find((option) => option.value === modelValue.value))
@@ -79,7 +81,8 @@ const vClass = computed(() => ({
 }))
 
 const indicatorClass = computed(() => ({
-  'yiz-segmented-indicator-disabled': props.disabled || selectedOption.value?.disabled
+  'yiz-segmented-indicator-disabled': props.disabled || selectedOption.value?.disabled,
+  'yiz-segmented-indicator-transition-ready': indicatorTransitionReady.value
 }))
 
 watch(
@@ -102,6 +105,10 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   resizeObserver?.disconnect()
+  if (transitionFrameId !== null) {
+    cancelAnimationFrame(transitionFrameId)
+    transitionFrameId = null
+  }
 })
 
 function getItemClass(option: SegmentedOption) {
@@ -150,6 +157,7 @@ function updateIndicator() {
     transform: `translateX(${currentItem.offsetLeft}px)`,
     opacity: '1'
   })
+  enableIndicatorTransition()
 }
 
 function observeSize() {
@@ -166,6 +174,17 @@ function setIndicatorStyle(style: Record<string, string>) {
   const oldKeys = Object.keys(oldStyle)
   if (keys.length === oldKeys.length && keys.every((key) => oldStyle[key] === style[key])) return
   indicatorStyle.value = style
+}
+
+function enableIndicatorTransition() {
+  if (indicatorTransitionReady.value || typeof requestAnimationFrame === 'undefined') return
+  if (transitionFrameId !== null) cancelAnimationFrame(transitionFrameId)
+  transitionFrameId = requestAnimationFrame(() => {
+    transitionFrameId = requestAnimationFrame(() => {
+      indicatorTransitionReady.value = true
+      transitionFrameId = null
+    })
+  })
 }
 </script>
 
@@ -192,6 +211,9 @@ function setIndicatorStyle(style: Record<string, string>) {
   background: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
   pointer-events: none;
+}
+
+.yiz-segmented-indicator-transition-ready {
   transition:
     transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
     width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
