@@ -7,7 +7,11 @@
         :label="option.label"
         :value="option.value"
         :disabled="option.disabled"
-      />
+      >
+        <template v-if="$slots.render" #render="slotProps">
+          <slot name="render" v-bind="slotProps" />
+        </template>
+      </RadioButton>
     </template>
     <slot v-else />
   </div>
@@ -15,6 +19,7 @@
 
 <script lang="ts" setup>
 import { computed, provide } from 'vue'
+import type { VNodeChild } from 'vue'
 import RadioButton from '../radio-button/RadioButton.vue'
 
 export interface RadioButtonOption {
@@ -41,7 +46,14 @@ const props = withDefaults(
 )
 
 defineSlots<{
-  default?: any
+  default?: () => VNodeChild
+  render?: (props: {
+    label: string
+    value: string | number | undefined
+    checked: boolean
+    selected: boolean
+    disabled: boolean
+  }) => VNodeChild
 }>()
 
 const emit = defineEmits<{ change: [value: string | number] }>()

@@ -87,6 +87,17 @@
       </div>
     </y-card>
 
+    <y-card :title="$t('demo.common.customRender')" style="margin-top: 8px">
+      <y-radio-button-group v-model:value="buttonRender" :options="buttonOptions">
+        <template #render="{ label, selected }">
+          <span class="demo-radio-button-render" :class="{ 'demo-radio-button-render-selected': selected }">
+            <span class="demo-radio-button-dot" />
+            {{ label }}
+          </span>
+        </template>
+      </y-radio-button-group>
+    </y-card>
+
     <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-radio-button-group v-model:value="buttonGroup3" :options="buttonOptionsWithDisabled" />
       <y-radio-button-group
@@ -139,6 +150,7 @@ const buttonSize2 = ref('banana')
 const buttonSize3 = ref('orange')
 const buttonColor1 = ref('apple')
 const buttonColor2 = ref('week')
+const buttonRender = ref('banana')
 </script>
 
 <style scoped>
@@ -154,5 +166,22 @@ const buttonColor2 = ref('week')
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
+}
+
+.demo-radio-button-render {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.demo-radio-button-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #bfbfbf;
+}
+
+.demo-radio-button-render-selected .demo-radio-button-dot {
+  background: currentColor;
 }
 </style>

@@ -9,13 +9,16 @@
       @change="onChange"
     />
     <span class="yiz-radio-button-content">
-      <slot>{{ label }}</slot>
+      <slot name="render" :label="label" :value="value" :checked="checked" :selected="checked" :disabled="mergedDisabled">
+        <slot>{{ label }}</slot>
+      </slot>
     </span>
   </label>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, type Ref } from 'vue'
+import { computed, inject } from 'vue'
+import type { Ref, VNodeChild } from 'vue'
 
 interface RadioButtonGroupContext {
   modelValue: Ref<string | number | undefined>
@@ -45,7 +48,14 @@ const props = withDefaults(
 )
 
 defineSlots<{
-  default?: any
+  default?: () => VNodeChild
+  render?: (props: {
+    label: string
+    value: string | number | undefined
+    checked: boolean
+    selected: boolean
+    disabled: boolean
+  }) => VNodeChild
 }>()
 
 const emit = defineEmits<{ change: [value: string | number] }>()
