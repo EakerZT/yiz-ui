@@ -66,6 +66,7 @@ import IconDemo from './pages/IconDemo.vue'
 import PaginationDemo from './pages/PaginationDemo.vue'
 import RadioDemo from './pages/RadioDemo.vue'
 import ScrollBoxDemo from './pages/ScrollBoxDemo.vue'
+import SegmentedDemo from './pages/SegmentedDemo.vue'
 import SelectDemo from './pages/SelectDemo.vue'
 import SwitchDemo from './pages/SwitchDemo.vue'
 import TabDemo from './pages/TabDemo.vue'
@@ -104,6 +105,7 @@ const pages: Record<string, any> = {
   pagination: PaginationDemo,
   radio: RadioDemo,
   'scroll-box': ScrollBoxDemo,
+  segmented: SegmentedDemo,
   select: SelectDemo,
   switch: SwitchDemo,
   tab: TabDemo,
@@ -141,6 +143,7 @@ const menuItems = computed(() => [
   { label: $t('demo.nav.pagination'), key: 'pagination' },
   { label: $t('demo.nav.radio'), key: 'radio' },
   { label: $t('demo.nav.scrollBox'), key: 'scroll-box' },
+  { label: $t('demo.nav.segmented'), key: 'segmented' },
   { label: $t('demo.nav.select'), key: 'select' },
   { label: $t('demo.nav.switch'), key: 'switch' },
   { label: $t('demo.nav.tab'), key: 'tab' },

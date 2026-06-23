@@ -1,0 +1,110 @@
+<template>
+  <section class="demo-section">
+    <h2 class="demo-section-title">{{ $t('demo.segmented.title') }}</h2>
+    <p class="demo-section-desc">{{ $t('demo.segmented.desc') }}</p>
+
+    <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
+      <y-segmented v-model:value="basic" :options="periodOptions" />
+      <span class="demo-hint">{{ $t('demo.segmented.currentValue', { value: basic }) }}</span>
+    </y-card>
+
+    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+      <div class="demo-segmented-stack">
+        <y-segmented v-model:value="disabledItem" :options="disabledOptions" />
+        <y-segmented v-model:value="disabledGroup" :options="periodOptions" disabled />
+      </div>
+    </y-card>
+
+    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+      <div class="demo-segmented-stack">
+        <y-segmented v-model:value="small" :options="periodOptions" size="small" />
+        <y-segmented v-model:value="middle" :options="periodOptions" />
+        <y-segmented v-model:value="large" :options="periodOptions" size="large" />
+      </div>
+    </y-card>
+
+    <y-card :title="$t('demo.segmented.shape')" style="margin-top: 8px">
+      <div class="demo-segmented-stack">
+        <y-segmented v-model:value="shapeBlock" :options="periodOptions" />
+        <y-segmented v-model:value="shapeRoundSmall" :options="periodOptions" shape="round" size="small" />
+        <y-segmented v-model:value="shapeRound" :options="periodOptions" shape="round" />
+        <y-segmented v-model:value="shapeRoundLarge" :options="periodOptions" shape="round" size="large" />
+      </div>
+    </y-card>
+
+    <y-card :title="$t('demo.segmented.block')" style="margin-top: 8px">
+      <div class="demo-segmented-block">
+        <y-segmented v-model:value="block" :options="viewOptions" block />
+      </div>
+    </y-card>
+
+    <y-card :title="$t('demo.common.event')" style="margin-top: 8px">
+      <y-segmented v-model:value="eventValue" :options="periodOptions" @change="onChange" />
+      <span class="demo-hint">{{ $t('demo.segmented.changeCount', { count: changeCount }) }}</span>
+    </y-card>
+  </section>
+</template>
+
+<script lang="ts" setup>
+import { $t } from 'yiz-ui'
+import { computed, ref } from 'vue'
+
+const periodOptions = computed(() => [
+  { label: $t('demo.segmented.day'), value: 'day' },
+  { label: $t('demo.segmented.week'), value: 'week' },
+  { label: $t('demo.segmented.month'), value: 'month' },
+  { label: $t('demo.segmented.year'), value: 'year' }
+])
+
+const disabledOptions = computed(() => [
+  { label: $t('demo.segmented.day'), value: 'day' },
+  { label: $t('demo.segmented.week'), value: 'week', disabled: true },
+  { label: $t('demo.segmented.month'), value: 'month' }
+])
+
+const viewOptions = computed(() => [
+  { label: $t('demo.segmented.list'), value: 'list' },
+  { label: $t('demo.segmented.card'), value: 'card' },
+  { label: $t('demo.segmented.chart'), value: 'chart' }
+])
+
+const basic = ref('week')
+const disabledItem = ref('month')
+const disabledGroup = ref('week')
+const small = ref('day')
+const middle = ref('week')
+const large = ref('month')
+const shapeBlock = ref('day')
+const shapeRoundSmall = ref('day')
+const shapeRound = ref('week')
+const shapeRoundLarge = ref('month')
+const block = ref('card')
+const eventValue = ref('day')
+const changeCount = ref(0)
+
+function onChange() {
+  changeCount.value++
+}
+</script>
+
+<style scoped>
+.demo-hint {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 12px;
+  color: #999;
+  vertical-align: middle;
+}
+
+.demo-segmented-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.demo-segmented-block {
+  width: 360px;
+  max-width: 100%;
+}
+</style>

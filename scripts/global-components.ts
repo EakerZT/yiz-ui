@@ -28,6 +28,7 @@ import type {
   RadioButtonGroup,
   RadioGroup,
   ScrollBox,
+  Segmented,
   Select,
   SelectOption,
   Switch,
@@ -102,6 +103,8 @@ declare module 'vue' {
     'y-radio-group': typeof RadioGroup
     YScrollBox: typeof ScrollBox
     'y-scroll-box': typeof ScrollBox
+    YSegmented: typeof Segmented
+    'y-segmented': typeof Segmented
     YSelect: typeof Select
     'y-select': typeof Select
     YSelectOption: typeof SelectOption
