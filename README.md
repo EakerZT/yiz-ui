@@ -19,7 +19,7 @@
 
 ## 特性 / Features
 
-- 🌗 **30+ 组件** — 涵盖表单、数据展示、导航、反馈等常用场景
+- 🌗 **40+ 组件** — 涵盖表单、数据展示、导航、反馈等常用场景
 - 🔧 **TypeScript** — 完整类型支持，严格模式开发
 - 🎨 **CSS 变量主题** — 通过 `--yiz-*` 自定义属性轻松定制
 - 🌍 **内置 i18n** — 内置中英文，支持动态切换和扩展语言
@@ -27,7 +27,7 @@
 - 📦 **Vue 3.4+** — 使用 `defineModel`、`<script setup>` 等最新特性
 - 🎯 **无外部图标依赖** — 弹窗关闭按钮使用内联 SVG
 
-> 🌗 **30+ components** covering forms, data display, navigation, feedback, and more
+> 🌗 **40+ components** covering forms, data display, navigation, feedback, and more
 > 🔧 **TypeScript-first** — full type safety, developed in strict mode
 > 🎨 **CSS variable theming** — customize via `--yiz-*` custom properties
 > 🌍 **Built-in i18n** — Chinese & English out of the box, extensible via API
@@ -122,6 +122,29 @@ const handle = notification({ content: '加载中...', duration: 0 })
 handle.close()
 ```
 
+### ContextMenu（命令式调用） / ContextMenu (imperative API)
+
+```ts
+import { showContextMenu } from '@eakerzt/yiz-ui'
+
+// 在右键事件位置弹出
+showContextMenu(
+  {
+    items: [
+      { type: 'item', label: '刷新', key: 'refresh' },
+      { type: 'divider' },
+      { type: 'item', label: '删除', key: 'delete', disabled: true }
+    ],
+    onSelect: (item) => console.log(item.key)
+  },
+  event
+)
+```
+
+支持 `item` / `divider` / `submenu` / `checkbox` / `radiogroup` 五种项类型，嵌套子菜单会自动进行边缘翻转。
+
+> Supports five item types: `item` / `divider` / `submenu` / `checkbox` / `radiogroup`; nested submenus auto-flip at viewport edges.
+
 ---
 
 ## 组件 / Components
@@ -134,8 +157,6 @@ handle.close()
 | Checkbox | `YCheckbox` | 复选框 — 支持单用和组合 |
 | CheckboxGroup | `YCheckboxGroup` | 复选框组 — provide/inject 模式 |
 | ColorPicker | `YColorPicker` | 颜色选择器 — HSV 面板 + 预设色 |
-| ContextMenu | `YContextMenu` | 右键菜单 — 支持嵌套、复选框、单选组 |
-| ContextMenuOption | `YContextMenuOption` | 右键菜单选项 — 声明式子项 |
 | DatePicker | `YDatePicker` | 日期选择器 — 月份/年份快速跳转 |
 | DateRangePicker | `YDateRangePicker` | 日期范围选择器 — 自动排序起止日期 |
 | Dialog | `YDialog` | 对话框 — 支持拖拽、ESC 关闭 |
@@ -159,16 +180,21 @@ handle.close()
 | RadioButton | `YRadioButton` | 单选按钮 — 按钮风格单选 |
 | RadioButtonGroup | `YRadioButtonGroup` | 单选按钮组 — 按钮风格的互斥选择 |
 | ScrollBox | `YScrollBox` | 滚动容器 — 自定义滚动条，GPU 定位 |
+| Segmented | `YSegmented` | 分段器 — 滑块指示器、选项禁用 |
 | Select | `YSelect` | 选择器 — 支持搜索、键盘导航 |
 | SelectOption | `YSelectOption` | 选择器选项 — 声明式子项 |
+| Slider | `YSlider` | 滑动条 — 单/双滑块、步长、刻度标记 |
 | Switch | `YSwitch` | 开关 — 支持加载态、自定义颜色 |
 | Tab | `YTab` | 标签页 — 四方向、卡片风格、切换动画、flex 弹性布局 |
 | TabPane | `YTabPane` | 标签页面板 — label 插槽、closable 关闭 |
 | Table | `YTable` | 表格 — 排序、列宽拖拽、行选择、固定列 |
 | TableColumn | `YTableColumn` | 表格列 — 声明式列定义 + 自定义渲染 |
 | Tag | `YTag` | 标签 — 预设色/自定义色、可关闭 |
+| Textarea | `YTextarea` | 文本域 — 自适应行高、字数统计、可清空 |
 | TimePicker | `YTimePicker` | 时间选择器 — 时分秒列选择 |
 | TimeRangePicker | `YTimeRangePicker` | 时间范围选择器 — 自动排序起止时间 |
+| Timeline | `YTimeline` | 时间线 — 左/右/交替模式、自定义节点 |
+| TimelineItem | `YTimelineItem` | 时间线项 — 标题、时间、类型、空心节点 |
 | Tooltip | `YTooltip` | 文字提示 — 四方向、CSS 箭头 |
 | Tree | `YTree` | 树 — 递归渲染、复选/单选、半选态 |
 
