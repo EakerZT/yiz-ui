@@ -68,6 +68,7 @@ import RadioDemo from './pages/RadioDemo.vue'
 import ScrollBoxDemo from './pages/ScrollBoxDemo.vue'
 import SegmentedDemo from './pages/SegmentedDemo.vue'
 import SliderDemo from './pages/SliderDemo.vue'
+import SortableBoxDemo from './pages/SortableBoxDemo.vue'
 import SelectDemo from './pages/SelectDemo.vue'
 import SwitchDemo from './pages/SwitchDemo.vue'
 import TabDemo from './pages/TabDemo.vue'
@@ -109,6 +110,7 @@ const pages: Record<string, any> = {
   'scroll-box': ScrollBoxDemo,
   segmented: SegmentedDemo,
   slider: SliderDemo,
+  'sortable-box': SortableBoxDemo,
   select: SelectDemo,
   switch: SwitchDemo,
   tab: TabDemo,
@@ -149,6 +151,7 @@ const menuItems = computed(() => [
   { label: $t('demo.nav.scrollBox'), key: 'scroll-box' },
   { label: $t('demo.nav.segmented'), key: 'segmented' },
   { label: $t('demo.nav.slider'), key: 'slider' },
+  { label: $t('demo.nav.sortableBox'), key: 'sortable-box' },
   { label: $t('demo.nav.select'), key: 'select' },
   { label: $t('demo.nav.switch'), key: 'switch' },
   { label: $t('demo.nav.tab'), key: 'tab' },
