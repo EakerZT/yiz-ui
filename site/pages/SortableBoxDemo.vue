@@ -85,6 +85,57 @@
       </y-sortable-box>
     </y-card>
 
+    <y-card :title="$t('demo.sortableBox.syncedPanelsTitle')" style="margin-top: 16px">
+      <div class="demo-sortable-sync-board">
+        <div>
+          <div class="demo-sortable-subtitle">{{ $t('demo.sortableBox.canvasView') }}</div>
+          <y-sortable-box
+            :model-value="syncDisplayItems"
+            class="demo-sortable-sync-canvas"
+            item-key="id"
+            :animation="180"
+            @update:model-value="updateSyncItems"
+            @preview-change="syncCanvasPreview"
+            @preview-cancel="clearSyncPreview"
+            @preview-commit="clearSyncPreview"
+          >
+            <template #item="{ element }">
+              <div
+                class="demo-sortable-sync-node"
+                :class="{ 'demo-sortable-sync-related': isSyncHighlighted(element, 'canvas') }"
+              >
+                <strong>{{ getItemTitle(element) }}</strong>
+                <span>{{ getItemType(element) }}</span>
+              </div>
+            </template>
+          </y-sortable-box>
+        </div>
+        <div>
+          <div class="demo-sortable-subtitle">{{ $t('demo.sortableBox.layersView') }}</div>
+          <y-sortable-box
+            :model-value="syncDisplayItems"
+            class="demo-sortable-list"
+            item-key="id"
+            :animation="180"
+            @update:model-value="updateSyncItems"
+            @preview-change="syncLayersPreview"
+            @preview-cancel="clearSyncPreview"
+            @preview-commit="clearSyncPreview"
+          >
+            <template #item="{ element }">
+              <div
+                class="demo-sortable-layer-item"
+                :class="{ 'demo-sortable-sync-related': isSyncHighlighted(element, 'layers') }"
+              >
+                <span>{{ getItemTitle(element) }}</span>
+                <small>{{ getItemType(element) }}</small>
+              </div>
+            </template>
+          </y-sortable-box>
+        </div>
+      </div>
+    </y-card>
+
     <y-card :title="$t('demo.sortableBox.nestedTitle')" style="margin-top: 16px">
       <y-sortable-box
         v-model="nestedColumns"
@@ -195,7 +246,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { $t, ScrollBox, type SortablePreviewChange } from 'yiz-ui'
 
 interface DemoItem {
@@ -241,6 +292,17 @@ const thresholdLeftItems = ref<DemoItem[]>([
   { id: 'threshold-3', title: '靠近空列表' }
 ])
 const thresholdRightItems = ref<DemoItem[]>([])
+
+const syncItems = ref<DemoItem[]>([
+  { id: 'sync-title', title: '标题', type: 'Text' },
+  { id: 'sync-image', title: '图片', type: 'Image' },
+  { id: 'sync-button', title: '按钮', type: 'Button' },
+  { id: 'sync-form', title: '表单', type: 'Form' }
+])
+const syncPreviewItems = ref<DemoItem[] | null>(null)
+const syncDraggingKey = ref('')
+const syncDraggingSource = ref<'canvas' | 'layers' | ''>('')
+const syncDisplayItems = computed(() => syncPreviewItems.value ?? syncItems.value)
 
 const nestedColumns = ref<NestedColumn[]>([
   {
@@ -296,6 +358,10 @@ function getItemType(item: unknown) {
   return (item as DemoItem).type
 }
 
+function getItemId(item: unknown) {
+  return (item as DemoItem).id
+}
+
 function getNestedColumnTitle(item: unknown) {
   return (item as NestedColumn).title
 }
@@ -306,6 +372,34 @@ function getNestedCards(item: unknown) {
 
 function getNestedCardTitle(item: unknown) {
   return (item as NestedCard).title
+}
+
+function updateSyncItems(items: unknown[]) {
+  syncItems.value = items as DemoItem[]
+}
+
+function syncCanvasPreview(event: SortablePreviewChange<DemoItem>) {
+  syncPanelPreview(event, 'canvas')
+}
+
+function syncLayersPreview(event: SortablePreviewChange<DemoItem>) {
+  syncPanelPreview(event, 'layers')
+}
+
+function syncPanelPreview(event: SortablePreviewChange<DemoItem>, source: 'canvas' | 'layers') {
+  syncPreviewItems.value = [...event.sourcePreview]
+  syncDraggingKey.value = getItemId(event.dragging)
+  syncDraggingSource.value = source
+}
+
+function isSyncHighlighted(item: unknown, panel: 'canvas' | 'layers') {
+  return !!syncDraggingKey.value && syncDraggingSource.value !== panel && getItemId(item) === syncDraggingKey.value
+}
+
+function clearSyncPreview() {
+  syncPreviewItems.value = null
+  syncDraggingKey.value = ''
+  syncDraggingSource.value = ''
 }
 
 function createCanvasItem(item: unknown) {
@@ -440,6 +534,62 @@ function getPreviewText(event: SortablePreviewChange) {
   font-size: 13px;
 }
 
+.demo-sortable-sync-board {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  gap: 16px;
+}
+
+.demo-sortable-sync-canvas {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-height: 260px;
+  padding: 12px;
+  border: 1px dashed #d8dce6;
+  border-radius: 6px;
+  background: #f7f9fc;
+}
+
+.demo-sortable-sync-node {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 1px solid #dce3ee;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  font-size: 14px;
+}
+
+.demo-sortable-sync-node span,
+.demo-sortable-layer-item small {
+  color: #999;
+  font-size: 12px;
+}
+
+.demo-sortable-layer-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 36px;
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  font-size: 13px;
+}
+
+.demo-sortable-sync-related {
+  border-color: var(--yiz-color-primary);
+  background: #eef6ff;
+  box-shadow: 0 0 0 2px rgba(65, 145, 255, 0.16);
+  color: var(--yiz-color-primary);
+}
+
 .demo-sortable-subtitle {
   margin-bottom: 8px;
   color: #666;
@@ -471,7 +621,8 @@ function getPreviewText(event: SortablePreviewChange) {
 }
 
 @media (max-width: 720px) {
-  .demo-sortable-board {
+  .demo-sortable-board,
+  .demo-sortable-sync-board {
     grid-template-columns: 1fr;
   }
 }
