@@ -4,3 +4,5 @@ dist
 .claude
 *.log
 tsconfig.tsbuildinfo
+Sortable
+vue.draggable.next

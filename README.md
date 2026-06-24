@@ -184,6 +184,7 @@ showContextMenu(
 | Select | `YSelect` | 选择器 — 支持搜索、键盘导航 |
 | SelectOption | `YSelectOption` | 选择器选项 — 声明式子项 |
 | Slider | `YSlider` | 滑动条 — 单/双滑块、步长、刻度标记 |
+| SortableBox | `YSortableBox` | 拖动排序容器 — Vue 数据优先、跨列表、实时预览 |
 | Switch | `YSwitch` | 开关 — 支持加载态、自定义颜色 |
 | Tab | `YTab` | 标签页 — 四方向、卡片风格、切换动画、flex 弹性布局 |
 | TabPane | `YTabPane` | 标签页面板 — label 插槽、closable 关闭 |
@@ -239,8 +240,11 @@ cd yiz-ui
 # 安装依赖 / Install dependencies
 yarn
 
-# 启动 Demo 开发服务器 / Start demo dev server
-yarn demo
+# 启动介绍站点开发服务器 / Start site dev server
+yarn dev
+
+# 构建介绍站点到 docs/ / Build site to docs/
+yarn site:build
 
 # 类型检查 / Type check
 yarn typecheck
@@ -264,6 +268,10 @@ yarn build
 其余一切（Vue 插件注册、路径别名、全局组件名）均为自动。
 
 > Everything else (plugin registration, path alias, global component name) is automatic.
+
+### 计划文档 / Planning docs
+
+- [SortableBox 后续计划与差距分析](plans/sortable-box-roadmap.md)
 
 ---
 
