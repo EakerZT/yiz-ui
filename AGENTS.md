@@ -20,7 +20,7 @@
 ## Project Overview
 
 - `yiz-ui` (`@eakerzt/yiz-ui`) is a Vue 3 component library written in TypeScript.
-- Library source lives in `scripts/`; the demo app lives in `demo/` and imports the library through the `yiz-ui` alias.
+- Library source lives in `scripts/`; the demo app lives in `site/` and imports the library through the `yiz-ui` alias.
 - Build output lives in `dist/` — do not edit generated output unless the task explicitly asks for release artifacts.
 - Package manager is Yarn Classic (1.22.22 via Volta); Node is pinned to 25.9.0 via Volta. Do not use `npm`/`pnpm` for package operations in this repo.
 
@@ -28,19 +28,19 @@
 
 ```powershell
 yarn                 # install
-yarn demo            # start Vite demo dev server
-yarn demo:build      # build demo site -> docs/ (GitHub Pages deploy target)
-yarn typecheck       # vue-tsc --noEmit (uses tsconfig.json, includes demo)
+yarn dev            # start Vite demo dev server
+yarn site:build      # build site -> docs/ (GitHub Pages deploy target)
+yarn typecheck       # vue-tsc --noEmit (uses tsconfig.json, includes site)
 yarn build           # vite build --config vite.config.lib.mts && vue-tsc --project tsconfig.build.json
 ```
 
 - There is no test script and no lint script configured (ESLint/Prettier are installed but only Prettier has config in `.prettierrc`).
-- `yarn build` emits dual CJS/ESM to `dist/` (`yiz-ui.cjs`, `yiz-ui.mjs`, `index.d.ts`, `yiz-ui.css`). Declaration emit uses `tsconfig.build.json`, which has NO `yiz-ui` path alias and includes only `scripts/**` (not `demo/**`).
+- `yarn build` emits dual CJS/ESM to `dist/` (`yiz-ui.cjs`, `yiz-ui.mjs`, `index.d.ts`, `yiz-ui.css`). Declaration emit uses `tsconfig.build.json`, which has NO `yiz-ui` path alias and includes only `scripts/**` (not `site/**`).
 - `prepublishOnly` runs `yarn typecheck && yarn build` automatically before `npm publish` (README publishes via `npm publish`, not `yarn publish`).
 
 ## CI / Deploy
 
-- `.github/workflows/deploy-demo.yml` runs on push to `main` or `master`: `yarn install --frozen-lockfile` → `yarn typecheck` → `yarn demo:build` → uploads `docs/` to GitHub Pages. Keep `yarn.lock` committed and in sync.
+- `.github/workflows/deploy-site.yml` runs on push to `main` or `master`: `yarn install --frozen-lockfile` → `yarn typecheck` → `yarn site:build` → uploads `docs/` to GitHub Pages. Keep `yarn.lock` committed and in sync.
 
 ## Code Style
 
@@ -56,18 +56,18 @@ yarn build           # vite build --config vite.config.lib.mts && vue-tsc --proj
 - Each component lives in `scripts/<component-name>/` with `<Name>.vue` plus `index.ts` (named exports).
 - Add new component exports to `scripts/components.ts` (alphabetical order).
 - `scripts/index.ts` imports `./style.less` + `./global-components`, re-exports components, locale utils, notification APIs, `showContextMenu`, and `renderSvg`, and installs all exported components globally with a `Y` prefix (e.g. `Button` → `YButton`).
-- Adding a component also requires a demo page in `demo/pages/` registered in `demo/App.vue` (import + `pages` entry + `menuItems` entry).
+- Adding a component also requires a demo page in `site/pages/` registered in `site/App.vue` (import + `pages` entry + `menuItems` entry).
 
 ## Demo And Alias
 
-- `vite.config.mts` (dev) and `vite.config.demo.mts` (demo build) alias `yiz-ui` to `./scripts`; `tsconfig.json` has the same path alias. `vite.config.lib.mts` and `tsconfig.build.json` do NOT alias — library build resolves the real package.
+- `vite.config.mts` (dev) and `vite.config.site.mts` (site build) alias `yiz-ui` to `./scripts`; `tsconfig.json` has the same path alias. `vite.config.lib.mts` and `tsconfig.build.json` do NOT alias — library build resolves the real package.
 - Demo pages should import from `yiz-ui` where that matches consumer usage.
 
 ## Internationalization
 
 - Built-in locale files are `scripts/locale/zh-CN.json` (default) and `scripts/locale/en-US.json`.
 - Components with default user-facing text should use `$t()` from `scripts/locale`. Add/update keys in both built-in locale files when adding component-facing text.
-- Demo-only text is registered in `demo/i18n.ts` via `registerLangItem`.
+- Demo-only text is registered in `site/i18n.ts` via `registerLangItem`.
 
 ## Common Patterns
 

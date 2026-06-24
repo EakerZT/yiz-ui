@@ -1,4 +1,4 @@
-name: Deploy Demo
+name: Deploy Site
 
 on:
   push:
@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build demo
+    name: Build site
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,8 +36,8 @@ jobs:
       - name: Type check
         run: yarn typecheck
 
-      - name: Build demo
-        run: yarn demo:build
+      - name: Build site
+        run: yarn site:build
 
       - name: Disable Jekyll
         run: touch docs/.nojekyll
@@ -48,7 +48,7 @@ jobs:
           path: docs
 
   deploy:
-    name: Deploy demo
+    name: Deploy site
     needs: build
     runs-on: ubuntu-latest
     environment:

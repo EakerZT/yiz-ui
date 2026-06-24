@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project overview
 
-`yiz-ui` is a Vue 3 UI component library. Components live in `scripts/`, and a Vite-powered demo app in `demo/` is used for development.
+`yiz-ui` is a Vue 3 UI component library. Components live in `scripts/`, and a Vite-powered demo app in `site/` is used for development.
 
 ## Commands
 
@@ -13,10 +13,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 yarn
 
 # Start the demo/dev server
-yarn demo
+yarn dev
 
 # Build the demo site for deployment
-yarn demo:build
+yarn site:build
 
 # Type-check the entire project (no emit)
 yarn typecheck
@@ -55,8 +55,8 @@ Each component lives in `scripts/<name>/` with two files:
 
 1. Create `scripts/<name>/<Name>.vue` and `scripts/<name>/index.ts` (named export)
 2. Add `export * from './<name>'` to `scripts/components.ts` (alphabetical order)
-3. Create `demo/pages/<Name>Demo.vue`
-4. Register the demo page in `demo/App.vue`: add import, `pages` entry, and `menuItems` entry
+3. Create `site/pages/<Name>Demo.vue`
+4. Register the demo page in `site/App.vue`: add import, `pages` entry, and `menuItems` entry
 
 Everything else (plugin registration, path alias, global component name) is automatic.
 
@@ -81,7 +81,7 @@ const placeholderText = computed(() => props.placeholder ?? $t('select.placehold
 
 Components that display user-facing text (Empty, Pagination, Select, DatePicker, TimePicker, Table, Loading) use `$t()` for their default labels/placeholders. When adding a new component with text, add keys to both `zh-CN.json` and the demo's i18n registration.
 
-**The demo app** (`demo/i18n.ts`) registers its own UI strings via `registerLangItem('zh-CN', ...)` and `registerLangItem('en-US', ...)`, then calls `setLang()` with the demo's language selector.
+**The demo app** (`site/i18n.ts`) registers its own UI strings via `registerLangItem('zh-CN', ...)` and `registerLangItem('en-US', ...)`, then calls `setLang()` with the demo's language selector.
 
 ### Notification imperative API (`scripts/notification/`)
 

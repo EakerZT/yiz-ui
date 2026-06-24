@@ -39,8 +39,8 @@
     "**/*.css"
   ],
   "scripts": {
-    "demo": "vite",
-    "demo:build": "vite build --config vite.config.demo.mts",
+    "dev": "vite",
+    "site:build": "vite build --config vite.config.site.mts",
     "typecheck": "vue-tsc --noEmit",
     "build": "vite build --config vite.config.lib.mts && vue-tsc --project tsconfig.build.json",
     "prepublishOnly": "yarn typecheck && yarn build"

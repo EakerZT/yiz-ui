@@ -253,13 +253,13 @@ yarn build
 
 1. 创建 `scripts/<name>/<Name>.vue` 和 `scripts/<name>/index.ts`
 2. 在 `scripts/components.ts` 中添加 `export * from './<name>'`（按字母顺序）
-3. 创建 `demo/pages/<Name>Demo.vue`
-4. 在 `demo/App.vue` 中注册 Demo 页面
+3. 创建 `site/pages/<Name>Demo.vue`
+4. 在 `site/App.vue` 中注册 Demo 页面
 
 > 1. Create `scripts/<name>/<Name>.vue` and `scripts/<name>/index.ts`
 > 2. Add `export * from './<name>'` to `scripts/components.ts` (alphabetical order)
-> 3. Create `demo/pages/<Name>Demo.vue`
-> 4. Register the demo page in `demo/App.vue`
+> 3. Create `site/pages/<Name>Demo.vue`
+> 4. Register the demo page in `site/App.vue`
 
 其余一切（Vue 插件注册、路径别名、全局组件名）均为自动。
 
