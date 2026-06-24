@@ -36,6 +36,42 @@
       </y-sortable-box>
     </y-card>
 
+    <y-card :title="$t('demo.sortableBox.animationThresholdTitle')" style="margin-top: 16px">
+      <div class="demo-sortable-board">
+        <y-sortable-box
+          v-model="thresholdLeftItems"
+          class="demo-sortable-list"
+          item-key="id"
+          group="threshold"
+          :animation="220"
+          easing="cubic-bezier(0.2, 0, 0, 1)"
+          :swap-threshold="0.65"
+          :empty-insert-threshold="24"
+        >
+          <template #item="{ element }">
+            <div class="demo-sortable-item">{{ getItemTitle(element) }}</div>
+          </template>
+        </y-sortable-box>
+        <y-sortable-box
+          v-model="thresholdRightItems"
+          class="demo-sortable-list"
+          item-key="id"
+          group="threshold"
+          :animation="220"
+          easing="cubic-bezier(0.2, 0, 0, 1)"
+          :swap-threshold="0.65"
+          :empty-insert-threshold="24"
+        >
+          <template #header>
+            <div class="demo-sortable-subtitle">{{ $t('demo.sortableBox.emptyTarget') }}</div>
+          </template>
+          <template #item="{ element }">
+            <div class="demo-sortable-item">{{ getItemTitle(element) }}</div>
+          </template>
+        </y-sortable-box>
+      </div>
+    </y-card>
+
     <y-card :title="$t('demo.sortableBox.horizontalTitle')" style="margin-top: 16px">
       <y-sortable-box
         v-model="horizontalItems"
@@ -198,6 +234,13 @@ const dragClassItems = ref<DemoItem[]>([
   { id: 'drag-class-2', title: '自定义 drag-class' },
   { id: 'drag-class-3', title: '半透明源元素' }
 ])
+
+const thresholdLeftItems = ref<DemoItem[]>([
+  { id: 'threshold-1', title: '动画排序' },
+  { id: 'threshold-2', title: '阈值判定' },
+  { id: 'threshold-3', title: '靠近空列表' }
+])
+const thresholdRightItems = ref<DemoItem[]>([])
 
 const nestedColumns = ref<NestedColumn[]>([
   {

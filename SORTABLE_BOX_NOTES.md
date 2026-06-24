@@ -1015,16 +1015,18 @@ type SortableTreeChange<T> = {
 - `filter` / `handle-class`，其中 `handle-class` 用于按 class name 指定拖拽句柄。
 - 实时 preview 渲染。
 - AutoScroll，支持 `scroll` / `scrollSensitivity` / `scrollSpeed` / `bubbleScroll`。
+- `swapThreshold` / `invertSwap` / `invertedSwapThreshold` 的基础插入阈值判定。
+- `emptyInsertThreshold`，允许指针靠近空容器时命中空列表。
+- FLIP 位移动画，支持 `animation` / `easing`。
 - `preview-start` / `preview-change` / `preview-cancel` / `preview-commit`。
 - `change` 事件，包含 `added` / `removed` / `moved`。
 - 基础 `choose` / `unchoose` / `start` / `end` / `add` / `remove` / `update` / `sort` / `filter`。
-- `option` / `toArray` / `sort` 暴露方法。
+- `option` / `toArray` / `sort` 暴露方法，其中 `option(name, value)` 可在运行时覆盖组件选项。
 
 暂未落地能力：
 
 - 移动端 touch 专项处理。
 - HTML5 DnD / `dataTransfer`。
-- FLIP 动画。
 - Swap 模式。
 - MultiDrag。
 - OnSpill。

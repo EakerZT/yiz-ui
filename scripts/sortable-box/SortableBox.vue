@@ -5,6 +5,7 @@ import {
   defineComponent,
   h,
   isVNode,
+  nextTick,
   onBeforeUnmount,
   onBeforeUpdate,
   onMounted,
@@ -60,6 +61,11 @@ interface RuntimeOptions {
   maxItems?: number
   lockedKeys: SortableKey[]
   animation: number
+  easing: string
+  swapThreshold: number
+  invertSwap: boolean
+  invertedSwapThreshold?: number
+  emptyInsertThreshold: number
   ghostClass: string
   chosenClass: string
   dragClass: string
@@ -84,6 +90,8 @@ interface SortableItemEntry {
   element: HTMLElement
   index: number
 }
+
+interface SortableBoxOptionOverrides extends Partial<RuntimeOptions> {}
 
 interface PendingDrag {
   item: unknown
@@ -147,6 +155,11 @@ export default defineComponent({
     maxItems: { type: Number, default: undefined },
     lockedKeys: { type: Array as PropType<SortableKey[]>, default: () => [] },
     animation: { type: Number, default: 150 },
+    easing: { type: String, default: 'cubic-bezier(0.2, 0, 0, 1)' },
+    swapThreshold: { type: Number, default: 1 },
+    invertSwap: { type: Boolean, default: false },
+    invertedSwapThreshold: { type: Number, default: undefined },
+    emptyInsertThreshold: { type: Number, default: 5 },
     ghostClass: { type: String, default: 'yiz-sortable-box-ghost' },
     chosenClass: { type: String, default: 'yiz-sortable-box-chosen' },
     dragClass: { type: String, default: 'yiz-sortable-box-drag' },
@@ -191,6 +204,7 @@ export default defineComponent({
     const previewItems = ref<unknown[] | null>(null)
     const pendingDrag = ref<PendingDrag | null>(null)
     const draggingKey = ref<SortableKey | null>(null)
+    const optionOverrides = ref<SortableBoxOptionOverrides>({})
     const id = `yiz-sortable-box-${++seed}`
 
     const realList = computed(() => props.list ?? props.modelValue ?? [])
@@ -295,7 +309,7 @@ export default defineComponent({
     }
 
     function getOptions(): RuntimeOptions {
-      return {
+      const baseOptions: RuntimeOptions = {
         mode: props.mode,
         group: props.group,
         sort: props.sort,
@@ -308,6 +322,11 @@ export default defineComponent({
         maxItems: props.maxItems,
         lockedKeys: props.lockedKeys,
         animation: props.animation,
+        easing: props.easing,
+        swapThreshold: props.swapThreshold,
+        invertSwap: props.invertSwap,
+        invertedSwapThreshold: props.invertedSwapThreshold,
+        emptyInsertThreshold: props.emptyInsertThreshold,
         ghostClass: props.ghostClass,
         chosenClass: props.chosenClass,
         dragClass: props.dragClass,
@@ -325,6 +344,7 @@ export default defineComponent({
         scrollSpeed: props.scrollSpeed,
         bubbleScroll: props.bubbleScroll
       }
+      return { ...baseOptions, ...optionOverrides.value }
     }
 
     function onPointerDown(event: PointerEvent) {
@@ -452,13 +472,14 @@ export default defineComponent({
       const targetElement = document.elementFromPoint(event.clientX, event.clientY)
       activeDrag.ghost.style.display = ''
 
-      const target = findRuntime(targetElement)
+      const target = findRuntime(targetElement) ?? findNearestEmptyRuntime(event)
       if (!target) {
         clearCurrentPreview()
         return
       }
 
       const index = getInsertIndex(target, event)
+      if (index === null) return
       const proposal = buildPreview(target, index, event)
       if (!proposal) {
         clearCurrentPreview()
@@ -556,17 +577,56 @@ export default defineComponent({
       return result
     }
 
-    function getInsertIndex(target: SortableRuntime, event: PointerEvent) {
+    function findNearestEmptyRuntime(event: PointerEvent) {
+      let result: SortableRuntime | null = null
+      let resultDistance = Infinity
+      registry.forEach((item) => {
+        if (item.getItemEntries().length) return
+        const root = item.getRoot()
+        if (!root) return
+        const threshold = item.getOptions().emptyInsertThreshold
+        if (threshold <= 0) return
+        const rect = root.getBoundingClientRect()
+        const distance = getDistanceToRect(event.clientX, event.clientY, rect)
+        if (distance > threshold || distance >= resultDistance) return
+        result = item
+        resultDistance = distance
+      })
+      return result
+    }
+
+    function getDistanceToRect(x: number, y: number, rect: DOMRect) {
+      const dx = Math.max(rect.left - x, 0, x - rect.right)
+      const dy = Math.max(rect.top - y, 0, y - rect.bottom)
+      return Math.hypot(dx, dy)
+    }
+
+    function getInsertIndex(target: SortableRuntime, event: PointerEvent): number | null {
       const options = target.getOptions()
       const entries = target.getItemEntries()
       if (!entries.length) return 0
       const pointer = options.direction === 'horizontal' ? event.clientX : event.clientY
       for (const entry of entries) {
         const rect = entry.element.getBoundingClientRect()
-        const middle = options.direction === 'horizontal' ? rect.left + rect.width / 2 : rect.top + rect.height / 2
-        if (pointer < middle) return entry.index
+        const start = options.direction === 'horizontal' ? rect.left : rect.top
+        const end = options.direction === 'horizontal' ? rect.right : rect.bottom
+        const length = Math.max(end - start, 1)
+        const threshold = clampThreshold(
+          options.invertSwap ? options.invertedSwapThreshold ?? options.swapThreshold : options.swapThreshold
+        )
+        const beforeEnd = start + (length * threshold) / 2
+        const afterStart = end - (length * threshold) / 2
+        if (pointer < start) return entry.index
+        if (pointer <= beforeEnd) return entry.index
+        if (pointer < afterStart) return activeDrag?.current?.target === target ? activeDrag.current.newIndex : null
+        if (pointer <= end) return entry.index + 1
       }
       return entries.length
+    }
+
+    function clampThreshold(value: number | undefined) {
+      if (value === undefined || Number.isNaN(value)) return 1
+      return Math.max(0, Math.min(value, 1))
     }
 
     function buildPreview(target: SortableRuntime, index: number, event: PointerEvent): ActiveDropTarget | null {
@@ -697,10 +757,13 @@ export default defineComponent({
       ) {
         return
       }
+      const animatedTargets = getUniqueRuntimes(activeDrag.source, proposal.target)
+      const firstRects = captureRuntimeRects(animatedTargets)
       clearPreviewOnly()
       activeDrag.current = proposal
       activeDrag.source.setPreview(proposal.sourcePreview)
       if (proposal.target !== activeDrag.source) proposal.target.setPreview(proposal.targetPreview)
+      animateRuntimeChanges(firstRects)
       emitPreview('preview-change', event)
     }
 
@@ -959,6 +1022,47 @@ export default defineComponent({
       return next
     }
 
+    function getUniqueRuntimes(...items: SortableRuntime[]) {
+      return Array.from(new Set(items))
+    }
+
+    function captureRuntimeRects(items: SortableRuntime[]) {
+      return new Map(
+        items.map((item) => [
+          item,
+          new Map(item.getItemEntries().map((entry) => [entry.key, entry.element.getBoundingClientRect()]))
+        ])
+      )
+    }
+
+    function animateRuntimeChanges(firstRects: Map<SortableRuntime, Map<SortableKey, DOMRect>>) {
+      nextTick(() => {
+        firstRects.forEach((rects, item) => animateRuntimeItems(item, rects))
+      })
+    }
+
+    function animateRuntimeItems(item: SortableRuntime, firstRects: Map<SortableKey, DOMRect>) {
+      const options = item.getOptions()
+      if (options.animation <= 0) return
+      item.getItemEntries().forEach((entry) => {
+        const first = firstRects.get(entry.key)
+        if (!first) return
+        const last = entry.element.getBoundingClientRect()
+        const dx = first.left - last.left
+        const dy = first.top - last.top
+        if (!dx && !dy) return
+        entry.element.style.transition = 'none'
+        entry.element.style.transform = `translate3d(${dx}px, ${dy}px, 0)`
+        entry.element.getBoundingClientRect()
+        entry.element.style.transition = `transform ${options.animation}ms ${options.easing}`
+        entry.element.style.transform = ''
+        window.setTimeout(() => {
+          entry.element.style.transition = ''
+          entry.element.style.transform = ''
+        }, options.animation)
+      })
+    }
+
     function arraysHaveSameOrder(left: unknown[], right: unknown[]) {
       return left.length === right.length && left.every((item, index) => item === right[index])
     }
@@ -968,14 +1072,22 @@ export default defineComponent({
     }
 
     function sort(order: SortableKey[]) {
+      const firstRects = captureRuntimeRects([runtime])
       const map = new Map(realList.value.map((item) => [getItemKey(item), item]))
       const sorted = order.map((key) => map.get(key)).filter((item) => item !== undefined)
       const rest = realList.value.filter((item) => !order.includes(getItemKey(item)))
       runtime.applyList([...sorted, ...rest])
+      animateRuntimeChanges(firstRects)
     }
 
-    function option(name: keyof RuntimeOptions) {
-      return getOptions()[name]
+    function option<T extends keyof RuntimeOptions>(name: T): RuntimeOptions[T]
+    function option<T extends keyof RuntimeOptions>(name: T, value: RuntimeOptions[T]): void
+    function option<T extends keyof RuntimeOptions>(name: T, value?: RuntimeOptions[T]) {
+      if (arguments.length === 1) return getOptions()[name]
+      optionOverrides.value = {
+        ...optionOverrides.value,
+        [name]: value
+      }
     }
 
     function renderItem(item: unknown, index: number): VNode {
