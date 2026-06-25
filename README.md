@@ -201,6 +201,33 @@ showContextMenu(
 
 ---
 
+## 尺寸 / Size
+
+支持尺寸的组件统一使用 `small` / `default` / `large` 三档：
+
+> Components with size variants use `small` / `default` / `large` consistently.
+
+```html
+<template>
+  <y-button size="small">Small</y-button>
+  <y-button size="default">Default</y-button>
+  <y-button size="large">Large</y-button>
+
+  <y-input v-model:value="text" size="large" />
+  <y-select v-model="city" :options="cityOptions" size="small" />
+</template>
+```
+
+适用组件包括：`Button`、`Card`、`ColorPicker`、`DatePicker`、`DateRangePicker`、`Empty`、`Input`、`InputNumber`、`Loading`、`Pagination`、`RadioButton`、`RadioButtonGroup`、`Segmented`、`Select`、`Switch`、`Table`、`Tag`、`TimePicker`、`TimeRangePicker`、`Timeline`。
+
+> `Button` uses `default` for the middle size. The old `middle` value is not supported.
+
+`Icon` 的 `size` 为数值或字符串尺寸，不使用三档枚举。
+
+> `Icon.size` accepts a number or string value, not the three-level enum.
+
+---
+
 ## 国际化 / Internationalization
 
 内置 `zh-CN`（默认）和 `en-US`。通过 `setLang()` 切换，组件会自动响应。
