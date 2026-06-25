@@ -4,63 +4,41 @@
     <p class="demo-section-desc">{{ $t('demo.colorPicker.desc') }}</p>
 
     <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
-      <div class="demo-row">
-        <span class="demo-label">{{ $t('demo.common.default') }}</span>
-        <div class="demo-picker-field">
-          <y-color-picker v-model:value="color" />
-          <span class="demo-color-value">{{ color }}</span>
-        </div>
+      <div class="demo-picker-field">
+        <y-color-picker v-model:value="color" />
+        <span class="demo-color-value">{{ color }}</span>
       </div>
     </y-card>
 
     <y-card :title="$t('demo.colorPicker.alpha')" style="margin-top: 8px">
-      <div class="demo-row">
-        <span class="demo-label">{{ $t('demo.colorPicker.alphaLabel') }}</span>
-        <div class="demo-picker-field">
-          <y-color-picker v-model:value="alphaColor" alpha />
-          <div class="demo-color-meta">
-            <span class="demo-color-preview" :style="{ backgroundColor: alphaColor }" />
-            <span class="demo-color-value">{{ alphaColor }}</span>
-          </div>
+      <div class="demo-picker-field">
+        <y-color-picker v-model:value="alphaColor" alpha />
+        <div class="demo-color-meta">
+          <span class="demo-color-preview" :style="{ backgroundColor: alphaColor }" />
+          <span class="demo-color-value">{{ alphaColor }}</span>
         </div>
       </div>
     </y-card>
 
     <y-card :title="$t('demo.colorPicker.customPresets')" style="margin-top: 8px">
-      <div class="demo-row">
-        <span class="demo-label">{{ $t('demo.colorPicker.brandColor') }}</span>
-        <div class="demo-picker-field">
-          <y-color-picker v-model:value="brandColor" :presets="brandPresets" />
-          <div class="demo-color-meta">
-            <span class="demo-color-preview" :style="{ backgroundColor: brandColor }" />
-            <span class="demo-color-value">{{ brandColor }}</span>
-          </div>
+      <div class="demo-picker-field">
+        <y-color-picker v-model:value="brandColor" :presets="brandPresets" />
+        <div class="demo-color-meta">
+          <span class="demo-color-preview" :style="{ backgroundColor: brandColor }" />
+          <span class="demo-color-value">{{ brandColor }}</span>
         </div>
       </div>
     </y-card>
 
     <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
-      <div class="demo-row">
-        <span class="demo-label">{{ $t('demo.common.customContent') }}</span>
-        <div class="demo-picker-field">
-          <y-color-picker v-model:value="affixColor" prefix="HEX" suffix="Theme" />
-        </div>
-      </div>
+      <y-color-picker v-model:value="affixColor" prefix="HEX" suffix="Theme" />
     </y-card>
 
     <y-card :title="$t('demo.colorPicker.sizeAndDisabled')" style="margin-top: 8px">
-      <div class="demo-row">
-        <span class="demo-label">{{ $t('demo.common.size') }}</span>
-        <div class="demo-picker-field">
-          <y-radio-button-group v-model:value="colorPickerSize" :options="sizeOptions" />
-          <y-color-picker v-model:value="sizeColor" :size="colorPickerSize" />
-        </div>
-      </div>
-      <div class="demo-row">
-        <span class="demo-label">{{ $t('demo.common.disabled') }}</span>
-        <div class="demo-picker-field">
-          <y-color-picker v-model:value="disabledColor" disabled />
-        </div>
+      <div class="demo-picker-field">
+        <y-radio-button-group v-model:value="colorPickerSize" :options="sizeOptions" />
+        <y-color-picker v-model:value="sizeColor" :size="colorPickerSize" />
+        <y-color-picker v-model:value="disabledColor" disabled />
       </div>
     </y-card>
   </section>
