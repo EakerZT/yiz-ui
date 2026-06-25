@@ -10,7 +10,7 @@ import { computed } from 'vue'
 const props = withDefaults(
   defineProps<{
     mode?: 'left' | 'right' | 'alternate'
-    size?: 'default' | 'small'
+    size?: 'small' | 'default' | 'large'
   }>(),
   {
     mode: 'left',
@@ -47,6 +47,13 @@ const vClass = computed(() => ({
   --yiz-timeline-dot-size: 8px;
   --yiz-timeline-line-offset: 8px;
   --yiz-timeline-content-gap: 24px;
+}
+
+.yiz-timeline-size-large {
+  --yiz-timeline-dot-size: 12px;
+  --yiz-timeline-line-offset: 10px;
+  --yiz-timeline-item-gap: 6px;
+  --yiz-timeline-content-gap: 32px;
 }
 
 .yiz-timeline-mode-right {

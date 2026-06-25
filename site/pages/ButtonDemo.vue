@@ -142,10 +142,10 @@ import { Flash20Regular } from '@vicons/fluent'
 const count = ref(0)
 const linkCount = ref(0)
 const buttonLoading = ref(true)
-const buttonSize = ref<'small' | 'middle' | 'large'>('middle')
+const buttonSize = ref<'small' | 'default' | 'large'>('default')
 const buttonSizeOptions = [
   { label: 'small', value: 'small' },
-  { label: 'middle', value: 'middle' },
+  { label: 'default', value: 'default' },
   { label: 'large', value: 'large' }
 ]
 </script>

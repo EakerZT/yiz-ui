@@ -42,11 +42,12 @@
       </div>
     </y-card>
 
-    <y-card :title="$t('demo.common.smallSize')" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">{{ $t('demo.common.small') }}</span>
+        <span class="demo-label">{{ $t('demo.common.size') }}</span>
         <div class="demo-picker-field">
-          <TimePicker v-model="value5" size="small" clearable />
+          <y-radio-button-group v-model:value="timePickerSize" :options="sizeOptions" />
+          <TimePicker v-model="value5" :size="timePickerSize" clearable />
         </div>
       </div>
     </y-card>
@@ -78,6 +79,8 @@ import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 import { TimePicker } from 'yiz-ui'
 
+type DemoSize = 'small' | 'default' | 'large'
+
 const value1 = ref<string | null>(null)
 const value2 = ref<string | null>('14:30:00')
 const value3 = ref<string | null>('09:15:30')
@@ -85,6 +88,12 @@ const value4 = ref<string | null>('08:00:00')
 const value5 = ref<string | null>(null)
 const value6 = ref<string | null>('10:00')
 const value7 = ref<string | null>('09:30:00')
+const timePickerSize = ref<DemoSize>('default')
+const sizeOptions = [
+  { label: 'small', value: 'small' },
+  { label: 'default', value: 'default' },
+  { label: 'large', value: 'large' }
+]
 </script>
 
 <style scoped>

@@ -25,8 +25,11 @@
       <y-pagination v-model:page="jumpPage" :total="500" show-total show-quick-jumper />
     </y-card>
 
-    <y-card :title="$t('demo.common.smallSize')" style="margin-top: 8px">
-      <y-pagination v-model:page="smallPage" :total="180" size="small" show-total />
+    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+      <div class="demo-pagination-size-list">
+        <y-radio-button-group v-model:value="paginationSize" :options="sizeOptions" />
+        <y-pagination v-model:page="sizeDemoPage" :total="180" :size="paginationSize" show-total />
+      </div>
     </y-card>
 
     <y-card :title="$t('demo.pagination.simple')" style="margin-top: 8px">
@@ -43,13 +46,21 @@
 import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 
+type DemoSize = 'small' | 'default' | 'large'
+
 const page = ref(1)
 const sizePage = ref(2)
 const pageSize = ref(20)
 const jumpPage = ref(5)
-const smallPage = ref(3)
+const sizeDemoPage = ref(3)
 const simplePage = ref(8)
 const lastChange = ref($t('demo.common.none'))
+const paginationSize = ref<DemoSize>('default')
+const sizeOptions = [
+  { label: 'small', value: 'small' },
+  { label: 'default', value: 'default' },
+  { label: 'large', value: 'large' }
+]
 
 function onChange(pageValue: number, pageSizeValue: number) {
   lastChange.value = $t('demo.pagination.changeLabel', { page: pageValue, pageSize: pageSizeValue })
@@ -65,5 +76,11 @@ function onChange(pageValue: number, pageSizeValue: number) {
 
 .demo-pagination-info + .demo-pagination-info {
   margin-top: 4px;
+}
+
+.demo-pagination-size-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 </style>

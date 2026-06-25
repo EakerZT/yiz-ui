@@ -81,7 +81,7 @@ const props = withDefaults(
     placeholder?: string
     disabled?: boolean
     clearable?: boolean
-    size?: 'default' | 'small'
+    size?: 'small' | 'default' | 'large'
     prefix?: string
     suffix?: string
     search?: (query: string) => SelectOption[] | Promise<SelectOption[]>
@@ -176,6 +176,7 @@ const vClass = computed(() => {
   if (open.value) c['yiz-select-open'] = true
   if (props.disabled) c['yiz-select-disabled'] = true
   if (props.size === 'small') c['yiz-select-small'] = true
+  if (props.size === 'large') c['yiz-select-large'] = true
   return c
 })
 
@@ -388,6 +389,11 @@ onBeforeUnmount(() => {
   &.yiz-select-small {
     height: 24px;
     font-size: 13px;
+  }
+
+  &.yiz-select-large {
+    height: 40px;
+    font-size: 16px;
   }
 
   .yiz-form-item-error-status &:not(.yiz-select-disabled) {

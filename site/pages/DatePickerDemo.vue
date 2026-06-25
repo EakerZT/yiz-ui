@@ -32,11 +32,12 @@
       </div>
     </y-card>
 
-    <y-card :title="$t('demo.common.smallSize')" style="margin-top: 8px">
+    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">{{ $t('demo.common.small') }}</span>
+        <span class="demo-label">{{ $t('demo.common.size') }}</span>
         <div class="demo-picker-field">
-          <DatePicker v-model="value4" size="small" />
+          <y-radio-button-group v-model:value="datePickerSize" :options="sizeOptions" />
+          <DatePicker v-model="value4" :size="datePickerSize" />
         </div>
       </div>
     </y-card>
@@ -81,6 +82,8 @@ import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 import { DatePicker } from 'yiz-ui'
 
+type DemoSize = 'small' | 'default' | 'large'
+
 const value1 = ref<Date | null>(null)
 const value2 = ref<Date | null>(new Date())
 const value3 = ref<Date | null>(new Date())
@@ -88,6 +91,12 @@ const value4 = ref<Date | null>(null)
 const value5 = ref<Date | null>(null)
 const value6 = ref<Date | null>(new Date())
 const value7 = ref<Date | null>(new Date(2026, 5, 17))
+const datePickerSize = ref<DemoSize>('default')
+const sizeOptions = [
+  { label: 'small', value: 'small' },
+  { label: 'default', value: 'default' },
+  { label: 'large', value: 'large' }
+]
 
 function fmt(d: Date): string {
   const y = d.getFullYear()

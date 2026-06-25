@@ -101,7 +101,7 @@ const props = withDefaults(
     showQuickJumper?: boolean
     disabled?: boolean
     simple?: boolean
-    size?: 'default' | 'small'
+    size?: 'small' | 'default' | 'large'
   }>(),
   {
     total: 0,
@@ -138,6 +138,7 @@ const pageSizeOptions = computed(() => {
 const vClass = computed(() => ({
   'yiz-pagination-disabled': props.disabled,
   'yiz-pagination-small': props.size === 'small',
+  'yiz-pagination-large': props.size === 'large',
   'yiz-pagination-simple-mode': props.simple
 }))
 
@@ -385,6 +386,30 @@ function commitSimplePage() {
 
   .yiz-pagination-size-select {
     width: 110px;
+  }
+}
+
+.yiz-pagination-large {
+  gap: 10px;
+  font-size: 16px;
+
+  .yiz-pagination-item,
+  .yiz-pagination-go {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 16px;
+    line-height: 38px;
+  }
+
+  .yiz-pagination-input {
+    width: 58px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .yiz-pagination-size-select {
+    width: 132px;
   }
 }
 </style>

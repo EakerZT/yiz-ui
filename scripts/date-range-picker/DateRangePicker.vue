@@ -244,7 +244,7 @@ const props = withDefaults(
     clearable?: boolean
     forceRange?: boolean
     autoSort?: boolean
-    size?: 'default' | 'small'
+    size?: 'small' | 'default' | 'large'
     disabledDate?: (date: Date) => boolean
     format?: string
     startPlaceholder?: string
@@ -314,7 +314,8 @@ const panelStyle = computed(() => ({
 const vClass = computed(() => ({
   'yiz-date-range-picker-open': open.value,
   'yiz-date-range-picker-disabled': props.disabled,
-  'yiz-date-range-picker-small': props.size === 'small'
+  'yiz-date-range-picker-small': props.size === 'small',
+  'yiz-date-range-picker-large': props.size === 'large'
 }))
 
 const startYearRange = computed(() => makeYearRange(startViewYear.value))
@@ -736,6 +737,11 @@ onBeforeUnmount(() => {
 .yiz-date-range-picker-small .yiz-date-range-picker-input {
   height: 24px;
   font-size: 13px;
+}
+
+.yiz-date-range-picker-large .yiz-date-range-picker-input {
+  height: 40px;
+  font-size: 16px;
 }
 
 .yiz-date-range-picker-panel {

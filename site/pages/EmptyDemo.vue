@@ -11,8 +11,11 @@
       <Empty :description="$t('demo.empty.noResult')" />
     </y-card>
 
-    <y-card :title="$t('demo.common.smallSize')" style="margin-top: 8px">
-      <Empty size="small" :description="$t('demo.empty.listEmpty')" />
+    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+      <div class="demo-empty-size-panel">
+        <y-radio-button-group v-model:value="emptySize" :options="sizeOptions" />
+        <Empty :size="emptySize" :description="$t('demo.empty.listEmpty')" />
+      </div>
     </y-card>
 
     <y-card :title="$t('demo.common.customImage')" style="margin-top: 8px">
@@ -43,4 +46,23 @@
 <script lang="ts" setup>
 import { $t } from 'yiz-ui'
 import { Empty } from 'yiz-ui'
+import { ref } from 'vue'
+
+type DemoSize = 'small' | 'default' | 'large'
+
+const emptySize = ref<DemoSize>('default')
+const sizeOptions = [
+  { label: 'small', value: 'small' },
+  { label: 'default', value: 'default' },
+  { label: 'large', value: 'large' }
+]
 </script>
+
+<style scoped>
+.demo-empty-size-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+</style>

@@ -12,6 +12,13 @@
       <y-input v-model:value="clearText" :placeholder="$t('demo.common.clearable')" clearable />
     </y-card>
 
+    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+      <div class="demo-input-row">
+        <y-radio-button-group v-model:value="inputSize" :options="sizeOptions" />
+        <y-input v-model:value="sizeText" :placeholder="$t('demo.common.pleaseInput')" :size="inputSize" />
+      </div>
+    </y-card>
+
     <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-input v-model:value="disabledText" :placeholder="$t('demo.common.disabled')" disabled />
     </y-card>
@@ -32,10 +39,19 @@ import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 import { Flash20Regular } from '@vicons/fluent'
 
+type DemoSize = 'small' | 'default' | 'large'
+
 const inputText = ref('')
 const clearText = ref('')
+const sizeText = ref('')
 const disabledText = ref('Disabled input')
 const affixText = ref('')
+const inputSize = ref<DemoSize>('default')
+const sizeOptions = [
+  { label: 'small', value: 'small' },
+  { label: 'default', value: 'default' },
+  { label: 'large', value: 'large' }
+]
 </script>
 
 <style scoped>
@@ -44,5 +60,11 @@ const affixText = ref('')
   margin-top: 6px;
   font-size: 12px;
   color: #999;
+}
+
+.demo-input-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 </style>

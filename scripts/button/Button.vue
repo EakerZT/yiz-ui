@@ -33,7 +33,7 @@ const props = withDefaults(
     type?: 'default' | 'primary' | 'plain'
     color?: 'default' | 'success' | 'warning' | 'error' | string
     shape?: 'default' | 'round' | 'circle'
-    size?: 'small' | 'middle' | 'large'
+    size?: 'small' | 'default' | 'large'
     disabled?: boolean
     loading?: boolean
   }>(),
@@ -41,7 +41,7 @@ const props = withDefaults(
     type: 'default',
     color: 'default',
     shape: 'default',
-    size: 'middle',
+    size: 'default',
     disabled: false,
     loading: false
   }
@@ -272,7 +272,7 @@ const onClick = (e: MouseEvent) => {
   }
 }
 
-.yiz-button-size-middle {
+.yiz-button-size-default {
   height: 34px;
   font-size: 14px;
 

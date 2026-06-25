@@ -48,10 +48,12 @@ const props = withDefaults(
     suffix?: string
     clearable?: boolean
     disabled?: boolean
+    size?: 'small' | 'default' | 'large'
   }>(),
   {
     clearable: false,
-    disabled: false
+    disabled: false,
+    size: 'default'
   }
 )
 
@@ -67,6 +69,12 @@ const vClass = computed(() => {
   }
   if (props.disabled) {
     c['yiz-input-disabled'] = true
+  }
+  if (props.size === 'small') {
+    c['yiz-input-small'] = true
+  }
+  if (props.size === 'large') {
+    c['yiz-input-large'] = true
   }
   return c
 })
@@ -121,6 +129,28 @@ defineExpose({
 
     &:hover {
       border-color: var(--yiz-color-border);
+    }
+  }
+
+  &.yiz-input-small {
+    height: 24px;
+    font-size: 13px;
+
+    .yiz-input_outer .yiz-input_inner {
+      height: 22px;
+      line-height: 22px;
+      font-size: 13px;
+    }
+  }
+
+  &.yiz-input-large {
+    height: 40px;
+    font-size: 16px;
+
+    .yiz-input_outer .yiz-input_inner {
+      height: 38px;
+      line-height: 38px;
+      font-size: 16px;
     }
   }
 

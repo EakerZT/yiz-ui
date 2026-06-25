@@ -57,7 +57,7 @@ const props = withDefaults(
     precision?: number
     disabled?: boolean
     placeholder?: string
-    size?: 'default' | 'small'
+    size?: 'small' | 'default' | 'large'
     controls?: boolean
     align?: 'left' | 'center' | 'right'
     prefix?: string
@@ -90,6 +90,7 @@ const vClass = computed(() => {
   if (isFocus.value) c['yiz-input-number-focus'] = true
   if (props.disabled) c['yiz-input-number-disabled'] = true
   if (props.size === 'small') c['yiz-input-number-small'] = true
+  if (props.size === 'large') c['yiz-input-number-large'] = true
   c[`yiz-input-number-align-${props.align}`] = true
   if (props.prefix || slots.prefix) c['yiz-input-number-has-prefix'] = true
   if (props.suffix || slots.suffix) c['yiz-input-number-has-suffix'] = true
@@ -206,6 +207,10 @@ defineExpose({
     height: 24px;
   }
 
+  &.yiz-input-number-large {
+    height: 40px;
+  }
+
   .yiz-form-item-error-status &:not(.yiz-input-number-disabled) {
     border-color: var(--yiz-color-error);
 
@@ -306,6 +311,18 @@ defineExpose({
 
 .yiz-input-number-small .yiz-input-number-input {
   font-size: 13px;
+}
+
+.yiz-input-number-large {
+  .yiz-input-number-input,
+  .yiz-input-number-prefix,
+  .yiz-input-number-suffix {
+    font-size: 16px;
+  }
+
+  .yiz-input-number-btn {
+    width: 36px;
+  }
 }
 
 .yiz-input-number-align-left .yiz-input-number-input {

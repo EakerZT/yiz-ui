@@ -63,9 +63,8 @@
 
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-radio-button-stack">
-        <y-radio-button-group v-model:value="buttonSize1" :options="buttonOptions" size="small" />
-        <y-radio-button-group v-model:value="buttonSize2" :options="buttonOptions" />
-        <y-radio-button-group v-model:value="buttonSize3" :options="buttonOptions" size="large" />
+        <y-radio-button-group v-model:value="radioButtonSize" :options="sizeOptions" />
+        <y-radio-button-group v-model:value="buttonSizeValue" :options="buttonOptions" :size="radioButtonSize" />
       </div>
     </y-card>
 
@@ -145,9 +144,13 @@ const buttonGroup1 = ref('apple')
 const buttonGroup2 = ref('week')
 const buttonGroup3 = ref('orange')
 const buttonGroup4 = ref('banana')
-const buttonSize1 = ref('apple')
-const buttonSize2 = ref('banana')
-const buttonSize3 = ref('orange')
+const buttonSizeValue = ref('banana')
+const radioButtonSize = ref<'small' | 'default' | 'large'>('default')
+const sizeOptions = [
+  { label: 'small', value: 'small' },
+  { label: 'default', value: 'default' },
+  { label: 'large', value: 'large' }
+]
 const buttonColor1 = ref('apple')
 const buttonColor2 = ref('week')
 const buttonRender = ref('banana')

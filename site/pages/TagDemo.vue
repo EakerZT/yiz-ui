@@ -14,11 +14,14 @@
     </y-card>
 
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
-      <y-button-group>
-        <y-tag size="small">{{ $t('demo.tag.smallTag') }}</y-tag>
-        <y-tag>{{ $t('demo.tag.defaultTag') }}</y-tag>
-        <y-tag size="large">{{ $t('demo.tag.largeTag') }}</y-tag>
-      </y-button-group>
+      <div class="demo-tag-size-panel">
+        <y-radio-button-group v-model:value="tagSize" :options="sizeOptions" />
+        <y-button-group>
+          <y-tag :size="tagSize">{{ $t('demo.tag.defaultTag') }}</y-tag>
+          <y-tag color="primary" :size="tagSize">{{ $t('demo.common.primary') }}</y-tag>
+          <y-tag color="success" :size="tagSize">{{ $t('demo.common.success') }}</y-tag>
+        </y-button-group>
+      </div>
     </y-card>
 
     <y-card :title="$t('demo.common.closable')" style="margin-top: 8px">
@@ -58,7 +61,15 @@
 import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 
+type DemoSize = 'small' | 'default' | 'large'
+
 const tags = ref([$t('demo.tab.tab1'), $t('demo.tab.tab2'), $t('demo.tab.tab3'), $t('demo.tag.tag4')])
+const tagSize = ref<DemoSize>('default')
+const sizeOptions = [
+  { label: 'small', value: 'small' },
+  { label: 'default', value: 'default' },
+  { label: 'large', value: 'large' }
+]
 
 function handleClose(tag: string) {
   tags.value = tags.value.filter(t => t !== tag)
@@ -69,3 +80,12 @@ function addTag() {
   tags.value.push($t('demo.tag.tagN', { index: n }))
 }
 </script>
+
+<style scoped>
+.demo-tag-size-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+</style>

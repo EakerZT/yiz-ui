@@ -96,7 +96,7 @@ interface HsvColor {
 const props = withDefaults(
   defineProps<{
     disabled?: boolean
-    size?: 'default' | 'small'
+    size?: 'small' | 'default' | 'large'
     alpha?: boolean
     presets?: string[]
     prefix?: string
@@ -162,7 +162,8 @@ const alphaSliderStyle = computed(() => ({
 const vClass = computed(() => ({
   'yiz-color-picker-open': open.value,
   'yiz-color-picker-disabled': props.disabled,
-  'yiz-color-picker-small': props.size === 'small'
+  'yiz-color-picker-small': props.size === 'small',
+  'yiz-color-picker-large': props.size === 'large'
 }))
 
 const dropdownStyle = computed(() => ({
@@ -503,6 +504,18 @@ onBeforeUnmount(() => {
     .yiz-color-picker-swatch {
       width: 14px;
       height: 14px;
+    }
+  }
+
+  &.yiz-color-picker-large {
+    height: 40px;
+    min-width: 128px;
+    padding: 0 12px;
+    font-size: 16px;
+
+    .yiz-color-picker-swatch {
+      width: 22px;
+      height: 22px;
     }
   }
 

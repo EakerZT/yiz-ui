@@ -39,7 +39,7 @@ import { TinyColor } from '@ctrl/tinycolor'
 const props = withDefaults(
   defineProps<{
     disabled?: boolean
-    size?: 'default' | 'small'
+    size?: 'small' | 'default' | 'large'
     color?: string
     loading?: boolean
     checkedValue?: any
@@ -66,6 +66,7 @@ const vClass = computed(() => {
   if (isChecked.value) c['yiz-switch-checked'] = true
   if (props.disabled) c['yiz-switch-disabled'] = true
   if (props.size === 'small') c['yiz-switch-small'] = true
+  if (props.size === 'large') c['yiz-switch-large'] = true
   if (props.loading) c['yiz-switch-loading-state'] = true
   return c
 })
@@ -261,6 +262,31 @@ function onChange(e: Event) {
 
   &.yiz-switch-checked:active .yiz-switch-thumb {
     transform: translateX(16px) scale(1.1);
+  }
+}
+
+.yiz-switch-large {
+  .yiz-switch-track {
+    width: 56px;
+    height: 28px;
+    border-radius: 14px;
+  }
+
+  .yiz-switch-thumb {
+    width: 24px;
+    height: 24px;
+  }
+
+  &.yiz-switch-checked .yiz-switch-thumb {
+    transform: translateX(28px);
+  }
+
+  &:active .yiz-switch-thumb {
+    transform: scale(1.1);
+  }
+
+  &.yiz-switch-checked:active .yiz-switch-thumb {
+    transform: translateX(28px) scale(1.1);
   }
 }
 </style>

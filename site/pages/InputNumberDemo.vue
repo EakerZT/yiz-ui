@@ -24,10 +24,10 @@
     </y-card>
 
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
-      <y-button-group>
-        <y-input-number v-model="v5" />
-        <y-input-number v-model="v6" size="small" />
-      </y-button-group>
+      <div class="demo-input-number-size-panel">
+        <y-radio-button-group v-model:value="inputNumberSize" :options="sizeOptions" />
+        <y-input-number v-model="v5" :size="inputNumberSize" />
+      </div>
     </y-card>
 
     <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
@@ -56,15 +56,22 @@
 import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 
+type DemoSize = 'small' | 'default' | 'large'
+
 const v1 = ref<number | null>(0)
 const v2 = ref<number | null>(0)
 const v3 = ref<number | null>(0)
 const v4 = ref<number | null>(0)
 const v5 = ref<number | null>(0)
-const v6 = ref<number | null>(0)
 const v7 = ref<number | null>(0)
 const v8 = ref<number | null>(0)
 const v10 = ref<number | null>(0)
+const inputNumberSize = ref<DemoSize>('default')
+const sizeOptions = [
+  { label: 'small', value: 'small' },
+  { label: 'default', value: 'default' },
+  { label: 'large', value: 'large' }
+]
 </script>
 
 <style scoped>
@@ -73,5 +80,12 @@ const v10 = ref<number | null>(0)
   margin-top: 6px;
   font-size: 12px;
   color: #999;
+}
+
+.demo-input-number-size-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
 </style>

@@ -37,7 +37,7 @@ const props = withDefaults(
     title?: string
     bordered?: boolean
     shadow?: 'never' | 'hover' | 'always'
-    size?: 'default' | 'small'
+    size?: 'small' | 'default' | 'large'
   }>(),
   {
     title: '',
@@ -108,6 +108,21 @@ const vClass = computed(() => {
   }
   .yiz-card-footer {
     padding: 8px 16px;
+  }
+}
+
+.yiz-card-size-large {
+  .yiz-card-header {
+    padding: 16px 24px;
+  }
+  .yiz-card-title {
+    font-size: 18px;
+  }
+  .yiz-card-body {
+    padding: 20px 24px;
+  }
+  .yiz-card-footer {
+    padding: 16px 24px;
   }
 }
 

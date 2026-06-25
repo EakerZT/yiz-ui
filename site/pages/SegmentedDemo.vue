@@ -17,18 +17,16 @@
 
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-segmented-stack">
-        <y-segmented v-model:value="small" :options="periodOptions" size="small" />
-        <y-segmented v-model:value="middle" :options="periodOptions" />
-        <y-segmented v-model:value="large" :options="periodOptions" size="large" />
+        <y-radio-button-group v-model:value="segmentedSize" :options="sizeOptions" />
+        <y-segmented v-model:value="sizeValue" :options="periodOptions" :size="segmentedSize" />
       </div>
     </y-card>
 
     <y-card :title="$t('demo.segmented.shape')" style="margin-top: 8px">
       <div class="demo-segmented-stack">
-        <y-segmented v-model:value="shapeBlock" :options="periodOptions" />
-        <y-segmented v-model:value="shapeRoundSmall" :options="periodOptions" shape="round" size="small" />
-        <y-segmented v-model:value="shapeRound" :options="periodOptions" shape="round" />
-        <y-segmented v-model:value="shapeRoundLarge" :options="periodOptions" shape="round" size="large" />
+        <y-radio-button-group v-model:value="shapeSize" :options="sizeOptions" />
+        <y-segmented v-model:value="shapeBlock" :options="periodOptions" :size="shapeSize" />
+        <y-segmented v-model:value="shapeRound" :options="periodOptions" shape="round" :size="shapeSize" />
       </div>
     </y-card>
 
@@ -88,13 +86,16 @@ const statusOptions = computed(() => [
 const basic = ref('week')
 const disabledItem = ref('month')
 const disabledGroup = ref('week')
-const small = ref('day')
-const middle = ref('week')
-const large = ref('month')
+const sizeValue = ref('week')
+const segmentedSize = ref<'small' | 'default' | 'large'>('default')
+const sizeOptions = [
+  { label: 'small', value: 'small' },
+  { label: 'default', value: 'default' },
+  { label: 'large', value: 'large' }
+]
 const shapeBlock = ref('day')
-const shapeRoundSmall = ref('day')
 const shapeRound = ref('week')
-const shapeRoundLarge = ref('month')
+const shapeSize = ref<'small' | 'default' | 'large'>('default')
 const block = ref('card')
 const renderValue = ref('processing')
 const eventValue = ref('day')

@@ -98,7 +98,7 @@ const props = withDefaults(
     placeholder?: string
     disabled?: boolean
     clearable?: boolean
-    size?: 'default' | 'small'
+    size?: 'small' | 'default' | 'large'
     disabledDate?: (date: Date) => boolean
     format?: string
     prefix?: string
@@ -159,6 +159,7 @@ const vClass = computed(() => {
   if (open.value) c['yiz-date-picker-open'] = true
   if (props.disabled) c['yiz-date-picker-disabled'] = true
   if (props.size === 'small') c['yiz-date-picker-small'] = true
+  if (props.size === 'large') c['yiz-date-picker-large'] = true
   return c
 })
 
@@ -496,6 +497,14 @@ onBeforeUnmount(() => {
 
   input {
     font-size: 13px;
+  }
+}
+
+.yiz-date-picker-large .yiz-date-picker-input {
+  height: 40px;
+
+  input {
+    font-size: 16px;
   }
 }
 

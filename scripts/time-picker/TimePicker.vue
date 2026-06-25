@@ -92,7 +92,7 @@ const props = withDefaults(
     placeholder?: string
     disabled?: boolean
     clearable?: boolean
-    size?: 'default' | 'small'
+    size?: 'small' | 'default' | 'large'
     showSeconds?: boolean
     format?: string
     prefix?: string
@@ -226,6 +226,7 @@ const vClass = computed(() => {
   if (open.value) c['yiz-time-picker-open'] = true
   if (props.disabled) c['yiz-time-picker-disabled'] = true
   if (props.size === 'small') c['yiz-time-picker-small'] = true
+  if (props.size === 'large') c['yiz-time-picker-large'] = true
   return c
 })
 
@@ -437,6 +438,14 @@ defineExpose({
 
   input {
     font-size: 13px;
+  }
+}
+
+.yiz-time-picker-large .yiz-time-picker-input {
+  height: 40px;
+
+  input {
+    font-size: 16px;
   }
 }
 

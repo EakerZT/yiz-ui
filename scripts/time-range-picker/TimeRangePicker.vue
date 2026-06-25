@@ -183,7 +183,7 @@ const props = withDefaults(
     disabled?: boolean
     clearable?: boolean
     forceRange?: boolean
-    size?: 'default' | 'small'
+    size?: 'small' | 'default' | 'large'
     showSeconds?: boolean
     format?: string
     startPlaceholder?: string
@@ -257,7 +257,8 @@ const panelStyle = computed(() => ({
 const vClass = computed(() => ({
   'yiz-time-range-picker-open': open.value,
   'yiz-time-range-picker-disabled': props.disabled,
-  'yiz-time-range-picker-small': props.size === 'small'
+  'yiz-time-range-picker-small': props.size === 'small',
+  'yiz-time-range-picker-large': props.size === 'large'
 }))
 
 watch(open, async (val) => {
@@ -632,6 +633,11 @@ onBeforeUnmount(() => {
 .yiz-time-range-picker-small .yiz-time-range-picker-input {
   height: 24px;
   font-size: 13px;
+}
+
+.yiz-time-range-picker-large .yiz-time-range-picker-input {
+  height: 40px;
+  font-size: 16px;
 }
 
 .yiz-time-range-picker-panel {

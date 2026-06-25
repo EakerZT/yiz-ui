@@ -1,5 +1,5 @@
 <template>
-  <div class="yiz-empty" :class="{ 'yiz-empty-small': size === 'small' }">
+  <div class="yiz-empty" :class="{ 'yiz-empty-small': size === 'small', 'yiz-empty-large': size === 'large' }">
     <div class="yiz-empty-image">
       <slot name="image">
         <svg viewBox="0 0 64 41" width="64" height="41">
@@ -34,7 +34,7 @@ import { $t } from '../locale'
 const props = withDefaults(
   defineProps<{
     description?: string
-    size?: 'default' | 'small'
+    size?: 'small' | 'default' | 'large'
   }>(),
   {
     size: 'default'
@@ -77,6 +77,19 @@ defineSlots<{
 
 .yiz-empty-small .yiz-empty-description {
   font-size: 13px;
+}
+
+.yiz-empty-large {
+  padding: 48px 0;
+
+  .yiz-empty-image svg {
+    width: 80px;
+    height: auto;
+  }
+
+  .yiz-empty-description {
+    font-size: 16px;
+  }
 }
 
 .yiz-empty-footer {

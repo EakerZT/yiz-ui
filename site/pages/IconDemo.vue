@@ -4,12 +4,13 @@
     <p class="demo-section-desc">{{ $t('demo.icon.desc') }}</p>
 
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
-      <y-button-group>
-        <span v-for="s in [12, 16, 20, 28, 36]" :key="s" class="demo-icon-item">
-          <y-icon :icon="Flash20Regular" :size="s" />
-          <em>{{ s }}px</em>
+      <div class="demo-icon-size-panel">
+        <y-radio-button-group v-model:value="iconSize" :options="sizeOptions" />
+        <span class="demo-icon-item">
+          <y-icon :icon="Flash20Regular" :size="iconSize" />
+          <em>{{ iconSize }}px</em>
         </span>
-      </y-button-group>
+      </div>
     </y-card>
 
     <y-card :title="$t('demo.icon.renderSvg')" style="margin-top: 8px">
@@ -24,6 +25,14 @@
 <script lang="ts" setup>
 import { $t, renderSvg } from 'yiz-ui'
 import { Flash20Regular } from '@vicons/fluent'
+import { ref } from 'vue'
+
+const iconSize = ref(20)
+const sizeOptions = [
+  { label: '12px', value: 12 },
+  { label: '20px', value: 20 },
+  { label: '36px', value: 36 }
+]
 
 const customSvg = `
 <svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,5 +54,12 @@ const customSvgIcon = () => renderSvg(customSvg)
 .demo-icon-item em {
   font-style: normal;
   color: #bbb;
+}
+
+.demo-icon-size-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
 </style>

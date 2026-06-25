@@ -50,9 +50,10 @@
 
     <y-card :title="$t('demo.colorPicker.sizeAndDisabled')" style="margin-top: 8px">
       <div class="demo-row">
-        <span class="demo-label">{{ $t('demo.common.smallSize') }}</span>
+        <span class="demo-label">{{ $t('demo.common.size') }}</span>
         <div class="demo-picker-field">
-          <y-color-picker v-model:value="smallColor" size="small" />
+          <y-radio-button-group v-model:value="colorPickerSize" :options="sizeOptions" />
+          <y-color-picker v-model:value="sizeColor" :size="colorPickerSize" />
         </div>
       </div>
       <div class="demo-row">
@@ -69,12 +70,20 @@
 import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 
+type DemoSize = 'small' | 'default' | 'large'
+
 const color = ref('#1677ff')
 const alphaColor = ref('#1677ff80')
 const brandColor = ref('#13c2c2')
 const affixColor = ref('#722ed1')
-const smallColor = ref('#52c41a')
+const sizeColor = ref('#52c41a')
 const disabledColor = ref('#d9d9d9')
+const colorPickerSize = ref<DemoSize>('default')
+const sizeOptions = [
+  { label: 'small', value: 'small' },
+  { label: 'default', value: 'default' },
+  { label: 'large', value: 'large' }
+]
 
 const brandPresets = ['#1677ff', '#13c2c2', '#52c41a', '#faad14', '#ff4d4f', '#722ed1']
 </script>

@@ -21,20 +21,13 @@
     </y-card>
 
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
-      <y-button-group>
+      <div class="demo-loading-size-panel">
+        <y-radio-button-group v-model:value="loadingSize" :options="sizeOptions" />
         <span class="demo-loading-item">
-          <y-loading size="small" />
-          <em>small</em>
+          <y-loading :size="loadingSize" />
+          <em>{{ loadingSize }}</em>
         </span>
-        <span class="demo-loading-item">
-          <y-loading />
-          <em>default</em>
-        </span>
-        <span class="demo-loading-item">
-          <y-loading size="large" />
-          <em>large</em>
-        </span>
-      </y-button-group>
+      </div>
     </y-card>
 
     <y-card :title="$t('demo.loading.tipText')" style="margin-top: 8px">
@@ -70,8 +63,16 @@
 import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 
+type DemoSize = 'small' | 'default' | 'large'
+
 const containerLoading = ref(true)
 const delayLoading = ref(false)
+const loadingSize = ref<DemoSize>('default')
+const sizeOptions = [
+  { label: 'small', value: 'small' },
+  { label: 'default', value: 'default' },
+  { label: 'large', value: 'large' }
+]
 </script>
 
 <style scoped>
@@ -85,6 +86,12 @@ const delayLoading = ref(false)
 .demo-loading-item em {
   font-style: normal;
   color: #bbb;
+}
+.demo-loading-size-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
 .demo-loading-content {
   padding: 20px;

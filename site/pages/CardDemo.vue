@@ -32,14 +32,12 @@
     </y-card>
 
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
-      <y-button-group>
-        <Card :title="$t('demo.card.defaultSize')" style="width: 280px">
+      <div class="demo-card-size-panel">
+        <y-radio-button-group v-model:value="cardSize" :options="sizeOptions" />
+        <Card :title="$t('demo.card.defaultSize')" :size="cardSize" style="width: 280px">
           <p>{{ $t('demo.card.defaultSizeHint') }}</p>
         </Card>
-        <Card :title="$t('demo.common.smallSize')" size="small" style="width: 280px">
-          <p>{{ $t('demo.card.smallSizeHint') }}</p>
-        </Card>
-      </y-button-group>
+      </div>
     </y-card>
 
     <y-card :title="$t('demo.card.extraHeader')" style="margin-top: 8px">
@@ -86,6 +84,16 @@
 <script lang="ts" setup>
 import { $t } from 'yiz-ui'
 import { Card } from 'yiz-ui'
+import { ref } from 'vue'
+
+type DemoSize = 'small' | 'default' | 'large'
+
+const cardSize = ref<DemoSize>('default')
+const sizeOptions = [
+  { label: 'small', value: 'small' },
+  { label: 'default', value: 'default' },
+  { label: 'large', value: 'large' }
+]
 </script>
 
 <style scoped>
@@ -107,5 +115,12 @@ import { Card } from 'yiz-ui'
 }
 .demo-link:hover {
   text-decoration: underline;
+}
+
+.demo-card-size-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
 </style>

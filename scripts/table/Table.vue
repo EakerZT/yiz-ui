@@ -182,7 +182,7 @@ const props = withDefaults(
     data?: Record<string, any>[]
     bordered?: boolean
     stripe?: boolean
-    size?: 'default' | 'small'
+    size?: 'small' | 'default' | 'large'
     resize?: boolean
     no?: boolean
     selectMode?: 'none' | 'single' | 'multi'
@@ -774,6 +774,14 @@ onUnmounted(() => {
   .yiz-table-td {
     padding: 8px 12px;
     font-size: 13px;
+  }
+}
+
+.yiz-table-large {
+  .yiz-table-th,
+  .yiz-table-td {
+    padding: 16px 20px;
+    font-size: 16px;
   }
 }
 

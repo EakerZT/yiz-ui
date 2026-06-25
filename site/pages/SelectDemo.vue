@@ -26,10 +26,10 @@
     </y-card>
 
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
-      <y-button-group>
-        <y-select v-model="v5" :options="opts" />
-        <y-select v-model="v6" :options="opts" size="small" />
-      </y-button-group>
+      <div class="demo-select-size-panel">
+        <y-radio-button-group v-model:value="selectSize" :options="sizeOptions" />
+        <y-select v-model="v5" :options="opts" :size="selectSize" />
+      </div>
     </y-card>
 
     <y-card :title="$t('demo.common.event')" style="margin-top: 8px">
@@ -70,6 +70,8 @@
 import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 
+type DemoSize = 'small' | 'default' | 'large'
+
 const opts = [
   { label: $t('demo.common.beijing'), value: 'beijing' },
   { label: $t('demo.common.shanghai'), value: 'shanghai' },
@@ -83,12 +85,17 @@ const v2 = ref()
 const v3 = ref()
 const v4 = ref()
 const v5 = ref()
-const v6 = ref()
 const v7 = ref()
 const v8 = ref()
 const v9 = ref()
 const v10 = ref()
 const v11 = ref()
+const selectSize = ref<DemoSize>('default')
+const sizeOptions = [
+  { label: 'small', value: 'small' },
+  { label: 'default', value: 'default' },
+  { label: 'large', value: 'large' }
+]
 
 const changeCount = ref(0)
 function onChange(_val: any) {
@@ -106,5 +113,12 @@ function onSearch(query: string) {
   margin-top: 6px;
   font-size: 12px;
   color: #999;
+}
+
+.demo-select-size-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
 </style>
