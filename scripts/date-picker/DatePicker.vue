@@ -72,6 +72,9 @@
         <!-- 底部 -->
         <div class="yiz-date-picker-footer">
           <LinkButton @click="onToday">{{ $t('datePicker.today') }}</LinkButton>
+          <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">{{
+            $t('common.confirm')
+          }}</Button>
         </div>
       </div>
     </Transition>
@@ -89,6 +92,7 @@ import {
   DismissCircle32Filled
 } from '@vicons/fluent'
 import { Icon } from '../icon'
+import Button from '../button/Button.vue'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t, $tList } from '../locale'
 import { nextZIndex } from '../zIndex'
@@ -127,6 +131,7 @@ const panelRef = ref<HTMLElement>()
 const inputRef = ref<HTMLInputElement>()
 const showYearPicker = ref(false)
 const isHovering = ref(false)
+const draft = ref<Date | null>(null)
 
 const now = new Date()
 const viewYear = ref(now.getFullYear())
@@ -150,8 +155,8 @@ const yearRange = computed(() => {
 })
 
 const displayText = computed(() => {
-  if (!modelValue.value) return ''
-  return formatDate(modelValue.value, props.format)
+  const value = open.value ? draft.value : modelValue.value
+  return value ? formatDate(value, props.format) : ''
 })
 
 const vClass = computed(() => {
@@ -162,6 +167,8 @@ const vClass = computed(() => {
   if (props.size === 'large') c['yiz-date-picker-large'] = true
   return c
 })
+
+const confirmDisabled = computed(() => draft.value == null)
 
 const panelStyle = computed(() => ({
   zIndex: currentZIndex.value + 1
@@ -218,14 +225,18 @@ function makeCell(year: number, month: number, day: number, current: boolean): C
       date.getFullYear() === today.getFullYear() &&
       date.getMonth() === today.getMonth() &&
       date.getDate() === today.getDate(),
-    isSelected: modelValue.value
-      ? date.getFullYear() === modelValue.value.getFullYear() &&
-        date.getMonth() === modelValue.value.getMonth() &&
-        date.getDate() === modelValue.value.getDate()
-      : false,
+    isSelected: sameDate(draft.value, date),
     disabled: props.disabledDate ? props.disabledDate(date) : false,
     date
   }
+}
+
+function sameDate(a: Date | null | undefined, b: Date): boolean {
+  return !!a && a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
+}
+
+function cloneDate(date: Date | null | undefined): Date | null {
+  return date ? new Date(date.getFullYear(), date.getMonth(), date.getDate()) : null
 }
 
 // ==================== 日期格式化 ====================
@@ -253,6 +264,7 @@ function onTriggerClick() {
   if (open.value) {
     currentZIndex.value = nextZIndex()
     showYearPicker.value = false
+    draft.value = cloneDate(modelValue.value)
     if (modelValue.value) {
       viewYear.value = modelValue.value.getFullYear()
       viewMonth.value = modelValue.value.getMonth() + 1
@@ -275,16 +287,23 @@ function onCellClick(cell: CalendarCell) {
     viewMonth.value = cell.date.getMonth() + 1
     return
   }
-  modelValue.value = cell.date
-  emit('change', cell.date)
-  open.value = false
+  draft.value = cloneDate(cell.date)
 }
 
 function onToday() {
   if (props.disabled) return
   const today = new Date()
-  modelValue.value = today
-  emit('change', today)
+  const date = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+  draft.value = date
+  viewYear.value = date.getFullYear()
+  viewMonth.value = date.getMonth() + 1
+}
+
+function onConfirm() {
+  if (props.disabled) return
+  if (confirmDisabled.value) return
+  modelValue.value = cloneDate(draft.value)
+  emit('change', modelValue.value)
   open.value = false
 }
 
@@ -389,6 +408,9 @@ function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape') {
     open.value = false
     showYearPicker.value = false
+  }
+  if (e.key === 'Enter') {
+    onConfirm()
   }
 }
 
@@ -732,21 +754,12 @@ onBeforeUnmount(() => {
 
 // 底部
 .yiz-date-picker-footer {
-  text-align: center;
-  padding-top: 8px;
-  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  margin: 8px -12px -8px;
   border-top: 1px solid var(--yiz-color-border, #d9d9d9);
-}
-
-.yiz-date-picker-today {
-  font-size: 13px;
-  color: var(--yiz-color-primary);
-  cursor: pointer;
-  transition: opacity 0.2s;
-
-  &:hover {
-    opacity: 0.8;
-  }
 }
 
 // 过渡

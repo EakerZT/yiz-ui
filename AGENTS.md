@@ -4,7 +4,6 @@
 
 - Default response language: Chinese (unless user requests otherwise).
 - Code comments: Chinese or English depending on repo style.
-- Keep explanations concise unless explicitly asked for deep reasoning.
 
 ## Environment & Encoding
 
@@ -40,7 +39,8 @@ yarn build           # vite build --config vite.config.lib.mts && vue-tsc --proj
 
 ## CI / Deploy
 
-- `.github/workflows/deploy-site.yml` runs on push to `main` or `master`: `yarn install --frozen-lockfile` → `yarn typecheck` → `yarn site:build` → uploads `docs/` to GitHub Pages. Keep `yarn.lock` committed and in sync.
+- `.github/workflows/deploy-site.yml` runs on push to `main`/`master`: `yarn install --frozen-lockfile` → `yarn typecheck` → `yarn site:build` → uploads `docs/` to GitHub Pages. Keep `yarn.lock` committed and in sync.
+- `.github/workflows/publish-npm.yml` runs on push of `v*` tags (and `workflow_dispatch`): `yarn install --frozen-lockfile` → `yarn typecheck` → `yarn build` → `npm publish --access public`. Releases are triggered by pushing a `v*` tag; the README's manual `npm publish` is a local fallback. The workflow uses `id-token: write` (trusted publishing) and sets no `NODE_AUTH_TOKEN`.
 
 ## Code Style
 

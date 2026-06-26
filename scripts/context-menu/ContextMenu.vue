@@ -29,13 +29,15 @@
           </slot>
         </span>
         <Icon class="yiz-context-menu-sub-arrow" size="10" :icon="ChevronRight16Regular" />
-        <div
-          v-if="hoveredSubmenu === item.value && item.children?.length"
-          class="yiz-context-menu-sub"
-          :style="submenuStyle"
-        >
-          <ContextMenu :items="item.children" @select="onChildSelect" />
-        </div>
+        <Transition name="yiz-context-menu-sub">
+          <div
+            v-if="hoveredSubmenu === item.value && item.children?.length"
+            class="yiz-context-menu-sub"
+            :style="submenuStyle"
+          >
+            <ContextMenu :items="item.children" @select="onChildSelect" />
+          </div>
+        </Transition>
       </div>
 
       <!-- checkbox -->
@@ -288,6 +290,28 @@ function onChildSelect(item: ContextMenuItem) {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   padding: 4px 0;
   position: relative;
+}
+
+.yiz-context-menu.is-host {
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.yiz-context-menu.is-host.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.yiz-context-menu-sub-enter-active,
+.yiz-context-menu-sub-leave-active {
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.yiz-context-menu-sub-enter-from,
+.yiz-context-menu-sub-leave-to {
+  opacity: 0;
+  transform: scale(0.94);
 }
 
 .yiz-context-menu-sub {
