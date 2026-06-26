@@ -21,6 +21,8 @@ const zhCN: LangMessages = {
   'demo.nav.contextMenu': 'ContextMenu 菜单',
   'demo.nav.datePicker': 'DatePicker 日期',
   'demo.nav.dateRangePicker': 'DateRangePicker 日期段',
+  'demo.nav.datetimePicker': 'DateTimePicker 日期时间',
+  'demo.nav.datetimeRangePicker': 'DateTimeRangePicker 日期时间段',
   'demo.nav.empty': 'Empty 空状态',
   'demo.nav.form': 'Form 表单',
   'demo.nav.dialog': 'Dialog 弹窗',
@@ -294,6 +296,12 @@ const zhCN: LangMessages = {
   'demo.dateRangePicker.disableDates': '禁用日期',
   'demo.dateRangePicker.weekends': '周末',
   'demo.dateRangePicker.valueFormat': '字符串值格式',
+
+  'demo.datetimePicker.title': 'DateTimePicker 日期时间',
+  'demo.datetimePicker.desc': '用于选择日期和时间，支持 Date 值和字符串值格式。',
+
+  'demo.datetimeRangePicker.title': 'DateTimeRangePicker 日期时间段',
+  'demo.datetimeRangePicker.desc': '用于选择日期时间范围，支持开始和结束日期时间独立绑定。',
 
   'demo.dialog.title': 'Dialog 弹窗',
   'demo.dialog.desc': '模态对话框，用于重要信息的提示或操作确认。',
@@ -806,6 +814,8 @@ const enUS: LangMessages = {
   'demo.nav.contextMenu': 'ContextMenu',
   'demo.nav.datePicker': 'DatePicker',
   'demo.nav.dateRangePicker': 'DateRangePicker',
+  'demo.nav.datetimePicker': 'DateTimePicker',
+  'demo.nav.datetimeRangePicker': 'DateTimeRangePicker',
   'demo.nav.empty': 'Empty',
   'demo.nav.form': 'Form',
   'demo.nav.dialog': 'Dialog',
@@ -1079,6 +1089,12 @@ const enUS: LangMessages = {
   'demo.dateRangePicker.disableDates': 'Disabled dates',
   'demo.dateRangePicker.weekends': 'Weekends',
   'demo.dateRangePicker.valueFormat': 'String value format',
+
+  'demo.datetimePicker.title': 'DateTimePicker',
+  'demo.datetimePicker.desc': 'Select date and time with Date values or formatted string values.',
+
+  'demo.datetimeRangePicker.title': 'DateTimeRangePicker',
+  'demo.datetimeRangePicker.desc': 'Date-time range selection with independent start and end bindings.',
 
   'demo.dialog.title': 'Dialog',
   'demo.dialog.desc': 'Modal dialogs for important messages and action confirmations.',

@@ -52,6 +52,8 @@ import ColorPickerDemo from './pages/ColorPickerDemo.vue'
 import ContextMenuDemo from './pages/ContextMenuDemo.vue'
 import DatePickerDemo from './pages/DatePickerDemo.vue'
 import DateRangePickerDemo from './pages/DateRangePickerDemo.vue'
+import DateTimePickerDemo from './pages/DateTimePickerDemo.vue'
+import DateTimeRangePickerDemo from './pages/DateTimeRangePickerDemo.vue'
 import EmptyDemo from './pages/EmptyDemo.vue'
 import FormDemo from './pages/FormDemo.vue'
 import DividerDemo from './pages/DividerDemo.vue'
@@ -93,6 +95,8 @@ const pages: Record<string, any> = {
   'context-menu': ContextMenuDemo,
   'date-picker': DatePickerDemo,
   'date-range-picker': DateRangePickerDemo,
+  'datetime-picker': DateTimePickerDemo,
+  'datetime-range-picker': DateTimeRangePickerDemo,
   empty: EmptyDemo,
   form: FormDemo,
   dialog: DialogDemo,
@@ -133,6 +137,8 @@ const menuItems = computed(() => [
   { label: $t('demo.nav.contextMenu'), key: 'context-menu' },
   { label: $t('demo.nav.datePicker'), key: 'date-picker' },
   { label: $t('demo.nav.dateRangePicker'), key: 'date-range-picker' },
+  { label: $t('demo.nav.datetimePicker'), key: 'datetime-picker' },
+  { label: $t('demo.nav.datetimeRangePicker'), key: 'datetime-range-picker' },
   { label: $t('demo.nav.empty'), key: 'empty' },
   { label: $t('demo.nav.form'), key: 'form' },
   { label: $t('demo.nav.dialog'), key: 'dialog' },

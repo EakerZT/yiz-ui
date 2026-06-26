@@ -7,6 +7,8 @@ import type {
   ColorPicker,
   DatePicker,
   DateRangePicker,
+  DateTimePicker,
+  DateTimeRangePicker,
   Dialog,
   Divider,
   Dropmenu,
@@ -64,6 +66,12 @@ declare module 'vue' {
     'y-date-picker': typeof DatePicker
     YDateRangePicker: typeof DateRangePicker
     'y-date-range-picker': typeof DateRangePicker
+    YDateTimePicker: typeof DateTimePicker
+    'y-datetime-picker': typeof DateTimePicker
+    'y-date-time-picker': typeof DateTimePicker
+    YDateTimeRangePicker: typeof DateTimeRangePicker
+    'y-datetime-range-picker': typeof DateTimeRangePicker
+    'y-date-time-range-picker': typeof DateTimeRangePicker
     YDialog: typeof Dialog
     'y-dialog': typeof Dialog
     YDivider: typeof Divider
