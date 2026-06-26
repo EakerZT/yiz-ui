@@ -13,29 +13,33 @@
         <template v-if="$props.prefix">{{ $props.prefix }}</template>
         <slot v-else name="prefix" />
       </span>
-      <button
+      <input
+        ref="startInputRef"
         class="yiz-time-range-picker-segment"
         :class="{ 'yiz-time-range-picker-segment-active': open && activeSide === 'start' }"
-        type="button"
+        :value="startInputText"
+        :placeholder="startPlaceholder"
         :disabled="disabled"
         @click.stop="onSegmentClick('start')"
-      >
-        <span :class="{ 'yiz-time-range-picker-placeholder': !displayStart }">
-          {{ displayStart || startPlaceholder }}
-        </span>
-      </button>
+        @focus="onInputFocus('start')"
+        @input="onInput('start', $event)"
+        @blur="onInputBlur('start')"
+        @keydown.enter.prevent.stop="confirmFromInput('start')"
+      />
       <span class="yiz-time-range-picker-separator">{{ separator }}</span>
-      <button
+      <input
+        ref="endInputRef"
         class="yiz-time-range-picker-segment"
         :class="{ 'yiz-time-range-picker-segment-active': open && activeSide === 'end' }"
-        type="button"
+        :value="endInputText"
+        :placeholder="endPlaceholder"
         :disabled="disabled"
         @click.stop="onSegmentClick('end')"
-      >
-        <span :class="{ 'yiz-time-range-picker-placeholder': !displayEnd }">
-          {{ displayEnd || endPlaceholder }}
-        </span>
-      </button>
+        @focus="onInputFocus('end')"
+        @input="onInput('end', $event)"
+        @blur="onInputBlur('end')"
+        @keydown.enter.prevent.stop="confirmFromInput('end')"
+      />
       <Transition name="yiz-time-range-picker-clear-zoom">
         <span
           v-if="clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open)"
@@ -69,7 +73,6 @@
             class="yiz-time-range-picker-side"
             :class="{ 'yiz-time-range-picker-side-active': activeSide === 'start' }"
           >
-            <div class="yiz-time-range-picker-side-title" @click="activeSide = 'start'">{{ startLabel }}</div>
             <div class="yiz-time-range-picker-body">
               <div class="yiz-time-range-picker-col">
                 <div class="yiz-time-range-picker-col-header">{{ $t('timePicker.hour') }}</div>
@@ -120,7 +123,6 @@
             class="yiz-time-range-picker-side"
             :class="{ 'yiz-time-range-picker-side-active': activeSide === 'end' }"
           >
-            <div class="yiz-time-range-picker-side-title" @click="activeSide = 'end'">{{ endLabel }}</div>
             <div class="yiz-time-range-picker-body">
               <div class="yiz-time-range-picker-col">
                 <div class="yiz-time-range-picker-col-header">{{ $t('timePicker.hour') }}</div>
@@ -191,6 +193,12 @@ import { nextZIndex } from '../zIndex'
 type TimeRangeSide = 'start' | 'end'
 type TimeUnit = 'hour' | 'minute' | 'second'
 
+interface TimeParts {
+  hour: number
+  minute: number
+  second: number
+}
+
 const startModel = defineModel<string | null>('start')
 const endModel = defineModel<string | null>('end')
 
@@ -231,6 +239,8 @@ const activeSide = ref<TimeRangeSide>('start')
 const currentZIndex = ref(0)
 const triggerRef = ref<HTMLElement>()
 const panelRef = ref<HTMLElement>()
+const startInputRef = ref<HTMLInputElement>()
+const endInputRef = ref<HTMLInputElement>()
 const startHourListRef = ref<HTMLElement>()
 const startMinuteListRef = ref<HTMLElement>()
 const startSecondListRef = ref<HTMLElement>()
@@ -240,6 +250,12 @@ const endSecondListRef = ref<HTMLElement>()
 
 const draftStart = ref<string | null>(null)
 const draftEnd = ref<string | null>(null)
+const startInputFocused = ref(false)
+const endInputFocused = ref(false)
+const startInputDirty = ref(false)
+const endInputDirty = ref(false)
+const startInputText = ref('')
+const endInputText = ref('')
 
 const startHour = ref(0)
 const startMinute = ref(0)
@@ -255,15 +271,11 @@ const dropdownPos = ref<{ top?: string; bottom?: string; left?: string }>({})
 
 const startPlaceholder = computed(() => props.startPlaceholder ?? $t('timeRangePicker.startPlaceholder'))
 const endPlaceholder = computed(() => props.endPlaceholder ?? $t('timeRangePicker.endPlaceholder'))
-const startLabel = computed(() => props.startLabel ?? $t('timeRangePicker.startLabel'))
-const endLabel = computed(() => props.endLabel ?? $t('timeRangePicker.endLabel'))
 const separator = computed(() => props.separator)
 const disabled = computed(() => props.disabled)
 const clearable = computed(() => props.clearable)
 const showSeconds = computed(() => props.showSeconds)
 const confirmDisabled = computed(() => props.forceRange && (draftStart.value == null || draftEnd.value == null))
-const displayStart = computed(() => (open.value ? draftStart.value : startModel.value) ?? '')
-const displayEnd = computed(() => (open.value ? draftEnd.value : endModel.value) ?? '')
 
 const panelStyle = computed(() => ({
   zIndex: currentZIndex.value + 1,
@@ -282,8 +294,22 @@ watch(open, async (val) => {
     await nextTick()
     repositionPanel()
     scrollToSelected()
+  } else {
+    startInputDirty.value = false
+    endInputDirty.value = false
+    syncInputTextFromModel()
   }
 })
+
+watch(
+  () => [startModel.value, endModel.value, props.format],
+  () => {
+    if (!open.value && !startInputFocused.value && !endInputFocused.value) {
+      syncInputTextFromModel()
+    }
+  },
+  { immediate: true }
+)
 
 watch(
   () => props.disabled,
@@ -296,15 +322,49 @@ function pad(n: number): string {
   return n < 10 ? `0${n}` : `${n}`
 }
 
-function parseValue(value: string | null | undefined) {
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function parseValue(value: string | null | undefined): TimeParts | null {
   if (!value) return null
-  const parts = value.split(/[:：]/)
-  if (parts.length < 2) return null
-  return {
-    hour: Math.min(23, Math.max(0, parseInt(parts[0]) || 0)),
-    minute: Math.min(59, Math.max(0, parseInt(parts[1]) || 0)),
-    second: Math.min(59, Math.max(0, parseInt(parts[2]) || 0))
+  const tokenPattern = /HH|mm|ss|H|m|s/g
+  const tokenMap: Record<string, string> = {
+    HH: '(\\d{2})',
+    H: '(\\d{1,2})',
+    mm: '(\\d{2})',
+    m: '(\\d{1,2})',
+    ss: '(\\d{2})',
+    s: '(\\d{1,2})'
   }
+  const tokens: string[] = []
+  let pattern = ''
+  let lastIndex = 0
+  for (const match of props.format.matchAll(tokenPattern)) {
+    pattern += escapeRegExp(props.format.slice(lastIndex, match.index))
+    pattern += tokenMap[match[0]]
+    tokens.push(match[0])
+    lastIndex = (match.index ?? 0) + match[0].length
+  }
+  pattern += escapeRegExp(props.format.slice(lastIndex))
+
+  const matched = new RegExp(`^${pattern}$`).exec(value)
+  if (!matched) return null
+
+  let hour: number | null = null
+  let minute: number | null = null
+  let second = 0
+  tokens.forEach((token, index) => {
+    const num = Number(matched[index + 1])
+    if (token === 'HH' || token === 'H') hour = num
+    if (token === 'mm' || token === 'm') minute = num
+    if (token === 'ss' || token === 's') second = num
+  })
+  if (hour == null || minute == null) return null
+  if (hour < 0 || hour > 23) return null
+  if (minute < 0 || minute > 59) return null
+  if (second < 0 || second > 59) return null
+  return { hour, minute, second }
 }
 
 function buildValue(side: TimeRangeSide): string {
@@ -321,27 +381,56 @@ function buildValue(side: TimeRangeSide): string {
     .replace(/s/g, `${second}`)
 }
 
-function applyParsed(side: TimeRangeSide, value: string | null | undefined) {
-  const parsed = parseValue(value)
-  const fallback = parsed ?? getNowParts()
+function applyParts(side: TimeRangeSide, parts: TimeParts) {
   if (side === 'start') {
-    startHour.value = fallback.hour
-    startMinute.value = fallback.minute
-    startSecond.value = fallback.second
+    startHour.value = parts.hour
+    startMinute.value = parts.minute
+    startSecond.value = parts.second
   } else {
-    endHour.value = fallback.hour
-    endMinute.value = fallback.minute
-    endSecond.value = fallback.second
+    endHour.value = parts.hour
+    endMinute.value = parts.minute
+    endSecond.value = parts.second
   }
 }
 
-function getNowParts() {
+function applyParsed(side: TimeRangeSide, value: string | null | undefined) {
+  applyParts(side, parseValue(value) ?? getNowParts())
+}
+
+function applyInputText(side: TimeRangeSide, value: string): TimeParts | null {
+  const parsed = parseValue(value)
+  if (!parsed) return null
+  applyParts(side, parsed)
+  if (side === 'start') {
+    draftStart.value = buildValue('start')
+  } else {
+    draftEnd.value = buildValue('end')
+  }
+  activeSide.value = side
+  scrollToSelected()
+  return parsed
+}
+
+function getNowParts(): TimeParts {
   const now = new Date()
   return {
     hour: now.getHours(),
     minute: now.getMinutes(),
     second: now.getSeconds()
   }
+}
+
+function syncInputTextFromDraft(side: TimeRangeSide) {
+  if (side === 'start') {
+    startInputText.value = draftStart.value ?? ''
+  } else {
+    endInputText.value = draftEnd.value ?? ''
+  }
+}
+
+function syncInputTextFromModel() {
+  startInputText.value = startModel.value ?? ''
+  endInputText.value = endModel.value ?? ''
 }
 
 function openPanel(side: TimeRangeSide) {
@@ -351,6 +440,10 @@ function openPanel(side: TimeRangeSide) {
   draftEnd.value = endModel.value ?? null
   applyParsed('start', draftStart.value)
   applyParsed('end', draftEnd.value)
+  syncInputTextFromDraft('start')
+  syncInputTextFromDraft('end')
+  startInputDirty.value = false
+  endInputDirty.value = false
   currentZIndex.value = nextZIndex()
   open.value = true
 }
@@ -365,10 +458,60 @@ function onSegmentClick(side: TimeRangeSide) {
   if (props.disabled) return
   if (!open.value) {
     openPanel(side)
-    return
   }
   activeSide.value = side
+  nextTick(() => {
+    if (side === 'start') {
+      startInputRef.value?.focus()
+    } else {
+      endInputRef.value?.focus()
+    }
+  })
   scrollToSelected()
+}
+
+function onInputFocus(side: TimeRangeSide) {
+  if (props.disabled) return
+  if (side === 'start') {
+    startInputFocused.value = true
+  } else {
+    endInputFocused.value = true
+  }
+  if (!open.value) {
+    openPanel(side)
+  }
+  activeSide.value = side
+}
+
+function onInput(side: TimeRangeSide, e: Event) {
+  if (props.disabled) return
+  const value = (e.target as HTMLInputElement).value
+  if (side === 'start') {
+    startInputText.value = value
+    startInputDirty.value = true
+  } else {
+    endInputText.value = value
+    endInputDirty.value = true
+  }
+  applyInputText(side, value)
+}
+
+function onInputBlur(side: TimeRangeSide) {
+  if (side === 'start') {
+    startInputFocused.value = false
+  } else {
+    endInputFocused.value = false
+  }
+  const dirty = side === 'start' ? startInputDirty.value : endInputDirty.value
+  if (!dirty) return
+
+  applyInputText(side, side === 'start' ? startInputText.value : endInputText.value)
+  syncInputTextFromDraft(side)
+  if (side === 'start') {
+    startInputDirty.value = false
+  } else {
+    endInputDirty.value = false
+  }
 }
 
 function setPicked(side: TimeRangeSide, unit: TimeUnit, value: number) {
@@ -379,11 +522,15 @@ function setPicked(side: TimeRangeSide, unit: TimeUnit, value: number) {
     if (unit === 'minute') startMinute.value = value
     if (unit === 'second') startSecond.value = value
     draftStart.value = buildValue('start')
+    syncInputTextFromDraft('start')
+    startInputDirty.value = false
   } else {
     if (unit === 'hour') endHour.value = value
     if (unit === 'minute') endMinute.value = value
     if (unit === 'second') endSecond.value = value
     draftEnd.value = buildValue('end')
+    syncInputTextFromDraft('end')
+    endInputDirty.value = false
   }
 }
 
@@ -395,22 +542,43 @@ function onNow() {
     startMinute.value = now.minute
     startSecond.value = now.second
     draftStart.value = buildValue('start')
+    syncInputTextFromDraft('start')
+    startInputDirty.value = false
   } else {
     endHour.value = now.hour
     endMinute.value = now.minute
     endSecond.value = now.second
     draftEnd.value = buildValue('end')
+    syncInputTextFromDraft('end')
+    endInputDirty.value = false
   }
   scrollToSelected()
 }
 
 function onConfirm() {
   if (props.disabled) return
+  if (startInputDirty.value) {
+    if (!applyInputText('start', startInputText.value)) return
+    startInputDirty.value = false
+  }
+  if (endInputDirty.value) {
+    if (!applyInputText('end', endInputText.value)) return
+    endInputDirty.value = false
+  }
   if (confirmDisabled.value) return
   startModel.value = draftStart.value
   endModel.value = draftEnd.value
   emit('change', draftStart.value, draftEnd.value)
+  syncInputTextFromDraft('start')
+  syncInputTextFromDraft('end')
   open.value = false
+}
+
+function confirmFromInput(side: TimeRangeSide) {
+  if (!open.value) {
+    openPanel(side)
+  }
+  onConfirm()
 }
 
 function onClear() {
@@ -419,6 +587,10 @@ function onClear() {
   endModel.value = null
   draftStart.value = null
   draftEnd.value = null
+  startInputText.value = ''
+  endInputText.value = ''
+  startInputDirty.value = false
+  endInputDirty.value = false
   emit('change', null, null)
 }
 
@@ -574,30 +746,26 @@ onBeforeUnmount(() => {
   height: 24px;
   padding: 0 4px;
   border: none;
+  outline: none;
   border-radius: 3px;
   background: transparent;
   color: #333;
-  cursor: pointer;
+  cursor: text;
   font: inherit;
   text-align: center;
+  appearance: none;
   transition:
     background 0.2s,
     color 0.2s;
+
+  &::placeholder {
+    color: #c0c4cc;
+  }
 }
 
 .yiz-time-range-picker-segment:disabled {
   color: #c0c4cc;
   cursor: not-allowed;
-}
-
-.yiz-time-range-picker-segment:not(:disabled):hover,
-.yiz-time-range-picker-segment-active {
-  background: var(--yiz-color-primary-light9);
-  color: var(--yiz-color-primary);
-}
-
-.yiz-time-range-picker-placeholder {
-  color: #c0c4cc;
 }
 
 .yiz-time-range-picker-separator {
@@ -680,25 +848,6 @@ onBeforeUnmount(() => {
 
 .yiz-time-range-picker-side + .yiz-time-range-picker-side {
   border-left: 1px solid var(--yiz-color-border, #d9d9d9);
-}
-
-.yiz-time-range-picker-side-title {
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-bottom: 1px solid var(--yiz-color-border, #d9d9d9);
-  color: #666;
-  cursor: pointer;
-  transition:
-    background 0.2s,
-    color 0.2s;
-}
-
-.yiz-time-range-picker-side-active .yiz-time-range-picker-side-title,
-.yiz-time-range-picker-side-title:hover {
-  background: var(--yiz-color-primary-light9);
-  color: var(--yiz-color-primary);
 }
 
 .yiz-time-range-picker-body {
