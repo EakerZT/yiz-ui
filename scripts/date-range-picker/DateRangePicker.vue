@@ -1,33 +1,45 @@
 <template>
-  <div ref="triggerRef" class="yiz-date-range-picker" :class="vClass" @click="onTriggerClick" @mouseenter="isHovering = true" @mouseleave="isHovering = false" v-bind="$attrs">
+  <div
+    ref="triggerRef"
+    class="yiz-date-range-picker"
+    :class="vClass"
+    @click="onTriggerClick"
+    @mouseenter="isHovering = true"
+    @mouseleave="isHovering = false"
+    v-bind="$attrs"
+  >
     <div class="yiz-date-range-picker-input">
       <span class="yiz-date-range-picker-prefix" v-if="$props.prefix || $slots.prefix">
         <template v-if="$props.prefix">{{ $props.prefix }}</template>
         <slot v-else name="prefix" />
       </span>
-      <button
+      <input
+        ref="startInputRef"
         class="yiz-date-range-picker-segment"
         :class="{ 'yiz-date-range-picker-segment-active': open && activeSide === 'start' }"
-        type="button"
+        :value="startInputText"
+        :placeholder="startPlaceholder"
         :disabled="disabled"
         @click.stop="onSegmentClick('start')"
-      >
-        <span :class="{ 'yiz-date-range-picker-placeholder': !displayStartText }">
-          {{ displayStartText || startPlaceholder }}
-        </span>
-      </button>
+        @focus="onInputFocus('start')"
+        @input="onInput('start', $event)"
+        @blur="onInputBlur('start')"
+        @keydown.enter.prevent.stop="confirmFromInput('start')"
+      />
       <span class="yiz-date-range-picker-separator">{{ separator }}</span>
-      <button
+      <input
+        ref="endInputRef"
         class="yiz-date-range-picker-segment"
         :class="{ 'yiz-date-range-picker-segment-active': open && activeSide === 'end' }"
-        type="button"
+        :value="endInputText"
+        :placeholder="endPlaceholder"
         :disabled="disabled"
         @click.stop="onSegmentClick('end')"
-      >
-        <span :class="{ 'yiz-date-range-picker-placeholder': !displayEndText }">
-          {{ displayEndText || endPlaceholder }}
-        </span>
-      </button>
+        @focus="onInputFocus('end')"
+        @input="onInput('end', $event)"
+        @blur="onInputBlur('end')"
+        @keydown.enter.prevent.stop="confirmFromInput('end')"
+      />
       <Transition name="yiz-date-range-picker-clear-zoom">
         <span
           v-if="clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open)"
@@ -41,7 +53,15 @@
         <template v-if="$props.suffix">{{ $props.suffix }}</template>
         <slot v-else name="suffix" />
       </span>
-      <Icon :class="{ 'yiz-date-range-picker-suffix--hidden': clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open) }" class="yiz-date-range-picker-suffix" size="14" :icon="CalendarLtr16Regular" />
+      <Icon
+        :class="{
+          'yiz-date-range-picker-suffix--hidden':
+            clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open)
+        }"
+        class="yiz-date-range-picker-suffix"
+        size="14"
+        :icon="CalendarLtr16Regular"
+      />
     </div>
   </div>
 
@@ -53,7 +73,6 @@
             class="yiz-date-range-picker-side"
             :class="{ 'yiz-date-range-picker-side-active': activeSide === 'start' }"
           >
-            <div class="yiz-date-range-picker-side-title" @click="activeSide = 'start'">{{ startLabel }}</div>
             <div class="yiz-date-range-picker-header">
               <Icon
                 class="yiz-date-range-picker-nav"
@@ -106,7 +125,6 @@
             class="yiz-date-range-picker-side"
             :class="{ 'yiz-date-range-picker-side-active': activeSide === 'end' }"
           >
-            <div class="yiz-date-range-picker-side-title" @click="activeSide = 'end'">{{ endLabel }}</div>
             <div class="yiz-date-range-picker-header">
               <Icon
                 class="yiz-date-range-picker-nav"
@@ -184,6 +202,7 @@ import { $t, $tList } from '../locale'
 import { nextZIndex } from '../zIndex'
 
 type DateRangeSide = 'start' | 'end'
+type DateRangeValue = Date | string | null
 
 interface CalendarCell {
   day: number
@@ -235,8 +254,8 @@ const DateRangeCalendar = defineComponent({
   }
 })
 
-const startModel = defineModel<Date | null>('start')
-const endModel = defineModel<Date | null>('end')
+const startModel = defineModel<DateRangeValue>('start')
+const endModel = defineModel<DateRangeValue>('end')
 
 const props = withDefaults(
   defineProps<{
@@ -247,6 +266,8 @@ const props = withDefaults(
     size?: 'small' | 'default' | 'large'
     disabledDate?: (date: Date) => boolean
     format?: string
+    startValueFormat?: string
+    endValueFormat?: string
     startPlaceholder?: string
     endPlaceholder?: string
     startLabel?: string
@@ -267,7 +288,7 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
-  change: [start: Date | null, end: Date | null]
+  change: [start: DateRangeValue, end: DateRangeValue]
 }>()
 
 const now = new Date()
@@ -277,8 +298,16 @@ const activeSide = ref<DateRangeSide>('start')
 const currentZIndex = ref(0)
 const triggerRef = ref<HTMLElement>()
 const panelRef = ref<HTMLElement>()
+const startInputRef = ref<HTMLInputElement>()
+const endInputRef = ref<HTMLInputElement>()
 const draftStart = ref<Date | null>(null)
 const draftEnd = ref<Date | null>(null)
+const startInputFocused = ref(false)
+const endInputFocused = ref(false)
+const startInputDirty = ref(false)
+const endInputDirty = ref(false)
+const startInputText = ref('')
+const endInputText = ref('')
 const startViewYear = ref(now.getFullYear())
 const startViewMonth = ref(now.getMonth() + 1)
 const endViewYear = ref(now.getFullYear())
@@ -289,18 +318,8 @@ const dropdownPos = ref<{ top?: string; bottom?: string; left?: string }>({})
 
 const weekDays = computed(() => $tList('datePicker.weekdays'))
 
-const displayStartText = computed(() => {
-  const value = open.value ? draftStart.value : startModel.value
-  return value ? formatDate(value, props.format) : ''
-})
-const displayEndText = computed(() => {
-  const value = open.value ? draftEnd.value : endModel.value
-  return value ? formatDate(value, props.format) : ''
-})
 const startPlaceholder = computed(() => props.startPlaceholder ?? $t('dateRangePicker.startPlaceholder'))
 const endPlaceholder = computed(() => props.endPlaceholder ?? $t('dateRangePicker.endPlaceholder'))
-const startLabel = computed(() => props.startLabel ?? $t('dateRangePicker.startLabel'))
-const endLabel = computed(() => props.endLabel ?? $t('dateRangePicker.endLabel'))
 const separator = computed(() => props.separator)
 const disabled = computed(() => props.disabled)
 const clearable = computed(() => props.clearable)
@@ -327,8 +346,22 @@ watch(open, async (val) => {
   if (val) {
     await nextTick()
     repositionPanel()
+  } else {
+    startInputDirty.value = false
+    endInputDirty.value = false
+    syncInputTextFromModel()
   }
 })
+
+watch(
+  () => [startModel.value, endModel.value, props.format, props.startValueFormat, props.endValueFormat],
+  () => {
+    if (!open.value && !startInputFocused.value && !endInputFocused.value) {
+      syncInputTextFromModel()
+    }
+  },
+  { immediate: true }
+)
 
 watch(
   () => props.disabled,
@@ -358,6 +391,136 @@ function formatDate(date: Date, fmt: string): string {
     d: `${date.getDate()}`
   }
   return fmt.replace(/yyyy|MM|dd|M|d/g, (key) => map[key] || key)
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function parseDate(value: string, fmt: string): Date | null {
+  const tokenPattern = /yyyy|MM|dd|M|d/g
+  const tokenMap: Record<string, string> = {
+    yyyy: '(\\d{4})',
+    MM: '(\\d{2})',
+    M: '(\\d{1,2})',
+    dd: '(\\d{2})',
+    d: '(\\d{1,2})'
+  }
+  const tokens: string[] = []
+  let pattern = ''
+  let lastIndex = 0
+  for (const match of fmt.matchAll(tokenPattern)) {
+    pattern += escapeRegExp(fmt.slice(lastIndex, match.index))
+    pattern += tokenMap[match[0]]
+    tokens.push(match[0])
+    lastIndex = (match.index ?? 0) + match[0].length
+  }
+  pattern += escapeRegExp(fmt.slice(lastIndex))
+
+  const matched = new RegExp(`^${pattern}$`).exec(value)
+  if (!matched) return null
+
+  let year: number | null = null
+  let month: number | null = null
+  let day: number | null = null
+  tokens.forEach((token, index) => {
+    const num = Number(matched[index + 1])
+    if (token === 'yyyy') year = num
+    if (token === 'MM' || token === 'M') month = num
+    if (token === 'dd' || token === 'd') day = num
+  })
+  if (year == null || month == null || day == null) return null
+
+  const date = new Date(year, month - 1, day)
+  if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return null
+  return date
+}
+
+function getValueFormat(side: DateRangeSide) {
+  return (side === 'start' ? props.startValueFormat : props.endValueFormat) ?? props.format
+}
+
+function parseModelValue(side: DateRangeSide, value: DateRangeValue | undefined): Date | null {
+  if (value == null) return null
+  if (value instanceof Date) return cloneDate(value)
+  return parseDate(value, getValueFormat(side))
+}
+
+function formatModelValue(side: DateRangeSide, date: Date | null): DateRangeValue {
+  if (!date) return null
+  const valueFormat = side === 'start' ? props.startValueFormat : props.endValueFormat
+  if (valueFormat) return formatDate(date, valueFormat)
+  return cloneDate(date)
+}
+
+function formatInputText(side: DateRangeSide, date: Date | null): string {
+  return date ? formatDate(date, props.format) : ''
+}
+
+function getDraft(side: DateRangeSide) {
+  return side === 'start' ? draftStart.value : draftEnd.value
+}
+
+function setDraft(side: DateRangeSide, date: Date | null) {
+  if (side === 'start') {
+    draftStart.value = cloneDate(date)
+  } else {
+    draftEnd.value = cloneDate(date)
+  }
+}
+
+function setInputText(side: DateRangeSide, value: string) {
+  if (side === 'start') {
+    startInputText.value = value
+  } else {
+    endInputText.value = value
+  }
+}
+
+function getInputText(side: DateRangeSide) {
+  return side === 'start' ? startInputText.value : endInputText.value
+}
+
+function setInputDirty(side: DateRangeSide, dirty: boolean) {
+  if (side === 'start') {
+    startInputDirty.value = dirty
+  } else {
+    endInputDirty.value = dirty
+  }
+}
+
+function isInputDirty(side: DateRangeSide) {
+  return side === 'start' ? startInputDirty.value : endInputDirty.value
+}
+
+function parseInputText(side: DateRangeSide, value: string): Date | null {
+  const parsed = parseDate(value, props.format)
+  if (!parsed) return null
+  if (props.disabledDate?.(parsed)) return null
+  return parsed
+}
+
+function syncInputTextFromDraft(side: DateRangeSide) {
+  setInputText(side, formatInputText(side, getDraft(side)))
+}
+
+function syncInputTextFromModel() {
+  startInputText.value = formatInputText('start', parseModelValue('start', startModel.value))
+  endInputText.value = formatInputText('end', parseModelValue('end', endModel.value))
+}
+
+function applyInputText(side: DateRangeSide, value: string): Date | null {
+  const parsed = parseInputText(side, value)
+  if (!parsed) return null
+  setDraft(side, parsed)
+  setView(side, parsed.getFullYear(), parsed.getMonth() + 1)
+  activeSide.value = side
+  if (side === 'start') {
+    startShowYearPicker.value = false
+  } else {
+    endShowYearPicker.value = false
+  }
+  return parsed
 }
 
 function makeYearRange(year: number) {
@@ -417,11 +580,15 @@ function syncViewFromDraft() {
 function openPanel(side: DateRangeSide) {
   if (props.disabled) return
   activeSide.value = side
-  draftStart.value = cloneDate(startModel.value)
-  draftEnd.value = cloneDate(endModel.value)
+  draftStart.value = parseModelValue('start', startModel.value)
+  draftEnd.value = parseModelValue('end', endModel.value)
   startShowYearPicker.value = false
   endShowYearPicker.value = false
   syncViewFromDraft()
+  syncInputTextFromDraft('start')
+  syncInputTextFromDraft('end')
+  startInputDirty.value = false
+  endInputDirty.value = false
   currentZIndex.value = nextZIndex()
   open.value = true
 }
@@ -436,9 +603,49 @@ function onSegmentClick(side: DateRangeSide) {
   if (props.disabled) return
   if (!open.value) {
     openPanel(side)
-    return
   }
   activeSide.value = side
+  nextTick(() => {
+    if (side === 'start') {
+      startInputRef.value?.focus()
+    } else {
+      endInputRef.value?.focus()
+    }
+  })
+}
+
+function onInputFocus(side: DateRangeSide) {
+  if (props.disabled) return
+  if (side === 'start') {
+    startInputFocused.value = true
+  } else {
+    endInputFocused.value = true
+  }
+  if (!open.value) {
+    openPanel(side)
+  }
+  activeSide.value = side
+}
+
+function onInput(side: DateRangeSide, e: Event) {
+  if (props.disabled) return
+  const value = (e.target as HTMLInputElement).value
+  setInputText(side, value)
+  setInputDirty(side, true)
+  applyInputText(side, value)
+}
+
+function onInputBlur(side: DateRangeSide) {
+  if (side === 'start') {
+    startInputFocused.value = false
+  } else {
+    endInputFocused.value = false
+  }
+  if (!isInputDirty(side)) return
+
+  applyInputText(side, getInputText(side))
+  syncInputTextFromDraft(side)
+  setInputDirty(side, false)
 }
 
 function onCellClick(side: DateRangeSide, cell: CalendarCell) {
@@ -451,8 +658,12 @@ function onCellClick(side: DateRangeSide, cell: CalendarCell) {
   }
   if (side === 'start') {
     draftStart.value = cloneDate(cell.date)
+    syncInputTextFromDraft('start')
+    startInputDirty.value = false
   } else {
     draftEnd.value = cloneDate(cell.date)
+    syncInputTextFromDraft('end')
+    endInputDirty.value = false
   }
 }
 
@@ -463,14 +674,26 @@ function onToday() {
   if (activeSide.value === 'start') {
     draftStart.value = date
     setView('start', date.getFullYear(), date.getMonth() + 1)
+    syncInputTextFromDraft('start')
+    startInputDirty.value = false
   } else {
     draftEnd.value = date
     setView('end', date.getFullYear(), date.getMonth() + 1)
+    syncInputTextFromDraft('end')
+    endInputDirty.value = false
   }
 }
 
 function onConfirm() {
   if (props.disabled) return
+  if (startInputDirty.value) {
+    if (!applyInputText('start', startInputText.value)) return
+    startInputDirty.value = false
+  }
+  if (endInputDirty.value) {
+    if (!applyInputText('end', endInputText.value)) return
+    endInputDirty.value = false
+  }
   if (confirmDisabled.value) return
   let nextStart = cloneDate(draftStart.value)
   let nextEnd = cloneDate(draftEnd.value)
@@ -479,10 +702,19 @@ function onConfirm() {
     nextStart = nextEnd
     nextEnd = temp
   }
-  startModel.value = nextStart
-  endModel.value = nextEnd
+  startModel.value = formatModelValue('start', nextStart)
+  endModel.value = formatModelValue('end', nextEnd)
   emit('change', startModel.value ?? null, endModel.value ?? null)
+  syncInputTextFromDraft('start')
+  syncInputTextFromDraft('end')
   open.value = false
+}
+
+function confirmFromInput(side: DateRangeSide) {
+  if (!open.value) {
+    openPanel(side)
+  }
+  onConfirm()
 }
 
 function onClear() {
@@ -491,6 +723,10 @@ function onClear() {
   endModel.value = null
   draftStart.value = null
   draftEnd.value = null
+  startInputText.value = ''
+  endInputText.value = ''
+  startInputDirty.value = false
+  endInputDirty.value = false
   emit('change', null, null)
 }
 
@@ -662,26 +898,26 @@ onBeforeUnmount(() => {
   height: 24px;
   padding: 0 4px;
   border: none;
+  outline: none;
   border-radius: 3px;
   background: transparent;
   color: #333;
-  cursor: pointer;
+  cursor: text;
   font: inherit;
   text-align: center;
+  appearance: none;
   transition:
     background 0.2s,
     color 0.2s;
+
+  &::placeholder {
+    color: #c0c4cc;
+  }
 }
 
 .yiz-date-range-picker-segment:disabled {
   color: #c0c4cc;
   cursor: not-allowed;
-}
-
-.yiz-date-range-picker-segment:not(:disabled):hover,
-.yiz-date-range-picker-segment-active {
-  background: var(--yiz-color-primary-light9);
-  color: var(--yiz-color-primary);
 }
 
 .yiz-date-range-picker-placeholder {
@@ -771,26 +1007,6 @@ onBeforeUnmount(() => {
   border-left: 1px solid var(--yiz-color-border, #d9d9d9);
 }
 
-.yiz-date-range-picker-side-title {
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 6px;
-  border-radius: 4px;
-  color: #666;
-  cursor: pointer;
-  transition:
-    background 0.2s,
-    color 0.2s;
-}
-
-.yiz-date-range-picker-side-active .yiz-date-range-picker-side-title,
-.yiz-date-range-picker-side-title:hover {
-  background: var(--yiz-color-primary-light9);
-  color: var(--yiz-color-primary);
-}
-
 .yiz-date-range-picker-header {
   display: flex;
   align-items: center;
@@ -853,7 +1069,8 @@ onBeforeUnmount(() => {
   background: var(--yiz-color-hover-bg);
 }
 
-.yiz-date-range-picker-year-item-active {
+.yiz-date-range-picker-year-item-active,
+.yiz-date-range-picker-year-item-active:hover {
   color: var(--yiz-color-primary);
   background: var(--yiz-color-primary-light8);
   font-weight: 600;
@@ -906,7 +1123,8 @@ onBeforeUnmount(() => {
   font-weight: 600;
 }
 
-.yiz-date-range-picker-cell-selected .yiz-date-range-picker-cell-inner {
+.yiz-date-range-picker-cell-selected .yiz-date-range-picker-cell-inner,
+.yiz-date-range-picker-cell-selected .yiz-date-range-picker-cell-inner:hover {
   background: var(--yiz-color-primary);
   color: #fff;
   border-radius: 4px;
@@ -928,10 +1146,6 @@ onBeforeUnmount(() => {
 
 .yiz-date-range-picker-cell-inner:hover {
   background: var(--yiz-color-hover-bg);
-}
-
-.yiz-date-range-picker-cell-selected .yiz-date-range-picker-cell-inner:hover {
-  background: var(--yiz-color-primary-heary);
 }
 
 .yiz-date-range-picker-cell-disabled .yiz-date-range-picker-cell-inner:hover,

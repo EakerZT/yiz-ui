@@ -293,6 +293,7 @@ const zhCN: LangMessages = {
   'demo.dateRangePicker.manual': '手动',
   'demo.dateRangePicker.disableDates': '禁用日期',
   'demo.dateRangePicker.weekends': '周末',
+  'demo.dateRangePicker.valueFormat': '字符串值格式',
 
   'demo.dialog.title': 'Dialog 弹窗',
   'demo.dialog.desc': '模态对话框，用于重要信息的提示或操作确认。',
@@ -1077,6 +1078,7 @@ const enUS: LangMessages = {
   'demo.dateRangePicker.manual': 'Manual',
   'demo.dateRangePicker.disableDates': 'Disabled dates',
   'demo.dateRangePicker.weekends': 'Weekends',
+  'demo.dateRangePicker.valueFormat': 'String value format',
 
   'demo.dialog.title': 'Dialog',
   'demo.dialog.desc': 'Modal dialogs for important messages and action confirmations.',

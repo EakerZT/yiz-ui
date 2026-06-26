@@ -1,5 +1,13 @@
 <template>
-  <div ref="triggerRef" class="yiz-time-range-picker" :class="vClass" @click="onTriggerClick" @mouseenter="isHovering = true" @mouseleave="isHovering = false" v-bind="$attrs">
+  <div
+    ref="triggerRef"
+    class="yiz-time-range-picker"
+    :class="vClass"
+    @click="onTriggerClick"
+    @mouseenter="isHovering = true"
+    @mouseleave="isHovering = false"
+    v-bind="$attrs"
+  >
     <div class="yiz-time-range-picker-input">
       <span class="yiz-time-range-picker-prefix" v-if="$props.prefix || $slots.prefix">
         <template v-if="$props.prefix">{{ $props.prefix }}</template>
@@ -41,7 +49,15 @@
         <template v-if="$props.suffix">{{ $props.suffix }}</template>
         <slot v-else name="suffix" />
       </span>
-      <Icon :class="{ 'yiz-time-range-picker-suffix--hidden': clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open) }" class="yiz-time-range-picker-suffix" size="16" :icon="Clock16Regular" />
+      <Icon
+        :class="{
+          'yiz-time-range-picker-suffix--hidden':
+            clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open)
+        }"
+        class="yiz-time-range-picker-suffix"
+        size="16"
+        :icon="Clock16Regular"
+      />
     </div>
   </div>
 
@@ -735,7 +751,8 @@ onBeforeUnmount(() => {
   background: var(--yiz-color-hover-bg);
 }
 
-.yiz-time-range-picker-col-item-active {
+.yiz-time-range-picker-col-item-active,
+.yiz-time-range-picker-col-item-active:hover {
   color: var(--yiz-color-primary);
   background: var(--yiz-color-primary-light8);
   font-weight: 600;

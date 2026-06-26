@@ -41,8 +41,26 @@
 
     <y-card :title="$t('demo.dateRangePicker.disableDates')" style="margin-top: 8px">
       <div class="demo-picker-field">
-        <y-date-range-picker v-model:start="workStart" v-model:end="workEnd" :disabled-date="disabledWeekend" clearable />
+        <y-date-range-picker
+          v-model:start="workStart"
+          v-model:end="workEnd"
+          :disabled-date="disabledWeekend"
+          clearable
+        />
         <span class="demo-item-hint">{{ format(workStart) }} - {{ format(workEnd) }}</span>
+      </div>
+    </y-card>
+
+    <y-card :title="$t('demo.dateRangePicker.valueFormat')" style="margin-top: 8px">
+      <div class="demo-picker-field">
+        <y-date-range-picker
+          v-model:start="stringStart"
+          v-model:end="stringEnd"
+          start-value-format="yyyy-MM-dd 00:00:00"
+          end-value-format="yyyy-MM-dd 23:59:59"
+          clearable
+        />
+        <span class="demo-item-hint">{{ formatValue(stringStart) }} - {{ formatValue(stringEnd) }}</span>
       </div>
     </y-card>
 
@@ -77,6 +95,8 @@ const manualStart = ref<Date | null>(new Date(2026, 5, 20))
 const manualEnd = ref<Date | null>(new Date(2026, 5, 10))
 const workStart = ref<Date | null>(null)
 const workEnd = ref<Date | null>(null)
+const stringStart = ref<string | null>('2026-06-01 00:00:00')
+const stringEnd = ref<string | null>('2026-06-12 23:59:59')
 const affixStart = ref<Date | null>(new Date(2026, 5, 15))
 const affixEnd = ref<Date | null>(new Date(2026, 5, 21))
 const lastChange = ref($t('demo.common.none'))
@@ -90,8 +110,13 @@ function format(date: Date | null) {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
 }
 
-function onChange(startValue: Date | null, endValue: Date | null) {
-  lastChange.value = `${format(startValue)} - ${format(endValue)}`
+function formatValue(value: Date | string | null) {
+  if (typeof value === 'string') return value
+  return format(value)
+}
+
+function onChange(startValue: Date | string | null, endValue: Date | string | null) {
+  lastChange.value = `${formatValue(startValue)} - ${formatValue(endValue)}`
 }
 
 function disabledWeekend(date: Date) {

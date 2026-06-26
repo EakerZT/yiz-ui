@@ -186,8 +186,6 @@ const yearRange = computed(() => {
   return result
 })
 
-const inputFormat = computed(() => props.valueFormat ?? props.format)
-
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
   if (open.value) c['yiz-date-picker-open'] = true
@@ -331,7 +329,7 @@ function parseDate(value: string, fmt: string): Date | null {
 function parseModelValue(value: DatePickerValue | undefined): Date | null {
   if (value == null) return null
   if (value instanceof Date) return cloneDate(value)
-  return parseDate(value, inputFormat.value)
+  return parseDate(value, props.valueFormat ?? props.format)
 }
 
 function formatModelValue(date: Date | null): DatePickerValue {
@@ -341,11 +339,11 @@ function formatModelValue(date: Date | null): DatePickerValue {
 }
 
 function formatInputText(date: Date | null): string {
-  return date ? formatDate(date, inputFormat.value) : ''
+  return date ? formatDate(date, props.format) : ''
 }
 
 function parseInputText(value: string): Date | null {
-  const parsed = parseDate(value, inputFormat.value)
+  const parsed = parseDate(value, props.format)
   if (!parsed) return null
   if (props.disabledDate?.(parsed)) return null
   return parsed
@@ -543,7 +541,7 @@ watch(open, async (val) => {
 })
 
 watch(
-  () => [modelValue.value, inputFormat.value],
+  () => [modelValue.value, props.format, props.valueFormat],
   () => {
     if (!open.value && !inputFocused.value) {
       syncInputTextFromModel()
@@ -832,7 +830,8 @@ onBeforeUnmount(() => {
     background: var(--yiz-color-hover-bg);
   }
 
-  &--active {
+  &--active,
+  &--active:hover {
     color: var(--yiz-color-primary);
     background: var(--yiz-color-primary-light8);
     font-weight: 600;
@@ -891,7 +890,8 @@ onBeforeUnmount(() => {
   }
 
   &--selected {
-    .yiz-date-picker-cell-inner {
+    .yiz-date-picker-cell-inner,
+    .yiz-date-picker-cell-inner:hover {
       background: var(--yiz-color-primary);
       color: #fff;
       border-radius: 4px;
@@ -915,10 +915,6 @@ onBeforeUnmount(() => {
   &:hover {
     background: var(--yiz-color-hover-bg);
   }
-}
-
-.yiz-date-picker-cell--selected .yiz-date-picker-cell-inner:hover {
-  background: var(--yiz-color-primary-heary);
 }
 
 .yiz-date-picker-cell--disabled .yiz-date-picker-cell-inner:hover,

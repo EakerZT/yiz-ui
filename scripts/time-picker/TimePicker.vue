@@ -708,7 +708,8 @@ defineExpose({
     background: var(--yiz-color-hover-bg);
   }
 
-  &--active {
+  &--active,
+  &--active:hover {
     color: var(--yiz-color-primary);
     background: var(--yiz-color-primary-light8);
     font-weight: 600;
