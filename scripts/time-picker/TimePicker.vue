@@ -1,13 +1,34 @@
 <template>
-  <div ref="triggerRef" class="yiz-time-picker" :class="vClass" @click="onTriggerClick" @mouseenter="isHovering = true" @mouseleave="isHovering = false" v-bind="$attrs">
+  <div
+    ref="triggerRef"
+    class="yiz-time-picker"
+    :class="vClass"
+    @click="onTriggerClick"
+    @mouseenter="isHovering = true"
+    @mouseleave="isHovering = false"
+    v-bind="$attrs"
+  >
     <div class="yiz-time-picker-input">
       <span class="yiz-time-picker-prefix" v-if="$props.prefix || $slots.prefix">
         <template v-if="$props.prefix">{{ $props.prefix }}</template>
         <slot v-else name="prefix" />
       </span>
-      <input ref="inputRef" :value="displayText" :placeholder="placeholderText" :disabled="disabled" readonly />
+      <input
+        ref="inputRef"
+        :value="inputText"
+        :placeholder="placeholderText"
+        :disabled="disabled"
+        @input="onInput"
+        @focus="onInputFocus"
+        @blur="onInputBlur"
+        @keydown.enter.prevent.stop="confirmFromInput"
+      />
       <Transition name="yiz-time-picker-clear-zoom">
-        <span v-if="clearable && modelValue != null && !disabled && (isHovering || open)" class="yiz-time-picker-clear" @click.stop="onClear">
+        <span
+          v-if="clearable && modelValue != null && !disabled && (isHovering || open)"
+          class="yiz-time-picker-clear"
+          @click.stop="onClear"
+        >
           <Icon size="14" :icon="DismissCircle32Filled" />
         </span>
       </Transition>
@@ -15,7 +36,14 @@
         <template v-if="$props.suffix">{{ $props.suffix }}</template>
         <slot v-else name="suffix" />
       </span>
-      <Icon :class="{ 'yiz-time-picker-suffix--hidden': clearable && modelValue != null && !disabled && (isHovering || open) }" class="yiz-time-picker-suffix" size="16" :icon="Clock16Regular" />
+      <Icon
+        :class="{
+          'yiz-time-picker-suffix--hidden': clearable && modelValue != null && !disabled && (isHovering || open)
+        }"
+        class="yiz-time-picker-suffix"
+        size="16"
+        :icon="Clock16Regular"
+      />
     </div>
   </div>
 
@@ -123,6 +151,9 @@ const panelRef = ref<HTMLElement>()
 const inputRef = ref<HTMLInputElement>()
 const hourListRef = ref<HTMLElement>()
 const minuteListRef = ref<HTMLElement>()
+const inputFocused = ref(false)
+const inputDirty = ref(false)
+const inputText = ref('')
 
 const pickedHour = ref(0)
 const pickedMinute = ref(0)
@@ -182,8 +213,21 @@ watch(open, async (val) => {
     repositionPanel()
     // 滚动到选中项
     scrollToSelected()
+  } else {
+    inputDirty.value = false
+    syncInputTextFromModel()
   }
 })
+
+watch(
+  () => [modelValue.value, props.format],
+  () => {
+    if (!open.value && !inputFocused.value) {
+      syncInputTextFromModel()
+    }
+  },
+  { immediate: true }
+)
 
 watch(
   () => props.disabled,
@@ -215,12 +259,6 @@ function scrollToSelected() {
 
 // ==================== 计算属性 ====================
 
-const displayText = computed(() => {
-  if (open.value) return buildValue()
-  if (modelValue.value == null) return ''
-  return modelValue.value
-})
-
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
   if (open.value) c['yiz-time-picker-open'] = true
@@ -245,40 +283,132 @@ function buildValue(): string {
   return result
 }
 
-function parseValue(val: string) {
-  if (val.length >= 5) {
-    const parts = val.split(/[:：]/)
-    if (parts.length >= 2) {
-      pickedHour.value = Math.min(23, Math.max(0, parseInt(parts[0]) || 0))
-      pickedMinute.value = Math.min(59, Math.max(0, parseInt(parts[1]) || 0))
-      if (parts.length >= 3) {
-        pickedSecond.value = Math.min(59, Math.max(0, parseInt(parts[2]) || 0))
-      }
-    }
+interface TimeParts {
+  hour: number
+  minute: number
+  second: number
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function parseValue(val: string): TimeParts | null {
+  const tokenPattern = /HH|mm|ss|H|m|s/g
+  const tokenMap: Record<string, string> = {
+    HH: '(\\d{2})',
+    H: '(\\d{1,2})',
+    mm: '(\\d{2})',
+    m: '(\\d{1,2})',
+    ss: '(\\d{2})',
+    s: '(\\d{1,2})'
   }
+  const tokens: string[] = []
+  let pattern = ''
+  let lastIndex = 0
+  for (const match of props.format.matchAll(tokenPattern)) {
+    pattern += escapeRegExp(props.format.slice(lastIndex, match.index))
+    pattern += tokenMap[match[0]]
+    tokens.push(match[0])
+    lastIndex = (match.index ?? 0) + match[0].length
+  }
+  pattern += escapeRegExp(props.format.slice(lastIndex))
+
+  const matched = new RegExp(`^${pattern}$`).exec(val)
+  if (!matched) return null
+
+  let hour: number | null = null
+  let minute: number | null = null
+  let second = 0
+  tokens.forEach((token, index) => {
+    const num = Number(matched[index + 1])
+    if (token === 'HH' || token === 'H') hour = num
+    if (token === 'mm' || token === 'm') minute = num
+    if (token === 'ss' || token === 's') second = num
+  })
+  if (hour == null || minute == null) return null
+  if (hour < 0 || hour > 23) return null
+  if (minute < 0 || minute > 59) return null
+  if (second < 0 || second > 59) return null
+  return { hour, minute, second }
+}
+
+function applyPicked(parts: TimeParts) {
+  pickedHour.value = parts.hour
+  pickedMinute.value = parts.minute
+  pickedSecond.value = parts.second
+}
+
+function applyInputText(value: string): TimeParts | null {
+  const parsed = parseValue(value)
+  if (!parsed) return null
+  applyPicked(parsed)
+  scrollToSelected()
+  return parsed
+}
+
+function getNowParts(): TimeParts {
+  const now = new Date()
+  return {
+    hour: now.getHours(),
+    minute: now.getMinutes(),
+    second: now.getSeconds()
+  }
+}
+
+function syncInputTextFromPicked() {
+  inputText.value = buildValue()
+}
+
+function syncInputTextFromModel() {
+  inputText.value = modelValue.value ?? ''
+}
+
+function openPanel() {
+  if (open.value) return
+  currentZIndex.value = nextZIndex()
+  const parsed = modelValue.value ? parseValue(modelValue.value) : null
+  applyPicked(parsed ?? getNowParts())
+  syncInputTextFromPicked()
+  inputDirty.value = false
+  open.value = true
 }
 
 // ==================== 操作 ====================
 
 function onTriggerClick() {
   if (props.disabled) return
-  open.value = !open.value
-  if (open.value) {
-    currentZIndex.value = nextZIndex()
-    if (modelValue.value) {
-      parseValue(modelValue.value)
-    } else {
-      const now = new Date()
-      pickedHour.value = now.getHours()
-      pickedMinute.value = now.getMinutes()
-      pickedSecond.value = now.getSeconds()
-    }
-  }
+  openPanel()
+  nextTick(() => inputRef.value?.focus())
+}
+
+function onInputFocus() {
+  if (props.disabled) return
+  inputFocused.value = true
+  openPanel()
+}
+
+function onInput(e: Event) {
+  if (props.disabled) return
+  const value = (e.target as HTMLInputElement).value
+  inputText.value = value
+  inputDirty.value = true
+  applyInputText(value)
+}
+
+function onInputBlur() {
+  inputFocused.value = false
+  if (!inputDirty.value) return
+  applyInputText(inputText.value)
+  syncInputTextFromPicked()
+  inputDirty.value = false
 }
 
 function onClear() {
   if (props.disabled) return
   modelValue.value = null
+  inputText.value = ''
+  inputDirty.value = false
   emit('change', null)
 }
 
@@ -287,6 +417,8 @@ function setPicked(unit: 'hour' | 'minute' | 'second', value: number) {
   if (unit === 'hour') pickedHour.value = value
   if (unit === 'minute') pickedMinute.value = value
   if (unit === 'second') pickedSecond.value = value
+  syncInputTextFromPicked()
+  inputDirty.value = false
 }
 
 function onNow() {
@@ -295,14 +427,28 @@ function onNow() {
   pickedHour.value = now.getHours()
   pickedMinute.value = now.getMinutes()
   pickedSecond.value = now.getSeconds()
+  syncInputTextFromPicked()
+  inputDirty.value = false
   scrollToSelected()
 }
 
 function onConfirm() {
   if (props.disabled) return
+  if (inputDirty.value) {
+    if (!applyInputText(inputText.value)) return
+    inputDirty.value = false
+  }
   modelValue.value = buildValue()
   emit('change', modelValue.value)
+  syncInputTextFromPicked()
   open.value = false
+}
+
+function confirmFromInput() {
+  if (!open.value) {
+    openPanel()
+  }
+  onConfirm()
 }
 
 function onClickOutside(e: MouseEvent) {
@@ -387,7 +533,7 @@ defineExpose({
     background: transparent;
     font-size: 14px;
     color: #333;
-    cursor: pointer;
+    cursor: text;
     min-width: 0;
 
     &::placeholder {
