@@ -39,7 +39,7 @@
 
     <y-card :title="$t('demo.datePicker.valueFormat')" style="margin-top: 8px">
       <div class="demo-picker-field">
-        <DatePicker v-model="value8" value-format="yyyy-MM-dd 00:00:00" clearable />
+        <DatePicker v-model="value8" value-format="YYYY-MM-DD 00:00:00" clearable />
         <span class="demo-item-hint">{{ value8 ?? $t('demo.common.notSelected') }}</span>
       </div>
     </y-card>

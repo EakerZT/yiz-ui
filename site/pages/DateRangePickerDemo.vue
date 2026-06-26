@@ -56,8 +56,8 @@
         <y-date-range-picker
           v-model:start="stringStart"
           v-model:end="stringEnd"
-          start-value-format="yyyy-MM-dd 00:00:00"
-          end-value-format="yyyy-MM-dd 23:59:59"
+          start-value-format="YYYY-MM-DD 00:00:00"
+          end-value-format="YYYY-MM-DD 23:59:59"
           clearable
         />
         <span class="demo-item-hint">{{ formatValue(stringStart) }} - {{ formatValue(stringEnd) }}</span>

@@ -139,7 +139,7 @@ const props = withDefaults(
     disabled: false,
     clearable: false,
     size: 'default',
-    format: 'yyyy-MM-dd'
+    format: 'YYYY-MM-DD'
   }
 )
 
@@ -274,13 +274,16 @@ function pad(n: number): string {
 
 function formatDate(date: Date, fmt: string): string {
   const map: Record<string, string> = {
+    YYYY: `${date.getFullYear()}`,
     yyyy: `${date.getFullYear()}`,
     MM: pad(date.getMonth() + 1),
+    DD: pad(date.getDate()),
     dd: pad(date.getDate()),
     M: `${date.getMonth() + 1}`,
+    D: `${date.getDate()}`,
     d: `${date.getDate()}`
   }
-  return fmt.replace(/yyyy|MM|dd|M|d/g, (k) => map[k] || k)
+  return fmt.replace(/YYYY|yyyy|MM|DD|dd|M|D|d/g, (k) => map[k] || k)
 }
 
 function escapeRegExp(value: string): string {
@@ -288,12 +291,15 @@ function escapeRegExp(value: string): string {
 }
 
 function parseDate(value: string, fmt: string): Date | null {
-  const tokenPattern = /yyyy|MM|dd|M|d/g
+  const tokenPattern = /YYYY|yyyy|MM|DD|dd|M|D|d/g
   const tokenMap: Record<string, string> = {
+    YYYY: '(\\d{4})',
     yyyy: '(\\d{4})',
     MM: '(\\d{2})',
     M: '(\\d{1,2})',
+    DD: '(\\d{2})',
     dd: '(\\d{2})',
+    D: '(\\d{1,2})',
     d: '(\\d{1,2})'
   }
   const tokens: string[] = []
@@ -315,9 +321,9 @@ function parseDate(value: string, fmt: string): Date | null {
   let day: number | null = null
   tokens.forEach((token, index) => {
     const num = Number(matched[index + 1])
-    if (token === 'yyyy') year = num
+    if (token === 'YYYY' || token === 'yyyy') year = num
     if (token === 'MM' || token === 'M') month = num
-    if (token === 'dd' || token === 'd') day = num
+    if (token === 'DD' || token === 'dd' || token === 'D' || token === 'd') day = num
   })
   if (year == null || month == null || day == null) return null
 
