@@ -72,7 +72,8 @@
       <div
         v-else
         class="yiz-table-body"
-        :class="{ 'yiz-table-no-overflow': !bodyHasOverflow }"
+        ref="bodyContentRef"
+        :class="{ 'yiz-table-body-short': bodyContentShort }"
         :style="{ width: tableContentWidth }"
       >
         <div
@@ -147,7 +148,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, Fragment, nextTick, onMounted, onUnmounted, provide, ref, useSlots } from 'vue'
+import { computed, Fragment, nextTick, onMounted, onUnmounted, provide, ref, useSlots, watch } from 'vue'
 import TableColumnComp from './TableColumn.vue'
 import CellRenderer from './CellRenderer.vue'
 import Checkbox from '../checkbox/Checkbox.vue'
@@ -489,6 +490,7 @@ const vClass = computed(() => ({
 const tableWrapperRef = ref<HTMLDivElement>()
 const headerWrapperRef = ref<HTMLDivElement>()
 const bodyScrollBoxRef = ref<InstanceType<typeof ScrollBox>>()
+const bodyContentRef = ref<HTMLDivElement>()
 const columnWidths = ref<Record<string, string>>({})
 const showGapColumn = ref(false)
 
@@ -543,20 +545,24 @@ function computeWidths() {
   const totalW = Object.values(widths).reduce((sum, w) => sum + parseFloat(w), 0)
   showGapColumn.value = totalW < tableWidth
   nextTick(() => {
-    checkBodyOverflow()
+    checkBodyContentShort()
     checkFixedColumnShadow()
   })
 }
 
-const bodyHasOverflow = ref(false)
+const bodyContentShort = ref(false)
 const leftFixedShadowVisible = ref(false)
 const rightFixedShadowVisible = ref(false)
 
-function checkBodyOverflow() {
+function checkBodyContentShort() {
   const vp = bodyScrollBoxRef.value?.viewport as HTMLElement | undefined
-  if (vp) {
-    bodyHasOverflow.value = vp.scrollHeight > vp.clientHeight + 1
+  const body = bodyContentRef.value
+  if (!vp || !body) {
+    bodyContentShort.value = false
+    return
   }
+
+  bodyContentShort.value = body.getBoundingClientRect().height < vp.clientHeight - 1
 }
 
 function checkFixedColumnShadow() {
@@ -578,15 +584,45 @@ function onBodyScroll() {
   if (headerWrapperRef.value && bodyViewport) {
     headerWrapperRef.value.scrollLeft = bodyViewport.scrollLeft
   }
-  checkBodyOverflow()
+  checkBodyContentShort()
   checkFixedColumnShadow()
 }
 
 let wrapperResizeObserver: ResizeObserver | null = null
+let bodyContentResizeObserver: ResizeObserver | null = null
+let bodyContentShortRafId: number | null = null
+
+function scheduleBodyContentShortCheck() {
+  if (bodyContentShortRafId !== null) return
+  bodyContentShortRafId = requestAnimationFrame(() => {
+    bodyContentShortRafId = null
+    checkBodyContentShort()
+  })
+}
+
+function observeBodyContentTargets() {
+  bodyContentResizeObserver?.disconnect()
+
+  const vp = bodyScrollBoxRef.value?.viewport as HTMLElement | undefined
+  const body = bodyContentRef.value
+  if (!vp && !body) {
+    bodyContentResizeObserver = null
+    bodyContentShort.value = false
+    return
+  }
+
+  bodyContentResizeObserver = new ResizeObserver(() => {
+    scheduleBodyContentShortCheck()
+  })
+  if (vp) bodyContentResizeObserver.observe(vp)
+  if (body) bodyContentResizeObserver.observe(body)
+  scheduleBodyContentShortCheck()
+}
 
 onMounted(() => {
   nextTick(() => {
     computeWidths()
+    observeBodyContentTargets()
     onBodyScroll()
     // 监听 wrapper 尺寸变化，重新计算列宽（窗口缩放、父级布局变化等）
     if (tableWrapperRef.value) {
@@ -595,6 +631,14 @@ onMounted(() => {
     }
   })
 })
+
+watch(
+  bodyContentRef,
+  () => {
+    nextTick(() => observeBodyContentTargets())
+  },
+  { flush: 'post' }
+)
 
 const resizing = ref<string | null>(null)
 const resizeStartX = ref(0)
@@ -660,7 +704,7 @@ function onResizeEnd() {
     const totalW = Object.values(columnWidths.value).reduce((sum, w) => sum + parseFloat(w), 0)
     showGapColumn.value = totalW < wrapper.clientWidth
     nextTick(() => {
-      checkBodyOverflow()
+      checkBodyContentShort()
       checkFixedColumnShadow()
     })
   }
@@ -668,6 +712,11 @@ function onResizeEnd() {
 
 onUnmounted(() => {
   wrapperResizeObserver?.disconnect()
+  bodyContentResizeObserver?.disconnect()
+  if (bodyContentShortRafId !== null) {
+    cancelAnimationFrame(bodyContentShortRafId)
+    bodyContentShortRafId = null
+  }
   document.removeEventListener('mousemove', onResizeMove)
   document.removeEventListener('mouseup', onResizeEnd)
   document.body.style.userSelect = ''
@@ -756,9 +805,13 @@ onUnmounted(() => {
   border-bottom: none;
 }
 
-/* 内容不溢出时，最后一行恢复下边框 */
-.yiz-table-bordered .yiz-table-body.yiz-table-no-overflow .yiz-table-row:last-child .yiz-table-td {
+/* 内容短于可视区域时，最后一行恢复下边框；贴底或溢出时避免和容器底边重叠 */
+.yiz-table-bordered .yiz-table-body.yiz-table-body-short .yiz-table-row:last-child .yiz-table-td {
   border-bottom: 1px solid var(--yiz-color-border, #d9d9d9);
+}
+
+.yiz-table-bordered .yiz-table-body.yiz-table-body-short .yiz-table-row:last-child .yiz-table-gap-col {
+  border-bottom: 1px solid var(--yiz-color-border, #d9d9d9) !important;
 }
 
 // stripe
