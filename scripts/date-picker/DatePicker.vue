@@ -1,13 +1,34 @@
 <template>
-  <div ref="triggerRef" class="yiz-date-picker" :class="vClass" @click="onTriggerClick" @mouseenter="isHovering = true" @mouseleave="isHovering = false" v-bind="$attrs">
+  <div
+    ref="triggerRef"
+    class="yiz-date-picker"
+    :class="vClass"
+    @click="onTriggerClick"
+    @mouseenter="isHovering = true"
+    @mouseleave="isHovering = false"
+    v-bind="$attrs"
+  >
     <div class="yiz-date-picker-input">
       <span class="yiz-date-picker-prefix" v-if="$props.prefix || $slots.prefix">
         <template v-if="$props.prefix">{{ $props.prefix }}</template>
         <slot v-else name="prefix" />
       </span>
-      <input ref="inputRef" :value="displayText" :placeholder="placeholderText" :disabled="disabled" readonly />
+      <input
+        ref="inputRef"
+        :value="inputText"
+        :placeholder="placeholderText"
+        :disabled="disabled"
+        @input="onInput"
+        @focus="onInputFocus"
+        @blur="onInputBlur"
+        @keydown.enter.prevent.stop="confirmFromInput"
+      />
       <Transition name="yiz-date-picker-clear-zoom">
-        <span v-if="clearable && modelValue && !disabled && (isHovering || open)" class="yiz-date-picker-clear" @click.stop="onClear">
+        <span
+          v-if="clearable && modelValue && !disabled && (isHovering || open)"
+          class="yiz-date-picker-clear"
+          @click.stop="onClear"
+        >
           <Icon size="16" :icon="DismissCircle32Filled" />
         </span>
       </Transition>
@@ -15,7 +36,12 @@
         <template v-if="$props.suffix">{{ $props.suffix }}</template>
         <slot v-else name="suffix" />
       </span>
-      <Icon :class="{ 'yiz-date-picker-suffix--hidden': clearable && modelValue && !disabled && (isHovering || open) }" class="yiz-date-picker-suffix" size="16" :icon="CalendarLtr16Regular" />
+      <Icon
+        :class="{ 'yiz-date-picker-suffix--hidden': clearable && modelValue && !disabled && (isHovering || open) }"
+        class="yiz-date-picker-suffix"
+        size="16"
+        :icon="CalendarLtr16Regular"
+      />
     </div>
   </div>
 
@@ -105,6 +131,7 @@ const props = withDefaults(
     size?: 'small' | 'default' | 'large'
     disabledDate?: (date: Date) => boolean
     format?: string
+    valueFormat?: string
     prefix?: string
     suffix?: string
   }>(),
@@ -116,11 +143,13 @@ const props = withDefaults(
   }
 )
 
+type DatePickerValue = Date | string | null
+
 const emit = defineEmits<{
-  change: [date: Date | null]
+  change: [date: DatePickerValue]
 }>()
 
-const modelValue = defineModel<Date | null>('modelValue')
+const modelValue = defineModel<DatePickerValue>('modelValue')
 
 // ==================== 状态 ====================
 
@@ -131,6 +160,9 @@ const panelRef = ref<HTMLElement>()
 const inputRef = ref<HTMLInputElement>()
 const showYearPicker = ref(false)
 const isHovering = ref(false)
+const inputFocused = ref(false)
+const inputDirty = ref(false)
+const inputText = ref('')
 const draft = ref<Date | null>(null)
 
 const now = new Date()
@@ -154,10 +186,7 @@ const yearRange = computed(() => {
   return result
 })
 
-const displayText = computed(() => {
-  const value = open.value ? draft.value : modelValue.value
-  return value ? formatDate(value, props.format) : ''
-})
+const inputFormat = computed(() => props.valueFormat ?? props.format)
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
@@ -256,26 +285,142 @@ function formatDate(date: Date, fmt: string): string {
   return fmt.replace(/yyyy|MM|dd|M|d/g, (k) => map[k] || k)
 }
 
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function parseDate(value: string, fmt: string): Date | null {
+  const tokenPattern = /yyyy|MM|dd|M|d/g
+  const tokenMap: Record<string, string> = {
+    yyyy: '(\\d{4})',
+    MM: '(\\d{2})',
+    M: '(\\d{1,2})',
+    dd: '(\\d{2})',
+    d: '(\\d{1,2})'
+  }
+  const tokens: string[] = []
+  let pattern = ''
+  let lastIndex = 0
+  for (const match of fmt.matchAll(tokenPattern)) {
+    pattern += escapeRegExp(fmt.slice(lastIndex, match.index))
+    pattern += tokenMap[match[0]]
+    tokens.push(match[0])
+    lastIndex = (match.index ?? 0) + match[0].length
+  }
+  pattern += escapeRegExp(fmt.slice(lastIndex))
+
+  const matched = new RegExp(`^${pattern}$`).exec(value)
+  if (!matched) return null
+
+  let year: number | null = null
+  let month: number | null = null
+  let day: number | null = null
+  tokens.forEach((token, index) => {
+    const num = Number(matched[index + 1])
+    if (token === 'yyyy') year = num
+    if (token === 'MM' || token === 'M') month = num
+    if (token === 'dd' || token === 'd') day = num
+  })
+  if (year == null || month == null || day == null) return null
+
+  const date = new Date(year, month - 1, day)
+  if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return null
+  return date
+}
+
+function parseModelValue(value: DatePickerValue | undefined): Date | null {
+  if (value == null) return null
+  if (value instanceof Date) return cloneDate(value)
+  return parseDate(value, inputFormat.value)
+}
+
+function formatModelValue(date: Date | null): DatePickerValue {
+  if (!date) return null
+  if (props.valueFormat) return formatDate(date, props.valueFormat)
+  return cloneDate(date)
+}
+
+function formatInputText(date: Date | null): string {
+  return date ? formatDate(date, inputFormat.value) : ''
+}
+
+function parseInputText(value: string): Date | null {
+  const parsed = parseDate(value, inputFormat.value)
+  if (!parsed) return null
+  if (props.disabledDate?.(parsed)) return null
+  return parsed
+}
+
+function syncInputTextFromModel() {
+  inputText.value = formatInputText(parseModelValue(modelValue.value))
+}
+
+function syncInputTextFromDraft() {
+  inputText.value = formatInputText(draft.value)
+}
+
+function applyInputText(value: string): Date | null {
+  const parsed = parseInputText(value)
+  if (!parsed) return null
+  draft.value = cloneDate(parsed)
+  viewYear.value = parsed.getFullYear()
+  viewMonth.value = parsed.getMonth() + 1
+  showYearPicker.value = false
+  return parsed
+}
+
+function openPanel() {
+  if (open.value) return
+  currentZIndex.value = nextZIndex()
+  showYearPicker.value = false
+  const currentDate = parseModelValue(modelValue.value)
+  draft.value = cloneDate(currentDate)
+  if (currentDate) {
+    viewYear.value = currentDate.getFullYear()
+    viewMonth.value = currentDate.getMonth() + 1
+  }
+  syncInputTextFromDraft()
+  inputDirty.value = false
+  open.value = true
+}
+
 // ==================== 操作 ====================
 
 function onTriggerClick() {
   if (props.disabled) return
-  open.value = !open.value
-  if (open.value) {
-    currentZIndex.value = nextZIndex()
-    showYearPicker.value = false
-    draft.value = cloneDate(modelValue.value)
-    if (modelValue.value) {
-      viewYear.value = modelValue.value.getFullYear()
-      viewMonth.value = modelValue.value.getMonth() + 1
-    }
-    nextTick(() => inputRef.value?.focus())
-  }
+  openPanel()
+  nextTick(() => inputRef.value?.focus())
+}
+
+function onInputFocus() {
+  if (props.disabled) return
+  inputFocused.value = true
+  openPanel()
+}
+
+function onInput(e: Event) {
+  if (props.disabled) return
+  const value = (e.target as HTMLInputElement).value
+  inputText.value = value
+  inputDirty.value = true
+  applyInputText(value)
+}
+
+function onInputBlur() {
+  inputFocused.value = false
+  if (!inputDirty.value) return
+
+  applyInputText(inputText.value)
+  syncInputTextFromDraft()
+  inputDirty.value = false
 }
 
 function onClear() {
   if (props.disabled) return
   modelValue.value = null
+  draft.value = null
+  inputText.value = ''
+  inputDirty.value = false
   emit('change', null)
 }
 
@@ -288,6 +433,8 @@ function onCellClick(cell: CalendarCell) {
     return
   }
   draft.value = cloneDate(cell.date)
+  syncInputTextFromDraft()
+  inputDirty.value = false
 }
 
 function onToday() {
@@ -297,14 +444,28 @@ function onToday() {
   draft.value = date
   viewYear.value = date.getFullYear()
   viewMonth.value = date.getMonth() + 1
+  syncInputTextFromDraft()
+  inputDirty.value = false
 }
 
 function onConfirm() {
   if (props.disabled) return
+  if (inputDirty.value) {
+    if (!applyInputText(inputText.value)) return
+    inputDirty.value = false
+  }
   if (confirmDisabled.value) return
-  modelValue.value = cloneDate(draft.value)
+  modelValue.value = formatModelValue(draft.value)
   emit('change', modelValue.value)
+  syncInputTextFromDraft()
   open.value = false
+}
+
+function confirmFromInput() {
+  if (!open.value) {
+    openPanel()
+  }
+  onConfirm()
 }
 
 function prevMonth() {
@@ -375,8 +536,21 @@ watch(open, async (val) => {
   if (val) {
     await nextTick()
     repositionPanel()
+  } else {
+    inputDirty.value = false
+    syncInputTextFromModel()
   }
 })
+
+watch(
+  () => [modelValue.value, inputFormat.value],
+  () => {
+    if (!open.value && !inputFocused.value) {
+      syncInputTextFromModel()
+    }
+  },
+  { immediate: true }
+)
 
 watch(
   () => props.disabled,
@@ -468,7 +642,7 @@ onBeforeUnmount(() => {
     background: transparent;
     font-size: 14px;
     color: #333;
-    cursor: pointer;
+    cursor: text;
     min-width: 0;
 
     &::placeholder {

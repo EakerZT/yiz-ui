@@ -278,7 +278,8 @@ const zhCN: LangMessages = {
   'demo.datePicker.disableDates': '禁用部分日期',
   'demo.datePicker.limitRange': '限制范围',
   'demo.datePicker.onlyAfterToday': '只能选今天之后',
-  'demo.datePicker.yearMonthDay': '年月日',
+  'demo.datePicker.yearMonthDay': 'yyyy年MM月dd日',
+  'demo.datePicker.valueFormat': '字符串值格式',
 
   'demo.dateRangePicker.title': 'DateRangePicker 日期段',
   'demo.dateRangePicker.desc': '用于选择日期范围，支持开始和结束日期独立绑定。',
@@ -1061,7 +1062,8 @@ const enUS: LangMessages = {
   'demo.datePicker.disableDates': 'Disable some dates',
   'demo.datePicker.limitRange': 'Limited range',
   'demo.datePicker.onlyAfterToday': 'Only dates after today can be selected',
-  'demo.datePicker.yearMonthDay': 'Year month day',
+  'demo.datePicker.yearMonthDay': 'yyyyYearMMmonthddDay',
+  'demo.datePicker.valueFormat': 'String value format',
 
   'demo.dateRangePicker.title': 'DateRangePicker',
   'demo.dateRangePicker.desc': 'Date range selection with independent start and end model bindings.',

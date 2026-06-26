@@ -30,7 +30,18 @@
     </y-card>
 
     <y-card :title="$t('demo.common.customFormat')" style="margin-top: 8px">
-      <DatePicker v-model="value6" :format="$t('demo.datePicker.yearMonthDay')" :placeholder="$t('demo.common.placeholder')" />
+      <DatePicker
+        v-model="value6"
+        :format="$t('demo.datePicker.yearMonthDay')"
+        :placeholder="$t('demo.common.placeholder')"
+      />
+    </y-card>
+
+    <y-card :title="$t('demo.datePicker.valueFormat')" style="margin-top: 8px">
+      <div class="demo-picker-field">
+        <DatePicker v-model="value8" value-format="yyyy-MM-dd 00:00:00" clearable />
+        <span class="demo-item-hint">{{ value8 ?? $t('demo.common.notSelected') }}</span>
+      </div>
     </y-card>
 
     <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
@@ -56,6 +67,7 @@ const value4 = ref<Date | null>(null)
 const value5 = ref<Date | null>(null)
 const value6 = ref<Date | null>(new Date())
 const value7 = ref<Date | null>(new Date(2026, 5, 17))
+const value8 = ref<string | null>('2026-06-17 00:00:00')
 const datePickerSize = ref<DemoSize>('default')
 const sizeOptions = [
   { label: 'small', value: 'small' },
