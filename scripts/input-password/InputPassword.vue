@@ -22,7 +22,7 @@
       />
     </div>
     <div class="yiz-input_clear" v-if="$props.clearable && modelValue && !props.disabled" @click="onClearClick">
-      <Icon size="14" :icon="DismissCircle32Filled" />
+      <Icon size="16" :icon="DismissCircle32Filled" />
     </div>
     <div class="yiz-input_suffix" v-if="$props.suffix || $slots.suffix">
       <template v-if="$props.suffix">

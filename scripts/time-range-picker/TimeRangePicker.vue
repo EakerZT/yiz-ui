@@ -51,7 +51,7 @@
           class="yiz-time-range-picker-clear"
           @click.stop="onClear"
         >
-          <Icon size="14" :icon="DismissCircle32Filled" />
+          <Icon size="16" :icon="DismissCircle32Filled" />
         </span>
       </Transition>
       <span class="yiz-time-range-picker-extra-suffix" v-if="$props.suffix || $slots.suffix">

@@ -28,7 +28,7 @@
             {{ item.label }}
           </slot>
         </span>
-        <Icon class="yiz-context-menu-sub-arrow" size="10" :icon="ChevronRight16Regular" />
+        <Icon class="yiz-context-menu-sub-arrow" size="16" :icon="ChevronRight16Regular" />
         <Transition name="yiz-context-menu-sub">
           <div
             v-if="hoveredSubmenu === item.value && item.children?.length"
@@ -49,7 +49,7 @@
         @mouseenter="onItemHover"
       >
         <span class="yiz-context-menu-item-check">
-          <Icon v-if="isChecked(item)" size="14" :icon="Checkmark16Regular" />
+          <Icon v-if="isChecked(item)" size="16" :icon="Checkmark16Regular" />
         </span>
         <slot name="item" :item="item" :index="idx">
           {{ item.label }}
@@ -65,7 +65,7 @@
         @mouseenter="onItemHover"
       >
         <span class="yiz-context-menu-item-radio">
-          <Icon v-if="isChecked(item)" size="14" :icon="CheckmarkCircle16Regular" />
+          <Icon v-if="isChecked(item)" size="16" :icon="CheckmarkCircle16Regular" />
         </span>
         <slot name="item" :item="item" :index="idx">
           {{ item.label }}

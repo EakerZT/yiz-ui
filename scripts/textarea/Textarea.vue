@@ -18,7 +18,7 @@
         {{ String(modelValue ?? '').length }} / {{ props.maxlength }}
       </span>
       <div v-if="props.clearable && modelValue" class="yiz-textarea-clear" @click="onClearClick">
-        <Icon size="14" :icon="DismissCircle32Filled" />
+        <Icon size="16" :icon="DismissCircle32Filled" />
       </div>
     </div>
   </div>

@@ -496,6 +496,7 @@ onBeforeUnmount(() => {
   display: inline-flex;
   align-items: center;
   width: 100%;
+  position: relative;
   height: 32px;
   padding: 0 11px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
@@ -539,16 +540,30 @@ onBeforeUnmount(() => {
   }
 }
 
-.yiz-datetime-picker-clear,
+.yiz-datetime-picker-clear {
+  position: absolute;
+  right: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.45);
+  transition: color 0.3s;
+  z-index: 1;
+
+  &:hover {
+    color: rgba(0, 0, 0, 0.88);
+  }
+}
+
 .yiz-datetime-picker-suffix {
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
   color: #999;
-}
-
-.yiz-datetime-picker-clear {
-  cursor: pointer;
+  transition: opacity 0.2s;
 }
 
 .yiz-datetime-picker-suffix--hidden {
@@ -794,7 +809,7 @@ onBeforeUnmount(() => {
 
 .yiz-datetime-picker-clear-zoom-enter-from,
 .yiz-datetime-picker-clear-zoom-leave-to {
-  transform: scale(0);
+  transform: translateY(-50%) scale(0);
   opacity: 0;
 }
 </style>

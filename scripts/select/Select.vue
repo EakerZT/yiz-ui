@@ -21,7 +21,7 @@
     </span>
     <Transition name="yiz-select-clear-zoom">
       <span v-if="clearable && modelValue != null && !disabled && (isHovering || open)" class="yiz-select-clear" @click.stop="onClear">
-        <Icon size="14" :icon="DismissCircle32Filled" />
+        <Icon size="16" :icon="DismissCircle32Filled" />
       </span>
     </Transition>
   </div>

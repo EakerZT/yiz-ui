@@ -51,7 +51,7 @@
           class="yiz-date-range-picker-clear"
           @click.stop="onClear"
         >
-          <Icon size="14" :icon="DismissCircle32Filled" />
+          <Icon size="16" :icon="DismissCircle32Filled" />
         </span>
       </Transition>
       <span class="yiz-date-range-picker-extra-suffix" v-if="$props.suffix || $slots.suffix">
@@ -64,7 +64,7 @@
             clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open)
         }"
         class="yiz-date-range-picker-suffix"
-        size="14"
+        size="16"
         :icon="CalendarLtr16Regular"
       />
     </div>
@@ -81,13 +81,13 @@
             <div class="yiz-date-range-picker-header">
               <Icon
                 class="yiz-date-range-picker-nav"
-                size="14"
+                size="16"
                 :icon="ChevronDoubleLeft16Regular"
                 @click="shiftYear('start', -1)"
               />
               <Icon
                 class="yiz-date-range-picker-nav"
-                size="14"
+                size="16"
                 :icon="ChevronLeft16Regular"
                 @click="shiftMonth('start', -1)"
               />
@@ -96,13 +96,13 @@
               </span>
               <Icon
                 class="yiz-date-range-picker-nav"
-                size="14"
+                size="16"
                 :icon="ChevronRight16Regular"
                 @click="shiftMonth('start', 1)"
               />
               <Icon
                 class="yiz-date-range-picker-nav"
-                size="14"
+                size="16"
                 :icon="ChevronDoubleRight16Regular"
                 @click="shiftYear('start', 1)"
               />
@@ -133,13 +133,13 @@
             <div class="yiz-date-range-picker-header">
               <Icon
                 class="yiz-date-range-picker-nav"
-                size="14"
+                size="16"
                 :icon="ChevronDoubleLeft16Regular"
                 @click="shiftYear('end', -1)"
               />
               <Icon
                 class="yiz-date-range-picker-nav"
-                size="14"
+                size="16"
                 :icon="ChevronLeft16Regular"
                 @click="shiftMonth('end', -1)"
               />
@@ -148,13 +148,13 @@
               </span>
               <Icon
                 class="yiz-date-range-picker-nav"
-                size="14"
+                size="16"
                 :icon="ChevronRight16Regular"
                 @click="shiftMonth('end', 1)"
               />
               <Icon
                 class="yiz-date-range-picker-nav"
-                size="14"
+                size="16"
                 :icon="ChevronDoubleRight16Regular"
                 @click="shiftYear('end', 1)"
               />
