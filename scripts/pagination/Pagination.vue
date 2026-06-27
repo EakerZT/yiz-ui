@@ -277,7 +277,7 @@ function commitSimplePage() {
   height: 32px;
   padding: 0 8px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 3px;
+  border-radius: 4px;
   background: #fff;
   color: #333;
   font-family: inherit;
@@ -331,7 +331,7 @@ function commitSimplePage() {
 .yiz-pagination-input {
   height: 32px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 3px;
+  border-radius: 4px;
   background: #fff;
   color: #333;
   font-family: inherit;

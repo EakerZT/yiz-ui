@@ -1,5 +1,5 @@
 <template>
-  <div ref="triggerRef" class="yiz-color-picker" :class="vClass" @click="onTriggerClick">
+  <div ref="triggerRef" class="yiz-color-picker" :class="vClass" @click="onTriggerClick" v-bind="$attrs">
     <span class="yiz-color-picker-prefix" v-if="$props.prefix || $slots.prefix">
       <template v-if="$props.prefix">{{ $props.prefix }}</template>
       <slot v-else name="prefix" />
@@ -22,10 +22,7 @@
         >
           <div class="yiz-color-picker-panel-white" />
           <div class="yiz-color-picker-panel-black" />
-          <span
-            class="yiz-color-picker-panel-thumb"
-            :style="{ left: `${saturation}%`, top: `${100 - brightness}%` }"
-          />
+          <span class="yiz-color-picker-panel-thumb" :style="{ left: `${saturation}%`, top: `${100 - brightness}%` }" />
         </div>
 
         <div class="yiz-color-picker-control-row">
@@ -64,7 +61,10 @@
               'yiz-color-picker-preset-active': normalizeColor(color) === previewBaseColor,
               'yiz-color-picker-preset-white': normalizeColor(color) === '#ffffff'
             }"
-            :style="{ backgroundColor: normalizeColor(color), '--yiz-color-picker-preset-color': normalizeColor(color) }"
+            :style="{
+              backgroundColor: normalizeColor(color),
+              '--yiz-color-picker-preset-color': normalizeColor(color)
+            }"
             type="button"
             :aria-label="normalizeColor(color)"
             @click="selectDraftColor(normalizeColor(color))"
@@ -540,10 +540,8 @@ onBeforeUnmount(() => {
   border-radius: 3px;
   background-image:
     linear-gradient(var(--yiz-color-picker-swatch-color), var(--yiz-color-picker-swatch-color)),
-    linear-gradient(45deg, #d9d9d9 25%, transparent 25%),
-    linear-gradient(-45deg, #d9d9d9 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #d9d9d9 75%),
-    linear-gradient(-45deg, transparent 75%, #d9d9d9 75%);
+    linear-gradient(45deg, #d9d9d9 25%, transparent 25%), linear-gradient(-45deg, #d9d9d9 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #d9d9d9 75%), linear-gradient(-45deg, transparent 75%, #d9d9d9 75%);
   background-position:
     0 0,
     0 0,
@@ -637,10 +635,8 @@ onBeforeUnmount(() => {
   border-radius: 4px;
   background-image:
     linear-gradient(var(--yiz-color-picker-swatch-color), var(--yiz-color-picker-swatch-color)),
-    linear-gradient(45deg, #d9d9d9 25%, transparent 25%),
-    linear-gradient(-45deg, #d9d9d9 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #d9d9d9 75%),
-    linear-gradient(-45deg, transparent 75%, #d9d9d9 75%);
+    linear-gradient(45deg, #d9d9d9 25%, transparent 25%), linear-gradient(-45deg, #d9d9d9 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #d9d9d9 75%), linear-gradient(-45deg, transparent 75%, #d9d9d9 75%);
   background-position:
     0 0,
     0 0,

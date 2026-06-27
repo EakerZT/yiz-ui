@@ -110,7 +110,7 @@ const onClick = (e: MouseEvent) => {
   font-weight: 400;
   line-height: 1;
   font-family: inherit;
-  height: 34px;
+  height: 32px;
   font-size: 14px;
   white-space: nowrap;
   outline: none;
@@ -242,7 +242,7 @@ const onClick = (e: MouseEvent) => {
 }
 
 .yiz-button-shape-circle {
-  width: 34px;
+  width: 32px;
   border-radius: 50%;
 
   & > .yiz-wave {
@@ -251,7 +251,7 @@ const onClick = (e: MouseEvent) => {
 }
 
 .yiz-button-size-small {
-  height: 28px;
+  height: 24px;
   font-size: 14px;
 
   &.yiz-button-shape-default {
@@ -259,12 +259,12 @@ const onClick = (e: MouseEvent) => {
   }
 
   &.yiz-button-shape-round {
-    border-radius: 14px;
+    border-radius: 12px;
     padding: 0 12px;
   }
 
   &.yiz-button-shape-circle {
-    width: 28px;
+    width: 24px;
   }
 
   & > .yiz-icon {
@@ -273,7 +273,7 @@ const onClick = (e: MouseEvent) => {
 }
 
 .yiz-button-size-default {
-  height: 34px;
+  height: 32px;
   font-size: 14px;
 
   &.yiz-button-shape-default {
@@ -281,12 +281,12 @@ const onClick = (e: MouseEvent) => {
   }
 
   &.yiz-button-shape-round {
-    border-radius: 20px;
+    border-radius: 16px;
     padding: 0 15px;
   }
 
   &.yiz-button-shape-circle {
-    width: 34px;
+    width: 32px;
   }
 
   & > .yiz-icon {

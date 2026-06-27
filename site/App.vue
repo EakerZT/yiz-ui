@@ -59,6 +59,7 @@ import FormDemo from './pages/FormDemo.vue'
 import DividerDemo from './pages/DividerDemo.vue'
 import DropmenuDemo from './pages/DropmenuDemo.vue'
 import InputDemo from './pages/InputDemo.vue'
+import InputGroupDemo from './pages/InputGroupDemo.vue'
 import InputPasswordDemo from './pages/InputPasswordDemo.vue'
 import InputNumberDemo from './pages/InputNumberDemo.vue'
 import LoadingDemo from './pages/LoadingDemo.vue'
@@ -104,6 +105,7 @@ const pages: Record<string, any> = {
   dropmenu: DropmenuDemo,
   drawer: DrawerDemo,
   input: InputDemo,
+  'input-group': InputGroupDemo,
   'input-password': InputPasswordDemo,
   'input-number': InputNumberDemo,
   loading: LoadingDemo,
@@ -147,6 +149,7 @@ const menuItems = computed(() => [
   { label: $t('demo.nav.drawer'), key: 'drawer' },
   { label: $t('demo.nav.icon'), key: 'icon' },
   { label: $t('demo.nav.input'), key: 'input' },
+  { label: $t('demo.nav.inputGroup'), key: 'input-group' },
   { label: $t('demo.nav.inputPassword'), key: 'input-password' },
   { label: $t('demo.nav.inputNumber'), key: 'input-number' },
   { label: $t('demo.nav.loading'), key: 'loading' },
