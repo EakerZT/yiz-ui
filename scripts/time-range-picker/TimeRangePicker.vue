@@ -26,7 +26,12 @@
         @blur="onInputBlur('start')"
         @keydown.enter.prevent.stop="confirmFromInput('start')"
       />
-      <span class="yiz-time-range-picker-separator">{{ separator }}</span>
+      <span class="yiz-time-range-picker-separator">
+        <slot name="separator">
+          <Icon v-if="separator === '-'" size="16" :icon="ArrowRight16Regular" />
+          <template v-else>{{ separator }}</template>
+        </slot>
+      </span>
       <input
         ref="endInputRef"
         class="yiz-time-range-picker-segment"
@@ -183,12 +188,18 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { Clock16Regular, DismissCircle32Filled } from '@vicons/fluent'
+import { ArrowRight16Regular, Clock16Regular, DismissCircle32Filled } from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import { Icon } from '../icon'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t } from '../locale'
 import { nextZIndex } from '../zIndex'
+
+defineSlots<{
+  prefix: unknown
+  separator: unknown
+  suffix: unknown
+}>()
 
 type TimeRangeSide = 'start' | 'end'
 type TimeUnit = 'hour' | 'minute' | 'second'
@@ -769,6 +780,8 @@ onBeforeUnmount(() => {
 }
 
 .yiz-time-range-picker-separator {
+  display: inline-flex;
+  align-items: center;
   color: #999;
   flex-shrink: 0;
 }

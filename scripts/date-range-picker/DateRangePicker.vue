@@ -26,7 +26,12 @@
         @blur="onInputBlur('start')"
         @keydown.enter.prevent.stop="confirmFromInput('start')"
       />
-      <span class="yiz-date-range-picker-separator">{{ separator }}</span>
+      <span class="yiz-date-range-picker-separator">
+        <slot name="separator">
+          <Icon v-if="separator === '-'" size="16" :icon="ArrowRight16Regular" />
+          <template v-else>{{ separator }}</template>
+        </slot>
+      </span>
       <input
         ref="endInputRef"
         class="yiz-date-range-picker-segment"
@@ -188,6 +193,7 @@
 <script lang="ts" setup>
 import { computed, defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, watch, type PropType } from 'vue'
 import {
+  ArrowRight16Regular,
   CalendarLtr16Regular,
   ChevronDoubleLeft16Regular,
   ChevronDoubleRight16Regular,
@@ -200,6 +206,12 @@ import { Icon } from '../icon'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t, $tList } from '../locale'
 import { nextZIndex } from '../zIndex'
+
+defineSlots<{
+  prefix: unknown
+  separator: unknown
+  suffix: unknown
+}>()
 
 type DateRangeSide = 'start' | 'end'
 type DateRangeValue = Date | string | null
@@ -931,6 +943,8 @@ onBeforeUnmount(() => {
 }
 
 .yiz-date-range-picker-separator {
+  display: inline-flex;
+  align-items: center;
   color: #999;
   flex-shrink: 0;
 }

@@ -27,7 +27,12 @@
         @keydown.enter="onInputEnter('start', $event)"
         @keyup.enter="onInputEnter('start', $event)"
       />
-      <span class="yiz-datetime-range-picker-separator">{{ separator }}</span>
+      <span class="yiz-datetime-range-picker-separator">
+        <slot name="separator">
+          <Icon v-if="separator === '-'" size="16" :icon="ArrowRight16Regular" />
+          <template v-else>{{ separator }}</template>
+        </slot>
+      </span>
       <input
         ref="endInputRef"
         class="yiz-datetime-range-picker-segment"
@@ -321,6 +326,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import {
+  ArrowRight16Regular,
   CalendarClock20Regular,
   ChevronDoubleLeft16Regular,
   ChevronDoubleRight16Regular,
@@ -334,6 +340,12 @@ import LinkButton from '../link-button/LinkButton.vue'
 import { $t, $tList } from '../locale'
 import { nextZIndex } from '../zIndex'
 import { formatDateTime, parseDateTime, parseDateTimeValue, type DateTimeValue } from '../datetime-utils'
+
+defineSlots<{
+  prefix: unknown
+  separator: unknown
+  suffix: unknown
+}>()
 
 type DateTimeRangeSide = 'start' | 'end'
 type TimeUnit = 'hour' | 'minute' | 'second'
@@ -1029,6 +1041,8 @@ onBeforeUnmount(() => {
 }
 
 .yiz-datetime-range-picker-separator {
+  display: inline-flex;
+  align-items: center;
   color: #999;
   flex-shrink: 0;
 }
