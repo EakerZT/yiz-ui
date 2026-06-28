@@ -626,7 +626,7 @@ onBeforeUnmount(() => {
   height: 32px;
   padding: 0 11px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 4px;
+  border-radius: var(--yiz-base-border-radius-default);
   background: #fff;
   cursor: pointer;
   transition:
@@ -694,6 +694,7 @@ onBeforeUnmount(() => {
 
 .yiz-date-picker-small .yiz-date-picker-input {
   height: 24px;
+  border-radius: var(--yiz-base-border-radius-small);
 
   input {
     font-size: 13px;
@@ -702,6 +703,7 @@ onBeforeUnmount(() => {
 
 .yiz-date-picker-large .yiz-date-picker-input {
   height: 40px;
+  border-radius: var(--yiz-base-border-radius-large);
 
   input {
     font-size: 16px;
@@ -766,7 +768,7 @@ onBeforeUnmount(() => {
   position: fixed;
   background: #fff;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 6px;
+  border-radius: var(--yiz-pane-border-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 8px 12px;
   width: 260px;
@@ -805,7 +807,7 @@ onBeforeUnmount(() => {
   color: #333;
   cursor: pointer;
   padding: 2px 0;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-item-border-radius);
   transition: background 0.2s;
 
   &:hover {
@@ -826,7 +828,7 @@ onBeforeUnmount(() => {
   text-align: center;
   font-size: 13px;
   color: #666;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-item-border-radius);
   cursor: pointer;
   transition:
     background 0.2s,
@@ -900,7 +902,7 @@ onBeforeUnmount(() => {
     .yiz-date-picker-cell-inner:hover {
       background: var(--yiz-color-primary);
       color: #fff;
-      border-radius: 4px;
+      border-radius: var(--yiz-pane-item-border-radius);
     }
   }
 }
@@ -913,7 +915,7 @@ onBeforeUnmount(() => {
   height: 30px;
   font-size: 13px;
   color: #333;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-item-border-radius);
   transition:
     background 0.2s,
     color 0.2s;

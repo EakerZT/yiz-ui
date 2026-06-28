@@ -869,7 +869,7 @@ onBeforeUnmount(() => {
   height: 32px;
   padding: 0 8px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 4px;
+  border-radius: var(--yiz-base-border-radius-default);
   background: #fff;
   cursor: pointer;
   transition:
@@ -992,11 +992,13 @@ onBeforeUnmount(() => {
 
 .yiz-date-range-picker-small .yiz-date-range-picker-input {
   height: 24px;
+  border-radius: var(--yiz-base-border-radius-small);
   font-size: 13px;
 }
 
 .yiz-date-range-picker-large .yiz-date-range-picker-input {
   height: 40px;
+  border-radius: var(--yiz-base-border-radius-large);
   font-size: 16px;
 }
 
@@ -1005,7 +1007,7 @@ onBeforeUnmount(() => {
   width: 560px;
   background: #fff;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 6px;
+  border-radius: var(--yiz-pane-border-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   user-select: none;
 }
@@ -1058,7 +1060,7 @@ onBeforeUnmount(() => {
   color: #333;
   cursor: pointer;
   padding: 2px 0;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-item-border-radius);
   transition: background 0.2s;
 }
 
@@ -1078,7 +1080,7 @@ onBeforeUnmount(() => {
   text-align: center;
   font-size: 13px;
   color: #666;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-item-border-radius);
   cursor: pointer;
   transition:
     background 0.2s,
@@ -1147,7 +1149,7 @@ onBeforeUnmount(() => {
 .yiz-date-range-picker-cell-selected .yiz-date-range-picker-cell-inner:hover {
   background: var(--yiz-color-primary);
   color: #fff;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-item-border-radius);
 }
 
 .yiz-date-range-picker-cell-inner {
@@ -1158,7 +1160,7 @@ onBeforeUnmount(() => {
   height: 30px;
   font-size: 13px;
   color: #333;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-item-border-radius);
   transition:
     background 0.2s,
     color 0.2s;

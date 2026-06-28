@@ -231,7 +231,7 @@ onBeforeUnmount(() => window.removeEventListener('resize', onViewportResize))
 
 .yiz-dialog {
   background: #fff;
-  border-radius: 8px;
+  border-radius: var(--yiz-pane-border-radius);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;

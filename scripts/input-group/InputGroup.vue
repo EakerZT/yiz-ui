@@ -45,7 +45,7 @@ const vClass = computed(() => ({
   --yiz-input-group-height: 32px;
   --yiz-input-group-inner-height: 30px;
   --yiz-input-group-font-size: 14px;
-  --yiz-input-group-radius: 4px;
+  --yiz-input-group-radius: var(--yiz-base-border-radius-default);
 
   display: inline-flex;
   align-items: stretch;
@@ -55,12 +55,14 @@ const vClass = computed(() => ({
     --yiz-input-group-height: 24px;
     --yiz-input-group-inner-height: 22px;
     --yiz-input-group-font-size: 13px;
+    --yiz-input-group-radius: var(--yiz-base-border-radius-small);
   }
 
   &.yiz-input-group-large {
     --yiz-input-group-height: 40px;
     --yiz-input-group-inner-height: 38px;
     --yiz-input-group-font-size: 16px;
+    --yiz-input-group-radius: var(--yiz-base-border-radius-large);
   }
 
   &.yiz-input-group-block {

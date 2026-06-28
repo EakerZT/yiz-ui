@@ -156,7 +156,7 @@ const onClick = (e: MouseEvent) => {
   & > .yiz-wave {
     position: absolute;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 1000;
     left: 0;
     right: 0;
     bottom: 0;
@@ -224,11 +224,11 @@ const onClick = (e: MouseEvent) => {
 }
 
 .yiz-button-shape-default {
-  border-radius: 3px;
+  border-radius: var(--yiz-base-border-radius-default);
   padding: 0 14px;
 
   & > .yiz-wave {
-    border-radius: 3px;
+    border-radius: var(--yiz-base-border-radius-default);
   }
 }
 
@@ -255,7 +255,12 @@ const onClick = (e: MouseEvent) => {
   font-size: 14px;
 
   &.yiz-button-shape-default {
+    border-radius: var(--yiz-base-border-radius-small);
     padding: 0 10px;
+
+    & > .yiz-wave {
+      border-radius: var(--yiz-base-border-radius-small);
+    }
   }
 
   &.yiz-button-shape-round {
@@ -277,7 +282,12 @@ const onClick = (e: MouseEvent) => {
   font-size: 14px;
 
   &.yiz-button-shape-default {
+    border-radius: var(--yiz-base-border-radius-default);
     padding: 0 14px;
+
+    & > .yiz-wave {
+      border-radius: var(--yiz-base-border-radius-default);
+    }
   }
 
   &.yiz-button-shape-round {
@@ -299,7 +309,12 @@ const onClick = (e: MouseEvent) => {
   font-size: 16px;
 
   &.yiz-button-shape-default {
+    border-radius: var(--yiz-base-border-radius-large);
     padding: 0 18px;
+
+    & > .yiz-wave {
+      border-radius: var(--yiz-base-border-radius-large);
+    }
   }
 
   &.yiz-button-shape-round {

@@ -354,7 +354,7 @@ onBeforeUnmount(() => {
   height: 32px;
   padding: 0 11px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 4px;
+  border-radius: var(--yiz-base-border-radius-default);
   background: #fff;
   cursor: pointer;
   user-select: none;
@@ -388,11 +388,13 @@ onBeforeUnmount(() => {
 
   &.yiz-select-small {
     height: 24px;
+    border-radius: var(--yiz-base-border-radius-small);
     font-size: 13px;
   }
 
   &.yiz-select-large {
     height: 40px;
+    border-radius: var(--yiz-base-border-radius-large);
     font-size: 16px;
   }
 
@@ -500,7 +502,7 @@ onBeforeUnmount(() => {
   position: fixed;
   background: #fff;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-border-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   padding: 4px 0;
 }
@@ -513,7 +515,7 @@ onBeforeUnmount(() => {
 .yiz-select-option {
   margin: 4px;
   padding: 8px 12px;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-item-border-radius);
   font-size: 14px;
   color: #333;
   cursor: pointer;

@@ -466,7 +466,7 @@ onBeforeUnmount(() => {
   min-width: 116px;
   padding: 0 10px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 4px;
+  border-radius: var(--yiz-base-border-radius-default);
   background: #fff;
   color: #333;
   font-size: 14px;
@@ -499,6 +499,7 @@ onBeforeUnmount(() => {
     height: 24px;
     min-width: 104px;
     padding: 0 8px;
+    border-radius: var(--yiz-base-border-radius-small);
     font-size: 13px;
 
     .yiz-color-picker-swatch {
@@ -511,6 +512,7 @@ onBeforeUnmount(() => {
     height: 40px;
     min-width: 128px;
     padding: 0 12px;
+    border-radius: var(--yiz-base-border-radius-large);
     font-size: 16px;
 
     .yiz-color-picker-swatch {
@@ -537,7 +539,7 @@ onBeforeUnmount(() => {
   width: 18px;
   height: 18px;
   border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 3px;
+  border-radius: var(--yiz-pane-item-border-radius);
   background-image:
     linear-gradient(var(--yiz-color-picker-swatch-color), var(--yiz-color-picker-swatch-color)),
     linear-gradient(45deg, #d9d9d9 25%, transparent 25%), linear-gradient(-45deg, #d9d9d9 25%, transparent 25%),
@@ -583,7 +585,7 @@ onBeforeUnmount(() => {
   width: 258px;
   padding: 12px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-border-radius);
   background: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }

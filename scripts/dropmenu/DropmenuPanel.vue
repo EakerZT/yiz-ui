@@ -167,7 +167,7 @@ function onChildSelect(item: DropmenuOption) {
   overflow: auto;
   padding: 4px 0;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-border-radius);
   background: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
@@ -181,7 +181,7 @@ function onChildSelect(item: DropmenuOption) {
   height: 32px;
   margin: 2px 4px;
   padding: 0 8px;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-item-border-radius);
   color: #333;
   cursor: pointer;
   font-size: 14px;

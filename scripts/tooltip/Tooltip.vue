@@ -70,7 +70,7 @@ function onMouseLeave() {
 .yiz-tooltip-content {
   background: #303133;
   color: #fff;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-border-radius);
   padding: 6px 12px;
   line-height: 1.4;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);

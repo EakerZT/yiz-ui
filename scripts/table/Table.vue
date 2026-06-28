@@ -963,7 +963,7 @@ onUnmounted(() => {
   background: rgba(0, 0, 0, 0.75);
   color: #fff;
   padding: 4px 8px;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-border-radius);
   font-size: 12px;
   pointer-events: none;
   white-space: nowrap;

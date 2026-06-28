@@ -179,7 +179,7 @@ function onChildSelect(item: MenuItem) {
 
   > .yiz-menu {
     border: 1px solid var(--yiz-color-border, #d9d9d9);
-    border-radius: 4px;
+    border-radius: var(--yiz-pane-border-radius);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   }
 }
@@ -189,7 +189,7 @@ function onChildSelect(item: MenuItem) {
 
   > .yiz-menu {
     border: 1px solid var(--yiz-color-border, #d9d9d9);
-    border-radius: 4px;
+    border-radius: var(--yiz-pane-border-radius);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   }
 }

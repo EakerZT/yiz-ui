@@ -500,7 +500,7 @@ onBeforeUnmount(() => {
   height: 32px;
   padding: 0 11px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 4px;
+  border-radius: var(--yiz-base-border-radius-default);
   background: #fff;
   box-sizing: border-box;
   gap: 4px;
@@ -528,6 +528,7 @@ onBeforeUnmount(() => {
 
 .yiz-datetime-picker-small .yiz-datetime-picker-input {
   height: 24px;
+  border-radius: var(--yiz-base-border-radius-small);
   input {
     font-size: 13px;
   }
@@ -535,6 +536,7 @@ onBeforeUnmount(() => {
 
 .yiz-datetime-picker-large .yiz-datetime-picker-input {
   height: 40px;
+  border-radius: var(--yiz-base-border-radius-large);
   input {
     font-size: 16px;
   }
@@ -575,7 +577,7 @@ onBeforeUnmount(() => {
   width: 448px;
   background: #fff;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 6px;
+  border-radius: var(--yiz-pane-border-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   user-select: none;
   font-size: 14px;
@@ -623,7 +625,7 @@ onBeforeUnmount(() => {
   color: #333;
   cursor: pointer;
   padding: 2px 0;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-item-border-radius);
   transition: background 0.2s;
 }
 
@@ -643,7 +645,7 @@ onBeforeUnmount(() => {
   font-size: 13px;
   color: #666;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-item-border-radius);
   transition:
     background 0.2s,
     color 0.2s;
@@ -699,7 +701,7 @@ onBeforeUnmount(() => {
   height: 28px;
   font-size: 13px;
   color: #333;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-item-border-radius);
   transition:
     background 0.2s,
     color 0.2s;
@@ -761,7 +763,7 @@ onBeforeUnmount(() => {
   padding: 6px 0;
   font-size: 14px;
   color: #666;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-item-border-radius);
   cursor: pointer;
   transition:
     background 0.15s,

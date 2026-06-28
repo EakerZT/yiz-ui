@@ -19,7 +19,7 @@
 
 ## 特性 / Features
 
-- 🌗 **40+ 组件** — 涵盖表单、数据展示、导航、反馈等常用场景
+- 🌗 **45+ 组件** — 涵盖表单、数据展示、导航、反馈等常用场景
 - 🔧 **TypeScript** — 完整类型支持，严格模式开发
 - 🎨 **CSS 变量主题** — 通过 `--yiz-*` 自定义属性轻松定制
 - 🌍 **内置 i18n** — 内置中英文，支持动态切换和扩展语言
@@ -27,7 +27,7 @@
 - 📦 **Vue 3.4+** — 使用 `defineModel`、`<script setup>` 等最新特性
 - 🎯 **无外部图标依赖** — 弹窗关闭按钮使用内联 SVG
 
-> 🌗 **40+ components** covering forms, data display, navigation, feedback, and more
+> 🌗 **45+ components** covering forms, data display, navigation, feedback, and more
 > 🔧 **TypeScript-first** — full type safety, developed in strict mode
 > 🎨 **CSS variable theming** — customize via `--yiz-*` custom properties
 > 🌍 **Built-in i18n** — Chinese & English out of the box, extensible via API
@@ -159,6 +159,8 @@ showContextMenu(
 | ColorPicker | `YColorPicker` | 颜色选择器 — HSV 面板 + 预设色 |
 | DatePicker | `YDatePicker` | 日期选择器 — 月份/年份快速跳转 |
 | DateRangePicker | `YDateRangePicker` | 日期范围选择器 — 自动排序起止日期 |
+| DateTimePicker | `YDateTimePicker` / `y-datetime-picker` | 日期时间选择器 — 日期面板 + 时间列 |
+| DateTimeRangePicker | `YDateTimeRangePicker` / `y-datetime-range-picker` | 日期时间范围选择器 — 起止日期时间选择 |
 | Dialog | `YDialog` | 对话框 — 支持拖拽、ESC 关闭 |
 | Divider | `YDivider` | 分割线 — 水平/垂直、虚线、带文本 |
 | Drawer | `YDrawer` | 抽屉 — 四方向、可调节尺寸 |
@@ -168,6 +170,7 @@ showContextMenu(
 | FormItem | `YFormItem` | 表单项 — 标签、必填标记、错误提示 |
 | Icon | `YIcon` | 图标 — 渲染 Vue 组件为图标 |
 | Input | `YInput` | 输入框 — 前后缀、可清空 |
+| InputGroup | `YInputGroup` | 输入组合 — 横向拼接输入型组件、Addon、统一尺寸 |
 | InputNumber | `YInputNumber` | 数字输入 — 步进按钮、键盘操作 |
 | InputPassword | `YInputPassword` | 密码输入 — 显示/隐藏切换 |
 | LinkButton | `YLinkButton` | 链接按钮 — 文字按钮样式 |
@@ -218,7 +221,7 @@ showContextMenu(
 </template>
 ```
 
-适用组件包括：`Button`、`Card`、`ColorPicker`、`DatePicker`、`DateRangePicker`、`Empty`、`Input`、`InputNumber`、`Loading`、`Pagination`、`RadioButton`、`RadioButtonGroup`、`Segmented`、`Select`、`Switch`、`Table`、`Tag`、`TimePicker`、`TimeRangePicker`、`Timeline`。
+适用组件包括：`Button`、`Card`、`ColorPicker`、`DatePicker`、`DateRangePicker`、`DateTimePicker`、`DateTimeRangePicker`、`Empty`、`Input`、`InputGroup`、`InputNumber`、`Loading`、`Pagination`、`RadioButton`、`RadioButtonGroup`、`Segmented`、`Select`、`Switch`、`Table`、`Tag`、`TimePicker`、`TimeRangePicker`、`Timeline`。
 
 > `Button` uses `default` for the middle size. The old `middle` value is not supported.
 
@@ -311,6 +314,14 @@ npm version patch  # or minor / major
 # 发布（prepublishOnly 自动执行 typecheck + build）
 npm publish
 ```
+
+---
+
+## 致谢 / Acknowledgements
+
+- [Sortable](https://github.com/SortableJS/Sortable) — `SortableBox` 设计过程中参考了其拖拽排序行为、事件模型和边界处理。
+- [vue.draggable.next](https://github.com/SortableJS/vue.draggable.next) — `SortableBox` 设计过程中参考了其 Vue 组件封装方式和数据同步思路。
+- [OverlayScrollbars](https://github.com/KingSora/OverlayScrollbars) — `ScrollBox` 设计过程中参考了其自定义滚动条交互与覆盖式滚动体验。
 
 ---
 

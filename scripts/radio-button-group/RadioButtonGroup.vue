@@ -100,13 +100,37 @@ provide('yizRadioButtonGroup', {
   }
 
   .yiz-radio-button:first-child {
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
+    border-top-left-radius: var(--yiz-base-border-radius-default);
+    border-bottom-left-radius: var(--yiz-base-border-radius-default);
   }
 
   .yiz-radio-button:last-child {
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
+    border-top-right-radius: var(--yiz-base-border-radius-default);
+    border-bottom-right-radius: var(--yiz-base-border-radius-default);
+  }
+}
+
+.yiz-radio-button-group-small {
+  .yiz-radio-button:first-child {
+    border-top-left-radius: var(--yiz-base-border-radius-small);
+    border-bottom-left-radius: var(--yiz-base-border-radius-small);
+  }
+
+  .yiz-radio-button:last-child {
+    border-top-right-radius: var(--yiz-base-border-radius-small);
+    border-bottom-right-radius: var(--yiz-base-border-radius-small);
+  }
+}
+
+.yiz-radio-button-group-large {
+  .yiz-radio-button:first-child {
+    border-top-left-radius: var(--yiz-base-border-radius-large);
+    border-bottom-left-radius: var(--yiz-base-border-radius-large);
+  }
+
+  .yiz-radio-button:last-child {
+    border-top-right-radius: var(--yiz-base-border-radius-large);
+    border-bottom-right-radius: var(--yiz-base-border-radius-large);
   }
 }
 

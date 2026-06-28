@@ -352,7 +352,7 @@ function onCollapsedPopupSelect(item: MenuItem) {
   align-items: center;
   height: 40px;
   margin: 4px;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-item-border-radius);
   padding: 0 12px;
   font-size: 14px;
   color: #333;

@@ -197,7 +197,7 @@ function enableIndicatorTransition() {
   padding: 2px;
   vertical-align: middle;
   background: #f5f5f5;
-  border-radius: 4px;
+  border-radius: var(--yiz-base-border-radius-default);
   color: #333;
 }
 
@@ -207,7 +207,7 @@ function enableIndicatorTransition() {
   bottom: 2px;
   left: 0;
   z-index: 0;
-  border-radius: 3px;
+  border-radius: var(--yiz-base-border-radius-default);
   background: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
   pointer-events: none;
@@ -247,7 +247,7 @@ function enableIndicatorTransition() {
   justify-content: center;
   min-width: 68px;
   padding: 4px 12px;
-  border-radius: 3px;
+  border-radius: var(--yiz-base-border-radius-default);
   color: #333;
   font-size: 14px;
   line-height: 22px;
@@ -295,6 +295,13 @@ function enableIndicatorTransition() {
 }
 
 .yiz-segmented-small {
+  border-radius: var(--yiz-base-border-radius-small);
+
+  .yiz-segmented-indicator,
+  .yiz-segmented-item {
+    border-radius: var(--yiz-base-border-radius-small);
+  }
+
   .yiz-segmented-item {
     min-width: 56px;
     padding: 2px 8px;
@@ -304,6 +311,13 @@ function enableIndicatorTransition() {
 }
 
 .yiz-segmented-large {
+  border-radius: var(--yiz-base-border-radius-large);
+
+  .yiz-segmented-indicator,
+  .yiz-segmented-item {
+    border-radius: var(--yiz-base-border-radius-large);
+  }
+
   .yiz-segmented-item {
     min-width: 80px;
     padding: 6px 16px;

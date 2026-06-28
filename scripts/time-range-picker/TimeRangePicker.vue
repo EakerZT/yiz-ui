@@ -710,7 +710,7 @@ onBeforeUnmount(() => {
   height: 32px;
   padding: 0 8px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 4px;
+  border-radius: var(--yiz-base-border-radius-default);
   background: #fff;
   cursor: pointer;
   transition:
@@ -829,11 +829,13 @@ onBeforeUnmount(() => {
 
 .yiz-time-range-picker-small .yiz-time-range-picker-input {
   height: 24px;
+  border-radius: var(--yiz-base-border-radius-small);
   font-size: 13px;
 }
 
 .yiz-time-range-picker-large .yiz-time-range-picker-input {
   height: 40px;
+  border-radius: var(--yiz-base-border-radius-large);
   font-size: 16px;
 }
 
@@ -842,7 +844,7 @@ onBeforeUnmount(() => {
   width: 520px;
   background: #fff;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 6px;
+  border-radius: var(--yiz-pane-border-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   user-select: none;
 }
@@ -903,7 +905,7 @@ onBeforeUnmount(() => {
   font-size: 14px;
   color: #666;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-item-border-radius);
   transition:
     background 0.15s,
     color 0.15s;

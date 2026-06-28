@@ -286,7 +286,7 @@ function onChildSelect(item: ContextMenuItem) {
   user-select: none;
   background: #fff;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-border-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   padding: 4px 0;
   position: relative;
@@ -324,7 +324,7 @@ function onChildSelect(item: ContextMenuItem) {
   display: flex;
   align-items: center;
   height: 24px;
-  border-radius: 4px;
+  border-radius: var(--yiz-pane-item-border-radius);
   margin: 4px;
   padding: 0 12px;
   font-size: 14px;

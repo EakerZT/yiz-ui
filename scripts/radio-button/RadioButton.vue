@@ -112,6 +112,7 @@ function onChange() {
   min-width: 72px;
   padding: 6px 14px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
+  border-radius: var(--yiz-base-border-radius-default);
   background: #fff;
   color: #333;
   font-size: 14px;
@@ -176,6 +177,7 @@ function onChange() {
 .yiz-radio-button-small {
   min-width: 56px;
   padding: 4px 10px;
+  border-radius: var(--yiz-base-border-radius-small);
   font-size: 13px;
   line-height: 18px;
 }
@@ -183,6 +185,7 @@ function onChange() {
 .yiz-radio-button-large {
   min-width: 84px;
   padding: 8px 18px;
+  border-radius: var(--yiz-base-border-radius-large);
   font-size: 15px;
   line-height: 22px;
 }

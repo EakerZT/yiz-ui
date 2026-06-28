@@ -178,7 +178,7 @@ defineExpose({
   align-items: center;
   height: 32px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 4px;
+  border-radius: var(--yiz-base-border-radius-default);
   transition:
     border-color 0.3s,
     box-shadow 0.3s;
@@ -205,10 +205,12 @@ defineExpose({
 
   &.yiz-input-number-small {
     height: 24px;
+    border-radius: var(--yiz-base-border-radius-small);
   }
 
   &.yiz-input-number-large {
     height: 40px;
+    border-radius: var(--yiz-base-border-radius-large);
   }
 
   .yiz-form-item-error-status &:not(.yiz-input-number-disabled) {

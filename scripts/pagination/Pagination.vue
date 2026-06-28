@@ -14,14 +14,13 @@
 
     <template v-if="simple">
       <span class="yiz-pagination-simple">
-        <input
+        <Input
           class="yiz-pagination-input"
-          :value="simplePageInput"
+          v-model:value="simplePageInput"
           :disabled="disabled"
-          inputmode="numeric"
-          @input="simplePageInput = ($event.target as HTMLInputElement).value"
-          @keydown.enter="commitSimplePage"
-          @blur="commitSimplePage"
+          :size="size"
+          @press-enter="commitSimplePage"
+          @focusout="commitSimplePage"
         />
         <span class="yiz-pagination-simple-split">/</span>
         <span>{{ pageCount }}</span>
@@ -68,13 +67,12 @@
 
     <span v-if="showQuickJumper" class="yiz-pagination-jumper">
       <span>{{ $t('pagination.goTo') }}</span>
-      <input
+      <Input
         class="yiz-pagination-input"
-        :value="quickJumpInput"
+        v-model:value="quickJumpInput"
         :disabled="disabled"
-        inputmode="numeric"
-        @input="quickJumpInput = ($event.target as HTMLInputElement).value"
-        @keydown.enter="commitQuickJump"
+        :size="size"
+        @press-enter="commitQuickJump"
       />
       <button class="yiz-pagination-go" type="button" :disabled="disabled" @click="commitQuickJump">{{ $t('pagination.go') }}</button>
     </span>
@@ -84,6 +82,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
 import { $t } from '../locale'
+import Input from '../input/Input.vue'
 import Select from '../select/Select.vue'
 
 type PagerItem = number | 'prev-more' | 'next-more'
@@ -277,7 +276,7 @@ function commitSimplePage() {
   height: 32px;
   padding: 0 8px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 4px;
+  border-radius: var(--yiz-base-border-radius-default);
   background: #fff;
   color: #333;
   font-family: inherit;
@@ -309,8 +308,7 @@ function commitSimplePage() {
 }
 
 .yiz-pagination-item:disabled,
-.yiz-pagination-go:disabled,
-.yiz-pagination-input:disabled {
+.yiz-pagination-go:disabled {
   cursor: not-allowed;
   color: #bfbfbf;
   background: #f5f5f5;
@@ -329,28 +327,11 @@ function commitSimplePage() {
 }
 
 .yiz-pagination-input {
-  height: 32px;
-  border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 4px;
-  background: #fff;
-  color: #333;
-  font-family: inherit;
-  font-size: 14px;
-  outline: none;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
-}
-
-.yiz-pagination-input {
   width: 52px;
-  padding: 0 8px;
-  text-align: center;
-}
 
-.yiz-pagination-input:focus {
-  border-color: var(--yiz-color-primary);
-  box-shadow: 0 0 0 2px var(--yiz-color-primary-light9);
+  .yiz-input_inner {
+    text-align: center;
+  }
 }
 
 .yiz-pagination-size-select {
@@ -371,13 +352,9 @@ function commitSimplePage() {
     min-width: 26px;
     height: 26px;
     padding: 0 6px;
+    border-radius: var(--yiz-base-border-radius-small);
     font-size: 13px;
     line-height: 24px;
-  }
-
-  .yiz-pagination-input {
-    height: 26px;
-    font-size: 13px;
   }
 
   .yiz-pagination-input {
@@ -398,14 +375,13 @@ function commitSimplePage() {
     min-width: 40px;
     height: 40px;
     padding: 0 10px;
+    border-radius: var(--yiz-base-border-radius-large);
     font-size: 16px;
     line-height: 38px;
   }
 
   .yiz-pagination-input {
     width: 58px;
-    height: 40px;
-    font-size: 16px;
   }
 
   .yiz-pagination-size-select {

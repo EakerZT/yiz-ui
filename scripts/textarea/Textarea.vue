@@ -86,7 +86,7 @@ defineExpose({
 <style lang="less">
 .yiz-textarea {
   display: inline-block;
-  border-radius: 4px;
+  border-radius: var(--yiz-base-border-radius-default);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   transition: border-color 0.3s, box-shadow 0.3s;
   font-family: inherit;

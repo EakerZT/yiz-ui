@@ -165,7 +165,7 @@ onBeforeUnmount(clearTimer)
   min-height: 72px;
   padding: 16px 40px 16px 16px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  border-radius: 6px;
+  border-radius: var(--yiz-pane-border-radius);
   background: #fff;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
   color: #333;

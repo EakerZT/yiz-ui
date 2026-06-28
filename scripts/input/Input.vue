@@ -102,7 +102,7 @@ defineExpose({
 
 <style lang="less">
 .yiz-input {
-  border-radius: 4px;
+  border-radius: var(--yiz-base-border-radius-default);
   border: 1px solid var(--yiz-color-border);
   transition: 0.3s all;
   height: 32px;
@@ -134,6 +134,7 @@ defineExpose({
 
   &.yiz-input-small {
     height: 24px;
+    border-radius: var(--yiz-base-border-radius-small);
     font-size: 13px;
 
     .yiz-input_outer .yiz-input_inner {
@@ -145,6 +146,7 @@ defineExpose({
 
   &.yiz-input-large {
     height: 40px;
+    border-radius: var(--yiz-base-border-radius-large);
     font-size: 16px;
 
     .yiz-input_outer .yiz-input_inner {
