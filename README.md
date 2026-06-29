@@ -145,6 +145,36 @@ showContextMenu(
 
 > Supports five item types: `item` / `divider` / `submenu` / `checkbox` / `radiogroup`; nested submenus auto-flip at viewport edges.
 
+### LoadingBar（命令式调用） / LoadingBar (imperative API)
+
+```ts
+import { loadingBar } from '@eakerzt/yiz-ui'
+
+// 开始 / 完成
+loadingBar.start()
+loadingBar.done()
+
+// 失败态：变红后完成
+loadingBar.fail()
+
+// 精确控制
+loadingBar.set(0.4)
+loadingBar.inc()
+loadingBar.dec()
+loadingBar.pause()
+loadingBar.resume()
+
+// 配置（颜色 / 高度 / 不确定模式 / 方向 等）
+loadingBar.configure({ color: '#52c41a', height: '3px', indeterminate: true, direction: 'rtl' })
+
+// 重置为默认配置
+loadingBar.reset()
+```
+
+默认色取 `--yiz-color-primary`，`fail()` 取 `--yiz-color-error`；可通过 `configure({ color })` 自定义。不确定模式（`indeterminate: true`）显示来回滑动的动画条，不显示进度百分比。
+
+> Default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-error`. Customize via `configure({ color })`. Indeterminate mode (`indeterminate: true`) shows an animated sliding bar with no percentage.
+
 ---
 
 ## 组件 / Components
@@ -322,6 +352,7 @@ npm publish
 - [Sortable](https://github.com/SortableJS/Sortable) — `SortableBox` 设计过程中参考了其拖拽排序行为、事件模型和边界处理。
 - [vue.draggable.next](https://github.com/SortableJS/vue.draggable.next) — `SortableBox` 设计过程中参考了其 Vue 组件封装方式和数据同步思路。
 - [OverlayScrollbars](https://github.com/KingSora/OverlayScrollbars) — `ScrollBox` 设计过程中参考了其自定义滚动条交互与覆盖式滚动体验。
+- [BProgress](https://github.com/imskyleen/bprogress) — `LoadingBar` 引擎移植自其 core 实现，参考了进度状态机、trickle 增量策略与定位 CSS 计算思路。
 
 ---
 

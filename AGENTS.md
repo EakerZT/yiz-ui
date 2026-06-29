@@ -55,7 +55,7 @@ yarn build           # vite build --config vite.config.lib.mts && vue-tsc --proj
 
 - Each component lives in `scripts/<component-name>/` with `<Name>.vue` plus `index.ts` (named exports).
 - Add new component exports to `scripts/components.ts` (alphabetical order).
-- `scripts/index.ts` imports `./style.less` + `./global-components`, re-exports components, locale utils, notification APIs, `showContextMenu`, and `renderSvg`, and installs all exported components globally with a `Y` prefix (e.g. `Button` → `YButton`).
+- `scripts/index.ts` imports `./style.less` + `./global-components`, re-exports components, locale utils, notification APIs, `showContextMenu`, `loadingBar`, and `renderSvg`, and installs all exported components globally with a `Y` prefix (e.g. `Button` → `YButton`).
 - Adding a component also requires a demo page in `site/pages/` registered in `site/App.vue` (import + `pages` entry + `menuItems` entry).
 
 ## Demo And Alias
@@ -76,9 +76,10 @@ yarn build           # vite build --config vite.config.lib.mts && vue-tsc --proj
 - Menu, ContextMenu, Select, Table, and Tab use slot-based declarative child extraction via renderless child components (e.g. `MenuOption`, `SelectOption`, `TableColumn`).
 - Button, Checkbox, Radio, and Switch share the `yiz-wave` ripple animation defined in `scripts/style.less`.
 - Checkbox, Radio, and Switch use the native input overlay pattern for accessibility.
-- Notification and `showContextMenu` are imperative APIs implemented with `createVNode` and `render`; they are not normal declarative component usage paths.
+- Notification and `showContextMenu` are imperative APIs implemented with `createVNode` and `render`; they are not normal declarative component usage paths. `loadingBar` (`scripts/loading-bar/`) is also imperative but pure-DOM (no VNode/render) — it ports the bprogress engine, uses `--yiz-loading-bar-*` tokens (default color `var(--yiz-color-primary)`, `fail()` uses `var(--yiz-color-error)`), a fixed `--yiz-loading-bar-z-index: 9999` (NOT `nextZIndex()`), and has no declarative component / global registration.
 - Document event listeners registered in `onMounted` must be cleaned up in `onBeforeUnmount`.
 
 ## Further Reference
 
 - `CLAUDE.md` contains detailed per-component architecture notes (Table internals, ScrollBox, Menu/ContextMenu, Select positioning, etc.). Consult it when working on a specific component's internals rather than re-deriving the design from source.
+- `plans/` holds design/roadmap notes (`SORTABLE_BOX_NOTES.md`, `sortable-box-roadmap.md`) — read these before reworking `SortableBox` internals.

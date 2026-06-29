@@ -67,6 +67,94 @@ body {
   --yiz-color-bg: #ffffff;
   --yiz-color-hover-bg: rgba(0, 0, 0, 0.06);
 
+  --yiz-loading-bar-color: var(--yiz-color-primary);
+  --yiz-loading-bar-height: 2px;
+  --yiz-loading-bar-z-index: 9999;
+  --yiz-loading-bar-box-shadow: 0 0 10px var(--yiz-loading-bar-color), 0 0 5px var(--yiz-loading-bar-color);
+}
+
+.yiz-loading-bar {
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: var(--yiz-loading-bar-z-index);
+}
+
+.yiz-loading-bar .bar {
+  background: var(--yiz-loading-bar-color);
+  position: fixed;
+  z-index: var(--yiz-loading-bar-z-index);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--yiz-loading-bar-height);
+}
+
+.yiz-loading-bar .peg {
+  display: block;
+  position: absolute;
+  right: 0;
+  width: 100px;
+  height: 100%;
+  box-shadow: var(--yiz-loading-bar-box-shadow);
+  opacity: 1;
+  transform: rotate(3deg) translate(0px, -4px);
+}
+
+.yiz-loading-bar-custom-parent {
+  overflow: hidden;
+  position: relative;
+}
+
+.yiz-loading-bar-custom-parent .yiz-loading-bar .bar {
+  position: absolute;
+}
+
+.yiz-loading-bar .indeterminate {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--yiz-loading-bar-height);
+  overflow: hidden;
+}
+
+.yiz-loading-bar .indeterminate .inc,
+.yiz-loading-bar .indeterminate .dec {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background-color: var(--yiz-loading-bar-color);
+}
+
+.yiz-loading-bar .indeterminate .inc {
+  animation: yiz-loading-bar-indeterminate-increase 2s infinite;
+}
+
+.yiz-loading-bar .indeterminate .dec {
+  animation: yiz-loading-bar-indeterminate-decrease 2s 0.5s infinite;
+}
+
+@keyframes yiz-loading-bar-indeterminate-increase {
+  from {
+    left: -5%;
+    width: 5%;
+  }
+  to {
+    left: 130%;
+    width: 100%;
+  }
+}
+
+@keyframes yiz-loading-bar-indeterminate-decrease {
+  from {
+    left: -80%;
+    width: 80%;
+  }
+  to {
+    left: 110%;
+    width: 10%;
+  }
 }
 
 @keyframes yiz-wave-spread {

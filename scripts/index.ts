@@ -10,6 +10,8 @@ export * from './locale'
 export * from './notification'
 export { showContextMenu } from './context-menu'
 export { renderSvg } from './icon/renderSvg'
+export { loadingBar } from './loading-bar'
+export type { LoadingBarOptions, LoadingBarDirection, LoadingBarPositionUsing } from './loading-bar'
 
 const componentAliases: Record<string, string[]> = {
   DateTimePicker: ['y-datetime-picker'],

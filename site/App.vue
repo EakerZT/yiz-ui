@@ -63,6 +63,7 @@ import InputGroupDemo from './pages/InputGroupDemo.vue'
 import InputPasswordDemo from './pages/InputPasswordDemo.vue'
 import InputNumberDemo from './pages/InputNumberDemo.vue'
 import LoadingDemo from './pages/LoadingDemo.vue'
+import LoadingBarDemo from './pages/LoadingBarDemo.vue'
 import MenuDemo from './pages/MenuDemo.vue'
 import NotificationDemo from './pages/NotificationDemo.vue'
 import IconDemo from './pages/IconDemo.vue'
@@ -109,6 +110,7 @@ const pages: Record<string, any> = {
   'input-password': InputPasswordDemo,
   'input-number': InputNumberDemo,
   loading: LoadingDemo,
+  'loading-bar': LoadingBarDemo,
   menu: MenuDemo,
   notification: NotificationDemo,
   pagination: PaginationDemo,
@@ -153,6 +155,7 @@ const menuItems = computed(() => [
   { label: $t('demo.nav.inputPassword'), key: 'input-password' },
   { label: $t('demo.nav.inputNumber'), key: 'input-number' },
   { label: $t('demo.nav.loading'), key: 'loading' },
+  { label: $t('demo.nav.loadingBar'), key: 'loading-bar' },
   { label: $t('demo.nav.menu'), key: 'menu' },
   { label: $t('demo.nav.notification'), key: 'notification' },
   { label: $t('demo.nav.pagination'), key: 'pagination' },
