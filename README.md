@@ -3,11 +3,11 @@
 </p>
 
 <p align="center">
-  A Vue 3 component library — built with TypeScript, clean and lightweight.
+  A Vue 3 component library built with TypeScript. Clean, lightweight, and practical.
 </p>
 
 <p align="center">
-  一个基于 Vue 3 的 UI 组件库 — TypeScript 编写，简洁轻量。
+  English | <a href="./README.zh-CN.md">简体中文</a>
 </p>
 
 <p align="center">
@@ -17,27 +17,19 @@
 
 ---
 
-## 特性 / Features
+## Features
 
-- 🌗 **45+ 组件** — 涵盖表单、数据展示、导航、反馈等常用场景
-- 🔧 **TypeScript** — 完整类型支持，严格模式开发
-- 🎨 **CSS 变量主题** — 通过 `--yiz-*` 自定义属性轻松定制
-- 🌍 **内置 i18n** — 内置中英文，支持动态切换和扩展语言
-- 🪶 **Tree Shaking** — 按需引入，不会打包未使用的组件
-- 📦 **Vue 3.4+** — 使用 `defineModel`、`<script setup>` 等最新特性
-- 🎯 **无外部图标依赖** — 弹窗关闭按钮使用内联 SVG
-
-> 🌗 **45+ components** covering forms, data display, navigation, feedback, and more
-> 🔧 **TypeScript-first** — full type safety, developed in strict mode
-> 🎨 **CSS variable theming** — customize via `--yiz-*` custom properties
-> 🌍 **Built-in i18n** — Chinese & English out of the box, extensible via API
-> 🪶 **Tree shakable** — import only what you use
-> 📦 **Vue 3.4+** — leverages `defineModel`, `<script setup>`, and more
-> 🎯 **Zero icon dependencies** — overlay close buttons use inline SVG
+- **45+ components** covering forms, data display, navigation, feedback, and common application workflows.
+- **TypeScript first** with strict-mode development and type-friendly component APIs.
+- **CSS variable theming** via `--yiz-*` custom properties.
+- **Built-in i18n** with Chinese and English, plus runtime language extension APIs.
+- **Tree shakable**: import only what you use.
+- **Vue 3.4+** with `defineModel`, `<script setup>`, and modern Vue patterns.
+- **Imperative APIs** for notifications, context menus, and loading bars.
 
 ---
 
-## 安装 / Installation
+## Installation
 
 ```bash
 npm install @eakerzt/yiz-ui
@@ -49,15 +41,15 @@ pnpm add @eakerzt/yiz-ui
 
 **Peer dependency:**
 
-| 依赖 | 版本 |
-|------|------|
-| vue  | ≥ 3.2.0 |
+| Dependency | Version |
+| :--- | :--- |
+| vue | >= 3.2.0 |
 
 ---
 
-## 快速开始 / Quick Start
+## Quick Start
 
-### 全局注册 / Full registration
+### Full Registration
 
 ```ts
 import { createApp } from 'vue'
@@ -70,22 +62,20 @@ app.use(yiz)
 app.mount('#app')
 ```
 
-全局注册后，所有组件以 `Y` 前缀使用：
-
-> After global registration, all components are available with a `Y` prefix:
+After full registration, all components are available with a `Y` prefix:
 
 ```html
 <template>
-  <y-button type="primary" @click="handleClick">点击</y-button>
-  <y-input v-model:value="text" placeholder="请输入" />
+  <y-button type="primary" @click="handleClick">Click</y-button>
+  <y-input v-model:value="text" placeholder="Please input" />
   <y-table :data="list">
-    <y-table-column label="姓名" field="name" />
-    <y-table-column label="年龄" field="age" />
+    <y-table-column label="Name" field="name" />
+    <y-table-column label="Age" field="age" />
   </y-table>
 </template>
 ```
 
-### 按需引入 / On-demand import
+### On-Demand Import
 
 ```ts
 import { Button, Input, Table, TableColumn } from '@eakerzt/yiz-ui'
@@ -94,46 +84,42 @@ import '@eakerzt/yiz-ui/dist/yiz-ui.css'
 
 ```html
 <template>
-  <Button type="primary">按钮</Button>
+  <Button type="primary">Button</Button>
   <Input v-model:value="text" />
   <Table :data="list">
-    <TableColumn label="姓名" field="name" />
-    <TableColumn label="年龄" field="age" />
+    <TableColumn label="Name" field="name" />
+    <TableColumn label="Age" field="age" />
   </Table>
 </template>
 ```
 
-### Notification（命令式调用） / Notification (imperative API)
+### Notification
 
 ```ts
 import { notification } from '@eakerzt/yiz-ui'
 
-// 基础用法
-notification({ title: '成功', content: '操作完成', type: 'success' })
+notification({ title: 'Success', content: 'Operation completed', type: 'success' })
 
-// 快捷方法
-notification.info({ content: '提示信息' })
-notification.success({ content: '操作成功' })
-notification.warning({ content: '警告信息' })
-notification.error({ content: '错误信息' })
+notification.info({ content: 'Information' })
+notification.success({ content: 'Success' })
+notification.warning({ content: 'Warning' })
+notification.error({ content: 'Error' })
 
-// 手动关闭
-const handle = notification({ content: '加载中...', duration: 0 })
+const handle = notification({ content: 'Loading...', duration: 0 })
 handle.close()
 ```
 
-### ContextMenu（命令式调用） / ContextMenu (imperative API)
+### ContextMenu
 
 ```ts
 import { showContextMenu } from '@eakerzt/yiz-ui'
 
-// 在右键事件位置弹出
 showContextMenu(
   {
     items: [
-      { type: 'item', label: '刷新', key: 'refresh' },
+      { type: 'item', label: 'Refresh', key: 'refresh' },
       { type: 'divider' },
-      { type: 'item', label: '删除', key: 'delete', disabled: true }
+      { type: 'item', label: 'Delete', key: 'delete', disabled: true }
     ],
     onSelect: (item) => console.log(item.key)
   },
@@ -141,104 +127,92 @@ showContextMenu(
 )
 ```
 
-支持 `item` / `divider` / `submenu` / `checkbox` / `radiogroup` 五种项类型，嵌套子菜单会自动进行边缘翻转。
+`ContextMenu` supports `item`, `divider`, `submenu`, `checkbox`, and `radiogroup` item types. Nested submenus automatically flip near viewport edges.
 
-> Supports five item types: `item` / `divider` / `submenu` / `checkbox` / `radiogroup`; nested submenus auto-flip at viewport edges.
-
-### LoadingBar（命令式调用） / LoadingBar (imperative API)
+### LoadingBar
 
 ```ts
 import { loadingBar } from '@eakerzt/yiz-ui'
 
-// 开始 / 完成
 loadingBar.start()
 loadingBar.done()
 
-// 失败态：变红后完成
 loadingBar.fail()
 
-// 精确控制
 loadingBar.set(0.4)
 loadingBar.inc()
 loadingBar.dec()
 loadingBar.pause()
 loadingBar.resume()
 
-// 配置（颜色 / 高度 / 不确定模式 / 方向 等）
 loadingBar.configure({ color: '#52c41a', height: '3px', indeterminate: true, direction: 'rtl' })
-
-// 重置为默认配置
 loadingBar.reset()
 ```
 
-默认色取 `--yiz-color-primary`，`fail()` 取 `--yiz-color-error`；可通过 `configure({ color })` 自定义。不确定模式（`indeterminate: true`）显示来回滑动的动画条，不显示进度百分比。
-
-> Default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-error`. Customize via `configure({ color })`. Indeterminate mode (`indeterminate: true`) shows an animated sliding bar with no percentage.
+The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-error`. Indeterminate mode (`indeterminate: true`) shows an animated sliding bar without a percentage value.
 
 ---
 
-## 组件 / Components
+## Components
 
-| 组件 Component | 标签 Tag | 说明 Description |
+| Component | Tag | Description |
 | :--- | :--- | :--- |
-| Button | `YButton` | 按钮 — 支持类型、颜色、形状、涟漪动画 |
-| ButtonGroup | `YButtonGroup` | 按钮组 — 水平/垂直排列 |
-| Card | `YCard` | 卡片 — 结构化内容容器 |
-| Checkbox | `YCheckbox` | 复选框 — 支持单用和组合 |
-| CheckboxGroup | `YCheckboxGroup` | 复选框组 — provide/inject 模式 |
-| ColorPicker | `YColorPicker` | 颜色选择器 — HSV 面板 + 预设色 |
-| DatePicker | `YDatePicker` | 日期选择器 — 月份/年份快速跳转 |
-| DateRangePicker | `YDateRangePicker` | 日期范围选择器 — 自动排序起止日期 |
-| DateTimePicker | `YDateTimePicker` / `y-datetime-picker` | 日期时间选择器 — 日期面板 + 时间列 |
-| DateTimeRangePicker | `YDateTimeRangePicker` / `y-datetime-range-picker` | 日期时间范围选择器 — 起止日期时间选择 |
-| Dialog | `YDialog` | 对话框 — 支持拖拽、ESC 关闭 |
-| Divider | `YDivider` | 分割线 — 水平/垂直、虚线、带文本 |
-| Drawer | `YDrawer` | 抽屉 — 四方向、可调节尺寸 |
-| Dropmenu | `YDropmenu` | 下拉菜单 — 基于 Menu 的弹出菜单 |
-| Empty | `YEmpty` | 空状态 — 可自定义图标和文案 |
-| Form | `YForm` | 表单 — layout 布局（水平/垂直/行内）、字段校验、重置 |
-| FormItem | `YFormItem` | 表单项 — 标签、必填标记、错误提示 |
-| Icon | `YIcon` | 图标 — 渲染 Vue 组件为图标 |
-| Input | `YInput` | 输入框 — 前后缀、可清空 |
-| InputGroup | `YInputGroup` | 输入组合 — 横向拼接输入型组件、Addon、统一尺寸 |
-| InputNumber | `YInputNumber` | 数字输入 — 步进按钮、键盘操作 |
-| InputPassword | `YInputPassword` | 密码输入 — 显示/隐藏切换 |
-| LinkButton | `YLinkButton` | 链接按钮 — 文字按钮样式 |
-| Loading | `YLoading` | 加载 — 三种动画、容器模式、fullHeight 撑满 |
-| Menu | `YMenu` | 菜单 — 支持展开/折叠模式 |
-| MenuOption | `YMenuOption` | 菜单选项 — 声明式子项 |
-| Pagination | `YPagination` | 分页 — 页码省略逻辑、快速跳转 |
-| Radio | `YRadio` | 单选框 — 支持单用和组合 |
-| RadioGroup | `YRadioGroup` | 单选组 — options / slot 双 API |
-| RadioButton | `YRadioButton` | 单选按钮 — 按钮风格单选 |
-| RadioButtonGroup | `YRadioButtonGroup` | 单选按钮组 — 按钮风格的互斥选择 |
-| ScrollBox | `YScrollBox` | 滚动容器 — 自定义滚动条，GPU 定位 |
-| Segmented | `YSegmented` | 分段器 — 滑块指示器、选项禁用 |
-| Select | `YSelect` | 选择器 — 支持搜索、键盘导航 |
-| SelectOption | `YSelectOption` | 选择器选项 — 声明式子项 |
-| Slider | `YSlider` | 滑动条 — 单/双滑块、步长、刻度标记 |
-| SortableBox | `YSortableBox` | 拖动排序容器 — Vue 数据优先、跨列表、实时预览 |
-| Switch | `YSwitch` | 开关 — 支持加载态、自定义颜色 |
-| Tab | `YTab` | 标签页 — 四方向、卡片风格、切换动画、flex 弹性布局 |
-| TabPane | `YTabPane` | 标签页面板 — label 插槽、closable 关闭 |
-| Table | `YTable` | 表格 — 排序、列宽拖拽、行选择、固定列 |
-| TableColumn | `YTableColumn` | 表格列 — 声明式列定义 + 自定义渲染 |
-| Tag | `YTag` | 标签 — 预设色/自定义色、可关闭 |
-| Textarea | `YTextarea` | 文本域 — 自适应行高、字数统计、可清空 |
-| TimePicker | `YTimePicker` | 时间选择器 — 时分秒列选择 |
-| TimeRangePicker | `YTimeRangePicker` | 时间范围选择器 — 自动排序起止时间 |
-| Timeline | `YTimeline` | 时间线 — 左/右/交替模式、自定义节点 |
-| TimelineItem | `YTimelineItem` | 时间线项 — 标题、时间、类型、空心节点 |
-| Tooltip | `YTooltip` | 文字提示 — 四方向、CSS 箭头 |
-| Tree | `YTree` | 树 — 递归渲染、复选/单选、半选态 |
+| Button | `YButton` | Button with type, color, shape, loading, and wave animation |
+| ButtonGroup | `YButtonGroup` | Horizontal or vertical button grouping |
+| Card | `YCard` | Structured content container |
+| Checkbox | `YCheckbox` | Single checkbox |
+| CheckboxGroup | `YCheckboxGroup` | Checkbox group with provide/inject state |
+| ColorPicker | `YColorPicker` | HSV color picker with presets |
+| DatePicker | `YDatePicker` | Date picker with month/year navigation |
+| DateRangePicker | `YDateRangePicker` | Date range picker with optional auto sorting |
+| DateTimePicker | `YDateTimePicker` / `y-datetime-picker` | Date and time picker |
+| DateTimeRangePicker | `YDateTimeRangePicker` / `y-datetime-range-picker` | Date-time range picker |
+| Dialog | `YDialog` | Dialog with drag and Escape support |
+| Divider | `YDivider` | Horizontal/vertical divider with dashed and text modes |
+| Drawer | `YDrawer` | Drawer with four placements and resizable size |
+| Dropmenu | `YDropmenu` | Dropdown menu based on menu item extraction |
+| Empty | `YEmpty` | Empty state with custom icon and text |
+| Form | `YForm` | Form layout, validation, and reset |
+| FormItem | `YFormItem` | Form item with label, required marker, and errors |
+| Icon | `YIcon` | Render Vue components as icons |
+| Input | `YInput` | Input with prefix/suffix and clearable support |
+| InputGroup | `YInputGroup` | Horizontal input grouping with addons and unified size |
+| InputNumber | `YInputNumber` | Numeric input with step controls and keyboard support |
+| InputPassword | `YInputPassword` | Password input with visibility toggle |
+| LinkButton | `YLinkButton` | Text-style button |
+| Loading | `YLoading` | Loading indicators and container loading mode |
+| Menu | `YMenu` | Menu with expanded and collapsed modes |
+| MenuOption | `YMenuOption` | Declarative menu item |
+| Pagination | `YPagination` | Pagination with ellipsis, size changer, and quick jumper |
+| Radio | `YRadio` | Single radio |
+| RadioGroup | `YRadioGroup` | Radio group with options and slots |
+| RadioButton | `YRadioButton` | Radio as button |
+| RadioButtonGroup | `YRadioButtonGroup` | Button-style exclusive selection group |
+| ScrollBox | `YScrollBox` | Custom scrollbar container with GPU positioning |
+| Segmented | `YSegmented` | Segmented control with animated indicator |
+| Select | `YSelect` | Select with search and keyboard navigation |
+| SelectOption | `YSelectOption` | Declarative select option |
+| Slider | `YSlider` | Single/range slider with steps and marks |
+| SortableBox | `YSortableBox` | Vue data-first drag sorting with cross-list preview |
+| Switch | `YSwitch` | Switch with loading and custom colors |
+| Tab | `YTab` | Tabs with four placements, card style, animation, and flex layout |
+| TabPane | `YTabPane` | Tab pane with label slot and closable support |
+| Table | `YTable` | Table with sorting, resize, selection, and fixed columns |
+| TableColumn | `YTableColumn` | Declarative table column with custom rendering |
+| Tag | `YTag` | Tag with preset/custom colors and closable support |
+| Textarea | `YTextarea` | Textarea with autosize, count, and clearable support |
+| TimePicker | `YTimePicker` | Time picker with hour/minute/second columns |
+| TimeRangePicker | `YTimeRangePicker` | Time range picker with optional auto sorting |
+| Timeline | `YTimeline` | Timeline with left/right/alternate modes |
+| TimelineItem | `YTimelineItem` | Timeline item with title, time, type, and hollow node |
+| Tooltip | `YTooltip` | Tooltip with four placements and CSS arrow |
+| Tree | `YTree` | Recursive tree with checkbox/radio and half-checked state |
 
 ---
 
-## 尺寸 / Size
+## Size
 
-支持尺寸的组件统一使用 `small` / `default` / `large` 三档：
-
-> Components with size variants use `small` / `default` / `large` consistently.
+Components with size variants use `small`, `default`, and `large` consistently.
 
 ```html
 <template>
@@ -251,108 +225,88 @@ loadingBar.reset()
 </template>
 ```
 
-适用组件包括：`Button`、`Card`、`ColorPicker`、`DatePicker`、`DateRangePicker`、`DateTimePicker`、`DateTimeRangePicker`、`Empty`、`Input`、`InputGroup`、`InputNumber`、`Loading`、`Pagination`、`RadioButton`、`RadioButtonGroup`、`Segmented`、`Select`、`Switch`、`Table`、`Tag`、`TimePicker`、`TimeRangePicker`、`Timeline`。
+Supported components include `Button`, `Card`, `ColorPicker`, `DatePicker`, `DateRangePicker`, `DateTimePicker`, `DateTimeRangePicker`, `Empty`, `Input`, `InputGroup`, `InputNumber`, `Loading`, `Pagination`, `RadioButton`, `RadioButtonGroup`, `Segmented`, `Select`, `Switch`, `Table`, `Tag`, `TimePicker`, `TimeRangePicker`, and `Timeline`.
 
-> `Button` uses `default` for the middle size. The old `middle` value is not supported.
+`Button` uses `default` for the middle size. The old `middle` value is not supported.
 
-`Icon` 的 `size` 为数值或字符串尺寸，不使用三档枚举。
-
-> `Icon.size` accepts a number or string value, not the three-level enum.
+`Icon.size` accepts a number or string value, not the three-level enum.
 
 ---
 
-## 国际化 / Internationalization
+## Internationalization
 
-内置 `zh-CN`（默认）和 `en-US`。通过 `setLang()` 切换，组件会自动响应。
+Built-in languages:
 
-> Built-in `zh-CN` (default) and `en-US`. Switch via `setLang()` — components react automatically.
+- `zh-CN` (default)
+- `en-US`
+
+Switch language with `setLang()`. Components react automatically.
 
 ```ts
 import { setLang, registerLang, registerLangItem, $t } from '@eakerzt/yiz-ui'
 
-// 切换到英文 / Switch to English
 setLang('en-US')
 
-// 注册新语言 / Register a new language
 registerLang('ja-JP', {
   'common.noData': 'データなし',
-  'select.placeholder': '選択してください',
+  'select.placeholder': '選択してください'
 })
 
-// 扩展已有语言 / Extend an existing language
 registerLangItem('zh-CN', {
-  'myComponent.title': '我的组件',
+  'myComponent.title': '我的组件'
 })
 
-// 在组件中使用 / Use in your own components
 const placeholder = computed(() => $t('select.placeholder'))
 ```
 
 ---
 
-## 开发 / Development
+## Development
 
 ```bash
-# 克隆仓库 / Clone
 git clone https://github.com/EakerZT/yiz-ui.git
 cd yiz-ui
 
-# 安装依赖 / Install dependencies
 yarn
 
-# 启动介绍站点开发服务器 / Start site dev server
 yarn dev
-
-# 构建介绍站点到 docs/ / Build site to docs/
 yarn site:build
-
-# 类型检查 / Type check
 yarn typecheck
-
-# 构建产物 / Build for production
 yarn build
 ```
 
-### 添加新组件 / Adding a new component
+### Adding a New Component
 
-1. 创建 `scripts/<name>/<Name>.vue` 和 `scripts/<name>/index.ts`
-2. 在 `scripts/components.ts` 中添加 `export * from './<name>'`（按字母顺序）
-3. 创建 `site/pages/<Name>Demo.vue`
-4. 在 `site/App.vue` 中注册 Demo 页面
+1. Create `scripts/<name>/<Name>.vue` and `scripts/<name>/index.ts`.
+2. Add `export * from './<name>'` to `scripts/components.ts` in alphabetical order.
+3. Create `site/pages/<Name>Demo.vue`.
+4. Register the demo page in `site/App.vue`.
 
-> 1. Create `scripts/<name>/<Name>.vue` and `scripts/<name>/index.ts`
-> 2. Add `export * from './<name>'` to `scripts/components.ts` (alphabetical order)
-> 3. Create `site/pages/<Name>Demo.vue`
-> 4. Register the demo page in `site/App.vue`
+Everything else, including plugin registration, path aliases, and global component names, is automatic.
 
-其余一切（Vue 插件注册、路径别名、全局组件名）均为自动。
+### Planning Docs
 
-> Everything else (plugin registration, path alias, global component name) is automatic.
-
-### 计划文档 / Planning docs
-
-- [SortableBox 后续计划与差距分析](plans/sortable-box-roadmap.md)
+- [SortableBox roadmap](plans/sortable-box-roadmap.md)
 
 ---
 
-## 发布 / Publishing
+## Publishing
 
 ```bash
-# 版本号升级 / Bump version
-npm version patch  # or minor / major
+npm version patch # or minor / major
 
-# 发布（prepublishOnly 自动执行 typecheck + build）
+# prepublishOnly runs typecheck + build automatically
 npm publish
 ```
 
 ---
 
-## 致谢 / Acknowledgements
+## Acknowledgements
 
-- [Sortable](https://github.com/SortableJS/Sortable) — `SortableBox` 设计过程中参考了其拖拽排序行为、事件模型和边界处理。
-- [vue.draggable.next](https://github.com/SortableJS/vue.draggable.next) — `SortableBox` 设计过程中参考了其 Vue 组件封装方式和数据同步思路。
-- [OverlayScrollbars](https://github.com/KingSora/OverlayScrollbars) — `ScrollBox` 设计过程中参考了其自定义滚动条交互与覆盖式滚动体验。
-- [BProgress](https://github.com/imskyleen/bprogress) — `LoadingBar` 引擎移植自其 core 实现，参考了进度状态机、trickle 增量策略与定位 CSS 计算思路。
+- [Sortable](https://github.com/SortableJS/Sortable) — `SortableBox` references its drag sorting behavior, event model, and edge handling.
+- [vue.draggable.next](https://github.com/SortableJS/vue.draggable.next) — `SortableBox` references its Vue component wrapper and data synchronization approach.
+- [OverlayScrollbars](https://github.com/KingSora/OverlayScrollbars) — `ScrollBox` references its custom scrollbar interaction and overlay scrolling experience.
+- [BProgress](https://github.com/imskyleen/bprogress) — `LoadingBar` ports its core engine and references its progress state machine, trickle strategy, and positioning CSS.
 
 ---
 
