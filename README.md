@@ -49,6 +49,16 @@ pnpm add @eakerzt/yiz-ui
 
 ## Quick Start
 
+### Global CSS Prerequisite
+
+Add the following rule to your application's global stylesheet before using the components. Some component dimensions rely on `border-box`; without it, borders and padding may cause incorrect layout or sizing.
+
+```css
+* {
+  box-sizing: border-box;
+}
+```
+
 ### Full Registration
 
 ```ts
