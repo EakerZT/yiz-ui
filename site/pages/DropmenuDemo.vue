@@ -20,9 +20,9 @@
         <template #trigger>
           <y-button type="primary">{{ $t('demo.dropmenu.slotOpen') }}</y-button>
         </template>
-        <y-menu-option :label="$t('demo.common.view')" key="view" />
-        <y-menu-option :label="$t('demo.common.edit')" key="edit" />
-        <y-menu-option :label="$t('demo.common.delete')" key="delete" />
+        <y-dropmenu-item :label="$t('demo.common.view')" key="view" />
+        <y-dropmenu-item :label="$t('demo.common.edit')" key="edit" />
+        <y-dropmenu-item :label="$t('demo.common.delete')" key="delete" />
       </y-dropmenu>
       <span class="demo-hint">{{ $t('demo.dropmenu.selected', { value: v2 ?? $t('demo.common.empty') }) }}</span>
     </y-card>

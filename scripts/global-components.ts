@@ -12,6 +12,7 @@ import type {
   Dialog,
   Divider,
   Dropmenu,
+  DropmenuItem,
   Drawer,
   Empty,
   Form,
@@ -82,6 +83,8 @@ declare module 'vue' {
     'y-divider': typeof Divider
     YDropmenu: typeof Dropmenu
     'y-dropmenu': typeof Dropmenu
+    YDropmenuItem: typeof DropmenuItem
+    'y-dropmenu-item': typeof DropmenuItem
     YDrawer: typeof Drawer
     'y-drawer': typeof Drawer
     YEmpty: typeof Empty

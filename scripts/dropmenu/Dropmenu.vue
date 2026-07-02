@@ -5,13 +5,12 @@
     <template #icon="scope"><slot name="icon" v-bind="scope" /></template>
     <template #item="scope"><slot name="item" v-bind="scope" /></template>
   </DropmenuPanel>
-  <div style="display: none"><slot /></div>
 </template>
 
 <script lang="ts" setup>
 import { cloneVNode, computed, Fragment, h, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch, type VNode } from 'vue'
 import { ChevronDown16Regular } from '@vicons/fluent'
-import MenuOptionComp from '../menu-option/MenuOption.vue'
+import DropmenuItemComp from '../dropmenu-item/DropmenuItem.vue'
 import { Icon } from '../icon'
 import { nextZIndex } from '../zIndex'
 import DropmenuPanel from './DropmenuPanel.vue'
@@ -102,7 +101,7 @@ function collectOptionVNodes(nodes: any[]): any[] {
       if (children) {
         result.push(...collectOptionVNodes(children))
       }
-    } else if (vnode && vnode.type === MenuOptionComp) {
+    } else if (vnode && vnode.type === DropmenuItemComp) {
       result.push(vnode)
     }
   }
@@ -116,9 +115,24 @@ const slotOptions = computed(() => {
     if (vnode.props) {
       const p = vnode.props as Record<string, any>
       if (p.item) {
-        options.push({ ...p.item, children: p.children ?? p.item.children, icon: p.icon ?? p.item.icon })
+        const item = p.item as DropmenuOption
+        options.push({
+          ...item,
+          type: p.type ?? item.type,
+          children: p.children ?? item.children,
+          icon: p.icon ?? item.icon,
+          disabled: p.disabled ?? item.disabled,
+          key: vnode.key ?? p.key ?? item.key
+        })
       } else {
-        options.push({ label: p.label, key: vnode.key ?? p.key, children: p.children, icon: p.icon })
+        options.push({
+          label: p.label,
+          key: vnode.key ?? p.key,
+          type: p.type,
+          children: p.children,
+          icon: p.icon,
+          disabled: p.disabled
+        })
       }
     }
   }
