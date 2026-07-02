@@ -1,5 +1,5 @@
 <template>
-  <div ref="tableWrapperRef" class="yiz-table-wrapper" :class="vClass" :aria-busy="loading">
+  <div ref="tableWrapperRef" class="yiz-table-wrapper" :class="vClass" :aria-busy="loading" v-bind="$attrs">
     <!-- Header table -->
     <div class="yiz-table-header-wrapper" ref="headerWrapperRef">
       <div
