@@ -18,6 +18,7 @@ import type {
   FormItem,
   Icon,
   Input,
+  InputGroup,
   InputPassword,
   InputNumber,
   LinkButton,
@@ -35,12 +36,14 @@ import type {
   Slider,
   Select,
   SelectOption,
+  SortableBox,
   Switch,
   Tab,
   TabPane,
   Table,
   TableColumn,
   Tag,
+  Textarea,
   TimePicker,
   Timeline,
   TimelineItem,
@@ -91,6 +94,8 @@ declare module 'vue' {
     'y-icon': typeof Icon
     YInput: typeof Input
     'y-input': typeof Input
+    YInputGroup: typeof InputGroup
+    'y-input-group': typeof InputGroup
     YInputPassword: typeof InputPassword
     'y-input-password': typeof InputPassword
     YInputNumber: typeof InputNumber
@@ -125,6 +130,8 @@ declare module 'vue' {
     'y-select': typeof Select
     YSelectOption: typeof SelectOption
     'y-select-option': typeof SelectOption
+    YSortableBox: typeof SortableBox
+    'y-sortable-box': typeof SortableBox
     YSwitch: typeof Switch
     'y-switch': typeof Switch
     YTab: typeof Tab
@@ -137,6 +144,8 @@ declare module 'vue' {
     'y-table-column': typeof TableColumn
     YTag: typeof Tag
     'y-tag': typeof Tag
+    YTextarea: typeof Textarea
+    'y-textarea': typeof Textarea
     YTimeline: typeof Timeline
     'y-timeline': typeof Timeline
     YTimelineItem: typeof TimelineItem
