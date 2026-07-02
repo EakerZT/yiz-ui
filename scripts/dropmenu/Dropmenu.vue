@@ -1,22 +1,5 @@
 <template>
-  <span
-    ref="triggerRef"
-    class="yiz-dropmenu"
-    :class="{ 'yiz-dropmenu-disabled': disabled, 'yiz-dropmenu-open': open }"
-    @click="onTriggerClick"
-  >
-    <slot name="trigger" :open="open">
-      <button type="button" class="yiz-dropmenu-trigger" :disabled="disabled">
-        <span>{{ label }}</span>
-        <Icon
-          class="yiz-dropmenu-arrow"
-          :class="{ 'yiz-dropmenu-arrow-open': open }"
-          size="16"
-          :icon="ChevronDown16Regular"
-        />
-      </button>
-    </slot>
-  </span>
+  <component :is="triggerNode" />
 
   <DropmenuPanel :visible="open" :options="allOptions" :position="popupStyle" @select="onSelect">
     <template #icon="scope"><slot name="icon" v-bind="scope" /></template>
@@ -26,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, Fragment, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
+import { cloneVNode, computed, Fragment, h, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch, type VNode } from 'vue'
 import { ChevronDown16Regular } from '@vicons/fluent'
 import MenuOptionComp from '../menu-option/MenuOption.vue'
 import { Icon } from '../icon'
@@ -65,8 +48,51 @@ const emit = defineEmits<{
 const slots = useSlots()
 const open = ref(false)
 const triggerRef = ref<HTMLElement>()
+function setTriggerRef(el: any) {
+  if (el instanceof HTMLElement) {
+    triggerRef.value = el
+  } else if (el?.$el instanceof HTMLElement) {
+    triggerRef.value = el.$el
+  } else {
+    triggerRef.value = undefined
+  }
+}
 const popupStyle = ref<Record<string, string>>({})
 const currentZIndex = ref(0)
+
+const triggerNode = computed<VNode>(() => {
+  const children = slots.trigger?.({ open: open.value }) ?? []
+  const child = children[0] as VNode | undefined
+  if (child) {
+    return cloneVNode(
+      child,
+      {
+        class: { 'yiz-dropmenu-disabled': props.disabled, 'yiz-dropmenu-open': open.value },
+        onClick: onTriggerClick,
+        ref: setTriggerRef
+      },
+      true
+    )
+  }
+  return h(
+    'button',
+    {
+      ref: setTriggerRef,
+      type: 'button',
+      class: ['yiz-dropmenu-trigger', { 'yiz-dropmenu-disabled': props.disabled, 'yiz-dropmenu-open': open.value }],
+      disabled: props.disabled,
+      onClick: onTriggerClick
+    },
+    [
+      h('span', {}, props.label),
+      h(Icon, {
+        class: ['yiz-dropmenu-arrow', { 'yiz-dropmenu-arrow-open': open.value }],
+        size: '16',
+        icon: ChevronDown16Regular
+      })
+    ]
+  )
+})
 
 function collectOptionVNodes(nodes: any[]): any[] {
   const result: any[] = []
@@ -211,11 +237,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="less">
-.yiz-dropmenu {
-  display: inline-flex;
-  vertical-align: middle;
-}
-
 .yiz-dropmenu-disabled {
   cursor: not-allowed;
 }
@@ -223,6 +244,7 @@ onBeforeUnmount(() => {
 .yiz-dropmenu-trigger {
   display: inline-flex;
   align-items: center;
+  vertical-align: middle;
   gap: 6px;
   height: 32px;
   padding: 0 12px;
@@ -248,12 +270,12 @@ onBeforeUnmount(() => {
     color: #c0c4cc;
     cursor: not-allowed;
   }
-}
 
-.yiz-dropmenu-open .yiz-dropmenu-trigger {
-  border-color: var(--yiz-color-primary);
-  color: var(--yiz-color-primary);
-  box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+  &.yiz-dropmenu-open {
+    border-color: var(--yiz-color-primary);
+    color: var(--yiz-color-primary);
+    box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+  }
 }
 
 .yiz-dropmenu-arrow {
