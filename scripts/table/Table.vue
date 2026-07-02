@@ -1,5 +1,5 @@
 <template>
-  <div ref="tableWrapperRef" class="yiz-table-wrapper" :class="vClass">
+  <div ref="tableWrapperRef" class="yiz-table-wrapper" :class="vClass" :aria-busy="loading">
     <!-- Header table -->
     <div class="yiz-table-header-wrapper" ref="headerWrapperRef">
       <div
@@ -53,90 +53,100 @@
     </div>
 
     <!-- Body table -->
-    <ScrollBox
-      auto-hide="leave"
-      ref="bodyScrollBoxRef"
-      class="yiz-table-body-scrollbox"
-      :class="{ 'yiz-table-body-empty': sortedData.length === 0 }"
-      :z-index="4"
-      @scroll="onBodyScroll"
-    >
-      <!-- 空状态：脱离表格，居中不滚动 -->
-      <div v-if="sortedData.length === 0" class="yiz-table-empty-wrap">
-        <slot name="empty">
-          <Empty size="small" />
-        </slot>
-      </div>
-
-      <!-- 数据表格 -->
-      <div
-        v-else
-        class="yiz-table-body"
-        ref="bodyContentRef"
-        :class="{ 'yiz-table-body-short': bodyContentShort }"
-        :style="{ width: tableContentWidth }"
+    <div class="yiz-table-body-wrapper">
+      <ScrollBox
+        auto-hide="leave"
+        ref="bodyScrollBoxRef"
+        class="yiz-table-body-scrollbox"
+        :class="{ 'yiz-table-body-empty': sortedData.length === 0 }"
+        :z-index="4"
+        @scroll="onBodyScroll"
       >
+        <!-- 空状态：脱离表格，居中不滚动 -->
+        <div v-if="sortedData.length === 0" class="yiz-table-empty-wrap">
+          <slot name="empty">
+            <Empty size="small" />
+          </slot>
+        </div>
+
+        <!-- 数据表格 -->
         <div
-          v-for="(row, idx) in sortedData"
-          :key="idx"
-          role="row"
-          class="yiz-table-row"
-          :class="{ 'yiz-table-row-stripe': stripe && idx % 2 === 1 }"
-          :style="{ gridTemplateColumns: columnTemplate }"
+          v-else
+          class="yiz-table-body"
+          ref="bodyContentRef"
+          :class="{ 'yiz-table-body-short': bodyContentShort }"
+          :style="{ width: tableContentWidth }"
         >
           <div
-            v-for="col in renderedColumns"
-            :key="col.field"
-            role="cell"
-            class="yiz-table-td"
-            :class="{
-              'yiz-table-gap-col': col.field === '__yiz_gap',
-              'yiz-table-fixed': col.fixed !== 'none',
-              'yiz-table-fixed-left': col.fixed === 'left',
-              'yiz-table-fixed-right': col.fixed === 'right',
-              'yiz-table-last-non-fixed': borderMarkerFields.lastNonFixed === col.field,
-              'yiz-table-first-right-fixed': borderMarkerFields.firstRightFixed === col.field,
-              'yiz-table-last-right-fixed': borderMarkerFields.lastRightFixed === col.field,
-              'yiz-table-left-fixed-shadow': borderMarkerFields.lastLeftFixed === col.field && leftFixedShadowVisible,
-              'yiz-table-right-fixed-shadow':
-                borderMarkerFields.firstRightFixed === col.field && rightFixedShadowVisible
-            }"
-            :style="{ textAlign: col.align || 'left', ...getCellStyle(col) }"
+            v-for="(row, idx) in sortedData"
+            :key="idx"
+            role="row"
+            class="yiz-table-row"
+            :class="{ 'yiz-table-row-stripe': stripe && idx % 2 === 1 }"
+            :style="{ gridTemplateColumns: columnTemplate }"
           >
-            <template v-if="col.field === '__yiz_select'">
-              <label class="yiz-table-select-cell" @click.stop>
-                <Radio
-                  v-if="selectMode === 'single'"
-                  v-model="selected"
-                  :value="getRowKey(row, idx)"
-                  :disabled="isRowDisabled(row, idx)"
+            <div
+              v-for="col in renderedColumns"
+              :key="col.field"
+              role="cell"
+              class="yiz-table-td"
+              :class="{
+                'yiz-table-gap-col': col.field === '__yiz_gap',
+                'yiz-table-fixed': col.fixed !== 'none',
+                'yiz-table-fixed-left': col.fixed === 'left',
+                'yiz-table-fixed-right': col.fixed === 'right',
+                'yiz-table-last-non-fixed': borderMarkerFields.lastNonFixed === col.field,
+                'yiz-table-first-right-fixed': borderMarkerFields.firstRightFixed === col.field,
+                'yiz-table-last-right-fixed': borderMarkerFields.lastRightFixed === col.field,
+                'yiz-table-left-fixed-shadow': borderMarkerFields.lastLeftFixed === col.field && leftFixedShadowVisible,
+                'yiz-table-right-fixed-shadow':
+                  borderMarkerFields.firstRightFixed === col.field && rightFixedShadowVisible
+              }"
+              :style="{ textAlign: col.align || 'left', ...getCellStyle(col) }"
+            >
+              <template v-if="col.field === '__yiz_select'">
+                <label class="yiz-table-select-cell" @click.stop>
+                  <Radio
+                    v-if="selectMode === 'single'"
+                    v-model="selected"
+                    :value="getRowKey(row, idx)"
+                    :disabled="isRowDisabled(row, idx)"
+                  />
+                  <Checkbox
+                    v-else
+                    :checked="isSelected(row, idx)"
+                    :disabled="isRowDisabled(row, idx)"
+                    @update:checked="toggleSelect(row, idx)"
+                  />
+                </label>
+              </template>
+              <template v-else-if="col.field === '__yiz_row_no'">
+                {{ idx + 1 }}
+              </template>
+              <template v-else>
+                <CellRenderer
+                  v-if="col.renderFn || col.formatter"
+                  :render-fn="col.renderFn"
+                  :formatter="col.formatter"
+                  :value="row[col.field]"
+                  :row="row"
+                  :index="idx"
                 />
-                <Checkbox
-                  v-else
-                  :checked="isSelected(row, idx)"
-                  :disabled="isRowDisabled(row, idx)"
-                  @update:checked="toggleSelect(row, idx)"
-                />
-              </label>
-            </template>
-            <template v-else-if="col.field === '__yiz_row_no'">
-              {{ idx + 1 }}
-            </template>
-            <template v-else>
-              <CellRenderer
-                v-if="col.renderFn || col.formater"
-                :render-fn="col.renderFn"
-                :formater="col.formater"
-                :value="row[col.field]"
-                :row="row"
-                :index="idx"
-              />
-              <span v-else>{{ row[col.field] }}</span>
-            </template>
+                <span v-else>{{ row[col.field] }}</span>
+              </template>
+            </div>
           </div>
         </div>
-      </div>
-    </ScrollBox>
+      </ScrollBox>
+
+      <Transition name="yiz-table-loading-fade">
+        <div v-if="loading" class="yiz-table-loading-mask" role="status">
+          <slot name="loading">
+            <Loading />
+          </slot>
+        </div>
+      </Transition>
+    </div>
 
     <div style="display: none"><slot /></div>
   </div>
@@ -155,6 +165,7 @@ import Checkbox from '../checkbox/Checkbox.vue'
 import Radio from '../radio/Radio.vue'
 import { ScrollBox } from '../scroll-box'
 import { Empty } from '../empty'
+import { Loading } from '../loading'
 import { $t } from '../locale'
 
 export interface TableColumn {
@@ -167,7 +178,7 @@ export interface TableColumn {
   maxWidth?: number
   fixed?: 'none' | 'left' | 'right'
   renderFn?: (scope: { value: any; row: any; index: number }) => any
-  formater?: (value: any, row: any, index: number) => any
+  formatter?: (value: any, row: any, index: number) => any
 }
 
 const slots = useSlots()
@@ -185,6 +196,7 @@ const props = withDefaults(
     selectMode?: 'none' | 'single' | 'multi'
     rowKey?: string
     selectDisabled?: (row: any, index: number) => boolean
+    loading?: boolean
   }>(),
   {
     data: () => [],
@@ -194,9 +206,28 @@ const props = withDefaults(
     resize: false,
     no: false,
     selectMode: 'none',
-    selectDisabled: undefined
+    selectDisabled: undefined,
+    loading: false
   }
 )
+
+function parsePixelValue(value: unknown): number | undefined {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) && value >= 0 ? value : undefined
+  }
+  if (typeof value !== 'string') return undefined
+
+  const text = value.trim()
+  if (!/^(?:\d+(?:\.\d+)?|\.\d+)(?:px)?$/i.test(text)) return undefined
+
+  const numberValue = Number.parseFloat(text)
+  return Number.isFinite(numberValue) && numberValue >= 0 ? numberValue : undefined
+}
+
+function normalizePixelWidth(value: unknown): string | undefined {
+  const numberValue = parsePixelValue(value)
+  return numberValue == null ? undefined : `${numberValue}px`
+}
 
 // 递归展平 Fragment，确保包裹组件或 v-for 生成的 TableColumn 能被正确提取
 function collectColumnVNodes(nodes: any[]): any[] {
@@ -226,20 +257,20 @@ const columns = computed(() => {
           vnodeSlots && typeof vnodeSlots === 'object' && typeof vnodeSlots.default === 'function'
             ? vnodeSlots.default
             : undefined
-        const minWidth = p.minWidth ?? p['min-width']
-        const maxWidth = p.maxWidth ?? p['max-width']
+        const minWidth = parsePixelValue(p.minWidth ?? p['min-width'])
+        const maxWidth = parsePixelValue(p.maxWidth ?? p['max-width'])
         const fixed = p.fixed ?? 'none'
         cols.push({
           label: p.label ?? '',
           field: p.field,
-          width: p.width,
+          width: normalizePixelWidth(p.width),
           sortable: p.sortable ?? false,
           align: p.align ?? 'left',
-          minWidth: minWidth != null ? Number(minWidth) : undefined,
-          maxWidth: maxWidth != null ? Number(maxWidth) : undefined,
+          minWidth,
+          maxWidth,
           fixed: (fixed as 'none' | 'left' | 'right') || 'none',
           renderFn: defaultSlot,
-          formater: p.formater
+          formatter: p.formatter
         })
       }
     }
@@ -443,6 +474,7 @@ const emit = defineEmits<{
 defineSlots<{
   default?: any
   empty?: any
+  loading?: any
 }>()
 
 const sortKey = ref('')
@@ -742,6 +774,14 @@ onUnmounted(() => {
 .yiz-table-body-scrollbox {
   flex: 1;
   min-height: 0;
+  width: 100%;
+}
+
+.yiz-table-body-wrapper {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
 }
 
 .yiz-table-bordered .yiz-table-body-scrollbox {
@@ -881,6 +921,26 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.yiz-table-loading-mask {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.yiz-table-loading-fade-enter-active,
+.yiz-table-loading-fade-leave-active {
+  transition: opacity 0.2s;
+}
+
+.yiz-table-loading-fade-enter-from,
+.yiz-table-loading-fade-leave-to {
+  opacity: 0;
 }
 
 // gap column: absorbs remaining table width

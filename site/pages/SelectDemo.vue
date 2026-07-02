@@ -44,11 +44,14 @@
     <y-card :title="$t('demo.common.slot')" style="margin-top: 8px">
       <y-select v-model="v9">
         <y-select-option :label="$t('demo.common.beijing')" value="beijing" />
-        <y-select-option :label="$t('demo.common.shanghai')" value="shanghai" />
+        <y-select-option :label="$t('demo.common.shanghai')" value="shanghai" :disabled="shanghaiDisabled" />
         <y-select-option :label="$t('demo.common.guangzhou')" value="guangzhou" />
         <y-select-option :label="$t('demo.common.shenzhen')" value="shenzhen" />
         <y-select-option :label="$t('demo.common.hangzhou')" value="hangzhou" />
       </y-select>
+      <y-button style="margin-left: 8px" @click="shanghaiDisabled = !shanghaiDisabled">
+        {{ shanghaiDisabled ? $t('demo.common.enabled') : $t('demo.common.disabled') }}
+      </y-button>
       <span class="demo-hint">{{ $t('demo.select.value', { value: v9 }) }}</span>
     </y-card>
 
@@ -90,6 +93,7 @@ const v8 = ref()
 const v9 = ref()
 const v10 = ref()
 const v11 = ref()
+const shanghaiDisabled = ref(true)
 const selectSize = ref<DemoSize>('default')
 const sizeOptions = [
   { label: 'small', value: 'small' },

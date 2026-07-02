@@ -4,6 +4,7 @@
 defineProps<{
   label?: string
   value?: any
-  item?: { label: string; value: any; [key: string]: any }
+  disabled?: boolean
+  item?: { label: string; value: any; disabled?: boolean; [key: string]: any }
 }>()
 </script>

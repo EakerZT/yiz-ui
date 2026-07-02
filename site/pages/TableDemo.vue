@@ -61,9 +61,40 @@
       <div style="height: 250px">
         <y-table :data="data" bordered>
           <y-table-column :label="$t('demo.common.name')" field="name" />
-          <y-table-column :label="$t('demo.common.age')" field="age" align="center" :formater="formatAge" />
+          <y-table-column :label="$t('demo.common.age')" field="age" align="center" :formatter="formatAge" />
           <y-table-column :label="$t('demo.common.city')" field="city" />
-          <y-table-column :label="$t('demo.common.status')" field="status" align="center" :formater="formatStatus" />
+          <y-table-column :label="$t('demo.common.status')" field="status" align="center" :formatter="formatStatus" />
+        </y-table>
+      </div>
+    </y-card>
+
+    <y-card :title="$t('demo.common.loading')" style="margin-top: 8px">
+      <y-button style="margin-bottom: 8px" @click="tableLoading = !tableLoading">
+        {{ $t('demo.table.toggleLoading') }}
+      </y-button>
+      <div style="height: 250px">
+        <y-table :data="data" bordered :loading="tableLoading">
+          <y-table-column :label="$t('demo.common.name')" field="name" />
+          <y-table-column :label="$t('demo.common.age')" field="age" align="center" />
+          <y-table-column :label="$t('demo.common.city')" field="city" />
+          <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
+        </y-table>
+      </div>
+    </y-card>
+
+    <y-card :title="$t('demo.table.customLoading')" style="margin-top: 8px">
+      <div style="height: 250px">
+        <y-table :data="data" bordered loading>
+          <template #loading>
+            <div class="demo-table-custom-loading">
+              <span class="demo-table-loading-dot" />
+              {{ $t('demo.table.customLoadingText') }}
+            </div>
+          </template>
+          <y-table-column :label="$t('demo.common.name')" field="name" />
+          <y-table-column :label="$t('demo.common.age')" field="age" align="center" />
+          <y-table-column :label="$t('demo.common.city')" field="city" />
+          <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
       </div>
     </y-card>
@@ -71,8 +102,8 @@
     <y-card :title="$t('demo.table.columnResize')" style="margin-top: 8px">
       <div style="height: 250px">
         <y-table :data="data" bordered resize>
-          <y-table-column :label="$t('demo.common.name')" field="name" width="120px" />
-          <y-table-column :label="$t('demo.common.age')" field="age" width="80px" align="center" />
+          <y-table-column :label="$t('demo.common.name')" field="name" :width="120" />
+          <y-table-column :label="$t('demo.common.age')" field="age" width="80" align="center" />
           <y-table-column :label="$t('demo.common.city')" field="city" width="120px" />
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
@@ -108,8 +139,8 @@
             :label="$t('demo.common.name')"
             field="name"
             width="150px"
-            :min-width="100"
-            :max-width="300"
+            min-width="100"
+            max-width="300"
           />
           <y-table-column
             :label="$t('demo.common.age')"
@@ -382,6 +413,7 @@ const singleSelected = ref(null)
 const multiSelected = ref([])
 const disabledSelected = ref([])
 const tableSize = ref<DemoSize>('default')
+const tableLoading = ref(true)
 const sizeOptions = [
   { label: 'small', value: 'small' },
   { label: 'default', value: 'default' },
@@ -423,5 +455,28 @@ function isSelectDisabled(row: Row, _index: number) {
 .demo-table-size-table {
   flex: 1;
   min-height: 0;
+}
+
+.demo-table-custom-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #722ed1;
+  font-size: 14px;
+}
+
+.demo-table-loading-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: demo-table-loading-pulse 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes demo-table-loading-pulse {
+  to {
+    opacity: 0.25;
+    transform: scale(0.7);
+  }
 }
 </style>

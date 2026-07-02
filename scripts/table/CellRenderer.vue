@@ -5,10 +5,10 @@ export default defineComponent({
   name: 'CellRenderer',
   props: {
     renderFn: Function,
-    formater: Function,
+    formatter: Function,
     value: {},
     row: { type: Object, default: () => ({}) },
-    index: { type: Number, default: 0 },
+    index: { type: Number, default: 0 }
   },
   setup(props) {
     return () => {
@@ -19,16 +19,16 @@ export default defineComponent({
         if (result != null) return result
         return null
       }
-      const formater = props.formater as Function | undefined
-      if (typeof formater === 'function') {
-        const result = formater(props.value, props.row, props.index)
+      const formatter = props.formatter as Function | undefined
+      if (typeof formatter === 'function') {
+        const result = formatter(props.value, props.row, props.index)
         if (Array.isArray(result)) return result
         if (result != null) return result
         return null
       }
       return h('span', String(props.value ?? ''))
     }
-  },
+  }
 })
 </script>
 

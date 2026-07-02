@@ -25,6 +25,7 @@ import type {
   Menu,
   MenuOption,
   Pagination,
+  Progress,
   Radio,
   RadioButton,
   RadioButtonGroup,
@@ -104,6 +105,8 @@ declare module 'vue' {
     'y-menu-option': typeof MenuOption
     YPagination: typeof Pagination
     'y-pagination': typeof Pagination
+    YProgress: typeof Progress
+    'y-progress': typeof Progress
     YRadio: typeof Radio
     'y-radio': typeof Radio
     YRadioButton: typeof RadioButton

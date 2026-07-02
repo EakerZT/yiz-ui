@@ -112,8 +112,9 @@ Key options: `title`, `content` (string or VNode), `type` (`'info' | 'success' |
 
 The most complex component. Three files:
 
-- **`Table.vue`** — main SFC using a dual-table structure: separate `<table>` elements for header and body, synchronized via `<colgroup>` + `table-layout: fixed`. Flex column layout fills parent height (no `height` prop). Features: sorting, column resize with min/max constraints, single/multi selection (v-model via `defineModel`), row-level select disabling (`selectDisabled`), `select` event (emits full row data), row numbers, empty state slot, fixed columns with sticky positioning.
-- **`TableColumn.vue`** — renderless declarative component; declares column config via props (`label`, `field`, `width`, `sortable`, `align`, `minWidth`, `maxWidth`, `fixed`). Supports a `#default` slot for custom cell rendering.
+- **`Table.vue`** — main SFC using separate CSS Grid header/body structures with synchronized column templates. Flex column layout fills parent height (no `height` prop). Features: sorting, column resize with min/max constraints, single/multi selection (v-model via `defineModel`), row-level select disabling (`selectDisabled`), `select` event (emits full row data), row numbers, empty/loading slots, fixed columns with sticky positioning.
+- **`TableColumn.vue`** — renderless declarative component; declares column config via props (`label`, `field`, `width`, `sortable`, `align`, `minWidth`, `maxWidth`, `fixed`, `formatter`). Supports a `#default` slot for custom cell rendering.
+- Table column pixel dimensions accept numbers, numeric strings, and `px` strings. Values are normalized to pixels; invalid or negative values are treated as omitted.
 - **`CellRenderer.vue`** — internal helper that calls a slot render function with `{ value, row, index }` scope and returns VNodes. Uses `defineComponent` with a setup-returning-render-function pattern (NOT `<script setup>`).
 
 **Slot-based column declaration:** The table uses `useSlots()` to iterate VNode children, finds `TableColumnComp` instances, and extracts their props + default slot functions (`(vnode as any).children.default`). This eliminates the need for a separate `columns` prop — consumers declare columns declaratively as children:
@@ -131,7 +132,7 @@ The most complex component. Three files:
 
 **Fixed columns:** `TableColumn.fixed` (`'none' | 'left' | 'right'`) — `displayColumns` reorders user columns so left-fixed come first (after virtual columns), then non-fixed, then right-fixed. `fixedOffsets` computed calculates cumulative sticky `left`/`right` offsets. During resize, fixed column widths are preserved from `columnWidths` to prevent sticky-offset drift.
 
-**Key props on `y-table`:** `data`, `bordered`, `stripe`, `size`, `resize`, `no`, `selectMode`, `rowKey`, `selectDisabled`, `v-model:selected`.
+**Key props on `y-table`:** `data`, `bordered`, `stripe`, `size`, `resize`, `no`, `selectMode`, `rowKey`, `selectDisabled`, `loading`, `v-model:selected`. The `#loading` slot replaces the default loading indicator and mask content.
 
 **Key events:** `select` — fires when selection changes, payload is the selected row data (single object for single mode, array for multi mode, null when deselected in single mode).
 

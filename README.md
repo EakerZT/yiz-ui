@@ -184,6 +184,7 @@ The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-erro
 | Menu | `YMenu` | Menu with expanded and collapsed modes |
 | MenuOption | `YMenuOption` | Declarative menu item |
 | Pagination | `YPagination` | Pagination with ellipsis, size changer, and quick jumper |
+| Progress | `YProgress` | Linear progress with status, custom color, and text formatting |
 | Radio | `YRadio` | Single radio |
 | RadioGroup | `YRadioGroup` | Radio group with options and slots |
 | RadioButton | `YRadioButton` | Radio as button |
@@ -197,7 +198,7 @@ The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-erro
 | Switch | `YSwitch` | Switch with loading and custom colors |
 | Tab | `YTab` | Tabs with four placements, card style, animation, and flex layout |
 | TabPane | `YTabPane` | Tab pane with label slot and closable support |
-| Table | `YTable` | Table with sorting, resize, selection, and fixed columns |
+| Table | `YTable` | Table with sorting, resize, selection, loading, and fixed columns |
 | TableColumn | `YTableColumn` | Declarative table column with custom rendering |
 | Tag | `YTag` | Tag with preset/custom colors and closable support |
 | Textarea | `YTextarea` | Textarea with autosize, count, and clearable support |

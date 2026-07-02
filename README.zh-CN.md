@@ -184,6 +184,7 @@ loadingBar.reset()
 | Menu | `YMenu` | 菜单，支持展开和折叠模式 |
 | MenuOption | `YMenuOption` | 声明式菜单项 |
 | Pagination | `YPagination` | 分页，支持省略、页大小选择和快速跳转 |
+| Progress | `YProgress` | 线性进度条，支持状态、自定义颜色和文字格式化 |
 | Radio | `YRadio` | 单个单选框 |
 | RadioGroup | `YRadioGroup` | 单选组，支持 options 和 slot |
 | RadioButton | `YRadioButton` | 按钮风格单选 |
@@ -197,7 +198,7 @@ loadingBar.reset()
 | Switch | `YSwitch` | 开关，支持加载态和自定义颜色 |
 | Tab | `YTab` | 标签页，支持四方向、卡片风格、动画和 flex 布局 |
 | TabPane | `YTabPane` | 标签页面板，支持 label 插槽和关闭 |
-| Table | `YTable` | 表格，支持排序、列宽拖拽、行选择和固定列 |
+| Table | `YTable` | 表格，支持排序、列宽拖拽、行选择、加载态和固定列 |
 | TableColumn | `YTableColumn` | 声明式表格列，支持自定义渲染 |
 | Tag | `YTag` | 标签，支持预设色/自定义色和关闭 |
 | Textarea | `YTextarea` | 文本域，支持自适应高度、字数统计和可清空 |

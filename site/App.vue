@@ -68,6 +68,7 @@ import MenuDemo from './pages/MenuDemo.vue'
 import NotificationDemo from './pages/NotificationDemo.vue'
 import IconDemo from './pages/IconDemo.vue'
 import PaginationDemo from './pages/PaginationDemo.vue'
+import ProgressDemo from './pages/ProgressDemo.vue'
 import RadioDemo from './pages/RadioDemo.vue'
 import ScrollBoxDemo from './pages/ScrollBoxDemo.vue'
 import SegmentedDemo from './pages/SegmentedDemo.vue'
@@ -114,6 +115,7 @@ const pages: Record<string, any> = {
   menu: MenuDemo,
   notification: NotificationDemo,
   pagination: PaginationDemo,
+  progress: ProgressDemo,
   radio: RadioDemo,
   'scroll-box': ScrollBoxDemo,
   segmented: SegmentedDemo,
@@ -159,6 +161,7 @@ const menuItems = computed(() => [
   { label: $t('demo.nav.menu'), key: 'menu' },
   { label: $t('demo.nav.notification'), key: 'notification' },
   { label: $t('demo.nav.pagination'), key: 'pagination' },
+  { label: $t('demo.nav.progress'), key: 'progress' },
   { label: $t('demo.nav.radio'), key: 'radio' },
   { label: $t('demo.nav.scrollBox'), key: 'scroll-box' },
   { label: $t('demo.nav.segmented'), key: 'segmented' },

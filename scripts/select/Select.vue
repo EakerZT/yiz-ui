@@ -43,10 +43,12 @@
             class="yiz-select-option"
             :class="{
               'yiz-select-option-selected': isSelected(opt),
-              'yiz-select-option-hover': hoverIndex === idx
+              'yiz-select-option-hover': hoverIndex === idx && !opt.disabled,
+              'yiz-select-option-disabled': opt.disabled
             }"
+            :aria-disabled="opt.disabled || undefined"
             @click.stop="onSelect(opt)"
-            @mouseenter="hoverIndex = idx"
+            @mouseenter="onOptionMouseenter(opt, idx)"
           >
             <slot name="option" :option="opt" :index="idx" :selected="isSelected(opt)">
               {{ opt.label }}
@@ -73,6 +75,7 @@ import { nextZIndex } from '../zIndex'
 export interface SelectOption {
   label: string
   value: any
+  disabled?: boolean
 }
 
 const props = withDefaults(
@@ -134,7 +137,7 @@ const slotOptions = computed(() => {
       if (p.item) {
         opts.push(p.item)
       } else {
-        opts.push({ label: p.label, value: p.value })
+        opts.push({ label: p.label, value: p.value, disabled: p.disabled === '' || p.disabled === true })
       }
     }
   }
@@ -280,10 +283,14 @@ watch(open, async (val) => {
 })
 
 function onSelect(opt: SelectOption) {
-  if (props.disabled) return
+  if (props.disabled || opt.disabled) return
   modelValue.value = opt.value
   open.value = false
   emit('change', opt)
+}
+
+function onOptionMouseenter(opt: SelectOption, index: number) {
+  if (!opt.disabled) hoverIndex.value = index
 }
 
 function onClear() {
@@ -301,6 +308,13 @@ function onClickOutside(e: MouseEvent) {
 }
 
 // keyboard
+function findEnabledOptionIndex(startIndex: number, direction: 1 | -1): number {
+  for (let index = startIndex; index >= 0 && index < filteredOptions.value.length; index += direction) {
+    if (!filteredOptions.value[index]?.disabled) return index
+  }
+  return -1
+}
+
 function onKeydown(e: KeyboardEvent) {
   if (!open.value) return
   if (e.key === 'Escape') {
@@ -309,12 +323,15 @@ function onKeydown(e: KeyboardEvent) {
   }
   if (e.key === 'ArrowDown') {
     e.preventDefault()
-    hoverIndex.value = Math.min(hoverIndex.value + 1, filteredOptions.value.length - 1)
+    const nextIndex = findEnabledOptionIndex(hoverIndex.value + 1, 1)
+    if (nextIndex >= 0) hoverIndex.value = nextIndex
     return
   }
   if (e.key === 'ArrowUp') {
     e.preventDefault()
-    hoverIndex.value = Math.max(hoverIndex.value - 1, 0)
+    const startIndex = hoverIndex.value < 0 ? filteredOptions.value.length - 1 : hoverIndex.value - 1
+    const nextIndex = findEnabledOptionIndex(startIndex, -1)
+    if (nextIndex >= 0) hoverIndex.value = nextIndex
     return
   }
   if (e.key === 'Enter' && hoverIndex.value >= 0) {
@@ -534,6 +551,12 @@ onBeforeUnmount(() => {
     color: var(--yiz-color-primary);
     background-color: var(--yiz-color-primary-light8);
     font-weight: 500;
+  }
+
+  &.yiz-select-option-disabled {
+    color: #c0c4cc;
+    cursor: not-allowed;
+    background: transparent;
   }
 }
 
