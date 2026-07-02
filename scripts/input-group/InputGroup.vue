@@ -43,7 +43,6 @@ const vClass = computed(() => ({
 <style lang="less">
 .yiz-input-group {
   --yiz-input-group-height: 32px;
-  --yiz-input-group-inner-height: 30px;
   --yiz-input-group-font-size: 14px;
   --yiz-input-group-radius: var(--yiz-base-border-radius-default);
 
@@ -53,14 +52,12 @@ const vClass = computed(() => ({
 
   &.yiz-input-group-small {
     --yiz-input-group-height: 24px;
-    --yiz-input-group-inner-height: 22px;
     --yiz-input-group-font-size: 13px;
     --yiz-input-group-radius: var(--yiz-base-border-radius-small);
   }
 
   &.yiz-input-group-large {
     --yiz-input-group-height: 40px;
-    --yiz-input-group-inner-height: 38px;
     --yiz-input-group-font-size: 16px;
     --yiz-input-group-radius: var(--yiz-base-border-radius-large);
   }
@@ -135,8 +132,6 @@ const vClass = computed(() => ({
 
   > .yiz-input .yiz-input_outer .yiz-input_inner,
   > .yiz-input-number .yiz-input-number-input {
-    height: var(--yiz-input-group-inner-height);
-    line-height: var(--yiz-input-group-inner-height);
     font-size: var(--yiz-input-group-font-size);
   }
 

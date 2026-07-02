@@ -508,8 +508,10 @@ onBeforeUnmount(() => {
   input {
     flex: 1;
     min-width: 0;
+    height: 100%;
     border: none;
     outline: none;
+    box-sizing: border-box;
     background: transparent;
     font-size: 14px;
     cursor: text;

@@ -1011,10 +1011,11 @@ onBeforeUnmount(() => {
 .yiz-datetime-range-picker-segment {
   flex: 1;
   min-width: 0;
-  height: 24px;
+  height: 100%;
   padding: 0 4px;
   border: none;
   outline: none;
+  box-sizing: border-box;
   border-radius: 3px;
   background: transparent;
   color: #333;

@@ -176,6 +176,7 @@ defineExpose({
 .yiz-input-number {
   display: flex;
   align-items: center;
+  box-sizing: border-box;
   height: 32px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
