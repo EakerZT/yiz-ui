@@ -181,6 +181,7 @@ function onChildSelect(item: MenuItem) {
     border: 1px solid var(--yiz-color-border, #d9d9d9);
     border-radius: var(--yiz-pane-border-radius);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    padding: 0;
   }
 }
 
@@ -191,6 +192,7 @@ function onChildSelect(item: MenuItem) {
     border: 1px solid var(--yiz-color-border, #d9d9d9);
     border-radius: var(--yiz-pane-border-radius);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    padding: 0;
   }
 }
 </style>

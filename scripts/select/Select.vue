@@ -521,7 +521,6 @@ onBeforeUnmount(() => {
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  padding: 4px 0;
 }
 
 .yiz-select-search-wrap {

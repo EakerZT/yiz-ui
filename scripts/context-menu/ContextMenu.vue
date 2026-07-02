@@ -257,7 +257,7 @@ function onSubmenuEnter(item: ContextMenuItem, e: MouseEvent) {
   }
 
   // vertical: keep submenu within viewport bottom
-  const estimatedHeight = Math.min((item.children?.length || 0) * 36 + 8, 300)
+  const estimatedHeight = Math.min((item.children?.length || 0) * 32, 300)
   if (rect.top + estimatedHeight > window.innerHeight) {
     s.top = 'auto'
     s.bottom = '0'
@@ -288,7 +288,6 @@ function onChildSelect(item: ContextMenuItem) {
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  padding: 4px 0;
   position: relative;
 }
 

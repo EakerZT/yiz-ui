@@ -155,7 +155,7 @@ function updatePopupPosition() {
   const margin = 8
   const width = toCssSize(props.width)
   const popupWidth = props.width == null ? Math.max(160, rect.width) : Number.parseFloat(String(props.width))
-  const estimatedHeight = Math.min(allOptions.value.length * 32 + 8, 360)
+  const estimatedHeight = Math.min(allOptions.value.length * 40, 360)
   const placeTop = props.placement.startsWith('top')
   const alignEnd = props.placement.endsWith('end')
   const style: Record<string, string> = {

@@ -116,7 +116,7 @@ function onItemMouseEnter(item: DropmenuOption, e: MouseEvent) {
   const menuWidth = 200
   const gap = 4
   const margin = 8
-  const estimatedHeight = Math.min(item.children.length * 32 + 8, 360)
+  const estimatedHeight = Math.min(item.children.length * 40, 360)
   const style: Record<string, string> = {
     position: 'fixed',
     zIndex: childZIndex.value,
@@ -165,7 +165,6 @@ function onChildSelect(item: DropmenuOption) {
   min-width: 160px;
   max-height: 360px;
   overflow: auto;
-  padding: 4px 0;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
   background: #fff;
@@ -179,7 +178,7 @@ function onChildSelect(item: DropmenuOption) {
   align-items: center;
   justify-content: space-between;
   height: 32px;
-  margin: 2px 4px;
+  margin: 4px;
   padding: 0 8px;
   border-radius: var(--yiz-pane-item-border-radius);
   color: #333;
