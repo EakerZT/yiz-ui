@@ -278,7 +278,7 @@ const onClick = (e: MouseEvent) => {
 }
 
 .yiz-button-size-default {
-  height: 32px;
+  height: 34px;
   font-size: 14px;
 
   &.yiz-button-shape-default {
@@ -291,12 +291,12 @@ const onClick = (e: MouseEvent) => {
   }
 
   &.yiz-button-shape-round {
-    border-radius: 16px;
+    border-radius: 17px;
     padding: 0 15px;
   }
 
   &.yiz-button-shape-circle {
-    width: 32px;
+    width: 34px;
   }
 
   & > .yiz-icon {
