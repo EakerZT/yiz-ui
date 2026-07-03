@@ -11,7 +11,7 @@
           <em>{{ iconSize }}px</em>
         </span>
       </div>
-    </y-card>
+</y-card>
 
     <y-card :title="$t('demo.icon.renderSvg')" style="margin-top: 8px">
       <span class="demo-icon-item">
@@ -19,11 +19,21 @@
         <em>{{ $t('demo.icon.svgString') }}</em>
       </span>
     </y-card>
+
+    <y-card :title="$t('demo.icon.renderSvgIcon')" style="margin-top: 8px">
+      <div class="demo-icon-size-panel">
+        <y-radio-button-group v-model:value="svgIconSize" :options="sizeOptions" />
+        <span class="demo-icon-item">
+          <component :is="customSvgIconVNode" />
+          <em>{{ $t('demo.icon.svgStringWithSize') }}</em>
+        </span>
+      </div>
+    </y-card>
   </section>
 </template>
 
 <script lang="ts" setup>
-import { $t, renderSvg } from 'yiz-ui'
+import { $t, renderSvg, renderSvgIcon } from 'yiz-ui'
 import { Flash20Regular } from '@vicons/fluent'
 import { ref } from 'vue'
 
@@ -41,6 +51,9 @@ const customSvg = `
 </svg>`
 
 const customSvgIcon = () => renderSvg(customSvg)
+
+const svgIconSize = ref(20)
+const customSvgIconVNode = () => renderSvgIcon(customSvg, { size: svgIconSize.value })
 </script>
 
 <style scoped>

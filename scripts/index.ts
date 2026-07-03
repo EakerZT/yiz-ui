@@ -10,6 +10,7 @@ export * from './locale'
 export * from './notification'
 export { showContextMenu } from './context-menu'
 export { renderSvg } from './icon/renderSvg'
+export { renderSvgIcon, type RenderSvgIconOptions } from './icon/renderSvgIcon'
 export { loadingBar } from './loading-bar'
 export type { LoadingBarOptions, LoadingBarDirection, LoadingBarPositionUsing } from './loading-bar'
 

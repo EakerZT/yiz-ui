@@ -432,6 +432,8 @@ const zhCN: LangMessages = {
   'demo.icon.desc': '渲染 @vicons/fluent 图标，支持自定义尺寸。',
   'demo.icon.renderSvg': 'renderSvg',
   'demo.icon.svgString': 'SVG 字符串',
+  'demo.icon.renderSvgIcon': 'renderSvgIcon',
+  'demo.icon.svgStringWithSize': 'SVG 字符串（与 Icon 结构一致，支持 size）',
 
   'demo.input.title': 'Input 输入框',
   'demo.input.desc': '支持 v-model 双向绑定、clearable 清空、prefix/suffix 前后缀。',
@@ -1268,6 +1270,8 @@ const enUS: LangMessages = {
   'demo.icon.desc': 'Render @vicons/fluent icons with custom sizes.',
   'demo.icon.renderSvg': 'renderSvg',
   'demo.icon.svgString': 'SVG string',
+  'demo.icon.renderSvgIcon': 'renderSvgIcon',
+  'demo.icon.svgStringWithSize': 'SVG string (Icon-like structure, supports size)',
 
   'demo.input.title': 'Input',
   'demo.input.desc': 'Supports v-model, clearable input, prefix, and suffix.',

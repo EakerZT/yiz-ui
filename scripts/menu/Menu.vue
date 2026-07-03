@@ -3,6 +3,7 @@
     class="yiz-menu"
     :class="{ 'yiz-menu-collapsed': collapsed, 'yiz-menu-dark': props.dark }"
     :style="{ width: collapsed ? '56px' : menuWidth }"
+    v-bind="$attrs"
   >
     <template v-for="(item, idx) in allItems" :key="idx">
       <!-- collapsed item without children: wrap in Tooltip -->
@@ -140,7 +141,7 @@ const menuWidth = computed(() => {
 defineSlots<{
   default?: () => any
   item?: (props: { item: MenuItem; index: number }) => any
-  icon?: (props: { icon: string; item: MenuItem }) => any
+  icon?: (props: { icon: any; item: MenuItem }) => any
 }>()
 
 const emit = defineEmits<{
