@@ -42,6 +42,8 @@
     "dev": "vite",
     "site:build": "vite build --config vite.config.site.mts",
     "typecheck": "vue-tsc --noEmit",
+    "format": "prettier --write \"scripts/**/*.{ts,vue,less,json}\" \"site/**/*.{ts,vue,less}\" \"*.{ts,mts,json,md}\" \".prettierrc\"",
+    "format:check": "prettier --check \"scripts/**/*.{ts,vue,less,json}\" \"site/**/*.{ts,vue,less}\" \"*.{ts,mts,json,md}\" \".prettierrc\"",
     "build": "vite build --config vite.config.lib.mts && vue-tsc --project tsconfig.build.json",
     "prepublishOnly": "yarn typecheck && yarn build"
   },

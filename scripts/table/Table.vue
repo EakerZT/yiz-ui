@@ -35,7 +35,13 @@
           >
             <Checkbox v-model:checked="headerChecked" />
           </label>
-          <span v-else class="yiz-table-th-label">{{ col.label }}</span>
+          <span
+            v-else
+            class="yiz-table-th-label"
+            :class="{ 'yiz-table-cell-ellipsis': isOverflowTooltipOn(col) }"
+            @mouseenter="onHeaderEnter($event, col)"
+            @mouseleave="onCellLeave"
+            >{{ col.label }}</span>
           <span v-if="col.sortable" class="yiz-table-sort">
             <span class="yiz-table-sort-icon" :class="{ active: sortKey === col.field && sortOrder === 'asc' }">▲</span>
             <span class="yiz-table-sort-icon" :class="{ active: sortKey === col.field && sortOrder === 'desc' }"
@@ -125,14 +131,18 @@
               </template>
               <template v-else>
                 <CellRenderer
-                  v-if="col.renderFn || col.formatter"
+                  v-if="col.renderFn"
                   :render-fn="col.renderFn"
-                  :formatter="col.formatter"
                   :value="row[col.field]"
                   :row="row"
                   :index="idx"
                 />
-                <span v-else>{{ row[col.field] }}</span>
+                <span
+                  v-else
+                  :class="{ 'yiz-table-cell-ellipsis': isOverflowTooltipOn(col) }"
+                  @mouseenter="onCellEnter($event, col)"
+                  @mouseleave="onCellLeave"
+                >{{ col.formatter ? col.formatter(row[col.field], row, idx) : row[col.field] }}</span>
               </template>
             </div>
           </div>
@@ -151,9 +161,31 @@
     <div style="display: none"><slot /></div>
   </div>
   <Teleport to="body">
-    <div v-if="resizing" class="yiz-table-resize-tooltip" :style="{ left: tooltipX + 'px', top: tooltipY + 'px' }">
-      {{ $t('table.width') }}:{{ tooltipWidth }}px
+    <div
+      v-if="resizing"
+      class="yiz-table-resize-tooltip yiz-table-cell-tooltip-top"
+      :style="{ left: tooltipX + 'px', top: tooltipY + 'px', zIndex: 9999 }"
+    >
+      <div class="yiz-table-cell-tooltip-content">{{ $t('table.width') }}:{{ tooltipWidth }}px</div>
+      <div class="yiz-table-cell-tooltip-arrow" />
     </div>
+  </Teleport>
+
+  <Teleport to="body">
+    <transition name="yiz-table-cell-tooltip-fade">
+      <div
+        v-if="tipVisible"
+        ref="tooltipRef"
+        class="yiz-table-cell-tooltip"
+        :class="`yiz-table-cell-tooltip-${tipPlacement}`"
+        :style="{ left: tipPos.left + 'px', top: tipPos.top + 'px', zIndex: tipZ }"
+        @mouseenter="onTipMouseEnter"
+        @mouseleave="onTipMouseLeave"
+      >
+        <div class="yiz-table-cell-tooltip-content">{{ tipContent }}</div>
+        <div class="yiz-table-cell-tooltip-arrow" />
+      </div>
+    </transition>
   </Teleport>
 </template>
 
@@ -167,6 +199,7 @@ import { ScrollBox } from '../scroll-box'
 import { Empty } from '../empty'
 import { Loading } from '../loading'
 import { $t } from '../locale'
+import { nextZIndex } from '../zIndex'
 
 export interface TableColumn {
   label: string
@@ -179,6 +212,7 @@ export interface TableColumn {
   fixed?: 'none' | 'left' | 'right'
   renderFn?: (scope: { value: any; row: any; index: number }) => any
   formatter?: (value: any, row: any, index: number) => any
+  showOverflow?: boolean
 }
 
 const slots = useSlots()
@@ -197,6 +231,7 @@ const props = withDefaults(
     rowKey?: string
     selectDisabled?: (row: any, index: number) => boolean
     loading?: boolean
+    showOverflow?: boolean
   }>(),
   {
     data: () => [],
@@ -207,7 +242,8 @@ const props = withDefaults(
     no: false,
     selectMode: 'none',
     selectDisabled: undefined,
-    loading: false
+    loading: false,
+    showOverflow: false
   }
 )
 
@@ -222,6 +258,16 @@ function parsePixelValue(value: unknown): number | undefined {
 
   const numberValue = Number.parseFloat(text)
   return Number.isFinite(numberValue) && numberValue >= 0 ? numberValue : undefined
+}
+
+// 规范化布尔 prop：从 vnode.props 直接读取未挂载的子组件不会触发 Vue 的 Boolean cast,
+// 因此 <y-table-column show-overflow /> 会被存储为空字符串而非 true。
+function normalizeBoolProp(v: unknown): boolean | undefined {
+  if (v == null) return undefined
+  if (typeof v === 'boolean') return v
+  if (v === '' || v === 'true') return true
+  if (v === 'false') return false
+  return Boolean(v)
 }
 
 function normalizePixelWidth(value: unknown): string | undefined {
@@ -264,13 +310,14 @@ const columns = computed(() => {
           label: p.label ?? '',
           field: p.field,
           width: normalizePixelWidth(p.width),
-          sortable: p.sortable ?? false,
+          sortable: normalizeBoolProp(p.sortable) ?? false,
           align: p.align ?? 'left',
           minWidth,
           maxWidth,
           fixed: (fixed as 'none' | 'left' | 'right') || 'none',
           renderFn: defaultSlot,
-          formatter: p.formatter
+          formatter: p.formatter,
+          showOverflow: normalizeBoolProp(p.showOverflow ?? p['show-overflow'])
         })
       }
     }
@@ -399,6 +446,12 @@ function getCellStyle(col: TableColumn): Record<string, string> {
 
 function getRowKey(row: Record<string, any>, index: number) {
   return props.rowKey ? row[props.rowKey] : index
+}
+
+function isOverflowTooltipOn(col: TableColumn) {
+  if (col.renderFn) return false
+  if (col.field === '__yiz_select' || col.field === '__yiz_row_no' || col.field === '__yiz_gap') return false
+  return col.showOverflow ?? props.showOverflow
 }
 
 function isRowDisabled(row: Record<string, any>, index: number) {
@@ -618,6 +671,7 @@ function onBodyScroll() {
   }
   checkBodyContentShort()
   checkFixedColumnShadow()
+  if (tipVisible.value) repositionTip()
 }
 
 let wrapperResizeObserver: ResizeObserver | null = null
@@ -662,6 +716,8 @@ onMounted(() => {
       wrapperResizeObserver.observe(tableWrapperRef.value)
     }
   })
+  window.addEventListener('scroll', onWindowScrollTip, true)
+  window.addEventListener('resize', onWindowResizeTip)
 })
 
 watch(
@@ -678,6 +734,7 @@ const resizeStartWidth = ref(0)
 const tooltipX = ref(0)
 const tooltipY = ref(0)
 const tooltipWidth = ref(0)
+const resizeStartRightX = ref(0)
 
 function onResizeStart(e: MouseEvent, col: TableColumn) {
   const th = (e.target as HTMLElement).closest('.yiz-table-th') as HTMLElement
@@ -699,8 +756,11 @@ function onResizeStart(e: MouseEvent, col: TableColumn) {
   resizeStartX.value = e.clientX
   resizeStartWidth.value = th.offsetWidth
   tooltipWidth.value = th.offsetWidth
-  tooltipX.value = e.clientX
-  tooltipY.value = e.clientY - 32
+  const thRect = th.getBoundingClientRect()
+  resizeStartRightX.value = thRect.right
+  // 浮在拖动线上方：left = 拖动线 x（th 右边缘）；top = th 顶部（通过 translateY(-100%) 让 tooltip 底边对齐 top）
+  tooltipX.value = thRect.right
+  tooltipY.value = thRect.top
   document.addEventListener('mousemove', onResizeMove)
   document.addEventListener('mouseup', onResizeEnd)
   document.body.style.userSelect = 'none'
@@ -719,8 +779,8 @@ function onResizeMove(e: MouseEvent) {
   widths[resizing.value] = `${newWidth}px`
   columnWidths.value = widths
   tooltipWidth.value = Math.round(newWidth)
-  tooltipX.value = e.clientX
-  tooltipY.value = e.clientY - 32
+  // tooltip 浮在拖动线上方（y 固定为 th 顶部，x 跟随拖动线移动）
+  tooltipX.value = resizeStartRightX.value + delta
 }
 
 function onResizeEnd() {
@@ -742,6 +802,105 @@ function onResizeEnd() {
   }
 }
 
+// 单元格溢出 tooltip：单例共享浮层，Teleport 到 body
+const tooltipRef = ref<HTMLDivElement>()
+const tipVisible = ref(false)
+const tipContent = ref('')
+const tipPlacement = ref<'top' | 'bottom'>('top')
+const tipPos = ref({ left: 0, top: 0 })
+const tipZ = ref(2000)
+let activeCell: HTMLElement | null = null
+let tipHideTimer: ReturnType<typeof setTimeout> | null = null
+
+function clearTipHideTimer() {
+  if (tipHideTimer !== null) {
+    clearTimeout(tipHideTimer)
+    tipHideTimer = null
+  }
+}
+
+function repositionTip() {
+  const el = activeCell
+  const pop = tooltipRef.value
+  if (!el || !pop) return
+  const tr = el.getBoundingClientRect()
+  const pr = pop.getBoundingClientRect()
+  const gap = 0
+  const margin = 8
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+
+  // 行滚动出视口则隐藏
+  if (tr.bottom < 0 || tr.top > vh) {
+    tipVisible.value = false
+    activeCell = null
+    return
+  }
+
+  let placement: 'top' | 'bottom' = 'top'
+  if (tr.top - pr.height - gap < margin) placement = 'bottom'
+  else if (tr.bottom + pr.height + gap > vh - margin) placement = 'top'
+
+  let left = tr.left + tr.width / 2 - pr.width / 2
+  let top = placement === 'top' ? tr.top - pr.height - gap : tr.bottom + gap
+  left = Math.max(margin, Math.min(left, vw - pr.width - margin))
+  top = Math.max(margin, Math.min(top, vh - pr.height - margin))
+
+  tipPos.value = { left, top }
+  tipPlacement.value = placement
+}
+
+function showTip(e: MouseEvent) {
+  const el = e.currentTarget as HTMLElement
+  if (el.scrollWidth <= el.clientWidth + 1) return // 未溢出
+  const text = el.textContent == null ? '' : el.textContent.trim()
+  if (!text) return
+  clearTipHideTimer()
+  tipZ.value = nextZIndex()
+  activeCell = el
+  tipContent.value = text
+  tipVisible.value = true
+  nextTick(repositionTip)
+}
+
+function onCellEnter(e: MouseEvent, col: TableColumn) {
+  if (!isOverflowTooltipOn(col)) return
+  showTip(e)
+}
+
+function onHeaderEnter(e: MouseEvent, col: TableColumn) {
+  if (!isOverflowTooltipOn(col)) return
+  showTip(e)
+}
+
+function onCellLeave() {
+  clearTipHideTimer()
+  tipHideTimer = setTimeout(() => {
+    tipVisible.value = false
+    activeCell = null
+  }, 100)
+}
+
+function onTipMouseEnter() {
+  clearTipHideTimer()
+}
+
+function onTipMouseLeave() {
+  clearTipHideTimer()
+  tipHideTimer = setTimeout(() => {
+    tipVisible.value = false
+    activeCell = null
+  }, 100)
+}
+
+function onWindowScrollTip() {
+  if (tipVisible.value) repositionTip()
+}
+
+function onWindowResizeTip() {
+  if (tipVisible.value) repositionTip()
+}
+
 onUnmounted(() => {
   wrapperResizeObserver?.disconnect()
   bodyContentResizeObserver?.disconnect()
@@ -753,6 +912,9 @@ onUnmounted(() => {
   document.removeEventListener('mouseup', onResizeEnd)
   document.body.style.userSelect = ''
   document.body.style.cursor = ''
+  clearTipHideTimer()
+  window.removeEventListener('scroll', onWindowScrollTip, true)
+  window.removeEventListener('resize', onWindowResizeTip)
 })
 </script>
 
@@ -1016,17 +1178,13 @@ onUnmounted(() => {
   border-right: 2px solid var(--yiz-color-primary) !important;
 }
 
-// resize tooltip
+// resize tooltip：固定在拖动线上方，箭头指向 th 顶部
 .yiz-table-resize-tooltip {
   position: fixed;
-  z-index: 9999;
-  background: rgba(0, 0, 0, 0.75);
-  color: #fff;
-  padding: 4px 8px;
-  border-radius: var(--yiz-pane-border-radius);
-  font-size: 12px;
+  transform: translate(-50%, -100%);
   pointer-events: none;
   white-space: nowrap;
+  font-size: 13px;
 }
 
 // right-fixed boundary: remove right border from last non-fixed column
@@ -1057,5 +1215,68 @@ onUnmounted(() => {
 .yiz-table-resizable .yiz-table-th.yiz-table-last-right-fixed,
 .yiz-table-resizable .yiz-table-td.yiz-table-last-right-fixed {
   border-right: none;
+}
+
+// cell overflow ellipsis
+.yiz-table-cell-ellipsis {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// cell overflow tooltip
+.yiz-table-cell-tooltip {
+  position: fixed;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+.yiz-table-cell-tooltip-content {
+  background: #303133;
+  color: #fff;
+  border-radius: var(--yiz-pane-border-radius);
+  padding: 6px 12px;
+  line-height: 1.4;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+}
+
+.yiz-table-cell-tooltip-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+}
+
+.yiz-table-cell-tooltip-top {
+  padding-bottom: 8px;
+
+  .yiz-table-cell-tooltip-arrow {
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-top-color: #303133;
+  }
+}
+
+.yiz-table-cell-tooltip-bottom {
+  padding-top: 8px;
+
+  .yiz-table-cell-tooltip-arrow {
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom-color: #303133;
+  }
+}
+
+.yiz-table-cell-tooltip-fade-enter-active,
+.yiz-table-cell-tooltip-fade-leave-active {
+  transition: opacity 0.2s;
+}
+
+.yiz-table-cell-tooltip-fade-enter-from,
+.yiz-table-cell-tooltip-fade-leave-to {
+  opacity: 0;
 }
 </style>
