@@ -11,7 +11,7 @@
           <span class="yiz-menu-item-icon">
             <template v-if="item.icon">
               <template v-if="typeof item.icon === 'string'">
-                <slot name="icon" :icon="item.icon" :item="item" />
+                <slot name="icon" :icon="item.icon" :item="item" :selected="isSelected(item)" />
               </template>
               <IconRenderer v-else :content="item.icon" />
             </template>
@@ -66,7 +66,7 @@ const props = withDefaults(
 )
 
 defineSlots<{
-  icon?: (props: { icon: string; item: MenuItem }) => any
+  icon?: (props: { icon: string; item: MenuItem; selected: boolean }) => any
   item?: (props: { item: MenuItem; index: number }) => any
 }>()
 

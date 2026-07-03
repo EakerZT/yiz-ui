@@ -35,11 +35,7 @@
     </y-card>
 
     <y-card :title="$t('demo.menu.iconString')" style="margin-top: 8px">
-      <y-menu v-model:select="v5" :items="iconItems" @select="onSelect5">
-        <template #icon="{ icon }">
-          <Icon :icon="iconMap[icon]" />
-        </template>
-      </y-menu>
+      <y-menu v-model:select="v5" :items="iconItems" @select="onSelect5" />
       <span class="demo-hint">{{ $t('demo.menu.selected', { value: v5 }) }}</span>
     </y-card>
 
@@ -56,11 +52,7 @@
         <span class="demo-hint">{{ collapsed ? 'collapsed' : 'expanded' }}</span>
       </div>
       <div style="display: flex; align-items: flex-start; gap: 12px">
-        <y-menu v-model:select="v7" :items="collapsedItems" :collapsed="collapsed" :dark="dark" @select="onSelect7">
-          <template #icon="{ icon }">
-            <Icon :icon="iconMap[icon]" />
-          </template>
-        </y-menu>
+        <y-menu v-model:select="v7" :items="collapsedItems" :collapsed="collapsed" :dark="dark" @select="onSelect7" />
       </div>
       <span class="demo-hint">{{ $t('demo.menu.selected', { value: v7 }) }}</span>
     </y-card>
@@ -123,69 +115,51 @@ const v7 = ref()
 const collapsed = ref(true)
 const dark = ref(true)
 
-const iconMap: Record<string, any> = {
-  home: Home20Regular,
-  products: Box20Regular,
-  'all-products': Box20Regular,
-  categories: Tag20Regular,
-  tags: Tag20Regular,
-  settings: Settings20Regular,
-  profile: Person20Regular,
-  system: Settings20Regular,
-  about: Info20Regular,
-  info: Info20Regular,
-  electronics: Laptop20Regular,
-  clothing: Gift20Regular,
-  food: Food20Regular,
-  security: Shield20Regular,
-  notification: Mail20Regular
-}
-
 const collapsedItems = [
-  { label: $t('demo.common.home'), key: 'home', icon: 'home' },
+  { label: $t('demo.common.home'), key: 'home', icon: () => h(Icon, { icon: Home20Regular }) },
   {
     label: $t('demo.common.products'),
     key: 'products',
-    icon: 'products',
+    icon: () => h(Icon, { icon: Box20Regular }),
     children: [
-      { label: $t('demo.common.allProducts'), key: 'all-products', icon: 'all-products' },
+      { label: $t('demo.common.allProducts'), key: 'all-products', icon: () => h(Icon, { icon: Box20Regular }) },
       {
         label: $t('demo.common.categories'),
         key: 'categories',
-        icon: 'categories',
+        icon: () => h(Icon, { icon: Tag20Regular }),
         children: [
-          { label: $t('demo.common.electronics'), key: 'electronics', icon: 'electronics' },
-          { label: $t('demo.common.clothing'), key: 'clothing', icon: 'clothing' },
-          { label: $t('demo.common.food'), key: 'food', icon: 'food' }
+          { label: $t('demo.common.electronics'), key: 'electronics', icon: () => h(Icon, { icon: Laptop20Regular }) },
+          { label: $t('demo.common.clothing'), key: 'clothing', icon: () => h(Icon, { icon: Gift20Regular }) },
+          { label: $t('demo.common.food'), key: 'food', icon: () => h(Icon, { icon: Food20Regular }) }
         ]
       },
-      { label: $t('demo.common.tags'), key: 'tags', icon: 'tags' }
+      { label: $t('demo.common.tags'), key: 'tags', icon: () => h(Icon, { icon: Tag20Regular }) }
     ]
   },
   {
     label: $t('demo.common.settings'),
     key: 'settings',
-    icon: 'settings',
+    icon: () => h(Icon, { icon: Settings20Regular }),
     children: [
-      { label: $t('demo.common.profile'), key: 'profile', icon: 'profile' },
+      { label: $t('demo.common.profile'), key: 'profile', icon: () => h(Icon, { icon: Person20Regular }) },
       {
         label: $t('demo.common.systemSettings'),
         key: 'system',
-        icon: 'system',
+        icon: () => h(Icon, { icon: Settings20Regular }),
         children: [
-          { label: $t('demo.common.securitySettings'), key: 'security', icon: 'security' },
-          { label: $t('demo.common.notificationSettings'), key: 'notification', icon: 'notification' }
+          { label: $t('demo.common.securitySettings'), key: 'security', icon: () => h(Icon, { icon: Shield20Regular }) },
+          { label: $t('demo.common.notificationSettings'), key: 'notification', icon: () => h(Icon, { icon: Mail20Regular }) }
         ]
       }
     ]
   },
-  { label: $t('demo.common.about'), key: 'about', icon: 'about' }
+  { label: $t('demo.common.about'), key: 'about', icon: () => h(Icon, { icon: Info20Regular }) }
 ]
 
 const iconItems = [
-  { label: $t('demo.common.home'), key: 'home', icon: 'home' },
-  { label: $t('demo.common.settings'), key: 'settings', icon: 'settings' },
-  { label: $t('demo.common.about'), key: 'info', icon: 'info' }
+  { label: $t('demo.common.home'), key: 'home', icon: () => h(Icon, { icon: Home20Regular }) },
+  { label: $t('demo.common.settings'), key: 'settings', icon: () => h(Icon, { icon: Settings20Regular }) },
+  { label: $t('demo.common.about'), key: 'info', icon: () => h(Icon, { icon: Info20Regular }) }
 ]
 
 const fnIconItems = [
