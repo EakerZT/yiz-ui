@@ -1,70 +1,174 @@
 <template>
-  <div
-    class="yiz-tooltip"
-    @mouseenter="onMouseEnter"
-    @mouseleave="onMouseLeave"
-  >
-    <slot />
+  <component :is="triggerNode" />
+
+  <Teleport to="body">
     <transition name="yiz-tooltip-fade">
       <div
         v-if="visible"
+        ref="popRef"
         class="yiz-tooltip-pop"
-        :class="`yiz-tooltip-${placement}`"
+        :class="`yiz-tooltip-${effectivePlacement}`"
+        :style="popStyle"
       >
         <div class="yiz-tooltip-content">
           <slot name="content">{{ content }}</slot>
         </div>
-        <div class="yiz-tooltip-arrow"></div>
+        <div class="yiz-tooltip-arrow" />
       </div>
     </transition>
-  </div>
+  </Teleport>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { cloneVNode, computed, h, nextTick, onBeforeUnmount, ref, useSlots, watch, type VNode } from 'vue'
+import { nextZIndex } from '../zIndex'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     content?: string
     placement?: 'top' | 'bottom' | 'left' | 'right'
   }>(),
   {
-    placement: 'top',
+    placement: 'top'
   }
 )
 
 defineSlots<{
-  default?: any
+  default?: () => any
   content?: any
 }>()
 
+const slots = useSlots()
+const triggerRef = ref<HTMLElement>()
+const popRef = ref<HTMLDivElement>()
 const visible = ref(false)
-let timerId: ReturnType<typeof setTimeout>
+const effectivePlacement = ref<'top' | 'bottom' | 'left' | 'right'>(props.placement)
+const popStyle = ref<Record<string, string>>({})
+const currentZ = ref(2000)
+let hideTimer: ReturnType<typeof setTimeout> | null = null
+
+function setTriggerRef(el: any) {
+  if (el instanceof HTMLElement) {
+    triggerRef.value = el
+  } else if (el?.$el instanceof HTMLElement) {
+    triggerRef.value = el.$el
+  } else {
+    triggerRef.value = undefined
+  }
+}
+
+const triggerNode = computed<VNode>(() => {
+  const child = slots.default?.()[0] as VNode | undefined
+  if (child) {
+    return cloneVNode(
+      child,
+      {
+        onMouseenter: onMouseEnter,
+        onMouseleave: onMouseLeave,
+        ref: setTriggerRef
+      },
+      true
+    )
+  }
+  return h('span', { ref: setTriggerRef })
+})
+
+function clearHideTimer() {
+  if (hideTimer !== null) {
+    clearTimeout(hideTimer)
+    hideTimer = null
+  }
+}
 
 function onMouseEnter() {
-  clearTimeout(timerId)
+  clearHideTimer()
+  currentZ.value = nextZIndex()
+  effectivePlacement.value = props.placement
   visible.value = true
 }
 
 function onMouseLeave() {
-  timerId = setTimeout(() => {
+  clearHideTimer()
+  hideTimer = setTimeout(() => {
     visible.value = false
   }, 100)
 }
+
+function reposition() {
+  const trigger = triggerRef.value
+  const pop = popRef.value
+  if (!trigger || !pop) return
+  const tr = trigger.getBoundingClientRect()
+  const pr = pop.getBoundingClientRect()
+  const gap = 0
+  const margin = 8
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+
+  let placement = props.placement
+  if (placement === 'top' && tr.top - pr.height - gap < margin) placement = 'bottom'
+  else if (placement === 'bottom' && tr.bottom + pr.height + gap > vh - margin) placement = 'top'
+  else if (placement === 'left' && tr.left - pr.width - gap < margin) placement = 'right'
+  else if (placement === 'right' && tr.right + pr.width + gap > vw - margin) placement = 'left'
+
+  let left: number
+  let top: number
+  if (placement === 'top') {
+    left = tr.left + tr.width / 2 - pr.width / 2
+    top = tr.top - pr.height - gap
+  } else if (placement === 'bottom') {
+    left = tr.left + tr.width / 2 - pr.width / 2
+    top = tr.bottom + gap
+  } else if (placement === 'left') {
+    left = tr.left - pr.width - gap
+    top = tr.top + tr.height / 2 - pr.height / 2
+  } else {
+    left = tr.right + gap
+    top = tr.top + tr.height / 2 - pr.height / 2
+  }
+
+  left = Math.max(margin, Math.min(left, vw - pr.width - margin))
+  top = Math.max(margin, Math.min(top, vh - pr.height - margin))
+
+  popStyle.value = {
+    left: `${left}px`,
+    top: `${top}px`,
+    zIndex: String(currentZ.value)
+  }
+  effectivePlacement.value = placement
+}
+
+watch(visible, async (val) => {
+  if (val) {
+    await nextTick()
+    reposition()
+  }
+})
+
+function onWindowScroll() {
+  if (visible.value) reposition()
+}
+
+function onWindowResize() {
+  if (visible.value) reposition()
+}
+
+window.addEventListener('scroll', onWindowScroll, true)
+window.addEventListener('resize', onWindowResize)
+
+onBeforeUnmount(() => {
+  clearHideTimer()
+  window.removeEventListener('scroll', onWindowScroll, true)
+  window.removeEventListener('resize', onWindowResize)
+})
 </script>
 
 <style lang="less">
-.yiz-tooltip {
-  position: relative;
-  display: inline-flex;
-}
-
 .yiz-tooltip-pop {
-  position: absolute;
-  z-index: 2000;
+  position: fixed;
   white-space: nowrap;
   font-size: 13px;
-  padding: 4px 10px;
+  pointer-events: none;
 }
 
 .yiz-tooltip-content {
@@ -73,7 +177,7 @@ function onMouseLeave() {
   border-radius: var(--yiz-pane-border-radius);
   padding: 6px 12px;
   line-height: 1.4;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
 }
 
 .yiz-tooltip-arrow {
@@ -85,9 +189,6 @@ function onMouseLeave() {
 
 // top
 .yiz-tooltip-top {
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
   padding-bottom: 8px;
 
   .yiz-tooltip-arrow {
@@ -100,9 +201,6 @@ function onMouseLeave() {
 
 // bottom
 .yiz-tooltip-bottom {
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
   padding-top: 8px;
 
   .yiz-tooltip-arrow {
@@ -115,9 +213,6 @@ function onMouseLeave() {
 
 // left
 .yiz-tooltip-left {
-  right: 100%;
-  top: 50%;
-  transform: translateY(-50%);
   padding-right: 8px;
 
   .yiz-tooltip-arrow {
@@ -130,9 +225,6 @@ function onMouseLeave() {
 
 // right
 .yiz-tooltip-right {
-  left: 100%;
-  top: 50%;
-  transform: translateY(-50%);
   padding-left: 8px;
 
   .yiz-tooltip-arrow {
