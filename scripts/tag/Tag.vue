@@ -83,6 +83,7 @@ function onClose() {
   background: var(--yiz-tag-bg, #f5f5f5);
   border: 1px solid var(--yiz-tag-border-color, transparent);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
 
   &.yiz-tag-bordered {
     border-color: var(--yiz-tag-border-color, #d9d9d9);
