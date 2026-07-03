@@ -70,8 +70,8 @@ const props = withDefaults(
     clearable: false,
     disabled: false,
     showToggle: true,
-    autocomplete: 'current-password'
-  }
+    autocomplete: 'current-password',
+  },
 )
 
 const modelValue = defineModel<string>('value')
@@ -115,7 +115,7 @@ function onKeydown(e: KeyboardEvent) {
 }
 
 defineExpose({
-  focus: () => inputRef.value?.focus()
+  focus: () => inputRef.value?.focus(),
 })
 </script>
 

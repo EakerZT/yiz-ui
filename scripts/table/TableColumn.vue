@@ -20,7 +20,7 @@ withDefaults(
     sortable: false,
     minWidth: 40,
     fixed: 'none',
-    showOverflow: undefined
-  }
+    showOverflow: undefined,
+  },
 )
 </script>

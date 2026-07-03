@@ -4,7 +4,7 @@
       class="yiz-tree-node-content"
       :class="{
         'yiz-tree-node-selected': context.isSelected(node),
-        'yiz-tree-node-disabled': node.disabled
+        'yiz-tree-node-disabled': node.disabled,
       }"
       :style="{ paddingLeft: `${level * context.indent.value}px` }"
       @click="onContentClick"
@@ -60,7 +60,7 @@ import { Icon } from '../icon'
 import type { TreeContext, TreeNodeData } from './Tree.vue'
 
 defineOptions({
-  name: 'TreeNode'
+  name: 'TreeNode',
 })
 
 const props = defineProps<{

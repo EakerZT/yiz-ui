@@ -25,7 +25,7 @@ const props = withDefaults(
     closable: false,
     size: 'default',
     bordered: true,
-  }
+  },
 )
 
 const emit = defineEmits<{

@@ -30,7 +30,7 @@
       </Transition>
       <Icon
         :class="{
-          'yiz-datetime-picker-suffix--hidden': clearable && modelValue != null && !disabled && (isHovering || open)
+          'yiz-datetime-picker-suffix--hidden': clearable && modelValue != null && !disabled && (isHovering || open),
         }"
         class="yiz-datetime-picker-suffix"
         size="16"
@@ -79,7 +79,7 @@
                     'yiz-datetime-picker-cell-other': !cell.current,
                     'yiz-datetime-picker-cell-today': cell.isToday,
                     'yiz-datetime-picker-cell-selected': cell.isSelected,
-                    'yiz-datetime-picker-cell-disabled': cell.disabled
+                    'yiz-datetime-picker-cell-disabled': cell.disabled,
                   }"
                   @click="onCellClick(cell)"
                 >
@@ -154,7 +154,7 @@ import {
   ChevronDoubleRight16Regular,
   ChevronLeft16Regular,
   ChevronRight16Regular,
-  DismissCircle32Filled
+  DismissCircle32Filled,
 } from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import LinkButton from '../link-button/LinkButton.vue'
@@ -186,8 +186,8 @@ const props = withDefaults(
     disabled: false,
     clearable: false,
     size: 'default',
-    format: 'YYYY-MM-DD HH:mm:ss'
-  }
+    format: 'YYYY-MM-DD HH:mm:ss',
+  },
 )
 
 const emit = defineEmits<{
@@ -228,7 +228,7 @@ const vClass = computed(() => ({
   'yiz-datetime-picker-open': open.value,
   'yiz-datetime-picker-disabled': props.disabled,
   'yiz-datetime-picker-small': props.size === 'small',
-  'yiz-datetime-picker-large': props.size === 'large'
+  'yiz-datetime-picker-large': props.size === 'large',
 }))
 
 const yearRange = computed(() => {
@@ -271,7 +271,7 @@ function makeCell(year: number, month: number, day: number, current: boolean): C
     isToday: sameDate(today, date),
     isSelected: sameDate(draft.value, date),
     disabled: props.disabledDate ? props.disabledDate(date) : false,
-    date
+    date,
   }
 }
 
@@ -369,7 +369,7 @@ function onCellClick(cell: CalendarCell) {
     cell.date.getDate(),
     pickedHour.value,
     pickedMinute.value,
-    pickedSecond.value
+    pickedSecond.value,
   )
   syncInputFromDraft()
 }
@@ -385,7 +385,7 @@ function setTime(unit: 'hour' | 'minute' | 'second', value: number) {
     base.getDate(),
     pickedHour.value,
     pickedMinute.value,
-    pickedSecond.value
+    pickedSecond.value,
   )
   syncInputFromDraft()
 }

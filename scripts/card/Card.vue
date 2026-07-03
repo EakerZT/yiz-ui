@@ -43,8 +43,8 @@ const props = withDefaults(
     title: '',
     bordered: true,
     shadow: 'never',
-    size: 'default'
-  }
+    size: 'default',
+  },
 )
 
 defineSlots<{

@@ -16,7 +16,12 @@
         <div class="yiz-drawer-body">
           <slot />
         </div>
-        <div v-if="resize" class="yiz-drawer-resize" :class="{ 'yiz-drawer-resize-active': resizing }" @mousedown="onResizeStart" />
+        <div
+          v-if="resize"
+          class="yiz-drawer-resize"
+          :class="{ 'yiz-drawer-resize-active': resizing }"
+          @mousedown="onResizeStart"
+        />
         <div v-if="!disabledFooter" class="yiz-drawer-footer">
           <slot name="footer">
             <div class="yiz-drawer-footer-actions">
@@ -65,8 +70,8 @@ const props = withDefaults(
     resize: false,
     resizeMin: '200px',
     resizeMax: '',
-    disabledFooter: false
-  }
+    disabledFooter: false,
+  },
 )
 
 defineSlots<{
@@ -212,7 +217,6 @@ function parseSize(val: string, refSize: number): number {
   const n = parseFloat(val)
   return isNaN(n) ? 0 : n
 }
-
 </script>
 
 <style lang="less">

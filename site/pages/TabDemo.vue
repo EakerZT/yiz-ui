@@ -118,7 +118,7 @@
 
       <div class="demo-tab-direction-preview">
         <y-tab v-model:active="cardDirectionDemoTab" :direction="cardDirectionDemoDirection" type="card">
-          <y-tab-pane :label="$t('demo.tab.tab1')" key="a" >
+          <y-tab-pane :label="$t('demo.tab.tab1')" key="a">
             <p style="padding: 12px 0">{{ $t('demo.tab.tab1Content') }}</p>
           </y-tab-pane>
           <y-tab-pane :label="$t('demo.tab.tab2')" key="b" closable>

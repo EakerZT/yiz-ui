@@ -18,7 +18,7 @@ const defaultSettings: Required<LoadingBarOptions> = {
   barSelector: '.bar',
   color: 'var(--yiz-color-primary)',
   height: '2px',
-  zIndex: 9999
+  zIndex: 9999,
 }
 
 export class LoadingBar {
@@ -77,7 +77,7 @@ export class LoadingBar {
           progressElements.forEach((progress) => {
             toCss(progress, {
               transition: `all ${speed}ms ${ease}`,
-              opacity: '0'
+              opacity: '0',
             })
           })
           setTimeout(() => {
@@ -215,9 +215,7 @@ export class LoadingBar {
 
   static render(fromStart = false): HTMLElement[] {
     const parent =
-      typeof this.settings.parent === 'string'
-        ? document.querySelector(this.settings.parent)
-        : this.settings.parent
+      typeof this.settings.parent === 'string' ? document.querySelector(this.settings.parent) : this.settings.parent
     const progressElements: HTMLElement[] = parent
       ? Array.from((parent as HTMLElement).querySelectorAll('.yiz-loading-bar'))
       : []
@@ -257,7 +255,10 @@ export class LoadingBar {
         const perc = fromStart
           ? toBarPerc(0, this.settings.direction)
           : toBarPerc(this.status || 0, this.settings.direction)
-        toCss(bar, this.barPositionCSS({ n: this.status || 0, speed: this.settings.speed, ease: this.settings.easing, perc }))
+        toCss(
+          bar,
+          this.barPositionCSS({ n: this.status || 0, speed: this.settings.speed, ease: this.settings.easing, perc }),
+        )
         const indeterminateElem = progress.querySelector(this.settings.indeterminateSelector) as HTMLElement | null
         if (indeterminateElem) {
           indeterminateElem.style.display = 'none'
@@ -309,7 +310,15 @@ export class LoadingBar {
   static getPositioningCSS(): LoadingBarPositionUsing {
     const bodyStyle = document.body.style
     const vendorPrefix =
-      'WebkitTransform' in bodyStyle ? 'Webkit' : 'MozTransform' in bodyStyle ? 'Moz' : 'msTransform' in bodyStyle ? 'ms' : 'OTransform' in bodyStyle ? 'O' : ''
+      'WebkitTransform' in bodyStyle
+        ? 'Webkit'
+        : 'MozTransform' in bodyStyle
+          ? 'Moz'
+          : 'msTransform' in bodyStyle
+            ? 'ms'
+            : 'OTransform' in bodyStyle
+              ? 'O'
+              : ''
 
     if (`${vendorPrefix}Perspective` in bodyStyle) {
       return 'translate3d'
@@ -340,7 +349,7 @@ export class LoadingBar {
     n,
     speed,
     ease,
-    perc
+    perc,
   }: {
     n: number
     speed: number
@@ -355,20 +364,22 @@ export class LoadingBar {
 
     if (this.settings.positionUsing === 'translate3d') {
       barCSS = {
-        transform: `translate3d(${computedPerc}%,0,0)`
+        transform: `translate3d(${computedPerc}%,0,0)`,
       }
     } else if (this.settings.positionUsing === 'translate') {
       barCSS = {
-        transform: `translate(${computedPerc}%,0)`
+        transform: `translate(${computedPerc}%,0)`,
       }
     } else if (this.settings.positionUsing === 'width') {
       barCSS = {
         width: `${this.settings.direction === 'rtl' ? 100 - computedPerc : computedPerc + 100}%`,
-        ...(this.settings.direction === 'rtl' ? { right: '0', left: 'auto' } : {})
+        ...(this.settings.direction === 'rtl' ? { right: '0', left: 'auto' } : {}),
       }
     } else if (this.settings.positionUsing === 'margin') {
       barCSS =
-        this.settings.direction === 'rtl' ? { 'margin-left': `${-computedPerc}%` } : { 'margin-right': `${-computedPerc}%` }
+        this.settings.direction === 'rtl'
+          ? { 'margin-left': `${-computedPerc}%` }
+          : { 'margin-right': `${-computedPerc}%` }
     }
 
     barCSS.transition = `all ${speed}ms ${ease}`

@@ -6,7 +6,9 @@
     <y-card :title="$t('demo.common.basic')">
       <div class="demo-picker-field">
         <y-time-range-picker v-model:start="start" v-model:end="end" clearable @change="onChange" />
-        <span class="demo-item-hint">{{ (start ?? $t('demo.common.empty')) + ' - ' + (end ?? $t('demo.common.empty')) }}</span>
+        <span class="demo-item-hint">{{
+          (start ?? $t('demo.common.empty')) + ' - ' + (end ?? $t('demo.common.empty'))
+        }}</span>
       </div>
       <p class="demo-time-range-info">{{ $t('demo.timeRangePicker.lastChange', { value: lastChange }) }}</p>
     </y-card>
@@ -14,14 +16,18 @@
     <y-card :title="$t('demo.dateRangePicker.allowSingle')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-time-range-picker v-model:start="optionalStart" v-model:end="optionalEnd" clearable />
-        <span class="demo-item-hint">{{ (optionalStart ?? $t('demo.common.empty')) + ' - ' + (optionalEnd ?? $t('demo.common.empty')) }}</span>
+        <span class="demo-item-hint">{{
+          (optionalStart ?? $t('demo.common.empty')) + ' - ' + (optionalEnd ?? $t('demo.common.empty'))
+        }}</span>
       </div>
     </y-card>
 
     <y-card :title="$t('demo.dateRangePicker.requiredRange')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-time-range-picker v-model:start="requiredStart" v-model:end="requiredEnd" force-range clearable />
-        <span class="demo-item-hint">{{ (requiredStart ?? $t('demo.common.empty')) + ' - ' + (requiredEnd ?? $t('demo.common.empty')) }}</span>
+        <span class="demo-item-hint">{{
+          (requiredStart ?? $t('demo.common.empty')) + ' - ' + (requiredEnd ?? $t('demo.common.empty'))
+        }}</span>
       </div>
     </y-card>
 
@@ -37,19 +43,15 @@
     <y-card :title="$t('demo.timePicker.showSeconds')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-time-range-picker v-model:start="secondStart" v-model:end="secondEnd" show-seconds clearable />
-        <span class="demo-item-hint">{{ (secondStart ?? $t('demo.common.empty')) + ' - ' + (secondEnd ?? $t('demo.common.empty')) }}</span>
+        <span class="demo-item-hint">{{
+          (secondStart ?? $t('demo.common.empty')) + ' - ' + (secondEnd ?? $t('demo.common.empty'))
+        }}</span>
       </div>
     </y-card>
 
     <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
       <div class="demo-picker-field">
-        <y-time-range-picker
-          v-model:start="affixStart"
-          v-model:end="affixEnd"
-          prefix="Work"
-          suffix="UTC+8"
-          clearable
-        />
+        <y-time-range-picker v-model:start="affixStart" v-model:end="affixEnd" prefix="Work" suffix="UTC+8" clearable />
         <span class="demo-item-hint">{{
           (affixStart ?? $t('demo.common.empty')) + ' - ' + (affixEnd ?? $t('demo.common.empty'))
         }}</span>

@@ -31,12 +31,7 @@
                 {{ item.label }}
               </slot>
             </span>
-            <Icon
-              v-if="item.children?.length"
-              class="yiz-dropmenu-sub-arrow"
-              size="16"
-              :icon="ChevronRight16Regular"
-            />
+            <Icon v-if="item.children?.length" class="yiz-dropmenu-sub-arrow" size="16" :icon="ChevronRight16Regular" />
           </div>
         </template>
 
@@ -73,8 +68,8 @@ const props = withDefaults(
   {
     options: () => [],
     visible: false,
-    position: () => ({})
-  }
+    position: () => ({}),
+  },
 )
 
 defineSlots<{
@@ -121,7 +116,7 @@ function onItemMouseEnter(item: DropmenuOption, e: MouseEvent) {
     position: 'fixed',
     zIndex: childZIndex.value,
     left: `${rect.right + gap}px`,
-    top: `${rect.top}px`
+    top: `${rect.top}px`,
   }
 
   if (rect.right + gap + menuWidth > window.innerWidth - margin) {

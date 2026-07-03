@@ -87,36 +87,36 @@ const basicForm = reactive({
   city: undefined as string | undefined,
   age: null as number | null,
   accountType: 'personal',
-  skills: [] as string[]
+  skills: [] as string[],
 })
 
 const profileForm = reactive({
   profileName: '',
-  profileDesc: ''
+  profileDesc: '',
 })
 
 const cityOptions = computed(() => [
   { label: $t('demo.common.beijing'), value: 'beijing' },
   { label: $t('demo.common.shanghai'), value: 'shanghai' },
   { label: $t('demo.common.guangzhou'), value: 'guangzhou' },
-  { label: $t('demo.common.shenzhen'), value: 'shenzhen' }
+  { label: $t('demo.common.shenzhen'), value: 'shenzhen' },
 ])
 
 const accountTypeOptions = computed(() => [
   { label: $t('demo.form.personal'), value: 'personal' },
-  { label: $t('demo.form.company'), value: 'company' }
+  { label: $t('demo.form.company'), value: 'company' },
 ])
 
 const skillOptions = computed(() => [
   { label: $t('demo.form.skillDesign'), value: 'design' },
   { label: $t('demo.form.skillDevelop'), value: 'develop' },
-  { label: $t('demo.form.skillOperate'), value: 'operate' }
+  { label: $t('demo.form.skillOperate'), value: 'operate' },
 ])
 
 const rules: FormRules = {
   name: [
     { required: true, trigger: 'blur' },
-    { min: 2, max: 12, trigger: 'change' }
+    { min: 2, max: 12, trigger: 'change' },
   ],
   city: { required: true, trigger: 'change' },
   age: {
@@ -125,10 +125,10 @@ const rules: FormRules = {
       if (value == null) return $t('demo.form.ageRequired')
       if (value < 18) return $t('demo.form.ageMin')
       return true
-    }
+    },
   },
   accountType: { required: true, trigger: 'change' },
-  skills: { required: true, trigger: 'change' }
+  skills: { required: true, trigger: 'change' },
 }
 
 const isValid = ref(false)
@@ -157,7 +157,7 @@ const demoLayout = ref<'horizontal' | 'vertical' | 'inline'>('horizontal')
 const layoutDemoForm = reactive({
   name: '',
   city: undefined as string | undefined,
-  age: null as number | null
+  age: null as number | null,
 })
 </script>
 

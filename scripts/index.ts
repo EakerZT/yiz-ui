@@ -16,7 +16,7 @@ export type { LoadingBarOptions, LoadingBarDirection, LoadingBarPositionUsing } 
 
 const componentAliases: Record<string, string[]> = {
   DateTimePicker: ['y-datetime-picker'],
-  DateTimeRangePicker: ['y-datetime-range-picker']
+  DateTimeRangePicker: ['y-datetime-range-picker'],
 }
 
 const install = (app: App): void => {

@@ -10,7 +10,7 @@
         class="yiz-context-menu-item"
         :class="{
           'yiz-context-menu-item-disabled': item.disabled,
-          'yiz-context-menu-item-hover': hoveredSubmenu === item.value
+          'yiz-context-menu-item-hover': hoveredSubmenu === item.value,
         }"
         @mouseenter="onSubmenuEnter(item, $event)"
         @click.stop
@@ -124,8 +124,8 @@ const props = withDefaults(
   }>(),
   {
     items: () => [],
-    width: 200
-  }
+    width: 200,
+  },
 )
 
 const menuWidth = computed(() => {
@@ -180,7 +180,7 @@ const slotItems = computed(() => {
           disabled: p.disabled ?? p.item.disabled,
           checked: p.checked ?? p.item.checked,
           icon: p.icon ?? p.item.icon,
-          children: p.children ?? p.item.children
+          children: p.children ?? p.item.children,
         })
       } else {
         items.push({
@@ -191,7 +191,7 @@ const slotItems = computed(() => {
           name: p.name,
           disabled: p.disabled,
           checked: p.checked,
-          children: p.children
+          children: p.children,
         })
       }
     }
@@ -294,7 +294,9 @@ function onChildSelect(item: ContextMenuItem) {
 .yiz-context-menu.is-host {
   opacity: 0;
   transform: scale(0.96);
-  transition: opacity 0.12s ease, transform 0.12s ease;
+  transition:
+    opacity 0.12s ease,
+    transform 0.12s ease;
 }
 
 .yiz-context-menu.is-host.is-visible {
@@ -304,7 +306,9 @@ function onChildSelect(item: ContextMenuItem) {
 
 .yiz-context-menu-sub-enter-active,
 .yiz-context-menu-sub-leave-active {
-  transition: opacity 0.12s ease, transform 0.12s ease;
+  transition:
+    opacity 0.12s ease,
+    transform 0.12s ease;
 }
 
 .yiz-context-menu-sub-enter-from,

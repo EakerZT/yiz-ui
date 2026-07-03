@@ -12,6 +12,16 @@ defineProps<{
   disabled?: boolean
   checked?: boolean
   children?: ContextMenuItem[]
-  item?: { label?: string; value?: any; icon?: any; type?: string; name?: string; disabled?: boolean; checked?: boolean; children?: ContextMenuItem[]; [key: string]: any }
+  item?: {
+    label?: string
+    value?: any
+    icon?: any
+    type?: string
+    name?: string
+    disabled?: boolean
+    checked?: boolean
+    children?: ContextMenuItem[]
+    [key: string]: any
+  }
 }>()
 </script>

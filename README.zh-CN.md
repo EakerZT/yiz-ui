@@ -41,9 +41,9 @@ pnpm add @eakerzt/yiz-ui
 
 **Peer dependency：**
 
-| 依赖 | 版本 |
-| :--- | :--- |
-| vue | >= 3.2.0 |
+| 依赖 | 版本     |
+| :--- | :------- |
+| vue  | >= 3.2.0 |
 
 ---
 
@@ -94,12 +94,12 @@ import '@eakerzt/yiz-ui/dist/yiz-ui.css'
 
 ```html
 <template>
-  <Button type="primary">按钮</Button>
-  <Input v-model:value="text" />
-  <Table :data="list">
+  <button type="primary">按钮</button>
+  <input v-model:value="text" />
+  <table :data="list">
     <TableColumn label="姓名" field="name" />
     <TableColumn label="年龄" field="age" />
-  </Table>
+  </table>
 </template>
 ```
 
@@ -129,11 +129,11 @@ showContextMenu(
     items: [
       { type: 'item', label: '刷新', key: 'refresh' },
       { type: 'divider' },
-      { type: 'item', label: '删除', key: 'delete', disabled: true }
+      { type: 'item', label: '删除', key: 'delete', disabled: true },
     ],
-    onSelect: (item) => console.log(item.key)
+    onSelect: (item) => console.log(item.key),
   },
-  event
+  event,
 )
 ```
 
@@ -165,59 +165,59 @@ loadingBar.reset()
 
 ## 组件
 
-| 组件 | 标签 | 说明 |
-| :--- | :--- | :--- |
-| Button | `YButton` | 按钮，支持类型、颜色、形状、加载态和涟漪动画 |
-| ButtonGroup | `YButtonGroup` | 水平或垂直按钮组 |
-| Card | `YCard` | 结构化内容容器 |
-| Checkbox | `YCheckbox` | 单个复选框 |
-| CheckboxGroup | `YCheckboxGroup` | 基于 provide/inject 的复选框组 |
-| ColorPicker | `YColorPicker` | HSV 颜色选择器和预设色 |
-| DatePicker | `YDatePicker` | 日期选择器，支持月份/年份导航 |
-| DateRangePicker | `YDateRangePicker` | 日期范围选择器，支持自动排序 |
-| DateTimePicker | `YDateTimePicker` / `y-datetime-picker` | 日期时间选择器 |
-| DateTimeRangePicker | `YDateTimeRangePicker` / `y-datetime-range-picker` | 日期时间范围选择器 |
-| Dialog | `YDialog` | 对话框，支持拖拽和 Escape 关闭 |
-| Divider | `YDivider` | 水平/垂直分割线，支持虚线和文本 |
-| Drawer | `YDrawer` | 四方向抽屉，可调节尺寸 |
-| Dropmenu | `YDropmenu` | 下拉菜单 |
-| Empty | `YEmpty` | 空状态，可自定义图标和文案 |
-| Form | `YForm` | 表单布局、校验和重置 |
-| FormItem | `YFormItem` | 表单项，支持标签、必填标记和错误提示 |
-| Icon | `YIcon` | 将 Vue 组件渲染为图标 |
-| Input | `YInput` | 输入框，支持前后缀和可清空 |
-| InputGroup | `YInputGroup` | 横向输入组合，支持 addon 和统一尺寸 |
-| InputNumber | `YInputNumber` | 数字输入，支持步进按钮和键盘操作 |
-| InputPassword | `YInputPassword` | 密码输入，支持显示/隐藏 |
-| LinkButton | `YLinkButton` | 文本按钮 |
-| Loading | `YLoading` | 加载动画和容器加载模式 |
-| Menu | `YMenu` | 菜单，支持展开和折叠模式 |
-| MenuOption | `YMenuOption` | 声明式菜单项 |
-| Pagination | `YPagination` | 分页，支持省略、页大小选择和快速跳转 |
-| Progress | `YProgress` | 线性进度条，支持状态、自定义颜色和文字格式化 |
-| Radio | `YRadio` | 单个单选框 |
-| RadioGroup | `YRadioGroup` | 单选组，支持 options 和 slot |
-| RadioButton | `YRadioButton` | 按钮风格单选 |
-| RadioButtonGroup | `YRadioButtonGroup` | 按钮风格互斥选择组 |
-| ScrollBox | `YScrollBox` | 自定义滚动条容器，使用 GPU 定位 |
-| Segmented | `YSegmented` | 分段器，支持动画指示器 |
-| Select | `YSelect` | 选择器，支持搜索和键盘导航 |
-| SelectOption | `YSelectOption` | 声明式选择器选项 |
-| Slider | `YSlider` | 单/双滑块，支持步长和刻度标记 |
-| SortableBox | `YSortableBox` | Vue 数据优先的拖拽排序容器，支持跨列表预览 |
-| Switch | `YSwitch` | 开关，支持加载态和自定义颜色 |
-| Tab | `YTab` | 标签页，支持四方向、卡片风格、动画和 flex 布局 |
-| TabPane | `YTabPane` | 标签页面板，支持 label 插槽和关闭 |
-| Table | `YTable` | 表格，支持排序、列宽拖拽、行选择、加载态和固定列 |
-| TableColumn | `YTableColumn` | 声明式表格列，支持自定义渲染 |
-| Tag | `YTag` | 标签，支持预设色/自定义色和关闭 |
-| Textarea | `YTextarea` | 文本域，支持自适应高度、字数统计和可清空 |
-| TimePicker | `YTimePicker` | 时间选择器，支持时分秒列 |
-| TimeRangePicker | `YTimeRangePicker` | 时间范围选择器，支持自动排序 |
-| Timeline | `YTimeline` | 时间线，支持左/右/交替模式 |
-| TimelineItem | `YTimelineItem` | 时间线项，支持标题、时间、类型和空心节点 |
-| Tooltip | `YTooltip` | 文字提示，支持四方向和 CSS 箭头 |
-| Tree | `YTree` | 递归树，支持复选/单选和半选态 |
+| 组件                | 标签                                               | 说明                                             |
+| :------------------ | :------------------------------------------------- | :----------------------------------------------- |
+| Button              | `YButton`                                          | 按钮，支持类型、颜色、形状、加载态和涟漪动画     |
+| ButtonGroup         | `YButtonGroup`                                     | 水平或垂直按钮组                                 |
+| Card                | `YCard`                                            | 结构化内容容器                                   |
+| Checkbox            | `YCheckbox`                                        | 单个复选框                                       |
+| CheckboxGroup       | `YCheckboxGroup`                                   | 基于 provide/inject 的复选框组                   |
+| ColorPicker         | `YColorPicker`                                     | HSV 颜色选择器和预设色                           |
+| DatePicker          | `YDatePicker`                                      | 日期选择器，支持月份/年份导航                    |
+| DateRangePicker     | `YDateRangePicker`                                 | 日期范围选择器，支持自动排序                     |
+| DateTimePicker      | `YDateTimePicker` / `y-datetime-picker`            | 日期时间选择器                                   |
+| DateTimeRangePicker | `YDateTimeRangePicker` / `y-datetime-range-picker` | 日期时间范围选择器                               |
+| Dialog              | `YDialog`                                          | 对话框，支持拖拽和 Escape 关闭                   |
+| Divider             | `YDivider`                                         | 水平/垂直分割线，支持虚线和文本                  |
+| Drawer              | `YDrawer`                                          | 四方向抽屉，可调节尺寸                           |
+| Dropmenu            | `YDropmenu`                                        | 下拉菜单                                         |
+| Empty               | `YEmpty`                                           | 空状态，可自定义图标和文案                       |
+| Form                | `YForm`                                            | 表单布局、校验和重置                             |
+| FormItem            | `YFormItem`                                        | 表单项，支持标签、必填标记和错误提示             |
+| Icon                | `YIcon`                                            | 将 Vue 组件渲染为图标                            |
+| Input               | `YInput`                                           | 输入框，支持前后缀和可清空                       |
+| InputGroup          | `YInputGroup`                                      | 横向输入组合，支持 addon 和统一尺寸              |
+| InputNumber         | `YInputNumber`                                     | 数字输入，支持步进按钮和键盘操作                 |
+| InputPassword       | `YInputPassword`                                   | 密码输入，支持显示/隐藏                          |
+| LinkButton          | `YLinkButton`                                      | 文本按钮                                         |
+| Loading             | `YLoading`                                         | 加载动画和容器加载模式                           |
+| Menu                | `YMenu`                                            | 菜单，支持展开和折叠模式                         |
+| MenuOption          | `YMenuOption`                                      | 声明式菜单项                                     |
+| Pagination          | `YPagination`                                      | 分页，支持省略、页大小选择和快速跳转             |
+| Progress            | `YProgress`                                        | 线性进度条，支持状态、自定义颜色和文字格式化     |
+| Radio               | `YRadio`                                           | 单个单选框                                       |
+| RadioGroup          | `YRadioGroup`                                      | 单选组，支持 options 和 slot                     |
+| RadioButton         | `YRadioButton`                                     | 按钮风格单选                                     |
+| RadioButtonGroup    | `YRadioButtonGroup`                                | 按钮风格互斥选择组                               |
+| ScrollBox           | `YScrollBox`                                       | 自定义滚动条容器，使用 GPU 定位                  |
+| Segmented           | `YSegmented`                                       | 分段器，支持动画指示器                           |
+| Select              | `YSelect`                                          | 选择器，支持搜索和键盘导航                       |
+| SelectOption        | `YSelectOption`                                    | 声明式选择器选项                                 |
+| Slider              | `YSlider`                                          | 单/双滑块，支持步长和刻度标记                    |
+| SortableBox         | `YSortableBox`                                     | Vue 数据优先的拖拽排序容器，支持跨列表预览       |
+| Switch              | `YSwitch`                                          | 开关，支持加载态和自定义颜色                     |
+| Tab                 | `YTab`                                             | 标签页，支持四方向、卡片风格、动画和 flex 布局   |
+| TabPane             | `YTabPane`                                         | 标签页面板，支持 label 插槽和关闭                |
+| Table               | `YTable`                                           | 表格，支持排序、列宽拖拽、行选择、加载态和固定列 |
+| TableColumn         | `YTableColumn`                                     | 声明式表格列，支持自定义渲染                     |
+| Tag                 | `YTag`                                             | 标签，支持预设色/自定义色和关闭                  |
+| Textarea            | `YTextarea`                                        | 文本域，支持自适应高度、字数统计和可清空         |
+| TimePicker          | `YTimePicker`                                      | 时间选择器，支持时分秒列                         |
+| TimeRangePicker     | `YTimeRangePicker`                                 | 时间范围选择器，支持自动排序                     |
+| Timeline            | `YTimeline`                                        | 时间线，支持左/右/交替模式                       |
+| TimelineItem        | `YTimelineItem`                                    | 时间线项，支持标题、时间、类型和空心节点         |
+| Tooltip             | `YTooltip`                                         | 文字提示，支持四方向和 CSS 箭头                  |
+| Tree                | `YTree`                                            | 递归树，支持复选/单选和半选态                    |
 
 ---
 
@@ -260,11 +260,11 @@ setLang('en-US')
 
 registerLang('ja-JP', {
   'common.noData': 'データなし',
-  'select.placeholder': '選択してください'
+  'select.placeholder': '選択してください',
 })
 
 registerLangItem('zh-CN', {
-  'myComponent.title': '我的组件'
+  'myComponent.title': '我的组件',
 })
 
 const placeholder = computed(() => $t('select.placeholder'))

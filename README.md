@@ -41,9 +41,9 @@ pnpm add @eakerzt/yiz-ui
 
 **Peer dependency:**
 
-| Dependency | Version |
-| :--- | :--- |
-| vue | >= 3.2.0 |
+| Dependency | Version  |
+| :--------- | :------- |
+| vue        | >= 3.2.0 |
 
 ---
 
@@ -94,12 +94,12 @@ import '@eakerzt/yiz-ui/dist/yiz-ui.css'
 
 ```html
 <template>
-  <Button type="primary">Button</Button>
-  <Input v-model:value="text" />
-  <Table :data="list">
+  <button type="primary">Button</button>
+  <input v-model:value="text" />
+  <table :data="list">
     <TableColumn label="Name" field="name" />
     <TableColumn label="Age" field="age" />
-  </Table>
+  </table>
 </template>
 ```
 
@@ -129,11 +129,11 @@ showContextMenu(
     items: [
       { type: 'item', label: 'Refresh', key: 'refresh' },
       { type: 'divider' },
-      { type: 'item', label: 'Delete', key: 'delete', disabled: true }
+      { type: 'item', label: 'Delete', key: 'delete', disabled: true },
     ],
-    onSelect: (item) => console.log(item.key)
+    onSelect: (item) => console.log(item.key),
   },
-  event
+  event,
 )
 ```
 
@@ -165,59 +165,59 @@ The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-erro
 
 ## Components
 
-| Component | Tag | Description |
-| :--- | :--- | :--- |
-| Button | `YButton` | Button with type, color, shape, loading, and wave animation |
-| ButtonGroup | `YButtonGroup` | Horizontal or vertical button grouping |
-| Card | `YCard` | Structured content container |
-| Checkbox | `YCheckbox` | Single checkbox |
-| CheckboxGroup | `YCheckboxGroup` | Checkbox group with provide/inject state |
-| ColorPicker | `YColorPicker` | HSV color picker with presets |
-| DatePicker | `YDatePicker` | Date picker with month/year navigation |
-| DateRangePicker | `YDateRangePicker` | Date range picker with optional auto sorting |
-| DateTimePicker | `YDateTimePicker` / `y-datetime-picker` | Date and time picker |
-| DateTimeRangePicker | `YDateTimeRangePicker` / `y-datetime-range-picker` | Date-time range picker |
-| Dialog | `YDialog` | Dialog with drag and Escape support |
-| Divider | `YDivider` | Horizontal/vertical divider with dashed and text modes |
-| Drawer | `YDrawer` | Drawer with four placements and resizable size |
-| Dropmenu | `YDropmenu` | Dropdown menu based on menu item extraction |
-| Empty | `YEmpty` | Empty state with custom icon and text |
-| Form | `YForm` | Form layout, validation, and reset |
-| FormItem | `YFormItem` | Form item with label, required marker, and errors |
-| Icon | `YIcon` | Render Vue components as icons |
-| Input | `YInput` | Input with prefix/suffix and clearable support |
-| InputGroup | `YInputGroup` | Horizontal input grouping with addons and unified size |
-| InputNumber | `YInputNumber` | Numeric input with step controls and keyboard support |
-| InputPassword | `YInputPassword` | Password input with visibility toggle |
-| LinkButton | `YLinkButton` | Text-style button |
-| Loading | `YLoading` | Loading indicators and container loading mode |
-| Menu | `YMenu` | Menu with expanded and collapsed modes |
-| MenuOption | `YMenuOption` | Declarative menu item |
-| Pagination | `YPagination` | Pagination with ellipsis, size changer, and quick jumper |
-| Progress | `YProgress` | Linear progress with status, custom color, and text formatting |
-| Radio | `YRadio` | Single radio |
-| RadioGroup | `YRadioGroup` | Radio group with options and slots |
-| RadioButton | `YRadioButton` | Radio as button |
-| RadioButtonGroup | `YRadioButtonGroup` | Button-style exclusive selection group |
-| ScrollBox | `YScrollBox` | Custom scrollbar container with GPU positioning |
-| Segmented | `YSegmented` | Segmented control with animated indicator |
-| Select | `YSelect` | Select with search and keyboard navigation |
-| SelectOption | `YSelectOption` | Declarative select option |
-| Slider | `YSlider` | Single/range slider with steps and marks |
-| SortableBox | `YSortableBox` | Vue data-first drag sorting with cross-list preview |
-| Switch | `YSwitch` | Switch with loading and custom colors |
-| Tab | `YTab` | Tabs with four placements, card style, animation, and flex layout |
-| TabPane | `YTabPane` | Tab pane with label slot and closable support |
-| Table | `YTable` | Table with sorting, resize, selection, loading, and fixed columns |
-| TableColumn | `YTableColumn` | Declarative table column with custom rendering |
-| Tag | `YTag` | Tag with preset/custom colors and closable support |
-| Textarea | `YTextarea` | Textarea with autosize, count, and clearable support |
-| TimePicker | `YTimePicker` | Time picker with hour/minute/second columns |
-| TimeRangePicker | `YTimeRangePicker` | Time range picker with optional auto sorting |
-| Timeline | `YTimeline` | Timeline with left/right/alternate modes |
-| TimelineItem | `YTimelineItem` | Timeline item with title, time, type, and hollow node |
-| Tooltip | `YTooltip` | Tooltip with four placements and CSS arrow |
-| Tree | `YTree` | Recursive tree with checkbox/radio and half-checked state |
+| Component           | Tag                                                | Description                                                       |
+| :------------------ | :------------------------------------------------- | :---------------------------------------------------------------- |
+| Button              | `YButton`                                          | Button with type, color, shape, loading, and wave animation       |
+| ButtonGroup         | `YButtonGroup`                                     | Horizontal or vertical button grouping                            |
+| Card                | `YCard`                                            | Structured content container                                      |
+| Checkbox            | `YCheckbox`                                        | Single checkbox                                                   |
+| CheckboxGroup       | `YCheckboxGroup`                                   | Checkbox group with provide/inject state                          |
+| ColorPicker         | `YColorPicker`                                     | HSV color picker with presets                                     |
+| DatePicker          | `YDatePicker`                                      | Date picker with month/year navigation                            |
+| DateRangePicker     | `YDateRangePicker`                                 | Date range picker with optional auto sorting                      |
+| DateTimePicker      | `YDateTimePicker` / `y-datetime-picker`            | Date and time picker                                              |
+| DateTimeRangePicker | `YDateTimeRangePicker` / `y-datetime-range-picker` | Date-time range picker                                            |
+| Dialog              | `YDialog`                                          | Dialog with drag and Escape support                               |
+| Divider             | `YDivider`                                         | Horizontal/vertical divider with dashed and text modes            |
+| Drawer              | `YDrawer`                                          | Drawer with four placements and resizable size                    |
+| Dropmenu            | `YDropmenu`                                        | Dropdown menu based on menu item extraction                       |
+| Empty               | `YEmpty`                                           | Empty state with custom icon and text                             |
+| Form                | `YForm`                                            | Form layout, validation, and reset                                |
+| FormItem            | `YFormItem`                                        | Form item with label, required marker, and errors                 |
+| Icon                | `YIcon`                                            | Render Vue components as icons                                    |
+| Input               | `YInput`                                           | Input with prefix/suffix and clearable support                    |
+| InputGroup          | `YInputGroup`                                      | Horizontal input grouping with addons and unified size            |
+| InputNumber         | `YInputNumber`                                     | Numeric input with step controls and keyboard support             |
+| InputPassword       | `YInputPassword`                                   | Password input with visibility toggle                             |
+| LinkButton          | `YLinkButton`                                      | Text-style button                                                 |
+| Loading             | `YLoading`                                         | Loading indicators and container loading mode                     |
+| Menu                | `YMenu`                                            | Menu with expanded and collapsed modes                            |
+| MenuOption          | `YMenuOption`                                      | Declarative menu item                                             |
+| Pagination          | `YPagination`                                      | Pagination with ellipsis, size changer, and quick jumper          |
+| Progress            | `YProgress`                                        | Linear progress with status, custom color, and text formatting    |
+| Radio               | `YRadio`                                           | Single radio                                                      |
+| RadioGroup          | `YRadioGroup`                                      | Radio group with options and slots                                |
+| RadioButton         | `YRadioButton`                                     | Radio as button                                                   |
+| RadioButtonGroup    | `YRadioButtonGroup`                                | Button-style exclusive selection group                            |
+| ScrollBox           | `YScrollBox`                                       | Custom scrollbar container with GPU positioning                   |
+| Segmented           | `YSegmented`                                       | Segmented control with animated indicator                         |
+| Select              | `YSelect`                                          | Select with search and keyboard navigation                        |
+| SelectOption        | `YSelectOption`                                    | Declarative select option                                         |
+| Slider              | `YSlider`                                          | Single/range slider with steps and marks                          |
+| SortableBox         | `YSortableBox`                                     | Vue data-first drag sorting with cross-list preview               |
+| Switch              | `YSwitch`                                          | Switch with loading and custom colors                             |
+| Tab                 | `YTab`                                             | Tabs with four placements, card style, animation, and flex layout |
+| TabPane             | `YTabPane`                                         | Tab pane with label slot and closable support                     |
+| Table               | `YTable`                                           | Table with sorting, resize, selection, loading, and fixed columns |
+| TableColumn         | `YTableColumn`                                     | Declarative table column with custom rendering                    |
+| Tag                 | `YTag`                                             | Tag with preset/custom colors and closable support                |
+| Textarea            | `YTextarea`                                        | Textarea with autosize, count, and clearable support              |
+| TimePicker          | `YTimePicker`                                      | Time picker with hour/minute/second columns                       |
+| TimeRangePicker     | `YTimeRangePicker`                                 | Time range picker with optional auto sorting                      |
+| Timeline            | `YTimeline`                                        | Timeline with left/right/alternate modes                          |
+| TimelineItem        | `YTimelineItem`                                    | Timeline item with title, time, type, and hollow node             |
+| Tooltip             | `YTooltip`                                         | Tooltip with four placements and CSS arrow                        |
+| Tree                | `YTree`                                            | Recursive tree with checkbox/radio and half-checked state         |
 
 ---
 
@@ -260,11 +260,11 @@ setLang('en-US')
 
 registerLang('ja-JP', {
   'common.noData': 'データなし',
-  'select.placeholder': '選択してください'
+  'select.placeholder': '選択してください',
 })
 
 registerLangItem('zh-CN', {
-  'myComponent.title': '我的组件'
+  'myComponent.title': '我的组件',
 })
 
 const placeholder = computed(() => $t('select.placeholder'))

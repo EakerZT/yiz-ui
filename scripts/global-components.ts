@@ -50,7 +50,7 @@ import type {
   TimelineItem,
   TimeRangePicker,
   Tooltip,
-  Tree
+  Tree,
 } from './components'
 
 declare module 'vue' {

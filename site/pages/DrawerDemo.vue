@@ -93,11 +93,24 @@
       <p>{{ $t('demo.drawer.customHeightHint') }}</p>
     </y-drawer>
 
-    <y-drawer v-model="visible11" :title="$t('demo.drawer.horizontalResizeHint')" :resize="true" resize-min="200px" resize-max="80%">
+    <y-drawer
+      v-model="visible11"
+      :title="$t('demo.drawer.horizontalResizeHint')"
+      :resize="true"
+      resize-min="200px"
+      resize-max="80%"
+    >
       <p>{{ $t('demo.drawer.horizontalResizeConstraint') }}</p>
     </y-drawer>
 
-    <y-drawer v-model="visible12" :title="$t('demo.drawer.verticalResizeHint')" placement="bottom" :resize="true" resize-min="150px" resize-max="60%">
+    <y-drawer
+      v-model="visible12"
+      :title="$t('demo.drawer.verticalResizeHint')"
+      placement="bottom"
+      :resize="true"
+      resize-min="150px"
+      resize-max="60%"
+    >
       <p>{{ $t('demo.drawer.verticalResizeConstraint') }}</p>
     </y-drawer>
 

@@ -24,7 +24,7 @@ export function splitDateTimeFormat(format: string) {
   }
   return {
     dateFormat: format.slice(0, timeIndex).replace(/[\sT]+$/, '') || 'YYYY-MM-DD',
-    timeFormat: format.slice(timeIndex) || 'HH:mm:ss'
+    timeFormat: format.slice(timeIndex) || 'HH:mm:ss',
   }
 }
 
@@ -43,7 +43,7 @@ export function formatDateTime(date: Date, format: string): string {
     mm: pad(date.getMinutes()),
     m: `${date.getMinutes()}`,
     ss: pad(date.getSeconds()),
-    s: `${date.getSeconds()}`
+    s: `${date.getSeconds()}`,
   }
   return format.replace(/YYYY|yyyy|MM|DD|dd|HH|mm|ss|M|D|d|H|m|s/g, (key) => map[key] || key)
 }
@@ -64,7 +64,7 @@ export function parseDateTime(value: string, format: string): Date | null {
     mm: '(\\d{2})',
     m: '(\\d{1,2})',
     ss: '(\\d{2})',
-    s: '(\\d{1,2})'
+    s: '(\\d{1,2})',
   }
   const tokens: string[] = []
   let pattern = ''

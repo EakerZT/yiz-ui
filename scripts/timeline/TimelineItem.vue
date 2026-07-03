@@ -36,8 +36,8 @@ const props = withDefaults(
     type: 'default',
     color: '',
     hollow: false,
-    position: undefined
-  }
+    position: undefined,
+  },
 )
 
 defineSlots<{
@@ -51,7 +51,7 @@ const slots = useSlots()
 const vClass = computed(() => {
   const c: Record<string, boolean> = {
     'yiz-timeline-item-hollow': props.hollow,
-    'yiz-timeline-item-custom-dot': !!slots.dot
+    'yiz-timeline-item-custom-dot': !!slots.dot,
   }
   if (!props.color) {
     c[`yiz-timeline-item-${props.type}`] = true

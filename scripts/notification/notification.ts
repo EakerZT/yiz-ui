@@ -58,7 +58,7 @@ function openNotification(options: NotificationOptions = {}): NotificationHandle
 
   const instance: NotificationInstance = {
     placement,
-    close
+    close,
   }
   instances.push(instance)
 
@@ -115,12 +115,12 @@ function openNotification(options: NotificationOptions = {}): NotificationHandle
         onClose: () => {
           emitClose()
         },
-        onDestroy: destroy
+        onDestroy: destroy,
       },
       {
         title: titleSlot,
-        default: defaultSlot
-      }
+        default: defaultSlot,
+      },
     )
 
     render(vnode, container)
@@ -130,7 +130,7 @@ function openNotification(options: NotificationOptions = {}): NotificationHandle
   expandContainer(container, placement)
 
   return {
-    close
+    close,
   }
 }
 
@@ -199,6 +199,8 @@ function removeHolderIfEmpty(placement: NotificationPlacement) {
 export const notification = openNotification as NotificationFn
 
 notification.info = (options: Omit<NotificationOptions, 'type'> = {}) => notification({ ...options, type: 'info' })
-notification.success = (options: Omit<NotificationOptions, 'type'> = {}) => notification({ ...options, type: 'success' })
-notification.warning = (options: Omit<NotificationOptions, 'type'> = {}) => notification({ ...options, type: 'warning' })
+notification.success = (options: Omit<NotificationOptions, 'type'> = {}) =>
+  notification({ ...options, type: 'success' })
+notification.warning = (options: Omit<NotificationOptions, 'type'> = {}) =>
+  notification({ ...options, type: 'warning' })
 notification.error = (options: Omit<NotificationOptions, 'type'> = {}) => notification({ ...options, type: 'error' })

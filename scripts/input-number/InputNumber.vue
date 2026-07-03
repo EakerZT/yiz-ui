@@ -69,8 +69,8 @@ const props = withDefaults(
     align: 'left',
     disabled: false,
     placeholder: '',
-    size: 'default'
-  }
+    size: 'default',
+  },
 )
 
 defineSlots<{
@@ -168,7 +168,7 @@ function onBlur() {
 }
 
 defineExpose({
-  focus: () => inputRef.value?.focus()
+  focus: () => inputRef.value?.focus(),
 })
 </script>
 

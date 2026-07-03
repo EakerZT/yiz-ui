@@ -18,8 +18,8 @@ const props = withDefaults(
     direction: 'horizontal',
     gap: 12,
     align: 'center',
-    wrap: false
-  }
+    wrap: false,
+  },
 )
 
 defineSlots<{

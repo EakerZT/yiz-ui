@@ -59,11 +59,11 @@
             class="yiz-color-picker-preset"
             :class="{
               'yiz-color-picker-preset-active': normalizeColor(color) === previewBaseColor,
-              'yiz-color-picker-preset-white': normalizeColor(color) === '#ffffff'
+              'yiz-color-picker-preset-white': normalizeColor(color) === '#ffffff',
             }"
             :style="{
               backgroundColor: normalizeColor(color),
-              '--yiz-color-picker-preset-color': normalizeColor(color)
+              '--yiz-color-picker-preset-color': normalizeColor(color),
             }"
             type="button"
             :aria-label="normalizeColor(color)"
@@ -116,9 +116,9 @@ const props = withDefaults(
       '#eb2f96',
       '#2f54eb',
       '#000000',
-      '#ffffff'
-    ]
-  }
+      '#ffffff',
+    ],
+  },
 )
 
 const emit = defineEmits<{
@@ -156,19 +156,19 @@ const alphaSliderStyle = computed(() => ({
     linear-gradient(-45deg, transparent 75%, #d9d9d9 75%)
   `,
   backgroundPosition: '0 0, 0 0, 0 4px, 4px -4px, -4px 0',
-  backgroundSize: '100% 100%, 8px 8px, 8px 8px, 8px 8px, 8px 8px'
+  backgroundSize: '100% 100%, 8px 8px, 8px 8px, 8px 8px, 8px 8px',
 }))
 
 const vClass = computed(() => ({
   'yiz-color-picker-open': open.value,
   'yiz-color-picker-disabled': props.disabled,
   'yiz-color-picker-small': props.size === 'small',
-  'yiz-color-picker-large': props.size === 'large'
+  'yiz-color-picker-large': props.size === 'large',
 }))
 
 const dropdownStyle = computed(() => ({
   zIndex: currentZIndex.value + 1,
-  ...dropdownPos.value
+  ...dropdownPos.value,
 }))
 
 watch(
@@ -178,7 +178,7 @@ watch(
       setDraftColor(value)
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 watch(previewColor, (value) => {
@@ -230,7 +230,7 @@ function hexToRgb(hexValue: string) {
   return {
     r: Number.parseInt(hex.slice(0, 2), 16),
     g: Number.parseInt(hex.slice(2, 4), 16),
-    b: Number.parseInt(hex.slice(4, 6), 16)
+    b: Number.parseInt(hex.slice(4, 6), 16),
   }
 }
 
@@ -273,7 +273,7 @@ function hexToHsv(hexValue: string): HsvColor {
   return {
     h,
     s: max === 0 ? 0 : (delta / max) * 100,
-    v: max * 100
+    v: max * 100,
   }
 }
 

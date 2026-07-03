@@ -11,7 +11,7 @@
           <em>{{ iconSize }}px</em>
         </span>
       </div>
-</y-card>
+    </y-card>
 
     <y-card :title="$t('demo.icon.renderSvg')" style="margin-top: 8px">
       <span class="demo-icon-item">
@@ -41,7 +41,7 @@ const iconSize = ref(20)
 const sizeOptions = [
   { label: '12px', value: 12 },
   { label: '20px', value: 20 },
-  { label: '36px', value: 36 }
+  { label: '36px', value: 36 },
 ]
 
 const customSvg = `

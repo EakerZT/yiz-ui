@@ -3,7 +3,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
-    content: { default: null }
+    content: { default: null },
   },
   setup(props: { content: unknown }) {
     return () => {
@@ -13,6 +13,6 @@ export default defineComponent({
       }
       return props.content
     }
-  }
+  },
 })
 </script>

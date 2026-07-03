@@ -8,7 +8,7 @@ export function renderSvgIcon(svg: string, options: RenderSvgIconOptions = {}): 
   const style: Record<string, string> = {
     width: '1em',
     height: '1em',
-    'line-height': '1em'
+    'line-height': '1em',
   }
   if (options.size != null) {
     style['font-size'] = typeof options.size === 'number' ? `${options.size}px` : options.size
@@ -16,6 +16,6 @@ export function renderSvgIcon(svg: string, options: RenderSvgIconOptions = {}): 
   return h('span', {
     class: 'yiz-icon',
     style,
-    innerHTML: svg
+    innerHTML: svg,
   })
 }

@@ -51,8 +51,8 @@ const props = withDefaults(
     size: 'default',
     shape: 'block',
     block: false,
-    name: ''
-  }
+    name: '',
+  },
 )
 
 defineSlots<{
@@ -77,12 +77,12 @@ const vClass = computed(() => ({
   'yiz-segmented-disabled': props.disabled,
   'yiz-segmented-block': props.block,
   [`yiz-segmented-shape-${props.shape}`]: true,
-  [`yiz-segmented-${props.size}`]: true
+  [`yiz-segmented-${props.size}`]: true,
 }))
 
 const indicatorClass = computed(() => ({
   'yiz-segmented-indicator-disabled': props.disabled || selectedOption.value?.disabled,
-  'yiz-segmented-indicator-transition-ready': indicatorTransitionReady.value
+  'yiz-segmented-indicator-transition-ready': indicatorTransitionReady.value,
 }))
 
 watch(
@@ -93,7 +93,7 @@ watch(
       observeSize()
     })
   },
-  { deep: true }
+  { deep: true },
 )
 
 onMounted(() => {
@@ -114,7 +114,7 @@ onBeforeUnmount(() => {
 function getItemClass(option: SegmentedOption) {
   return {
     'yiz-segmented-item-selected': isSelected(option),
-    'yiz-segmented-item-disabled': isDisabled(option)
+    'yiz-segmented-item-disabled': isDisabled(option),
   }
 }
 
@@ -155,7 +155,7 @@ function updateIndicator() {
   setIndicatorStyle({
     width: `${currentItem.offsetWidth}px`,
     transform: `translateX(${currentItem.offsetLeft}px)`,
-    opacity: '1'
+    opacity: '1',
   })
   enableIndicatorTransition()
 }

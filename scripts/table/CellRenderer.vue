@@ -8,7 +8,7 @@ export default defineComponent({
     formatter: Function,
     value: {},
     row: { type: Object, default: () => ({}) },
-    index: { type: Number, default: 0 }
+    index: { type: Number, default: 0 },
   },
   setup(props) {
     return () => {
@@ -28,7 +28,7 @@ export default defineComponent({
       }
       return h('span', String(props.value ?? ''))
     }
-  }
+  },
 })
 </script>
 

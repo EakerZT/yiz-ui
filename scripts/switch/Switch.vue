@@ -50,8 +50,8 @@ const props = withDefaults(
     size: 'default',
     loading: false,
     checkedValue: true,
-    uncheckedValue: false
-  }
+    uncheckedValue: false,
+  },
 )
 
 const emit = defineEmits<{

@@ -29,8 +29,8 @@ const allItems = [
     children: [
       { label: $t('demo.contextMenu.list'), value: 'list', type: 'radiogroup' as const, name: 'layout', checked: true },
       { label: $t('demo.contextMenu.grid'), value: 'grid', type: 'radiogroup' as const, name: 'layout' },
-      { label: $t('demo.contextMenu.thumbnail'), value: 'thumb', type: 'radiogroup' as const, name: 'layout' }
-    ]
+      { label: $t('demo.contextMenu.thumbnail'), value: 'thumb', type: 'radiogroup' as const, name: 'layout' },
+    ],
   },
   {
     label: $t('demo.contextMenu.visibleItems'),
@@ -46,15 +46,15 @@ const allItems = [
         children: [
           { label: $t('demo.contextMenu.outline'), value: 'outline', type: 'checkbox' as const },
           { label: $t('demo.contextMenu.timeline'), value: 'timeline', type: 'checkbox' as const, checked: true },
-          { label: $t('demo.contextMenu.terminal'), value: 'terminal', type: 'checkbox' as const }
-        ]
-      }
-    ]
+          { label: $t('demo.contextMenu.terminal'), value: 'terminal', type: 'checkbox' as const },
+        ],
+      },
+    ],
   },
   { type: 'divider' as const },
   { label: $t('demo.common.save'), value: 'save', icon: renderIcon(Delete16Regular) },
   { label: $t('demo.common.export'), value: 'export' },
-  { label: $t('demo.contextMenu.properties'), value: 'properties', disabled: true }
+  { label: $t('demo.contextMenu.properties'), value: 'properties', disabled: true },
 ]
 
 function onShowMenu(e: MouseEvent) {

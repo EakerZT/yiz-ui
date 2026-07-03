@@ -61,8 +61,8 @@ const props = withDefaults(
     depth?: number
   }>(),
   {
-    depth: 1
-  }
+    depth: 1,
+  },
 )
 
 defineSlots<{
@@ -77,7 +77,7 @@ const emit = defineEmits<{
 const expandedKeys = ref<Set<any>>(new Set())
 
 const itemStyle = computed(() => ({
-  paddingLeft: `${12 + props.depth * 16}px`
+  paddingLeft: `${12 + props.depth * 16}px`,
 }))
 
 function findAncestors(items: MenuItem[], target: any, ancestors = new Set<any>()): Set<any> | null {

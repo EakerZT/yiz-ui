@@ -29,12 +29,7 @@
                 {{ item.label }}
               </slot>
             </span>
-            <Icon
-              v-if="item.children?.length"
-              class="yiz-menu-item-arrow"
-              size="16"
-              :icon="ChevronRight16Regular"
-            />
+            <Icon v-if="item.children?.length" class="yiz-menu-item-arrow" size="16" :icon="ChevronRight16Regular" />
           </div>
         </template>
       </div>
@@ -132,7 +127,7 @@ function onItemMouseEnter(item: MenuItem, e: MouseEvent) {
     const s: Record<string, string> = {
       position: 'fixed',
       left: `${rect.right}px`,
-      top: `${rect.top}px`
+      top: `${rect.top}px`,
     }
     if (rect.right + menuW + gap > window.innerWidth) {
       s.left = `${rect.left - menuW - gap}px`

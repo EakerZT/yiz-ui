@@ -235,8 +235,8 @@
       <div style="height: 500px">
         <scroll-box>
           <y-sortable-box v-model="scrollItems" class="demo-sortable-list demo-sortable-scroll-list" item-key="id">
-           <template #item="{ element }">
-            <div class="demo-sortable-item">{{ getItemTitle(element) }}</div>
+            <template #item="{ element }">
+              <div class="demo-sortable-item">{{ getItemTitle(element) }}</div>
             </template>
           </y-sortable-box>
         </scroll-box>
@@ -270,26 +270,26 @@ const basicItems = ref<DemoItem[]>([
   { id: 'task-1', title: '需求评审' },
   { id: 'task-2', title: '视觉设计' },
   { id: 'task-3', title: '组件开发' },
-  { id: 'task-4', title: '交互验收' }
+  { id: 'task-4', title: '交互验收' },
 ])
 
 const horizontalItems = ref<DemoItem[]>([
   { id: 'stage-1', title: 'Draft' },
   { id: 'stage-2', title: 'Review' },
   { id: 'stage-3', title: 'Build' },
-  { id: 'stage-4', title: 'Release' }
+  { id: 'stage-4', title: 'Release' },
 ])
 
 const dragClassItems = ref<DemoItem[]>([
   { id: 'drag-class-1', title: '拖动时保留占位' },
   { id: 'drag-class-2', title: '自定义 drag-class' },
-  { id: 'drag-class-3', title: '半透明源元素' }
+  { id: 'drag-class-3', title: '半透明源元素' },
 ])
 
 const thresholdLeftItems = ref<DemoItem[]>([
   { id: 'threshold-1', title: '动画排序' },
   { id: 'threshold-2', title: '阈值判定' },
-  { id: 'threshold-3', title: '靠近空列表' }
+  { id: 'threshold-3', title: '靠近空列表' },
 ])
 const thresholdRightItems = ref<DemoItem[]>([])
 
@@ -297,7 +297,7 @@ const syncItems = ref<DemoItem[]>([
   { id: 'sync-title', title: '标题', type: 'Text' },
   { id: 'sync-image', title: '图片', type: 'Image' },
   { id: 'sync-button', title: '按钮', type: 'Button' },
-  { id: 'sync-form', title: '表单', type: 'Form' }
+  { id: 'sync-form', title: '表单', type: 'Form' },
 ])
 const syncPreviewItems = ref<DemoItem[] | null>(null)
 const syncDraggingKey = ref('')
@@ -310,41 +310,41 @@ const nestedColumns = ref<NestedColumn[]>([
     title: 'Todo',
     cards: [
       { id: 'todo-1', title: '梳理需求' },
-      { id: 'todo-2', title: '确认边界' }
-    ]
+      { id: 'todo-2', title: '确认边界' },
+    ],
   },
   {
     id: 'doing',
     title: 'Doing',
     cards: [
       { id: 'doing-1', title: '实现拖动排序' },
-      { id: 'doing-2', title: '补充示例' }
-    ]
+      { id: 'doing-2', title: '补充示例' },
+    ],
   },
   {
     id: 'done',
     title: 'Done',
-    cards: [{ id: 'done-1', title: '基础能力验证' }]
-  }
+    cards: [{ id: 'done-1', title: '基础能力验证' }],
+  },
 ])
 
 const libraryItems = ref<DemoItem[]>([
   { id: 'text', title: 'Text', type: 'basic' },
   { id: 'image', title: 'Image', type: 'media' },
-  { id: 'button', title: 'Button', type: 'action' }
+  { id: 'button', title: 'Button', type: 'action' },
 ])
 
 const canvasItems = ref<DemoItem[]>([{ id: 'canvas-initial', title: 'Hero Title', type: 'text' }])
 const leftItems = ref<DemoItem[]>([
   { id: 'left-1', title: '固定保留项' },
-  { id: 'left-2', title: '可移动项' }
+  { id: 'left-2', title: '可移动项' },
 ])
 const rightItems = ref<DemoItem[]>([{ id: 'right-1', title: '右侧项目' }])
 const scrollItems = ref<DemoItem[]>(
   Array.from({ length: 18 }, (_, index) => ({
     id: `scroll-${index + 1}`,
-    title: `Item ${index + 1}`
-  }))
+    title: `Item ${index + 1}`,
+  })),
 )
 const basicLog = ref('')
 const previewText = ref('')
@@ -408,7 +408,7 @@ function createCanvasItem(item: unknown) {
   return {
     id: `${source.id}-${Date.now()}-${idSeed}`,
     title: `${source.title} ${idSeed}`,
-    type: source.type
+    type: source.type,
   }
 }
 

@@ -132,7 +132,7 @@ const pages: Record<string, any> = {
   'time-range-picker': TimeRangePickerDemo,
   tooltip: TooltipDemo,
   tree: TreeDemo,
-  icon: IconDemo
+  icon: IconDemo,
 }
 
 const menuItems = computed(() => [
@@ -177,7 +177,7 @@ const menuItems = computed(() => [
   { label: $t('demo.nav.timePicker'), key: 'time-picker' },
   { label: $t('demo.nav.timeRangePicker'), key: 'time-range-picker' },
   { label: $t('demo.nav.tooltip'), key: 'tooltip' },
-  { label: $t('demo.nav.tree'), key: 'tree' }
+  { label: $t('demo.nav.tree'), key: 'tree' },
 ])
 
 function getPageFromHash(): string {

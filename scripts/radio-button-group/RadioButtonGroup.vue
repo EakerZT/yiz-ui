@@ -41,8 +41,8 @@ const props = withDefaults(
     disabled: false,
     size: 'default',
     textColor: '',
-    fillColor: ''
-  }
+    fillColor: '',
+  },
 )
 
 defineSlots<{
@@ -66,7 +66,7 @@ const fillColorValue = computed(() => props.fillColor)
 
 const vClass = computed(() => ({
   'yiz-radio-button-group-disabled': props.disabled,
-  [`yiz-radio-button-group-${props.size}`]: true
+  [`yiz-radio-button-group-${props.size}`]: true,
 }))
 
 function changeValue(value: string | number) {
@@ -81,7 +81,7 @@ provide('yizRadioButtonGroup', {
   size: sizeValue,
   textColor: textColorValue,
   fillColor: fillColorValue,
-  changeValue
+  changeValue,
 })
 </script>
 

@@ -12,7 +12,7 @@ import {
   ref,
   type ComponentPublicInstance,
   type PropType,
-  type VNode
+  type VNode,
 } from 'vue'
 import type {
   SortableBoxMode,
@@ -30,7 +30,7 @@ import type {
   SortableListContext,
   SortableMoveEvent,
   SortablePreviewChange,
-  SortablePullMode
+  SortablePullMode,
 } from './types'
 
 interface SortableRuntime {
@@ -167,19 +167,18 @@ export default defineComponent({
     createItem: { type: Function as PropType<(item: unknown) => unknown>, default: undefined },
     move: {
       type: Function as PropType<(event: SortableMoveEvent, originalEvent: PointerEvent) => boolean | void>,
-      default: undefined
+      default: undefined,
     },
     canDrag: { type: Function as PropType<SortableGuard>, default: undefined },
     canLeave: { type: Function as PropType<SortableGuard>, default: undefined },
     canEnter: { type: Function as PropType<SortableGuard>, default: undefined },
     canDrop: { type: Function as PropType<SortableGuard>, default: undefined },
     canSort: { type: Function as PropType<SortableGuard>, default: undefined },
-    preview: { type: Boolean, default: true }
-    ,
+    preview: { type: Boolean, default: true },
     scroll: { type: Boolean, default: true },
     scrollSensitivity: { type: Number, default: 30 },
     scrollSpeed: { type: Number, default: 10 },
-    bubbleScroll: { type: Boolean, default: true }
+    bubbleScroll: { type: Boolean, default: true },
   },
   emits: [
     'update:modelValue',
@@ -196,7 +195,7 @@ export default defineComponent({
     'preview-start',
     'preview-change',
     'preview-cancel',
-    'preview-commit'
+    'preview-commit',
   ],
   setup(props, { attrs, slots, emit, expose }) {
     const rootRef = ref<HTMLElement | ComponentPublicInstance | null>(null)
@@ -236,7 +235,7 @@ export default defineComponent({
       },
       emitPreview(name, payload) {
         emit(name, payload)
-      }
+      },
     }
 
     function getRootElement() {
@@ -279,7 +278,7 @@ export default defineComponent({
       return {
         'yiz-sortable-box-drag-source': isHidden,
         [props.chosenClass]: isChosen,
-        [props.dragClass]: isHidden
+        [props.dragClass]: isHidden,
       }
     }
 
@@ -304,7 +303,7 @@ export default defineComponent({
         id,
         group: normalizeGroup(props.group).name,
         mode: props.mode,
-        items: realList.value
+        items: realList.value,
       }
     }
 
@@ -342,7 +341,7 @@ export default defineComponent({
         scroll: props.scroll,
         scrollSensitivity: props.scrollSensitivity,
         scrollSpeed: props.scrollSpeed,
-        bubbleScroll: props.bubbleScroll
+        bubbleScroll: props.bubbleScroll,
       }
       return { ...baseOptions, ...optionOverrides.value }
     }
@@ -368,7 +367,12 @@ export default defineComponent({
       }
 
       if (options.lockedKeys.includes(entry.key)) return
-      if (!isGuardAllowed(options.canDrag, buildGuardContext(runtime, runtime, entry.item, entry.key, entry.index, entry.index, event))) {
+      if (
+        !isGuardAllowed(
+          options.canDrag,
+          buildGuardContext(runtime, runtime, entry.item, entry.key, entry.index, entry.index, event),
+        )
+      ) {
         return
       }
 
@@ -379,14 +383,19 @@ export default defineComponent({
         itemElement,
         startX: event.clientX,
         startY: event.clientY,
-        originalEvent: event
+        originalEvent: event,
       }
 
       window.addEventListener('pointermove', onPendingPointerMove)
       window.addEventListener('pointerup', cancelPendingDrag, { once: true })
     }
 
-    function isFiltered(filter: SortableFilter | undefined, entry: SortableItemEntry, target: HTMLElement, event: PointerEvent) {
+    function isFiltered(
+      filter: SortableFilter | undefined,
+      entry: SortableItemEntry,
+      target: HTMLElement,
+      event: PointerEvent,
+    ) {
       if (!filter) return false
       if (typeof filter === 'string') return !!target.closest(filter)
       const context: SortableFilterContext = {
@@ -394,7 +403,7 @@ export default defineComponent({
         key: entry.key,
         index: entry.index,
         target,
-        originalEvent: event
+        originalEvent: event,
       }
       return filter(context)
     }
@@ -440,7 +449,7 @@ export default defineComponent({
         pointerOffsetX: event.clientX - rect.left,
         pointerOffsetY: event.clientY - rect.top,
         ghost,
-        originalEvent: pending.originalEvent
+        originalEvent: pending.originalEvent,
       }
 
       document.body.classList.add('yiz-sortable-box-body-dragging')
@@ -507,7 +516,7 @@ export default defineComponent({
 
       const scrollers = getScrollParents(element, options.bubbleScroll)
       const didScroll = scrollers.some((scroller) =>
-        scrollByPointer(scroller, lastPointerEvent as PointerEvent, options.scrollSensitivity, options.scrollSpeed)
+        scrollByPointer(scroller, lastPointerEvent as PointerEvent, options.scrollSensitivity, options.scrollSpeed),
       )
 
       if (didScroll) {
@@ -543,9 +552,17 @@ export default defineComponent({
       let dx = 0
       let dy = 0
       if (event.clientX - rect.left <= sensitivity && element.scrollLeft > 0) dx = -speed
-      else if (rect.right - event.clientX <= sensitivity && element.scrollLeft + element.clientWidth < element.scrollWidth) dx = speed
+      else if (
+        rect.right - event.clientX <= sensitivity &&
+        element.scrollLeft + element.clientWidth < element.scrollWidth
+      )
+        dx = speed
       if (event.clientY - rect.top <= sensitivity && element.scrollTop > 0) dy = -speed
-      else if (rect.bottom - event.clientY <= sensitivity && element.scrollTop + element.clientHeight < element.scrollHeight) dy = speed
+      else if (
+        rect.bottom - event.clientY <= sensitivity &&
+        element.scrollTop + element.clientHeight < element.scrollHeight
+      )
+        dy = speed
       if (!dx && !dy) return false
       element.scrollLeft += dx
       element.scrollTop += dy
@@ -557,7 +574,7 @@ export default defineComponent({
         left: 0,
         top: 0,
         right: window.innerWidth,
-        bottom: window.innerHeight
+        bottom: window.innerHeight,
       }
     }
 
@@ -612,7 +629,7 @@ export default defineComponent({
         const end = options.direction === 'horizontal' ? rect.right : rect.bottom
         const length = Math.max(end - start, 1)
         const threshold = clampThreshold(
-          options.invertSwap ? options.invertedSwapThreshold ?? options.swapThreshold : options.swapThreshold
+          options.invertSwap ? (options.invertedSwapThreshold ?? options.swapThreshold) : options.swapThreshold,
         )
         const beforeEnd = start + (length * threshold) / 2
         const afterStart = end - (length * threshold) / 2
@@ -650,7 +667,15 @@ export default defineComponent({
         if (
           !isGuardAllowed(
             options.canSort,
-            buildGuardContext(source, target, activeDrag.item, activeDrag.key, activeDrag.sourceIndex, targetIndex, event)
+            buildGuardContext(
+              source,
+              target,
+              activeDrag.item,
+              activeDrag.key,
+              activeDrag.sourceIndex,
+              targetIndex,
+              event,
+            ),
           )
         ) {
           return null
@@ -665,7 +690,7 @@ export default defineComponent({
           pullMode,
           sourcePreview: next,
           targetPreview: next,
-          operation: 'sort'
+          operation: 'sort',
         }
       }
 
@@ -681,7 +706,7 @@ export default defineComponent({
         pullMode,
         sourcePreview,
         targetPreview,
-        operation: pullMode === 'clone' ? 'clone' : 'move'
+        operation: pullMode === 'clone' ? 'clone' : 'move',
       }
     }
 
@@ -690,13 +715,16 @@ export default defineComponent({
       if (source === target) return true
       const sourceOptions = source.getOptions()
       const targetOptions = target.getOptions()
-      if (sourceOptions.mode === 'readonly' || targetOptions.mode === 'readonly' || targetOptions.mode === 'source') return false
+      if (sourceOptions.mode === 'readonly' || targetOptions.mode === 'readonly' || targetOptions.mode === 'source')
+        return false
       if (sourceOptions.mode === 'target') return false
       const sourceGroup = normalizeGroup(sourceOptions.group)
       const targetGroup = normalizeGroup(targetOptions.group)
       if (!sourceGroup.name || !targetGroup.name || sourceGroup.name !== targetGroup.name) return false
       const pull =
-        sourceOptions.mode === 'source' ? 'clone' : evaluateGroupRule(sourceGroup.pull, target, source, activeDrag.item, event, true)
+        sourceOptions.mode === 'source'
+          ? 'clone'
+          : evaluateGroupRule(sourceGroup.pull, target, source, activeDrag.item, event, true)
       if (pull === false) return false
       const put = evaluateGroupRule(targetGroup.put, target, source, activeDrag.item, event, false)
       return put ? pull : false
@@ -708,7 +736,7 @@ export default defineComponent({
       from: SortableRuntime,
       item: unknown,
       event: PointerEvent,
-      isPull: boolean
+      isPull: boolean,
     ): SortablePullMode {
       const toContext = to.getListContext()
       const fromContext = from.getListContext()
@@ -721,14 +749,27 @@ export default defineComponent({
       return !!otherGroup && rule.includes(otherGroup)
     }
 
-    function canLeaveSource(source: SortableRuntime, target: SortableRuntime, pullMode: SortablePullMode, event: PointerEvent) {
+    function canLeaveSource(
+      source: SortableRuntime,
+      target: SortableRuntime,
+      pullMode: SortablePullMode,
+      event: PointerEvent,
+    ) {
       if (!activeDrag || pullMode === 'clone') return true
       const options = source.getOptions()
       if (options.mode === 'source' || options.mode === 'readonly') return false
       if (options.minItems !== undefined && source.getItems().length <= options.minItems) return false
       return isGuardAllowed(
         options.canLeave,
-        buildGuardContext(source, target, activeDrag.item, activeDrag.key, activeDrag.sourceIndex, activeDrag.sourceIndex, event)
+        buildGuardContext(
+          source,
+          target,
+          activeDrag.item,
+          activeDrag.key,
+          activeDrag.sourceIndex,
+          activeDrag.sourceIndex,
+          event,
+        ),
       )
     }
 
@@ -739,7 +780,15 @@ export default defineComponent({
       const isSame = target === activeDrag.source
       if (options.disabled || options.mode === 'readonly' || options.mode === 'source') return false
       if (!isSame && options.maxItems !== undefined && targetItems.length >= options.maxItems) return false
-      const context = buildGuardContext(activeDrag.source, target, activeDrag.item, activeDrag.key, activeDrag.sourceIndex, index, event)
+      const context = buildGuardContext(
+        activeDrag.source,
+        target,
+        activeDrag.item,
+        activeDrag.key,
+        activeDrag.sourceIndex,
+        index,
+        event,
+      )
       if (!isGuardAllowed(options.canEnter, context)) return false
       if (!isGuardAllowed(options.canDrop, context)) return false
       if (pullMode !== 'clone' && activeDrag.source.getOptions().lockedKeys.includes(activeDrag.key)) return false
@@ -799,7 +848,7 @@ export default defineComponent({
         drag.sourceIndex,
         current?.newIndex ?? drag.sourceIndex,
         event,
-        current?.pullMode
+        current?.pullMode,
       )
       emitSortableEvent(
         'end',
@@ -810,7 +859,7 @@ export default defineComponent({
         drag.sourceIndex,
         current?.newIndex ?? drag.sourceIndex,
         event,
-        current?.pullMode
+        current?.pullMode,
       )
       cleanupDrag()
     }
@@ -830,11 +879,13 @@ export default defineComponent({
           activeDrag.sourceIndex,
           current.newIndex,
           event,
-          current.pullMode
+          current.pullMode,
         )
         source.emitEvent('update', payload)
         source.emitEvent('sort', payload)
-        source.emitChange({ moved: { element: activeDrag.item, oldIndex: activeDrag.sourceIndex, newIndex: current.newIndex } })
+        source.emitChange({
+          moved: { element: activeDrag.item, oldIndex: activeDrag.sourceIndex, newIndex: current.newIndex },
+        })
         return
       }
 
@@ -848,7 +899,7 @@ export default defineComponent({
           activeDrag.sourceIndex,
           current.newIndex,
           event,
-          current.pullMode
+          current.pullMode,
         )
         source.emitEvent('remove', removePayload)
         source.emitEvent('sort', removePayload)
@@ -865,7 +916,7 @@ export default defineComponent({
         activeDrag.sourceIndex,
         current.newIndex,
         event,
-        current.pullMode
+        current.pullMode,
       )
       target.emitEvent('add', addPayload)
       target.emitEvent('sort', addPayload)
@@ -898,7 +949,7 @@ export default defineComponent({
         sourcePreview: current?.sourcePreview ?? activeDrag.source.getItems(),
         targetPreview: current?.targetPreview ?? target.getItems(),
         oldIndex: activeDrag.sourceIndex,
-        newIndex: current?.newIndex ?? activeDrag.sourceIndex
+        newIndex: current?.newIndex ?? activeDrag.sourceIndex,
       }
       if (activeDrag.source.getOptions().preview) activeDrag.source.emitPreview(name, payload)
       if (target !== activeDrag.source && target.getOptions().preview) target.emitPreview(name, payload)
@@ -914,7 +965,7 @@ export default defineComponent({
       oldIndex: number,
       newIndex: number,
       event: PointerEvent,
-      pullMode?: SortablePullMode
+      pullMode?: SortablePullMode,
     ) {
       source.emitEvent(name, buildEventPayload(source, target, item, key, oldIndex, newIndex, event, pullMode))
     }
@@ -927,7 +978,7 @@ export default defineComponent({
       oldIndex: number,
       newIndex: number,
       event: PointerEvent,
-      pullMode?: SortablePullMode
+      pullMode?: SortablePullMode,
     ): SortableEventPayload {
       return {
         item,
@@ -937,11 +988,16 @@ export default defineComponent({
         oldIndex,
         newIndex,
         originalEvent: event,
-        pullMode
+        pullMode,
       }
     }
 
-    function buildMoveEvent(source: SortableRuntime, target: SortableRuntime, index: number, event: PointerEvent): SortableMoveEvent {
+    function buildMoveEvent(
+      source: SortableRuntime,
+      target: SortableRuntime,
+      index: number,
+      event: PointerEvent,
+    ): SortableMoveEvent {
       if (!activeDrag) throw new Error('No active drag')
       const targetItems = target.getItems()
       const relatedIndex = Math.min(index, Math.max(targetItems.length - 1, 0))
@@ -950,13 +1006,13 @@ export default defineComponent({
         draggedContext: {
           item: activeDrag.item,
           index: activeDrag.sourceIndex,
-          futureIndex: index
+          futureIndex: index,
         },
         relatedContext: {
           item: targetItems[relatedIndex],
           index,
-          list: targetItems
-        }
+          list: targetItems,
+        },
       }
     }
 
@@ -967,7 +1023,7 @@ export default defineComponent({
       key: SortableKey,
       oldIndex: number,
       newIndex: number,
-      event: PointerEvent
+      event: PointerEvent,
     ): SortableGuardContext {
       return {
         item,
@@ -976,7 +1032,7 @@ export default defineComponent({
         to: target.getListContext(),
         oldIndex,
         newIndex,
-        originalEvent: event
+        originalEvent: event,
       }
     }
 
@@ -1030,8 +1086,8 @@ export default defineComponent({
       return new Map(
         items.map((item) => [
           item,
-          new Map(item.getItemEntries().map((entry) => [entry.key, entry.element.getBoundingClientRect()]))
-        ])
+          new Map(item.getItemEntries().map((entry) => [entry.key, entry.element.getBoundingClientRect()])),
+        ]),
       )
     }
 
@@ -1086,7 +1142,7 @@ export default defineComponent({
       if (arguments.length === 1) return getOptions()[name]
       optionOverrides.value = {
         ...optionOverrides.value,
-        [name]: value
+        [name]: value,
       }
     }
 
@@ -1100,9 +1156,9 @@ export default defineComponent({
           key,
           ref: (value: Element | ComponentPublicInstance | null) => setItemRef(value, key),
           'data-yiz-sortable-key': String(key),
-          class: getItemClass(item)
+          class: getItemClass(item),
         },
-        true
+        true,
       )
     }
 
@@ -1123,14 +1179,14 @@ export default defineComponent({
     expose({
       option,
       toArray,
-      sort
+      sort,
     })
 
     return () => {
       const children = [
         ...(slots.header?.() ?? []),
         ...renderedItems.value.map((item, index) => renderItem(item, index)),
-        ...(slots.footer?.() ?? [])
+        ...(slots.footer?.() ?? []),
       ]
       return h(
         props.tag,
@@ -1145,15 +1201,15 @@ export default defineComponent({
             {
               [`yiz-sortable-box-mode-${props.mode}`]: true,
               'yiz-sortable-box-disabled': props.disabled,
-              'yiz-sortable-box-previewing': !!previewItems.value
-            }
+              'yiz-sortable-box-previewing': !!previewItems.value,
+            },
           ],
-          onPointerdown: onPointerDown
+          onPointerdown: onPointerDown,
         },
-        children
+        children,
       )
     }
-  }
+  },
 })
 </script>
 

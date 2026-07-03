@@ -7,7 +7,7 @@ export const demoLang = ref<Lang>('zh-CN')
 
 export const demoLangOptions = [
   { label: '中文', value: 'zh-CN' },
-  { label: 'English', value: 'en-US' }
+  { label: 'English', value: 'en-US' },
 ]
 
 const zhCN: LangMessages = {
@@ -852,7 +852,7 @@ const zhCN: LangMessages = {
   'demo.tree.disabledGroup': '禁用分组',
   'demo.tree.childNode': '子节点',
   'demo.tree.checkEvent': '勾选 {label}；共 {total} 项',
-  'demo.tree.uncheckEvent': '取消勾选 {label}；共 {total} 项'
+  'demo.tree.uncheckEvent': '取消勾选 {label}；共 {total} 项',
 }
 
 const enUS: LangMessages = {
@@ -1336,7 +1336,8 @@ const enUS: LangMessages = {
   'demo.loading.delayHint': 'Delay 500ms',
 
   'demo.loadingBar.title': 'LoadingBar',
-  'demo.loadingBar.desc': 'Top loading progress bar, imperative API, with auto trickle, pause/resume, indeterminate mode and fail state.',
+  'demo.loadingBar.desc':
+    'Top loading progress bar, imperative API, with auto trickle, pause/resume, indeterminate mode and fail state.',
   'demo.loadingBar.start': 'Start',
   'demo.loadingBar.done': 'Done',
   'demo.loadingBar.fail': 'Simulate fail',
@@ -1711,7 +1712,7 @@ const enUS: LangMessages = {
   'demo.tree.disabledGroup': 'Disabled group',
   'demo.tree.childNode': 'Child item',
   'demo.tree.checkEvent': 'checked {label}; total {total}',
-  'demo.tree.uncheckEvent': 'unchecked {label}; total {total}'
+  'demo.tree.uncheckEvent': 'unchecked {label}; total {total}',
 }
 
 registerLangItem('zh-CN', zhCN)

@@ -8,7 +8,7 @@ export type LangMessages = Record<string, MessageValue>
 
 const messages: Record<Lang, LangMessages> = {
   'zh-CN': zhCN,
-  'en-US': enUS
+  'en-US': enUS,
 }
 
 const currentLang = ref<Lang>('zh-CN')
@@ -24,14 +24,14 @@ export function registerLang(lang: Lang, langObject: LangMessages = {}) {
 export function registerLangItem(lang: Lang, itemObject: LangMessages) {
   messages[lang] = {
     ...(messages[lang] ?? {}),
-    ...itemObject
+    ...itemObject,
   }
 }
 
 export function $t(key: string, params: Record<string, string | number> = {}): string {
   const value = (messages[currentLang.value] as Record<string, MessageValue>)[key]
   const fallback = (messages['zh-CN'] as Record<string, MessageValue>)[key]
-  const text = Array.isArray(value) ? value.join(',') : value ?? fallback ?? key
+  const text = Array.isArray(value) ? value.join(',') : (value ?? fallback ?? key)
   return String(text).replace(/\{(\w+)\}/g, (_, name: string) => String(params[name] ?? `{${name}}`))
 }
 

@@ -1,10 +1,5 @@
 <template>
-  <div
-    ref="sliderRef"
-    class="yiz-slider"
-    :class="vClass"
-    @pointerdown="onTrackPointerDown"
-  >
+  <div ref="sliderRef" class="yiz-slider" :class="vClass" @pointerdown="onTrackPointerDown">
     <div class="yiz-slider-track">
       <div class="yiz-slider-rail" />
       <div class="yiz-slider-fill" :style="fillStyle" />
@@ -87,8 +82,8 @@ const props = withDefaults(
     disabled: false,
     showTooltip: true,
     showStops: false,
-    marks: () => []
-  }
+    marks: () => [],
+  },
 )
 
 const emit = defineEmits<{
@@ -129,7 +124,7 @@ const fillStyle = computed(() => {
   const end = getPercent(normalizedValue.value[1])
   return {
     left: `${start}%`,
-    width: `${Math.max(end - start, 0)}%`
+    width: `${Math.max(end - start, 0)}%`,
   }
 })
 
@@ -148,15 +143,15 @@ const normalizedMarks = computed(() =>
     .map((mark) => ({
       value: normalizeValue(mark.value),
       label: mark.label,
-      percent: getPercent(mark.value)
+      percent: getPercent(mark.value),
     }))
-    .filter((mark) => mark.percent >= 0 && mark.percent <= 100)
+    .filter((mark) => mark.percent >= 0 && mark.percent <= 100),
 )
 
 const vClass = computed(() => ({
   'yiz-slider-range': props.range,
   'yiz-slider-disabled': props.disabled,
-  'yiz-slider-with-marks': props.marks.length > 0
+  'yiz-slider-with-marks': props.marks.length > 0,
 }))
 
 function normalizeValue(value: number) {

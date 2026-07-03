@@ -135,13 +135,7 @@
     <y-card :title="$t('demo.table.resizeConstraint')" style="margin-top: 8px">
       <div style="height: 250px">
         <y-table :data="data" bordered resize>
-          <y-table-column
-            :label="$t('demo.common.name')"
-            field="name"
-            width="150px"
-            min-width="100"
-            max-width="300"
-          />
+          <y-table-column :label="$t('demo.common.name')" field="name" width="150px" min-width="100" max-width="300" />
           <y-table-column
             :label="$t('demo.common.age')"
             field="age"
@@ -168,7 +162,7 @@
         <p class="demo-table-info">
           {{
             $t('demo.table.selectedValue', {
-              value: singleSelectRow ? JSON.stringify(singleSelectRow) : $t('demo.common.none')
+              value: singleSelectRow ? JSON.stringify(singleSelectRow) : $t('demo.common.none'),
             })
           }}
         </p>
@@ -241,7 +235,9 @@
         <y-table-column :label="$t('demo.common.city')" field="city" width="160px" />
       </y-table>
 
-      <h3 class="demo-section-title" style="margin-top: 16px; font-size: 14px">{{ $t('demo.table.overflowColumnOnly') }}</h3>
+      <h3 class="demo-section-title" style="margin-top: 16px; font-size: 14px">
+        {{ $t('demo.table.overflowColumnOnly') }}
+      </h3>
       <y-table resize :data="overflowData" bordered>
         <y-table-column :label="$t('demo.common.name')" field="name" width="100px" />
         <y-table-column :label="$t('demo.common.role')" field="role" width="220px" />
@@ -271,22 +267,27 @@ const data = computed<Row[]>(() => [
     name: $t('demo.common.personZhangsan'),
     age: 28,
     city: $t('demo.common.beijing'),
-    status: $t('demo.common.enabled')
+    status: $t('demo.common.enabled'),
   },
   { name: $t('demo.common.personLisi'), age: 35, city: $t('demo.common.shanghai'), status: $t('demo.common.disabled') },
   {
     name: $t('demo.common.personWangwu'),
     age: 22,
     city: $t('demo.common.guangzhou'),
-    status: $t('demo.common.enabled')
+    status: $t('demo.common.enabled'),
   },
   {
     name: $t('demo.common.personZhaoliu'),
     age: 30,
     city: $t('demo.common.shenzhen'),
-    status: $t('demo.common.enabled')
+    status: $t('demo.common.enabled'),
   },
-  { name: $t('demo.common.personSunqi'), age: 41, city: $t('demo.common.hangzhou'), status: $t('demo.common.disabled') }
+  {
+    name: $t('demo.common.personSunqi'),
+    age: 41,
+    city: $t('demo.common.hangzhou'),
+    status: $t('demo.common.disabled'),
+  },
 ])
 
 function formatAge(value: number) {
@@ -319,7 +320,7 @@ const fixedData = computed<FixedRow[]>(() => [
     phone: '13800138001',
     email: 'zhangsan@test.com',
     date: '2022-03-15',
-    action: $t('demo.common.edit')
+    action: $t('demo.common.edit'),
   },
   {
     name: $t('demo.common.personLisi'),
@@ -330,7 +331,7 @@ const fixedData = computed<FixedRow[]>(() => [
     phone: '13800138002',
     email: 'lisi@test.com',
     date: '2020-07-01',
-    action: $t('demo.common.edit')
+    action: $t('demo.common.edit'),
   },
   {
     name: $t('demo.common.personWangwu'),
@@ -341,7 +342,7 @@ const fixedData = computed<FixedRow[]>(() => [
     phone: '13800138003',
     email: 'wangwu@test.com',
     date: '2024-01-10',
-    action: $t('demo.common.edit')
+    action: $t('demo.common.edit'),
   },
   {
     name: $t('demo.common.personZhaoliu'),
@@ -352,7 +353,7 @@ const fixedData = computed<FixedRow[]>(() => [
     phone: '13800138004',
     email: 'zhaoliu@test.com',
     date: '2021-06-20',
-    action: $t('demo.common.edit')
+    action: $t('demo.common.edit'),
   },
   {
     name: $t('demo.common.personSunqi'),
@@ -363,35 +364,35 @@ const fixedData = computed<FixedRow[]>(() => [
     phone: '13800138005',
     email: 'sunqi@test.com',
     date: '2019-09-01',
-    action: $t('demo.common.edit')
-  }
+    action: $t('demo.common.edit'),
+  },
 ])
 
-const tallData = computed<Row[]>(() =>[
+const tallData = computed<Row[]>(() => [
   {
     name: $t('demo.common.personZhangsan'),
     age: 28,
     city: $t('demo.common.beijing'),
-    status: $t('demo.common.enabled')
+    status: $t('demo.common.enabled'),
   },
   { name: $t('demo.common.personLisi'), age: 35, city: $t('demo.common.shanghai'), status: $t('demo.common.disabled') },
   {
     name: $t('demo.common.personWangwu'),
     age: 22,
     city: $t('demo.common.guangzhou'),
-    status: $t('demo.common.enabled')
+    status: $t('demo.common.enabled'),
   },
   {
     name: $t('demo.common.personZhaoliu'),
     age: 30,
     city: $t('demo.common.shenzhen'),
-    status: $t('demo.common.enabled')
+    status: $t('demo.common.enabled'),
   },
   {
     name: $t('demo.common.personSunqi'),
     age: 41,
     city: $t('demo.common.hangzhou'),
-    status: $t('demo.common.disabled')
+    status: $t('demo.common.disabled'),
   },
   { name: $t('demo.common.personZhouba'), age: 27, city: $t('demo.common.chengdu'), status: $t('demo.common.enabled') },
   { name: $t('demo.common.personWujiu'), age: 33, city: $t('demo.common.wuhan'), status: $t('demo.common.disabled') },
@@ -399,14 +400,14 @@ const tallData = computed<Row[]>(() =>[
     name: $t('demo.common.personZhengshi'),
     age: 29,
     city: $t('demo.common.nanjing'),
-    status: $t('demo.common.enabled')
+    status: $t('demo.common.enabled'),
   },
   { name: $t('demo.common.personFengyi'), age: 36, city: $t('demo.common.tianjin'), status: $t('demo.common.enabled') },
   {
     name: $t('demo.common.personChener'),
     age: 24,
     city: $t('demo.common.chongqing'),
-    status: $t('demo.common.disabled')
+    status: $t('demo.common.disabled'),
   },
   { name: $t('demo.common.personChusan'), age: 31, city: $t('demo.common.xian'), status: $t('demo.common.enabled') },
   { name: $t('demo.common.personWeisi'), age: 39, city: $t('demo.common.changsha'), status: $t('demo.common.enabled') },
@@ -414,15 +415,15 @@ const tallData = computed<Row[]>(() =>[
     name: $t('demo.common.personJiangwu'),
     age: 26,
     city: $t('demo.common.suzhou'),
-    status: $t('demo.common.disabled')
+    status: $t('demo.common.disabled'),
   },
   {
     name: $t('demo.common.personShenliu'),
     age: 42,
     city: $t('demo.common.dongguan'),
-    status: $t('demo.common.enabled')
+    status: $t('demo.common.enabled'),
   },
-  { name: $t('demo.common.personHanqi'), age: 23, city: $t('demo.common.qingdao'), status: $t('demo.common.disabled') }
+  { name: $t('demo.common.personHanqi'), age: 23, city: $t('demo.common.qingdao'), status: $t('demo.common.disabled') },
 ])
 
 const singleSelected = ref(null)
@@ -433,7 +434,7 @@ const tableLoading = ref(true)
 const sizeOptions = [
   { label: 'small', value: 'small' },
   { label: 'default', value: 'default' },
-  { label: 'large', value: 'large' }
+  { label: 'large', value: 'large' },
 ]
 
 const singleSelectRow = ref<Row | null>(null)
@@ -462,8 +463,8 @@ const overflowData = computed<OverflowRow[]>(() => [
   {
     name: $t('demo.common.personWangwu'),
     role: $t('demo.table.roleTester'),
-    city: $t('demo.common.shanghai')
-  }
+    city: $t('demo.common.shanghai'),
+  },
 ])
 </script>
 

@@ -16,7 +16,12 @@
 
     <!-- Maxlength + showCount -->
     <y-card :title="$t('demo.textarea.maxlength')" style="margin-top: 8px">
-      <y-textarea v-model:value="text3" :maxlength="100" show-count :placeholder="$t('demo.textarea.maxlengthPlaceholder')" />
+      <y-textarea
+        v-model:value="text3"
+        :maxlength="100"
+        show-count
+        :placeholder="$t('demo.textarea.maxlengthPlaceholder')"
+      />
     </y-card>
 
     <!-- Clearable -->
@@ -27,7 +32,12 @@
     <!-- Resize -->
     <y-card :title="$t('demo.textarea.resize')" style="margin-top: 8px">
       <p style="font-size: 13px; color: #999; margin-bottom: 8px">{{ $t('demo.textarea.resizeNone') }}</p>
-      <y-textarea v-model:value="text5" resize="none" :placeholder="$t('demo.textarea.resizeNonePlaceholder')" style="margin-bottom: 12px" />
+      <y-textarea
+        v-model:value="text5"
+        resize="none"
+        :placeholder="$t('demo.textarea.resizeNonePlaceholder')"
+        style="margin-bottom: 12px"
+      />
       <p style="font-size: 13px; color: #999; margin-bottom: 8px">{{ $t('demo.textarea.resizeBoth') }}</p>
       <y-textarea v-model:value="text6" resize="both" :placeholder="$t('demo.textarea.resizeBothPlaceholder')" />
     </y-card>

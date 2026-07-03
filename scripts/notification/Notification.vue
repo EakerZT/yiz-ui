@@ -34,7 +34,7 @@ import {
   Dismiss16Regular,
   DismissCircle24Regular,
   Info24Regular,
-  Warning24Regular
+  Warning24Regular,
 } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { nextZIndex } from '../zIndex'
@@ -65,8 +65,8 @@ const props = withDefaults(
     showIcon: true,
     offset: 24,
     width: 360,
-    inline: false
-  }
+    inline: false,
+  },
 )
 
 defineSlots<{
@@ -91,17 +91,17 @@ const inline = computed(() => props.inline)
 const notificationClass = computed(() => [
   `yiz-notification-${props.type}`,
   `yiz-notification-${props.placement}`,
-  props.inline ? 'yiz-notification-inline' : ''
+  props.inline ? 'yiz-notification-inline' : '',
 ])
 
 const transitionName = computed(() =>
-  props.placement.endsWith('left') ? 'yiz-notification-slide-left' : 'yiz-notification-slide-right'
+  props.placement.endsWith('left') ? 'yiz-notification-slide-left' : 'yiz-notification-slide-right',
 )
 
 const notificationStyle = computed(() => {
   const style: Record<string, string | number> = {
     zIndex: currentZIndex.value,
-    width: typeof props.width === 'number' ? `${props.width}px` : props.width
+    width: typeof props.width === 'number' ? `${props.width}px` : props.width,
   }
   if (props.inline) return style
   const [vertical, horizontal] = props.placement.split('-')
@@ -111,7 +111,7 @@ const notificationStyle = computed(() => {
 })
 
 const progressStyle = computed(() => ({
-  animationDuration: `${props.duration}ms`
+  animationDuration: `${props.duration}ms`,
 }))
 
 function clearTimer() {
@@ -146,12 +146,15 @@ watch(
       clearTimer()
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
-watch(() => props.duration, () => {
-  if (visible.value) startTimer()
-})
+watch(
+  () => props.duration,
+  () => {
+    if (visible.value) startTimer()
+  },
+)
 
 onBeforeUnmount(clearTimer)
 </script>

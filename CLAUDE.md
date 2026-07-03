@@ -240,6 +240,7 @@ The `allItems` computed falls back to the `items` prop when no slot children are
 ### Menu and ContextMenu
 
 Both components share the same architecture:
+
 - **`Menu.vue`** — main SFC rendering items with select/expand logic. Delegates submenus to `SubMenu` (inline expand) and `PopupSubMenu` (teleported popups).
 - **`SubMenu.vue`** (`scripts/menu/SubMenu.vue`) — renders items directly with expand/collapse and slide `<Transition>`. Recursively renders nested `SubMenu` for children. Owns its own `expandedKeys` state.
 - **`PopupSubMenu.vue`** (`scripts/menu/PopupSubMenu.vue`) — renders items directly in a `<Teleport>`-ed popup. Handles recursive nested hover popups with edge detection. Owns its own hover/timer state.
@@ -247,6 +248,7 @@ Both components share the same architecture:
 - **`IconRenderer.vue`** (`scripts/menu/IconRenderer.vue`) — shared internal utility that renders icon VNodes; used by both Menu and ContextMenu
 
 **Menu modes:**
+
 - **Default** — sidebar with expandable submenus (inline expand/collapse with `<Transition>`)
 - **`collapsed`** — sidebar collapsed to icon-only width (56px); childless items wrap in `<Tooltip>`; items with children show Teleported popups at `z-index: 3000`
 
@@ -261,6 +263,7 @@ Both components share the same architecture:
 ### Select
 
 A dropdown selection component combining several patterns:
+
 - **Teleported dropdown** — `<Teleport to="body">` with `position: fixed` positioned via `getBoundingClientRect()` on the trigger element
 - **z-index** — calls `nextZIndex()` on open, dropdown renders at `zIndex + 1`
 - **Click-outside** — document-level `click` listener (capture phase) closes the dropdown when clicking outside trigger + dropdown refs
@@ -279,11 +282,13 @@ Custom scrollbar component with GPU-accelerated thumb positioning via CSS `@prop
 **DOM structure** — flex layout: host (`display: flex; flex-direction: column`) → viewport (flex child, `min-height: 0` is critical to allow shrinking below content) → slot content. Track+thumb elements are absolutely positioned, always rendered but hidden via `opacity: 0; visibility: hidden` when not needed. A corner element renders when both axes overflow.
 
 **CSS `@property` GPU positioning** — three registered custom properties drive thumb position entirely on the compositor, avoiding layout/paint:
+
 - `--yiz-scroll-percent` (0..1) — current scroll position
 - `--yiz-viewport-percent` (0..1) — ratio of visible area to total content
 - `--yiz-scroll-direction` (0=default, 1=RTL/reversed)
 
 JS writes these as numbers on track elements via computed styles; CSS `calc()` positions the thumb:
+
 ```css
 .yiz-scroll-box-thumb-v {
   top: calc(var(--yiz-scroll-percent) * 100%);
@@ -295,6 +300,7 @@ JS writes these as numbers on track elements via computed styles; CSS `calc()` p
 **Pointer capture drag** — `setPointerCapture` on thumb `pointerdown`, `pointermove` calculates `deltaScroll = deltaPointer * contentSize / viewportSize`, cleanup on `pointerup`/`lostpointercapture`. Track click jumps to position proportionally.
 
 **Auto-hide system** — four modes controlled by `autoHide` prop:
+
 - `'never'` (default) — always visible when overflow exists
 - `'scroll'` — show on scroll, hide after `autoHideDelay` ms
 - `'move'` — show on pointermove over host, hide after delay
@@ -380,6 +386,7 @@ Button-style radio selection. `RadioButton` uses the native input overlay patter
 ### Click-outside and document listeners
 
 Select and Dialog/Drawer register document-level event listeners on mount and remove them on unmount:
+
 - **Select** — document `click` (capture), document `keydown`, window `resize`
 - **Dialog/Drawer** — document `keydown` (Escape to close)
 

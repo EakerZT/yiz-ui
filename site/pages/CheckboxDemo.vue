@@ -45,12 +45,12 @@
     <y-card :title="$t('demo.checkbox.free')" style="margin-top: 8px">
       <y-checkbox-group v-model:value="group3" direction="free">
         <div>
-          <div style="font-size:13px;color:#999;margin-bottom:4px;">{{ $t('demo.checkbox.group1') }}</div>
+          <div style="font-size: 13px; color: #999; margin-bottom: 4px">{{ $t('demo.checkbox.group1') }}</div>
           <y-checkbox value="apple">Apple</y-checkbox>
           <y-checkbox value="banana">Banana</y-checkbox>
         </div>
         <div>
-          <div style="font-size:13px;color:#999;margin-bottom:4px;">{{ $t('demo.checkbox.group2') }}</div>
+          <div style="font-size: 13px; color: #999; margin-bottom: 4px">{{ $t('demo.checkbox.group2') }}</div>
           <y-checkbox value="orange">Orange</y-checkbox>
           <y-checkbox value="mango">{{ $t('demo.checkbox.optionC') }}</y-checkbox>
         </div>

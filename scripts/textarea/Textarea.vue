@@ -42,8 +42,8 @@ const props = withDefaults(
     rows: 3,
     clearable: false,
     showCount: false,
-    resize: 'vertical'
-  }
+    resize: 'vertical',
+  },
 )
 
 const modelValue = defineModel<string>('value')
@@ -61,7 +61,7 @@ const vClass = computed(() => {
 })
 
 const textareaStyle = computed(() => ({
-  resize: props.resize
+  resize: props.resize,
 }))
 
 const onClearClick = () => {
@@ -79,7 +79,7 @@ function onKeydown(e: KeyboardEvent) {
 }
 
 defineExpose({
-  focus: () => textareaRef.value?.focus()
+  focus: () => textareaRef.value?.focus(),
 })
 </script>
 
@@ -88,7 +88,9 @@ defineExpose({
   display: inline-block;
   border-radius: var(--yiz-base-border-radius-default);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
   font-family: inherit;
   font-size: 14px;
   background: var(--yiz-color-bg, #fff);

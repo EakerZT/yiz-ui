@@ -55,8 +55,8 @@ const props = withDefaults(
     selectable: true,
     defaultExpandAll: false,
     expandOnClickNode: true,
-    indent: 24
-  }
+    indent: 24,
+  },
 )
 
 const emit = defineEmits<{
@@ -71,19 +71,19 @@ const expandedKeys = computed({
   get: () => expanded.value ?? [],
   set: (value: TreeKey[]) => {
     expanded.value = value
-  }
+  },
 })
 
 const checkedKeys = computed({
   get: () => checked.value ?? [],
   set: (value: TreeKey[]) => {
     checked.value = value
-  }
+  },
 })
 
 const vClass = computed(() => ({
   'yiz-tree-checkable': props.checkable,
-  'yiz-tree-selectable': props.selectable
+  'yiz-tree-selectable': props.selectable,
 }))
 
 const indentValue = computed(() => Math.max(12, props.indent))
@@ -100,7 +100,7 @@ watch(
     }
     initialized.value = true
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 function hasChildren(node: TreeNodeData) {
@@ -206,7 +206,7 @@ provide<TreeContext>('yizTree', {
   isHalfChecked,
   toggleExpand,
   selectNode,
-  toggleCheck
+  toggleCheck,
 })
 </script>
 

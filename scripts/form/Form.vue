@@ -19,8 +19,8 @@ const props = withDefaults(
     model: () => ({}),
     rules: () => ({}),
     labelWidth: 96,
-    layout: 'horizontal'
-  }
+    layout: 'horizontal',
+  },
 )
 
 defineSlots<{
@@ -93,7 +93,7 @@ const context: FormContext = {
   labelWidth: toRef(props, 'labelWidth'),
   layout: toRef(props, 'layout'),
   addItem,
-  removeItem
+  removeItem,
 }
 
 provide(formContextKey, context)
@@ -102,7 +102,7 @@ defineExpose({
   validate,
   validateField,
   resetFields,
-  clearValidate
+  clearValidate,
 })
 </script>
 

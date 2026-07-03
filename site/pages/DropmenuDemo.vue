@@ -53,13 +53,13 @@ const iconMap: Record<string, any> = {
   edit: Edit16Regular,
   delete: Delete16Filled,
   folder: Folder20Regular,
-  settings: Settings20Regular
+  settings: Settings20Regular,
 }
 
 const options = [
   { label: $t('demo.common.view'), key: 'view', icon: 'view' },
   { label: $t('demo.common.edit'), key: 'edit', icon: 'edit' },
-  { label: $t('demo.common.delete'), key: 'delete', icon: 'delete' }
+  { label: $t('demo.common.delete'), key: 'delete', icon: 'delete' },
 ]
 
 const nestedOptions = [
@@ -70,10 +70,10 @@ const nestedOptions = [
     icon: () => h(Icon, { icon: Settings20Regular }),
     children: [
       { label: $t('demo.common.profile'), key: 'profile' },
-      { label: $t('demo.common.systemSettings'), key: 'system' }
-    ]
+      { label: $t('demo.common.systemSettings'), key: 'system' },
+    ],
   },
-  { label: $t('demo.common.about'), key: 'about' }
+  { label: $t('demo.common.about'), key: 'about' },
 ]
 
 function onSelect1(item: any) {

@@ -25,7 +25,7 @@ const c = computed(() =>
     } else {
       return s
     }
-  })
+  }),
 )
 
 const props = withDefaults(
@@ -43,8 +43,8 @@ const props = withDefaults(
     shape: 'default',
     size: 'default',
     disabled: false,
-    loading: false
-  }
+    loading: false,
+  },
 )
 
 const isDisabled = computed(() => props.disabled || props.loading)
@@ -53,7 +53,7 @@ const vClass = computed(() => {
   const c: Record<string, boolean> = {
     [`yiz-button-type-${props.type}`]: true,
     [`yiz-button-shape-${props.shape}`]: true,
-    [`yiz-button-size-${props.size}`]: true
+    [`yiz-button-size-${props.size}`]: true,
   }
   if (['success', 'default', 'warning', 'error'].includes(props.color)) {
     c[`yiz-button-color-${props.color}`] = true

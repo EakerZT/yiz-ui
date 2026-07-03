@@ -15,7 +15,9 @@
 
     <y-card :title="$t('demo.tree.checkable')" style="margin-top: 8px">
       <y-tree v-model:checked="checkedKeys" :data="treeData" checkable default-expand-all @check="onCheck" />
-      <p class="demo-tree-info">{{ $t('demo.tree.checked', { value: checkedKeys.join(', ') || $t('demo.common.none') }) }}</p>
+      <p class="demo-tree-info">
+        {{ $t('demo.tree.checked', { value: checkedKeys.join(', ') || $t('demo.common.none') }) }}
+      </p>
       <p class="demo-tree-info">{{ $t('demo.tree.lastCheck', { value: lastCheck }) }}</p>
     </y-card>
 
@@ -53,8 +55,8 @@ const treeData: TreeNodeData[] = [
         children: [
           { label: $t('demo.tree.inputBox'), key: 'input' },
           { label: $t('demo.tree.dropdown'), key: 'select' },
-          { label: $t('demo.tree.dateSelector'), key: 'date-picker' }
-        ]
+          { label: $t('demo.tree.dateSelector'), key: 'date-picker' },
+        ],
       },
       {
         label: $t('demo.tree.dataDisplay'),
@@ -62,19 +64,19 @@ const treeData: TreeNodeData[] = [
         children: [
           { label: $t('demo.tree.table'), key: 'table' },
           { label: $t('demo.tree.tree'), key: 'tree' },
-          { label: $t('demo.tree.tag'), key: 'tag' }
-        ]
-      }
-    ]
+          { label: $t('demo.tree.tag'), key: 'tag' },
+        ],
+      },
+    ],
   },
   {
     label: $t('demo.tree.navigation'),
     key: 'navigation',
     children: [
       { label: $t('demo.tree.menu'), key: 'menu' },
-      { label: $t('demo.tree.pagination'), key: 'pagination' }
-    ]
-  }
+      { label: $t('demo.tree.pagination'), key: 'pagination' },
+    ],
+  },
 ]
 
 const disabledData: TreeNodeData[] = [
@@ -88,10 +90,10 @@ const disabledData: TreeNodeData[] = [
         label: $t('demo.tree.disabledGroup'),
         key: 'disabled-group',
         disabled: true,
-        children: [{ label: $t('demo.tree.childNode'), key: 'disabled-child' }]
-      }
-    ]
-  }
+        children: [{ label: $t('demo.tree.childNode'), key: 'disabled-child' }],
+      },
+    ],
+  },
 ]
 
 const selectedKey = ref<TreeKey | null>(null)
@@ -105,7 +107,10 @@ function onSelect(node: TreeNodeData, key: TreeKey) {
 }
 
 function onCheck(keys: TreeKey[], node: TreeNodeData, checked: boolean) {
-  lastCheck.value = $t(checked ? 'demo.tree.checkEvent' : 'demo.tree.uncheckEvent', { label: node.label, total: keys.length })
+  lastCheck.value = $t(checked ? 'demo.tree.checkEvent' : 'demo.tree.uncheckEvent', {
+    label: node.label,
+    total: keys.length,
+  })
 }
 </script>
 

@@ -17,8 +17,8 @@ const props = withDefaults(
   {
     color: 'primary',
     disabled: false,
-    underline: false
-  }
+    underline: false,
+  },
 )
 
 const emit = defineEmits(['click'])

@@ -35,8 +35,8 @@ const props = withDefaults(
     percentage: 0,
     status: 'normal',
     strokeWidth: 8,
-    showText: true
-  }
+    showText: true,
+  },
 )
 
 defineSlots<{
@@ -60,12 +60,12 @@ const displayText = computed(() => {
 })
 
 const trackStyle = computed(() => ({
-  height: `${normalizedStrokeWidth.value}px`
+  height: `${normalizedStrokeWidth.value}px`,
 }))
 
 const barStyle = computed(() => {
   const style: Record<string, string> = {
-    width: `${normalizedPercentage.value}%`
+    width: `${normalizedPercentage.value}%`,
   }
   if (props.color) style['--yiz-progress-color'] = props.color
   return style

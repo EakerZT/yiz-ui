@@ -29,8 +29,8 @@ const props = withDefaults(
     placement?: 'top' | 'bottom' | 'left' | 'right'
   }>(),
   {
-    placement: 'top'
-  }
+    placement: 'top',
+  },
 )
 
 defineSlots<{
@@ -65,9 +65,9 @@ const triggerNode = computed<VNode>(() => {
       {
         onMouseenter: onMouseEnter,
         onMouseleave: onMouseLeave,
-        ref: setTriggerRef
+        ref: setTriggerRef,
       },
-      true
+      true,
     )
   }
   return h('span', { ref: setTriggerRef })
@@ -133,7 +133,7 @@ function reposition() {
   popStyle.value = {
     left: `${left}px`,
     top: `${top}px`,
-    zIndex: String(currentZ.value)
+    zIndex: String(currentZ.value),
   }
   effectivePlacement.value = placement
 }

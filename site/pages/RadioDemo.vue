@@ -77,8 +77,12 @@
           fill-color="#52c41a"
         />
         <y-radio-button-group v-model:value="buttonColor2">
-          <y-radio-button value="day" text-color="#ffffff" fill-color="#faad14">{{ $t('demo.radio.day') }}</y-radio-button>
-          <y-radio-button value="week" text-color="#ffffff" fill-color="#ff4d4f">{{ $t('demo.radio.week') }}</y-radio-button>
+          <y-radio-button value="day" text-color="#ffffff" fill-color="#faad14">{{
+            $t('demo.radio.day')
+          }}</y-radio-button>
+          <y-radio-button value="week" text-color="#ffffff" fill-color="#ff4d4f">{{
+            $t('demo.radio.week')
+          }}</y-radio-button>
           <y-radio-button value="month" text-color="#ffffff" fill-color="#722ed1">
             {{ $t('demo.radio.month') }}
           </y-radio-button>
@@ -99,12 +103,7 @@
 
     <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-radio-button-group v-model:value="buttonGroup3" :options="buttonOptionsWithDisabled" />
-      <y-radio-button-group
-        v-model:value="buttonGroup4"
-        :options="buttonOptions"
-        disabled
-        style="margin-left: 12px"
-      />
+      <y-radio-button-group v-model:value="buttonGroup4" :options="buttonOptions" disabled style="margin-left: 12px" />
     </y-card>
   </section>
 </template>
@@ -130,13 +129,13 @@ const group3 = ref('orange')
 const buttonOptions = computed(() => [
   { label: $t('demo.radio.apple'), value: 'apple' },
   { label: $t('demo.radio.banana'), value: 'banana' },
-  { label: $t('demo.radio.orange'), value: 'orange' }
+  { label: $t('demo.radio.orange'), value: 'orange' },
 ])
 
 const buttonOptionsWithDisabled = computed(() => [
   { label: $t('demo.radio.apple'), value: 'apple' },
   { label: $t('demo.radio.banana'), value: 'banana', disabled: true },
-  { label: $t('demo.radio.orange'), value: 'orange' }
+  { label: $t('demo.radio.orange'), value: 'orange' },
 ])
 
 const buttonRadio1 = ref('left')
@@ -149,7 +148,7 @@ const radioButtonSize = ref<'small' | 'default' | 'large'>('default')
 const sizeOptions = [
   { label: 'small', value: 'small' },
   { label: 'default', value: 'default' },
-  { label: 'large', value: 'large' }
+  { label: 'large', value: 'large' },
 ]
 const buttonColor1 = ref('apple')
 const buttonColor2 = ref('week')

@@ -60,7 +60,7 @@ const colorPickerSize = ref<DemoSize>('default')
 const sizeOptions = [
   { label: 'small', value: 'small' },
   { label: 'default', value: 'default' },
-  { label: 'large', value: 'large' }
+  { label: 'large', value: 'large' },
 ]
 
 const brandPresets = ['#1677ff', '#13c2c2', '#52c41a', '#faad14', '#ff4d4f', '#722ed1']

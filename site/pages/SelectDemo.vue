@@ -60,7 +60,7 @@
         <template #option="{ option, selected }">
           <span :style="{ color: selected ? 'var(--yiz-color-primary)' : '#333' }">
             {{ option.label }}
-            <span v-if="selected" style="margin-left:4px;font-size:12px">✓</span>
+            <span v-if="selected" style="margin-left: 4px; font-size: 12px">✓</span>
           </span>
         </template>
       </y-select>
@@ -98,7 +98,7 @@ const selectSize = ref<DemoSize>('default')
 const sizeOptions = [
   { label: 'small', value: 'small' },
   { label: 'default', value: 'default' },
-  { label: 'large', value: 'large' }
+  { label: 'large', value: 'large' },
 ]
 
 const changeCount = ref(0)

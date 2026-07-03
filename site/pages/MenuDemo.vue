@@ -73,14 +73,14 @@ import {
   Person20Regular,
   Settings20Regular,
   Shield20Regular,
-  Tag20Regular
+  Tag20Regular,
 } from '@vicons/fluent'
 import { Icon } from 'yiz-ui'
 
 const opts = [
   { label: $t('demo.common.view'), key: 'view' },
   { label: $t('demo.common.edit'), key: 'edit' },
-  { label: $t('demo.common.delete'), key: 'delete' }
+  { label: $t('demo.common.delete'), key: 'delete' },
 ]
 
 const navItems = [
@@ -91,18 +91,18 @@ const navItems = [
     children: [
       { label: $t('demo.common.allProducts'), key: 'all-products' },
       { label: $t('demo.common.categories'), key: 'categories' },
-      { label: $t('demo.common.tags'), key: 'tags' }
-    ]
+      { label: $t('demo.common.tags'), key: 'tags' },
+    ],
   },
   {
     label: $t('demo.common.settings'),
     key: 'settings',
     children: [
       { label: $t('demo.common.profile'), key: 'profile' },
-      { label: $t('demo.common.systemSettings'), key: 'system' }
-    ]
+      { label: $t('demo.common.systemSettings'), key: 'system' },
+    ],
   },
-  { label: $t('demo.common.about'), key: 'about' }
+  { label: $t('demo.common.about'), key: 'about' },
 ]
 
 const v1 = ref()
@@ -130,11 +130,11 @@ const collapsedItems = [
         children: [
           { label: $t('demo.common.electronics'), key: 'electronics', icon: () => h(Icon, { icon: Laptop20Regular }) },
           { label: $t('demo.common.clothing'), key: 'clothing', icon: () => h(Icon, { icon: Gift20Regular }) },
-          { label: $t('demo.common.food'), key: 'food', icon: () => h(Icon, { icon: Food20Regular }) }
-        ]
+          { label: $t('demo.common.food'), key: 'food', icon: () => h(Icon, { icon: Food20Regular }) },
+        ],
       },
-      { label: $t('demo.common.tags'), key: 'tags', icon: () => h(Icon, { icon: Tag20Regular }) }
-    ]
+      { label: $t('demo.common.tags'), key: 'tags', icon: () => h(Icon, { icon: Tag20Regular }) },
+    ],
   },
   {
     label: $t('demo.common.settings'),
@@ -147,25 +147,33 @@ const collapsedItems = [
         key: 'system',
         icon: () => h(Icon, { icon: Settings20Regular }),
         children: [
-          { label: $t('demo.common.securitySettings'), key: 'security', icon: () => h(Icon, { icon: Shield20Regular }) },
-          { label: $t('demo.common.notificationSettings'), key: 'notification', icon: () => h(Icon, { icon: Mail20Regular }) }
-        ]
-      }
-    ]
+          {
+            label: $t('demo.common.securitySettings'),
+            key: 'security',
+            icon: () => h(Icon, { icon: Shield20Regular }),
+          },
+          {
+            label: $t('demo.common.notificationSettings'),
+            key: 'notification',
+            icon: () => h(Icon, { icon: Mail20Regular }),
+          },
+        ],
+      },
+    ],
   },
-  { label: $t('demo.common.about'), key: 'about', icon: () => h(Icon, { icon: Info20Regular }) }
+  { label: $t('demo.common.about'), key: 'about', icon: () => h(Icon, { icon: Info20Regular }) },
 ]
 
 const iconItems = [
   { label: $t('demo.common.home'), key: 'home', icon: () => h(Icon, { icon: Home20Regular }) },
   { label: $t('demo.common.settings'), key: 'settings', icon: () => h(Icon, { icon: Settings20Regular }) },
-  { label: $t('demo.common.about'), key: 'info', icon: () => h(Icon, { icon: Info20Regular }) }
+  { label: $t('demo.common.about'), key: 'info', icon: () => h(Icon, { icon: Info20Regular }) },
 ]
 
 const fnIconItems = [
   { label: $t('demo.common.home'), key: 'home', icon: () => h(Icon, { icon: Home20Regular }) },
   { label: $t('demo.common.settings'), key: 'settings', icon: () => h(Icon, { icon: Settings20Regular }) },
-  { label: $t('demo.common.about'), key: 'info', icon: () => h(Icon, { icon: Info20Regular }) }
+  { label: $t('demo.common.about'), key: 'info', icon: () => h(Icon, { icon: Info20Regular }) },
 ]
 
 function onSelect(_item: any) {}

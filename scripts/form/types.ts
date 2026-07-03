@@ -12,7 +12,10 @@ export interface FormRule {
   min?: number
   max?: number
   len?: number
-  validator?: (value: any, model: FormModel) => boolean | string | Error | void | Promise<boolean | string | Error | void>
+  validator?: (
+    value: any,
+    model: FormModel,
+  ) => boolean | string | Error | void | Promise<boolean | string | Error | void>
 }
 
 export type FormItemRule = FormRule

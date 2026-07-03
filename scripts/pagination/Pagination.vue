@@ -34,7 +34,7 @@
         class="yiz-pagination-item"
         :class="{
           'yiz-pagination-item-active': item === currentPage,
-          'yiz-pagination-more': item === 'prev-more' || item === 'next-more'
+          'yiz-pagination-more': item === 'prev-more' || item === 'next-more',
         }"
         type="button"
         :disabled="disabled"
@@ -74,7 +74,9 @@
         :size="size"
         @press-enter="commitQuickJump"
       />
-      <button class="yiz-pagination-go" type="button" :disabled="disabled" @click="commitQuickJump">{{ $t('pagination.go') }}</button>
+      <button class="yiz-pagination-go" type="button" :disabled="disabled" @click="commitQuickJump">
+        {{ $t('pagination.go') }}
+      </button>
     </span>
   </nav>
 </template>
@@ -111,8 +113,8 @@ const props = withDefaults(
     showQuickJumper: false,
     disabled: false,
     simple: false,
-    size: 'default'
-  }
+    size: 'default',
+  },
 )
 
 const emit = defineEmits<{
@@ -130,7 +132,7 @@ const currentPage = computed(() => clampPage(Number(page.value) || 1))
 const pageSizeOptions = computed(() => {
   return props.pageSizes.map((sizeOption) => ({
     label: $t('pagination.pageSize', { size: sizeOption }),
-    value: sizeOption
+    value: sizeOption,
   }))
 })
 
@@ -138,7 +140,7 @@ const vClass = computed(() => ({
   'yiz-pagination-disabled': props.disabled,
   'yiz-pagination-small': props.size === 'small',
   'yiz-pagination-large': props.size === 'large',
-  'yiz-pagination-simple-mode': props.simple
+  'yiz-pagination-simple-mode': props.simple,
 }))
 
 const totalLabel = computed(() => {
@@ -186,7 +188,7 @@ watch(
     }
     simplePageInput.value = String(nextPage)
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 function range(start: number, end: number): number[] {

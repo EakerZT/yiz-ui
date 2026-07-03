@@ -4,7 +4,12 @@
       <div v-if="visible && mask" class="yiz-dialog-mask" :style="{ zIndex: currentZIndex }" @click="onMaskClick" />
     </Transition>
     <Transition name="yiz-dialog-fade">
-      <div v-if="visible" class="yiz-dialog-wrapper" :style="{ zIndex: currentZIndex + 1 }" @click.self="onWrapperClick">
+      <div
+        v-if="visible"
+        class="yiz-dialog-wrapper"
+        :style="{ zIndex: currentZIndex + 1 }"
+        @click.self="onWrapperClick"
+      >
         <div class="yiz-dialog" :style="{ width: props.width, ...dragStyle }">
           <div
             class="yiz-dialog-header"
@@ -62,8 +67,8 @@ const props = withDefaults(
     mask: true,
     maskClosable: false,
     drag: false,
-    disabledFooter: false
-  }
+    disabledFooter: false,
+  },
 )
 
 defineSlots<{
@@ -310,7 +315,9 @@ onBeforeUnmount(() => window.removeEventListener('resize', onViewportResize))
 // dialog fade + scale
 .yiz-dialog-fade-enter-active,
 .yiz-dialog-fade-leave-active {
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .yiz-dialog-fade-enter-from {
   opacity: 0;

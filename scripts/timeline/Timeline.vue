@@ -14,8 +14,8 @@ const props = withDefaults(
   }>(),
   {
     mode: 'left',
-    size: 'default'
-  }
+    size: 'default',
+  },
 )
 
 defineSlots<{
@@ -24,7 +24,7 @@ defineSlots<{
 
 const vClass = computed(() => ({
   [`yiz-timeline-mode-${props.mode}`]: true,
-  [`yiz-timeline-size-${props.size}`]: true
+  [`yiz-timeline-size-${props.size}`]: true,
 }))
 </script>
 

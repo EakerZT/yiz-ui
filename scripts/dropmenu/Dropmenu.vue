@@ -8,7 +8,19 @@
 </template>
 
 <script lang="ts" setup>
-import { cloneVNode, computed, Fragment, h, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch, type VNode } from 'vue'
+import {
+  cloneVNode,
+  computed,
+  Fragment,
+  h,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  useSlots,
+  watch,
+  type VNode,
+} from 'vue'
 import { ChevronDown16Regular } from '@vicons/fluent'
 import DropmenuItemComp from '../dropmenu-item/DropmenuItem.vue'
 import { Icon } from '../icon'
@@ -29,8 +41,8 @@ const props = withDefaults(
     label: '',
     disabled: false,
     width: undefined,
-    placement: 'bottom-start'
-  }
+    placement: 'bottom-start',
+  },
 )
 
 defineSlots<{
@@ -68,9 +80,9 @@ const triggerNode = computed<VNode>(() => {
       {
         class: { 'yiz-dropmenu-disabled': props.disabled, 'yiz-dropmenu-open': open.value },
         onClick: onTriggerClick,
-        ref: setTriggerRef
+        ref: setTriggerRef,
       },
-      true
+      true,
     )
   }
   return h(
@@ -80,16 +92,16 @@ const triggerNode = computed<VNode>(() => {
       type: 'button',
       class: ['yiz-dropmenu-trigger', { 'yiz-dropmenu-disabled': props.disabled, 'yiz-dropmenu-open': open.value }],
       disabled: props.disabled,
-      onClick: onTriggerClick
+      onClick: onTriggerClick,
     },
     [
       h('span', {}, props.label),
       h(Icon, {
         class: ['yiz-dropmenu-arrow', { 'yiz-dropmenu-arrow-open': open.value }],
         size: '16',
-        icon: ChevronDown16Regular
-      })
-    ]
+        icon: ChevronDown16Regular,
+      }),
+    ],
   )
 })
 
@@ -122,7 +134,7 @@ const slotOptions = computed(() => {
           children: p.children ?? item.children,
           icon: p.icon ?? item.icon,
           disabled: p.disabled ?? item.disabled,
-          key: vnode.key ?? p.key ?? item.key
+          key: vnode.key ?? p.key ?? item.key,
         })
       } else {
         options.push({
@@ -131,7 +143,7 @@ const slotOptions = computed(() => {
           type: p.type,
           children: p.children,
           icon: p.icon,
-          disabled: p.disabled
+          disabled: p.disabled,
         })
       }
     }
@@ -161,7 +173,7 @@ function updatePopupPosition() {
   const style: Record<string, string> = {
     position: 'fixed',
     zIndex: `${currentZIndex.value + 1}`,
-    minWidth: `${Math.max(160, rect.width)}px`
+    minWidth: `${Math.max(160, rect.width)}px`,
   }
 
   if (width) {

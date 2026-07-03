@@ -61,7 +61,7 @@
       <Icon
         :class="{
           'yiz-date-range-picker-suffix--hidden':
-            clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open)
+            clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open),
         }"
         class="yiz-date-range-picker-suffix"
         size="16"
@@ -199,7 +199,7 @@ import {
   ChevronDoubleRight16Regular,
   ChevronLeft16Regular,
   ChevronRight16Regular,
-  DismissCircle32Filled
+  DismissCircle32Filled,
 } from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import { Icon } from '../icon'
@@ -228,10 +228,10 @@ interface CalendarCell {
 const DateRangeCalendar = defineComponent({
   props: {
     cells: { type: Array as PropType<CalendarCell[]>, required: true },
-    weekDays: { type: Array as PropType<string[]>, required: true }
+    weekDays: { type: Array as PropType<string[]>, required: true },
   },
   emits: {
-    select: (_cell: CalendarCell) => true
+    select: (_cell: CalendarCell) => true,
   },
   setup(calendarProps, { emit }) {
     return () =>
@@ -239,7 +239,7 @@ const DateRangeCalendar = defineComponent({
         h(
           'div',
           { class: 'yiz-date-range-picker-weekdays' },
-          calendarProps.weekDays.map((day) => h('span', { class: 'yiz-date-range-picker-weekday' }, day))
+          calendarProps.weekDays.map((day) => h('span', { class: 'yiz-date-range-picker-weekday' }, day)),
         ),
         h(
           'div',
@@ -254,16 +254,16 @@ const DateRangeCalendar = defineComponent({
                   'yiz-date-range-picker-cell-other': !cell.current,
                   'yiz-date-range-picker-cell-today': cell.isToday,
                   'yiz-date-range-picker-cell-selected': cell.isSelected,
-                  'yiz-date-range-picker-cell-disabled': cell.disabled
+                  'yiz-date-range-picker-cell-disabled': cell.disabled,
                 },
-                onClick: () => emit('select', cell)
+                onClick: () => emit('select', cell),
               },
-              [h('span', { class: 'yiz-date-range-picker-cell-inner' }, cell.day)]
-            )
-          )
-        )
+              [h('span', { class: 'yiz-date-range-picker-cell-inner' }, cell.day)],
+            ),
+          ),
+        ),
       ])
-  }
+  },
 })
 
 const startModel = defineModel<DateRangeValue>('start')
@@ -295,8 +295,8 @@ const props = withDefaults(
     autoSort: true,
     size: 'default',
     format: 'YYYY-MM-DD',
-    separator: '-'
-  }
+    separator: '-',
+  },
 )
 
 const emit = defineEmits<{
@@ -339,14 +339,14 @@ const confirmDisabled = computed(() => props.forceRange && (draftStart.value == 
 
 const panelStyle = computed(() => ({
   zIndex: currentZIndex.value + 1,
-  ...dropdownPos.value
+  ...dropdownPos.value,
 }))
 
 const vClass = computed(() => ({
   'yiz-date-range-picker-open': open.value,
   'yiz-date-range-picker-disabled': props.disabled,
   'yiz-date-range-picker-small': props.size === 'small',
-  'yiz-date-range-picker-large': props.size === 'large'
+  'yiz-date-range-picker-large': props.size === 'large',
 }))
 
 const startYearRange = computed(() => makeYearRange(startViewYear.value))
@@ -372,14 +372,14 @@ watch(
       syncInputTextFromModel()
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 watch(
   () => props.disabled,
   (disabled) => {
     if (disabled) open.value = false
-  }
+  },
 )
 
 function pad(n: number): string {
@@ -403,7 +403,7 @@ function formatDate(date: Date, fmt: string): string {
     dd: pad(date.getDate()),
     M: `${date.getMonth() + 1}`,
     D: `${date.getDate()}`,
-    d: `${date.getDate()}`
+    d: `${date.getDate()}`,
   }
   return fmt.replace(/YYYY|yyyy|MM|DD|dd|M|D|d/g, (key) => map[key] || key)
 }
@@ -422,7 +422,7 @@ function parseDate(value: string, fmt: string): Date | null {
     DD: '(\\d{2})',
     dd: '(\\d{2})',
     D: '(\\d{1,2})',
-    d: '(\\d{1,2})'
+    d: '(\\d{1,2})',
   }
   const tokens: string[] = []
   let pattern = ''
@@ -582,7 +582,7 @@ function makeCell(side: DateRangeSide, year: number, month: number, day: number,
     isToday: sameDate(today, date),
     isSelected: sameDate(selected, date),
     disabled: props.disabledDate ? props.disabledDate(date) : false,
-    date
+    date,
   }
 }
 

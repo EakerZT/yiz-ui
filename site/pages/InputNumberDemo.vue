@@ -70,7 +70,7 @@ const inputNumberSize = ref<DemoSize>('default')
 const sizeOptions = [
   { label: 'small', value: 'small' },
   { label: 'default', value: 'default' },
-  { label: 'large', value: 'large' }
+  { label: 'large', value: 'large' },
 ]
 </script>
 

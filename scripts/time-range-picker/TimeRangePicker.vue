@@ -61,7 +61,7 @@
       <Icon
         :class="{
           'yiz-time-range-picker-suffix--hidden':
-            clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open)
+            clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open),
         }"
         class="yiz-time-range-picker-suffix"
         size="16"
@@ -236,8 +236,8 @@ const props = withDefaults(
     size: 'default',
     showSeconds: false,
     format: 'HH:mm:ss',
-    separator: '-'
-  }
+    separator: '-',
+  },
 )
 
 const emit = defineEmits<{
@@ -290,14 +290,14 @@ const confirmDisabled = computed(() => props.forceRange && (draftStart.value == 
 
 const panelStyle = computed(() => ({
   zIndex: currentZIndex.value + 1,
-  ...dropdownPos.value
+  ...dropdownPos.value,
 }))
 
 const vClass = computed(() => ({
   'yiz-time-range-picker-open': open.value,
   'yiz-time-range-picker-disabled': props.disabled,
   'yiz-time-range-picker-small': props.size === 'small',
-  'yiz-time-range-picker-large': props.size === 'large'
+  'yiz-time-range-picker-large': props.size === 'large',
 }))
 
 watch(open, async (val) => {
@@ -319,14 +319,14 @@ watch(
       syncInputTextFromModel()
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 watch(
   () => props.disabled,
   (disabled) => {
     if (disabled) open.value = false
-  }
+  },
 )
 
 function pad(n: number): string {
@@ -346,7 +346,7 @@ function parseValue(value: string | null | undefined): TimeParts | null {
     mm: '(\\d{2})',
     m: '(\\d{1,2})',
     ss: '(\\d{2})',
-    s: '(\\d{1,2})'
+    s: '(\\d{1,2})',
   }
   const tokens: string[] = []
   let pattern = ''
@@ -427,7 +427,7 @@ function getNowParts(): TimeParts {
   return {
     hour: now.getHours(),
     minute: now.getMinutes(),
-    second: now.getSeconds()
+    second: now.getSeconds(),
   }
 }
 

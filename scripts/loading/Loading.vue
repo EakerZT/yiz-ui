@@ -33,7 +33,11 @@
         </div>
       </div>
     </Transition>
-    <div v-if="$slots.default" class="yiz-loading-content" :class="{ 'yiz-loading-blur': visible, 'yiz-loading-content-full-height': fullHeight }">
+    <div
+      v-if="$slots.default"
+      class="yiz-loading-content"
+      :class="{ 'yiz-loading-blur': visible, 'yiz-loading-content-full-height': fullHeight }"
+    >
       <slot />
     </div>
   </div>
@@ -59,8 +63,8 @@ const props = withDefaults(
     size: 'default',
     indicator: 'ring',
     delay: 0,
-    fullHeight: false
-  }
+    fullHeight: false,
+  },
 )
 
 defineSlots<{

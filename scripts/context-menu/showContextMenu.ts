@@ -8,7 +8,7 @@ export function showContextMenu(
   x: number,
   y: number,
   items: ContextMenuItem[],
-  callback: (item: ContextMenuItem) => void
+  callback: (item: ContextMenuItem) => void,
 ) {
   const container = document.createElement('div')
   container.style.position = 'fixed'
@@ -71,7 +71,7 @@ export function showContextMenu(
 
   const vnode = createVNode(ContextMenu, {
     items,
-    onSelect
+    onSelect,
   })
 
   render(vnode, container)

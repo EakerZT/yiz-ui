@@ -5,7 +5,9 @@
 
     <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
       <ScrollBox :height="120" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
-        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">{{ $t('demo.scrollBox.demoRow', { index: i }) }}</p>
+        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">
+          {{ $t('demo.scrollBox.demoRow', { index: i }) }}
+        </p>
       </ScrollBox>
     </y-card>
 
@@ -41,36 +43,75 @@
 
     <y-card :title="$t('demo.scrollBox.autoHideNever')" style="margin-top: 8px">
       <p style="margin-bottom: 12px; font-size: 13px; color: #888">{{ $t('demo.scrollBox.autoHideNeverHint') }}</p>
-      <ScrollBox :height="120" auto-hide="never" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
-        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">{{ $t('demo.scrollBox.autoHideNeverRow', { index: i }) }}</p>
+      <ScrollBox
+        :height="120"
+        auto-hide="never"
+        style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px"
+      >
+        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">
+          {{ $t('demo.scrollBox.autoHideNeverRow', { index: i }) }}
+        </p>
       </ScrollBox>
     </y-card>
 
     <y-card :title="$t('demo.scrollBox.autoHideScroll')" style="margin-top: 8px">
-      <p style="margin-bottom: 12px; font-size: 13px; color: #888">{{ $t('demo.scrollBox.autoHideScrollHint', { delay: 1300 }) }}</p>
-      <ScrollBox :height="120" auto-hide="scroll" :auto-hide-delay="1300" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
-        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">{{ $t('demo.scrollBox.autoHideScrollHint2') }}</p>
+      <p style="margin-bottom: 12px; font-size: 13px; color: #888">
+        {{ $t('demo.scrollBox.autoHideScrollHint', { delay: 1300 }) }}
+      </p>
+      <ScrollBox
+        :height="120"
+        auto-hide="scroll"
+        :auto-hide-delay="1300"
+        style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px"
+      >
+        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">
+          {{ $t('demo.scrollBox.autoHideScrollHint2') }}
+        </p>
       </ScrollBox>
     </y-card>
 
     <y-card :title="$t('demo.scrollBox.autoHideMove')" style="margin-top: 8px">
-      <p style="margin-bottom: 12px; font-size: 13px; color: #888">{{ $t('demo.scrollBox.autoHideMoveHint', { delay: 800 }) }}</p>
-      <ScrollBox :height="120" auto-hide="move" :auto-hide-delay="800" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
-        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">{{ $t('demo.scrollBox.autoHideMoveHint2') }}</p>
+      <p style="margin-bottom: 12px; font-size: 13px; color: #888">
+        {{ $t('demo.scrollBox.autoHideMoveHint', { delay: 800 }) }}
+      </p>
+      <ScrollBox
+        :height="120"
+        auto-hide="move"
+        :auto-hide-delay="800"
+        style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px"
+      >
+        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">
+          {{ $t('demo.scrollBox.autoHideMoveHint2') }}
+        </p>
       </ScrollBox>
     </y-card>
 
     <y-card :title="$t('demo.scrollBox.autoHideLeave')" style="margin-top: 8px">
-      <p style="margin-bottom: 12px; font-size: 13px; color: #888">{{ $t('demo.scrollBox.autoHideLeaveHint', { delay: 600 }) }}</p>
-      <ScrollBox :height="120" auto-hide="leave" :auto-hide-delay="600" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
-        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">{{ $t('demo.scrollBox.autoHideLeaveHint2') }}</p>
+      <p style="margin-bottom: 12px; font-size: 13px; color: #888">
+        {{ $t('demo.scrollBox.autoHideLeaveHint', { delay: 600 }) }}
+      </p>
+      <ScrollBox
+        :height="120"
+        auto-hide="leave"
+        :auto-hide-delay="600"
+        style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px"
+      >
+        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">
+          {{ $t('demo.scrollBox.autoHideLeaveHint2') }}
+        </p>
       </ScrollBox>
     </y-card>
 
     <y-card :title="$t('demo.scrollBox.customTheme')" style="margin-top: 8px">
       <p style="margin-bottom: 12px; font-size: 13px; color: #888">{{ $t('demo.scrollBox.customThemeHint') }}</p>
-      <ScrollBox :height="120" theme="demo-scroll-theme" style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
-        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">{{ $t('demo.scrollBox.customThemeRow', { index: i }) }}</p>
+      <ScrollBox
+        :height="120"
+        theme="demo-scroll-theme"
+        style="width: 320px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px"
+      >
+        <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #666">
+          {{ $t('demo.scrollBox.customThemeRow', { index: i }) }}
+        </p>
       </ScrollBox>
     </y-card>
 
@@ -78,26 +119,16 @@
       <p style="margin-bottom: 12px; font-size: 13px; color: #888">
         {{ $t('demo.scrollBox.dragResizeHint') }}<b>{{ boxWidth }} × {{ boxHeight }}</b>
       </p>
-      <div
-        class="demo-resize-wrapper"
-        :style="{ width: boxWidth + 'px', height: boxHeight + 'px' }"
-      >
+      <div class="demo-resize-wrapper" :style="{ width: boxWidth + 'px', height: boxHeight + 'px' }">
         <ScrollBox class="demo-resize-scrollbox">
-          <p
-            v-for="i in 8"
-            :key="i"
-            style="margin-bottom: 8px; color: #555; white-space: nowrap"
-          >
+          <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #555; white-space: nowrap">
             {{ $t('demo.scrollBox.dragResizeRow', { index: i }) }}
           </p>
           <p style="color: #999; margin-top: 16px; white-space: nowrap">
             {{ $t('demo.scrollBox.dragResizeLong') }}
           </p>
         </ScrollBox>
-        <div
-          class="demo-resize-handle"
-          @pointerdown.stop="onResizeStart"
-        />
+        <div class="demo-resize-handle" @pointerdown.stop="onResizeStart" />
       </div>
     </y-card>
   </section>

@@ -8,12 +8,12 @@ export default defineConfig({
     alias: [
       {
         find: 'yiz-ui',
-        replacement: path.resolve(__dirname, './scripts')
-      }
-    ]
+        replacement: path.resolve(__dirname, './scripts'),
+      },
+    ],
   },
   plugins: [vue()],
   build: {
-    outDir: 'docs'
-  }
+    outDir: 'docs',
+  },
 })

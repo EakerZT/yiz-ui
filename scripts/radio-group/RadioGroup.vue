@@ -29,7 +29,7 @@ withDefaults(
   {
     direction: 'horizontal',
     disabled: false,
-  }
+  },
 )
 
 const modelValue = defineModel<string | number>('value')

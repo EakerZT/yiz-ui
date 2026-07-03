@@ -39,7 +39,7 @@ const pickerSize = ref<DemoSize>('default')
 const sizeOptions = [
   { label: 'small', value: 'small' },
   { label: 'default', value: 'default' },
-  { label: 'large', value: 'large' }
+  { label: 'large', value: 'large' },
 ]
 
 function pad(n: number) {
@@ -50,7 +50,7 @@ function formatValue(value: Date | string | null) {
   if (!value) return $t('demo.common.empty')
   if (typeof value === 'string') return value
   return `${value.getFullYear()}-${pad(value.getMonth() + 1)}-${pad(value.getDate())} ${pad(value.getHours())}:${pad(
-    value.getMinutes()
+    value.getMinutes(),
   )}:${pad(value.getSeconds())}`
 }
 </script>

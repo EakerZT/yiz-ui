@@ -128,8 +128,8 @@ const props = withDefaults(
     items: () => [],
     width: 256,
     collapsed: false,
-    dark: false
-  }
+    dark: false,
+  },
 )
 
 const menuWidth = computed(() => {
@@ -258,7 +258,7 @@ function onItemMouseEnter(item: MenuItem, e: MouseEvent) {
     popupStyle.value = {
       position: 'fixed',
       left: `${rect.right}px`,
-      top: `${rect.top}px`
+      top: `${rect.top}px`,
     }
   }
 }

@@ -18,8 +18,8 @@ const props = withDefaults(
   {
     direction: 'horizontal',
     dashed: false,
-    textPlacement: 'center'
-  }
+    textPlacement: 'center',
+  },
 )
 
 defineSlots<{
@@ -34,7 +34,7 @@ const vClass = computed(() => ({
   [`yiz-divider-${props.direction}`]: true,
   [`yiz-divider-text-${props.textPlacement}`]: props.direction === 'horizontal' && hasContent.value,
   'yiz-divider-dashed': props.dashed,
-  'yiz-divider-with-text': props.direction === 'horizontal' && hasContent.value
+  'yiz-divider-with-text': props.direction === 'horizontal' && hasContent.value,
 }))
 </script>
 

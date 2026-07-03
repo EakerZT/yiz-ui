@@ -24,8 +24,8 @@ const props = withDefaults(
   }>(),
   {
     direction: 'horizontal',
-    disabled: false
-  }
+    disabled: false,
+  },
 )
 
 defineSlots<{
@@ -45,7 +45,7 @@ function toggleValue(val: string | number) {
 provide('yizCheckboxGroup', {
   modelValue,
   disabled: toRef(props, 'disabled'),
-  toggleValue
+  toggleValue,
 })
 </script>
 

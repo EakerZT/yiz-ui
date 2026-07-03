@@ -1,4 +1,4 @@
-import {createApp} from "vue";
+import { createApp } from 'vue'
 import yiz from 'yiz-ui'
 import App from './App.vue'
 import 'yiz-ui/style.less'

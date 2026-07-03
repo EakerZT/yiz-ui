@@ -53,8 +53,8 @@ const props = withDefaults(
   {
     clearable: false,
     disabled: false,
-    size: 'default'
-  }
+    size: 'default',
+  },
 )
 
 const modelValue = defineModel('value')
@@ -96,7 +96,7 @@ function onKeydown(e: KeyboardEvent) {
 }
 
 defineExpose({
-  focus: () => inputRef.value?.focus()
+  focus: () => inputRef.value?.focus(),
 })
 </script>
 

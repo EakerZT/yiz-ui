@@ -54,35 +54,35 @@ const closeCount = ref(0)
 function openBasic() {
   notification({
     title: $t('demo.notification.systemNotification'),
-    content: $t('demo.notification.basicMsg')
+    content: $t('demo.notification.basicMsg'),
   })
 }
 
 function openInfo() {
   notification.info({
     title: $t('demo.common.info'),
-    content: $t('demo.notification.infoMsg')
+    content: $t('demo.notification.infoMsg'),
   })
 }
 
 function openSuccess() {
   notification.success({
     title: $t('demo.common.success'),
-    content: $t('demo.notification.successMsg')
+    content: $t('demo.notification.successMsg'),
   })
 }
 
 function openWarning() {
   notification.warning({
     title: $t('demo.common.warning'),
-    content: $t('demo.notification.warningMsg')
+    content: $t('demo.notification.warningMsg'),
   })
 }
 
 function openError() {
   notification.error({
     title: $t('demo.common.error'),
-    content: $t('demo.notification.errorMsg')
+    content: $t('demo.notification.errorMsg'),
   })
 }
 
@@ -90,7 +90,7 @@ function openTopLeft() {
   notification({
     title: $t('demo.notification.topLeft'),
     content: $t('demo.notification.topLeftHint'),
-    placement: 'top-left'
+    placement: 'top-left',
   })
 }
 
@@ -98,7 +98,7 @@ function openTopRight() {
   notification({
     title: $t('demo.notification.topRight'),
     content: $t('demo.notification.topRightHint'),
-    placement: 'top-right'
+    placement: 'top-right',
   })
 }
 
@@ -106,7 +106,7 @@ function openBottomLeft() {
   notification({
     title: $t('demo.notification.bottomLeft'),
     content: $t('demo.notification.bottomLeftHint'),
-    placement: 'bottom-left'
+    placement: 'bottom-left',
   })
 }
 
@@ -114,7 +114,7 @@ function openBottomRight() {
   notification({
     title: $t('demo.notification.bottomRight'),
     content: $t('demo.notification.bottomRightHint'),
-    placement: 'bottom-right'
+    placement: 'bottom-right',
   })
 }
 
@@ -122,7 +122,7 @@ function openManual() {
   notification({
     title: $t('demo.notification.manualClose'),
     content: $t('demo.notification.manualCloseHint'),
-    duration: 0
+    duration: 0,
   })
 }
 
@@ -132,7 +132,7 @@ function openMultiple() {
       title: $t('demo.notification.notifLabel', { index: i }),
       content: $t('demo.notification.notifMsg', { index: i }),
       type: i % 2 === 0 ? 'success' : 'info',
-      duration: 5000
+      duration: 5000,
     })
   }
 }
@@ -142,9 +142,9 @@ function openCustom() {
     title: h('span', { style: 'color: var(--yiz-color-success)' }, $t('demo.common.customTitle')),
     content: h('div', [
       $t('demo.notification.customTitleHint'),
-      h('div', { style: 'margin-top: 8px; color: #999' }, $t('demo.notification.noAutoCloseHint'))
+      h('div', { style: 'margin-top: 8px; color: #999' }, $t('demo.notification.noAutoCloseHint')),
     ]),
-    duration: 0
+    duration: 0,
   })
 }
 
@@ -154,7 +154,7 @@ function openCloseEvent() {
     content: $t('demo.notification.closeEventHint'),
     onClose: () => {
       closeCount.value++
-    }
+    },
   })
 }
 </script>

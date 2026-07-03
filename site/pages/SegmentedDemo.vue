@@ -62,25 +62,25 @@ const periodOptions = computed(() => [
   { label: $t('demo.segmented.day'), value: 'day' },
   { label: $t('demo.segmented.week'), value: 'week' },
   { label: $t('demo.segmented.month'), value: 'month' },
-  { label: $t('demo.segmented.year'), value: 'year' }
+  { label: $t('demo.segmented.year'), value: 'year' },
 ])
 
 const disabledOptions = computed(() => [
   { label: $t('demo.segmented.day'), value: 'day' },
   { label: $t('demo.segmented.week'), value: 'week', disabled: true },
-  { label: $t('demo.segmented.month'), value: 'month' }
+  { label: $t('demo.segmented.month'), value: 'month' },
 ])
 
 const viewOptions = computed(() => [
   { label: $t('demo.segmented.list'), value: 'list' },
   { label: $t('demo.segmented.card'), value: 'card' },
-  { label: $t('demo.segmented.chart'), value: 'chart' }
+  { label: $t('demo.segmented.chart'), value: 'chart' },
 ])
 
 const statusOptions = computed(() => [
   { label: $t('demo.segmented.processing'), value: 'processing' },
   { label: $t('demo.segmented.done'), value: 'done' },
-  { label: $t('demo.segmented.failed'), value: 'failed' }
+  { label: $t('demo.segmented.failed'), value: 'failed' },
 ])
 
 const basic = ref('week')
@@ -91,7 +91,7 @@ const segmentedSize = ref<'small' | 'default' | 'large'>('default')
 const sizeOptions = [
   { label: 'small', value: 'small' },
   { label: 'default', value: 'default' },
-  { label: 'large', value: 'large' }
+  { label: 'large', value: 'large' },
 ]
 const shapeBlock = ref('day')
 const shapeRound = ref('week')

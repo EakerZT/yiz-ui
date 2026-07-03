@@ -23,7 +23,7 @@
             'yiz-table-first-right-fixed': borderMarkerFields.firstRightFixed === col.field,
             'yiz-table-last-right-fixed': borderMarkerFields.lastRightFixed === col.field,
             'yiz-table-left-fixed-shadow': borderMarkerFields.lastLeftFixed === col.field && leftFixedShadowVisible,
-            'yiz-table-right-fixed-shadow': borderMarkerFields.firstRightFixed === col.field && rightFixedShadowVisible
+            'yiz-table-right-fixed-shadow': borderMarkerFields.firstRightFixed === col.field && rightFixedShadowVisible,
           }"
           :style="{ textAlign: col.align || 'left', ...getCellStyle(col) }"
           @click="col.sortable && onSort(col)"
@@ -41,7 +41,8 @@
             :class="{ 'yiz-table-cell-ellipsis': isOverflowTooltipOn(col) }"
             @mouseenter="onHeaderEnter($event, col)"
             @mouseleave="onCellLeave"
-            >{{ col.label }}</span>
+            >{{ col.label }}</span
+          >
           <span v-if="col.sortable" class="yiz-table-sort">
             <span class="yiz-table-sort-icon" :class="{ active: sortKey === col.field && sortOrder === 'asc' }">▲</span>
             <span class="yiz-table-sort-icon" :class="{ active: sortKey === col.field && sortOrder === 'desc' }"
@@ -106,7 +107,7 @@
                 'yiz-table-last-right-fixed': borderMarkerFields.lastRightFixed === col.field,
                 'yiz-table-left-fixed-shadow': borderMarkerFields.lastLeftFixed === col.field && leftFixedShadowVisible,
                 'yiz-table-right-fixed-shadow':
-                  borderMarkerFields.firstRightFixed === col.field && rightFixedShadowVisible
+                  borderMarkerFields.firstRightFixed === col.field && rightFixedShadowVisible,
               }"
               :style="{ textAlign: col.align || 'left', ...getCellStyle(col) }"
             >
@@ -142,7 +143,8 @@
                   :class="{ 'yiz-table-cell-ellipsis': isOverflowTooltipOn(col) }"
                   @mouseenter="onCellEnter($event, col)"
                   @mouseleave="onCellLeave"
-                >{{ col.formatter ? col.formatter(row[col.field], row, idx) : row[col.field] }}</span>
+                  >{{ col.formatter ? col.formatter(row[col.field], row, idx) : row[col.field] }}</span
+                >
               </template>
             </div>
           </div>
@@ -243,8 +245,8 @@ const props = withDefaults(
     selectMode: 'none',
     selectDisabled: undefined,
     loading: false,
-    showOverflow: false
-  }
+    showOverflow: false,
+  },
 )
 
 function parsePixelValue(value: unknown): number | undefined {
@@ -317,7 +319,7 @@ const columns = computed(() => {
           fixed: (fixed as 'none' | 'left' | 'right') || 'none',
           renderFn: defaultSlot,
           formatter: p.formatter,
-          showOverflow: normalizeBoolProp(p.showOverflow ?? p['show-overflow'])
+          showOverflow: normalizeBoolProp(p.showOverflow ?? p['show-overflow']),
         })
       }
     }
@@ -511,7 +513,7 @@ const headerChecked = computed({
       selected.value = []
     }
     emit('select', getSelectedRows())
-  }
+  },
 })
 
 function registerColumn(col: TableColumn) {
@@ -569,7 +571,7 @@ const vClass = computed(() => ({
   'yiz-table-bordered': props.bordered,
   'yiz-table-stripe': props.stripe,
   [`yiz-table-${props.size}`]: props.size !== 'default',
-  'yiz-table-resizable': props.resize
+  'yiz-table-resizable': props.resize,
 }))
 
 const tableWrapperRef = ref<HTMLDivElement>()
@@ -725,7 +727,7 @@ watch(
   () => {
     nextTick(() => observeBodyContentTargets())
   },
-  { flush: 'post' }
+  { flush: 'post' },
 )
 
 const resizing = ref<string | null>(null)

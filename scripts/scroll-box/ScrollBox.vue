@@ -21,10 +21,7 @@
       @pointerdown="onTrackPointerDown($event, 'v')"
       @wheel="onScrollbarWheel($event, 'v')"
     >
-      <div
-        class="yiz-scroll-box-thumb yiz-scroll-box-thumb-v"
-        @pointerdown.stop="onThumbPointerDown($event, 'v')"
-      />
+      <div class="yiz-scroll-box-thumb yiz-scroll-box-thumb-v" @pointerdown.stop="onThumbPointerDown($event, 'v')" />
     </div>
 
     <div
@@ -37,10 +34,7 @@
       @pointerdown="onTrackPointerDown($event, 'h')"
       @wheel="onScrollbarWheel($event, 'h')"
     >
-      <div
-        class="yiz-scroll-box-thumb yiz-scroll-box-thumb-h"
-        @pointerdown.stop="onThumbPointerDown($event, 'h')"
-      />
+      <div class="yiz-scroll-box-thumb yiz-scroll-box-thumb-h" @pointerdown.stop="onThumbPointerDown($event, 'h')" />
     </div>
 
     <div v-if="vVisible && hVisible" class="yiz-scroll-box-corner" :style="{ zIndex: props.zIndex }" />
@@ -70,8 +64,8 @@ const props = withDefaults(
     theme: null,
     overflowX: 'auto',
     overflowY: 'auto',
-    zIndex: 1
-  }
+    zIndex: 1,
+  },
 )
 
 defineSlots<{
@@ -153,8 +147,7 @@ const hostStyle = computed(() => {
     s['--yiz-scroll-box-height'] = typeof props.height === 'number' ? `${props.height}px` : props.height
   }
   if (props.maxHeight !== undefined) {
-    s['--yiz-scroll-box-max-height'] =
-      typeof props.maxHeight === 'number' ? `${props.maxHeight}px` : props.maxHeight
+    s['--yiz-scroll-box-max-height'] = typeof props.maxHeight === 'number' ? `${props.maxHeight}px` : props.maxHeight
   }
   if (props.width !== undefined) {
     s['--yiz-scroll-box-width'] = typeof props.width === 'number' ? `${props.width}px` : props.width
@@ -164,8 +157,12 @@ const hostStyle = computed(() => {
   return s
 })
 
-const scrollbarShowV = computed(() => vVisible.value && (autoHideVisible.value || autoHideInteracting.value || props.autoHide === 'never'))
-const scrollbarShowH = computed(() => hVisible.value && (autoHideVisible.value || autoHideInteracting.value || props.autoHide === 'never'))
+const scrollbarShowV = computed(
+  () => vVisible.value && (autoHideVisible.value || autoHideInteracting.value || props.autoHide === 'never'),
+)
+const scrollbarShowH = computed(
+  () => hVisible.value && (autoHideVisible.value || autoHideInteracting.value || props.autoHide === 'never'),
+)
 
 const showCorner = computed(() => vVisible.value && hVisible.value)
 
@@ -193,13 +190,13 @@ const trackHClasses = computed(() => {
 const trackVStyle = computed(() => ({
   '--yiz-scroll-percent': scrollPercentV.value,
   '--yiz-viewport-percent': viewportPercentV.value,
-  '--yiz-scroll-direction': '0'
+  '--yiz-scroll-direction': '0',
 }))
 
 const trackHStyle = computed(() => ({
   '--yiz-scroll-percent': scrollPercentH.value,
   '--yiz-viewport-percent': viewportPercentH.value,
-  '--yiz-scroll-direction': isRTL.value ? '1' : '0'
+  '--yiz-scroll-direction': isRTL.value ? '1' : '0',
 }))
 
 // ==================== Sync ====================
@@ -346,7 +343,7 @@ function onThumbPointerDown(e: PointerEvent, dir: 'v' | 'h') {
   dragState = {
     dir,
     startClient: dir === 'v' ? e.clientY : e.clientX,
-    startScroll: dir === 'v' ? vp.scrollTop : vp.scrollLeft
+    startScroll: dir === 'v' ? vp.scrollTop : vp.scrollLeft,
   }
 
   thumb.setPointerCapture(e.pointerId)
@@ -392,8 +389,7 @@ function onThumbPointerUp(e: PointerEvent) {
 
   // if the pointer is still over a track after release, keep interacting state
   const elm = document.elementFromPoint(e.clientX, e.clientY)
-  const overTrack =
-    elm && (elm.classList.contains('yiz-scroll-box-track') || elm.closest('.yiz-scroll-box-track'))
+  const overTrack = elm && (elm.classList.contains('yiz-scroll-box-track') || elm.closest('.yiz-scroll-box-track'))
 
   autoHideInteracting.value = !!overTrack
 
@@ -479,7 +475,7 @@ onMounted(() => {
       childList: true,
       subtree: true,
       characterData: true,
-      attributes: true
+      attributes: true,
     })
   }
 
@@ -512,7 +508,7 @@ onBeforeUnmount(() => {
 
 defineExpose({
   viewport: viewportRef,
-  sync
+  sync,
 })
 </script>
 
@@ -566,7 +562,9 @@ defineExpose({
   z-index: 1;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.15s, visibility 0.15s;
+  transition:
+    opacity 0.15s,
+    visibility 0.15s;
   pointer-events: none;
   container-type: size;
 
@@ -653,9 +651,8 @@ defineExpose({
   bottom: 1px;
   /* --yiz-scroll-direction: 0 = LTR/default, 1 = RTL/reversed */
   --_yiz-scroll-percent-directional: calc(
-    var(--yiz-scroll-percent) -
-    (var(--yiz-scroll-percent) + (1 - var(--yiz-scroll-percent)) * -1) *
-    var(--yiz-scroll-direction)
+    var(--yiz-scroll-percent) - (var(--yiz-scroll-percent) + (1 - var(--yiz-scroll-percent)) * -1) *
+      var(--yiz-scroll-direction)
   );
   left: calc(var(--_yiz-scroll-percent-directional) * 100%);
   transform: translateX(calc(var(--_yiz-scroll-percent-directional) * -100%));
@@ -667,21 +664,13 @@ defineExpose({
 @supports (container-type: size) {
   .yiz-scroll-box-thumb-v {
     top: auto;
-    transform: translateY(
-      calc(
-        (var(--yiz-scroll-percent) * 100cqh) +
-        (var(--yiz-scroll-percent) * -100%)
-      )
-    );
+    transform: translateY(calc((var(--yiz-scroll-percent) * 100cqh) + (var(--yiz-scroll-percent) * -100%)));
   }
 
   .yiz-scroll-box-thumb-h {
     left: auto;
     transform: translateX(
-      calc(
-        (var(--_yiz-scroll-percent-directional) * 100cqw) +
-        (var(--_yiz-scroll-percent-directional) * -100%)
-      )
+      calc((var(--_yiz-scroll-percent-directional) * 100cqw) + (var(--_yiz-scroll-percent-directional) * -100%))
     );
   }
 

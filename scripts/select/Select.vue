@@ -1,5 +1,13 @@
 <template>
-  <div ref="triggerRef" class="yiz-select" :class="vClass" @click="onTriggerClick" @mouseenter="isHovering = true" @mouseleave="isHovering = false" v-bind="$attrs">
+  <div
+    ref="triggerRef"
+    class="yiz-select"
+    :class="vClass"
+    @click="onTriggerClick"
+    @mouseenter="isHovering = true"
+    @mouseleave="isHovering = false"
+    v-bind="$attrs"
+  >
     <span class="yiz-select-prefix" v-if="$props.prefix || $slots.prefix">
       <template v-if="$props.prefix">{{ $props.prefix }}</template>
       <slot v-else name="prefix" />
@@ -14,13 +22,20 @@
       </span>
       <Icon
         class="yiz-select-arrow"
-        :class="{ 'yiz-select-arrow-up': open, 'yiz-select-arrow--hidden': clearable && modelValue != null && !disabled && (isHovering || open) }"
+        :class="{
+          'yiz-select-arrow-up': open,
+          'yiz-select-arrow--hidden': clearable && modelValue != null && !disabled && (isHovering || open),
+        }"
         size="16"
         :icon="ChevronDown16Regular"
       />
     </span>
     <Transition name="yiz-select-clear-zoom">
-      <span v-if="clearable && modelValue != null && !disabled && (isHovering || open)" class="yiz-select-clear" @click.stop="onClear">
+      <span
+        v-if="clearable && modelValue != null && !disabled && (isHovering || open)"
+        class="yiz-select-clear"
+        @click.stop="onClear"
+      >
         <Icon size="16" :icon="DismissCircle32Filled" />
       </span>
     </Transition>
@@ -44,7 +59,7 @@
             :class="{
               'yiz-select-option-selected': isSelected(opt),
               'yiz-select-option-hover': hoverIndex === idx && !opt.disabled,
-              'yiz-select-option-disabled': opt.disabled
+              'yiz-select-option-disabled': opt.disabled,
             }"
             :aria-disabled="opt.disabled || undefined"
             @click.stop="onSelect(opt)"
@@ -93,8 +108,8 @@ const props = withDefaults(
     options: () => [],
     disabled: false,
     clearable: false,
-    size: 'default'
-  }
+    size: 'default',
+  },
 )
 
 defineSlots<{
@@ -191,7 +206,7 @@ const placeholderText = computed(() => props.placeholder ?? $t('select.placehold
 
 const dropdownStyle = computed(() => {
   const s: Record<string, string | number> = {
-    zIndex: currentZIndex.value + 1
+    zIndex: currentZIndex.value + 1,
   }
   if (triggerRef.value) {
     s.minWidth = `${triggerRef.value.getBoundingClientRect().width}px`
@@ -225,7 +240,7 @@ watch(
   () => props.disabled,
   (disabled) => {
     if (disabled) open.value = false
-  }
+  },
 )
 
 function repositionDropdown() {

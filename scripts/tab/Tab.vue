@@ -21,14 +21,11 @@
             :class="{
               'yiz-tab-header-item-active': isActive(pane),
               'yiz-tab-header-item-disabled': pane.disabled,
-              'yiz-tab-header-item-closable': props.type === 'card' && pane.closable
+              'yiz-tab-header-item-closable': props.type === 'card' && pane.closable,
             }"
             @click="onTabClick(pane)"
           >
-            <component
-              v-if="pane.labelSlot"
-              :is="getLabelComp(pane.labelSlot)"
-            />
+            <component v-if="pane.labelSlot" :is="getLabelComp(pane.labelSlot)" />
             <span v-else class="yiz-tab-header-item-label">{{ pane.label }}</span>
             <span
               v-if="props.type === 'card' && pane.closable"
@@ -81,8 +78,8 @@ const props = withDefaults(
     type: 'default',
     transitionType: 'none',
     flex: false,
-    overflow: 'hidden'
-  }
+    overflow: 'hidden',
+  },
 )
 
 defineSlots<{
@@ -129,7 +126,7 @@ const panes = computed<PaneData[]>(() => {
         key: vnode.key ?? p.key ?? idx,
         disabled: p.disabled != null && p.disabled !== false,
         closable: p.closable != null && p.closable !== false,
-        labelSlot: (vnode as any).children?.label as (() => any) | undefined
+        labelSlot: (vnode as any).children?.label as (() => any) | undefined,
       }
     })
     .filter((v) => !closedKeys.has(v.key))
@@ -153,7 +150,7 @@ function onClosePane(pane: PaneData) {
   closedKeys.add(pane.key)
   emit('close', pane.key)
   if (active.value === pane.key) {
-    const remaining = panes.value.filter(p => p.key !== pane.key)
+    const remaining = panes.value.filter((p) => p.key !== pane.key)
     if (remaining.length > 0) {
       active.value = remaining[0].key
     }
@@ -166,7 +163,7 @@ function getLabelComp(slotFn: (() => any) | undefined) {
   if (!slotFn) return null
   return {
     inheritAttrs: false,
-    render: () => h('span', { class: 'yiz-tab-header-item-label' }, slotFn())
+    render: () => h('span', { class: 'yiz-tab-header-item-label' }, slotFn()),
   }
 }
 
@@ -195,13 +192,17 @@ function updateBarMeasure() {
     width: el.offsetWidth,
     height: el.offsetHeight,
     left: el.offsetLeft,
-    top: el.offsetTop
+    top: el.offsetTop,
   }
 }
 
-watch([active, panes, () => props.direction], () => {
-  nextTick(updateBarMeasure)
-}, { immediate: true })
+watch(
+  [active, panes, () => props.direction],
+  () => {
+    nextTick(updateBarMeasure)
+  },
+  { immediate: true },
+)
 
 const barStyle = computed(() => {
   if (panes.value.length === 0) return { display: 'none' }
@@ -214,7 +215,7 @@ const barStyle = computed(() => {
 const vClass = computed(() => ({
   [`yiz-tab-${props.direction}`]: true,
   [`yiz-tab-type-${props.type}`]: true,
-  'yiz-tab-flex': props.flex
+  'yiz-tab-flex': props.flex,
 }))
 
 const flexStyle = computed(() => {
@@ -227,7 +228,7 @@ provide('yizTab', {
   transitionType: computed(() => props.transitionType),
   direction: computed(() => props.direction),
   flex: computed(() => props.flex),
-  overflow: computed(() => props.overflow)
+  overflow: computed(() => props.overflow),
 })
 </script>
 

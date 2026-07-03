@@ -38,7 +38,7 @@
       </span>
       <Icon
         :class="{
-          'yiz-time-picker-suffix--hidden': clearable && modelValue != null && !disabled && (isHovering || open)
+          'yiz-time-picker-suffix--hidden': clearable && modelValue != null && !disabled && (isHovering || open),
         }"
         class="yiz-time-picker-suffix"
         size="16"
@@ -131,8 +131,8 @@ const props = withDefaults(
     clearable: false,
     size: 'default',
     showSeconds: false,
-    format: 'HH:mm:ss'
-  }
+    format: 'HH:mm:ss',
+  },
 )
 
 const emit = defineEmits<{
@@ -173,7 +173,7 @@ const dropdownPos = ref<{ top?: string; bottom?: string; left?: string }>({})
 
 const panelStyle = computed(() => ({
   zIndex: currentZIndex.value + 1,
-  ...dropdownPos.value
+  ...dropdownPos.value,
 }))
 
 function repositionPanel() {
@@ -226,14 +226,14 @@ watch(
       syncInputTextFromModel()
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 watch(
   () => props.disabled,
   (disabled) => {
     if (disabled) open.value = false
-  }
+  },
 )
 
 // ==================== 滚动到选中项 ====================
@@ -301,7 +301,7 @@ function parseValue(val: string): TimeParts | null {
     mm: '(\\d{2})',
     m: '(\\d{1,2})',
     ss: '(\\d{2})',
-    s: '(\\d{1,2})'
+    s: '(\\d{1,2})',
   }
   const tokens: string[] = []
   let pattern = ''
@@ -352,7 +352,7 @@ function getNowParts(): TimeParts {
   return {
     hour: now.getHours(),
     minute: now.getMinutes(),
-    second: now.getSeconds()
+    second: now.getSeconds(),
   }
 }
 
@@ -490,7 +490,7 @@ onBeforeUnmount(() => {
 })
 
 defineExpose({
-  focus: () => inputRef.value?.focus()
+  focus: () => inputRef.value?.focus(),
 })
 </script>
 

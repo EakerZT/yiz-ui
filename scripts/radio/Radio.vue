@@ -1,13 +1,7 @@
 <template>
   <label class="yiz-radio" :class="vClass">
     <span class="yiz-radio-input">
-      <input
-        type="radio"
-        :checked="modelValue === value"
-        :disabled="disabled"
-        :value="value"
-        @change="onChange"
-      />
+      <input type="radio" :checked="modelValue === value" :disabled="disabled" :value="value" @change="onChange" />
       <span class="yiz-radio-inner"></span>
       <span class="yiz-wave" v-if="isWave"></span>
     </span>
@@ -28,7 +22,7 @@ const props = withDefaults(
   }>(),
   {
     disabled: false,
-  }
+  },
 )
 
 defineSlots<{

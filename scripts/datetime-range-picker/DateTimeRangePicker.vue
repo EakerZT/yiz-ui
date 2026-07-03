@@ -63,7 +63,7 @@
       <Icon
         :class="{
           'yiz-datetime-range-picker-suffix--hidden':
-            clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open)
+            clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open),
         }"
         class="yiz-datetime-range-picker-suffix"
         size="16"
@@ -138,7 +138,7 @@
                         'yiz-datetime-range-picker-cell-other': !cell.current,
                         'yiz-datetime-range-picker-cell-today': cell.isToday,
                         'yiz-datetime-range-picker-cell-selected': cell.isSelected,
-                        'yiz-datetime-range-picker-cell-disabled': cell.disabled
+                        'yiz-datetime-range-picker-cell-disabled': cell.disabled,
                       }"
                       @click="onCellClick('start', cell)"
                     >
@@ -254,7 +254,7 @@
                         'yiz-datetime-range-picker-cell-other': !cell.current,
                         'yiz-datetime-range-picker-cell-today': cell.isToday,
                         'yiz-datetime-range-picker-cell-selected': cell.isSelected,
-                        'yiz-datetime-range-picker-cell-disabled': cell.disabled
+                        'yiz-datetime-range-picker-cell-disabled': cell.disabled,
                       }"
                       @click="onCellClick('end', cell)"
                     >
@@ -332,7 +332,7 @@ import {
   ChevronDoubleRight16Regular,
   ChevronLeft16Regular,
   ChevronRight16Regular,
-  DismissCircle32Filled
+  DismissCircle32Filled,
 } from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import { Icon } from '../icon'
@@ -386,8 +386,8 @@ const props = withDefaults(
     autoSort: true,
     size: 'default',
     format: 'YYYY-MM-DD HH:mm:ss',
-    separator: '-'
-  }
+    separator: '-',
+  },
 )
 
 const emit = defineEmits<{
@@ -451,7 +451,7 @@ const vClass = computed(() => ({
   'yiz-datetime-range-picker-open': open.value,
   'yiz-datetime-range-picker-disabled': props.disabled,
   'yiz-datetime-range-picker-small': props.size === 'small',
-  'yiz-datetime-range-picker-large': props.size === 'large'
+  'yiz-datetime-range-picker-large': props.size === 'large',
 }))
 
 watch(open, async (val) => {
@@ -473,14 +473,14 @@ watch(
       syncInputTextFromModel()
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 watch(
   () => props.disabled,
   (disabled) => {
     if (disabled) open.value = false
-  }
+  },
 )
 
 function pad(n: number): string {
@@ -627,7 +627,7 @@ function makeCell(side: DateTimeRangeSide, year: number, month: number, day: num
     isToday: sameDate(today, date),
     isSelected: sameDate(getDraft(side), date),
     disabled: props.disabledDate ? props.disabledDate(date) : false,
-    date
+    date,
   }
 }
 
@@ -742,7 +742,7 @@ function setTime(side: DateTimeRangeSide, unit: TimeUnit, value: number) {
     new Date(
       side === 'start' ? startViewYear.value : endViewYear.value,
       side === 'start' ? startViewMonth.value - 1 : endViewMonth.value - 1,
-      1
+      1,
     )
   setDraft(side, buildDateWithTime(side, base))
   syncInputTextFromDraft(side)

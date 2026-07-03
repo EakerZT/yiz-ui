@@ -86,7 +86,7 @@
                 'yiz-date-picker-cell--other': !cell.current,
                 'yiz-date-picker-cell--today': cell.isToday,
                 'yiz-date-picker-cell--selected': cell.isSelected,
-                'yiz-date-picker-cell--disabled': cell.disabled
+                'yiz-date-picker-cell--disabled': cell.disabled,
               }"
               @click="onCellClick(cell)"
             >
@@ -115,7 +115,7 @@ import {
   ChevronDoubleRight16Regular,
   ChevronLeft16Regular,
   ChevronRight16Regular,
-  DismissCircle32Filled
+  DismissCircle32Filled,
 } from '@vicons/fluent'
 import { Icon } from '../icon'
 import Button from '../button/Button.vue'
@@ -139,8 +139,8 @@ const props = withDefaults(
     disabled: false,
     clearable: false,
     size: 'default',
-    format: 'YYYY-MM-DD'
-  }
+    format: 'YYYY-MM-DD',
+  },
 )
 
 type DatePickerValue = Date | string | null
@@ -198,7 +198,7 @@ const vClass = computed(() => {
 const confirmDisabled = computed(() => draft.value == null)
 
 const panelStyle = computed(() => ({
-  zIndex: currentZIndex.value + 1
+  zIndex: currentZIndex.value + 1,
 }))
 
 interface CalendarCell {
@@ -254,7 +254,7 @@ function makeCell(year: number, month: number, day: number, current: boolean): C
       date.getDate() === today.getDate(),
     isSelected: sameDate(draft.value, date),
     disabled: props.disabledDate ? props.disabledDate(date) : false,
-    date
+    date,
   }
 }
 
@@ -281,7 +281,7 @@ function formatDate(date: Date, fmt: string): string {
     dd: pad(date.getDate()),
     M: `${date.getMonth() + 1}`,
     D: `${date.getDate()}`,
-    d: `${date.getDate()}`
+    d: `${date.getDate()}`,
   }
   return fmt.replace(/YYYY|yyyy|MM|DD|dd|M|D|d/g, (k) => map[k] || k)
 }
@@ -300,7 +300,7 @@ function parseDate(value: string, fmt: string): Date | null {
     DD: '(\\d{2})',
     dd: '(\\d{2})',
     D: '(\\d{1,2})',
-    d: '(\\d{1,2})'
+    d: '(\\d{1,2})',
   }
   const tokens: string[] = []
   let pattern = ''
@@ -553,7 +553,7 @@ watch(
       syncInputTextFromModel()
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 watch(
@@ -563,7 +563,7 @@ watch(
       open.value = false
       showYearPicker.value = false
     }
-  }
+  },
 )
 
 function onClickOutside(e: MouseEvent) {

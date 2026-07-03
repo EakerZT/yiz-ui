@@ -22,8 +22,8 @@ const props = withDefaults(
   }>(),
   {
     block: false,
-    size: 'default'
-  }
+    size: 'default',
+  },
 )
 
 defineSlots<{
@@ -36,7 +36,7 @@ const vClass = computed(() => ({
   'yiz-input-group-block': props.block,
   'yiz-input-group-small': props.size === 'small',
   'yiz-input-group-default': props.size === 'default',
-  'yiz-input-group-large': props.size === 'large'
+  'yiz-input-group-large': props.size === 'large',
 }))
 </script>
 

@@ -37,7 +37,7 @@ import {
   type FormItemRule,
   type FormItemValidateResult,
   type FormRule,
-  type FormValidateTrigger
+  type FormValidateTrigger,
 } from '../form/types'
 
 const props = defineProps<{
@@ -122,7 +122,7 @@ const itemContext: FormItemContext = {
   prop: props.prop,
   validate,
   resetField,
-  clearValidate
+  clearValidate,
 }
 
 watch(
@@ -131,7 +131,7 @@ watch(
     if (isResetting) return
     validate('change')
   },
-  { deep: true }
+  { deep: true },
 )
 
 onMounted(() => {
@@ -283,7 +283,7 @@ function onFieldBlur() {
 defineExpose({
   validate,
   resetField,
-  clearValidate
+  clearValidate,
 })
 </script>
 

@@ -9,7 +9,14 @@
       @change="onChange"
     />
     <span class="yiz-radio-button-content">
-      <slot name="render" :label="label" :value="value" :checked="checked" :selected="checked" :disabled="mergedDisabled">
+      <slot
+        name="render"
+        :label="label"
+        :value="value"
+        :checked="checked"
+        :selected="checked"
+        :disabled="mergedDisabled"
+      >
         <slot>{{ label }}</slot>
       </slot>
     </span>
@@ -43,8 +50,8 @@ const props = withDefaults(
     disabled: false,
     size: 'default',
     textColor: '',
-    fillColor: ''
-  }
+    fillColor: '',
+  },
 )
 
 defineSlots<{
@@ -73,7 +80,7 @@ const checked = computed(() => currentValue.value === props.value)
 const vClass = computed(() => ({
   'yiz-radio-button-checked': checked.value,
   'yiz-radio-button-disabled': mergedDisabled.value,
-  [`yiz-radio-button-${mergedSize.value}`]: true
+  [`yiz-radio-button-${mergedSize.value}`]: true,
 }))
 
 const vStyle = computed(() => {
