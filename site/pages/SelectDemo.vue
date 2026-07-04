@@ -4,45 +4,45 @@
     <p class="demo-section-desc">{{ $t('demo.select.desc') }}</p>
 
     <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
-      <y-select v-model="v1" :options="opts" />
+      <y-select v-model:value="v1" :options="opts" />
       <span class="demo-hint">{{ $t('demo.select.value', { value: v1 }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.select.placeholder')" style="margin-top: 8px">
-      <y-select v-model="v2" :options="opts" :placeholder="$t('demo.select.cityPlaceholder')" />
+      <y-select v-model:value="v2" :options="opts" :placeholder="$t('demo.select.cityPlaceholder')" />
     </y-card>
 
     <y-card :title="$t('demo.common.clearable')" style="margin-top: 8px">
-      <y-select v-model="v3" :options="opts" clearable />
+      <y-select v-model:value="v3" :options="opts" clearable />
     </y-card>
 
     <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
-      <y-select v-model="v4" :options="opts" disabled />
+      <y-select v-model:value="v4" :options="opts" disabled />
     </y-card>
 
     <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
-      <y-select v-model="v11" :options="opts" prefix="City" suffix="CN" clearable />
+      <y-select v-model:value="v11" :options="opts" prefix="City" suffix="CN" clearable />
       <span class="demo-hint">{{ $t('demo.select.value', { value: v11 ?? $t('demo.common.empty') }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-select-size-panel">
         <y-radio-button-group v-model:value="selectSize" :options="sizeOptions" />
-        <y-select v-model="v5" :options="opts" :size="selectSize" />
+        <y-select v-model:value="v5" :options="opts" :size="selectSize" />
       </div>
     </y-card>
 
     <y-card :title="$t('demo.common.event')" style="margin-top: 8px">
-      <y-select v-model="v7" :options="opts" @change="onChange" />
+      <y-select v-model:value="v7" :options="opts" @change="onChange" />
       <span class="demo-hint">{{ $t('demo.select.changeCount', { count: changeCount }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.select.search')" style="margin-top: 8px">
-      <y-select v-model="v8" :options="opts" :search="onSearch" />
+      <y-select v-model:value="v8" :options="opts" :search="onSearch" />
     </y-card>
 
     <y-card :title="$t('demo.common.slot')" style="margin-top: 8px">
-      <y-select v-model="v9">
+      <y-select v-model:value="v9">
         <y-select-option :label="$t('demo.common.beijing')" value="beijing" />
         <y-select-option :label="$t('demo.common.shanghai')" value="shanghai" :disabled="shanghaiDisabled" />
         <y-select-option :label="$t('demo.common.guangzhou')" value="guangzhou" />
@@ -56,7 +56,7 @@
     </y-card>
 
     <y-card :title="$t('demo.common.customRender')" style="margin-top: 8px">
-      <y-select v-model="v10" :options="opts">
+      <y-select v-model:value="v10" :options="opts">
         <template #option="{ option, selected }">
           <span :style="{ color: selected ? 'var(--yiz-color-primary)' : '#333' }">
             {{ option.label }}

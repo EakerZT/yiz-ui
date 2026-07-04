@@ -1,5 +1,6 @@
 import { createVNode, render, type VNodeChild } from 'vue'
 import Notification from './Notification.vue'
+import { $t } from '../locale'
 
 export type NotificationType = 'info' | 'success' | 'warning' | 'error'
 export type NotificationPlacement = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
@@ -37,6 +38,12 @@ interface NotificationInstance {
 const GAP = 12
 const instances: NotificationInstance[] = []
 const holders = new Map<NotificationPlacement, HTMLElement>()
+const defaultTitleKeys: Record<NotificationType, string> = {
+  info: 'notification.title.info',
+  success: 'notification.title.success',
+  warning: 'notification.title.warning',
+  error: 'notification.title.error',
+}
 
 function removeInstance(instance: NotificationInstance) {
   const index = instances.indexOf(instance)
@@ -47,6 +54,7 @@ function removeInstance(instance: NotificationInstance) {
 
 function openNotification(options: NotificationOptions = {}): NotificationHandle {
   const container = document.createElement('div')
+  const type = options.type ?? 'info'
   const placement = options.placement ?? 'top-right'
   const baseOffset = options.offset ?? 24
   let closed = false
@@ -90,7 +98,8 @@ function openNotification(options: NotificationOptions = {}): NotificationHandle
     options.onClose?.()
   }
 
-  const titleSlot = typeof options.title === 'string' || options.title == null ? undefined : () => options.title
+  const title = options.title == null ? $t(defaultTitleKeys[type]) : options.title
+  const titleSlot = typeof title === 'string' ? undefined : () => title
   const defaultSlot = typeof options.content === 'string' || options.content == null ? undefined : () => options.content
 
   function renderNotification(modelValue: boolean) {
@@ -98,9 +107,9 @@ function openNotification(options: NotificationOptions = {}): NotificationHandle
       Notification,
       {
         ...options,
-        title: typeof options.title === 'string' ? options.title : '',
+        title: typeof title === 'string' ? title : '',
         content: typeof options.content === 'string' ? options.content : '',
-        type: options.type ?? 'info',
+        type,
         placement,
         duration: options.duration ?? 4500,
         closable: options.closable ?? true,
@@ -137,7 +146,7 @@ function openNotification(options: NotificationOptions = {}): NotificationHandle
 function setupContainer(container: HTMLElement, placement: NotificationPlacement) {
   const marginProperty = getMarginProperty(placement)
   container.className = 'yiz-notification-service-item'
-  container.style.overflow = 'hidden'
+  container.style.overflow = 'visible'
   container.style.height = '0px'
   container.style[marginProperty] = '0px'
   container.style.transition = 'height 0.25s cubic-bezier(0.4, 0, 0.2, 1), margin 0.25s cubic-bezier(0.4, 0, 0.2, 1)'

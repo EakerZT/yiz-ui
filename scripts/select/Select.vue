@@ -123,7 +123,7 @@ const emit = defineEmits<{
   change: [option: SelectOption | null]
 }>()
 
-const modelValue = defineModel<any>('modelValue')
+const modelValue = defineModel<any>('value')
 
 const slots = useSlots()
 

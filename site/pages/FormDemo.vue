@@ -10,7 +10,7 @@
         </y-form-item>
         <y-form-item :label="$t('demo.common.city')" prop="city">
           <y-select
-            v-model="basicForm.city"
+            v-model:value="basicForm.city"
             :options="cityOptions"
             :placeholder="$t('demo.form.cityPlaceholder')"
             clearable
@@ -60,7 +60,7 @@
           <y-input v-model:value="layoutDemoForm.name" placeholder="请输入" />
         </y-form-item>
         <y-form-item :label="$t('demo.common.city')">
-          <y-select v-model="layoutDemoForm.city" :options="cityOptions" placeholder="请选择" />
+          <y-select v-model:value="layoutDemoForm.city" :options="cityOptions" placeholder="请选择" />
         </y-form-item>
         <y-form-item :label="$t('demo.common.age')">
           <y-input-number v-model="layoutDemoForm.age" :min="0" :max="120" />

@@ -232,7 +232,7 @@ loadingBar.reset()
   <y-button size="large">Large</y-button>
 
   <y-input v-model:value="text" size="large" />
-  <y-select v-model="city" :options="cityOptions" size="small" />
+  <y-select v-model:value="city" :options="cityOptions" size="small" />
 </template>
 ```
 

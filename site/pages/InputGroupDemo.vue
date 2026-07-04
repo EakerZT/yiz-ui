@@ -19,7 +19,7 @@
 
     <y-card :title="$t('demo.inputGroup.search')" style="margin-top: 8px">
       <y-input-group>
-        <y-select v-model="city" :options="cityOptions" style="width: 128px" />
+        <y-select v-model:value="city" :options="cityOptions" style="width: 128px" />
         <y-input v-model:value="keyword" :placeholder="$t('demo.inputGroup.keyword')" style="width: 220px" />
         <y-button type="primary">{{ $t('demo.inputGroup.searchButton') }}</y-button>
       </y-input-group>
@@ -54,7 +54,7 @@
       <div class="demo-input-group-stack">
         <y-radio-button-group v-model:value="groupSize" :options="sizeOptions" />
         <y-input-group :size="groupSize">
-          <y-select v-model="city" :options="cityOptions" style="width: 128px" />
+          <y-select v-model:value="city" :options="cityOptions" style="width: 128px" />
           <y-input v-model:value="keyword" :placeholder="$t('demo.inputGroup.keyword')" style="width: 220px" />
           <y-button type="primary">{{ $t('demo.inputGroup.searchButton') }}</y-button>
         </y-input-group>
