@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, getCurrentInstance, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, getCurrentInstance, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch } from 'vue'
 import type { ComponentPublicInstance, VNodeChild } from 'vue'
 
 export interface SegmentedOption {
@@ -103,12 +103,20 @@ onMounted(() => {
   })
 })
 
+onActivated(() => {
+  nextTick(() => {
+    updateIndicator()
+    observeSize()
+  })
+})
+
+onDeactivated(() => {
+  disableIndicatorTransition()
+})
+
 onBeforeUnmount(() => {
   resizeObserver?.disconnect()
-  if (transitionFrameId !== null) {
-    cancelAnimationFrame(transitionFrameId)
-    transitionFrameId = null
-  }
+  disableIndicatorTransition()
 })
 
 function getItemClass(option: SegmentedOption) {
@@ -185,6 +193,14 @@ function enableIndicatorTransition() {
       transitionFrameId = null
     })
   })
+}
+
+function disableIndicatorTransition() {
+  if (transitionFrameId !== null) {
+    cancelAnimationFrame(transitionFrameId)
+    transitionFrameId = null
+  }
+  indicatorTransitionReady.value = false
 }
 </script>
 
