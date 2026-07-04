@@ -82,7 +82,7 @@ const emit = defineEmits<{
   ok: []
 }>()
 
-const visible = defineModel<boolean>('modelValue', { default: false })
+const visible = defineModel<boolean>('show', { default: false })
 
 const dragPosition = ref({ x: 0, y: 0 })
 const dragging = ref(false)

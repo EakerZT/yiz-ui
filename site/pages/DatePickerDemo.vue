@@ -5,33 +5,33 @@
 
     <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
       <div class="demo-picker-field">
-        <DatePicker v-model="value1" />
+        <DatePicker v-model:value="value1" />
         <span class="demo-item-hint">{{ value1 ? fmt(value1) : $t('demo.common.notSelected') }}</span>
       </div>
     </y-card>
 
     <y-card :title="$t('demo.common.clearable')" style="margin-top: 8px">
-      <DatePicker v-model="value2" clearable />
+      <DatePicker v-model:value="value2" clearable />
     </y-card>
 
     <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
-      <DatePicker v-model="value3" disabled />
+      <DatePicker v-model:value="value3" disabled />
     </y-card>
 
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-radio-button-group v-model:value="datePickerSize" :options="sizeOptions" />
-        <DatePicker v-model="value4" :size="datePickerSize" />
+        <DatePicker v-model:value="value4" :size="datePickerSize" />
       </div>
     </y-card>
 
     <y-card :title="$t('demo.datePicker.disableDates')" style="margin-top: 8px">
-      <DatePicker v-model="value5" :disabled-date="disabledDate" />
+      <DatePicker v-model:value="value5" :disabled-date="disabledDate" />
     </y-card>
 
     <y-card :title="$t('demo.common.customFormat')" style="margin-top: 8px">
       <DatePicker
-        v-model="value6"
+        v-model:value="value6"
         :format="$t('demo.datePicker.yearMonthDay')"
         :placeholder="$t('demo.common.placeholder')"
       />
@@ -39,14 +39,14 @@
 
     <y-card :title="$t('demo.datePicker.valueFormat')" style="margin-top: 8px">
       <div class="demo-picker-field">
-        <DatePicker v-model="value8" value-format="YYYY-MM-DD 00:00:00" clearable />
+        <DatePicker v-model:value="value8" value-format="YYYY-MM-DD 00:00:00" clearable />
         <span class="demo-item-hint">{{ value8 ?? $t('demo.common.notSelected') }}</span>
       </div>
     </y-card>
 
     <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
       <div class="demo-picker-field">
-        <DatePicker v-model="value7" prefix="Due" suffix="CST" clearable />
+        <DatePicker v-model:value="value7" prefix="Due" suffix="CST" clearable />
         <span class="demo-item-hint">{{ value7 ? fmt(value7) : $t('demo.common.notSelected') }}</span>
       </div>
     </y-card>

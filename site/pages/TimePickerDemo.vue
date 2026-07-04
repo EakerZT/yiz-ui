@@ -5,40 +5,40 @@
 
     <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
       <div class="demo-picker-field">
-        <TimePicker v-model="value1" />
+        <TimePicker v-model:value="value1" />
         <span class="demo-item-hint">{{ value1 || $t('demo.common.notSelected') }}</span>
       </div>
     </y-card>
 
     <y-card :title="$t('demo.common.clearable')" style="margin-top: 8px">
-      <TimePicker v-model="value2" clearable />
+      <TimePicker v-model:value="value2" clearable />
     </y-card>
 
     <y-card :title="$t('demo.timePicker.showSeconds')" style="margin-top: 8px">
       <div class="demo-picker-field">
-        <TimePicker v-model="value3" :show-seconds="true" />
+        <TimePicker v-model:value="value3" :show-seconds="true" />
         <span class="demo-item-hint">{{ value3 || $t('demo.common.notSelected') }}</span>
       </div>
     </y-card>
 
     <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
-      <TimePicker v-model="value4" disabled />
+      <TimePicker v-model:value="value4" disabled />
     </y-card>
 
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-radio-button-group v-model:value="timePickerSize" :options="sizeOptions" />
-        <TimePicker v-model="value5" :size="timePickerSize" clearable />
+        <TimePicker v-model:value="value5" :size="timePickerSize" clearable />
       </div>
     </y-card>
 
     <y-card :title="$t('demo.timePicker.defaultValue')" style="margin-top: 8px">
-      <TimePicker v-model="value6" :format="'HH:mm'" />
+      <TimePicker v-model:value="value6" :format="'HH:mm'" />
     </y-card>
 
     <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
       <div class="demo-picker-field">
-        <TimePicker v-model="value7" prefix="Start" suffix="UTC+8" clearable />
+        <TimePicker v-model:value="value7" prefix="Start" suffix="UTC+8" clearable />
         <span class="demo-item-hint">{{ value7 || $t('demo.common.notSelected') }}</span>
       </div>
     </y-card>

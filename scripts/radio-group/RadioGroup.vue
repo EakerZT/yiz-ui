@@ -6,8 +6,8 @@
       :label="opt.label"
       :value="opt.value"
       :disabled="disabled"
-      :model-value="modelValue"
-      @update:model-value="onUpdateValue"
+      :checked="modelValue === opt.value"
+      @change="onUpdateValue"
     />
   </div>
 </template>

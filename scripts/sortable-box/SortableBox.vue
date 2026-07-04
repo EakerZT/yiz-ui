@@ -138,7 +138,6 @@ export default defineComponent({
   name: 'SortableBox',
   inheritAttrs: false,
   props: {
-    modelValue: { type: Array as PropType<unknown[] | null>, default: null },
     list: { type: Array as PropType<unknown[] | null>, default: null },
     itemKey: { type: [String, Function] as PropType<string | ((item: unknown) => SortableKey)>, required: true },
     tag: { type: String, default: 'div' },
@@ -181,7 +180,7 @@ export default defineComponent({
     bubbleScroll: { type: Boolean, default: true },
   },
   emits: [
-    'update:modelValue',
+    'update:list',
     'change',
     'choose',
     'unchoose',
@@ -206,7 +205,7 @@ export default defineComponent({
     const optionOverrides = ref<SortableBoxOptionOverrides>({})
     const id = `yiz-sortable-box-${++seed}`
 
-    const realList = computed(() => props.list ?? props.modelValue ?? [])
+    const realList = computed(() => props.list ?? [])
     const renderedItems = computed(() => previewItems.value ?? realList.value)
 
     const runtime: SortableRuntime = {
@@ -221,11 +220,7 @@ export default defineComponent({
         previewItems.value = items ? [...items] : null
       },
       applyList(items) {
-        if (props.list) {
-          props.list.splice(0, props.list.length, ...items)
-          return
-        }
-        emit('update:modelValue', [...items])
+        emit('update:list', [...items])
       },
       emitEvent(name, payload) {
         emit(name, payload)

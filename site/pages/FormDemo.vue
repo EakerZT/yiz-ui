@@ -20,7 +20,7 @@
           <template #tooltip>
             <span>{{ $t('demo.form.ageTooltip') }}</span>
           </template>
-          <y-input-number v-model="basicForm.age" :min="0" :max="120" :placeholder="$t('demo.form.agePlaceholder')" />
+          <y-input-number v-model:value="basicForm.age" :min="0" :max="120" :placeholder="$t('demo.form.agePlaceholder')" />
         </y-form-item>
         <y-form-item :label="$t('demo.form.accountType')" prop="accountType">
           <y-radio-group v-model:value="basicForm.accountType" :options="accountTypeOptions" />
@@ -63,7 +63,7 @@
           <y-select v-model:value="layoutDemoForm.city" :options="cityOptions" placeholder="请选择" />
         </y-form-item>
         <y-form-item :label="$t('demo.common.age')">
-          <y-input-number v-model="layoutDemoForm.age" :min="0" :max="120" />
+          <y-input-number v-model:value="layoutDemoForm.age" :min="0" :max="120" />
         </y-form-item>
       </y-form>
     </y-card>

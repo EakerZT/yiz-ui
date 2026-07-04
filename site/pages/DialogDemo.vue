@@ -49,43 +49,43 @@
     </y-card>
 
     <!-- Dialogs -->
-    <y-dialog v-model="visible1" :title="$t('demo.dialog.basicDialog')">
+    <y-dialog v-model:show="visible1" :title="$t('demo.dialog.basicDialog')">
       <p>{{ $t('demo.dialog.basicContent') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible10" :title="$t('demo.dialog.dragTitle')" :drag="true">
+    <y-dialog v-model:show="visible10" :title="$t('demo.dialog.dragTitle')" :drag="true">
       <p>{{ $t('demo.dialog.dragTitleHint') }}</p>
       <p style="margin-top: 8px; color: #888">{{ $t('demo.dialog.dragTitleHint2') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible2" :title="$t('demo.dialog.wideDialog')" width="600px">
+    <y-dialog v-model:show="visible2" :title="$t('demo.dialog.wideDialog')" width="600px">
       <p>{{ $t('demo.dialog.wideDialogHint') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible3" :title="$t('demo.dialog.narrowDialog')" width="300px">
+    <y-dialog v-model:show="visible3" :title="$t('demo.dialog.narrowDialog')" width="300px">
       <p>{{ $t('demo.dialog.narrowDialogHint') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible4" :title="$t('demo.common.noMask')" :mask="false">
+    <y-dialog v-model:show="visible4" :title="$t('demo.common.noMask')" :mask="false">
       <p>{{ $t('demo.dialog.noMaskHint') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible5" :title="$t('demo.common.maskClosable')" :mask-closable="true">
+    <y-dialog v-model:show="visible5" :title="$t('demo.common.maskClosable')" :mask-closable="true">
       <p>{{ $t('demo.dialog.maskClosableHint') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible6" :title="$t('demo.common.noCloseButton')" :closable="false" disabled-footer>
+    <y-dialog v-model:show="visible6" :title="$t('demo.common.noCloseButton')" :closable="false" disabled-footer>
       <p>{{ $t('demo.dialog.noCloseHint') }}</p>
       <div style="margin-top: 16px">
         <y-button type="primary" @click="visible6 = false">{{ $t('demo.common.close') }}</y-button>
       </div>
     </y-dialog>
 
-    <y-dialog v-model="visible11" :title="$t('demo.dialog.disabledFooter')" disabled-footer>
+    <y-dialog v-model:show="visible11" :title="$t('demo.dialog.disabledFooter')" disabled-footer>
       <p>{{ $t('demo.dialog.disabledFooterHint') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible7" :title="$t('demo.card.confirmAction')">
+    <y-dialog v-model:show="visible7" :title="$t('demo.card.confirmAction')">
       <p>{{ $t('demo.card.confirmMsg') }}</p>
       <template #footer>
         <div style="display: flex; gap: 12px; justify-content: flex-end">
@@ -95,14 +95,14 @@
       </template>
     </y-dialog>
 
-    <y-dialog v-model="visible8">
+    <y-dialog v-model:show="visible8">
       <template #title>
         <span style="color: var(--yiz-color-primary)">{{ $t('demo.common.customTitleColor') }}</span>
       </template>
       <p>{{ $t('demo.dialog.customTitleHint') }}</p>
     </y-dialog>
 
-    <y-dialog v-model="visible9" :title="$t('demo.dialog.closeEvent')" @close="closeCount++" @ok="okCount++">
+    <y-dialog v-model:show="visible9" :title="$t('demo.dialog.closeEvent')" @close="closeCount++" @ok="okCount++">
       <p>{{ $t('demo.dialog.closeEventHint') }}</p>
     </y-dialog>
   </section>

@@ -44,10 +44,15 @@
             >{{ col.label }}</span
           >
           <span v-if="col.sortable" class="yiz-table-sort">
-            <span class="yiz-table-sort-icon" :class="{ active: sortKey === col.field && sortOrder === 'asc' }">▲</span>
-            <span class="yiz-table-sort-icon" :class="{ active: sortKey === col.field && sortOrder === 'desc' }"
-              >▼</span
-            >
+            <Icon
+              size="16"
+              class="yiz-table-sort-icon"
+              :class="{
+                'yiz-table-sort-icon-active': sortKey === col.field,
+                'yiz-table-sort-icon-desc': sortKey === col.field && sortOrder === 'desc',
+              }"
+              :icon="sortKey === col.field ? ArrowSortDownLines16Regular : ArrowSort16Regular"
+            />
           </span>
           <span
             v-if="resize && col.field !== '__yiz_select' && col.field !== '__yiz_row_no' && col.field !== '__yiz_gap'"
@@ -193,10 +198,12 @@
 
 <script lang="ts" setup>
 import { Comment, computed, Fragment, nextTick, onMounted, onUnmounted, provide, ref, Text, useSlots, watch } from 'vue'
+import { ArrowSort16Regular, ArrowSortDownLines16Regular } from '@vicons/fluent'
 import TableColumnComp from './TableColumn.vue'
 import CellRenderer from './CellRenderer.vue'
 import Checkbox from '../checkbox/Checkbox.vue'
 import Radio from '../radio/Radio.vue'
+import { Icon } from '../icon'
 import { ScrollBox } from '../scroll-box'
 import { Empty } from '../empty'
 import { Loading } from '../loading'
@@ -1076,20 +1083,26 @@ onUnmounted(() => {
 
 .yiz-table-sort {
   display: inline-flex;
-  flex-direction: column;
+  align-items: center;
   vertical-align: middle;
   margin-left: 4px;
-  line-height: 0.6;
+  color: #c0c4cc;
 }
 
 .yiz-table-sort-icon {
-  font-size: 10px;
-  color: #c0c4cc;
-  transition: color 0.2s;
+  transform: rotate(-180deg);
+  transition:
+    color 0.2s,
+    transform 0.2s;
+}
 
-  &.active {
-    color: var(--yiz-color-primary);
-  }
+.yiz-table-sort-icon-active {
+  color: var(--yiz-color-primary);
+  transform: rotate(0deg);
+}
+
+.yiz-table-sort-icon-desc {
+  transform: rotate(180deg);
 }
 
 // select

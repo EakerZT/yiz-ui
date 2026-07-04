@@ -65,17 +65,16 @@ defineSlots<{
   }) => VNodeChild
 }>()
 
-const emit = defineEmits<{ change: [value: string | number] }>()
+const emit = defineEmits<{ change: [value: string | number | undefined] }>()
 
-const modelValue = defineModel<string | number>()
+const checkedModel = defineModel<boolean>('checked', { default: false })
 const group = inject<RadioButtonGroupContext | null>('yizRadioButtonGroup', null)
 
-const currentValue = computed(() => group?.modelValue.value ?? modelValue.value)
 const mergedDisabled = computed(() => props.disabled || (group?.disabled.value ?? false))
 const mergedSize = computed(() => group?.size.value ?? props.size)
 const mergedTextColor = computed(() => props.textColor || group?.textColor.value || '')
 const mergedFillColor = computed(() => props.fillColor || group?.fillColor.value || '')
-const checked = computed(() => currentValue.value === props.value)
+const checked = computed(() => (group ? group.modelValue.value === props.value : checkedModel.value))
 
 const vClass = computed(() => ({
   'yiz-radio-button-checked': checked.value,
@@ -96,11 +95,12 @@ const vStyle = computed(() => {
 })
 
 function onChange() {
-  if (mergedDisabled.value || props.value == null) return
+  if (mergedDisabled.value) return
   if (group) {
+    if (props.value == null) return
     group.changeValue(props.value)
   } else {
-    modelValue.value = props.value
+    checkedModel.value = true
   }
   emit('change', props.value)
 }

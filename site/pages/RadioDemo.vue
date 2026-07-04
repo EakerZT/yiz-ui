@@ -4,18 +4,18 @@
     <p class="demo-section-desc">{{ $t('demo.radio.desc') }}</p>
 
     <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
-      <y-radio v-model="radio1" value="a" :label="$t('demo.checkbox.optionA')" />
-      <y-radio v-model="radio1" value="b" :label="$t('demo.checkbox.optionB')" />
-      <span class="demo-hint">{{ radio1 }}</span>
+      <y-radio v-model:checked="radio1A" value="a" :label="$t('demo.checkbox.optionA')" />
+      <y-radio v-model:checked="radio1B" value="b" :label="$t('demo.checkbox.optionB')" />
+      <span class="demo-hint">{{ radio1A }} / {{ radio1B }}</span>
     </y-card>
 
     <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
-      <y-radio v-model="radio2" value="a" disabled :label="$t('demo.common.unselectedDisabled')" />
-      <y-radio v-model="radio2" value="b" disabled :label="$t('demo.common.selectedDisabled')" />
+      <y-radio v-model:checked="radio2A" value="a" disabled :label="$t('demo.common.unselectedDisabled')" />
+      <y-radio v-model:checked="radio2B" value="b" disabled :label="$t('demo.common.selectedDisabled')" />
     </y-card>
 
     <y-card :title="$t('demo.common.slot')" style="margin-top: 8px">
-      <y-radio v-model="radio3" value="x">
+      <y-radio v-model:checked="radio3" value="x">
         <span style="color: var(--yiz-color-primary)">{{ $t('demo.common.customSlot') }}</span>
       </y-radio>
     </y-card>
@@ -42,9 +42,9 @@
     <h2 class="demo-section-title">{{ $t('demo.radio.radioButton') }}</h2>
 
     <y-card :title="$t('demo.radio.standalone')" style="margin-top: 8px">
-      <y-radio-button v-model="buttonRadio1" value="left">{{ $t('demo.radio.left') }}</y-radio-button>
-      <y-radio-button v-model="buttonRadio1" value="right">{{ $t('demo.radio.right') }}</y-radio-button>
-      <span class="demo-hint">{{ buttonRadio1 }}</span>
+      <y-radio-button v-model:checked="buttonRadioLeft" value="left">{{ $t('demo.radio.left') }}</y-radio-button>
+      <y-radio-button v-model:checked="buttonRadioRight" value="right">{{ $t('demo.radio.right') }}</y-radio-button>
+      <span class="demo-hint">{{ buttonRadioLeft }} / {{ buttonRadioRight }}</span>
     </y-card>
 
     <y-card :title="$t('demo.radio.groupOptions')" style="margin-top: 8px">
@@ -112,9 +112,11 @@
 import { $t } from 'yiz-ui'
 import { computed, ref } from 'vue'
 
-const radio1 = ref('a')
-const radio2 = ref('b')
-const radio3 = ref('x')
+const radio1A = ref(true)
+const radio1B = ref(false)
+const radio2A = ref(false)
+const radio2B = ref(true)
+const radio3 = ref(true)
 
 const groupOptions = computed(() => [
   { label: $t('demo.radio.apple'), value: 'apple' },
@@ -138,7 +140,8 @@ const buttonOptionsWithDisabled = computed(() => [
   { label: $t('demo.radio.orange'), value: 'orange' },
 ])
 
-const buttonRadio1 = ref('left')
+const buttonRadioLeft = ref(true)
+const buttonRadioRight = ref(false)
 const buttonGroup1 = ref('apple')
 const buttonGroup2 = ref('week')
 const buttonGroup3 = ref('orange')

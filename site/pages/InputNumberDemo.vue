@@ -4,49 +4,49 @@
     <p class="demo-section-desc">{{ $t('demo.inputNumber.desc') }}</p>
 
     <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
-      <y-input-number v-model="v1" />
+      <y-input-number v-model:value="v1" />
       <span class="demo-hint">{{ $t('demo.inputNumber.currentValue', { value: v1 ?? '' }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.inputNumber.step')" style="margin-top: 8px">
-      <y-input-number v-model="v2" :step="0.5" />
+      <y-input-number v-model:value="v2" :step="0.5" />
       <span class="demo-hint">{{ $t('demo.inputNumber.currentValue', { value: v2 ?? '' }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.inputNumber.range')" style="margin-top: 8px">
-      <y-input-number v-model="v3" :min="0" :max="100" />
+      <y-input-number v-model:value="v3" :min="0" :max="100" />
       <span class="demo-hint">{{ $t('demo.inputNumber.rangeValue', { value: v3 ?? '' }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.inputNumber.precision')" style="margin-top: 8px">
-      <y-input-number v-model="v4" :step="0.1" :precision="1" />
+      <y-input-number v-model:value="v4" :step="0.1" :precision="1" />
       <span class="demo-hint">{{ $t('demo.inputNumber.currentValue', { value: v4 ?? '' }) }}</span>
     </y-card>
 
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-input-number-size-panel">
         <y-radio-button-group v-model:value="inputNumberSize" :options="sizeOptions" />
-        <y-input-number v-model="v5" :size="inputNumberSize" />
+        <y-input-number v-model:value="v5" :size="inputNumberSize" />
       </div>
     </y-card>
 
     <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
-      <y-input-number v-model="v7" disabled />
+      <y-input-number v-model:value="v7" disabled />
     </y-card>
 
     <y-card :title="$t('demo.inputNumber.noControls')" style="margin-top: 8px">
       <y-button-group>
-        <y-input-number v-model="v8" :controls="false" />
-        <y-input-number v-model="v8" :controls="false" align="center" />
-        <y-input-number v-model="v8" :controls="false" align="right" />
+        <y-input-number v-model:value="v8" :controls="false" />
+        <y-input-number v-model:value="v8" :controls="false" align="center" />
+        <y-input-number v-model:value="v8" :controls="false" align="right" />
       </y-button-group>
     </y-card>
 
     <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
       <y-button-group>
-        <y-input-number v-model="v10" prefix="¥" />
-        <y-input-number v-model="v10" :suffix="$t('demo.inputNumber.yuan')" />
-        <y-input-number v-model="v10" prefix="$" suffix="USD" />
+        <y-input-number v-model:value="v10" prefix="¥" />
+        <y-input-number v-model:value="v10" :suffix="$t('demo.inputNumber.yuan')" />
+        <y-input-number v-model:value="v10" prefix="$" suffix="USD" />
       </y-button-group>
     </y-card>
   </section>

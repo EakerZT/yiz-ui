@@ -12,7 +12,7 @@
     <y-card :title="$t('demo.inputGroup.addonSlots')" style="margin-top: 8px">
       <y-input-group>
         <template #beforeAddon>¥</template>
-        <y-input-number v-model="price" :controls="false" />
+        <y-input-number v-model:value="price" :controls="false" />
         <template #afterAddon>{{ $t('demo.inputGroup.perMonth') }}</template>
       </y-input-group>
     </y-card>
@@ -40,11 +40,11 @@
     <y-card :title="$t('demo.inputGroup.pickers')" style="margin-top: 8px">
       <div class="demo-input-group-stack">
         <y-input-group>
-          <y-date-picker v-model="dateValue" clearable style="width: 180px" />
+          <y-date-picker v-model:value="dateValue" clearable style="width: 180px" />
           <y-button>{{ $t('demo.common.confirm') }}</y-button>
         </y-input-group>
         <y-input-group>
-          <y-time-picker v-model="timeValue" clearable style="width: 180px" />
+          <y-time-picker v-model:value="timeValue" clearable style="width: 180px" />
           <y-button>{{ $t('demo.common.confirm') }}</y-button>
         </y-input-group>
       </div>

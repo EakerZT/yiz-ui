@@ -80,7 +80,7 @@ defineSlots<{
 
 const emit = defineEmits<{ pressEnter: [] }>()
 
-const modelValue = defineModel<number | null>('modelValue')
+const modelValue = defineModel<number | null>('value')
 
 const inputRef = ref<HTMLInputElement>()
 const isFocus = ref(false)

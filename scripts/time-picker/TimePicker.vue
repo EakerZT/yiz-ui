@@ -139,7 +139,7 @@ const emit = defineEmits<{
   change: [value: string | null]
 }>()
 
-const modelValue = defineModel<string | null>('modelValue')
+const modelValue = defineModel<string | null>('value')
 
 // ==================== 状态 ====================
 

@@ -85,7 +85,7 @@ const emit = defineEmits<{
   ok: []
 }>()
 
-const visible = defineModel<boolean>('modelValue', { default: false })
+const visible = defineModel<boolean>('show', { default: false })
 
 const transitionName = computed(() => `yiz-drawer-slide-${props.placement}`)
 

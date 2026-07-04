@@ -1,7 +1,7 @@
 <template>
   <label class="yiz-radio" :class="vClass">
     <span class="yiz-radio-input">
-      <input type="radio" :checked="modelValue === value" :disabled="disabled" :value="value" @change="onChange" />
+      <input type="radio" :checked="checked" :disabled="disabled" :value="value" @change="onChange" />
       <span class="yiz-radio-inner"></span>
       <span class="yiz-wave" v-if="isWave"></span>
     </span>
@@ -29,13 +29,13 @@ defineSlots<{
   default?: any
 }>()
 
-const emit = defineEmits<{ change: [value: string | number] }>()
+const emit = defineEmits<{ change: [value: string | number | undefined] }>()
 
-const modelValue = defineModel<string | number>()
+const checked = defineModel<boolean>('checked', { default: false })
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
-  if (modelValue.value === props.value) {
+  if (checked.value) {
     c['yiz-radio-checked'] = true
   }
   if (props.disabled) {
@@ -49,8 +49,8 @@ let waveTimerId: ReturnType<typeof setTimeout>
 
 function onChange() {
   if (props.disabled) return
-  modelValue.value = props.value!
-  emit('change', props.value!)
+  checked.value = true
+  emit('change', props.value)
   if (isWave.value) {
     clearTimeout(waveTimerId)
     isWave.value = false

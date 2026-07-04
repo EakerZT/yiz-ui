@@ -149,7 +149,7 @@ const emit = defineEmits<{
   change: [date: DatePickerValue]
 }>()
 
-const modelValue = defineModel<DatePickerValue>('modelValue')
+const modelValue = defineModel<DatePickerValue>('value')
 
 // ==================== 状态 ====================
 

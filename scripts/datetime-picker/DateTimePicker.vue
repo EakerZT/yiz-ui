@@ -194,7 +194,7 @@ const emit = defineEmits<{
   change: [value: DateTimeValue]
 }>()
 
-const modelValue = defineModel<DateTimeValue>('modelValue')
+const modelValue = defineModel<DateTimeValue>('value')
 
 const open = ref(false)
 const currentZIndex = ref(0)

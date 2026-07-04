@@ -65,36 +65,36 @@
     </y-card>
 
     <!-- Drawers -->
-    <y-drawer v-model="visible1" :title="$t('demo.drawer.basicDrawer')">
+    <y-drawer v-model:show="visible1" :title="$t('demo.drawer.basicDrawer')">
       <p>{{ $t('demo.drawer.basicContent') }}</p>
     </y-drawer>
 
-    <y-drawer v-model="visible2" :title="$t('demo.drawer.placementLabel', { placement })" :placement="placement">
+    <y-drawer v-model:show="visible2" :title="$t('demo.drawer.placementLabel', { placement })" :placement="placement">
       <p>{{ $t('demo.drawer.placementHint', { placement }) }}</p>
     </y-drawer>
 
-    <y-drawer v-model="visible3" :title="$t('demo.common.noMask')" :mask="false">
+    <y-drawer v-model:show="visible3" :title="$t('demo.common.noMask')" :mask="false">
       <p>{{ $t('demo.drawer.noMaskHint') }}</p>
     </y-drawer>
 
-    <y-drawer v-model="visible4" :title="$t('demo.common.maskClosable')" :mask-closable="true">
+    <y-drawer v-model:show="visible4" :title="$t('demo.common.maskClosable')" :mask-closable="true">
       <p>{{ $t('demo.drawer.maskClosableHint') }}</p>
     </y-drawer>
 
-    <y-drawer v-model="visible5" :title="$t('demo.common.noCloseButton')" :closable="false">
+    <y-drawer v-model:show="visible5" :title="$t('demo.common.noCloseButton')" :closable="false">
       <p>{{ $t('demo.drawer.noCloseHint') }}</p>
     </y-drawer>
 
-    <y-drawer v-model="visible6" :title="$t('demo.common.customWidth')" width="500px" placement="right">
+    <y-drawer v-model:show="visible6" :title="$t('demo.common.customWidth')" width="500px" placement="right">
       <p>{{ $t('demo.drawer.customWidthHint') }}</p>
     </y-drawer>
 
-    <y-drawer v-model="visible7" :title="$t('demo.drawer.customHeight')" height="300px" placement="bottom">
+    <y-drawer v-model:show="visible7" :title="$t('demo.drawer.customHeight')" height="300px" placement="bottom">
       <p>{{ $t('demo.drawer.customHeightHint') }}</p>
     </y-drawer>
 
     <y-drawer
-      v-model="visible11"
+      v-model:show="visible11"
       :title="$t('demo.drawer.horizontalResizeHint')"
       :resize="true"
       resize-min="200px"
@@ -104,7 +104,7 @@
     </y-drawer>
 
     <y-drawer
-      v-model="visible12"
+      v-model:show="visible12"
       :title="$t('demo.drawer.verticalResizeHint')"
       placement="bottom"
       :resize="true"
@@ -114,7 +114,7 @@
       <p>{{ $t('demo.drawer.verticalResizeConstraint') }}</p>
     </y-drawer>
 
-    <y-drawer v-model="visible8" :title="$t('demo.common.withFooter')">
+    <y-drawer v-model:show="visible8" :title="$t('demo.common.withFooter')">
       <p>{{ $t('demo.drawer.bodyContent') }}</p>
       <p style="margin-top: 12px; color: #888">{{ $t('demo.drawer.bodyContentHint') }}</p>
       <template #footer>
@@ -125,29 +125,29 @@
       </template>
     </y-drawer>
 
-    <y-drawer v-model="visible15" :title="$t('demo.drawer.disabledFooter')" disabled-footer>
+    <y-drawer v-model:show="visible15" :title="$t('demo.drawer.disabledFooter')" disabled-footer>
       <p>{{ $t('demo.drawer.disabledFooterHint') }}</p>
     </y-drawer>
 
-    <y-drawer v-model="visible9">
+    <y-drawer v-model:show="visible9">
       <template #title>
         <span style="color: var(--yiz-color-primary)">{{ $t('demo.common.customTitleColor') }}</span>
       </template>
       <p>{{ $t('demo.dialog.customTitleHint') }}</p>
     </y-drawer>
 
-    <y-drawer v-model="visible13" :title="$t('demo.drawer.firstLevel')" width="500px">
+    <y-drawer v-model:show="visible13" :title="$t('demo.drawer.firstLevel')" width="500px">
       <p>{{ $t('demo.drawer.firstLevelContent') }}</p>
       <div style="margin-top: 16px">
         <y-button type="primary" @click="visible14 = true">{{ $t('demo.drawer.openSecondLevel') }}</y-button>
       </div>
-      <y-drawer v-model="visible14" :title="$t('demo.drawer.secondLevel')" width="360px">
+      <y-drawer v-model:show="visible14" :title="$t('demo.drawer.secondLevel')" width="360px">
         <p>{{ $t('demo.drawer.secondLevelContent') }}</p>
         <p style="margin-top: 8px; color: #888">{{ $t('demo.drawer.secondLevelMaskHint') }}</p>
       </y-drawer>
     </y-drawer>
 
-    <y-drawer v-model="visible10" :title="$t('demo.dialog.closeEvent')" @close="closeCount++" @ok="okCount++">
+    <y-drawer v-model:show="visible10" :title="$t('demo.dialog.closeEvent')" @close="closeCount++" @ok="okCount++">
       <p>{{ $t('demo.dialog.closeEventHint') }}</p>
     </y-drawer>
   </section>

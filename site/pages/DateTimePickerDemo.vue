@@ -5,14 +5,14 @@
 
     <y-card :title="$t('demo.common.basic')">
       <div class="demo-picker-field">
-        <y-datetime-picker v-model="value1" clearable />
+        <y-datetime-picker v-model:value="value1" clearable />
         <span class="demo-item-hint">{{ formatValue(value1) }}</span>
       </div>
     </y-card>
 
     <y-card :title="$t('demo.datePicker.valueFormat')" style="margin-top: 8px">
       <div class="demo-picker-field">
-        <y-datetime-picker v-model="value2" value-format="YYYY-MM-DD HH:mm:ss" clearable />
+        <y-datetime-picker v-model:value="value2" value-format="YYYY-MM-DD HH:mm:ss" clearable />
         <span class="demo-item-hint">{{ value2 ?? $t('demo.common.empty') }}</span>
       </div>
     </y-card>
@@ -20,7 +20,7 @@
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-radio-button-group v-model:value="pickerSize" :options="sizeOptions" />
-        <y-datetime-picker v-model="value3" :size="pickerSize" clearable />
+        <y-datetime-picker v-model:value="value3" :size="pickerSize" clearable />
       </div>
     </y-card>
   </section>

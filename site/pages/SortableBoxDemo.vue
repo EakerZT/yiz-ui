@@ -5,7 +5,7 @@
 
     <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
       <y-sortable-box
-        v-model="basicItems"
+        v-model:list="basicItems"
         class="demo-sortable-list"
         item-key="id"
         handle-class="demo-sortable-handle"
@@ -23,7 +23,7 @@
 
     <y-card :title="$t('demo.sortableBox.dragClassTitle')" style="margin-top: 16px">
       <y-sortable-box
-        v-model="dragClassItems"
+        v-model:list="dragClassItems"
         class="demo-sortable-list"
         item-key="id"
         drag-class="demo-sortable-dragging-item"
@@ -39,7 +39,7 @@
     <y-card :title="$t('demo.sortableBox.animationThresholdTitle')" style="margin-top: 16px">
       <div class="demo-sortable-board">
         <y-sortable-box
-          v-model="thresholdLeftItems"
+          v-model:list="thresholdLeftItems"
           class="demo-sortable-list"
           item-key="id"
           group="threshold"
@@ -53,7 +53,7 @@
           </template>
         </y-sortable-box>
         <y-sortable-box
-          v-model="thresholdRightItems"
+          v-model:list="thresholdRightItems"
           class="demo-sortable-list"
           item-key="id"
           group="threshold"
@@ -74,7 +74,7 @@
 
     <y-card :title="$t('demo.sortableBox.horizontalTitle')" style="margin-top: 16px">
       <y-sortable-box
-        v-model="horizontalItems"
+        v-model:list="horizontalItems"
         class="demo-sortable-horizontal-list"
         item-key="id"
         direction="horizontal"
@@ -138,7 +138,7 @@
 
     <y-card :title="$t('demo.sortableBox.nestedTitle')" style="margin-top: 16px">
       <y-sortable-box
-        v-model="nestedColumns"
+        v-model:list="nestedColumns"
         class="demo-sortable-nested-columns"
         item-key="id"
         handle-class="demo-sortable-column-handle"
@@ -187,7 +187,7 @@
           <div style="height: 500px">
             <scroll-box>
               <y-sortable-box
-                v-model="canvasItems"
+                v-model:list="canvasItems"
                 class="demo-sortable-list demo-sortable-canvas"
                 item-key="id"
                 group="builder"
@@ -212,7 +212,7 @@
 
     <y-card :title="$t('demo.sortableBox.guardTitle')" style="margin-top: 16px">
       <div class="demo-sortable-board">
-        <y-sortable-box v-model="leftItems" class="demo-sortable-list" item-key="id" group="guard" :min-items="1">
+        <y-sortable-box v-model:list="leftItems" class="demo-sortable-list" item-key="id" group="guard" :min-items="1">
           <template #header>
             <div class="demo-sortable-subtitle">{{ $t('demo.sortableBox.minOne') }}</div>
           </template>
@@ -220,7 +220,7 @@
             <div class="demo-sortable-item">{{ getItemTitle(element) }}</div>
           </template>
         </y-sortable-box>
-        <y-sortable-box v-model="rightItems" class="demo-sortable-list" item-key="id" group="guard">
+        <y-sortable-box v-model:list="rightItems" class="demo-sortable-list" item-key="id" group="guard">
           <template #header>
             <div class="demo-sortable-subtitle">{{ $t('demo.sortableBox.freeList') }}</div>
           </template>
@@ -234,7 +234,7 @@
     <y-card :title="$t('demo.sortableBox.autoScrollTitle')" style="margin-top: 16px">
       <div style="height: 500px">
         <scroll-box>
-          <y-sortable-box v-model="scrollItems" class="demo-sortable-list demo-sortable-scroll-list" item-key="id">
+          <y-sortable-box v-model:list="scrollItems" class="demo-sortable-list demo-sortable-scroll-list" item-key="id">
             <template #item="{ element }">
               <div class="demo-sortable-item">{{ getItemTitle(element) }}</div>
             </template>
