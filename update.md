@@ -1,5 +1,18 @@
 # update
 
+## 0.0.17
+
+`2026/07/05`
+
+- 优化 checkbox支持border
+- 调整 大量组件的双向绑定属性名
+- 调整 表格组件排序相关icon
+- 调整 select双向绑定属性值
+- 添加 notification组件外发光阴影
+- 添加 notification组件title默认值
+- 优化 table组件空插槽的识别
+- 优化 分段器onActive的时候闪烁
+
 ## 0.0.16
 
 `2026/07/04`
