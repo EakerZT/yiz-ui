@@ -17,6 +17,8 @@ import { computed, inject, nextTick, ref, type Ref } from 'vue'
 interface CheckboxGroupContext {
   modelValue: Ref<(string | number)[]>
   disabled: Ref<boolean>
+  border: Ref<boolean>
+  size: Ref<'small' | 'default' | 'large'>
   toggleValue: (val: string | number) => void
 }
 
@@ -24,9 +26,12 @@ const props = withDefaults(
   defineProps<{
     value?: string | number
     disabled?: boolean
+    border?: boolean
+    size?: 'small' | 'default' | 'large'
   }>(),
   {
     disabled: false,
+    border: false,
   },
 )
 
@@ -50,6 +55,8 @@ const isChecked = computed(() => {
 const mergedDisabled = computed(() => {
   return (group?.disabled.value ?? false) || props.disabled
 })
+const mergedBorder = computed(() => props.border || (group?.border.value ?? false))
+const mergedSize = computed(() => props.size ?? group?.size.value ?? 'default')
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
@@ -58,6 +65,10 @@ const vClass = computed(() => {
   }
   if (mergedDisabled.value) {
     c['yiz-checkbox-disabled'] = true
+  }
+  if (mergedBorder.value) {
+    c['yiz-checkbox-border'] = true
+    c[`yiz-checkbox-border-${mergedSize.value}`] = true
   }
   return c
 })
@@ -92,6 +103,11 @@ function onChange(e: Event) {
 
 <style lang="less">
 .yiz-checkbox {
+  --yiz-checkbox-border-height: 32px;
+  --yiz-checkbox-border-padding-x: 12px;
+  --yiz-checkbox-border-radius: var(--yiz-base-border-radius-default);
+  --yiz-checkbox-border-font-size: 14px;
+
   display: inline-flex;
   align-items: center;
   cursor: pointer;
@@ -117,6 +133,48 @@ function onChange(e: Event) {
       border-color: var(--yiz-color-primary-light5);
     }
   }
+}
+
+.yiz-checkbox-border {
+  height: var(--yiz-checkbox-border-height);
+  padding: 0 var(--yiz-checkbox-border-padding-x);
+  border: 1px solid var(--yiz-color-border, #d9d9d9);
+  border-radius: var(--yiz-checkbox-border-radius);
+  box-sizing: border-box;
+  font-size: var(--yiz-checkbox-border-font-size);
+  background: #fff;
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    background-color 0.2s;
+
+  &:not(.yiz-checkbox-disabled):hover {
+    border-color: var(--yiz-color-primary);
+  }
+
+  &.yiz-checkbox-checked {
+    border-color: var(--yiz-color-primary);
+    color: var(--yiz-color-primary);
+  }
+
+  &.yiz-checkbox-disabled {
+    background: #f5f5f5;
+    border-color: #d9d9d9;
+  }
+}
+
+.yiz-checkbox-border-small {
+  --yiz-checkbox-border-height: 24px;
+  --yiz-checkbox-border-padding-x: 8px;
+  --yiz-checkbox-border-radius: var(--yiz-base-border-radius-small);
+  --yiz-checkbox-border-font-size: 13px;
+}
+
+.yiz-checkbox-border-large {
+  --yiz-checkbox-border-height: 40px;
+  --yiz-checkbox-border-padding-x: 16px;
+  --yiz-checkbox-border-radius: var(--yiz-base-border-radius-large);
+  --yiz-checkbox-border-font-size: 16px;
 }
 
 .yiz-checkbox-input {

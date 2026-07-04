@@ -1,7 +1,9 @@
 <template>
   <div class="yiz-checkbox-group" :class="[`yiz-checkbox-group-${direction}`]">
     <template v-if="options">
-      <Checkbox v-for="opt in options" :key="opt.value" :value="opt.value">{{ opt.label }}</Checkbox>
+      <Checkbox v-for="opt in options" :key="opt.value" :value="opt.value" :border="border" :size="size">
+        {{ opt.label }}
+      </Checkbox>
     </template>
     <slot v-else />
   </div>
@@ -21,10 +23,14 @@ const props = withDefaults(
     options?: CheckboxOption[]
     direction?: 'horizontal' | 'vertical' | 'free'
     disabled?: boolean
+    border?: boolean
+    size?: 'small' | 'default' | 'large'
   }>(),
   {
     direction: 'horizontal',
     disabled: false,
+    border: false,
+    size: 'default',
   },
 )
 
@@ -45,6 +51,8 @@ function toggleValue(val: string | number) {
 provide('yizCheckboxGroup', {
   modelValue,
   disabled: toRef(props, 'disabled'),
+  border: toRef(props, 'border'),
+  size: toRef(props, 'size'),
   toggleValue,
 })
 </script>

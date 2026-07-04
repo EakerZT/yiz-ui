@@ -27,6 +27,21 @@
         <span style="color: var(--yiz-color-primary)">{{ $t('demo.common.customSlotContent') }}</span>
       </y-checkbox>
     </y-card>
+
+    <y-card :title="$t('demo.card.border')" style="margin-top: 8px">
+      <y-button-group>
+        <y-checkbox v-model:checked="borderChecked1" border>{{ $t('demo.checkbox.optionA') }}</y-checkbox>
+        <y-checkbox v-model:checked="borderChecked2" border>{{ $t('demo.checkbox.optionB') }}</y-checkbox>
+      </y-button-group>
+    </y-card>
+
+    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+      <div class="demo-checkbox-stack">
+        <y-checkbox v-model:checked="borderSizeSmall" border size="small">{{ $t('demo.common.smallSize') }}</y-checkbox>
+        <y-checkbox v-model:checked="borderSizeDefault" border>{{ $t('demo.common.defaultSize') }}</y-checkbox>
+        <y-checkbox v-model:checked="borderSizeLarge" border size="large">{{ $t('demo.common.largeSize') }}</y-checkbox>
+      </div>
+    </y-card>
   </section>
 
   <section class="demo-section">
@@ -70,6 +85,11 @@
       </y-checkbox-group>
       <span class="demo-hint">{{ slotGroup }}</span>
     </y-card>
+
+    <y-card :title="$t('demo.card.border')" style="margin-top: 8px">
+      <y-checkbox-group v-model:value="borderGroup" :options="groupOptions" border />
+      <span class="demo-hint">{{ borderGroup }}</span>
+    </y-card>
   </section>
 </template>
 
@@ -81,6 +101,11 @@ const checked1 = ref(true)
 const checked2 = ref(false)
 const checked3 = ref(false)
 const checked4 = ref(true)
+const borderChecked1 = ref(false)
+const borderChecked2 = ref(true)
+const borderSizeSmall = ref(true)
+const borderSizeDefault = ref(true)
+const borderSizeLarge = ref(true)
 
 const groupOptions = [
   { label: 'Apple', value: 'apple' },
@@ -92,6 +117,7 @@ const group1 = ref<string[]>([])
 const group2 = ref(['apple', 'orange'])
 const group3 = ref<string[]>([])
 const group4 = ref(['banana'])
+const borderGroup = ref(['banana'])
 
 const slotGroup = ref(['a', 'c'])
 </script>
@@ -102,5 +128,11 @@ const slotGroup = ref(['a', 'c'])
   margin-left: 8px;
   font-size: 12px;
   color: #999;
+}
+
+.demo-checkbox-stack {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 </style>

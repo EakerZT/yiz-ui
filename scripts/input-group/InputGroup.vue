@@ -84,6 +84,7 @@ const vClass = computed(() => ({
   > .focus,
   > .yiz-input-number-focus,
   > .yiz-select-open,
+  > .yiz-checkbox-border.yiz-checkbox-checked,
   > .yiz-button:active,
   > .yiz-color-picker-open,
   > .yiz-date-picker-open,
@@ -100,6 +101,7 @@ const vClass = computed(() => ({
   > .yiz-select,
   > .yiz-button,
   > .yiz-color-picker,
+  > .yiz-checkbox-border,
   > .yiz-input-group-addon {
     height: var(--yiz-input-group-height);
     border-radius: var(--yiz-input-group-radius);
@@ -112,6 +114,11 @@ const vClass = computed(() => ({
   > .yiz-select,
   > .yiz-color-picker {
     min-height: var(--yiz-input-group-height);
+  }
+
+  > .yiz-checkbox-border {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   > .yiz-button {
@@ -174,6 +181,7 @@ const vClass = computed(() => ({
   > .yiz-select:not(:first-child),
   > .yiz-button:not(:first-child),
   > .yiz-color-picker:not(:first-child),
+  > .yiz-checkbox-border:not(:first-child),
   > .yiz-input-group-addon:not(:first-child) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -184,6 +192,7 @@ const vClass = computed(() => ({
   > .yiz-select:not(:last-child),
   > .yiz-button:not(:last-child),
   > .yiz-color-picker:not(:last-child),
+  > .yiz-checkbox-border:not(:last-child),
   > .yiz-input-group-addon:not(:last-child) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;

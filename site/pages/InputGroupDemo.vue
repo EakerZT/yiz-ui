@@ -25,6 +25,14 @@
       </y-input-group>
     </y-card>
 
+    <y-card :title="$t('demo.card.border')" style="margin-top: 8px">
+      <y-input-group>
+        <y-checkbox v-model:checked="includeArchived" border>{{ $t('demo.common.enabled') }}</y-checkbox>
+        <y-input v-model:value="keyword" :placeholder="$t('demo.inputGroup.keyword')" style="width: 220px" />
+        <y-button type="primary">{{ $t('demo.inputGroup.searchButton') }}</y-button>
+      </y-input-group>
+    </y-card>
+
     <y-card :title="$t('demo.inputGroup.password')" style="margin-top: 8px">
       <y-input-group :before-addon="$t('demo.inputGroup.accountAddon')">
         <y-input v-model:value="account" :placeholder="$t('demo.inputGroup.account')" style="width: 180px" />
@@ -81,6 +89,7 @@ const blockDomain = ref('docs')
 const price = ref<number | null>(99)
 const city = ref('beijing')
 const keyword = ref('')
+const includeArchived = ref(true)
 const account = ref('')
 const password = ref('')
 const dateValue = ref<Date | null>(null)
