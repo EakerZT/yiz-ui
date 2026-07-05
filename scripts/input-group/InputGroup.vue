@@ -82,6 +82,7 @@ const vClass = computed(() => ({
   }
 
   > .focus,
+  > .yiz-input-custom.focus,
   > .yiz-input-number-focus,
   > .yiz-select-open,
   > .yiz-checkbox-border.yiz-checkbox-checked,
@@ -97,6 +98,7 @@ const vClass = computed(() => ({
   }
 
   > .yiz-input,
+  > .yiz-input-custom,
   > .yiz-input-number,
   > .yiz-select,
   > .yiz-button,
@@ -110,6 +112,7 @@ const vClass = computed(() => ({
   }
 
   > .yiz-input,
+  > .yiz-input-custom,
   > .yiz-input-number,
   > .yiz-select,
   > .yiz-color-picker {
@@ -138,6 +141,7 @@ const vClass = computed(() => ({
   }
 
   > .yiz-input .yiz-input_outer .yiz-input_inner,
+  > .yiz-input-custom .yiz-input-custom-content,
   > .yiz-input-number .yiz-input-number-input {
     font-size: var(--yiz-input-group-font-size);
   }
@@ -177,6 +181,7 @@ const vClass = computed(() => ({
   }
 
   > .yiz-input:not(:first-child),
+  > .yiz-input-custom:not(:first-child),
   > .yiz-input-number:not(:first-child),
   > .yiz-select:not(:first-child),
   > .yiz-button:not(:first-child),
@@ -188,6 +193,7 @@ const vClass = computed(() => ({
   }
 
   > .yiz-input:not(:last-child),
+  > .yiz-input-custom:not(:last-child),
   > .yiz-input-number:not(:last-child),
   > .yiz-select:not(:last-child),
   > .yiz-button:not(:last-child),

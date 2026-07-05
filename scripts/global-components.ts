@@ -19,6 +19,7 @@ import type {
   FormItem,
   Icon,
   Input,
+  InputCustom,
   InputGroup,
   InputPassword,
   InputNumber,
@@ -97,6 +98,8 @@ declare module 'vue' {
     'y-icon': typeof Icon
     YInput: typeof Input
     'y-input': typeof Input
+    YInputCustom: typeof InputCustom
+    'y-input-custom': typeof InputCustom
     YInputGroup: typeof InputGroup
     'y-input-group': typeof InputGroup
     YInputPassword: typeof InputPassword

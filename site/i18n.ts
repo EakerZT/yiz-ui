@@ -31,6 +31,7 @@ const zhCN: LangMessages = {
   'demo.nav.drawer': 'Drawer 抽屉',
   'demo.nav.icon': 'Icon 图标',
   'demo.nav.input': 'Input 输入框',
+  'demo.nav.inputCustom': 'InputCustom 自定义输入',
   'demo.nav.inputGroup': 'InputGroup 输入组合',
   'demo.nav.inputPassword': 'InputPassword 密码',
   'demo.nav.inputNumber': 'InputNumber 数字',
@@ -440,6 +441,15 @@ const zhCN: LangMessages = {
   'demo.input.desc': '支持 v-model 双向绑定、clearable 清空、prefix/suffix 前后缀。',
   'demo.input.currentValue': '当前值：{value}',
   'demo.input.propMode': 'prop 方式',
+
+  'demo.inputCustom.title': 'InputCustom 自定义输入',
+  'demo.inputCustom.desc': '提供统一输入框外观，内部内容和交互由业务或第三方逻辑实现。',
+  'demo.inputCustom.keyword': '输入关键词',
+  'demo.inputCustom.disabledValue': '不可操作',
+  'demo.inputCustom.filter': '筛选',
+  'demo.inputCustom.status.pending': '待处理',
+  'demo.inputCustom.status.running': '进行中',
+  'demo.inputCustom.status.done': '已完成',
 
   'demo.inputGroup.title': 'InputGroup 输入组合',
   'demo.inputGroup.desc': '横向组合输入型组件，自动合并相邻边框、圆角和聚焦层级。',
@@ -876,6 +886,7 @@ const enUS: LangMessages = {
   'demo.nav.drawer': 'Drawer',
   'demo.nav.icon': 'Icon',
   'demo.nav.input': 'Input',
+  'demo.nav.inputCustom': 'InputCustom',
   'demo.nav.inputGroup': 'InputGroup',
   'demo.nav.inputPassword': 'InputPassword',
   'demo.nav.inputNumber': 'InputNumber',
@@ -1287,6 +1298,16 @@ const enUS: LangMessages = {
   'demo.input.desc': 'Supports v-model, clearable input, prefix, and suffix.',
   'demo.input.currentValue': 'Current value: {value}',
   'demo.input.propMode': 'Prop mode',
+
+  'demo.inputCustom.title': 'InputCustom',
+  'demo.inputCustom.desc':
+    'Provides a consistent input frame while business or third-party code owns the content and interaction.',
+  'demo.inputCustom.keyword': 'Enter keyword',
+  'demo.inputCustom.disabledValue': 'Disabled',
+  'demo.inputCustom.filter': 'Filter',
+  'demo.inputCustom.status.pending': 'Pending',
+  'demo.inputCustom.status.running': 'Running',
+  'demo.inputCustom.status.done': 'Done',
 
   'demo.inputGroup.title': 'InputGroup',
   'demo.inputGroup.desc':
