@@ -20,7 +20,7 @@ const vStyle = computed(() => {
   c['height'] = `1em`
   c['line-height'] = `1em`
   if (props.size) {
-    c['font-size'] = `${props.size}px`
+    c['font-size'] = typeof props.size === 'number' ? `${props.size}px` : props.size
   }
   return c
 })
@@ -31,7 +31,18 @@ defineSlots<{
 </script>
 
 <style lang="less">
-.yiz-icon {
+.yiz-icon,
+.yiz-render-svg {
   display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1em;
+}
+
+.yiz-icon > svg,
+.yiz-render-svg > svg {
+  display: block;
+  width: 1em;
+  height: 1em;
 }
 </style>
