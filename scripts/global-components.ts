@@ -4,6 +4,8 @@ import type {
   Card,
   Checkbox,
   CheckboxGroup,
+  Collapse,
+  CollapseItem,
   ColorPicker,
   DatePicker,
   DateRangePicker,
@@ -68,6 +70,10 @@ declare module 'vue' {
     'y-checkbox': typeof Checkbox
     YCheckboxGroup: typeof CheckboxGroup
     'y-checkbox-group': typeof CheckboxGroup
+    YCollapse: typeof Collapse
+    'y-collapse': typeof Collapse
+    YCollapseItem: typeof CollapseItem
+    'y-collapse-item': typeof CollapseItem
     YColorPicker: typeof ColorPicker
     'y-color-picker': typeof ColorPicker
     YDatePicker: typeof DatePicker

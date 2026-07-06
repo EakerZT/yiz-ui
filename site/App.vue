@@ -48,6 +48,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 import ButtonDemo from './pages/ButtonDemo.vue'
 import CardDemo from './pages/CardDemo.vue'
 import CheckboxDemo from './pages/CheckboxDemo.vue'
+import CollapseDemo from './pages/CollapseDemo.vue'
 import ColorPickerDemo from './pages/ColorPickerDemo.vue'
 import ContextMenuDemo from './pages/ContextMenuDemo.vue'
 import DatePickerDemo from './pages/DatePickerDemo.vue'
@@ -98,6 +99,7 @@ const pages: Record<string, any> = {
   button: ButtonDemo,
   card: CardDemo,
   checkbox: CheckboxDemo,
+  collapse: CollapseDemo,
   'color-picker': ColorPickerDemo,
   'context-menu': ContextMenuDemo,
   'date-picker': DatePickerDemo,
@@ -147,6 +149,7 @@ const menuItems = computed(() => [
   { label: $t('demo.nav.button'), key: 'button' },
   { label: $t('demo.nav.card'), key: 'card' },
   { label: $t('demo.nav.checkbox'), key: 'checkbox' },
+  { label: $t('demo.nav.collapse'), key: 'collapse' },
   { label: $t('demo.nav.colorPicker'), key: 'color-picker' },
   { label: $t('demo.nav.contextMenu'), key: 'context-menu' },
   { label: $t('demo.nav.datePicker'), key: 'date-picker' },
