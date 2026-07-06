@@ -8,6 +8,7 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
 import { computed } from 'vue'
+import { normalizeIconSize } from './normalizeIconSize'
 
 const props = defineProps<{
   icon: Component<unknown>
@@ -19,8 +20,9 @@ const vStyle = computed(() => {
   c['width'] = `1em`
   c['height'] = `1em`
   c['line-height'] = `1em`
-  if (props.size) {
-    c['font-size'] = typeof props.size === 'number' ? `${props.size}px` : props.size
+  const size = normalizeIconSize(props.size)
+  if (size) {
+    c['font-size'] = size
   }
   return c
 })

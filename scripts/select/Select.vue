@@ -36,7 +36,7 @@
         class="yiz-select-clear"
         @click.stop="onClear"
       >
-        <Icon size="16" :icon="DismissCircle32Filled" />
+        <Icon size="16" :icon="DismissCircle16Filled" />
       </span>
     </Transition>
   </div>
@@ -79,7 +79,7 @@
 
 <script lang="ts" setup>
 import { computed, Fragment, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
-import { ChevronDown16Regular, DismissCircle32Filled } from '@vicons/fluent'
+import { ChevronDown16Regular, DismissCircle16Filled } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { Input } from '../input'
 import { $t } from '../locale'

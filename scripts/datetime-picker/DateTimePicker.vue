@@ -25,7 +25,7 @@
           class="yiz-datetime-picker-clear"
           @click.stop="onClear"
         >
-          <Icon size="16" :icon="DismissCircle32Filled" />
+          <Icon size="16" :icon="DismissCircle16Filled" />
         </span>
       </Transition>
       <Icon
@@ -34,7 +34,7 @@
         }"
         class="yiz-datetime-picker-suffix"
         size="16"
-        :icon="CalendarClock20Regular"
+        :icon="CalendarClock16Regular"
       />
     </div>
   </div>
@@ -149,19 +149,19 @@
 <script lang="ts" setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import {
-  CalendarClock20Regular,
+  CalendarClock16Regular,
   ChevronDoubleLeft16Regular,
   ChevronDoubleRight16Regular,
   ChevronLeft16Regular,
   ChevronRight16Regular,
-  DismissCircle32Filled,
+  DismissCircle16Filled,
 } from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import LinkButton from '../link-button/LinkButton.vue'
 import { Icon } from '../icon'
 import { $t, $tList } from '../locale'
 import { nextZIndex } from '../zIndex'
-import { formatDateTime, parseDateTimeValue, parseDateTime, type DateTimeValue } from '../datetime-utils'
+import { type DateTimeValue, formatDateTime, parseDateTime, parseDateTimeValue } from '../datetime-utils'
 
 interface CalendarCell {
   day: number

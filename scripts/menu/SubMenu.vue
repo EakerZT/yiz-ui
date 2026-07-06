@@ -25,7 +25,7 @@
             v-if="item.children?.length"
             class="yiz-menu-item-arrow"
             :class="{ 'yiz-menu-item-arrow-expanded': isExpanded(item) }"
-            size="16"
+            :size="16"
             :icon="ChevronRight16Regular"
           />
         </div>

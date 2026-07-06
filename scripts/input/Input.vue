@@ -20,7 +20,7 @@
       />
     </div>
     <div class="yiz-input_clear" v-if="$props.clearable && modelValue && !props.disabled" @click="onClearClick">
-      <Icon size="16" :icon="DismissCircle32Filled" />
+      <Icon size="16" :icon="DismissCircle16Filled" />
     </div>
     <div class="yiz-input_suffix" v-if="$props.suffix || $slots.suffix">
       <template v-if="$props.suffix">
@@ -33,7 +33,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { DismissCircle32Filled } from '@vicons/fluent'
+import { DismissCircle16Filled } from '@vicons/fluent'
 import { Icon } from '../icon'
 
 defineSlots<{

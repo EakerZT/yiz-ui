@@ -51,7 +51,7 @@
           class="yiz-time-range-picker-clear"
           @click.stop="onClear"
         >
-          <Icon size="16" :icon="DismissCircle32Filled" />
+          <Icon size="16" :icon="DismissCircle16Filled" />
         </span>
       </Transition>
       <span class="yiz-time-range-picker-extra-suffix" v-if="$props.suffix || $slots.suffix">
@@ -188,7 +188,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { ArrowRight16Regular, Clock16Regular, DismissCircle32Filled } from '@vicons/fluent'
+import { ArrowRight16Regular, Clock16Regular, DismissCircle16Filled } from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import { Icon } from '../icon'
 import LinkButton from '../link-button/LinkButton.vue'

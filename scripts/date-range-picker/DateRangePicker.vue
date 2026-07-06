@@ -51,7 +51,7 @@
           class="yiz-date-range-picker-clear"
           @click.stop="onClear"
         >
-          <Icon size="16" :icon="DismissCircle32Filled" />
+          <Icon size="16" :icon="DismissCircle16Filled" />
         </span>
       </Transition>
       <span class="yiz-date-range-picker-extra-suffix" v-if="$props.suffix || $slots.suffix">
@@ -199,7 +199,7 @@ import {
   ChevronDoubleRight16Regular,
   ChevronLeft16Regular,
   ChevronRight16Regular,
-  DismissCircle32Filled,
+  DismissCircle16Filled,
 } from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import { Icon } from '../icon'

@@ -3,10 +3,10 @@
     <Transition :name="transitionName" appear @after-leave="emit('destroy')">
       <div v-if="visible" class="yiz-notification" :class="notificationClass" :style="notificationStyle">
         <div v-if="showIcon" class="yiz-notification-icon">
-          <Icon v-if="type === 'success'" size="24" :icon="CheckmarkCircle24Regular" />
-          <Icon v-else-if="type === 'warning'" size="24" :icon="Warning24Regular" />
-          <Icon v-else-if="type === 'error'" size="24" :icon="DismissCircle24Regular" />
-          <Icon v-else size="24" :icon="Info24Regular" />
+          <Icon v-if="type === 'success'" :size="24" :icon="CheckmarkCircle24Regular" />
+          <Icon v-else-if="type === 'warning'" :size="24" :icon="Warning24Regular" />
+          <Icon v-else-if="type === 'error'" :size="24" :icon="DismissCircle24Regular" />
+          <Icon v-else :size="24" :icon="Info24Regular" />
         </div>
         <div class="yiz-notification-content">
           <div v-if="title || $slots.title" class="yiz-notification-title">
@@ -215,7 +215,7 @@ onBeforeUnmount(clearTimer)
 .yiz-notification-title {
   font-size: 15px;
   font-weight: 600;
-  line-height: 22px;
+  line-height: 24px;
   color: #333;
 }
 
