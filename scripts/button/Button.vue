@@ -11,22 +11,34 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, h, isVNode, nextTick, ref, Text } from 'vue'
+import { Comment, computed, Fragment, h, isVNode, nextTick, ref, Text, type VNode } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
+import Icon from '../icon/Icon.vue'
 
 const slots = defineSlots<{
   default?: () => any[]
 }>()
 
-const c = computed(() =>
-  (slots.default?.() ?? []).map((s: any) => {
-    if (isVNode(s) && s.type === Text) {
-      return h('span', {}, s.children as string)
-    } else {
-      return s
+function normalizeSlotNodes(nodes: any[]): VNode[] {
+  const result: VNode[] = []
+  for (const node of nodes) {
+    if (!isVNode(node)) continue
+    if (node.type === Comment) continue
+    if (node.type === Fragment) {
+      result.push(...normalizeSlotNodes(Array.isArray(node.children) ? node.children : []))
+      continue
     }
-  }),
-)
+    if (node.type === Text) {
+      const text = String(node.children ?? '')
+      if (text.trim()) result.push(h('span', {}, text))
+      continue
+    }
+    result.push(node)
+  }
+  return result
+}
+
+const c = computed(() => normalizeSlotNodes(slots.default?.() ?? []))
 
 const props = withDefaults(
   defineProps<{
@@ -50,21 +62,24 @@ const props = withDefaults(
 const isDisabled = computed(() => props.disabled || props.loading)
 
 const vClass = computed(() => {
-  const c: Record<string, boolean> = {
+  const classes: Record<string, boolean> = {
     [`yiz-button-type-${props.type}`]: true,
     [`yiz-button-shape-${props.shape}`]: true,
     [`yiz-button-size-${props.size}`]: true,
   }
   if (['success', 'default', 'warning', 'error'].includes(props.color)) {
-    c[`yiz-button-color-${props.color}`] = true
+    classes[`yiz-button-color-${props.color}`] = true
   }
   if (isDisabled.value) {
-    c['yiz-button-disabled'] = true
+    classes['yiz-button-disabled'] = true
   }
   if (props.loading) {
-    c['yiz-button-loading'] = true
+    classes['yiz-button-loading'] = true
   }
-  return c
+  if (props.shape !== 'circle' && c.value.length === 1 && c.value[0]?.type === Icon) {
+    classes['yiz-button-icon-only'] = true
+  }
+  return classes
 })
 const isWave = ref(false)
 const vStyle = computed(() => {
@@ -254,6 +269,11 @@ const onClick = (e: MouseEvent) => {
   height: 24px;
   font-size: 14px;
 
+  &.yiz-button-icon-only {
+    width: 24px;
+    padding: 0;
+  }
+
   &.yiz-button-shape-default {
     border-radius: var(--yiz-base-border-radius-small);
     padding: 0 10px;
@@ -280,6 +300,11 @@ const onClick = (e: MouseEvent) => {
 .yiz-button-size-default {
   height: 32px;
   font-size: 14px;
+
+  &.yiz-button-icon-only {
+    width: 32px;
+    padding: 0;
+  }
 
   &.yiz-button-shape-default {
     border-radius: var(--yiz-base-border-radius-default);
@@ -308,6 +333,11 @@ const onClick = (e: MouseEvent) => {
   height: 40px;
   font-size: 16px;
 
+  &.yiz-button-icon-only {
+    width: 40px;
+    padding: 0;
+  }
+
   &.yiz-button-shape-default {
     border-radius: var(--yiz-base-border-radius-large);
     padding: 0 18px;
@@ -329,6 +359,21 @@ const onClick = (e: MouseEvent) => {
   & > .yiz-icon {
     font-size: 18px;
   }
+}
+
+.yiz-button-size-small.yiz-button-icon-only {
+  width: 24px;
+  padding: 0;
+}
+
+.yiz-button-size-default.yiz-button-icon-only {
+  width: 32px;
+  padding: 0;
+}
+
+.yiz-button-size-large.yiz-button-icon-only {
+  width: 40px;
+  padding: 0;
 }
 
 .yiz-button-color-default {

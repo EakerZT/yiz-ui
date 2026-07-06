@@ -49,12 +49,18 @@
           <y-button type="primary" color="warning" :size="buttonSize">warning</y-button>
           <y-button type="primary" color="error" :size="buttonSize">error</y-button>
           <y-button type="primary" :size="buttonSize">
-            <y-icon :icon="Flash20Regular" />
+            <y-icon size="16" :icon="Flash16Regular" />
+          </y-button>
+          <y-button type="primary" :size="buttonSize">
+            <y-icon size="16" :icon="Flash16Regular" />
             Search
           </y-button>
           <y-button type="primary" shape="round" :size="buttonSize">round</y-button>
+          <y-button type="primary" shape="round" :size="buttonSize">
+            <y-icon size="16" :icon="Flash16Regular" />
+          </y-button>
           <y-button type="primary" shape="circle" :size="buttonSize">
-            <y-icon :icon="Flash20Regular" />
+            <y-icon size="16" :icon="Flash16Regular" />
           </y-button>
         </y-button-group>
       </div>
@@ -63,11 +69,11 @@
     <y-card :title="$t('demo.common.withIcon')" style="margin-top: 8px">
       <y-button-group>
         <y-button type="primary">
-          <y-icon :icon="Flash20Regular" />
+          <y-icon :icon="Flash16Regular" />
           Search
         </y-button>
         <y-button type="primary" shape="circle">
-          <y-icon :icon="Flash20Regular" />
+          <y-icon :icon="Flash16Regular" />
         </y-button>
       </y-button-group>
     </y-card>
@@ -90,7 +96,7 @@
           <y-button type="plain" :loading="buttonLoading">plain</y-button>
           <y-button type="plain" color="error" :loading="buttonLoading">plain</y-button>
           <y-button type="primary" shape="circle" :loading="buttonLoading">
-            <y-icon :icon="Flash20Regular" />
+            <y-icon :icon="Flash16Regular" />
           </y-button>
         </y-button-group>
       </div>
@@ -137,7 +143,7 @@
 <script lang="ts" setup>
 import { $t } from 'yiz-ui'
 import { ref } from 'vue'
-import { Flash20Regular } from '@vicons/fluent'
+import { Flash16Regular } from '@vicons/fluent'
 
 const count = ref(0)
 const linkCount = ref(0)
