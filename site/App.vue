@@ -45,6 +45,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import BreadcrumbDemo from './pages/BreadcrumbDemo.vue'
 import ButtonDemo from './pages/ButtonDemo.vue'
 import CardDemo from './pages/CardDemo.vue'
 import CheckboxDemo from './pages/CheckboxDemo.vue'
@@ -96,6 +97,7 @@ import { ScrollBox } from 'yiz-ui'
 import { demoLang, demoLangOptions, setDemoLang, $t } from './i18n'
 
 const pages: Record<string, any> = {
+  breadcrumb: BreadcrumbDemo,
   button: ButtonDemo,
   card: CardDemo,
   checkbox: CheckboxDemo,
@@ -146,6 +148,7 @@ const pages: Record<string, any> = {
 }
 
 const menuItems = computed(() => [
+  { label: $t('demo.nav.breadcrumb'), key: 'breadcrumb' },
   { label: $t('demo.nav.button'), key: 'button' },
   { label: $t('demo.nav.card'), key: 'card' },
   { label: $t('demo.nav.checkbox'), key: 'checkbox' },

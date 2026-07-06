@@ -14,6 +14,7 @@ const zhCN: LangMessages = {
   'demo.app.title': 'Vue 3 组件库',
   'demo.app.lang': '语言',
 
+  'demo.nav.breadcrumb': 'Breadcrumb 面包屑',
   'demo.nav.button': 'Button 按钮',
   'demo.nav.card': 'Card 卡片',
   'demo.nav.checkbox': 'Checkbox 复选',
@@ -195,6 +196,17 @@ const zhCN: LangMessages = {
   'demo.common.rolePm': '产品经理',
   'demo.common.roleArchitect': '架构师',
   'demo.common.roleDesigner': 'UI设计',
+
+  'demo.breadcrumb.title': 'Breadcrumb 面包屑',
+  'demo.breadcrumb.desc': '用于展示当前位置的层级路径，并可快速返回上级页面。',
+  'demo.breadcrumb.home': '首页',
+  'demo.breadcrumb.components': '组件',
+  'demo.breadcrumb.current': '当前页面',
+  'demo.breadcrumb.workspace': '工作台',
+  'demo.breadcrumb.project': '项目',
+  'demo.breadcrumb.issue': '问题详情',
+  'demo.breadcrumb.disabled': '不可用项',
+  'demo.breadcrumb.lastClick': '上次点击：{value}',
 
   'demo.button.title': 'Button 按钮',
   'demo.button.desc': '支持 default / primary / plain 三种类型，多种预设颜色和自定义颜色，以及圆形、圆角形状。',
@@ -959,6 +971,7 @@ const enUS: LangMessages = {
   'demo.app.title': 'Vue 3 component library',
   'demo.app.lang': 'Language',
 
+  'demo.nav.breadcrumb': 'Breadcrumb',
   'demo.nav.button': 'Button',
   'demo.nav.card': 'Card',
   'demo.nav.checkbox': 'Checkbox',
@@ -1140,6 +1153,17 @@ const enUS: LangMessages = {
   'demo.common.rolePm': 'Product manager',
   'demo.common.roleArchitect': 'Architect',
   'demo.common.roleDesigner': 'UI designer',
+
+  'demo.breadcrumb.title': 'Breadcrumb',
+  'demo.breadcrumb.desc': 'Display the current page hierarchy and navigate back to parent pages.',
+  'demo.breadcrumb.home': 'Home',
+  'demo.breadcrumb.components': 'Components',
+  'demo.breadcrumb.current': 'Current page',
+  'demo.breadcrumb.workspace': 'Workspace',
+  'demo.breadcrumb.project': 'Project',
+  'demo.breadcrumb.issue': 'Issue detail',
+  'demo.breadcrumb.disabled': 'Disabled item',
+  'demo.breadcrumb.lastClick': 'Last click: {value}',
 
   'demo.button.title': 'Button',
   'demo.button.desc': 'Supports default / primary / plain types, preset and custom colors, round and circle shapes.',
