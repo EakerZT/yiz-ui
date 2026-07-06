@@ -34,6 +34,17 @@
       <span class="demo-hint">{{ group2 }}</span>
     </y-card>
 
+    <y-card :title="$t('demo.radio.slotGroup')" style="margin-top: 8px">
+      <y-radio-group v-model:value="group4">
+        <y-radio value="apple">{{ $t('demo.radio.apple') }}</y-radio>
+        <y-radio value="banana">
+          <span style="color: var(--yiz-color-primary)">{{ $t('demo.radio.banana') }}</span>
+        </y-radio>
+        <y-radio value="orange" disabled>{{ $t('demo.radio.orange') }}</y-radio>
+      </y-radio-group>
+      <span class="demo-hint">{{ group4 }}</span>
+    </y-card>
+
     <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-radio-group v-model:value="group3" :options="groupOptions" disabled />
     </y-card>
@@ -127,6 +138,7 @@ const groupOptions = computed(() => [
 const group1 = ref('apple')
 const group2 = ref('banana')
 const group3 = ref('orange')
+const group4 = ref('banana')
 
 const buttonOptions = computed(() => [
   { label: $t('demo.radio.apple'), value: 'apple' },

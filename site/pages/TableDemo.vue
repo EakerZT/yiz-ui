@@ -151,35 +151,35 @@
     </y-card>
 
     <y-card :title="$t('demo.table.singleSelect')" style="margin-top: 8px">
-      <div style="height: 250px">
+      <div class="demo-table-fixed-height">
         <y-table :data="data" bordered select-mode="single" v-model:selected="singleSelected" @select="onSingleSelect">
           <y-table-column :label="$t('demo.common.name')" field="name" />
           <y-table-column :label="$t('demo.common.age')" field="age" align="center" />
           <y-table-column :label="$t('demo.common.city')" field="city" />
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
-        <p class="demo-table-info">{{ $t('demo.table.selectedValue', { value: singleSelected ?? '' }) }}</p>
-        <p class="demo-table-info">
-          {{
-            $t('demo.table.selectedValue', {
-              value: singleSelectRow ? JSON.stringify(singleSelectRow) : $t('demo.common.none'),
-            })
-          }}
-        </p>
       </div>
+      <p class="demo-table-info">{{ $t('demo.table.selectedValue', { value: singleSelected ?? '' }) }}</p>
+      <p class="demo-table-info">
+        {{
+          $t('demo.table.selectedValue', {
+            value: singleSelectRow ? JSON.stringify(singleSelectRow) : $t('demo.common.none'),
+          })
+        }}
+      </p>
     </y-card>
 
     <y-card :title="$t('demo.table.multiSelect')" style="margin-top: 8px">
-      <div style="height: 250px">
+      <div class="demo-table-fixed-height">
         <y-table :data="data" bordered select-mode="multi" v-model:selected="multiSelected" @select="onMultiSelect">
           <y-table-column :label="$t('demo.common.name')" field="name" />
           <y-table-column :label="$t('demo.common.age')" field="age" align="center" />
           <y-table-column :label="$t('demo.common.city')" field="city" />
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
-        <p class="demo-table-info">{{ $t('demo.table.selectedValue', { value: multiSelected.join(', ') }) }}</p>
-        <p class="demo-table-info">{{ $t('demo.table.selectedCount', { count: multiSelectRows.length }) }}</p>
       </div>
+      <p class="demo-table-info">{{ $t('demo.table.selectedValue', { value: multiSelected.join(', ') }) }}</p>
+      <p class="demo-table-info">{{ $t('demo.table.selectedCount', { count: multiSelectRows.length }) }}</p>
     </y-card>
 
     <y-card :title="$t('demo.table.fixedColumns')" style="margin-top: 8px">
@@ -210,7 +210,7 @@
     </y-card>
 
     <y-card :title="$t('demo.table.disableRows')" style="margin-top: 8px">
-      <div style="height: 250px">
+      <div class="demo-table-fixed-height">
         <y-table
           :data="data"
           bordered
@@ -223,8 +223,8 @@
           <y-table-column :label="$t('demo.common.city')" field="city" />
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
-        <p class="demo-table-info">{{ $t('demo.table.selectedValue', { value: disabledSelected.join(', ') }) }}</p>
       </div>
+      <p class="demo-table-info">{{ $t('demo.table.selectedValue', { value: disabledSelected.join(', ') }) }}</p>
     </y-card>
 
     <y-card :title="$t('demo.table.overflowTooltip')" style="margin-top: 8px">
@@ -474,6 +474,11 @@ const overflowData = computed<OverflowRow[]>(() => [
   color: #666;
   font-size: 13px;
 }
+
+.demo-table-fixed-height {
+  height: 250px;
+}
+
 .demo-table-info + .demo-table-info {
   margin-top: 4px;
 }

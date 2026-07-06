@@ -91,7 +91,7 @@
         >
           <div
             v-for="(row, idx) in sortedData"
-            :key="idx"
+            :key="getRowKey(row, idx)"
             role="row"
             class="yiz-table-row"
             :class="{ 'yiz-table-row-stripe': stripe && idx % 2 === 1 }"
@@ -475,7 +475,9 @@ function getCellStyle(col: TableColumn): Record<string, string> {
 }
 
 function getRowKey(row: Record<string, any>, index: number) {
-  return props.rowKey ? row[props.rowKey] : index
+  if (props.rowKey) return row[props.rowKey]
+  const dataIndex = props.data.indexOf(row)
+  return dataIndex >= 0 ? dataIndex : index
 }
 
 function isOverflowTooltipOn(col: TableColumn) {
@@ -494,53 +496,55 @@ function isSelected(row: Record<string, any>, index: number) {
   return false
 }
 
-function getSelectedRows() {
+function getSelectedRows(selectedValue = selected.value) {
   if (props.selectMode === 'none') return null
   if (props.selectMode === 'single') {
-    if (selected.value == null) return null
-    const idx = sortedData.value.findIndex((row, i) => getRowKey(row, i) === selected.value)
+    if (selectedValue == null) return null
+    const idx = sortedData.value.findIndex((row, i) => getRowKey(row, i) === selectedValue)
     return idx >= 0 ? sortedData.value[idx] : null
   }
-  const keys = (selected.value ?? []) as any[]
+  const keys = (selectedValue ?? []) as any[]
   return sortedData.value.filter((row, i) => keys.includes(getRowKey(row, i)))
 }
 
 function toggleSelect(row: Record<string, any>, index: number) {
   if (isRowDisabled(row, index)) return
   const key = getRowKey(row, index)
+  let nextSelected = selected.value
   if (props.selectMode === 'single') {
-    selected.value = selected.value === key ? null : key
+    nextSelected = selected.value === key ? null : key
   } else if (props.selectMode === 'multi') {
     const arr = [...(selected.value ?? [])]
     const idx = arr.indexOf(key)
     if (idx >= 0) arr.splice(idx, 1)
     else arr.push(key)
-    selected.value = arr
+    nextSelected = arr
   }
-  emit('select', getSelectedRows())
+  selected.value = nextSelected
+  emit('select', getSelectedRows(nextSelected))
 }
 
 const allSelected = computed(() => {
   if (props.selectMode !== 'multi') return false
-  const selectableCount = sortedData.value.filter((row, i) => !isRowDisabled(row, i)).length
+  const selectableRows = sortedData.value.filter((row, i) => !isRowDisabled(row, i))
   const keys = (selected.value ?? []) as any[]
-  return selectableCount > 0 && keys.length === selectableCount
+  return selectableRows.length > 0 && selectableRows.every((row, i) => keys.includes(getRowKey(row, i)))
 })
 
 const headerChecked = computed({
   get: () => allSelected.value,
   set: (v: boolean) => {
     if (props.selectMode !== 'multi') return
+    let nextSelected: any[] = []
     if (v) {
       const keys: any[] = []
       sortedData.value.forEach((row, i) => {
         if (!isRowDisabled(row, i)) keys.push(getRowKey(row, i))
       })
-      selected.value = keys
-    } else {
-      selected.value = []
+      nextSelected = keys
     }
-    emit('select', getSelectedRows())
+    selected.value = nextSelected
+    emit('select', getSelectedRows(nextSelected))
   },
 })
 
@@ -1146,6 +1150,10 @@ onUnmounted(() => {
   padding: 0 !important;
   border: none !important;
   min-width: 0;
+}
+
+.yiz-table-th.yiz-table-gap-col {
+  border-bottom: 1px solid var(--yiz-color-border, #d9d9d9) !important;
 }
 
 // fixed columns

@@ -1,7 +1,7 @@
 <template>
   <label class="yiz-radio" :class="vClass">
     <span class="yiz-radio-input">
-      <input type="radio" :checked="checked" :disabled="disabled" :value="value" @change="onChange" />
+      <input type="radio" :checked="checked" :disabled="mergedDisabled" :value="value" @change="onChange" />
       <span class="yiz-radio-inner"></span>
       <span class="yiz-wave" v-if="isWave"></span>
     </span>
@@ -12,15 +12,24 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, ref } from 'vue'
+import { computed, getCurrentInstance, inject, nextTick, ref, type Ref } from 'vue'
+
+interface RadioGroupContext {
+  modelValue: Ref<string | number | undefined>
+  disabled: Ref<boolean>
+  changeValue: (value: string | number) => void
+}
 
 const props = withDefaults(
   defineProps<{
     label?: string
     value?: string | number
+    modelValue?: string | number
+    checked?: boolean
     disabled?: boolean
   }>(),
   {
+    checked: false,
     disabled: false,
   },
 )
@@ -29,16 +38,33 @@ defineSlots<{
   default?: any
 }>()
 
-const emit = defineEmits<{ change: [value: string | number | undefined] }>()
+const emit = defineEmits<{
+  'update:modelValue': [value: string | number | undefined]
+  'update:checked': [checked: boolean]
+  change: [value: string | number | undefined]
+}>()
 
-const checked = defineModel<boolean>('checked', { default: false })
+const group = inject<RadioGroupContext | null>('yizRadioGroup', null)
+const instance = getCurrentInstance()
+
+const hasValueModel = computed(() => {
+  const vnodeProps = instance?.vnode.props ?? {}
+  return 'modelValue' in vnodeProps || 'onUpdate:modelValue' in vnodeProps
+})
+
+const checked = computed(() => {
+  if (group) return group.modelValue.value === props.value
+  if (hasValueModel.value) return props.modelValue === props.value
+  return props.checked
+})
+const mergedDisabled = computed(() => props.disabled || (group?.disabled.value ?? false))
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
   if (checked.value) {
     c['yiz-radio-checked'] = true
   }
-  if (props.disabled) {
+  if (mergedDisabled.value) {
     c['yiz-radio-disabled'] = true
   }
   return c
@@ -48,8 +74,15 @@ const isWave = ref(false)
 let waveTimerId: ReturnType<typeof setTimeout>
 
 function onChange() {
-  if (props.disabled) return
-  checked.value = true
+  if (mergedDisabled.value) return
+  if (group) {
+    if (props.value == null) return
+    group.changeValue(props.value)
+  } else if (hasValueModel.value) {
+    emit('update:modelValue', props.value)
+  } else {
+    emit('update:checked', true)
+  }
   emit('change', props.value)
   if (isWave.value) {
     clearTimeout(waveTimerId)

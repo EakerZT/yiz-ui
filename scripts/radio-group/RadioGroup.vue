@@ -1,44 +1,55 @@
 <template>
   <div class="yiz-radio-group" :class="[`yiz-radio-group-${direction}`, { 'yiz-radio-group-disabled': disabled }]">
-    <Radio
-      v-for="opt in options"
-      :key="opt.value"
-      :label="opt.label"
-      :value="opt.value"
-      :disabled="disabled"
-      :checked="modelValue === opt.value"
-      @change="onUpdateValue"
-    />
+    <template v-if="options.length > 0">
+      <Radio v-for="opt in options" :key="opt.value" :value="opt.value" :disabled="opt.disabled">
+        {{ opt.label }}
+      </Radio>
+    </template>
+    <slot v-else />
   </div>
 </template>
 
 <script lang="ts" setup>
+import { provide, toRef } from 'vue'
 import { Radio } from '../radio'
 
 export interface RadioOption {
   label: string
   value: string | number
+  disabled?: boolean
 }
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
-    options: RadioOption[]
+    options?: RadioOption[]
     direction?: 'horizontal' | 'vertical' | 'free'
     disabled?: boolean
   }>(),
   {
+    options: () => [],
     direction: 'horizontal',
     disabled: false,
   },
 )
 
+defineSlots<{
+  default?: any
+}>()
+
+const emit = defineEmits<{ change: [value: string | number] }>()
 const modelValue = defineModel<string | number>('value')
 
-function onUpdateValue(val: string | number | undefined) {
-  if (val !== undefined) {
-    modelValue.value = val
-  }
+function changeValue(value: string | number) {
+  if (props.disabled) return
+  modelValue.value = value
+  emit('change', value)
 }
+
+provide('yizRadioGroup', {
+  modelValue,
+  disabled: toRef(props, 'disabled'),
+  changeValue,
+})
 </script>
 
 <style lang="less">

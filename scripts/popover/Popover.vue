@@ -2,7 +2,7 @@
   <component :is="triggerNode" />
 
   <Teleport to="body">
-    <transition name="yiz-popover-fade">
+    <transition :name="transitionName">
       <div
         v-if="visible"
         ref="popRef"
@@ -96,6 +96,8 @@ const popStyle = computed(() => {
   }
   return style
 })
+
+const transitionName = computed(() => `yiz-popover-${effectivePlacement.value}`)
 
 const triggerNode = computed<VNode>(() => {
   const child = slots.default?.()[0] as VNode | undefined
@@ -400,16 +402,40 @@ onBeforeUnmount(() => {
   }
 }
 
-.yiz-popover-fade-enter-active,
-.yiz-popover-fade-leave-active {
+.yiz-popover-top-enter-active,
+.yiz-popover-top-leave-active,
+.yiz-popover-bottom-enter-active,
+.yiz-popover-bottom-leave-active,
+.yiz-popover-left-enter-active,
+.yiz-popover-left-leave-active,
+.yiz-popover-right-enter-active,
+.yiz-popover-right-leave-active {
   transition:
     opacity 0.2s,
     transform 0.2s;
 }
 
-.yiz-popover-fade-enter-from,
-.yiz-popover-fade-leave-to {
+.yiz-popover-top-enter-from,
+.yiz-popover-top-leave-to {
   opacity: 0;
   transform: translateY(-4px);
+}
+
+.yiz-popover-bottom-enter-from,
+.yiz-popover-bottom-leave-to {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.yiz-popover-left-enter-from,
+.yiz-popover-left-leave-to {
+  opacity: 0;
+  transform: translateX(-4px);
+}
+
+.yiz-popover-right-enter-from,
+.yiz-popover-right-leave-to {
+  opacity: 0;
+  transform: translateX(4px);
 }
 </style>
