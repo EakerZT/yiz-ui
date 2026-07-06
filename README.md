@@ -25,7 +25,7 @@
 - **Built-in i18n** with Chinese and English, plus runtime language extension APIs.
 - **Tree shakable**: import only what you use.
 - **Vue 3.4+** with `defineModel`, `<script setup>`, and modern Vue patterns.
-- **Imperative APIs** for notifications, context menus, and loading bars.
+- **Imperative APIs** for messages, dialogs, notifications, context menus, and loading bars.
 
 ---
 
@@ -103,6 +103,38 @@ import '@eakerzt/yiz-ui/dist/yiz-ui.css'
 </template>
 ```
 
+### Message
+
+```ts
+import { message } from '@eakerzt/yiz-ui'
+
+message('Operation completed')
+message.success('Saved successfully')
+message.warning('Please check the form')
+message.error('Operation failed')
+
+message.loading({ key: 'save', content: 'Saving...' })
+message.success({ key: 'save', content: 'Saved', duration: 2000 })
+
+message.destroy()
+```
+
+### Dialog.confirm
+
+```ts
+import { Dialog } from '@eakerzt/yiz-ui'
+
+Dialog.confirm({
+  title: 'Confirm this action?',
+  content: 'This action takes effect immediately. Continue?',
+  onOk: async () => {
+    await submit()
+  },
+})
+```
+
+`onOk` can return a Promise to show loading on the OK button. Return `false` to keep the confirm dialog open.
+
 ### Notification
 
 ```ts
@@ -177,7 +209,7 @@ The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-erro
 | DateRangePicker     | `YDateRangePicker`                                 | Date range picker with optional auto sorting                      |
 | DateTimePicker      | `YDateTimePicker` / `y-datetime-picker`            | Date and time picker                                              |
 | DateTimeRangePicker | `YDateTimeRangePicker` / `y-datetime-range-picker` | Date-time range picker                                            |
-| Dialog              | `YDialog`                                          | Dialog with drag and Escape support                               |
+| Dialog              | `YDialog`                                          | Dialog with drag, Escape support, and `Dialog.confirm`            |
 | Divider             | `YDivider`                                         | Horizontal/vertical divider with dashed and text modes            |
 | Drawer              | `YDrawer`                                          | Drawer with four placements and resizable size                    |
 | Dropmenu            | `YDropmenu`                                        | Dropdown menu based on menu item extraction                       |
@@ -186,6 +218,7 @@ The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-erro
 | FormItem            | `YFormItem`                                        | Form item with label, required marker, and errors                 |
 | Icon                | `YIcon`                                            | Render Vue components as icons                                    |
 | Input               | `YInput`                                           | Input with prefix/suffix and clearable support                    |
+| InputCustom         | `YInputCustom`                                     | Input-like shell for custom or third-party logic                  |
 | InputGroup          | `YInputGroup`                                      | Horizontal input grouping with addons and unified size            |
 | InputNumber         | `YInputNumber`                                     | Numeric input with step controls and keyboard support             |
 | InputPassword       | `YInputPassword`                                   | Password input with visibility toggle                             |
@@ -194,6 +227,7 @@ The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-erro
 | Menu                | `YMenu`                                            | Menu with expanded and collapsed modes                            |
 | MenuOption          | `YMenuOption`                                      | Declarative menu item                                             |
 | Pagination          | `YPagination`                                      | Pagination with ellipsis, size changer, and quick jumper          |
+| Popover             | `YPopover`                                         | Floating card with click, hover, focus, and controlled modes      |
 | Progress            | `YProgress`                                        | Linear progress with status, custom color, and text formatting    |
 | Radio               | `YRadio`                                           | Single radio                                                      |
 | RadioGroup          | `YRadioGroup`                                      | Radio group with options and slots                                |
@@ -236,7 +270,7 @@ Components with size variants use `small`, `default`, and `large` consistently.
 </template>
 ```
 
-Supported components include `Button`, `Card`, `ColorPicker`, `DatePicker`, `DateRangePicker`, `DateTimePicker`, `DateTimeRangePicker`, `Empty`, `Input`, `InputGroup`, `InputNumber`, `Loading`, `Pagination`, `RadioButton`, `RadioButtonGroup`, `Segmented`, `Select`, `Switch`, `Table`, `Tag`, `TimePicker`, `TimeRangePicker`, and `Timeline`.
+Supported components include `Button`, `Card`, `ColorPicker`, `DatePicker`, `DateRangePicker`, `DateTimePicker`, `DateTimeRangePicker`, `Empty`, `Input`, `InputCustom`, `InputGroup`, `InputNumber`, `Loading`, `Pagination`, `RadioButton`, `RadioButtonGroup`, `Segmented`, `Select`, `Switch`, `Table`, `Tag`, `TimePicker`, `TimeRangePicker`, and `Timeline`.
 
 `Button` uses `default` for the middle size. The old `middle` value is not supported.
 

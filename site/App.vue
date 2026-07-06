@@ -66,9 +66,11 @@ import InputNumberDemo from './pages/InputNumberDemo.vue'
 import LoadingDemo from './pages/LoadingDemo.vue'
 import LoadingBarDemo from './pages/LoadingBarDemo.vue'
 import MenuDemo from './pages/MenuDemo.vue'
+import MessageDemo from './pages/MessageDemo.vue'
 import NotificationDemo from './pages/NotificationDemo.vue'
 import IconDemo from './pages/IconDemo.vue'
 import PaginationDemo from './pages/PaginationDemo.vue'
+import PopoverDemo from './pages/PopoverDemo.vue'
 import ProgressDemo from './pages/ProgressDemo.vue'
 import RadioDemo from './pages/RadioDemo.vue'
 import ScrollBoxDemo from './pages/ScrollBoxDemo.vue'
@@ -115,8 +117,10 @@ const pages: Record<string, any> = {
   loading: LoadingDemo,
   'loading-bar': LoadingBarDemo,
   menu: MenuDemo,
+  message: MessageDemo,
   notification: NotificationDemo,
   pagination: PaginationDemo,
+  popover: PopoverDemo,
   progress: ProgressDemo,
   radio: RadioDemo,
   'scroll-box': ScrollBoxDemo,
@@ -162,8 +166,10 @@ const menuItems = computed(() => [
   { label: $t('demo.nav.loading'), key: 'loading' },
   { label: $t('demo.nav.loadingBar'), key: 'loading-bar' },
   { label: $t('demo.nav.menu'), key: 'menu' },
+  { label: $t('demo.nav.message'), key: 'message' },
   { label: $t('demo.nav.notification'), key: 'notification' },
   { label: $t('demo.nav.pagination'), key: 'pagination' },
+  { label: $t('demo.nav.popover'), key: 'popover' },
   { label: $t('demo.nav.progress'), key: 'progress' },
   { label: $t('demo.nav.radio'), key: 'radio' },
   { label: $t('demo.nav.scrollBox'), key: 'scroll-box' },

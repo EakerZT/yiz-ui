@@ -25,7 +25,7 @@
 - **内置 i18n**，提供中文和英文，并支持运行时扩展语言。
 - **支持 Tree Shaking**，按需引入，不打包未使用组件。
 - **Vue 3.4+**，使用 `defineModel`、`<script setup>` 和现代 Vue 模式。
-- **命令式 API**，支持通知、右键菜单和加载进度条。
+- **命令式 API**，支持全局提示、确认框、通知、右键菜单和加载进度条。
 
 ---
 
@@ -103,6 +103,38 @@ import '@eakerzt/yiz-ui/dist/yiz-ui.css'
 </template>
 ```
 
+### Message
+
+```ts
+import { message } from '@eakerzt/yiz-ui'
+
+message('操作完成')
+message.success('保存成功')
+message.warning('请检查表单')
+message.error('操作失败')
+
+message.loading({ key: 'save', content: '保存中...' })
+message.success({ key: 'save', content: '已保存', duration: 2000 })
+
+message.destroy()
+```
+
+### Dialog.confirm
+
+```ts
+import { Dialog } from '@eakerzt/yiz-ui'
+
+Dialog.confirm({
+  title: '确认执行操作？',
+  content: '该操作会立即生效，请确认是否继续。',
+  onOk: async () => {
+    await submit()
+  },
+})
+```
+
+`onOk` 可以返回 Promise，此时确认按钮会进入 loading；返回 `false` 时确认框不会关闭。
+
 ### Notification
 
 ```ts
@@ -177,7 +209,7 @@ loadingBar.reset()
 | DateRangePicker     | `YDateRangePicker`                                 | 日期范围选择器，支持自动排序                     |
 | DateTimePicker      | `YDateTimePicker` / `y-datetime-picker`            | 日期时间选择器                                   |
 | DateTimeRangePicker | `YDateTimeRangePicker` / `y-datetime-range-picker` | 日期时间范围选择器                               |
-| Dialog              | `YDialog`                                          | 对话框，支持拖拽和 Escape 关闭                   |
+| Dialog              | `YDialog`                                          | 对话框，支持拖拽、Escape 关闭和 `Dialog.confirm` |
 | Divider             | `YDivider`                                         | 水平/垂直分割线，支持虚线和文本                  |
 | Drawer              | `YDrawer`                                          | 四方向抽屉，可调节尺寸                           |
 | Dropmenu            | `YDropmenu`                                        | 下拉菜单                                         |
@@ -186,6 +218,7 @@ loadingBar.reset()
 | FormItem            | `YFormItem`                                        | 表单项，支持标签、必填标记和错误提示             |
 | Icon                | `YIcon`                                            | 将 Vue 组件渲染为图标                            |
 | Input               | `YInput`                                           | 输入框，支持前后缀和可清空                       |
+| InputCustom         | `YInputCustom`                                     | 输入框风格外壳，用于自定义或第三方逻辑           |
 | InputGroup          | `YInputGroup`                                      | 横向输入组合，支持 addon 和统一尺寸              |
 | InputNumber         | `YInputNumber`                                     | 数字输入，支持步进按钮和键盘操作                 |
 | InputPassword       | `YInputPassword`                                   | 密码输入，支持显示/隐藏                          |
@@ -194,6 +227,7 @@ loadingBar.reset()
 | Menu                | `YMenu`                                            | 菜单，支持展开和折叠模式                         |
 | MenuOption          | `YMenuOption`                                      | 声明式菜单项                                     |
 | Pagination          | `YPagination`                                      | 分页，支持省略、页大小选择和快速跳转             |
+| Popover             | `YPopover`                                         | 气泡卡片，支持点击、悬停、聚焦和受控模式         |
 | Progress            | `YProgress`                                        | 线性进度条，支持状态、自定义颜色和文字格式化     |
 | Radio               | `YRadio`                                           | 单个单选框                                       |
 | RadioGroup          | `YRadioGroup`                                      | 单选组，支持 options 和 slot                     |
@@ -236,7 +270,7 @@ loadingBar.reset()
 </template>
 ```
 
-适用组件包括 `Button`、`Card`、`ColorPicker`、`DatePicker`、`DateRangePicker`、`DateTimePicker`、`DateTimeRangePicker`、`Empty`、`Input`、`InputGroup`、`InputNumber`、`Loading`、`Pagination`、`RadioButton`、`RadioButtonGroup`、`Segmented`、`Select`、`Switch`、`Table`、`Tag`、`TimePicker`、`TimeRangePicker`、`Timeline`。
+适用组件包括 `Button`、`Card`、`ColorPicker`、`DatePicker`、`DateRangePicker`、`DateTimePicker`、`DateTimeRangePicker`、`Empty`、`Input`、`InputCustom`、`InputGroup`、`InputNumber`、`Loading`、`Pagination`、`RadioButton`、`RadioButtonGroup`、`Segmented`、`Select`、`Switch`、`Table`、`Tag`、`TimePicker`、`TimeRangePicker`、`Timeline`。
 
 `Button` 使用 `default` 表示中等尺寸，不支持旧的 `middle`。
 

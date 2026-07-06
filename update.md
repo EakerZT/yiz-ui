@@ -1,5 +1,13 @@
 # update
 
+## 0.0.18
+
+`2026/07/06`
+
+- 添加 popover组件
+- 添加 Dialog.confirm
+- 添加 message
+
 ## 0.0.17
 
 `2026/07/05`

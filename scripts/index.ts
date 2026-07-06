@@ -7,6 +7,7 @@ import * as components from './components'
 
 export * from './components'
 export * from './locale'
+export * from './message'
 export * from './notification'
 export { showContextMenu } from './context-menu'
 export { renderSvg } from './icon/renderSvg'
