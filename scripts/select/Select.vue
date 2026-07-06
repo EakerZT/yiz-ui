@@ -83,6 +83,7 @@ import { ChevronDown16Regular, DismissCircle16Filled } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { Input } from '../input'
 import { $t } from '../locale'
+import { useOverlayElement } from '../overlay/overlayScope'
 import { ScrollBox } from '../scroll-box'
 import SelectOptionComp from '../select-option/SelectOption.vue'
 import { nextZIndex } from '../zIndex'
@@ -173,6 +174,7 @@ const searchQuery = ref('')
 const searchInputRef = ref<InstanceType<typeof Input>>()
 const scrollBoxMaxHeight = ref(240)
 const dropdownPos = ref<{ top?: string; bottom?: string; left?: string }>({})
+useOverlayElement(dropdownRef, open)
 
 const filteredOptions = ref<SelectOption[]>([...allOptions.value])
 
@@ -395,7 +397,6 @@ onBeforeUnmount(() => {
     box-shadow 0.3s;
   font-size: 14px;
   color: #333;
-  min-width: 120px;
   box-sizing: border-box;
   position: relative;
 
