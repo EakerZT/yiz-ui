@@ -19,7 +19,7 @@
 
 ## 特性
 
-- **45+ 组件**，覆盖表单、数据展示、导航、反馈和常见应用场景。
+- **50+ 组件**，覆盖表单、数据展示、导航、反馈和常见应用场景。
 - **TypeScript 优先**，严格模式开发，组件 API 对类型友好。
 - **CSS 变量主题**，通过 `--yiz-*` 自定义属性定制样式。
 - **内置 i18n**，提供中文和英文，并支持运行时扩展语言。
@@ -135,6 +135,35 @@ Dialog.confirm({
 
 `onOk` 可以返回 Promise，此时确认按钮会进入 loading；返回 `false` 时确认框不会关闭。
 
+### Collapse
+
+```html
+<template>
+  <y-collapse v-model:value="activeKeys">
+    <y-collapse-item name="profile" title="用户资料">
+      账号详情和用户状态。
+      <template #extra>
+        <y-link-button @click.stop="editProfile">编辑</y-link-button>
+      </template>
+    </y-collapse-item>
+  </y-collapse>
+</template>
+```
+
+使用 `accordion` 开启手风琴模式。`CollapseItem` 支持 `title` 和 `extra` 插槽。
+
+### Upload
+
+```html
+<template>
+  <y-upload multiple accept="image/*" allow-drag @upload="onUpload">
+    <y-button type="primary">选择图片</y-button>
+  </y-upload>
+</template>
+```
+
+`Upload` 没有默认可视化样式，外观完全由插槽元素决定；点击或拖动文件到插槽元素时，通过 `upload` 事件返回 `File[]`。
+
 ### Notification
 
 ```ts
@@ -204,6 +233,8 @@ loadingBar.reset()
 | Card                | `YCard`                                            | 结构化内容容器                                   |
 | Checkbox            | `YCheckbox`                                        | 单个复选框                                       |
 | CheckboxGroup       | `YCheckboxGroup`                                   | 基于 provide/inject 的复选框组                   |
+| Collapse            | `YCollapse`                                        | 折叠面板，支持手风琴和高度过渡动画               |
+| CollapseItem        | `YCollapseItem`                                    | 折叠面板项，支持标题和右侧额外内容插槽           |
 | ColorPicker         | `YColorPicker`                                     | HSV 颜色选择器和预设色                           |
 | DatePicker          | `YDatePicker`                                      | 日期选择器，支持月份/年份导航                    |
 | DateRangePicker     | `YDateRangePicker`                                 | 日期范围选择器，支持自动排序                     |
@@ -252,6 +283,7 @@ loadingBar.reset()
 | TimelineItem        | `YTimelineItem`                                    | 时间线项，支持标题、时间、类型和空心节点         |
 | Tooltip             | `YTooltip`                                         | 文字提示，支持四方向和 CSS 箭头                  |
 | Tree                | `YTree`                                            | 递归树，支持复选/单选和半选态                    |
+| Upload              | `YUpload`                                          | 插槽驱动的文件选择，支持点击、拖动、多选和类型   |
 
 ---
 

@@ -19,7 +19,7 @@
 
 ## Features
 
-- **45+ components** covering forms, data display, navigation, feedback, and common application workflows.
+- **50+ components** covering forms, data display, navigation, feedback, and common application workflows.
 - **TypeScript first** with strict-mode development and type-friendly component APIs.
 - **CSS variable theming** via `--yiz-*` custom properties.
 - **Built-in i18n** with Chinese and English, plus runtime language extension APIs.
@@ -135,6 +135,35 @@ Dialog.confirm({
 
 `onOk` can return a Promise to show loading on the OK button. Return `false` to keep the confirm dialog open.
 
+### Collapse
+
+```html
+<template>
+  <y-collapse v-model:value="activeKeys">
+    <y-collapse-item name="profile" title="Profile">
+      Account details and user status.
+      <template #extra>
+        <y-link-button @click.stop="editProfile">Edit</y-link-button>
+      </template>
+    </y-collapse-item>
+  </y-collapse>
+</template>
+```
+
+Use `accordion` for single-panel mode. `CollapseItem` supports `title` and `extra` slots.
+
+### Upload
+
+```html
+<template>
+  <y-upload multiple accept="image/*" allow-drag @upload="onUpload">
+    <y-button type="primary">Select images</y-button>
+  </y-upload>
+</template>
+```
+
+`Upload` has no default visual style. The slot element controls all appearance; clicking or dragging files onto it emits `upload` with `File[]`.
+
 ### Notification
 
 ```ts
@@ -204,6 +233,8 @@ The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-erro
 | Card                | `YCard`                                            | Structured content container                                      |
 | Checkbox            | `YCheckbox`                                        | Single checkbox                                                   |
 | CheckboxGroup       | `YCheckboxGroup`                                   | Checkbox group with provide/inject state                          |
+| Collapse            | `YCollapse`                                        | Collapsible panels with accordion mode and height animation       |
+| CollapseItem        | `YCollapseItem`                                    | Collapse panel item with title and extra slots                    |
 | ColorPicker         | `YColorPicker`                                     | HSV color picker with presets                                     |
 | DatePicker          | `YDatePicker`                                      | Date picker with month/year navigation                            |
 | DateRangePicker     | `YDateRangePicker`                                 | Date range picker with optional auto sorting                      |
@@ -252,6 +283,7 @@ The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-erro
 | TimelineItem        | `YTimelineItem`                                    | Timeline item with title, time, type, and hollow node             |
 | Tooltip             | `YTooltip`                                         | Tooltip with four placements and CSS arrow                        |
 | Tree                | `YTree`                                            | Recursive tree with checkbox/radio and half-checked state         |
+| Upload              | `YUpload`                                          | Slot-driven file picker with click, drag, multiple, and accept    |
 
 ---
 
