@@ -90,6 +90,7 @@ import DrawerDemo from './pages/DrawerDemo.vue'
 import TooltipDemo from './pages/TooltipDemo.vue'
 import TextareaDemo from './pages/TextareaDemo.vue'
 import TreeDemo from './pages/TreeDemo.vue'
+import UploadDemo from './pages/UploadDemo.vue'
 import { ScrollBox } from 'yiz-ui'
 import { demoLang, demoLangOptions, setDemoLang, $t } from './i18n'
 
@@ -138,6 +139,7 @@ const pages: Record<string, any> = {
   'time-range-picker': TimeRangePickerDemo,
   tooltip: TooltipDemo,
   tree: TreeDemo,
+  upload: UploadDemo,
   icon: IconDemo,
 }
 
@@ -187,6 +189,7 @@ const menuItems = computed(() => [
   { label: $t('demo.nav.timeRangePicker'), key: 'time-range-picker' },
   { label: $t('demo.nav.tooltip'), key: 'tooltip' },
   { label: $t('demo.nav.tree'), key: 'tree' },
+  { label: $t('demo.nav.upload'), key: 'upload' },
 ])
 
 function getPageFromHash(): string {

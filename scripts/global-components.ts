@@ -53,6 +53,7 @@ import type {
   TimeRangePicker,
   Tooltip,
   Tree,
+  Upload,
 } from './components'
 
 declare module 'vue' {
@@ -167,6 +168,8 @@ declare module 'vue' {
     'y-tooltip': typeof Tooltip
     YTree: typeof Tree
     'y-tree': typeof Tree
+    YUpload: typeof Upload
+    'y-upload': typeof Upload
   }
 }
 

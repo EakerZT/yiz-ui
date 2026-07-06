@@ -59,6 +59,7 @@ const zhCN: LangMessages = {
   'demo.nav.timeRangePicker': 'TimeRangePicker 时间段',
   'demo.nav.tooltip': 'Tooltip 提示',
   'demo.nav.tree': 'Tree 树',
+  'demo.nav.upload': 'Upload 上传',
 
   'demo.common.basic': '基础用法',
   'demo.common.basicShort': '基本',
@@ -912,6 +913,15 @@ const zhCN: LangMessages = {
   'demo.tree.childNode': '子节点',
   'demo.tree.checkEvent': '勾选 {label}；共 {total} 项',
   'demo.tree.uncheckEvent': '取消勾选 {label}；共 {total} 项',
+
+  'demo.upload.title': 'Upload 上传',
+  'demo.upload.desc': '无默认可视化样式的文件选择组件，通过插槽元素触发点击或拖放并在 upload 事件中返回文件。',
+  'demo.upload.selectFile': '选择文件',
+  'demo.upload.selectImages': '选择图片',
+  'demo.upload.multipleImage': '多选图片',
+  'demo.upload.dropTitle': '点击或拖动文件到此处',
+  'demo.upload.dropDesc': '外观完全来自插槽元素',
+  'demo.upload.noFiles': '未选择文件',
 }
 
 const enUS: LangMessages = {
@@ -963,6 +973,7 @@ const enUS: LangMessages = {
   'demo.nav.timeRangePicker': 'TimeRangePicker',
   'demo.nav.tooltip': 'Tooltip',
   'demo.nav.tree': 'Tree',
+  'demo.nav.upload': 'Upload',
 
   'demo.common.basic': 'Basic',
   'demo.common.basicShort': 'Basic',
@@ -1833,6 +1844,16 @@ const enUS: LangMessages = {
   'demo.tree.childNode': 'Child item',
   'demo.tree.checkEvent': 'checked {label}; total {total}',
   'demo.tree.uncheckEvent': 'unchecked {label}; total {total}',
+
+  'demo.upload.title': 'Upload',
+  'demo.upload.desc':
+    'A file picker without default visual styling. Click or drop on the slot element and receive files from the upload event.',
+  'demo.upload.selectFile': 'Select file',
+  'demo.upload.selectImages': 'Select images',
+  'demo.upload.multipleImage': 'Multiple images',
+  'demo.upload.dropTitle': 'Click or drop files here',
+  'demo.upload.dropDesc': 'The visual appearance comes entirely from the slot element.',
+  'demo.upload.noFiles': 'No files selected',
 }
 
 registerLangItem('zh-CN', zhCN)

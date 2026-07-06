@@ -9,6 +9,7 @@
 - 优化 table空列展示
 - 修复 table单选问题
 - 修复 table多选问题
+- 添加 upload组件
 
 ## 0.0.18
 
