@@ -121,6 +121,7 @@ import { Icon } from '../icon'
 import Button from '../button/Button.vue'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t, $tList } from '../locale'
+import { useOverlayElement } from '../overlay/overlayScope'
 import { nextZIndex } from '../zIndex'
 
 const props = withDefaults(
@@ -157,6 +158,7 @@ const open = ref(false)
 const currentZIndex = ref(0)
 const triggerRef = ref<HTMLElement>()
 const panelRef = ref<HTMLElement>()
+useOverlayElement(panelRef, open)
 const inputRef = ref<HTMLInputElement>()
 const showYearPicker = ref(false)
 const isHovering = ref(false)

@@ -2,6 +2,7 @@
   <Teleport to="body">
     <div
       v-if="visible"
+      ref="panelRef"
       :class="popupClass"
       :style="position"
       @mouseenter="$emit('mouseenter')"
@@ -53,9 +54,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, toRef } from 'vue'
 import { ChevronRight16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
+import { useOverlayElement } from '../overlay/overlayScope'
 import type { MenuItem } from './Menu.vue'
 import IconRenderer from './IconRenderer.vue'
 
@@ -81,6 +83,8 @@ const emit = defineEmits<{
 
 const hoveredItem = ref<MenuItem | null>(null)
 const childStyle = ref<Record<string, string>>({})
+const panelRef = ref<HTMLElement>()
+useOverlayElement(panelRef, toRef(props, 'visible'))
 let childTimer: ReturnType<typeof setTimeout> | null = null
 
 function findAncestors(items: MenuItem[], target: any, ancestors = new Set<any>()): Set<any> | null {

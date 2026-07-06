@@ -3,6 +3,7 @@
     <Transition name="yiz-dropmenu-panel-fade">
       <div
         v-if="visible"
+        ref="panelRef"
         class="yiz-dropmenu-panel"
         :style="position"
         @mouseenter="$emit('mouseenter')"
@@ -53,10 +54,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, toRef } from 'vue'
 import { ChevronRight16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
 import IconRenderer from '../menu/IconRenderer.vue'
+import { useOverlayElement } from '../overlay/overlayScope'
 import type { DropmenuOption } from './types'
 
 const props = withDefaults(
@@ -85,6 +87,8 @@ const emit = defineEmits<{
 
 const hoveredItem = ref<DropmenuOption | null>(null)
 const childStyle = ref<Record<string, string>>({})
+const panelRef = ref<HTMLElement>()
+useOverlayElement(panelRef, toRef(props, 'visible'))
 let childTimer: ReturnType<typeof setTimeout> | null = null
 
 const childZIndex = computed(() => {

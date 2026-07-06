@@ -113,6 +113,7 @@ import Button from '../button/Button.vue'
 import { Icon } from '../icon'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t } from '../locale'
+import { useOverlayElement } from '../overlay/overlayScope'
 import { nextZIndex } from '../zIndex'
 
 const props = withDefaults(
@@ -148,6 +149,7 @@ const isHovering = ref(false)
 const currentZIndex = ref(0)
 const triggerRef = ref<HTMLElement>()
 const panelRef = ref<HTMLElement>()
+useOverlayElement(panelRef, open)
 const inputRef = ref<HTMLInputElement>()
 const hourListRef = ref<HTMLElement>()
 const minuteListRef = ref<HTMLElement>()

@@ -85,6 +85,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import Button from '../button/Button.vue'
 import Input from '../input/Input.vue'
 import { $t } from '../locale'
+import { useOverlayElement } from '../overlay/overlayScope'
 import { nextZIndex } from '../zIndex'
 
 interface HsvColor {
@@ -131,6 +132,7 @@ const open = ref(false)
 const currentZIndex = ref(0)
 const triggerRef = ref<HTMLElement>()
 const dropdownRef = ref<HTMLElement>()
+useOverlayElement(dropdownRef, open)
 const panelRef = ref<HTMLElement>()
 const hueRef = ref<HTMLElement>()
 const alphaRef = ref<HTMLElement>()

@@ -160,6 +160,7 @@ import Button from '../button/Button.vue'
 import LinkButton from '../link-button/LinkButton.vue'
 import { Icon } from '../icon'
 import { $t, $tList } from '../locale'
+import { useOverlayElement } from '../overlay/overlayScope'
 import { nextZIndex } from '../zIndex'
 import { type DateTimeValue, formatDateTime, parseDateTime, parseDateTimeValue } from '../datetime-utils'
 
@@ -200,6 +201,7 @@ const open = ref(false)
 const currentZIndex = ref(0)
 const triggerRef = ref<HTMLElement>()
 const panelRef = ref<HTMLElement>()
+useOverlayElement(panelRef, open)
 const inputRef = ref<HTMLInputElement>()
 const isHovering = ref(false)
 const inputFocused = ref(false)

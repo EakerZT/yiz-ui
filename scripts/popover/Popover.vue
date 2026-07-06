@@ -29,6 +29,14 @@
 <script lang="ts" setup>
 import { cloneVNode, computed, h, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch, type VNode } from 'vue'
 import { nextZIndex } from '../zIndex'
+import {
+  createOverlayScope,
+  disposeOverlayScope,
+  injectOverlayScope,
+  isInOverlayScope,
+  provideOverlayScope,
+  registerOverlayElement,
+} from '../overlay/overlayScope'
 
 type PopoverPlacement = 'top' | 'bottom' | 'left' | 'right'
 type PopoverTrigger = 'click' | 'hover' | 'focus'
@@ -64,6 +72,10 @@ const emit = defineEmits<{
   openChange: [open: boolean]
 }>()
 
+const parentOverlayScope = injectOverlayScope()
+const overlayScope = createOverlayScope()
+provideOverlayScope(overlayScope)
+
 const openModel = defineModel<boolean>('open')
 const slots = useSlots()
 const triggerRef = ref<HTMLElement>()
@@ -75,6 +87,7 @@ const arrowPosition = ref<Record<string, string>>({})
 const positioned = ref(false)
 const currentZIndex = ref(0)
 let closeTimer: ReturnType<typeof setTimeout> | null = null
+let unregisterParentOverlay: (() => void) | null = null
 
 const visible = computed({
   get: () => openModel.value ?? innerOpen.value,
@@ -255,6 +268,7 @@ function onClickOutside(e: MouseEvent) {
   const target = e.target as HTMLElement
   if (triggerRef.value?.contains(target)) return
   if (popRef.value?.contains(target)) return
+  if (isInOverlayScope(overlayScope, target)) return
   closePopover()
 }
 
@@ -280,10 +294,16 @@ watch(visible, async (open) => {
     await nextTick()
     if (!visible.value) return
     reposition()
+    if (parentOverlayScope && popRef.value) {
+      unregisterParentOverlay?.()
+      unregisterParentOverlay = registerOverlayElement(parentOverlayScope, popRef.value)
+    }
     positioned.value = true
   } else {
     arrowPosition.value = {}
     positioned.value = false
+    unregisterParentOverlay?.()
+    unregisterParentOverlay = null
   }
 })
 
@@ -310,6 +330,8 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   clearCloseTimer()
+  unregisterParentOverlay?.()
+  disposeOverlayScope(overlayScope)
   document.removeEventListener('click', onClickOutside, true)
   document.removeEventListener('keydown', onKeydown)
   window.removeEventListener('scroll', onReposition, true)

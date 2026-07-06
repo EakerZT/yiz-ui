@@ -338,6 +338,7 @@ import Button from '../button/Button.vue'
 import { Icon } from '../icon'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t, $tList } from '../locale'
+import { useOverlayElement } from '../overlay/overlayScope'
 import { nextZIndex } from '../zIndex'
 import { formatDateTime, parseDateTime, parseDateTimeValue, type DateTimeValue } from '../datetime-utils'
 
@@ -401,6 +402,7 @@ const activeSide = ref<DateTimeRangeSide>('start')
 const currentZIndex = ref(0)
 const triggerRef = ref<HTMLElement>()
 const panelRef = ref<HTMLElement>()
+useOverlayElement(panelRef, open)
 const startInputRef = ref<HTMLInputElement>()
 const endInputRef = ref<HTMLInputElement>()
 const startHourListRef = ref<HTMLElement>()
