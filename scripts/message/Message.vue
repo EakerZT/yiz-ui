@@ -2,7 +2,7 @@
   <Transition name="yiz-message-move-up" appear @after-leave="emit('destroy')">
     <div v-if="visible" class="yiz-message" :class="messageClass" :style="messageStyle">
       <span v-if="showIcon && messageIcon" class="yiz-message-icon">
-        <Icon size="20" :icon="messageIcon" />
+        <Icon :size="20" :icon="messageIcon" />
       </span>
       <span v-if="hasContent" class="yiz-message-content">
         <slot>{{ content }}</slot>
