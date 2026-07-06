@@ -32,7 +32,7 @@
     </y-card>
 
     <y-card :title="$t('demo.common.customContent')" style="margin-top: 8px">
-      <y-popover :width="300">
+      <y-popover :width="1200">
         <template #title>{{ $t('demo.popover.customTitle') }}</template>
         <template #content>
           <div class="demo-popover-content">

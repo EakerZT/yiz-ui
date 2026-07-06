@@ -20,7 +20,7 @@
             <slot name="content">{{ content }}</slot>
           </div>
         </div>
-        <div v-if="showArrow" class="yiz-popover-arrow" />
+        <div v-if="showArrow" class="yiz-popover-arrow" :style="arrowPosition" />
       </div>
     </transition>
   </Teleport>
@@ -71,6 +71,7 @@ const popRef = ref<HTMLDivElement>()
 const innerOpen = ref(false)
 const effectivePlacement = ref<PopoverPlacement>(props.placement)
 const popPosition = ref<Record<string, string>>({})
+const arrowPosition = ref<Record<string, string>>({})
 const positioned = ref(false)
 const currentZIndex = ref(0)
 let closeTimer: ReturnType<typeof setTimeout> | null = null
@@ -132,6 +133,10 @@ function setTriggerRef(el: any) {
 function toCssSize(value: number | string | undefined) {
   if (value == null || value === '') return undefined
   return typeof value === 'number' ? `${value}px` : value
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.max(min, Math.min(value, max))
 }
 
 function clearCloseTimer() {
@@ -226,12 +231,21 @@ function reposition() {
     top = tr.top + tr.height / 2 - pr.height / 2
   }
 
-  left = Math.max(margin, Math.min(left, vw - pr.width - margin))
-  top = Math.max(margin, Math.min(top, vh - pr.height - margin))
+  left = clamp(left, margin, vw - pr.width - margin)
+  top = clamp(top, margin, vh - pr.height - margin)
 
   popPosition.value = {
     left: `${left}px`,
     top: `${top}px`,
+  }
+  if (placement === 'top' || placement === 'bottom') {
+    arrowPosition.value = {
+      left: `${clamp(tr.left + tr.width / 2 - left, 12, pr.width - 12)}px`,
+    }
+  } else {
+    arrowPosition.value = {
+      top: `${clamp(tr.top + tr.height / 2 - top, 12, pr.height - 12)}px`,
+    }
   }
   effectivePlacement.value = placement
 }
@@ -261,12 +275,14 @@ watch(visible, async (open) => {
     currentZIndex.value = nextZIndex()
     effectivePlacement.value = props.placement
     popPosition.value = {}
+    arrowPosition.value = {}
     positioned.value = false
     await nextTick()
     if (!visible.value) return
     reposition()
     positioned.value = true
   } else {
+    arrowPosition.value = {}
     positioned.value = false
   }
 })
@@ -344,27 +360,27 @@ onBeforeUnmount(() => {
 
 .yiz-popover-top .yiz-popover-arrow {
   left: 50%;
-  bottom: 5px;
+  bottom: 3px;
   border-left: 0;
   border-top: 0;
 }
 
 .yiz-popover-bottom .yiz-popover-arrow {
   left: 50%;
-  top: 5px;
+  top: 3px;
   border-right: 0;
   border-bottom: 0;
 }
 
 .yiz-popover-left .yiz-popover-arrow {
-  right: 5px;
+  right: 3px;
   top: 50%;
   border-left: 0;
   border-bottom: 0;
 }
 
 .yiz-popover-right .yiz-popover-arrow {
-  left: 5px;
+  left: 3px;
   top: 50%;
   border-right: 0;
   border-top: 0;
