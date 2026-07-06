@@ -28,7 +28,14 @@
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-pagination-size-list">
         <y-radio-button-group v-model:value="paginationSize" :options="sizeOptions" />
-        <y-pagination v-model:page="sizeDemoPage" :total="180" :size="paginationSize" show-total />
+        <y-pagination
+          v-model:page="sizeDemoPage"
+          :total="180"
+          :size="paginationSize"
+          show-total
+          show-size-changer
+          show-quick-jumper
+        />
       </div>
     </y-card>
 

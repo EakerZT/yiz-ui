@@ -9,7 +9,7 @@
       :aria-label="$t('pagination.previousPage')"
       @click="goToPage(currentPage - 1)"
     >
-      &lt;
+      <Icon :size="paginationIconSize" :icon="previousIcon" />
     </button>
 
     <template v-if="simple">
@@ -41,7 +41,8 @@
         :aria-current="item === currentPage ? 'page' : undefined"
         @click="onPagerClick(item)"
       >
-        {{ typeof item === 'number' ? item : '...' }}
+        <template v-if="typeof item === 'number'">{{ item }}</template>
+        <Icon v-else :size="paginationIconSize" :icon="moreIcon" />
       </button>
     </template>
 
@@ -52,7 +53,7 @@
       :aria-label="$t('pagination.nextPage')"
       @click="goToPage(currentPage + 1)"
     >
-      &gt;
+      <Icon :size="paginationIconSize" :icon="nextIcon" />
     </button>
 
     <span v-if="showSizeChanger" class="yiz-pagination-size-select">
@@ -83,7 +84,16 @@
 
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
+import {
+  ChevronLeft16Regular,
+  ChevronLeft20Regular,
+  ChevronRight16Regular,
+  ChevronRight20Regular,
+  MoreHorizontal16Regular,
+  MoreHorizontal20Regular,
+} from '@vicons/fluent'
 import { $t } from '../locale'
+import { Icon } from '../icon'
 import Input from '../input/Input.vue'
 import Select from '../select/Select.vue'
 
@@ -142,6 +152,16 @@ const vClass = computed(() => ({
   'yiz-pagination-large': props.size === 'large',
   'yiz-pagination-simple-mode': props.simple,
 }))
+
+const paginationIconSize = computed(() => {
+  if (props.size === 'small') return 14
+  if (props.size === 'large') return 20
+  return 16
+})
+
+const previousIcon = computed(() => (props.size === 'large' ? ChevronLeft20Regular : ChevronLeft16Regular))
+const nextIcon = computed(() => (props.size === 'large' ? ChevronRight20Regular : ChevronRight16Regular))
+const moreIcon = computed(() => (props.size === 'large' ? MoreHorizontal20Regular : MoreHorizontal16Regular))
 
 const totalLabel = computed(() => {
   if (normalizedTotal.value === 0) return $t('pagination.total', { total: 0 })
@@ -274,6 +294,9 @@ function commitSimplePage() {
 
 .yiz-pagination-item,
 .yiz-pagination-go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 32px;
   height: 32px;
   padding: 0 8px;
@@ -351,12 +374,12 @@ function commitSimplePage() {
 
   .yiz-pagination-item,
   .yiz-pagination-go {
-    min-width: 26px;
-    height: 26px;
-    padding: 0 6px;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 4px;
     border-radius: var(--yiz-base-border-radius-small);
-    font-size: 13px;
-    line-height: 24px;
+    font-size: 12px;
+    line-height: 22px;
   }
 
   .yiz-pagination-input {
