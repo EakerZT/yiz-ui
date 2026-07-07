@@ -698,7 +698,6 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   position: relative;
-  min-width: 260px;
   box-sizing: border-box;
 }
 

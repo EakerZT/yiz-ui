@@ -465,7 +465,6 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 8px;
   height: 32px;
-  min-width: 116px;
   padding: 0 10px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
@@ -499,7 +498,6 @@ onBeforeUnmount(() => {
 
   &.yiz-color-picker-small {
     height: 24px;
-    min-width: 104px;
     padding: 0 8px;
     border-radius: var(--yiz-base-border-radius-small);
     font-size: 13px;
@@ -512,7 +510,6 @@ onBeforeUnmount(() => {
 
   &.yiz-color-picker-large {
     height: 40px;
-    min-width: 128px;
     padding: 0 12px;
     border-radius: var(--yiz-base-border-radius-large);
     font-size: 16px;

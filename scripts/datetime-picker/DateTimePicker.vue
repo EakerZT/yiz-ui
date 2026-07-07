@@ -491,7 +491,6 @@ onBeforeUnmount(() => {
 <style lang="less">
 .yiz-datetime-picker {
   display: flex;
-  min-width: 220px;
 }
 
 .yiz-datetime-picker-input {

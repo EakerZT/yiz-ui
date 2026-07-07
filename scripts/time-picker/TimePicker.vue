@@ -501,7 +501,6 @@ defineExpose({
   display: flex;
   align-items: center;
   position: relative;
-  min-width: 140px;
   box-sizing: border-box;
 }
 
