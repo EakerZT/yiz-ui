@@ -13,6 +13,8 @@ import type {
   DateRangePicker,
   DateTimePicker,
   DateTimeRangePicker,
+  DescriptionItem,
+  Descriptions,
   Dialog,
   Divider,
   Dropmenu,
@@ -27,6 +29,7 @@ import type {
   InputGroup,
   InputPassword,
   InputNumber,
+  Info,
   LinkButton,
   Loading,
   Menu,
@@ -92,6 +95,10 @@ declare module 'vue' {
     YDateTimeRangePicker: typeof DateTimeRangePicker
     'y-datetime-range-picker': typeof DateTimeRangePicker
     'y-date-time-range-picker': typeof DateTimeRangePicker
+    YDescriptions: typeof Descriptions
+    'y-descriptions': typeof Descriptions
+    YDescriptionItem: typeof DescriptionItem
+    'y-description-item': typeof DescriptionItem
     YDialog: typeof Dialog
     'y-dialog': typeof Dialog
     YDivider: typeof Divider
@@ -120,6 +127,8 @@ declare module 'vue' {
     'y-input-password': typeof InputPassword
     YInputNumber: typeof InputNumber
     'y-input-number': typeof InputNumber
+    YInfo: typeof Info
+    'y-info': typeof Info
     YLinkButton: typeof LinkButton
     'y-link-button': typeof LinkButton
     YLoading: typeof Loading

@@ -56,6 +56,7 @@ import DatePickerDemo from './pages/DatePickerDemo.vue'
 import DateRangePickerDemo from './pages/DateRangePickerDemo.vue'
 import DateTimePickerDemo from './pages/DateTimePickerDemo.vue'
 import DateTimeRangePickerDemo from './pages/DateTimeRangePickerDemo.vue'
+import DescriptionsDemo from './pages/DescriptionsDemo.vue'
 import EmptyDemo from './pages/EmptyDemo.vue'
 import FormDemo from './pages/FormDemo.vue'
 import DividerDemo from './pages/DividerDemo.vue'
@@ -65,6 +66,7 @@ import InputCustomDemo from './pages/InputCustomDemo.vue'
 import InputGroupDemo from './pages/InputGroupDemo.vue'
 import InputPasswordDemo from './pages/InputPasswordDemo.vue'
 import InputNumberDemo from './pages/InputNumberDemo.vue'
+import InfoDemo from './pages/InfoDemo.vue'
 import LoadingDemo from './pages/LoadingDemo.vue'
 import LoadingBarDemo from './pages/LoadingBarDemo.vue'
 import MenuDemo from './pages/MenuDemo.vue'
@@ -108,6 +110,7 @@ const pages: Record<string, any> = {
   'date-range-picker': DateRangePickerDemo,
   'datetime-picker': DateTimePickerDemo,
   'datetime-range-picker': DateTimeRangePickerDemo,
+  descriptions: DescriptionsDemo,
   empty: EmptyDemo,
   form: FormDemo,
   dialog: DialogDemo,
@@ -119,6 +122,7 @@ const pages: Record<string, any> = {
   'input-group': InputGroupDemo,
   'input-password': InputPasswordDemo,
   'input-number': InputNumberDemo,
+  info: InfoDemo,
   loading: LoadingDemo,
   'loading-bar': LoadingBarDemo,
   menu: MenuDemo,
@@ -159,6 +163,7 @@ const menuItems = computed(() => [
   { label: $t('demo.nav.dateRangePicker'), key: 'date-range-picker' },
   { label: $t('demo.nav.datetimePicker'), key: 'datetime-picker' },
   { label: $t('demo.nav.datetimeRangePicker'), key: 'datetime-range-picker' },
+  { label: $t('demo.nav.descriptions'), key: 'descriptions' },
   { label: $t('demo.nav.empty'), key: 'empty' },
   { label: $t('demo.nav.form'), key: 'form' },
   { label: $t('demo.nav.dialog'), key: 'dialog' },
@@ -171,6 +176,7 @@ const menuItems = computed(() => [
   { label: $t('demo.nav.inputGroup'), key: 'input-group' },
   { label: $t('demo.nav.inputPassword'), key: 'input-password' },
   { label: $t('demo.nav.inputNumber'), key: 'input-number' },
+  { label: $t('demo.nav.info'), key: 'info' },
   { label: $t('demo.nav.loading'), key: 'loading' },
   { label: $t('demo.nav.loadingBar'), key: 'loading-bar' },
   { label: $t('demo.nav.menu'), key: 'menu' },
