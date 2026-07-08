@@ -1569,7 +1569,8 @@ const enUS: LangMessages = {
   'demo.info.closeTextMessage': 'Text can be used as the close button.',
   'demo.info.closeCount': 'Close count: {count}',
   'demo.info.actionMessage': 'Action notice',
-  'demo.info.actionDescription': 'The notice area can include action buttons so users can handle the current item directly.',
+  'demo.info.actionDescription':
+    'The notice area can include action buttons so users can handle the current item directly.',
 
   'demo.inputNumber.title': 'InputNumber',
   'demo.inputNumber.desc': 'Enter numbers with mouse or keyboard, using buttons or arrow keys to adjust.',

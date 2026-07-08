@@ -27,7 +27,17 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, getCurrentInstance, nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, ref, watch } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  nextTick,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  onMounted,
+  ref,
+  watch,
+} from 'vue'
 import type { ComponentPublicInstance, VNodeChild } from 'vue'
 
 export interface SegmentedOption {

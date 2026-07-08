@@ -13,11 +13,7 @@
     </y-card>
 
     <y-card :title="$t('demo.info.description')" style="margin-top: 8px">
-      <y-info
-        type="info"
-        :message="$t('demo.info.longMessage')"
-        :description="$t('demo.info.longDescription')"
-      />
+      <y-info type="info" :message="$t('demo.info.longMessage')" :description="$t('demo.info.longDescription')" />
     </y-card>
 
     <y-card :title="$t('demo.info.closable')" style="margin-top: 8px">

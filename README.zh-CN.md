@@ -47,6 +47,13 @@ pnpm add @eakerzt/yiz-ui
 
 ---
 
+## 文档与示例
+
+- [在线示例](https://eakerzt.github.io/yiz-ui/)
+- [更新记录](update.md)
+
+---
+
 ## 快速开始
 
 ### 全局 CSS 前置设置
@@ -92,14 +99,14 @@ import { Button, Input, Table, TableColumn } from '@eakerzt/yiz-ui'
 import '@eakerzt/yiz-ui/dist/yiz-ui.css'
 ```
 
-```html
+```vue
 <template>
-  <button type="primary">按钮</button>
-  <input v-model:value="text" />
-  <table :data="list">
+  <Button type="primary">按钮</Button>
+  <Input v-model:value="text" />
+  <Table :data="list">
     <TableColumn label="姓名" field="name" />
     <TableColumn label="年龄" field="age" />
-  </table>
+  </Table>
 </template>
 ```
 
@@ -135,6 +142,20 @@ Dialog.confirm({
 
 `onOk` 可以返回 Promise，此时确认按钮会进入 loading；返回 `false` 时确认框不会关闭。
 
+### Breadcrumb
+
+```html
+<template>
+  <y-breadcrumb>
+    <y-breadcrumb-item href="/">首页</y-breadcrumb-item>
+    <y-breadcrumb-item href="/components">组件</y-breadcrumb-item>
+    <y-breadcrumb-item>面包屑</y-breadcrumb-item>
+  </y-breadcrumb>
+</template>
+```
+
+通过 `separator` 插槽自定义分隔符。`BreadcrumbItem` 支持链接、点击事件、禁用状态和自定义内容。
+
 ### Collapse
 
 ```html
@@ -151,6 +172,22 @@ Dialog.confirm({
 ```
 
 使用 `accordion` 开启手风琴模式。`CollapseItem` 支持 `title` 和 `extra` 插槽。
+
+### Descriptions
+
+```html
+<template>
+  <y-descriptions title="用户信息" bordered>
+    <y-description-item label="姓名">张三</y-description-item>
+    <y-description-item label="角色">前端开发</y-description-item>
+    <y-description-item label="状态">
+      <y-tag color="success">启用</y-tag>
+    </y-description-item>
+  </y-descriptions>
+</template>
+```
+
+`Descriptions` 支持边框、水平/垂直布局、列数、条目跨度、title/extra 插槽，以及 `small` / `default` / `large` 三档尺寸。
 
 ### Upload
 
@@ -179,6 +216,21 @@ notification.error({ content: '错误信息' })
 const handle = notification({ content: '加载中...', duration: 0 })
 handle.close()
 ```
+
+### Info
+
+```html
+<template>
+  <y-info type="success" message="保存成功" closable>
+    变更已经生效。
+    <template #action>
+      <y-button size="small" type="primary">查看</y-button>
+    </template>
+  </y-info>
+</template>
+```
+
+`Info` 支持 `info`、`success`、`warning`、`error` 四种类型，可配置描述、自定义图标、操作区插槽和关闭事件。
 
 ### ContextMenu
 
@@ -228,6 +280,8 @@ loadingBar.reset()
 
 | 组件                | 标签                                               | 说明                                             |
 | :------------------ | :------------------------------------------------- | :----------------------------------------------- |
+| Breadcrumb          | `YBreadcrumb`                                      | 面包屑导航，支持自定义分隔符                     |
+| BreadcrumbItem      | `YBreadcrumbItem`                                  | 声明式面包屑项，支持链接、点击和禁用状态         |
 | Button              | `YButton`                                          | 按钮，支持类型、颜色、形状、加载态和涟漪动画     |
 | ButtonGroup         | `YButtonGroup`                                     | 水平或垂直按钮组                                 |
 | Card                | `YCard`                                            | 结构化内容容器                                   |
@@ -240,14 +294,18 @@ loadingBar.reset()
 | DateRangePicker     | `YDateRangePicker`                                 | 日期范围选择器，支持自动排序                     |
 | DateTimePicker      | `YDateTimePicker` / `y-datetime-picker`            | 日期时间选择器                                   |
 | DateTimeRangePicker | `YDateTimeRangePicker` / `y-datetime-range-picker` | 日期时间范围选择器                               |
+| Descriptions        | `YDescriptions`                                    | 描述列表，支持边框和垂直布局                     |
+| DescriptionItem     | `YDescriptionItem`                                 | 声明式描述项，支持 label 和 span                 |
 | Dialog              | `YDialog`                                          | 对话框，支持拖拽、Escape 关闭和 `Dialog.confirm` |
 | Divider             | `YDivider`                                         | 水平/垂直分割线，支持虚线和文本                  |
 | Drawer              | `YDrawer`                                          | 四方向抽屉，可调节尺寸                           |
 | Dropmenu            | `YDropmenu`                                        | 下拉菜单                                         |
+| DropmenuItem        | `YDropmenuItem`                                    | 声明式下拉菜单项                                 |
 | Empty               | `YEmpty`                                           | 空状态，可自定义图标和文案                       |
 | Form                | `YForm`                                            | 表单布局、校验和重置                             |
 | FormItem            | `YFormItem`                                        | 表单项，支持标签、必填标记和错误提示             |
 | Icon                | `YIcon`                                            | 将 Vue 组件渲染为图标                            |
+| Info                | `YInfo`                                            | 信息提示面板，支持类型、图标、操作区和关闭       |
 | Input               | `YInput`                                           | 输入框，支持前后缀和可清空                       |
 | InputCustom         | `YInputCustom`                                     | 输入框风格外壳，用于自定义或第三方逻辑           |
 | InputGroup          | `YInputGroup`                                      | 横向输入组合，支持 addon 和统一尺寸              |
@@ -302,7 +360,7 @@ loadingBar.reset()
 </template>
 ```
 
-适用组件包括 `Button`、`Card`、`ColorPicker`、`DatePicker`、`DateRangePicker`、`DateTimePicker`、`DateTimeRangePicker`、`Empty`、`Input`、`InputCustom`、`InputGroup`、`InputNumber`、`Loading`、`Pagination`、`RadioButton`、`RadioButtonGroup`、`Segmented`、`Select`、`Switch`、`Table`、`Tag`、`TimePicker`、`TimeRangePicker`、`Timeline`。
+适用组件包括 `Button`、`Card`、`ColorPicker`、`DatePicker`、`DateRangePicker`、`DateTimePicker`、`DateTimeRangePicker`、`Descriptions`、`Empty`、`Input`、`InputCustom`、`InputGroup`、`InputNumber`、`Loading`、`Pagination`、`RadioButton`、`RadioButtonGroup`、`Segmented`、`Select`、`Switch`、`Table`、`Tag`、`TimePicker`、`TimeRangePicker`、`Timeline`。
 
 `Button` 使用 `default` 表示中等尺寸，不支持旧的 `middle`。
 
@@ -349,6 +407,7 @@ yarn
 yarn dev
 yarn site:build
 yarn typecheck
+yarn format:check
 yarn build
 ```
 

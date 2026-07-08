@@ -47,6 +47,13 @@ pnpm add @eakerzt/yiz-ui
 
 ---
 
+## Documentation and Demo
+
+- [Online demo](https://eakerzt.github.io/yiz-ui/)
+- [Changelog](update.md)
+
+---
+
 ## Quick Start
 
 ### Global CSS Prerequisite
@@ -92,14 +99,14 @@ import { Button, Input, Table, TableColumn } from '@eakerzt/yiz-ui'
 import '@eakerzt/yiz-ui/dist/yiz-ui.css'
 ```
 
-```html
+```vue
 <template>
-  <button type="primary">Button</button>
-  <input v-model:value="text" />
-  <table :data="list">
+  <Button type="primary">Button</Button>
+  <Input v-model:value="text" />
+  <Table :data="list">
     <TableColumn label="Name" field="name" />
     <TableColumn label="Age" field="age" />
-  </table>
+  </Table>
 </template>
 ```
 
@@ -135,6 +142,20 @@ Dialog.confirm({
 
 `onOk` can return a Promise to show loading on the OK button. Return `false` to keep the confirm dialog open.
 
+### Breadcrumb
+
+```html
+<template>
+  <y-breadcrumb>
+    <y-breadcrumb-item href="/">Home</y-breadcrumb-item>
+    <y-breadcrumb-item href="/components">Components</y-breadcrumb-item>
+    <y-breadcrumb-item>Breadcrumb</y-breadcrumb-item>
+  </y-breadcrumb>
+</template>
+```
+
+Use the `separator` slot to customize separators. `BreadcrumbItem` supports links, click handlers, disabled items, and custom content.
+
 ### Collapse
 
 ```html
@@ -151,6 +172,22 @@ Dialog.confirm({
 ```
 
 Use `accordion` for single-panel mode. `CollapseItem` supports `title` and `extra` slots.
+
+### Descriptions
+
+```html
+<template>
+  <y-descriptions title="User info" bordered>
+    <y-description-item label="Name">Alice</y-description-item>
+    <y-description-item label="Role">Frontend</y-description-item>
+    <y-description-item label="Status">
+      <y-tag color="success">Enabled</y-tag>
+    </y-description-item>
+  </y-descriptions>
+</template>
+```
+
+`Descriptions` supports bordered, horizontal/vertical layouts, column count, item span, title/extra slots, and `small` / `default` / `large` sizes.
 
 ### Upload
 
@@ -179,6 +216,21 @@ notification.error({ content: 'Error' })
 const handle = notification({ content: 'Loading...', duration: 0 })
 handle.close()
 ```
+
+### Info
+
+```html
+<template>
+  <y-info type="success" message="Saved successfully" closable>
+    The change has been applied.
+    <template #action>
+      <y-button size="small" type="primary">View</y-button>
+    </template>
+  </y-info>
+</template>
+```
+
+`Info` supports `info`, `success`, `warning`, and `error` types, optional descriptions, custom icons, action slots, and close events.
 
 ### ContextMenu
 
@@ -228,6 +280,8 @@ The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-erro
 
 | Component           | Tag                                                | Description                                                       |
 | :------------------ | :------------------------------------------------- | :---------------------------------------------------------------- |
+| Breadcrumb          | `YBreadcrumb`                                      | Breadcrumb navigation with custom separators                      |
+| BreadcrumbItem      | `YBreadcrumbItem`                                  | Declarative breadcrumb item with link, click, and disabled states |
 | Button              | `YButton`                                          | Button with type, color, shape, loading, and wave animation       |
 | ButtonGroup         | `YButtonGroup`                                     | Horizontal or vertical button grouping                            |
 | Card                | `YCard`                                            | Structured content container                                      |
@@ -240,14 +294,18 @@ The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-erro
 | DateRangePicker     | `YDateRangePicker`                                 | Date range picker with optional auto sorting                      |
 | DateTimePicker      | `YDateTimePicker` / `y-datetime-picker`            | Date and time picker                                              |
 | DateTimeRangePicker | `YDateTimeRangePicker` / `y-datetime-range-picker` | Date-time range picker                                            |
+| Descriptions        | `YDescriptions`                                    | Description list with bordered and vertical layouts               |
+| DescriptionItem     | `YDescriptionItem`                                 | Declarative description item with label and span                  |
 | Dialog              | `YDialog`                                          | Dialog with drag, Escape support, and `Dialog.confirm`            |
 | Divider             | `YDivider`                                         | Horizontal/vertical divider with dashed and text modes            |
 | Drawer              | `YDrawer`                                          | Drawer with four placements and resizable size                    |
 | Dropmenu            | `YDropmenu`                                        | Dropdown menu based on menu item extraction                       |
+| DropmenuItem        | `YDropmenuItem`                                    | Declarative dropdown menu item                                    |
 | Empty               | `YEmpty`                                           | Empty state with custom icon and text                             |
 | Form                | `YForm`                                            | Form layout, validation, and reset                                |
 | FormItem            | `YFormItem`                                        | Form item with label, required marker, and errors                 |
 | Icon                | `YIcon`                                            | Render Vue components as icons                                    |
+| Info                | `YInfo`                                            | Alert-style information panel with type, icon, action, and close  |
 | Input               | `YInput`                                           | Input with prefix/suffix and clearable support                    |
 | InputCustom         | `YInputCustom`                                     | Input-like shell for custom or third-party logic                  |
 | InputGroup          | `YInputGroup`                                      | Horizontal input grouping with addons and unified size            |
@@ -302,7 +360,7 @@ Components with size variants use `small`, `default`, and `large` consistently.
 </template>
 ```
 
-Supported components include `Button`, `Card`, `ColorPicker`, `DatePicker`, `DateRangePicker`, `DateTimePicker`, `DateTimeRangePicker`, `Empty`, `Input`, `InputCustom`, `InputGroup`, `InputNumber`, `Loading`, `Pagination`, `RadioButton`, `RadioButtonGroup`, `Segmented`, `Select`, `Switch`, `Table`, `Tag`, `TimePicker`, `TimeRangePicker`, and `Timeline`.
+Supported components include `Button`, `Card`, `ColorPicker`, `DatePicker`, `DateRangePicker`, `DateTimePicker`, `DateTimeRangePicker`, `Descriptions`, `Empty`, `Input`, `InputCustom`, `InputGroup`, `InputNumber`, `Loading`, `Pagination`, `RadioButton`, `RadioButtonGroup`, `Segmented`, `Select`, `Switch`, `Table`, `Tag`, `TimePicker`, `TimeRangePicker`, and `Timeline`.
 
 `Button` uses `default` for the middle size. The old `middle` value is not supported.
 
@@ -349,6 +407,7 @@ yarn
 yarn dev
 yarn site:build
 yarn typecheck
+yarn format:check
 yarn build
 ```
 

@@ -20,7 +20,12 @@
               </th>
             </tr>
             <tr>
-              <td v-for="item in row" :key="`${item.key}-content`" class="yiz-descriptions-content" :colspan="item.span">
+              <td
+                v-for="item in row"
+                :key="`${item.key}-content`"
+                class="yiz-descriptions-content"
+                :colspan="item.span"
+              >
                 <DescriptionSlotRenderer v-if="item.defaultSlot" :render="item.defaultSlot" />
               </td>
             </tr>
@@ -155,7 +160,9 @@ const items = computed<ResolvedDescriptionItem[]>(() => {
           ? vnodeSlots.default
           : undefined,
       labelSlot:
-        vnodeSlots && typeof vnodeSlots === 'object' && typeof vnodeSlots.label === 'function' ? vnodeSlots.label : undefined,
+        vnodeSlots && typeof vnodeSlots === 'object' && typeof vnodeSlots.label === 'function'
+          ? vnodeSlots.label
+          : undefined,
     }
   })
 })
