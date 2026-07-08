@@ -27,6 +27,7 @@ const zhCN: LangMessages = {
   'demo.nav.datetimeRangePicker': 'DateTimeRangePicker 日期时间段',
   'demo.nav.descriptions': 'Descriptions 描述列表',
   'demo.nav.empty': 'Empty 空状态',
+  'demo.nav.emitter': 'Emitter 事件总线',
   'demo.nav.form': 'Form 表单',
   'demo.nav.dialog': 'Dialog 弹窗',
   'demo.nav.divider': 'Divider 分割线',
@@ -1007,6 +1008,29 @@ const zhCN: LangMessages = {
   'demo.upload.dropTitle': '点击或拖动文件到此处',
   'demo.upload.dropDesc': '外观完全来自插槽元素',
   'demo.upload.noFiles': '未选择文件',
+
+  'demo.emitter.title': 'Emitter 事件总线',
+  'demo.emitter.desc':
+    '用于组件间通信和普通 TypeScript 模块通信的轻量事件总线。组件中通过 useEmitter 注册的监听会在组件销毁时自动移除。',
+  'demo.emitter.apiTitle': '导出 API',
+  'demo.emitter.apiDesc':
+    'emitter 是组件库默认创建的全局实例；createEmitter 用于创建匿名或具名实例；useEmitter 只能在 Vue setup 或 effect scope 中使用。',
+  'demo.emitter.componentTitle': '组件中使用',
+  'demo.emitter.componentDesc':
+    'useEmitter 返回 emit、emitAsync、on、off、once、clear、count。on 和 once 注册的监听会绑定当前组件生命周期。',
+  'demo.emitter.namedTitle': '具名 Emitter',
+  'demo.emitter.namedDesc':
+    'createEmitter(name) 会注册具名实例；重复创建同名实例会报错；useEmitter(name) 只能使用已经创建过的具名实例。',
+  'demo.emitter.tsTitle': '普通 TypeScript 文件',
+  'demo.emitter.tsDesc':
+    '普通 TypeScript 文件中直接导入 emitter 或业务模块导出的具名 emitter。这里没有 Vue 生命周期，监听需要手动调用返回的 off 函数或 off 方法移除。',
+  'demo.emitter.rulesTitle': '行为规则',
+  'demo.emitter.ruleScope':
+    'useEmitter 必须在 Vue setup 或 effect scope 中调用，普通 TypeScript 文件不要使用 useEmitter。',
+  'demo.emitter.ruleNamed': 'useEmitter(name) 不会自动创建实例；name 不存在时会直接报错。',
+  'demo.emitter.ruleDuplicate': 'createEmitter(name) 会创建并注册具名实例；同名重复创建会直接报错。',
+  'demo.emitter.ruleEmit': 'emit 同步触发监听；emitAsync 触发同一批监听并等待 Promise 完成，错误会汇总后抛出。',
+  'demo.emitter.ruleClear': 'clear(name) 只清理指定事件名的监听，不提供无参清空全部监听的用法。',
 }
 
 const enUS: LangMessages = {
@@ -1026,6 +1050,7 @@ const enUS: LangMessages = {
   'demo.nav.datetimeRangePicker': 'DateTimeRangePicker',
   'demo.nav.descriptions': 'Descriptions',
   'demo.nav.empty': 'Empty',
+  'demo.nav.emitter': 'Emitter',
   'demo.nav.form': 'Form',
   'demo.nav.dialog': 'Dialog',
   'demo.nav.divider': 'Divider',
@@ -1569,7 +1594,8 @@ const enUS: LangMessages = {
   'demo.info.closeTextMessage': 'Text can be used as the close button.',
   'demo.info.closeCount': 'Close count: {count}',
   'demo.info.actionMessage': 'Action notice',
-  'demo.info.actionDescription': 'The notice area can include action buttons so users can handle the current item directly.',
+  'demo.info.actionDescription':
+    'The notice area can include action buttons so users can handle the current item directly.',
 
   'demo.inputNumber.title': 'InputNumber',
   'demo.inputNumber.desc': 'Enter numbers with mouse or keyboard, using buttons or arrow keys to adjust.',
@@ -2025,6 +2051,33 @@ const enUS: LangMessages = {
   'demo.upload.dropTitle': 'Click or drop files here',
   'demo.upload.dropDesc': 'The visual appearance comes entirely from the slot element.',
   'demo.upload.noFiles': 'No files selected',
+
+  'demo.emitter.title': 'Emitter',
+  'demo.emitter.desc':
+    'A lightweight event bus for component communication and plain TypeScript modules. Listeners registered with useEmitter in a component are removed automatically when the component is disposed.',
+  'demo.emitter.apiTitle': 'Exports',
+  'demo.emitter.apiDesc':
+    'emitter is the default global instance created by the library. createEmitter creates anonymous or named instances. useEmitter is only available inside a Vue setup or effect scope.',
+  'demo.emitter.componentTitle': 'Component usage',
+  'demo.emitter.componentDesc':
+    'useEmitter returns emit, emitAsync, on, off, once, clear, and count. Listeners registered with on and once are bound to the current component lifecycle.',
+  'demo.emitter.namedTitle': 'Named emitters',
+  'demo.emitter.namedDesc':
+    'createEmitter(name) registers a named instance. Creating the same name twice throws. useEmitter(name) can only use a named instance that has already been created.',
+  'demo.emitter.tsTitle': 'Plain TypeScript modules',
+  'demo.emitter.tsDesc':
+    'Plain TypeScript modules can import emitter directly or import a named emitter from business code. There is no Vue lifecycle here, so listeners must be removed manually with the returned off function or the off method.',
+  'demo.emitter.rulesTitle': 'Rules',
+  'demo.emitter.ruleScope':
+    'useEmitter must be called inside a Vue setup or effect scope. Plain TypeScript modules should not use useEmitter.',
+  'demo.emitter.ruleNamed':
+    'useEmitter(name) does not create instances automatically. It throws when the name does not exist.',
+  'demo.emitter.ruleDuplicate':
+    'createEmitter(name) creates and registers a named instance. Creating a duplicate name throws.',
+  'demo.emitter.ruleEmit':
+    'emit triggers listeners synchronously. emitAsync triggers the same listeners and waits for promises, then throws aggregated errors.',
+  'demo.emitter.ruleClear':
+    'clear(name) only removes listeners for the given event name. There is no public no-argument clear-all API.',
 }
 
 registerLangItem('zh-CN', zhCN)
