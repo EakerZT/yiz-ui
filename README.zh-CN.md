@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  一个基于 Vue 3 的 UI 组件库，使用 TypeScript 编写，简洁、轻量、实用。
+  一个基于 Vue 3 和 TypeScript 的 UI 组件库，简洁、轻量、实用。
 </p>
 
 <p align="center">
@@ -21,13 +21,11 @@
 
 - **50+ 组件**，覆盖表单、数据展示、导航、反馈和常见应用场景。
 - **TypeScript 优先**，严格模式开发，组件 API 对类型友好。
+- **Vue 3.4+**，使用 `defineModel`、`<script setup>` 和现代 Vue 模式。
 - **CSS 变量主题**，通过 `--yiz-*` 自定义属性定制样式。
 - **内置 i18n**，提供中文和英文，并支持运行时扩展语言。
-- **支持 Tree Shaking**，按需引入，不打包未使用组件。
-- **Vue 3.4+**，使用 `defineModel`、`<script setup>` 和现代 Vue 模式。
+- **支持 Tree Shaking**，组件导出支持按需引入。
 - **工具 API**，支持全局提示、确认框、通知、右键菜单、加载进度条和类型化事件总线。
-
----
 
 ## 安装
 
@@ -43,30 +41,16 @@ pnpm add @eakerzt/yiz-ui
 
 | 依赖 | 版本     |
 | :--- | :------- |
-| vue  | >= 3.2.0 |
+| vue  | >= 3.4.0 |
 
----
-
-## 文档与示例
+## 文档
 
 - [在线示例](https://eakerzt.github.io/yiz-ui/)
 - [更新记录](update.md)
 
----
-
 ## 快速开始
 
-### 全局 CSS 前置设置
-
-使用组件前，请在应用的全局样式中加入以下规则。部分组件的尺寸计算依赖 `border-box`；缺少该规则时，边框和内边距可能导致布局或尺寸异常。
-
-```css
-* {
-  box-sizing: border-box;
-}
-```
-
-### 全量注册
+引入全局样式并安装插件：
 
 ```ts
 import { createApp } from 'vue'
@@ -81,7 +65,7 @@ app.mount('#app')
 
 全量注册后，所有组件都可以使用 `Y` 前缀：
 
-```html
+```vue
 <template>
   <y-button type="primary" @click="handleClick">点击</y-button>
   <y-input v-model:value="text" placeholder="请输入" />
@@ -90,6 +74,16 @@ app.mount('#app')
     <y-table-column label="年龄" field="age" />
   </y-table>
 </template>
+```
+
+### 全局 CSS 前置设置
+
+部分组件的尺寸计算依赖 `border-box`。使用组件前，请在应用的全局样式中加入以下规则：
+
+```css
+* {
+  box-sizing: border-box;
+}
 ```
 
 ### 按需引入
@@ -109,6 +103,8 @@ import '@eakerzt/yiz-ui/dist/yiz-ui.css'
   </Table>
 </template>
 ```
+
+## 工具 API
 
 ### Message
 
@@ -142,65 +138,6 @@ Dialog.confirm({
 
 `onOk` 可以返回 Promise，此时确认按钮会进入 loading；返回 `false` 时确认框不会关闭。
 
-### Breadcrumb
-
-```html
-<template>
-  <y-breadcrumb>
-    <y-breadcrumb-item href="/">首页</y-breadcrumb-item>
-    <y-breadcrumb-item href="/components">组件</y-breadcrumb-item>
-    <y-breadcrumb-item>面包屑</y-breadcrumb-item>
-  </y-breadcrumb>
-</template>
-```
-
-通过 `separator` 插槽自定义分隔符。`BreadcrumbItem` 支持链接、点击事件、禁用状态和自定义内容。
-
-### Collapse
-
-```html
-<template>
-  <y-collapse v-model:value="activeKeys">
-    <y-collapse-item name="profile" title="用户资料">
-      账号详情和用户状态。
-      <template #extra>
-        <y-link-button @click.stop="editProfile">编辑</y-link-button>
-      </template>
-    </y-collapse-item>
-  </y-collapse>
-</template>
-```
-
-使用 `accordion` 开启手风琴模式。`CollapseItem` 支持 `title` 和 `extra` 插槽。
-
-### Descriptions
-
-```html
-<template>
-  <y-descriptions title="用户信息" bordered>
-    <y-description-item label="姓名">张三</y-description-item>
-    <y-description-item label="角色">前端开发</y-description-item>
-    <y-description-item label="状态">
-      <y-tag color="success">启用</y-tag>
-    </y-description-item>
-  </y-descriptions>
-</template>
-```
-
-`Descriptions` 支持边框、水平/垂直布局、列数、条目跨度、title/extra 插槽，以及 `small` / `default` / `large` 三档尺寸。
-
-### Upload
-
-```html
-<template>
-  <y-upload multiple accept="image/*" allow-drag @upload="onUpload">
-    <y-button type="primary">选择图片</y-button>
-  </y-upload>
-</template>
-```
-
-`Upload` 没有默认可视化样式，外观完全由插槽元素决定；点击或拖动文件到插槽元素时，通过 `upload` 事件返回 `File[]`。
-
 ### Notification
 
 ```ts
@@ -217,20 +154,26 @@ const handle = notification({ content: '加载中...', duration: 0 })
 handle.close()
 ```
 
-### Info
+### LoadingBar
 
-```html
-<template>
-  <y-info type="success" message="保存成功" closable>
-    变更已经生效。
-    <template #action>
-      <y-button size="small" type="primary">查看</y-button>
-    </template>
-  </y-info>
-</template>
+```ts
+import { loadingBar } from '@eakerzt/yiz-ui'
+
+loadingBar.start()
+loadingBar.done()
+loadingBar.fail()
+
+loadingBar.set(0.4)
+loadingBar.inc()
+loadingBar.dec()
+loadingBar.pause()
+loadingBar.resume()
+
+loadingBar.configure({ color: '#52c41a', height: '3px', indeterminate: true, direction: 'rtl' })
+loadingBar.reset()
 ```
 
-`Info` 支持 `info`、`success`、`warning`、`error` 四种类型，可配置描述、自定义图标、操作区插槽和关闭事件。
+默认色使用 `--yiz-color-primary`，`fail()` 使用 `--yiz-color-error`。不确定模式（`indeterminate: true`）会显示来回滑动的动画条，不显示百分比。
 
 ### ContextMenu
 
@@ -250,30 +193,6 @@ showContextMenu(
 )
 ```
 
-`ContextMenu` 支持 `item`、`divider`、`submenu`、`checkbox`、`radiogroup` 五种项类型，嵌套子菜单会在视口边缘自动翻转。
-
-### LoadingBar
-
-```ts
-import { loadingBar } from '@eakerzt/yiz-ui'
-
-loadingBar.start()
-loadingBar.done()
-
-loadingBar.fail()
-
-loadingBar.set(0.4)
-loadingBar.inc()
-loadingBar.dec()
-loadingBar.pause()
-loadingBar.resume()
-
-loadingBar.configure({ color: '#52c41a', height: '3px', indeterminate: true, direction: 'rtl' })
-loadingBar.reset()
-```
-
-默认色使用 `--yiz-color-primary`，`fail()` 使用 `--yiz-color-error`。不确定模式（`indeterminate: true`）会显示来回滑动的动画条，不显示百分比。
-
 ### Emitter
 
 ```ts
@@ -285,18 +204,15 @@ type FormEvents = {
   reset: []
 }
 
-// 默认全局 emitter，适合普通 TypeScript 模块。
 const off = emitter.on('notify', (message) => {
   console.log(message)
 })
 emitter.emit('notify', '已保存')
 off()
 
-// 具名 emitter 必须显式创建。同名重复创建会直接报错。
 export const formEmitter = createEmitter<FormEvents>('form')
 formEmitter.emit('submit', new FormData(), true)
 
-// 在 Vue setup/effect scope 中，useEmitter() 注册的监听会在销毁时自动移除。
 const { emit, emitAsync, on, once, off: offEvent, clear, count } = useEmitter<FormEvents>('form')
 
 on('change', (value) => {
@@ -315,9 +231,7 @@ clear('change')
 console.log(count('change'))
 ```
 
-`createEmitter()` 不传 name 时会创建一个独立 emitter。`createEmitter(name)` 会注册具名共享 emitter，同名重复创建会报错。`useEmitter(name)` 只使用已经存在的具名 emitter，并且必须在 Vue setup 或 effect scope 中调用。`emit()` 同步触发监听；`emitAsync()` 会等待监听返回的 Promise，任意监听失败时会汇总错误后抛出。
-
----
+`createEmitter()` 不传 name 时会创建一个独立 emitter。`createEmitter(name)` 会注册具名共享 emitter，同名重复创建会报错。`useEmitter(name)` 只使用已经存在的具名 emitter，并且必须在 Vue setup 或 effect scope 中调用。
 
 ## 组件
 
@@ -386,13 +300,11 @@ console.log(count('change'))
 | Tree                | `YTree`                                            | 递归树，支持复选/单选和半选态                    |
 | Upload              | `YUpload`                                          | 插槽驱动的文件选择，支持点击、拖动、多选和类型   |
 
----
-
 ## 尺寸
 
 支持尺寸的组件统一使用 `small`、`default`、`large` 三档。
 
-```html
+```vue
 <template>
   <y-button size="small">Small</y-button>
   <y-button size="default">Default</y-button>
@@ -408,8 +320,6 @@ console.log(count('change'))
 `Button` 使用 `default` 表示中等尺寸，不支持旧的 `middle`。
 
 `Icon.size` 接收数字或字符串尺寸，不使用三档枚举。
-
----
 
 ## 国际化
 
@@ -437,16 +347,15 @@ registerLangItem('zh-CN', {
 const placeholder = computed(() => $t('select.placeholder'))
 ```
 
----
-
 ## 开发
+
+本仓库使用 Yarn Classic。仓库开发命令不要使用 `npm` 或 `pnpm`。
 
 ```bash
 git clone https://github.com/EakerZT/yiz-ui.git
 cd yiz-ui
 
 yarn
-
 yarn dev
 yarn site:build
 yarn typecheck
@@ -467,30 +376,34 @@ yarn build
 
 - [SortableBox 后续计划](plans/sortable-box-roadmap.md)
 
----
-
 ## 发布
+
+推送 `v*` 标签后，GitHub Actions 会自动发布包。
 
 ```bash
 npm version patch # 或 minor / major
+git push --follow-tags
+```
 
-# prepublishOnly 会自动执行 typecheck + build
+发布工作流会执行 `yarn install --frozen-lockfile`、`yarn typecheck`、`yarn build` 和 `npm publish --access public`。
+
+本地兜底发布：
+
+```bash
 npm publish
 ```
 
----
+`prepublishOnly` 会在发布前自动执行 `yarn typecheck && yarn build`。
 
 ## 致谢
 
-- [Sortable](https://github.com/SortableJS/Sortable) — `SortableBox` 参考了其拖拽排序行为、事件模型和边界处理。
-- [vue.draggable.next](https://github.com/SortableJS/vue.draggable.next) — `SortableBox` 参考了其 Vue 组件封装和数据同步思路。
-- [OverlayScrollbars](https://github.com/KingSora/OverlayScrollbars) — `ScrollBox` 参考了其自定义滚动条交互和覆盖式滚动体验。
-- [BProgress](https://github.com/imskyleen/bprogress) — `LoadingBar` 移植了其 core 引擎，并参考了进度状态机、trickle 策略和定位 CSS。
-- [EventEmitter3](https://github.com/primus/eventemitter3) — `Emitter` 参考了其简洁的同步事件模型和热路径性能思路。
-- [Emittery](https://github.com/sindresorhus/emittery) — `Emitter` 参考了其显式异步触发语义和类型化事件 API 方向。
-- [tiny-emitter](https://github.com/scottcorgan/tiny-emitter) — `Emitter` 参考了其小 API 面和直接的订阅模型。
-
----
+- [Sortable](https://github.com/SortableJS/Sortable) - `SortableBox` 参考了其拖拽排序行为、事件模型和边界处理。
+- [vue.draggable.next](https://github.com/SortableJS/vue.draggable.next) - `SortableBox` 参考了其 Vue 组件封装和数据同步思路。
+- [OverlayScrollbars](https://github.com/KingSora/OverlayScrollbars) - `ScrollBox` 参考了其自定义滚动条交互和覆盖式滚动体验。
+- [BProgress](https://github.com/imskyleen/bprogress) - `LoadingBar` 移植了其 core 引擎，并参考了进度状态机、trickle 策略和定位 CSS。
+- [EventEmitter3](https://github.com/primus/eventemitter3) - `Emitter` 参考了其简洁的同步事件模型和热路径性能思路。
+- [Emittery](https://github.com/sindresorhus/emittery) - `Emitter` 参考了其显式异步触发语义和类型化事件 API 方向。
+- [tiny-emitter](https://github.com/scottcorgan/tiny-emitter) - `Emitter` 参考了其小 API 面和直接的订阅模型。
 
 ## License
 

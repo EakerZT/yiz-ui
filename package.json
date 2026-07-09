@@ -1,7 +1,7 @@
 {
   "name": "@eakerzt/yiz-ui",
   "version": "0.0.21",
-  "description": "",
+  "description": "A clean, lightweight, and practical Vue 3 component library built with TypeScript.",
   "keywords": [
     "ui",
     "vue"
@@ -48,7 +48,7 @@
     "prepublishOnly": "yarn typecheck && yarn build"
   },
   "peerDependencies": {
-    "vue": ">=3.2.0"
+    "vue": ">=3.4.0"
   },
   "volta": {
     "node": "25.9.0",

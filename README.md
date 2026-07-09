@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  A Vue 3 component library built with TypeScript. Clean, lightweight, and practical.
+  A clean, lightweight, and practical Vue 3 component library built with TypeScript.
 </p>
 
 <p align="center">
@@ -19,15 +19,13 @@
 
 ## Features
 
-- **50+ components** covering forms, data display, navigation, feedback, and common application workflows.
+- **50+ components** for forms, data display, navigation, feedback, and common application workflows.
 - **TypeScript first** with strict-mode development and type-friendly component APIs.
+- **Vue 3.4+** with `defineModel`, `<script setup>`, and modern Vue patterns.
 - **CSS variable theming** via `--yiz-*` custom properties.
 - **Built-in i18n** with Chinese and English, plus runtime language extension APIs.
-- **Tree shakable**: import only what you use.
-- **Vue 3.4+** with `defineModel`, `<script setup>`, and modern Vue patterns.
+- **Tree shakable** component exports for on-demand usage.
 - **Utility APIs** for messages, dialogs, notifications, context menus, loading bars, and typed event emitters.
-
----
 
 ## Installation
 
@@ -45,28 +43,14 @@ pnpm add @eakerzt/yiz-ui
 | :--------- | :------- |
 | vue        | >= 3.4.0 |
 
----
-
-## Documentation and Demo
+## Documentation
 
 - [Online demo](https://eakerzt.github.io/yiz-ui/)
 - [Changelog](update.md)
 
----
-
 ## Quick Start
 
-### Global CSS Prerequisite
-
-Add the following rule to your application's global stylesheet before using the components. Some component dimensions rely on `border-box`; without it, borders and padding may cause incorrect layout or sizing.
-
-```css
-* {
-  box-sizing: border-box;
-}
-```
-
-### Full Registration
+Add the global stylesheet and install the plugin:
 
 ```ts
 import { createApp } from 'vue'
@@ -81,7 +65,7 @@ app.mount('#app')
 
 After full registration, all components are available with a `Y` prefix:
 
-```html
+```vue
 <template>
   <y-button type="primary" @click="handleClick">Click</y-button>
   <y-input v-model:value="text" placeholder="Please input" />
@@ -90,6 +74,16 @@ After full registration, all components are available with a `Y` prefix:
     <y-table-column label="Age" field="age" />
   </y-table>
 </template>
+```
+
+### Global CSS Prerequisite
+
+Some component dimensions rely on `border-box`. Add this rule to your application's global stylesheet before using the components:
+
+```css
+* {
+  box-sizing: border-box;
+}
 ```
 
 ### On-Demand Import
@@ -109,6 +103,8 @@ import '@eakerzt/yiz-ui/dist/yiz-ui.css'
   </Table>
 </template>
 ```
+
+## Utility APIs
 
 ### Message
 
@@ -142,65 +138,6 @@ Dialog.confirm({
 
 `onOk` can return a Promise to show loading on the OK button. Return `false` to keep the confirm dialog open.
 
-### Breadcrumb
-
-```html
-<template>
-  <y-breadcrumb>
-    <y-breadcrumb-item href="/">Home</y-breadcrumb-item>
-    <y-breadcrumb-item href="/components">Components</y-breadcrumb-item>
-    <y-breadcrumb-item>Breadcrumb</y-breadcrumb-item>
-  </y-breadcrumb>
-</template>
-```
-
-Use the `separator` slot to customize separators. `BreadcrumbItem` supports links, click handlers, disabled items, and custom content.
-
-### Collapse
-
-```html
-<template>
-  <y-collapse v-model:value="activeKeys">
-    <y-collapse-item name="profile" title="Profile">
-      Account details and user status.
-      <template #extra>
-        <y-link-button @click.stop="editProfile">Edit</y-link-button>
-      </template>
-    </y-collapse-item>
-  </y-collapse>
-</template>
-```
-
-Use `accordion` for single-panel mode. `CollapseItem` supports `title` and `extra` slots.
-
-### Descriptions
-
-```html
-<template>
-  <y-descriptions title="User info" bordered>
-    <y-description-item label="Name">Alice</y-description-item>
-    <y-description-item label="Role">Frontend</y-description-item>
-    <y-description-item label="Status">
-      <y-tag color="success">Enabled</y-tag>
-    </y-description-item>
-  </y-descriptions>
-</template>
-```
-
-`Descriptions` supports bordered, horizontal/vertical layouts, column count, item span, title/extra slots, and `small` / `default` / `large` sizes.
-
-### Upload
-
-```html
-<template>
-  <y-upload multiple accept="image/*" allow-drag @upload="onUpload">
-    <y-button type="primary">Select images</y-button>
-  </y-upload>
-</template>
-```
-
-`Upload` has no default visual style. The slot element controls all appearance; clicking or dragging files onto it emits `upload` with `File[]`.
-
 ### Notification
 
 ```ts
@@ -217,20 +154,26 @@ const handle = notification({ content: 'Loading...', duration: 0 })
 handle.close()
 ```
 
-### Info
+### LoadingBar
 
-```html
-<template>
-  <y-info type="success" message="Saved successfully" closable>
-    The change has been applied.
-    <template #action>
-      <y-button size="small" type="primary">View</y-button>
-    </template>
-  </y-info>
-</template>
+```ts
+import { loadingBar } from '@eakerzt/yiz-ui'
+
+loadingBar.start()
+loadingBar.done()
+loadingBar.fail()
+
+loadingBar.set(0.4)
+loadingBar.inc()
+loadingBar.dec()
+loadingBar.pause()
+loadingBar.resume()
+
+loadingBar.configure({ color: '#52c41a', height: '3px', indeterminate: true, direction: 'rtl' })
+loadingBar.reset()
 ```
 
-`Info` supports `info`, `success`, `warning`, and `error` types, optional descriptions, custom icons, action slots, and close events.
+The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-error`. Indeterminate mode (`indeterminate: true`) shows an animated sliding bar without a percentage value.
 
 ### ContextMenu
 
@@ -250,30 +193,6 @@ showContextMenu(
 )
 ```
 
-`ContextMenu` supports `item`, `divider`, `submenu`, `checkbox`, and `radiogroup` item types. Nested submenus automatically flip near viewport edges.
-
-### LoadingBar
-
-```ts
-import { loadingBar } from '@eakerzt/yiz-ui'
-
-loadingBar.start()
-loadingBar.done()
-
-loadingBar.fail()
-
-loadingBar.set(0.4)
-loadingBar.inc()
-loadingBar.dec()
-loadingBar.pause()
-loadingBar.resume()
-
-loadingBar.configure({ color: '#52c41a', height: '3px', indeterminate: true, direction: 'rtl' })
-loadingBar.reset()
-```
-
-The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-error`. Indeterminate mode (`indeterminate: true`) shows an animated sliding bar without a percentage value.
-
 ### Emitter
 
 ```ts
@@ -285,18 +204,15 @@ type FormEvents = {
   reset: []
 }
 
-// Default global emitter for plain TypeScript modules.
 const off = emitter.on('notify', (message) => {
   console.log(message)
 })
 emitter.emit('notify', 'Saved')
 off()
 
-// Named emitters must be created explicitly. Creating the same name twice throws.
 export const formEmitter = createEmitter<FormEvents>('form')
 formEmitter.emit('submit', new FormData(), true)
 
-// In Vue setup/effect scopes, useEmitter() auto-removes listeners on disposal.
 const { emit, emitAsync, on, once, off: offEvent, clear, count } = useEmitter<FormEvents>('form')
 
 on('change', (value) => {
@@ -315,9 +231,7 @@ clear('change')
 console.log(count('change'))
 ```
 
-`createEmitter()` without a name creates an isolated emitter. `createEmitter(name)` registers a named shared emitter and throws on duplicate names. `useEmitter(name)` only works for an existing named emitter and must be called inside a Vue setup or effect scope. `emit()` is synchronous; `emitAsync()` waits for listener promises and throws an aggregated error if any listener fails.
-
----
+`createEmitter()` without a name creates an isolated emitter. `createEmitter(name)` registers a named shared emitter and throws on duplicate names. `useEmitter(name)` only works for an existing named emitter and must be called inside a Vue setup or effect scope.
 
 ## Components
 
@@ -386,13 +300,11 @@ console.log(count('change'))
 | Tree                | `YTree`                                            | Recursive tree with checkbox/radio and half-checked state         |
 | Upload              | `YUpload`                                          | Slot-driven file picker with click, drag, multiple, and accept    |
 
----
-
 ## Size
 
 Components with size variants use `small`, `default`, and `large` consistently.
 
-```html
+```vue
 <template>
   <y-button size="small">Small</y-button>
   <y-button size="default">Default</y-button>
@@ -408,8 +320,6 @@ Supported components include `Button`, `Card`, `ColorPicker`, `DatePicker`, `Dat
 `Button` uses `default` for the middle size. The old `middle` value is not supported.
 
 `Icon.size` accepts a number or string value, not the three-level enum.
-
----
 
 ## Internationalization
 
@@ -437,16 +347,15 @@ registerLangItem('zh-CN', {
 const placeholder = computed(() => $t('select.placeholder'))
 ```
 
----
-
 ## Development
+
+This repository uses Yarn Classic. Do not use `npm` or `pnpm` for repository development commands.
 
 ```bash
 git clone https://github.com/EakerZT/yiz-ui.git
 cd yiz-ui
 
 yarn
-
 yarn dev
 yarn site:build
 yarn typecheck
@@ -467,30 +376,34 @@ Everything else, including plugin registration, path aliases, and global compone
 
 - [SortableBox roadmap](plans/sortable-box-roadmap.md)
 
----
-
 ## Publishing
+
+Package publishing is handled by GitHub Actions when a `v*` tag is pushed.
 
 ```bash
 npm version patch # or minor / major
+git push --follow-tags
+```
 
-# prepublishOnly runs typecheck + build automatically
+The publish workflow runs `yarn install --frozen-lockfile`, `yarn typecheck`, `yarn build`, and `npm publish --access public`.
+
+For local fallback publishing:
+
+```bash
 npm publish
 ```
 
----
+`prepublishOnly` runs `yarn typecheck && yarn build` automatically before publishing.
 
 ## Acknowledgements
 
-- [Sortable](https://github.com/SortableJS/Sortable) — `SortableBox` references its drag sorting behavior, event model, and edge handling.
-- [vue.draggable.next](https://github.com/SortableJS/vue.draggable.next) — `SortableBox` references its Vue component wrapper and data synchronization approach.
-- [OverlayScrollbars](https://github.com/KingSora/OverlayScrollbars) — `ScrollBox` references its custom scrollbar interaction and overlay scrolling experience.
-- [BProgress](https://github.com/imskyleen/bprogress) — `LoadingBar` ports its core engine and references its progress state machine, trickle strategy, and positioning CSS.
-- [EventEmitter3](https://github.com/primus/eventemitter3) — `Emitter` references its compact synchronous event model and hot-path performance ideas.
-- [Emittery](https://github.com/sindresorhus/emittery) — `Emitter` references its explicit async emitting semantics and typed event API direction.
-- [tiny-emitter](https://github.com/scottcorgan/tiny-emitter) — `Emitter` references its small API surface and straightforward subscription model.
-
----
+- [Sortable](https://github.com/SortableJS/Sortable) - `SortableBox` references its drag sorting behavior, event model, and edge handling.
+- [vue.draggable.next](https://github.com/SortableJS/vue.draggable.next) - `SortableBox` references its Vue component wrapper and data synchronization approach.
+- [OverlayScrollbars](https://github.com/KingSora/OverlayScrollbars) - `ScrollBox` references its custom scrollbar interaction and overlay scrolling experience.
+- [BProgress](https://github.com/imskyleen/bprogress) - `LoadingBar` ports its core engine and references its progress state machine, trickle strategy, and positioning CSS.
+- [EventEmitter3](https://github.com/primus/eventemitter3) - `Emitter` references its compact synchronous event model and hot-path performance ideas.
+- [Emittery](https://github.com/sindresorhus/emittery) - `Emitter` references its explicit async emitting semantics and typed event API direction.
+- [tiny-emitter](https://github.com/scottcorgan/tiny-emitter) - `Emitter` references its small API surface and straightforward subscription model.
 
 ## License
 
