@@ -32,7 +32,7 @@ export interface DialogApi {
   confirm: (options?: DialogConfirmOptions) => DialogConfirmHandle
 }
 
-const DESTROY_DELAY = 300
+const DESTROY_DELAY = 360
 
 export function confirm(options: DialogConfirmOptions = {}): DialogConfirmHandle {
   return openConfirm(options)
@@ -116,8 +116,9 @@ function openConfirm(
         modalLayerParent,
         'onUpdate:show': (value: boolean) => {
           state.show = value
+          renderConfirm()
         },
-        onClosed: close,
+        onClosed: destroy,
       },
       {
         title: titleSlot,

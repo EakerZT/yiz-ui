@@ -1,9 +1,9 @@
 <template>
   <Teleport to="body">
-    <Transition name="yiz-dialog-mask-fade">
+    <Transition name="yiz-dialog-mask-fade" appear>
       <div v-if="visible && mask" class="yiz-dialog-mask" :style="{ zIndex: currentZIndex }" @click="onMaskClick" />
     </Transition>
-    <Transition name="yiz-dialog-fade">
+    <Transition name="yiz-dialog-fade" appear @after-leave="onAfterLeave">
       <div
         v-if="visible"
         class="yiz-dialog-wrapper"
@@ -83,6 +83,7 @@ defineSlots<{
 const emit = defineEmits<{
   close: []
   ok: []
+  afterLeave: []
 }>()
 
 const visible = defineModel<boolean>('show', { default: false })
@@ -107,7 +108,7 @@ const dragStyle = computed(() => {
 
 // body scroll lock
 const originalOverflow = ref('')
-watch(visible, (val) => {
+function handleVisibleChange(val: boolean) {
   if (val) {
     currentZIndex.value = nextZIndex()
     originalOverflow.value = document.body.style.overflow
@@ -117,7 +118,13 @@ watch(visible, (val) => {
     document.body.style.overflow = originalOverflow.value
     modalLayer.inactive()
   }
-})
+}
+
+watch(visible, handleVisibleChange)
+
+if (visible.value) {
+  handleVisibleChange(true)
+}
 
 onBeforeUnmount(() => {
   modalLayer.inactive()
@@ -133,6 +140,10 @@ function close() {
 
 function ok() {
   emit('ok')
+}
+
+function onAfterLeave() {
+  emit('afterLeave')
 }
 
 function onMaskClick() {

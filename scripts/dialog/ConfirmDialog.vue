@@ -8,6 +8,7 @@
     :modal-layer-parent="modalLayerParent"
     disabled-footer
     @close="handleCancel"
+    @after-leave="handleAfterLeave"
   >
     <div class="yiz-dialog-confirm">
       <div v-if="showIcon" class="yiz-dialog-confirm-icon">
@@ -120,6 +121,9 @@ const iconNode = computed(() =>
 
 function close() {
   visible.value = false
+}
+
+function handleAfterLeave() {
   emit('closed')
 }
 
