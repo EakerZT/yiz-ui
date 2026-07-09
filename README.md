@@ -25,7 +25,7 @@
 - **Built-in i18n** with Chinese and English, plus runtime language extension APIs.
 - **Tree shakable**: import only what you use.
 - **Vue 3.4+** with `defineModel`, `<script setup>`, and modern Vue patterns.
-- **Imperative APIs** for messages, dialogs, notifications, context menus, and loading bars.
+- **Utility APIs** for messages, dialogs, notifications, context menus, loading bars, and typed event emitters.
 
 ---
 
@@ -43,7 +43,7 @@ pnpm add @eakerzt/yiz-ui
 
 | Dependency | Version  |
 | :--------- | :------- |
-| vue        | >= 3.2.0 |
+| vue        | >= 3.4.0 |
 
 ---
 
@@ -274,14 +274,57 @@ loadingBar.reset()
 
 The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-error`. Indeterminate mode (`indeterminate: true`) shows an animated sliding bar without a percentage value.
 
+### Emitter
+
+```ts
+import { createEmitter, emitter, useEmitter } from '@eakerzt/yiz-ui'
+
+type FormEvents = {
+  change: [value: string]
+  submit: [data: FormData, valid: boolean]
+  reset: []
+}
+
+// Default global emitter for plain TypeScript modules.
+const off = emitter.on('notify', (message) => {
+  console.log(message)
+})
+emitter.emit('notify', 'Saved')
+off()
+
+// Named emitters must be created explicitly. Creating the same name twice throws.
+export const formEmitter = createEmitter<FormEvents>('form')
+formEmitter.emit('submit', new FormData(), true)
+
+// In Vue setup/effect scopes, useEmitter() auto-removes listeners on disposal.
+const { emit, emitAsync, on, once, off: offEvent, clear, count } = useEmitter<FormEvents>('form')
+
+on('change', (value) => {
+  console.log(value)
+})
+
+once('reset', () => {
+  console.log('reset once')
+})
+
+emit('change', 'draft')
+await emitAsync('submit', new FormData(), true)
+
+offEvent('change')
+clear('change')
+console.log(count('change'))
+```
+
+`createEmitter()` without a name creates an isolated emitter. `createEmitter(name)` registers a named shared emitter and throws on duplicate names. `useEmitter(name)` only works for an existing named emitter and must be called inside a Vue setup or effect scope. `emit()` is synchronous; `emitAsync()` waits for listener promises and throws an aggregated error if any listener fails.
+
 ---
 
 ## Components
 
 | Component           | Tag                                                | Description                                                       |
 | :------------------ | :------------------------------------------------- | :---------------------------------------------------------------- |
-| Breadcrumb          | `YBreadcrumb`                                      | Breadcrumb navigation with custom separators                      |
-| BreadcrumbItem      | `YBreadcrumbItem`                                  | Declarative breadcrumb item with link, click, and disabled states |
+| Breadcrumb          | `YBreadcrumb`                                      | Breadcrumb navigation with item data or declarative items         |
+| BreadcrumbItem      | `YBreadcrumbItem`                                  | Declarative breadcrumb item                                       |
 | Button              | `YButton`                                          | Button with type, color, shape, loading, and wave animation       |
 | ButtonGroup         | `YButtonGroup`                                     | Horizontal or vertical button grouping                            |
 | Card                | `YCard`                                            | Structured content container                                      |
@@ -294,8 +337,8 @@ The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-erro
 | DateRangePicker     | `YDateRangePicker`                                 | Date range picker with optional auto sorting                      |
 | DateTimePicker      | `YDateTimePicker` / `y-datetime-picker`            | Date and time picker                                              |
 | DateTimeRangePicker | `YDateTimeRangePicker` / `y-datetime-range-picker` | Date-time range picker                                            |
-| Descriptions        | `YDescriptions`                                    | Description list with bordered and vertical layouts               |
-| DescriptionItem     | `YDescriptionItem`                                 | Declarative description item with label and span                  |
+| Descriptions        | `YDescriptions`                                    | Description list with bordered, vertical, and column layouts      |
+| DescriptionItem     | `YDescriptionItem`                                 | Declarative description item                                      |
 | Dialog              | `YDialog`                                          | Dialog with drag, Escape support, and `Dialog.confirm`            |
 | Divider             | `YDivider`                                         | Horizontal/vertical divider with dashed and text modes            |
 | Drawer              | `YDrawer`                                          | Drawer with four placements and resizable size                    |
@@ -305,7 +348,7 @@ The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-erro
 | Form                | `YForm`                                            | Form layout, validation, and reset                                |
 | FormItem            | `YFormItem`                                        | Form item with label, required marker, and errors                 |
 | Icon                | `YIcon`                                            | Render Vue components as icons                                    |
-| Info                | `YInfo`                                            | Alert-style information panel with type, icon, action, and close  |
+| Info                | `YInfo`                                            | Inline status text with preset info types                         |
 | Input               | `YInput`                                           | Input with prefix/suffix and clearable support                    |
 | InputCustom         | `YInputCustom`                                     | Input-like shell for custom or third-party logic                  |
 | InputGroup          | `YInputGroup`                                      | Horizontal input grouping with addons and unified size            |
@@ -443,6 +486,9 @@ npm publish
 - [vue.draggable.next](https://github.com/SortableJS/vue.draggable.next) — `SortableBox` references its Vue component wrapper and data synchronization approach.
 - [OverlayScrollbars](https://github.com/KingSora/OverlayScrollbars) — `ScrollBox` references its custom scrollbar interaction and overlay scrolling experience.
 - [BProgress](https://github.com/imskyleen/bprogress) — `LoadingBar` ports its core engine and references its progress state machine, trickle strategy, and positioning CSS.
+- [EventEmitter3](https://github.com/primus/eventemitter3) — `Emitter` references its compact synchronous event model and hot-path performance ideas.
+- [Emittery](https://github.com/sindresorhus/emittery) — `Emitter` references its explicit async emitting semantics and typed event API direction.
+- [tiny-emitter](https://github.com/scottcorgan/tiny-emitter) — `Emitter` references its small API surface and straightforward subscription model.
 
 ---
 

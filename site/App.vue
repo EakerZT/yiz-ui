@@ -20,7 +20,7 @@
         </a>
         <span class="demo-lang-label">{{ $t('demo.app.lang') }}</span>
         <y-select
-          :model-value="demoLang"
+          :value="demoLang"
           :options="demoLangOptions"
           size="small"
           style="width: 120px"
@@ -58,6 +58,7 @@ import DateTimePickerDemo from './pages/DateTimePickerDemo.vue'
 import DateTimeRangePickerDemo from './pages/DateTimeRangePickerDemo.vue'
 import DescriptionsDemo from './pages/DescriptionsDemo.vue'
 import EmptyDemo from './pages/EmptyDemo.vue'
+import EmitterDemo from './pages/EmitterDemo.vue'
 import FormDemo from './pages/FormDemo.vue'
 import DividerDemo from './pages/DividerDemo.vue'
 import DropmenuDemo from './pages/DropmenuDemo.vue'
@@ -112,6 +113,7 @@ const pages: Record<string, any> = {
   'datetime-range-picker': DateTimeRangePickerDemo,
   descriptions: DescriptionsDemo,
   empty: EmptyDemo,
+  emitter: EmitterDemo,
   form: FormDemo,
   dialog: DialogDemo,
   divider: DividerDemo,
@@ -165,6 +167,7 @@ const menuItems = computed(() => [
   { label: $t('demo.nav.datetimeRangePicker'), key: 'datetime-range-picker' },
   { label: $t('demo.nav.descriptions'), key: 'descriptions' },
   { label: $t('demo.nav.empty'), key: 'empty' },
+  { label: $t('demo.nav.emitter'), key: 'emitter' },
   { label: $t('demo.nav.form'), key: 'form' },
   { label: $t('demo.nav.dialog'), key: 'dialog' },
   { label: $t('demo.nav.divider'), key: 'divider' },

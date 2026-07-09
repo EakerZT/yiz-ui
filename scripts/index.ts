@@ -6,6 +6,7 @@ import './global-components'
 import * as components from './components'
 
 export * from './components'
+export * from './emitter'
 export * from './locale'
 export * from './message'
 export * from './notification'

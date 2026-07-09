@@ -90,11 +90,11 @@
         <div>
           <div class="demo-sortable-subtitle">{{ $t('demo.sortableBox.canvasView') }}</div>
           <y-sortable-box
-            :model-value="syncDisplayItems"
+            :list="syncDisplayItems"
             class="demo-sortable-sync-canvas"
             item-key="id"
             :animation="180"
-            @update:model-value="updateSyncItems"
+            @update:list="updateSyncItems"
             @preview-change="syncCanvasPreview"
             @preview-cancel="clearSyncPreview"
             @preview-commit="clearSyncPreview"
@@ -113,11 +113,11 @@
         <div>
           <div class="demo-sortable-subtitle">{{ $t('demo.sortableBox.layersView') }}</div>
           <y-sortable-box
-            :model-value="syncDisplayItems"
+            :list="syncDisplayItems"
             class="demo-sortable-list"
             item-key="id"
             :animation="180"
-            @update:model-value="updateSyncItems"
+            @update:list="updateSyncItems"
             @preview-change="syncLayersPreview"
             @preview-cancel="clearSyncPreview"
             @preview-commit="clearSyncPreview"
@@ -155,6 +155,7 @@
               class="demo-sortable-nested-card-list"
               item-key="id"
               group="nested-cards"
+              @update:list="(items) => updateNestedCards(element, items)"
             >
               <template #item="{ element: card }">
                 <div class="demo-sortable-nested-card">{{ getNestedCardTitle(card) }}</div>
@@ -372,6 +373,11 @@ function getNestedCards(item: unknown) {
 
 function getNestedCardTitle(item: unknown) {
   return (item as NestedCard).title
+}
+
+function updateNestedCards(column: unknown, cards: unknown[]) {
+  const target = column as NestedColumn
+  target.cards = cards as NestedCard[]
 }
 
 function updateSyncItems(items: unknown[]) {

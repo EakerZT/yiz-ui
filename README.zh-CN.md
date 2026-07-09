@@ -25,7 +25,7 @@
 - **内置 i18n**，提供中文和英文，并支持运行时扩展语言。
 - **支持 Tree Shaking**，按需引入，不打包未使用组件。
 - **Vue 3.4+**，使用 `defineModel`、`<script setup>` 和现代 Vue 模式。
-- **命令式 API**，支持全局提示、确认框、通知、右键菜单和加载进度条。
+- **工具 API**，支持全局提示、确认框、通知、右键菜单、加载进度条和类型化事件总线。
 
 ---
 
@@ -274,14 +274,57 @@ loadingBar.reset()
 
 默认色使用 `--yiz-color-primary`，`fail()` 使用 `--yiz-color-error`。不确定模式（`indeterminate: true`）会显示来回滑动的动画条，不显示百分比。
 
+### Emitter
+
+```ts
+import { createEmitter, emitter, useEmitter } from '@eakerzt/yiz-ui'
+
+type FormEvents = {
+  change: [value: string]
+  submit: [data: FormData, valid: boolean]
+  reset: []
+}
+
+// 默认全局 emitter，适合普通 TypeScript 模块。
+const off = emitter.on('notify', (message) => {
+  console.log(message)
+})
+emitter.emit('notify', '已保存')
+off()
+
+// 具名 emitter 必须显式创建。同名重复创建会直接报错。
+export const formEmitter = createEmitter<FormEvents>('form')
+formEmitter.emit('submit', new FormData(), true)
+
+// 在 Vue setup/effect scope 中，useEmitter() 注册的监听会在销毁时自动移除。
+const { emit, emitAsync, on, once, off: offEvent, clear, count } = useEmitter<FormEvents>('form')
+
+on('change', (value) => {
+  console.log(value)
+})
+
+once('reset', () => {
+  console.log('只触发一次 reset')
+})
+
+emit('change', 'draft')
+await emitAsync('submit', new FormData(), true)
+
+offEvent('change')
+clear('change')
+console.log(count('change'))
+```
+
+`createEmitter()` 不传 name 时会创建一个独立 emitter。`createEmitter(name)` 会注册具名共享 emitter，同名重复创建会报错。`useEmitter(name)` 只使用已经存在的具名 emitter，并且必须在 Vue setup 或 effect scope 中调用。`emit()` 同步触发监听；`emitAsync()` 会等待监听返回的 Promise，任意监听失败时会汇总错误后抛出。
+
 ---
 
 ## 组件
 
 | 组件                | 标签                                               | 说明                                             |
 | :------------------ | :------------------------------------------------- | :----------------------------------------------- |
-| Breadcrumb          | `YBreadcrumb`                                      | 面包屑导航，支持自定义分隔符                     |
-| BreadcrumbItem      | `YBreadcrumbItem`                                  | 声明式面包屑项，支持链接、点击和禁用状态         |
+| Breadcrumb          | `YBreadcrumb`                                      | 面包屑导航，支持数据项和声明式子项               |
+| BreadcrumbItem      | `YBreadcrumbItem`                                  | 声明式面包屑项                                   |
 | Button              | `YButton`                                          | 按钮，支持类型、颜色、形状、加载态和涟漪动画     |
 | ButtonGroup         | `YButtonGroup`                                     | 水平或垂直按钮组                                 |
 | Card                | `YCard`                                            | 结构化内容容器                                   |
@@ -294,8 +337,8 @@ loadingBar.reset()
 | DateRangePicker     | `YDateRangePicker`                                 | 日期范围选择器，支持自动排序                     |
 | DateTimePicker      | `YDateTimePicker` / `y-datetime-picker`            | 日期时间选择器                                   |
 | DateTimeRangePicker | `YDateTimeRangePicker` / `y-datetime-range-picker` | 日期时间范围选择器                               |
-| Descriptions        | `YDescriptions`                                    | 描述列表，支持边框和垂直布局                     |
-| DescriptionItem     | `YDescriptionItem`                                 | 声明式描述项，支持 label 和 span                 |
+| Descriptions        | `YDescriptions`                                    | 描述列表，支持边框、垂直布局和列数配置           |
+| DescriptionItem     | `YDescriptionItem`                                 | 声明式描述列表项                                 |
 | Dialog              | `YDialog`                                          | 对话框，支持拖拽、Escape 关闭和 `Dialog.confirm` |
 | Divider             | `YDivider`                                         | 水平/垂直分割线，支持虚线和文本                  |
 | Drawer              | `YDrawer`                                          | 四方向抽屉，可调节尺寸                           |
@@ -305,7 +348,7 @@ loadingBar.reset()
 | Form                | `YForm`                                            | 表单布局、校验和重置                             |
 | FormItem            | `YFormItem`                                        | 表单项，支持标签、必填标记和错误提示             |
 | Icon                | `YIcon`                                            | 将 Vue 组件渲染为图标                            |
-| Info                | `YInfo`                                            | 信息提示面板，支持类型、图标、操作区和关闭       |
+| Info                | `YInfo`                                            | 行内状态文本，支持预设提示类型                   |
 | Input               | `YInput`                                           | 输入框，支持前后缀和可清空                       |
 | InputCustom         | `YInputCustom`                                     | 输入框风格外壳，用于自定义或第三方逻辑           |
 | InputGroup          | `YInputGroup`                                      | 横向输入组合，支持 addon 和统一尺寸              |
@@ -443,6 +486,9 @@ npm publish
 - [vue.draggable.next](https://github.com/SortableJS/vue.draggable.next) — `SortableBox` 参考了其 Vue 组件封装和数据同步思路。
 - [OverlayScrollbars](https://github.com/KingSora/OverlayScrollbars) — `ScrollBox` 参考了其自定义滚动条交互和覆盖式滚动体验。
 - [BProgress](https://github.com/imskyleen/bprogress) — `LoadingBar` 移植了其 core 引擎，并参考了进度状态机、trickle 策略和定位 CSS。
+- [EventEmitter3](https://github.com/primus/eventemitter3) — `Emitter` 参考了其简洁的同步事件模型和热路径性能思路。
+- [Emittery](https://github.com/sindresorhus/emittery) — `Emitter` 参考了其显式异步触发语义和类型化事件 API 方向。
+- [tiny-emitter](https://github.com/scottcorgan/tiny-emitter) — `Emitter` 参考了其小 API 面和直接的订阅模型。
 
 ---
 

@@ -6,6 +6,8 @@
 
 - 添加 info组件
 - 添加 description组件
+- 添加 EventEmitter相关
+
 
 ## 0.0.20
 
