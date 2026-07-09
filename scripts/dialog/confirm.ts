@@ -1,4 +1,5 @@
-import { createVNode, render, type Component, type VNodeChild } from 'vue'
+import { createVNode, getCurrentInstance, render, type Component, type VNodeChild } from 'vue'
+import { getModalLayer, injectModalLayer, type ModalLayerContext } from '../overlay/modalLayer'
 import ConfirmDialog from './ConfirmDialog.vue'
 
 export type DialogConfirmType = 'confirm' | 'info' | 'success' | 'warning' | 'error'
@@ -27,9 +28,36 @@ export interface DialogConfirmHandle {
   update: (options: DialogConfirmOptions) => void
 }
 
+export interface DialogApi {
+  confirm: (options?: DialogConfirmOptions) => DialogConfirmHandle
+}
+
 const DESTROY_DELAY = 300
 
 export function confirm(options: DialogConfirmOptions = {}): DialogConfirmHandle {
+  return openConfirm(options)
+}
+
+export function useDialog(): DialogApi {
+  const instance = getCurrentInstance()
+  if (!instance) {
+    throw new Error('useDialog() must be called in setup().')
+  }
+
+  const modalLayer = getModalLayer(instance) ?? injectModalLayer()
+  if (!modalLayer) {
+    throw new Error('useDialog() must be called under a modal layer. Call useModalLayer().active() in a parent component first.')
+  }
+
+  return {
+    confirm: (options: DialogConfirmOptions = {}) => openConfirm(options, modalLayer),
+  }
+}
+
+function openConfirm(
+  options: DialogConfirmOptions = {},
+  modalLayerParent: ModalLayerContext | null = null,
+): DialogConfirmHandle {
   const container = document.createElement('div')
   let state: DialogConfirmOptions & { show: boolean } = {
     ...options,
@@ -85,6 +113,7 @@ export function confirm(options: DialogConfirmOptions = {}): DialogConfirmHandle
         ...state,
         title: typeof title === 'string' ? title : '',
         content: typeof content === 'string' ? content : '',
+        modalLayerParent,
         'onUpdate:show': (value: boolean) => {
           state.show = value
         },

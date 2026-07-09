@@ -5,6 +5,7 @@
     :closable="closable"
     :mask="mask"
     :mask-closable="maskClosable"
+    :modal-layer-parent="modalLayerParent"
     disabled-footer
     @close="handleCancel"
   >
@@ -37,6 +38,7 @@ import { CheckmarkCircle24Regular, DismissCircle24Regular, Info24Regular, Warnin
 import { Button } from '../button'
 import { Icon } from '../icon'
 import { $t } from '../locale'
+import type { ModalLayerContext } from '../overlay/modalLayer'
 import Dialog from './Dialog.vue'
 
 type ConfirmType = 'confirm' | 'info' | 'success' | 'warning' | 'error'
@@ -56,6 +58,7 @@ const props = withDefaults(
     closable?: boolean
     mask?: boolean
     maskClosable?: boolean
+    modalLayerParent?: ModalLayerContext | null
     onOk?: () => boolean | void | Promise<boolean | void>
     onCancel?: () => void
   }>(),
@@ -72,6 +75,7 @@ const props = withDefaults(
     closable: false,
     mask: true,
     maskClosable: false,
+    modalLayerParent: null,
   },
 )
 

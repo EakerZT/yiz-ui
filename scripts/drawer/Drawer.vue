@@ -41,6 +41,7 @@ import { Dismiss16Regular } from '@vicons/fluent'
 import { Button } from '../button'
 import { Icon } from '../icon'
 import { $t } from '../locale'
+import { useOptionalModalLayer } from '../overlay/modalLayer'
 import { nextZIndex } from '../zIndex'
 
 const currentZIndex = ref(0)
@@ -86,6 +87,7 @@ const emit = defineEmits<{
 }>()
 
 const visible = defineModel<boolean>('show', { default: false })
+const modalLayer = useOptionalModalLayer()
 
 const transitionName = computed(() => `yiz-drawer-slide-${props.placement}`)
 
@@ -116,12 +118,15 @@ watch(visible, (val) => {
     currentZIndex.value = nextZIndex()
     originalOverflow.value = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    modalLayer.active()
   } else {
     document.body.style.overflow = originalOverflow.value
+    modalLayer.inactive()
   }
 })
 
 onBeforeUnmount(() => {
+  modalLayer.inactive()
   if (visible.value) {
     document.body.style.overflow = originalOverflow.value
   }

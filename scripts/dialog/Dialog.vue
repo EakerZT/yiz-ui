@@ -46,6 +46,7 @@ import { Dismiss16Regular } from '@vicons/fluent'
 import { Button } from '../button'
 import { Icon } from '../icon'
 import { $t } from '../locale'
+import { useOptionalModalLayer, type ModalLayerContext } from '../overlay/modalLayer'
 import { nextZIndex } from '../zIndex'
 
 const currentZIndex = ref(0)
@@ -59,6 +60,7 @@ const props = withDefaults(
     maskClosable?: boolean
     drag?: boolean
     disabledFooter?: boolean
+    modalLayerParent?: ModalLayerContext | null
   }>(),
   {
     title: '',
@@ -68,6 +70,7 @@ const props = withDefaults(
     maskClosable: false,
     drag: false,
     disabledFooter: false,
+    modalLayerParent: null,
   },
 )
 
@@ -83,6 +86,7 @@ const emit = defineEmits<{
 }>()
 
 const visible = defineModel<boolean>('show', { default: false })
+const modalLayer = useOptionalModalLayer(props.modalLayerParent)
 
 const dragPosition = ref({ x: 0, y: 0 })
 const dragging = ref(false)
@@ -108,12 +112,15 @@ watch(visible, (val) => {
     currentZIndex.value = nextZIndex()
     originalOverflow.value = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    modalLayer.active()
   } else {
     document.body.style.overflow = originalOverflow.value
+    modalLayer.inactive()
   }
 })
 
 onBeforeUnmount(() => {
+  modalLayer.inactive()
   if (visible.value) {
     document.body.style.overflow = originalOverflow.value
   }

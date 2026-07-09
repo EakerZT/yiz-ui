@@ -171,7 +171,7 @@ const onClick = (e: MouseEvent) => {
   & > .yiz-wave {
     position: absolute;
     pointer-events: none;
-    z-index: 1000;
+    z-index: 1;
     left: 0;
     right: 0;
     bottom: 0;
