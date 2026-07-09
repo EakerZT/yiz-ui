@@ -25,7 +25,7 @@
 - **CSS 变量主题**，通过 `--yiz-*` 自定义属性定制样式。
 - **内置 i18n**，提供中文和英文，并支持运行时扩展语言。
 - **支持 Tree Shaking**，组件导出支持按需引入。
-- **工具 API**，支持全局提示、确认框、通知、右键菜单、加载进度条和类型化事件总线。
+- **工具 API**，支持全局提示、确认框、模态层级管理、通知、右键菜单、加载进度条和类型化事件总线。
 
 ## 安装
 
@@ -137,6 +137,37 @@ Dialog.confirm({
 ```
 
 `onOk` 可以返回 Promise，此时确认按钮会进入 loading；返回 `false` 时确认框不会关闭。
+
+如果项目启用了模态层级管理，推荐使用 `useDialog()`，这样确认框可以继承当前层级：
+
+```ts
+import { useDialog } from '@eakerzt/yiz-ui'
+
+const dialog = useDialog()
+
+dialog.confirm({
+  title: '确认执行操作？',
+  content: '这个确认框属于当前 modal layer。',
+})
+```
+
+### LayerManager
+
+```ts
+import { useModalLayer, useModalLayerManager } from '@eakerzt/yiz-ui'
+
+const rootLayer = useModalLayer()
+rootLayer.active()
+
+const manager = useModalLayerManager()
+
+window.addEventListener('keydown', (event) => {
+  if (!manager.isTopLayer.value) return
+  // 根层快捷键
+})
+```
+
+`Dialog`、`Drawer` 和 `useDialog().confirm()` 会在存在上层 modal layer 时加入层级栈。没有提供上层 layer 时，它们保持原有行为并忽略层级管理。
 
 ### Notification
 
@@ -253,7 +284,7 @@ console.log(count('change'))
 | DateTimeRangePicker | `YDateTimeRangePicker` / `y-datetime-range-picker` | 日期时间范围选择器                               |
 | Descriptions        | `YDescriptions`                                    | 描述列表，支持边框、垂直布局和列数配置           |
 | DescriptionItem     | `YDescriptionItem`                                 | 声明式描述列表项                                 |
-| Dialog              | `YDialog`                                          | 对话框，支持拖拽、Escape 关闭和 `Dialog.confirm` |
+| Dialog              | `YDialog`                                          | 对话框，支持拖拽、Escape 关闭、确认框 API 和层级管理 |
 | Divider             | `YDivider`                                         | 水平/垂直分割线，支持虚线和文本                  |
 | Drawer              | `YDrawer`                                          | 四方向抽屉，可调节尺寸                           |
 | Dropmenu            | `YDropmenu`                                        | 下拉菜单                                         |

@@ -1,12 +1,20 @@
 # update
 
+## 0.0.22
+
+`2026/07/10`
+
+- 添加 EventEmitter相关
+- 添加 LayerManager相关
+
 ## 0.0.21
 
-`2026/07/07`
+`2026/07/08`
 
 - 添加 info组件
 - 添加 description组件
 - 添加 EventEmitter相关
+- 添加 LayerManager相关
 
 
 ## 0.0.20

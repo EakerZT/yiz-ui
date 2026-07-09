@@ -25,7 +25,7 @@
 - **CSS variable theming** via `--yiz-*` custom properties.
 - **Built-in i18n** with Chinese and English, plus runtime language extension APIs.
 - **Tree shakable** component exports for on-demand usage.
-- **Utility APIs** for messages, dialogs, notifications, context menus, loading bars, and typed event emitters.
+- **Utility APIs** for messages, dialogs, modal layer management, notifications, context menus, loading bars, and typed event emitters.
 
 ## Installation
 
@@ -137,6 +137,37 @@ Dialog.confirm({
 ```
 
 `onOk` can return a Promise to show loading on the OK button. Return `false` to keep the confirm dialog open.
+
+For projects that use modal layer management, prefer `useDialog()` so confirm dialogs inherit the current layer:
+
+```ts
+import { useDialog } from '@eakerzt/yiz-ui'
+
+const dialog = useDialog()
+
+dialog.confirm({
+  title: 'Confirm this action?',
+  content: 'This confirm belongs to the current modal layer.',
+})
+```
+
+### LayerManager
+
+```ts
+import { useModalLayer, useModalLayerManager } from '@eakerzt/yiz-ui'
+
+const rootLayer = useModalLayer()
+rootLayer.active()
+
+const manager = useModalLayerManager()
+
+window.addEventListener('keydown', (event) => {
+  if (!manager.isTopLayer.value) return
+  // root-layer shortcuts
+})
+```
+
+`Dialog`, `Drawer`, and `useDialog().confirm()` join the modal layer stack when a parent layer exists. If no parent layer is provided, they keep their normal behavior and ignore layer management.
 
 ### Notification
 
@@ -253,7 +284,7 @@ console.log(count('change'))
 | DateTimeRangePicker | `YDateTimeRangePicker` / `y-datetime-range-picker` | Date-time range picker                                            |
 | Descriptions        | `YDescriptions`                                    | Description list with bordered, vertical, and column layouts      |
 | DescriptionItem     | `YDescriptionItem`                                 | Declarative description item                                      |
-| Dialog              | `YDialog`                                          | Dialog with drag, Escape support, and `Dialog.confirm`            |
+| Dialog              | `YDialog`                                          | Dialog with drag, Escape support, confirm API, and layer support  |
 | Divider             | `YDivider`                                         | Horizontal/vertical divider with dashed and text modes            |
 | Drawer              | `YDrawer`                                          | Drawer with four placements and resizable size                    |
 | Dropmenu            | `YDropmenu`                                        | Dropdown menu based on menu item extraction                       |
