@@ -65,12 +65,14 @@ const props = withDefaults(
     disabled?: boolean
     showToggle?: boolean
     autocomplete?: string
+    size?: 'small' | 'default' | 'large'
   }>(),
   {
     clearable: false,
     disabled: false,
     showToggle: true,
     autocomplete: 'current-password',
+    size: 'default',
   },
 )
 
@@ -88,6 +90,12 @@ const vClass = computed(() => {
   }
   if (props.disabled) {
     c['yiz-input-disabled'] = true
+  }
+  if (props.size === 'small') {
+    c['yiz-input-small'] = true
+  }
+  if (props.size === 'large') {
+    c['yiz-input-large'] = true
   }
   return c
 })

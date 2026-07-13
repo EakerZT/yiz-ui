@@ -1,5 +1,5 @@
 <template>
-  <component :is="triggerNode" />
+  <component :is="renderTrigger()" />
 
   <Teleport to="body">
     <transition name="yiz-tooltip-fade">
@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { cloneVNode, computed, h, nextTick, onBeforeUnmount, ref, useSlots, watch, type VNode } from 'vue'
+import { cloneVNode, h, nextTick, onBeforeUnmount, ref, useSlots, watch, type VNode } from 'vue'
 import { nextZIndex } from '../zIndex'
 
 const props = withDefaults(
@@ -47,31 +47,33 @@ const popStyle = ref<Record<string, string>>({})
 const currentZ = ref(2000)
 let hideTimer: ReturnType<typeof setTimeout> | null = null
 
-function setTriggerRef(el: any) {
-  if (el instanceof HTMLElement) {
-    triggerRef.value = el
-  } else if (el?.$el instanceof HTMLElement) {
-    triggerRef.value = el.$el
-  } else {
+function updateTriggerElement(vnode: VNode) {
+  triggerRef.value = vnode.el instanceof HTMLElement ? vnode.el : undefined
+}
+
+function clearTriggerElement(vnode: VNode) {
+  if (triggerRef.value === vnode.el) {
     triggerRef.value = undefined
   }
 }
 
-const triggerNode = computed<VNode>(() => {
+function renderTrigger(): VNode {
   const child = slots.default?.()[0] as VNode | undefined
   if (child) {
-    return cloneVNode(
-      child,
-      {
-        onMouseenter: onMouseEnter,
-        onMouseleave: onMouseLeave,
-        ref: setTriggerRef,
-      },
-      true,
-    )
+    return cloneVNode(child, {
+      onMouseenter: onMouseEnter,
+      onMouseleave: onMouseLeave,
+      onVnodeMounted: updateTriggerElement,
+      onVnodeUpdated: updateTriggerElement,
+      onVnodeBeforeUnmount: clearTriggerElement,
+    })
   }
-  return h('span', { ref: setTriggerRef })
-})
+  return h('span', {
+    onVnodeMounted: updateTriggerElement,
+    onVnodeUpdated: updateTriggerElement,
+    onVnodeBeforeUnmount: clearTriggerElement,
+  })
+}
 
 function clearHideTimer() {
   if (hideTimer !== null) {

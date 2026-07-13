@@ -194,7 +194,7 @@ Hover-triggered tooltip with `placement` (`top` | `bottom` | `left` | `right`), 
 
 ### Tag (`scripts/tag/`)
 
-Small label/tag component with preset colors and custom hex color support. Props: `color` (`'default' | 'primary' | 'success' | 'warning' | 'error'` or a `#rrggbb` hex string — hex values use `@ctrl/tinycolor` to derive `--yiz-tag-*` CSS custom properties for background, text, border, and close-button hover), `closable` (renders an inline SVG close icon, emits `close`), `size` (`'default' | 'small' | 'large'`), `bordered`. Default slot for tag content.
+Small label/tag component with preset colors and custom hex color support. Props: `color` (`'default' | 'primary' | 'success' | 'warning' | 'error'` or a `#rgb` / `#rrggbb` hex string — hex values use `@ctrl/tinycolor` to derive `--yiz-tag-*` CSS custom properties for background, text, border, and close-button hover), `closable` (renders an inline SVG close icon, emits `close`), `checkable` (toggles `v-model:checked` on click or Enter/Space and takes priority over `closable`; unchecked state is borderless white, checked state uses `color` or primary by default), `disabled` (only affects checkable mode, blocks mouse/keyboard changes while preserving checked appearance), `size` (`'default' | 'small' | 'large'`), `bordered`. Emits `change(checked)` when a checkable tag toggles. Default slot for tag content.
 
 ### Ripple wave animation
 
@@ -360,7 +360,7 @@ Time selection with a Teleported column-based panel (hour / minute / optional se
 
 ### Tree (`scripts/tree/`)
 
-Hierarchical data display using recursive `TreeNode` components. Uses `provide('yizTree', { ... })` so any level of TreeNode can access tree state. The TreeContext includes: `indent`, `checkable`, `selectable`, `expandOnClickNode`, plus functions: `isExpanded`, `isSelected`, `isChecked`, `isHalfChecked`, `toggleExpand`, `selectNode`, `toggleCheck`. Props: `data` (`TreeNodeData[]` — each node has `label`, `key`, optional `children`, `disabled`, `selectable`, `checkable`), `checkable`, `selectable`, `defaultExpandAll`, `expandOnClickNode`, `indent`, `emptyText`. v-model: `v-model:selected` (single key), `v-model:checked` (key array), `v-model:expanded` (key array). Emits: `select`, `check`, `expand`. Half-checked state: a parent is half-checked when some (but not all) of its checkable descendants are checked and the parent itself is not checked. Expand/collapse uses a CSS height transition.
+Hierarchical data display using recursive `TreeNode` components. Uses `provide('yizTree', { ... })` so any level of TreeNode can access tree state. The TreeContext includes: `indent`, `checkable`, `selectable`, `expandOnClickNode`, plus functions: `isExpanded`, `isSelected`, `isChecked`, `isHalfChecked`, `toggleExpand`, `selectNode`, `toggleCheck`. Props: `data` (`TreeNodeData[]` — each node has `label`, `key`, optional `children`, `disabled`, `selectable`, `checkable`), `checkable`, `selectable`, `defaultExpandAll`, `expandOnClickNode`, `indent`, `emptyText`. v-model: `v-model:selected` (single key), `v-model:checked` (key array), `v-model:expanded` (key array). Scoped slots: `before` and `after`, both receiving `{ item, selected, checked }` for every recursive node. Emits: `select`, `check`, `expand`. Half-checked state: a parent is half-checked when some (but not all) of its checkable descendants are checked and the parent itself is not checked. Expand/collapse uses a CSS height transition.
 
 ### Pagination (`scripts/pagination/`)
 

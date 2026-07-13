@@ -6,6 +6,7 @@
     :mask="mask"
     :mask-closable="maskClosable"
     :modal-layer-parent="modalLayerParent"
+    disabled-header
     disabled-footer
     @close="handleCancel"
     @after-leave="handleAfterLeave"

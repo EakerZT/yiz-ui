@@ -35,6 +35,31 @@
       </div>
     </y-card>
 
+    <y-card :title="$t('demo.tag.checkable')" style="margin-top: 8px">
+      <div class="demo-tag-checkable-panel">
+        <y-button-group>
+          <y-tag v-model:checked="checkableTag1" checkable>{{ $t('demo.tag.checkableDefault') }}</y-tag>
+          <y-tag v-model:checked="checkableTag2" color="success" checkable closable>
+            {{ $t('demo.tag.checkableClosable') }}
+          </y-tag>
+          <y-tag v-model:checked="disabledCheckableTag" checkable disabled>
+            {{ $t('demo.tag.checkableDisabled') }}
+          </y-tag>
+          <y-tag v-model:checked="disabledCheckedTag" color="warning" checkable disabled>
+            {{ $t('demo.tag.checkableDisabledChecked') }}
+          </y-tag>
+        </y-button-group>
+        <span class="demo-tag-state">
+          {{
+            $t('demo.tag.checkedState', {
+              first: checkableTag1 ? 'true' : 'false',
+              second: checkableTag2 ? 'true' : 'false',
+            })
+          }}
+        </span>
+      </div>
+    </y-card>
+
     <y-card :title="$t('demo.common.withoutBorder')" style="margin-top: 8px">
       <y-button-group>
         <y-tag :bordered="false">{{ $t('demo.common.default') }}</y-tag>
@@ -65,6 +90,10 @@ type DemoSize = 'small' | 'default' | 'large'
 
 const tags = ref([$t('demo.tab.tab1'), $t('demo.tab.tab2'), $t('demo.tab.tab3'), $t('demo.tag.tag4')])
 const tagSize = ref<DemoSize>('default')
+const checkableTag1 = ref(false)
+const checkableTag2 = ref(true)
+const disabledCheckableTag = ref(false)
+const disabledCheckedTag = ref(true)
 const sizeOptions = [
   { label: 'small', value: 'small' },
   { label: 'default', value: 'default' },
@@ -87,5 +116,17 @@ function addTag() {
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
+}
+
+.demo-tag-checkable-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.demo-tag-state {
+  color: #666;
+  font-size: 13px;
 }
 </style>

@@ -14,6 +14,17 @@
       <y-input-password v-model:value="clearPassword" :placeholder="$t('demo.common.clearable')" clearable />
     </y-card>
 
+    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+      <div class="demo-input-row">
+        <y-radio-button-group v-model:value="passwordSize" :options="sizeOptions" />
+        <y-input-password
+          v-model:value="sizePassword"
+          :placeholder="$t('demo.inputPassword.placeholder')"
+          :size="passwordSize"
+        />
+      </div>
+    </y-card>
+
     <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-input-password v-model:value="disabledPassword" :placeholder="$t('demo.common.disabled')" disabled />
     </y-card>
@@ -42,11 +53,20 @@
 import { $t } from 'yiz-ui'
 import { ref } from 'vue'
 
+type DemoSize = 'small' | 'default' | 'large'
+
 const password = ref('')
 const clearPassword = ref('')
+const sizePassword = ref('')
 const disabledPassword = ref('disabled-password')
 const affixPassword = ref('')
 const fixedPassword = ref('')
+const passwordSize = ref<DemoSize>('default')
+const sizeOptions = [
+  { label: 'small', value: 'small' },
+  { label: 'default', value: 'default' },
+  { label: 'large', value: 'large' },
+]
 </script>
 
 <style scoped>
@@ -55,5 +75,11 @@ const fixedPassword = ref('')
   margin-top: 6px;
   font-size: 12px;
   color: #999;
+}
+
+.demo-input-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 </style>

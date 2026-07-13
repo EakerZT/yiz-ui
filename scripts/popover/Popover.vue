@@ -1,5 +1,5 @@
 <template>
-  <component :is="triggerNode" />
+  <component :is="renderTrigger()" />
 
   <Teleport to="body">
     <transition :name="transitionName">
@@ -113,34 +113,36 @@ const popStyle = computed(() => {
 
 const transitionName = computed(() => `yiz-popover-${effectivePlacement.value}`)
 
-const triggerNode = computed<VNode>(() => {
-  const child = slots.default?.()[0] as VNode | undefined
-  if (child) {
-    return cloneVNode(
-      child,
-      {
-        class: { 'yiz-popover-trigger-open': visible.value },
-        onClick: onTriggerClick,
-        onMouseenter: onTriggerMouseEnter,
-        onMouseleave: onTriggerMouseLeave,
-        onFocus: onTriggerFocus,
-        onBlur: onTriggerBlur,
-        ref: setTriggerRef,
-      },
-      true,
-    )
-  }
-  return h('span', { ref: setTriggerRef })
-})
+function updateTriggerElement(vnode: VNode) {
+  triggerRef.value = vnode.el instanceof HTMLElement ? vnode.el : undefined
+}
 
-function setTriggerRef(el: any) {
-  if (el instanceof HTMLElement) {
-    triggerRef.value = el
-  } else if (el?.$el instanceof HTMLElement) {
-    triggerRef.value = el.$el
-  } else {
+function clearTriggerElement(vnode: VNode) {
+  if (triggerRef.value === vnode.el) {
     triggerRef.value = undefined
   }
+}
+
+function renderTrigger(): VNode {
+  const child = slots.default?.()[0] as VNode | undefined
+  if (child) {
+    return cloneVNode(child, {
+      class: { 'yiz-popover-trigger-open': visible.value },
+      onClick: onTriggerClick,
+      onMouseenter: onTriggerMouseEnter,
+      onMouseleave: onTriggerMouseLeave,
+      onFocus: onTriggerFocus,
+      onBlur: onTriggerBlur,
+      onVnodeMounted: updateTriggerElement,
+      onVnodeUpdated: updateTriggerElement,
+      onVnodeBeforeUnmount: clearTriggerElement,
+    })
+  }
+  return h('span', {
+    onVnodeMounted: updateTriggerElement,
+    onVnodeUpdated: updateTriggerElement,
+    onVnodeBeforeUnmount: clearTriggerElement,
+  })
 }
 
 function toCssSize(value: number | string | undefined) {

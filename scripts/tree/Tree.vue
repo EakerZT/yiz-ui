@@ -1,7 +1,14 @@
 <template>
   <div class="yiz-tree" :class="vClass">
     <div v-if="data.length === 0" class="yiz-tree-empty">{{ emptyTextValue }}</div>
-    <TreeNode v-for="node in data" v-else :key="node.key" :node="node" :level="0" />
+    <TreeNode v-for="node in data" v-else :key="node.key" :node="node" :level="0">
+      <template v-if="$slots.before" #before="scope">
+        <slot name="before" v-bind="scope" />
+      </template>
+      <template v-if="$slots.after" #after="scope">
+        <slot name="after" v-bind="scope" />
+      </template>
+    </TreeNode>
   </div>
 </template>
 
@@ -34,6 +41,17 @@ export interface TreeContext {
   selectNode: (node: TreeNodeData) => void
   toggleCheck: (node: TreeNodeData) => void
 }
+
+export interface TreeSlotProps {
+  item: TreeNodeData
+  selected: boolean
+  checked: boolean
+}
+
+defineSlots<{
+  before?: (props: TreeSlotProps) => any
+  after?: (props: TreeSlotProps) => any
+}>()
 
 const selected = defineModel<TreeKey | null>('selected')
 const checked = defineModel<TreeKey[]>('checked')
@@ -305,6 +323,13 @@ provide<TreeContext>('yizTree', {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.yiz-tree-node-before,
+.yiz-tree-node-after {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .yiz-tree-expand-enter-active,

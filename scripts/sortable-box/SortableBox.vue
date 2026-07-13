@@ -246,9 +246,16 @@ export default defineComponent({
       return componentRoot instanceof HTMLElement ? componentRoot : null
     }
 
-    function setItemRef(value: Element | ComponentPublicInstance | null, key: SortableKey) {
-      const element = toElement(value)
-      if (element) itemElements.set(key, element)
+    function updateItemElement(vnode: VNode, key: SortableKey) {
+      if (vnode.el instanceof HTMLElement) {
+        itemElements.set(key, vnode.el)
+      }
+    }
+
+    function clearItemElement(vnode: VNode, key: SortableKey) {
+      if (itemElements.get(key) === vnode.el) {
+        itemElements.delete(key)
+      }
     }
 
     function getItemKey(item: unknown): SortableKey {
@@ -1145,16 +1152,14 @@ export default defineComponent({
       const key = getItemKey(item)
       const nodes = slots.item?.({ element: item, index }).filter(isVNode) ?? []
       const node = nodes[0] ?? h('div', getFallbackLabel(item))
-      return cloneVNode(
-        node,
-        {
-          key,
-          ref: (value: Element | ComponentPublicInstance | null) => setItemRef(value, key),
-          'data-yiz-sortable-key': String(key),
-          class: getItemClass(item),
-        },
-        true,
-      )
+      return cloneVNode(node, {
+        key,
+        'data-yiz-sortable-key': String(key),
+        class: getItemClass(item),
+        onVnodeMounted: (vnode: VNode) => updateItemElement(vnode, key),
+        onVnodeUpdated: (vnode: VNode) => updateItemElement(vnode, key),
+        onVnodeBeforeUnmount: (vnode: VNode) => clearItemElement(vnode, key),
+      })
     }
 
     onMounted(() => {

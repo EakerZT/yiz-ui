@@ -21,6 +21,35 @@
       <p class="demo-tree-info">{{ $t('demo.tree.lastCheck', { value: lastCheck }) }}</p>
     </y-card>
 
+    <y-card :title="$t('demo.tree.beforeAfterSlots')" style="margin-top: 8px">
+      <y-tree
+        v-model:selected="slotSelectedKey"
+        v-model:checked="slotCheckedKeys"
+        :data="treeData"
+        checkable
+        default-expand-all
+      >
+        <template #before="{ item, selected, checked }">
+          <span
+            class="demo-tree-slot-marker"
+            :class="{
+              'demo-tree-slot-marker-selected': selected,
+              'demo-tree-slot-marker-checked': checked,
+            }"
+          >
+            {{ item.children?.length ? '◆' : '•' }}
+          </span>
+        </template>
+        <template #after="{ item, selected, checked }">
+          <span class="demo-tree-slot-after">
+            <code>{{ item.key }}</code>
+            <y-tag v-if="selected" color="primary" size="small">{{ $t('demo.tree.selectedState') }}</y-tag>
+            <y-tag v-if="checked" color="success" size="small">{{ $t('demo.tree.checkedState') }}</y-tag>
+          </span>
+        </template>
+      </y-tree>
+    </y-card>
+
     <y-card :title="$t('demo.tree.controlledExpand')" style="margin-top: 8px">
       <y-button-group style="margin-bottom: 12px">
         <y-button @click="expandedKeys = ['components', 'data-entry']">{{ $t('demo.tree.expandDataEntry') }}</y-button>
@@ -98,6 +127,8 @@ const disabledData: TreeNodeData[] = [
 
 const selectedKey = ref<TreeKey | null>(null)
 const checkedKeys = ref<TreeKey[]>(['input'])
+const slotSelectedKey = ref<TreeKey | null>('input')
+const slotCheckedKeys = ref<TreeKey[]>(['input'])
 const expandedKeys = ref<TreeKey[]>(['components'])
 const lastSelected = ref($t('demo.common.none'))
 const lastCheck = ref($t('demo.common.none'))
@@ -123,5 +154,29 @@ function onCheck(keys: TreeKey[], node: TreeNodeData, checked: boolean) {
 
 .demo-tree-info + .demo-tree-info {
   margin-top: 4px;
+}
+
+.demo-tree-slot-marker {
+  color: #999;
+}
+
+.demo-tree-slot-marker-selected {
+  color: var(--yiz-color-primary);
+}
+
+.demo-tree-slot-marker-checked {
+  color: var(--yiz-color-success);
+}
+
+.demo-tree-slot-after {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 6px;
+}
+
+.demo-tree-slot-after code {
+  color: #999;
+  font-size: 12px;
 }
 </style>

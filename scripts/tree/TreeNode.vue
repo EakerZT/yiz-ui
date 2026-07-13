@@ -34,7 +34,13 @@
         />
       </span>
 
+      <span v-if="$slots.before" class="yiz-tree-node-before">
+        <slot name="before" :item="node" :selected="context.isSelected(node)" :checked="context.isChecked(node)" />
+      </span>
       <span class="yiz-tree-node-label">{{ node.label }}</span>
+      <span v-if="$slots.after" class="yiz-tree-node-after">
+        <slot name="after" :item="node" :selected="context.isSelected(node)" :checked="context.isChecked(node)" />
+      </span>
     </div>
 
     <Transition
@@ -46,7 +52,14 @@
       @leave="onExpandLeave"
     >
       <div v-if="hasChildren && expanded" class="yiz-tree-node-children">
-        <TreeNode v-for="child in node.children" :key="child.key" :node="child" :level="level + 1" />
+        <TreeNode v-for="child in node.children" :key="child.key" :node="child" :level="level + 1">
+          <template v-if="$slots.before" #before="scope">
+            <slot name="before" v-bind="scope" />
+          </template>
+          <template v-if="$slots.after" #after="scope">
+            <slot name="after" v-bind="scope" />
+          </template>
+        </TreeNode>
       </div>
     </Transition>
   </div>
@@ -57,7 +70,7 @@ import { computed, inject } from 'vue'
 import { ChevronRight16Regular } from '@vicons/fluent'
 import Checkbox from '../checkbox/Checkbox.vue'
 import { Icon } from '../icon'
-import type { TreeContext, TreeNodeData } from './Tree.vue'
+import type { TreeContext, TreeNodeData, TreeSlotProps } from './Tree.vue'
 
 defineOptions({
   name: 'TreeNode',
@@ -66,6 +79,11 @@ defineOptions({
 const props = defineProps<{
   node: TreeNodeData
   level: number
+}>()
+
+defineSlots<{
+  before?: (props: TreeSlotProps) => any
+  after?: (props: TreeSlotProps) => any
 }>()
 
 const treeContext = inject<TreeContext>('yizTree')

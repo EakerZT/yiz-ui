@@ -1,5 +1,5 @@
 <template>
-  <component :is="triggerNode" />
+  <component :is="renderTrigger()" />
 
   <DropmenuPanel :visible="open" :options="allOptions" :position="popupStyle" @select="onSelect">
     <template #icon="scope"><slot name="icon" v-bind="scope" /></template>
@@ -59,40 +59,41 @@ const emit = defineEmits<{
 const slots = useSlots()
 const open = ref(false)
 const triggerRef = ref<HTMLElement>()
-function setTriggerRef(el: any) {
-  if (el instanceof HTMLElement) {
-    triggerRef.value = el
-  } else if (el?.$el instanceof HTMLElement) {
-    triggerRef.value = el.$el
-  } else {
+
+function updateTriggerElement(vnode: VNode) {
+  triggerRef.value = vnode.el instanceof HTMLElement ? vnode.el : undefined
+}
+
+function clearTriggerElement(vnode: VNode) {
+  if (triggerRef.value === vnode.el) {
     triggerRef.value = undefined
   }
 }
 const popupStyle = ref<Record<string, string>>({})
 const currentZIndex = ref(0)
 
-const triggerNode = computed<VNode>(() => {
+function renderTrigger(): VNode {
   const children = slots.trigger?.({ open: open.value }) ?? []
   const child = children[0] as VNode | undefined
   if (child) {
-    return cloneVNode(
-      child,
-      {
-        class: { 'yiz-dropmenu-disabled': props.disabled, 'yiz-dropmenu-open': open.value },
-        onClick: onTriggerClick,
-        ref: setTriggerRef,
-      },
-      true,
-    )
+    return cloneVNode(child, {
+      class: { 'yiz-dropmenu-disabled': props.disabled, 'yiz-dropmenu-open': open.value },
+      onClick: onTriggerClick,
+      onVnodeMounted: updateTriggerElement,
+      onVnodeUpdated: updateTriggerElement,
+      onVnodeBeforeUnmount: clearTriggerElement,
+    })
   }
   return h(
     'button',
     {
-      ref: setTriggerRef,
       type: 'button',
       class: ['yiz-dropmenu-trigger', { 'yiz-dropmenu-disabled': props.disabled, 'yiz-dropmenu-open': open.value }],
       disabled: props.disabled,
       onClick: onTriggerClick,
+      onVnodeMounted: updateTriggerElement,
+      onVnodeUpdated: updateTriggerElement,
+      onVnodeBeforeUnmount: clearTriggerElement,
     },
     [
       h('span', {}, props.label),
@@ -103,7 +104,7 @@ const triggerNode = computed<VNode>(() => {
       }),
     ],
   )
-})
+}
 
 function collectOptionVNodes(nodes: any[]): any[] {
   const result: any[] = []

@@ -1,5 +1,5 @@
 <template>
-  <component :is="triggerNode" />
+  <component :is="renderTrigger()" />
   <input
     ref="inputRef"
     class="yiz-upload-input"
@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { cloneVNode, computed, h, ref, useSlots, type VNode } from 'vue'
+import { cloneVNode, h, ref, useSlots, type VNode } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -39,7 +39,7 @@ defineSlots<{
 const slots = useSlots()
 const inputRef = ref<HTMLInputElement>()
 
-const triggerNode = computed<VNode>(() => {
+function renderTrigger(): VNode {
   const child = slots.default?.()[0] as VNode | undefined
   const listeners = {
     onClick: onClick,
@@ -47,9 +47,9 @@ const triggerNode = computed<VNode>(() => {
     onDragover: onDragOver,
     onDrop: onDrop,
   }
-  if (child) return cloneVNode(child, listeners, true)
+  if (child) return cloneVNode(child, listeners)
   return h('span', listeners)
-})
+}
 
 function onClick() {
   if (props.disabled) return

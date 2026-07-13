@@ -1,10 +1,15 @@
 # update
 
-## next
+## 0.0.23
 
-`2026/07/11`
+`2026/07/13`
 
 - 修复 dialog.confirm缺失过渡动画
+- 修复 InputPassword组件不支持size
+- 添加 Tree组件支持after/before插槽
+- 移除 dialog.confirm的Header
+- 添加 Tag组件checkable模式
+- 修复 Tooltip,SortableBox,Dropmenu,popover,Upload组件Ref未找到的问题
 
 ## 0.0.22
 

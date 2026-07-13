@@ -1,7 +1,17 @@
 <template>
-  <span class="yiz-tag" :class="vClass" :style="vStyle">
+  <span
+    class="yiz-tag"
+    :class="vClass"
+    :style="vStyle"
+    :role="checkable ? 'checkbox' : undefined"
+    :aria-checked="checkable ? checked : undefined"
+    :aria-disabled="checkable ? disabled : undefined"
+    :tabindex="checkable ? (disabled ? -1 : 0) : undefined"
+    @click="onClick"
+    @keydown="onKeydown"
+  >
     <slot />
-    <span v-if="closable" class="yiz-tag-close" @click.stop="onClose">
+    <span v-if="closable && !checkable" class="yiz-tag-close" @click.stop="onClose">
       <Icon size="16" :icon="Dismiss16Regular" />
     </span>
   </span>
@@ -19,26 +29,46 @@ const props = withDefaults(
     closable?: boolean
     size?: 'default' | 'small' | 'large'
     bordered?: boolean
+    checkable?: boolean
+    disabled?: boolean
   }>(),
   {
     color: 'default',
     closable: false,
     size: 'default',
     bordered: true,
+    checkable: false,
+    disabled: false,
   },
 )
 
 const emit = defineEmits<{
   close: []
+  change: [checked: boolean]
 }>()
+
+const checked = defineModel<boolean>('checked', { default: false })
+
+const checkableColorMap: Record<string, string> = {
+  default: 'var(--yiz-color-primary)',
+  primary: 'var(--yiz-color-primary)',
+  success: 'var(--yiz-color-success)',
+  warning: 'var(--yiz-color-warning)',
+  error: 'var(--yiz-color-error)',
+}
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
   if (['default', 'primary', 'success', 'warning', 'error'].includes(props.color)) {
     c[`yiz-tag-color-${props.color}`] = true
   }
-  if (props.closable) {
+  if (props.closable && !props.checkable) {
     c['yiz-tag-closable'] = true
+  }
+  if (props.checkable) {
+    c['yiz-tag-checkable'] = true
+    c['yiz-tag-checkable-checked'] = checked.value
+    c['yiz-tag-checkable-disabled'] = props.disabled
   }
   if (props.size !== 'default') {
     c[`yiz-tag-size-${props.size}`] = true
@@ -51,18 +81,36 @@ const vClass = computed(() => {
 
 const vStyle = computed(() => {
   const s: Record<string, string> = {}
-  if (props.color && props.color.match(/^#[\da-fA-F]{6}$/g)) {
+  if (props.color && props.color.match(/^#(?:[\da-fA-F]{3}|[\da-fA-F]{6})$/)) {
     const color = new TinyColor(props.color)
     s['--yiz-tag-bg'] = color.setAlpha(0.1).toString()
     s['--yiz-tag-color'] = props.color
     s['--yiz-tag-border-color'] = color.setAlpha(0.3).toString()
     s['--yiz-tag-close-hover-bg'] = color.setAlpha(0.2).toString()
   }
+  s['--yiz-tag-checkable-color'] = checkableColorMap[props.color] ?? props.color
   return s
 })
 
 function onClose() {
   emit('close')
+}
+
+function toggleChecked() {
+  const nextChecked = !checked.value
+  checked.value = nextChecked
+  emit('change', nextChecked)
+}
+
+function onClick() {
+  if (!props.checkable || props.disabled) return
+  toggleChecked()
+}
+
+function onKeydown(e: KeyboardEvent) {
+  if (!props.checkable || props.disabled || (e.key !== 'Enter' && e.key !== ' ')) return
+  e.preventDefault()
+  toggleChecked()
 }
 </script>
 
@@ -170,5 +218,46 @@ function onClose() {
   --yiz-tag-bg: var(--yiz-color-error-light9);
   --yiz-tag-border-color: var(--yiz-color-error-light8);
   --yiz-tag-close-hover-bg: var(--yiz-color-error-light8);
+}
+
+.yiz-tag.yiz-tag-checkable {
+  color: #333;
+  background: #fff;
+  border-color: transparent;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    color: var(--yiz-tag-checkable-color, var(--yiz-color-primary));
+    background: var(--yiz-color-hover-bg);
+    border-color: transparent;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--yiz-color-primary-light8);
+    outline-offset: 2px;
+  }
+}
+
+.yiz-tag.yiz-tag-checkable-checked,
+.yiz-tag.yiz-tag-checkable-checked:hover {
+  color: #fff;
+  background: var(--yiz-tag-checkable-color, var(--yiz-color-primary));
+  border-color: transparent;
+}
+
+.yiz-tag.yiz-tag-checkable-disabled,
+.yiz-tag.yiz-tag-checkable-disabled:hover {
+  color: #333;
+  background: #fff;
+  border-color: transparent;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.yiz-tag.yiz-tag-checkable-checked.yiz-tag-checkable-disabled,
+.yiz-tag.yiz-tag-checkable-checked.yiz-tag-checkable-disabled:hover {
+  color: #fff;
+  background: var(--yiz-tag-checkable-color, var(--yiz-color-primary));
 }
 </style>

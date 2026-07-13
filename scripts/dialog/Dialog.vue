@@ -10,8 +10,16 @@
         :style="{ zIndex: currentZIndex + 1 }"
         @click.self="onWrapperClick"
       >
-        <div class="yiz-dialog" :style="{ width: props.width, ...dragStyle }">
+        <div
+          class="yiz-dialog"
+          :class="{ 'yiz-dialog-standalone-close': disabledHeader && closable }"
+          :style="{ width: props.width, ...dragStyle }"
+        >
+          <button v-if="disabledHeader && closable" class="yiz-dialog-close yiz-dialog-close-standalone" @click="close">
+            <Icon size="16" :icon="Dismiss16Regular" />
+          </button>
           <div
+            v-if="!disabledHeader"
             class="yiz-dialog-header"
             :class="{ 'yiz-dialog-header-draggable': drag }"
             @mousedown="onHeaderMouseDown"
@@ -59,6 +67,7 @@ const props = withDefaults(
     mask?: boolean
     maskClosable?: boolean
     drag?: boolean
+    disabledHeader?: boolean
     disabledFooter?: boolean
     modalLayerParent?: ModalLayerContext | null
   }>(),
@@ -69,6 +78,7 @@ const props = withDefaults(
     mask: true,
     maskClosable: false,
     drag: false,
+    disabledHeader: false,
     disabledFooter: false,
     modalLayerParent: null,
   },
@@ -253,6 +263,7 @@ onBeforeUnmount(() => window.removeEventListener('resize', onViewportResize))
 }
 
 .yiz-dialog {
+  position: relative;
   background: #fff;
   border-radius: var(--yiz-pane-border-radius);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
@@ -299,6 +310,17 @@ onBeforeUnmount(() => window.removeEventListener('resize', onViewportResize))
     color: #333;
     background: #f5f5f5;
   }
+}
+
+.yiz-dialog-close-standalone {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+}
+
+.yiz-dialog-standalone-close .yiz-dialog-body {
+  padding-right: 56px;
 }
 
 .yiz-dialog-body {
