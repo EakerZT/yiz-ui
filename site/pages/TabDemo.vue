@@ -212,7 +212,6 @@ import { ref } from 'vue'
 
 type TabDirection = 'top' | 'bottom' | 'left' | 'right'
 
-const tab1 = ref('a')
 const tab2 = ref('a')
 const tab3 = ref(1)
 
