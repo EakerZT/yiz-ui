@@ -1,6 +1,7 @@
 <template>
   <label class="yiz-radio-button" :class="vClass" :style="vStyle">
     <input
+      ref="inputRef"
       class="yiz-radio-button-input"
       type="radio"
       :checked="checked"
@@ -24,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject } from 'vue'
+import { computed, inject, ref } from 'vue'
 import type { Ref, VNodeChild } from 'vue'
 
 interface RadioButtonGroupContext {
@@ -69,6 +70,7 @@ const emit = defineEmits<{ change: [value: string | number | undefined] }>()
 
 const checkedModel = defineModel<boolean>('checked', { default: false })
 const group = inject<RadioButtonGroupContext | null>('yizRadioButtonGroup', null)
+const inputRef = ref<HTMLInputElement>()
 
 const mergedDisabled = computed(() => props.disabled || (group?.disabled.value ?? false))
 const mergedSize = computed(() => group?.size.value ?? props.size)
@@ -104,6 +106,11 @@ function onChange() {
   }
   emit('change', props.value)
 }
+
+defineExpose({
+  focus: () => inputRef.value?.focus(),
+  blur: () => inputRef.value?.blur(),
+})
 </script>
 
 <style lang="less">

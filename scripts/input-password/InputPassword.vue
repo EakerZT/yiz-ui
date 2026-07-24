@@ -124,6 +124,7 @@ function onKeydown(e: KeyboardEvent) {
 
 defineExpose({
   focus: () => inputRef.value?.focus(),
+  blur: () => inputRef.value?.blur(),
 })
 </script>
 

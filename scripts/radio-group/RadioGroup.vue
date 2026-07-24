@@ -1,5 +1,9 @@
 <template>
-  <div class="yiz-radio-group" :class="[`yiz-radio-group-${direction}`, { 'yiz-radio-group-disabled': disabled }]">
+  <div
+    ref="groupRef"
+    class="yiz-radio-group"
+    :class="[`yiz-radio-group-${direction}`, { 'yiz-radio-group-disabled': disabled }]"
+  >
     <template v-if="options.length > 0">
       <Radio v-for="opt in options" :key="opt.value" :value="opt.value" :disabled="opt.disabled">
         {{ opt.label }}
@@ -10,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { provide, toRef } from 'vue'
+import { provide, ref, toRef } from 'vue'
 import { Radio } from '../radio'
 
 export interface RadioOption {
@@ -38,6 +42,7 @@ defineSlots<{
 
 const emit = defineEmits<{ change: [value: string | number] }>()
 const modelValue = defineModel<string | number>('value')
+const groupRef = ref<HTMLElement>()
 
 function changeValue(value: string | number) {
   if (props.disabled) return
@@ -49,6 +54,23 @@ provide('yizRadioGroup', {
   modelValue,
   disabled: toRef(props, 'disabled'),
   changeValue,
+})
+
+function focus() {
+  if (props.disabled) return
+  const checkedInput = groupRef.value?.querySelector<HTMLInputElement>('input[type="radio"]:checked:not(:disabled)')
+  const input = checkedInput ?? groupRef.value?.querySelector<HTMLInputElement>('input[type="radio"]:not(:disabled)')
+  input?.focus()
+}
+
+function blur() {
+  const activeElement = document.activeElement
+  if (activeElement instanceof HTMLElement && groupRef.value?.contains(activeElement)) activeElement.blur()
+}
+
+defineExpose({
+  focus,
+  blur,
 })
 </script>
 

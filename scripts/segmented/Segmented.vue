@@ -212,6 +212,26 @@ function disableIndicatorTransition() {
   }
   indicatorTransitionReady.value = false
 }
+
+function focus() {
+  if (props.disabled) return
+  const selectedInput = segmentedRef.value?.querySelector<HTMLInputElement>(
+    '.yiz-segmented-input:checked:not(:disabled)',
+  )
+  const input =
+    selectedInput ?? segmentedRef.value?.querySelector<HTMLInputElement>('.yiz-segmented-input:not(:disabled)')
+  input?.focus()
+}
+
+function blur() {
+  const activeElement = document.activeElement
+  if (activeElement instanceof HTMLElement && segmentedRef.value?.contains(activeElement)) activeElement.blur()
+}
+
+defineExpose({
+  focus,
+  blur,
+})
 </script>
 
 <style lang="less">

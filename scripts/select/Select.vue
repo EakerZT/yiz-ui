@@ -3,6 +3,7 @@
     ref="triggerRef"
     class="yiz-select"
     :class="vClass"
+    :tabindex="disabled ? -1 : 0"
     @click="onTriggerClick"
     @mouseenter="isHovering = true"
     @mouseleave="isHovering = false"
@@ -377,6 +378,13 @@ onBeforeUnmount(() => {
   document.removeEventListener('keydown', onKeydown)
   window.removeEventListener('scroll', onReposition, true)
   window.removeEventListener('resize', onReposition)
+})
+
+defineExpose({
+  focus: () => {
+    if (!props.disabled) triggerRef.value?.focus()
+  },
+  blur: () => triggerRef.value?.blur(),
 })
 </script>
 

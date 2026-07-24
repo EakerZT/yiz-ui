@@ -486,6 +486,11 @@ onBeforeUnmount(() => {
   document.removeEventListener('click', onClickOutside, true)
   document.removeEventListener('keydown', onKeydown)
 })
+
+defineExpose({
+  focus: () => inputRef.value?.focus(),
+  blur: () => inputRef.value?.blur(),
+})
 </script>
 
 <style lang="less">

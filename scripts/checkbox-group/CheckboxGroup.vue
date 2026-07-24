@@ -1,5 +1,5 @@
 <template>
-  <div class="yiz-checkbox-group" :class="[`yiz-checkbox-group-${direction}`]">
+  <div ref="groupRef" class="yiz-checkbox-group" :class="[`yiz-checkbox-group-${direction}`]">
     <template v-if="options">
       <Checkbox v-for="opt in options" :key="opt.value" :value="opt.value" :border="border" :size="size">
         {{ opt.label }}
@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { provide, toRef } from 'vue'
+import { provide, ref, toRef } from 'vue'
 import { Checkbox } from '../checkbox'
 
 export interface CheckboxOption {
@@ -39,6 +39,7 @@ defineSlots<{
 }>()
 
 const modelValue = defineModel<(string | number)[]>('value', { default: () => [] })
+const groupRef = ref<HTMLElement>()
 
 function toggleValue(val: string | number) {
   if (modelValue.value.includes(val)) {
@@ -54,6 +55,23 @@ provide('yizCheckboxGroup', {
   border: toRef(props, 'border'),
   size: toRef(props, 'size'),
   toggleValue,
+})
+
+function focus() {
+  if (props.disabled) return
+  const checkedInput = groupRef.value?.querySelector<HTMLInputElement>('input[type="checkbox"]:checked:not(:disabled)')
+  const input = checkedInput ?? groupRef.value?.querySelector<HTMLInputElement>('input[type="checkbox"]:not(:disabled)')
+  input?.focus()
+}
+
+function blur() {
+  const activeElement = document.activeElement
+  if (activeElement instanceof HTMLElement && groupRef.value?.contains(activeElement)) activeElement.blur()
+}
+
+defineExpose({
+  focus,
+  blur,
 })
 </script>
 

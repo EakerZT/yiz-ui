@@ -80,6 +80,7 @@ function onKeydown(e: KeyboardEvent) {
 
 defineExpose({
   focus: () => textareaRef.value?.focus(),
+  blur: () => textareaRef.value?.blur(),
 })
 </script>
 

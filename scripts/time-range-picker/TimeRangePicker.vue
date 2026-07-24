@@ -691,6 +691,17 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', onReposition, true)
   window.removeEventListener('resize', onReposition)
 })
+
+defineExpose({
+  focus: (side: 'start' | 'end' = 'start') => {
+    const inputRef = side === 'start' ? startInputRef : endInputRef
+    inputRef.value?.focus()
+  },
+  blur: () => {
+    startInputRef.value?.blur()
+    endInputRef.value?.blur()
+  },
+})
 </script>
 
 <style lang="less">

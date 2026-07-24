@@ -1,7 +1,14 @@
 <template>
   <label class="yiz-radio" :class="vClass">
     <span class="yiz-radio-input">
-      <input type="radio" :checked="checked" :disabled="mergedDisabled" :value="value" @change="onChange" />
+      <input
+        ref="inputRef"
+        type="radio"
+        :checked="checked"
+        :disabled="mergedDisabled"
+        :value="value"
+        @change="onChange"
+      />
       <span class="yiz-radio-inner"></span>
       <span class="yiz-wave" v-if="isWave"></span>
     </span>
@@ -71,6 +78,7 @@ const vClass = computed(() => {
 })
 
 const isWave = ref(false)
+const inputRef = ref<HTMLInputElement>()
 let waveTimerId: ReturnType<typeof setTimeout>
 
 function onChange() {
@@ -95,6 +103,11 @@ function onChange() {
     }, 600)
   })
 }
+
+defineExpose({
+  focus: () => inputRef.value?.focus(),
+  blur: () => inputRef.value?.blur(),
+})
 </script>
 
 <style lang="less">

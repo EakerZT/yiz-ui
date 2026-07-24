@@ -1,5 +1,12 @@
 <template>
-  <div ref="triggerRef" class="yiz-color-picker" :class="vClass" @click="onTriggerClick" v-bind="$attrs">
+  <div
+    ref="triggerRef"
+    class="yiz-color-picker"
+    :class="vClass"
+    :tabindex="disabled ? -1 : 0"
+    @click="onTriggerClick"
+    v-bind="$attrs"
+  >
     <span class="yiz-color-picker-prefix" v-if="$props.prefix || $slots.prefix">
       <template v-if="$props.prefix">{{ $props.prefix }}</template>
       <slot v-else name="prefix" />
@@ -456,6 +463,13 @@ onBeforeUnmount(() => {
   document.removeEventListener('mouseup', onDragEnd)
   window.removeEventListener('scroll', onReposition, true)
   window.removeEventListener('resize', onReposition)
+})
+
+defineExpose({
+  focus: () => {
+    if (!props.disabled) triggerRef.value?.focus()
+  },
+  blur: () => triggerRef.value?.blur(),
 })
 </script>
 

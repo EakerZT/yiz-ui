@@ -275,9 +275,24 @@ function getTooltip(value: number) {
   return props.formatTooltip ? props.formatTooltip(value) : String(value)
 }
 
+function focus(handleIndex = 0) {
+  if (props.disabled) return
+  sliderRef.value?.querySelectorAll<HTMLButtonElement>('.yiz-slider-handle')[handleIndex]?.focus()
+}
+
+function blur() {
+  const activeElement = document.activeElement
+  if (activeElement instanceof HTMLElement && sliderRef.value?.contains(activeElement)) activeElement.blur()
+}
+
 onBeforeUnmount(() => {
   window.removeEventListener('pointermove', onPointerMove)
   window.removeEventListener('pointerup', onPointerUp)
+})
+
+defineExpose({
+  focus,
+  blur,
 })
 </script>
 

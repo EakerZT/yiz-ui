@@ -1,5 +1,5 @@
 <template>
-  <div class="yiz-input-group" :class="vClass">
+  <div ref="groupRef" class="yiz-input-group" :class="vClass">
     <div v-if="$slots.beforeAddon || beforeAddon != null" class="yiz-input-group-addon yiz-input-group-before-addon">
       <slot name="beforeAddon">{{ beforeAddon }}</slot>
     </div>
@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -38,6 +38,26 @@ const vClass = computed(() => ({
   'yiz-input-group-default': props.size === 'default',
   'yiz-input-group-large': props.size === 'large',
 }))
+
+const groupRef = ref<HTMLElement>()
+
+function focus() {
+  groupRef.value
+    ?.querySelector<HTMLElement>(
+      'input:not(:disabled), textarea:not(:disabled), button:not(:disabled), [tabindex]:not([tabindex="-1"])',
+    )
+    ?.focus()
+}
+
+function blur() {
+  const activeElement = document.activeElement
+  if (activeElement instanceof HTMLElement && groupRef.value?.contains(activeElement)) activeElement.blur()
+}
+
+defineExpose({
+  focus,
+  blur,
+})
 </script>
 
 <style lang="less">

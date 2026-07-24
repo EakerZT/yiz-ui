@@ -1,5 +1,5 @@
 <template>
-  <div class="yiz-radio-button-group" :class="vClass">
+  <div ref="groupRef" class="yiz-radio-button-group" :class="vClass">
     <template v-if="options.length > 0">
       <RadioButton
         v-for="option in options"
@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, provide } from 'vue'
+import { computed, provide, ref } from 'vue'
 import type { VNodeChild } from 'vue'
 import RadioButton from '../radio-button/RadioButton.vue'
 
@@ -58,6 +58,7 @@ defineSlots<{
 
 const emit = defineEmits<{ change: [value: string | number] }>()
 const modelValue = defineModel<string | number>('value')
+const groupRef = ref<HTMLElement>()
 
 const disabledValue = computed(() => props.disabled)
 const sizeValue = computed(() => props.size)
@@ -82,6 +83,23 @@ provide('yizRadioButtonGroup', {
   textColor: textColorValue,
   fillColor: fillColorValue,
   changeValue,
+})
+
+function focus() {
+  if (props.disabled) return
+  const checkedInput = groupRef.value?.querySelector<HTMLInputElement>('input[type="radio"]:checked:not(:disabled)')
+  const input = checkedInput ?? groupRef.value?.querySelector<HTMLInputElement>('input[type="radio"]:not(:disabled)')
+  input?.focus()
+}
+
+function blur() {
+  const activeElement = document.activeElement
+  if (activeElement instanceof HTMLElement && groupRef.value?.contains(activeElement)) activeElement.blur()
+}
+
+defineExpose({
+  focus,
+  blur,
 })
 </script>
 

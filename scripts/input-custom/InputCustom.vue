@@ -79,8 +79,18 @@ function focus() {
   target?.focus()
 }
 
+function blur() {
+  const activeElement = document.activeElement
+  if (activeElement instanceof HTMLElement && rootRef.value?.contains(activeElement)) {
+    activeElement.blur()
+    return
+  }
+  rootRef.value?.blur()
+}
+
 defineExpose({
   focus,
+  blur,
 })
 </script>
 

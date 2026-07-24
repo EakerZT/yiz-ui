@@ -38,6 +38,15 @@ defineSlots<{
 
 const slots = useSlots()
 const inputRef = ref<HTMLInputElement>()
+const triggerRef = ref<HTMLElement>()
+
+function updateTriggerElement(vnode: VNode) {
+  triggerRef.value = vnode.el instanceof HTMLElement ? vnode.el : undefined
+}
+
+function clearTriggerElement(vnode: VNode) {
+  if (triggerRef.value === vnode.el) triggerRef.value = undefined
+}
 
 function renderTrigger(): VNode {
   const child = slots.default?.()[0] as VNode | undefined
@@ -46,6 +55,10 @@ function renderTrigger(): VNode {
     onDragenter: onDragEnter,
     onDragover: onDragOver,
     onDrop: onDrop,
+    tabindex: props.disabled ? -1 : 0,
+    onVnodeMounted: updateTriggerElement,
+    onVnodeUpdated: updateTriggerElement,
+    onVnodeBeforeUnmount: clearTriggerElement,
   }
   if (child) return cloneVNode(child, listeners)
   return h('span', listeners)
@@ -106,6 +119,13 @@ function matchAccept(file: File) {
     return fileType === value
   })
 }
+
+defineExpose({
+  focus: () => {
+    if (!props.disabled) triggerRef.value?.focus()
+  },
+  blur: () => triggerRef.value?.blur(),
+})
 </script>
 
 <style lang="less">

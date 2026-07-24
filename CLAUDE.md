@@ -175,7 +175,7 @@ Toggle switch using the native input overlay pattern (hidden `<input type="check
 
 ### InputNumber (`scripts/input-number/`)
 
-Number input with increment/decrement buttons. Uses `defineModel<number | null>('modelValue')` — null represents empty input. Props: `min`, `max`, `step`, `precision`, `controls` (show +/- buttons), `prefix`/`suffix` (text or slots), `align`. Supports ArrowUp/ArrowDown keyboard shortcuts and Enter key (`pressEnter` event). Uses `defineExpose({ focus })` to expose a focus method to parents. Hides native spinner buttons via `-webkit-appearance: none` / `-moz-appearance: textfield`.
+Number input with increment/decrement buttons. Uses `defineModel<number | null>('modelValue')` — null represents empty input. Props: `min`, `max`, `step`, `precision`, `controls` (show +/- buttons), `prefix`/`suffix` (text or slots), `align`. Supports ArrowUp/ArrowDown keyboard shortcuts and Enter key (`pressEnter` event). Uses `defineExpose({ focus, blur })` to expose focus control methods to parents. Hides native spinner buttons via `-webkit-appearance: none` / `-moz-appearance: textfield`.
 
 ### Icon (`scripts/icon/`)
 
@@ -340,7 +340,7 @@ The foundational interactive component. Props: `type` (`'default' | 'primary'`),
 
 ### Input (`scripts/input/`)
 
-Text input with `v-model:value` (`defineModel`), `placeholder`, `prefix`/`suffix` (string props or `#prefix`/`#suffix` slots — props take priority), `clearable` (renders a clear button using `@vicons/fluent` `DismissCircle32Filled` via `Icon`), and focus ring styling. Emits `pressEnter` on Enter key. Exposes `focus()` via `defineExpose`.
+Text input with `v-model:value` (`defineModel`), `placeholder`, `prefix`/`suffix` (string props or `#prefix`/`#suffix` slots — props take priority), `clearable` (renders a clear button using `@vicons/fluent` `DismissCircle32Filled` via `Icon`), and focus ring styling. Emits `pressEnter` on Enter key. Exposes `focus()` and `blur()` via `defineExpose`.
 
 ### Empty (`scripts/empty/`)
 
@@ -401,5 +401,5 @@ Always pair `onMounted` listeners with corresponding `onBeforeUnmount` cleanup.
 - Styles are non-scoped Less, namespaced with `yiz-` prefix
 - Components that share state use `provide`/`inject` with a string key prefixed `yiz` (e.g. `'yizCheckboxGroup'`)
 - Overlay components (Dialog, Drawer, Select) use `<Teleport to="body">` with `scripts/zIndex.ts` for stacking
-- Components that need to expose methods to parents use `defineExpose({ focus, ... })` (see InputNumber)
+- Input-like components expose `focus()` and `blur()` through `defineExpose`; range pickers additionally accept `focus('start' | 'end')`
 - Document event listeners registered in `onMounted` must be cleaned up in `onBeforeUnmount`

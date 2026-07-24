@@ -1,7 +1,7 @@
 <template>
   <label class="yiz-switch" :class="vClass" :style="vStyle">
     <span class="yiz-switch-input">
-      <input type="checkbox" :checked="isChecked" :disabled="disabled || loading" @change="onChange" />
+      <input ref="inputRef" type="checkbox" :checked="isChecked" :disabled="disabled || loading" @change="onChange" />
     </span>
     <span class="yiz-switch-track">
       <span class="yiz-wave" v-if="isWave" />
@@ -85,6 +85,7 @@ const vStyle = computed(() => {
 })
 
 const isWave = ref(false)
+const inputRef = ref<HTMLInputElement>()
 let waveTimerId: ReturnType<typeof setTimeout>
 
 function onChange(e: Event) {
@@ -104,6 +105,11 @@ function onChange(e: Event) {
     }, 600)
   })
 }
+
+defineExpose({
+  focus: () => inputRef.value?.focus(),
+  blur: () => inputRef.value?.blur(),
+})
 </script>
 
 <style lang="less">
