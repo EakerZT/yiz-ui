@@ -72,13 +72,13 @@ defineSlots<{
 }
 
 .yiz-empty-description {
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
   color: #999;
   line-height: 1.6;
 }
 
 .yiz-empty-small .yiz-empty-description {
-  font-size: 13px;
+  font-size: var(--yiz-font-size-small);
 }
 
 .yiz-empty-large {
@@ -90,7 +90,7 @@ defineSlots<{
   }
 
   .yiz-empty-description {
-    font-size: 16px;
+    font-size: var(--yiz-font-size-large);
   }
 }
 

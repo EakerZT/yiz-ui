@@ -1,12 +1,12 @@
 <template>
-  <button class="yiz-button" :class="vClass" :style="vStyle" @click="onClick" :disabled="isDisabled">
+  <button ref="buttonRef" class="yiz-button" :class="vClass" :style="vStyle" @click="onClick" :disabled="isDisabled">
     <component v-for="i in c" :key="i" :is="i" />
     <span v-if="props.loading" class="yiz-button-loading-icon" aria-hidden="true">
       <svg viewBox="0 0 50 50" width="16px" height="16px" class="yiz-button-loading-ring">
         <circle cx="25" cy="25" r="20" fill="none" />
       </svg>
     </span>
-    <div class="yiz-wave" v-if="isWave" />
+    <div v-if="isWave && hasWave" class="yiz-wave" />
   </button>
 </template>
 
@@ -14,6 +14,8 @@
 import { Comment, computed, Fragment, h, isVNode, nextTick, ref, Text, type VNode } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
 import Icon from '../icon/Icon.vue'
+
+export type ButtonType = 'outlined' | 'primary' | 'plain' | 'dash' | 'filled' | 'text'
 
 const slots = defineSlots<{
   default?: () => any[]
@@ -42,7 +44,7 @@ const c = computed(() => normalizeSlotNodes(slots.default?.() ?? []))
 
 const props = withDefaults(
   defineProps<{
-    type?: 'default' | 'primary' | 'plain'
+    type?: ButtonType
     color?: 'default' | 'success' | 'warning' | 'error' | string
     shape?: 'default' | 'round' | 'circle'
     size?: 'small' | 'default' | 'large'
@@ -50,7 +52,7 @@ const props = withDefaults(
     loading?: boolean
   }>(),
   {
-    type: 'default',
+    type: 'outlined',
     color: 'default',
     shape: 'default',
     size: 'default',
@@ -60,6 +62,8 @@ const props = withDefaults(
 )
 
 const isDisabled = computed(() => props.disabled || props.loading)
+const hasWave = computed(() => props.type !== 'filled' && props.type !== 'text')
+const buttonRef = ref<HTMLButtonElement>()
 
 const vClass = computed(() => {
   const classes: Record<string, boolean> = {
@@ -105,18 +109,25 @@ const onClick = (e: MouseEvent) => {
   if (isDisabled.value) {
     return
   }
-  if (isWave.value) {
-    clearTimeout(waveTimerId)
-    isWave.value = false
-  }
-  nextTick(() => {
-    isWave.value = true
-    waveTimerId = setTimeout(() => {
+  if (hasWave.value) {
+    if (isWave.value) {
+      clearTimeout(waveTimerId)
       isWave.value = false
-    }, 1000)
-  })
+    }
+    nextTick(() => {
+      isWave.value = true
+      waveTimerId = setTimeout(() => {
+        isWave.value = false
+      }, 1000)
+    })
+  }
   emits('click', e)
 }
+
+defineExpose({
+  focus: () => buttonRef.value?.focus(),
+  blur: () => buttonRef.value?.blur(),
+})
 </script>
 
 <style lang="less">
@@ -126,7 +137,7 @@ const onClick = (e: MouseEvent) => {
   line-height: 1;
   font-family: inherit;
   height: 32px;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
   white-space: nowrap;
   outline: none;
   position: relative;
@@ -267,7 +278,7 @@ const onClick = (e: MouseEvent) => {
 
 .yiz-button-size-small {
   height: 24px;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-small);
 
   &.yiz-button-icon-only {
     width: 24px;
@@ -293,13 +304,13 @@ const onClick = (e: MouseEvent) => {
   }
 
   & > .yiz-icon {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
 .yiz-button-size-default {
   height: 32px;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
 
   &.yiz-button-icon-only {
     width: 32px;
@@ -331,7 +342,7 @@ const onClick = (e: MouseEvent) => {
 
 .yiz-button-size-large {
   height: 40px;
-  font-size: 16px;
+  font-size: var(--yiz-font-size-large);
 
   &.yiz-button-icon-only {
     width: 40px;
@@ -428,7 +439,8 @@ const onClick = (e: MouseEvent) => {
   --yiz-color-wave: var(--yiz-color-error);
 }
 
-.yiz-button-type-default {
+.yiz-button-type-outlined,
+.yiz-button-type-dash {
   &.yiz-button-disabled {
     background-color: #fff;
     border-color: #e4e7ed;
@@ -448,6 +460,10 @@ const onClick = (e: MouseEvent) => {
     color: var(--yiz-button-color-press);
     border-color: var(--yiz-button-color-press);
   }
+}
+
+.yiz-button-type-dash {
+  border-style: dashed;
 }
 
 .yiz-button-type-primary {
@@ -472,7 +488,8 @@ const onClick = (e: MouseEvent) => {
   }
 }
 
-.yiz-button-type-plain {
+.yiz-button-type-plain,
+.yiz-button-type-filled {
   &.yiz-button-disabled {
     background-color: var(--yiz-button-color-disabled-bg);
     border-color: var(--yiz-button-color-disabled-border);
@@ -494,6 +511,40 @@ const onClick = (e: MouseEvent) => {
   &:not(.yiz-button-disabled):active {
     background-color: var(--yiz-button-color-press);
     border-color: var(--yiz-button-color-press);
+    color: white;
+  }
+}
+
+.yiz-button-type-filled {
+  &.yiz-button-disabled,
+  &:not(.yiz-button-disabled):hover,
+  &:not(.yiz-button-disabled):active {
+    border-color: transparent;
+  }
+
+  border-color: transparent;
+}
+
+.yiz-button-type-text {
+  &.yiz-button-disabled {
+    background-color: var(--yiz-button-color-disabled-bg);
+    border-color: transparent;
+    color: var(--yiz-button-color-disabled-text);
+  }
+
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--yiz-button-color-primary);
+
+  &:not(.yiz-button-disabled):hover {
+    background-color: var(--yiz-button-color-bg);
+    border-color: transparent;
+    color: var(--yiz-button-color-primary);
+  }
+
+  &:not(.yiz-button-disabled):active {
+    background-color: var(--yiz-button-color-press);
+    border-color: transparent;
     color: white;
   }
 }

@@ -63,7 +63,7 @@ defineExpose({
 <style lang="less">
 .yiz-input-group {
   --yiz-input-group-height: 32px;
-  --yiz-input-group-font-size: 14px;
+  --yiz-input-group-font-size: var(--yiz-font-size-default);
   --yiz-input-group-radius: var(--yiz-base-border-radius-default);
 
   display: inline-flex;
@@ -72,13 +72,13 @@ defineExpose({
 
   &.yiz-input-group-small {
     --yiz-input-group-height: 24px;
-    --yiz-input-group-font-size: 13px;
+    --yiz-input-group-font-size: var(--yiz-font-size-small);
     --yiz-input-group-radius: var(--yiz-base-border-radius-small);
   }
 
   &.yiz-input-group-large {
     --yiz-input-group-height: 40px;
-    --yiz-input-group-font-size: 16px;
+    --yiz-input-group-font-size: var(--yiz-font-size-large);
     --yiz-input-group-radius: var(--yiz-base-border-radius-large);
   }
 

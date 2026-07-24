@@ -11,13 +11,19 @@
       :placeholder="props.placeholder"
       :rows="props.rows"
       :maxlength="props.maxlength"
+      :disabled="props.disabled"
+      :readonly="props.readonly"
       :style="textareaStyle"
     />
-    <div class="yiz-textarea-footer" v-if="props.showCount || props.clearable">
+    <div class="yiz-textarea-footer" v-if="props.showCount || (props.clearable && !props.disabled && !props.readonly)">
       <span v-if="props.showCount && props.maxlength" class="yiz-textarea-count">
         {{ String(modelValue ?? '').length }} / {{ props.maxlength }}
       </span>
-      <div v-if="props.clearable && modelValue" class="yiz-textarea-clear" @click="onClearClick">
+      <div
+        v-if="props.clearable && modelValue && !props.disabled && !props.readonly"
+        class="yiz-textarea-clear"
+        @click="onClearClick"
+      >
         <Icon size="16" :icon="DismissCircle16Filled" />
       </div>
     </div>
@@ -36,12 +42,16 @@ const props = withDefaults(
     maxlength?: number
     showCount?: boolean
     clearable?: boolean
+    disabled?: boolean
+    readonly?: boolean
     resize?: 'none' | 'both' | 'horizontal' | 'vertical'
   }>(),
   {
     rows: 3,
     clearable: false,
     showCount: false,
+    disabled: false,
+    readonly: false,
     resize: 'vertical',
   },
 )
@@ -57,22 +67,31 @@ const vClass = computed(() => {
   if (isFocus.value) {
     c.focus = true
   }
+  if (props.disabled) {
+    c['yiz-textarea-disabled'] = true
+  }
+  if (props.readonly) {
+    c['yiz-textarea-readonly'] = true
+  }
   return c
 })
 
 const textareaStyle = computed(() => ({
-  resize: props.resize,
+  resize: props.disabled ? 'none' : props.resize,
 }))
 
 const onClearClick = () => {
+  if (props.disabled || props.readonly) return
   modelValue.value = ''
 }
 
 function onInput(e: Event) {
+  if (props.disabled || props.readonly) return
   modelValue.value = (e.target as HTMLTextAreaElement).value
 }
 
 function onKeydown(e: KeyboardEvent) {
+  if (props.disabled) return
   if (e.key === 'Enter' && !e.shiftKey) {
     emit('pressEnter')
   }
@@ -99,16 +118,26 @@ defineExpose({
   width: 100%;
   box-sizing: border-box;
 
-  &:hover {
+  &:not(.yiz-textarea-disabled):hover {
     border-color: var(--yiz-color-primary);
   }
 
-  &.focus {
+  &.focus:not(.yiz-textarea-disabled) {
     border-color: var(--yiz-color-primary);
     box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
   }
 
-  .yiz-form-item-error-status & {
+  &.yiz-textarea-disabled {
+    background: #f5f5f5;
+    color: #c0c4cc;
+    cursor: not-allowed;
+  }
+
+  &.yiz-textarea-readonly .yiz-textarea-inner {
+    cursor: default;
+  }
+
+  .yiz-form-item-error-status &:not(.yiz-textarea-disabled) {
     border-color: var(--yiz-color-error);
 
     &:hover {
@@ -133,6 +162,11 @@ defineExpose({
   padding: 0;
   background: transparent;
   resize: vertical;
+
+  &:disabled {
+    color: #c0c4cc;
+    cursor: not-allowed;
+  }
 }
 
 .yiz-textarea-footer {

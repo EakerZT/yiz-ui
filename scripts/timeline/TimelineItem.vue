@@ -133,7 +133,7 @@ const vStyle = computed(() => {
 
 .yiz-timeline-item-title {
   color: #333;
-  font-size: 14px;
+  font-size: var(--yiz-timeline-font-size);
   font-weight: 500;
   line-height: 22px;
 }

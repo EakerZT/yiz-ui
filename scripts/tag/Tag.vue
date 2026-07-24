@@ -23,20 +23,22 @@ import { TinyColor } from '@ctrl/tinycolor'
 import { Dismiss16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
 
+export type TagMode = 'filled' | 'solid' | 'outlined'
+
 const props = withDefaults(
   defineProps<{
     color?: 'default' | 'primary' | 'success' | 'warning' | 'error' | string
+    mode?: TagMode
     closable?: boolean
     size?: 'default' | 'small' | 'large'
-    bordered?: boolean
     checkable?: boolean
     disabled?: boolean
   }>(),
   {
     color: 'default',
+    mode: 'outlined',
     closable: false,
     size: 'default',
-    bordered: true,
     checkable: false,
     disabled: false,
   },
@@ -58,7 +60,9 @@ const checkableColorMap: Record<string, string> = {
 }
 
 const vClass = computed(() => {
-  const c: Record<string, boolean> = {}
+  const c: Record<string, boolean> = {
+    [`yiz-tag-mode-${props.mode}`]: true,
+  }
   if (['default', 'primary', 'success', 'warning', 'error'].includes(props.color)) {
     c[`yiz-tag-color-${props.color}`] = true
   }
@@ -73,9 +77,6 @@ const vClass = computed(() => {
   if (props.size !== 'default') {
     c[`yiz-tag-size-${props.size}`] = true
   }
-  if (props.bordered) {
-    c['yiz-tag-bordered'] = true
-  }
   return c
 })
 
@@ -83,9 +84,10 @@ const vStyle = computed(() => {
   const s: Record<string, string> = {}
   if (props.color && props.color.match(/^#(?:[\da-fA-F]{3}|[\da-fA-F]{6})$/)) {
     const color = new TinyColor(props.color)
-    s['--yiz-tag-bg'] = color.setAlpha(0.1).toString()
-    s['--yiz-tag-color'] = props.color
-    s['--yiz-tag-border-color'] = color.setAlpha(0.3).toString()
+    s['--yiz-tag-base-color'] = props.color
+    s['--yiz-tag-filled-bg'] = color.setAlpha(0.1).toString()
+    s['--yiz-tag-solid-bg'] = props.color
+    s['--yiz-tag-outlined-border'] = props.color
     s['--yiz-tag-close-hover-bg'] = color.setAlpha(0.2).toString()
   }
   s['--yiz-tag-checkable-color'] = checkableColorMap[props.color] ?? props.color
@@ -127,15 +129,11 @@ function onKeydown(e: KeyboardEvent) {
   border-radius: 4px;
   padding: 2px 8px;
   height: 22px;
-  color: var(--yiz-tag-color, #333);
-  background: var(--yiz-tag-bg, #f5f5f5);
+  color: var(--yiz-tag-color, var(--yiz-tag-base-color, #333));
+  background: var(--yiz-tag-bg, #fff);
   border: 1px solid var(--yiz-tag-border-color, transparent);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: default;
-
-  &.yiz-tag-bordered {
-    border-color: var(--yiz-tag-border-color, #d9d9d9);
-  }
 
   &.yiz-tag-closable {
     padding-right: 4px;
@@ -174,50 +172,75 @@ function onKeydown(e: KeyboardEvent) {
   height: 16px;
   border-radius: 50%;
   cursor: pointer;
-  color: var(--yiz-tag-color, #999);
+  color: currentColor;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
 
   &:hover {
     background: var(--yiz-tag-close-hover-bg, rgba(0, 0, 0, 0.08));
-    color: var(--yiz-tag-color, #333);
+    color: currentColor;
   }
 }
 
 // color variants
 .yiz-tag-color-default {
-  --yiz-tag-color: #333;
-  --yiz-tag-bg: #f5f5f5;
-  --yiz-tag-border-color: #d9d9d9;
+  --yiz-tag-base-color: #333;
+  --yiz-tag-filled-bg: #f5f5f5;
+  --yiz-tag-solid-bg: #595959;
+  --yiz-tag-outlined-border: #d9d9d9;
   --yiz-tag-close-hover-bg: rgba(0, 0, 0, 0.08);
 }
 
 .yiz-tag-color-primary {
-  --yiz-tag-color: var(--yiz-color-primary);
-  --yiz-tag-bg: var(--yiz-color-primary-light9);
-  --yiz-tag-border-color: var(--yiz-color-primary-light8);
+  --yiz-tag-base-color: var(--yiz-color-primary);
+  --yiz-tag-filled-bg: var(--yiz-color-primary-light9);
+  --yiz-tag-solid-bg: var(--yiz-color-primary);
+  --yiz-tag-outlined-border: var(--yiz-color-primary);
   --yiz-tag-close-hover-bg: var(--yiz-color-primary-light8);
 }
 
 .yiz-tag-color-success {
-  --yiz-tag-color: var(--yiz-color-success);
-  --yiz-tag-bg: var(--yiz-color-success-light9);
-  --yiz-tag-border-color: var(--yiz-color-success-light8);
+  --yiz-tag-base-color: var(--yiz-color-success);
+  --yiz-tag-filled-bg: var(--yiz-color-success-light9);
+  --yiz-tag-solid-bg: var(--yiz-color-success);
+  --yiz-tag-outlined-border: var(--yiz-color-success);
   --yiz-tag-close-hover-bg: var(--yiz-color-success-light8);
 }
 
 .yiz-tag-color-warning {
-  --yiz-tag-color: var(--yiz-color-warning-heary5);
-  --yiz-tag-bg: var(--yiz-color-warning-light9);
-  --yiz-tag-border-color: var(--yiz-color-warning-light8);
+  --yiz-tag-base-color: var(--yiz-color-warning-heary5);
+  --yiz-tag-filled-bg: var(--yiz-color-warning-light9);
+  --yiz-tag-solid-bg: var(--yiz-color-warning);
+  --yiz-tag-outlined-border: var(--yiz-color-warning);
   --yiz-tag-close-hover-bg: var(--yiz-color-warning-light8);
 }
 
 .yiz-tag-color-error {
-  --yiz-tag-color: var(--yiz-color-error);
-  --yiz-tag-bg: var(--yiz-color-error-light9);
-  --yiz-tag-border-color: var(--yiz-color-error-light8);
+  --yiz-tag-base-color: var(--yiz-color-error);
+  --yiz-tag-filled-bg: var(--yiz-color-error-light9);
+  --yiz-tag-solid-bg: var(--yiz-color-error);
+  --yiz-tag-outlined-border: var(--yiz-color-error);
   --yiz-tag-close-hover-bg: var(--yiz-color-error-light8);
+}
+
+// mode variants
+.yiz-tag-mode-filled {
+  --yiz-tag-color: var(--yiz-tag-base-color);
+  --yiz-tag-bg: var(--yiz-tag-filled-bg);
+  --yiz-tag-border-color: transparent;
+}
+
+.yiz-tag-mode-solid {
+  --yiz-tag-color: #fff;
+  --yiz-tag-bg: var(--yiz-tag-solid-bg);
+  --yiz-tag-border-color: var(--yiz-tag-solid-bg);
+  --yiz-tag-close-hover-bg: rgba(255, 255, 255, 0.2);
+}
+
+.yiz-tag-mode-outlined {
+  --yiz-tag-color: var(--yiz-tag-base-color);
+  --yiz-tag-bg: var(--yiz-tag-filled-bg);
+  --yiz-tag-border-color: var(--yiz-tag-outlined-border);
 }
 
 .yiz-tag.yiz-tag-checkable {

@@ -96,6 +96,7 @@
             class="yiz-table-row"
             :class="{ 'yiz-table-row-stripe': stripe && idx % 2 === 1 }"
             :style="{ gridTemplateColumns: columnTemplate }"
+            @dblclick="onRowDblclick(row, idx, $event)"
           >
             <div
               v-for="col in renderedColumns"
@@ -556,7 +557,12 @@ provide('yizTableRegisterColumn', registerColumn)
 
 const emit = defineEmits<{
   select: [selected: Record<string, any> | Record<string, any>[] | null]
+  'row-dblclick': [row: Record<string, any>, index: number, event: MouseEvent]
 }>()
+
+function onRowDblclick(row: Record<string, any>, index: number, event: MouseEvent) {
+  emit('row-dblclick', row, index, event)
+}
 
 defineSlots<{
   default?: any
@@ -957,7 +963,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   height: 100%;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
   color: #333;
   line-height: 1.6;
 }
@@ -1064,7 +1070,7 @@ onUnmounted(() => {
   .yiz-table-th,
   .yiz-table-td {
     padding: 8px 12px;
-    font-size: 13px;
+    font-size: var(--yiz-font-size-small);
   }
 }
 
@@ -1072,7 +1078,7 @@ onUnmounted(() => {
   .yiz-table-th,
   .yiz-table-td {
     padding: 16px 20px;
-    font-size: 16px;
+    font-size: var(--yiz-font-size-large);
   }
 }
 

@@ -5,13 +5,17 @@
 
     <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <div style="height: 250px">
-        <y-table :data="data">
+        <y-table :data="data" @row-dblclick="onRowDblclick">
           <y-table-column :label="$t('demo.common.name')" field="name" width="120px" sortable />
           <y-table-column :label="$t('demo.common.age')" field="age" width="80px" sortable align="center" />
           <y-table-column :label="$t('demo.common.city')" field="city" width="120px" sortable />
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
       </div>
+      <p class="demo-table-info">{{ $t('demo.table.rowDblclickTip') }}</p>
+      <p v-if="doubleClickedRow && doubleClickedRowIndex !== null" class="demo-table-info">
+        {{ $t('demo.table.rowDblclickValue', { index: doubleClickedRowIndex + 1, name: doubleClickedRow.name }) }}
+      </p>
     </y-card>
 
     <y-card :title="$t('demo.table.borderedStripe')" style="margin-top: 8px">
@@ -431,11 +435,18 @@ const multiSelected = ref([])
 const disabledSelected = ref([])
 const tableSize = ref<DemoSize>('default')
 const tableLoading = ref(true)
+const doubleClickedRow = ref<Row | null>(null)
+const doubleClickedRowIndex = ref<number | null>(null)
 const sizeOptions = [
   { label: 'small', value: 'small' },
   { label: 'default', value: 'default' },
   { label: 'large', value: 'large' },
 ]
+
+function onRowDblclick(row: Record<string, any>, index: number) {
+  doubleClickedRow.value = row as Row
+  doubleClickedRowIndex.value = index
+}
 
 const singleSelectRow = ref<Row | null>(null)
 function onSingleSelect(selected: any) {

@@ -3,7 +3,7 @@
     <template v-if="options.length > 0">
       <RadioButton
         v-for="option in options"
-        :key="option.value"
+        :key="`${typeof option.value}:${String(option.value)}`"
         :label="option.label"
         :value="option.value"
         :disabled="option.disabled"
@@ -24,7 +24,7 @@ import RadioButton from '../radio-button/RadioButton.vue'
 
 export interface RadioButtonOption {
   label: string
-  value: string | number
+  value: string | number | boolean
   disabled?: boolean
 }
 
@@ -49,15 +49,15 @@ defineSlots<{
   default?: () => VNodeChild
   render?: (props: {
     label: string
-    value: string | number | undefined
+    value: string | number | boolean | undefined
     checked: boolean
     selected: boolean
     disabled: boolean
   }) => VNodeChild
 }>()
 
-const emit = defineEmits<{ change: [value: string | number] }>()
-const modelValue = defineModel<string | number>('value')
+const emit = defineEmits<{ change: [value: string | number | boolean] }>()
+const modelValue = defineModel<string | number | boolean>('value')
 const groupRef = ref<HTMLElement>()
 
 const disabledValue = computed(() => props.disabled)
@@ -70,7 +70,7 @@ const vClass = computed(() => ({
   [`yiz-radio-button-group-${props.size}`]: true,
 }))
 
-function changeValue(value: string | number) {
+function changeValue(value: string | number | boolean) {
   if (props.disabled) return
   modelValue.value = value
   emit('change', value)

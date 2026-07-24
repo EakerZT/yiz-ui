@@ -17,9 +17,14 @@
         class="yiz-input_inner"
         :placeholder="$props.placeholder"
         :disabled="props.disabled"
+        :readonly="props.readonly"
       />
     </div>
-    <div class="yiz-input_clear" v-if="$props.clearable && modelValue && !props.disabled" @click="onClearClick">
+    <div
+      class="yiz-input_clear"
+      v-if="$props.clearable && modelValue && !props.disabled && !props.readonly"
+      @click="onClearClick"
+    >
       <Icon size="16" :icon="DismissCircle16Filled" />
     </div>
     <div class="yiz-input_suffix" v-if="$props.suffix || $slots.suffix">
@@ -48,11 +53,13 @@ const props = withDefaults(
     suffix?: string
     clearable?: boolean
     disabled?: boolean
+    readonly?: boolean
     size?: 'small' | 'default' | 'large'
   }>(),
   {
     clearable: false,
     disabled: false,
+    readonly: false,
     size: 'default',
   },
 )
@@ -70,6 +77,9 @@ const vClass = computed(() => {
   if (props.disabled) {
     c['yiz-input-disabled'] = true
   }
+  if (props.readonly) {
+    c['yiz-input-readonly'] = true
+  }
   if (props.size === 'small') {
     c['yiz-input-small'] = true
   }
@@ -79,12 +89,12 @@ const vClass = computed(() => {
   return c
 })
 const onClearClick = () => {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   modelValue.value = ''
 }
 
 function onInput(e: Event) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   modelValue.value = (e.target as HTMLInputElement).value
 }
 
@@ -112,7 +122,7 @@ defineExpose({
   align-items: center;
   padding: 0 4px;
   font-family: inherit;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
   background: var(--yiz-color-bg);
 
   &:not(.yiz-input-disabled):hover {
@@ -134,23 +144,27 @@ defineExpose({
     }
   }
 
+  &.yiz-input-readonly .yiz-input_inner {
+    cursor: default;
+  }
+
   &.yiz-input-small {
     height: 24px;
     border-radius: var(--yiz-base-border-radius-small);
-    font-size: 13px;
+    font-size: var(--yiz-font-size-small);
 
     .yiz-input_outer .yiz-input_inner {
-      font-size: 13px;
+      font-size: var(--yiz-font-size-small);
     }
   }
 
   &.yiz-input-large {
     height: 40px;
     border-radius: var(--yiz-base-border-radius-large);
-    font-size: 16px;
+    font-size: var(--yiz-font-size-large);
 
     .yiz-input_outer .yiz-input_inner {
-      font-size: 16px;
+      font-size: var(--yiz-font-size-large);
     }
   }
 
@@ -212,7 +226,7 @@ defineExpose({
       outline: none;
       width: 100%;
       box-sizing: border-box;
-      font-size: 14px;
+      font-size: var(--yiz-font-size-default);
       font-family: inherit;
       min-width: 0;
 

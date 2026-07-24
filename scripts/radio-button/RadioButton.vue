@@ -29,18 +29,18 @@ import { computed, inject, ref } from 'vue'
 import type { Ref, VNodeChild } from 'vue'
 
 interface RadioButtonGroupContext {
-  modelValue: Ref<string | number | undefined>
+  modelValue: Ref<string | number | boolean | undefined>
   disabled: Ref<boolean>
   size: Ref<'small' | 'default' | 'large'>
   textColor: Ref<string>
   fillColor: Ref<string>
-  changeValue: (value: string | number) => void
+  changeValue: (value: string | number | boolean) => void
 }
 
 const props = withDefaults(
   defineProps<{
     label?: string
-    value?: string | number
+    value?: string | number | boolean
     disabled?: boolean
     size?: 'small' | 'default' | 'large'
     textColor?: string
@@ -59,14 +59,14 @@ defineSlots<{
   default?: () => VNodeChild
   render?: (props: {
     label: string
-    value: string | number | undefined
+    value: string | number | boolean | undefined
     checked: boolean
     selected: boolean
     disabled: boolean
   }) => VNodeChild
 }>()
 
-const emit = defineEmits<{ change: [value: string | number | undefined] }>()
+const emit = defineEmits<{ change: [value: string | number | boolean | undefined] }>()
 
 const checkedModel = defineModel<boolean>('checked', { default: false })
 const group = inject<RadioButtonGroupContext | null>('yizRadioButtonGroup', null)
@@ -129,7 +129,7 @@ defineExpose({
   border-radius: var(--yiz-base-border-radius-default);
   background: #fff;
   color: #333;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
   line-height: 20px;
   cursor: pointer;
   user-select: none;
@@ -192,7 +192,7 @@ defineExpose({
   min-width: 56px;
   padding: 4px 10px;
   border-radius: var(--yiz-base-border-radius-small);
-  font-size: 13px;
+  font-size: var(--yiz-font-size-small);
   line-height: 18px;
 }
 
@@ -200,7 +200,7 @@ defineExpose({
   min-width: 84px;
   padding: 8px 18px;
   border-radius: var(--yiz-base-border-radius-large);
-  font-size: 15px;
+  font-size: var(--yiz-font-size-large);
   line-height: 22px;
 }
 </style>

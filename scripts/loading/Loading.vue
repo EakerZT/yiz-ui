@@ -143,7 +143,7 @@ onBeforeUnmount(() => {
   gap: 4px;
 
   .yiz-loading-text {
-    font-size: 12px;
+    font-size: var(--yiz-font-size-small);
   }
 }
 
@@ -153,10 +153,14 @@ onBeforeUnmount(() => {
 
 .yiz-loading-large {
   font-size: 40px;
+
+  .yiz-loading-text {
+    font-size: var(--yiz-font-size-large);
+  }
 }
 
 .yiz-loading-text {
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
   color: var(--yiz-color-primary);
   white-space: nowrap;
 }

@@ -20,6 +20,7 @@
         :value="startInputText"
         :placeholder="startPlaceholder"
         :disabled="disabled"
+        :readonly="readonly"
         @click.stop="onSegmentClick('start')"
         @focus="onInputFocus('start')"
         @input="onInput('start', $event)"
@@ -39,6 +40,7 @@
         :value="endInputText"
         :placeholder="endPlaceholder"
         :disabled="disabled"
+        :readonly="readonly"
         @click.stop="onSegmentClick('end')"
         @focus="onInputFocus('end')"
         @input="onInput('end', $event)"
@@ -47,7 +49,7 @@
       />
       <Transition name="yiz-time-range-picker-clear-zoom">
         <span
-          v-if="clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open)"
+          v-if="clearable && (startModel != null || endModel != null) && !disabled && !readonly && (isHovering || open)"
           class="yiz-time-range-picker-clear"
           @click.stop="onClear"
         >
@@ -61,7 +63,7 @@
       <Icon
         :class="{
           'yiz-time-range-picker-suffix--hidden':
-            clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open),
+            clearable && (startModel != null || endModel != null) && !disabled && !readonly && (isHovering || open),
         }"
         class="yiz-time-range-picker-suffix"
         size="16"
@@ -217,6 +219,7 @@ const endModel = defineModel<string | null>('end')
 const props = withDefaults(
   defineProps<{
     disabled?: boolean
+    readonly?: boolean
     clearable?: boolean
     forceRange?: boolean
     size?: 'small' | 'default' | 'large'
@@ -232,6 +235,7 @@ const props = withDefaults(
   }>(),
   {
     disabled: false,
+    readonly: false,
     clearable: false,
     forceRange: false,
     size: 'default',
@@ -298,6 +302,7 @@ const panelStyle = computed(() => ({
 const vClass = computed(() => ({
   'yiz-time-range-picker-open': open.value,
   'yiz-time-range-picker-disabled': props.disabled,
+  'yiz-time-range-picker-readonly': props.readonly,
   'yiz-time-range-picker-small': props.size === 'small',
   'yiz-time-range-picker-large': props.size === 'large',
 }))
@@ -325,9 +330,9 @@ watch(
 )
 
 watch(
-  () => props.disabled,
-  (disabled) => {
-    if (disabled) open.value = false
+  () => [props.disabled, props.readonly],
+  ([disabled, readonly]) => {
+    if (disabled || readonly) open.value = false
   },
 )
 
@@ -447,7 +452,7 @@ function syncInputTextFromModel() {
 }
 
 function openPanel(side: TimeRangeSide) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   activeSide.value = side
   draftStart.value = startModel.value ?? null
   draftEnd.value = endModel.value ?? null
@@ -468,7 +473,7 @@ function onTriggerClick() {
 }
 
 function onSegmentClick(side: TimeRangeSide) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   if (!open.value) {
     openPanel(side)
   }
@@ -484,7 +489,7 @@ function onSegmentClick(side: TimeRangeSide) {
 }
 
 function onInputFocus(side: TimeRangeSide) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   if (side === 'start') {
     startInputFocused.value = true
   } else {
@@ -497,7 +502,7 @@ function onInputFocus(side: TimeRangeSide) {
 }
 
 function onInput(side: TimeRangeSide, e: Event) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   const value = (e.target as HTMLInputElement).value
   if (side === 'start') {
     startInputText.value = value
@@ -528,7 +533,7 @@ function onInputBlur(side: TimeRangeSide) {
 }
 
 function setPicked(side: TimeRangeSide, unit: TimeUnit, value: number) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   activeSide.value = side
   if (side === 'start') {
     if (unit === 'hour') startHour.value = value
@@ -548,7 +553,7 @@ function setPicked(side: TimeRangeSide, unit: TimeUnit, value: number) {
 }
 
 function onNow() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   const now = getNowParts()
   if (activeSide.value === 'start') {
     startHour.value = now.hour
@@ -569,7 +574,7 @@ function onNow() {
 }
 
 function onConfirm() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   if (startInputDirty.value) {
     if (!applyInputText('start', startInputText.value)) return
     startInputDirty.value = false
@@ -595,7 +600,7 @@ function confirmFromInput(side: TimeRangeSide) {
 }
 
 function onClear() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   startModel.value = null
   endModel.value = null
   draftStart.value = null
@@ -730,6 +735,7 @@ defineExpose({
     box-shadow 0.3s;
   box-sizing: border-box;
   gap: 4px;
+  font-size: var(--yiz-font-size-default);
 }
 
 .yiz-time-range-picker:not(.yiz-time-range-picker-disabled) .yiz-time-range-picker-input:hover {
@@ -843,13 +849,13 @@ defineExpose({
 .yiz-time-range-picker-small .yiz-time-range-picker-input {
   height: 24px;
   border-radius: var(--yiz-base-border-radius-small);
-  font-size: 13px;
+  font-size: var(--yiz-font-size-small);
 }
 
 .yiz-time-range-picker-large .yiz-time-range-picker-input {
   height: 40px;
   border-radius: var(--yiz-base-border-radius-large);
-  font-size: 16px;
+  font-size: var(--yiz-font-size-large);
 }
 
 .yiz-time-range-picker-panel {
@@ -969,5 +975,10 @@ defineExpose({
 .yiz-time-range-picker-clear-zoom-leave-to {
   transform: translateY(-50%) scale(0);
   opacity: 0;
+}
+
+.yiz-time-range-picker-readonly .yiz-time-range-picker-input,
+.yiz-time-range-picker-readonly .yiz-time-range-picker-segment {
+  cursor: default;
 }
 </style>

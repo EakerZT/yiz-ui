@@ -25,7 +25,7 @@
         class="yiz-select-arrow"
         :class="{
           'yiz-select-arrow-up': open,
-          'yiz-select-arrow--hidden': clearable && modelValue != null && !disabled && (isHovering || open),
+          'yiz-select-arrow--hidden': clearable && modelValue != null && !disabled && !readonly && (isHovering || open),
         }"
         size="16"
         :icon="ChevronDown16Regular"
@@ -33,7 +33,7 @@
     </span>
     <Transition name="yiz-select-clear-zoom">
       <span
-        v-if="clearable && modelValue != null && !disabled && (isHovering || open)"
+        v-if="clearable && modelValue != null && !disabled && !readonly && (isHovering || open)"
         class="yiz-select-clear"
         @click.stop="onClear"
       >
@@ -100,6 +100,7 @@ const props = withDefaults(
     options?: SelectOption[]
     placeholder?: string
     disabled?: boolean
+    readonly?: boolean
     clearable?: boolean
     size?: 'small' | 'default' | 'large'
     prefix?: string
@@ -109,6 +110,7 @@ const props = withDefaults(
   {
     options: () => [],
     disabled: false,
+    readonly: false,
     clearable: false,
     size: 'default',
   },
@@ -196,6 +198,7 @@ const vClass = computed(() => {
   const c: Record<string, boolean> = {}
   if (open.value) c['yiz-select-open'] = true
   if (props.disabled) c['yiz-select-disabled'] = true
+  if (props.readonly) c['yiz-select-readonly'] = true
   if (props.size === 'small') c['yiz-select-small'] = true
   if (props.size === 'large') c['yiz-select-large'] = true
   return c
@@ -222,7 +225,7 @@ function isSelected(opt: SelectOption) {
 }
 
 function onTriggerClick() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   open.value = !open.value
   if (open.value) {
     currentZIndex.value = nextZIndex()
@@ -240,9 +243,9 @@ watch(allOptions, () => {
 })
 
 watch(
-  () => props.disabled,
-  (disabled) => {
-    if (disabled) open.value = false
+  () => [props.disabled, props.readonly],
+  ([disabled, readonly]) => {
+    if (disabled || readonly) open.value = false
   },
 )
 
@@ -301,7 +304,7 @@ watch(open, async (val) => {
 })
 
 function onSelect(opt: SelectOption) {
-  if (props.disabled || opt.disabled) return
+  if (props.disabled || props.readonly || opt.disabled) return
   modelValue.value = opt.value
   open.value = false
   emit('change', opt)
@@ -312,7 +315,7 @@ function onOptionMouseenter(opt: SelectOption, index: number) {
 }
 
 function onClear() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   modelValue.value = undefined
   emit('change', null)
 }
@@ -403,7 +406,7 @@ defineExpose({
   transition:
     border-color 0.3s,
     box-shadow 0.3s;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
   color: #333;
   box-sizing: border-box;
   position: relative;
@@ -427,16 +430,20 @@ defineExpose({
     }
   }
 
+  &.yiz-select-readonly {
+    cursor: default;
+  }
+
   &.yiz-select-small {
     height: 24px;
     border-radius: var(--yiz-base-border-radius-small);
-    font-size: 13px;
+    font-size: var(--yiz-font-size-small);
   }
 
   &.yiz-select-large {
     height: 40px;
     border-radius: var(--yiz-base-border-radius-large);
-    font-size: 16px;
+    font-size: var(--yiz-font-size-large);
   }
 
   .yiz-form-item-error-status &:not(.yiz-select-disabled) {

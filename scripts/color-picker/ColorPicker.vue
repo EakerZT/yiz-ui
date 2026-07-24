@@ -55,6 +55,7 @@
           class="yiz-color-picker-input"
           v-model:value="inputValue"
           prefix="#"
+          :readonly="readonly"
           @press-enter="commitTextInput"
           @focusout="commitTextInput"
         />
@@ -104,6 +105,7 @@ interface HsvColor {
 const props = withDefaults(
   defineProps<{
     disabled?: boolean
+    readonly?: boolean
     size?: 'small' | 'default' | 'large'
     alpha?: boolean
     presets?: string[]
@@ -112,6 +114,7 @@ const props = withDefaults(
   }>(),
   {
     disabled: false,
+    readonly: false,
     size: 'default',
     alpha: false,
     presets: () => [
@@ -171,6 +174,7 @@ const alphaSliderStyle = computed(() => ({
 const vClass = computed(() => ({
   'yiz-color-picker-open': open.value,
   'yiz-color-picker-disabled': props.disabled,
+  'yiz-color-picker-readonly': props.readonly,
   'yiz-color-picker-small': props.size === 'small',
   'yiz-color-picker-large': props.size === 'large',
 }))
@@ -200,6 +204,16 @@ watch(inputValue, (value) => {
     inputValue.value = nextValue
   }
 })
+
+watch(
+  () => [props.disabled, props.readonly],
+  ([disabled, readonly]) => {
+    if (disabled || readonly) {
+      open.value = false
+      onDragEnd()
+    }
+  },
+)
 
 function normalizeColor(value: string, keepAlpha = false) {
   const raw = String(value || '').trim()
@@ -330,7 +344,7 @@ function setDraftColor(value: string) {
 }
 
 function onTriggerClick() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   open.value = !open.value
   if (open.value) {
     setDraftColor(displayColor.value)
@@ -340,10 +354,12 @@ function onTriggerClick() {
 }
 
 function selectDraftColor(value: string) {
+  if (props.disabled || props.readonly) return
   setDraftColor(value)
 }
 
 function commitTextInput() {
+  if (props.disabled || props.readonly) return
   if (isHexInput(inputValue.value)) {
     setDraftColor(`#${inputValue.value}`)
   } else {
@@ -371,6 +387,7 @@ function updateAlphaByMouse(e: MouseEvent) {
 }
 
 function onPanelMouseDown(e: MouseEvent) {
+  if (props.disabled || props.readonly) return
   dragging.value = 'panel'
   updatePanelByMouse(e)
   document.addEventListener('mousemove', onDragMove)
@@ -378,6 +395,7 @@ function onPanelMouseDown(e: MouseEvent) {
 }
 
 function onHueMouseDown(e: MouseEvent) {
+  if (props.disabled || props.readonly) return
   dragging.value = 'hue'
   updateHueByMouse(e)
   document.addEventListener('mousemove', onDragMove)
@@ -385,6 +403,7 @@ function onHueMouseDown(e: MouseEvent) {
 }
 
 function onAlphaMouseDown(e: MouseEvent) {
+  if (props.disabled || props.readonly) return
   dragging.value = 'alpha'
   updateAlphaByMouse(e)
   document.addEventListener('mousemove', onDragMove)
@@ -404,6 +423,7 @@ function onDragEnd() {
 }
 
 function confirm() {
+  if (props.disabled || props.readonly) return
   const color = previewColor.value
   modelValue.value = color
   emit('change', color)
@@ -484,7 +504,7 @@ defineExpose({
   border-radius: var(--yiz-base-border-radius-default);
   background: #fff;
   color: #333;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
   cursor: pointer;
   user-select: none;
   transition:
@@ -510,11 +530,15 @@ defineExpose({
     }
   }
 
+  &.yiz-color-picker-readonly {
+    cursor: default;
+  }
+
   &.yiz-color-picker-small {
     height: 24px;
     padding: 0 8px;
     border-radius: var(--yiz-base-border-radius-small);
-    font-size: 13px;
+    font-size: var(--yiz-font-size-small);
 
     .yiz-color-picker-swatch {
       width: 14px;
@@ -526,7 +550,7 @@ defineExpose({
     height: 40px;
     padding: 0 12px;
     border-radius: var(--yiz-base-border-radius-large);
-    font-size: 16px;
+    font-size: var(--yiz-font-size-large);
 
     .yiz-color-picker-swatch {
       width: 22px;

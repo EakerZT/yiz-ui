@@ -295,7 +295,7 @@ defineExpose({
   padding: 4px 12px;
   border-radius: var(--yiz-base-border-radius-default);
   color: #333;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
   line-height: 22px;
   cursor: pointer;
   user-select: none;
@@ -351,7 +351,7 @@ defineExpose({
   .yiz-segmented-item {
     min-width: 56px;
     padding: 2px 8px;
-    font-size: 13px;
+    font-size: var(--yiz-font-size-small);
     line-height: 20px;
   }
 }
@@ -367,7 +367,7 @@ defineExpose({
   .yiz-segmented-item {
     min-width: 80px;
     padding: 6px 16px;
-    font-size: 15px;
+    font-size: var(--yiz-font-size-large);
     line-height: 24px;
   }
 }

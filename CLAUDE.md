@@ -134,7 +134,7 @@ The most complex component. Three files:
 
 **Key props on `y-table`:** `data`, `bordered`, `stripe`, `size`, `resize`, `no`, `selectMode`, `rowKey`, `selectDisabled`, `loading`, `v-model:selected`. The `#loading` slot replaces the default loading indicator and mask content.
 
-**Key events:** `select` — fires when selection changes, payload is the selected row data (single object for single mode, array for multi mode, null when deselected in single mode).
+**Key events:** `select` — fires when selection changes, payload is the selected row data (single object for single mode, array for multi mode, null when deselected in single mode). `row-dblclick` — fires when a data row is double-clicked with `(row, displayIndex, MouseEvent)`.
 
 **Body scrolling with ScrollBox:** The body area uses `<ScrollBox ref="bodyScrollBoxRef" :z-index="4" @scroll="onBodyScroll">`. Header horizontal sync reads `bodyScrollBoxRef.value.viewport.scrollLeft` (exposed via `defineExpose`). The `:z-index="4"` ensures scrollbar tracks render above fixed columns (z-index 2–3). `bodyHasOverflow` ref tracks `viewport.scrollHeight > clientHeight` to conditionally restore the last row's bottom border when content doesn't overflow.
 
@@ -194,11 +194,11 @@ Hover-triggered tooltip with `placement` (`top` | `bottom` | `left` | `right`), 
 
 ### Tag (`scripts/tag/`)
 
-Small label/tag component with preset colors and custom hex color support. Props: `color` (`'default' | 'primary' | 'success' | 'warning' | 'error'` or a `#rgb` / `#rrggbb` hex string — hex values use `@ctrl/tinycolor` to derive `--yiz-tag-*` CSS custom properties for background, text, border, and close-button hover), `closable` (renders an inline SVG close icon, emits `close`), `checkable` (toggles `v-model:checked` on click or Enter/Space and takes priority over `closable`; unchecked state is borderless white, checked state uses `color` or primary by default), `disabled` (only affects checkable mode, blocks mouse/keyboard changes while preserving checked appearance), `size` (`'default' | 'small' | 'large'`), `bordered`. Emits `change(checked)` when a checkable tag toggles. Default slot for tag content.
+Small label/tag component with preset colors and custom hex color support. Props: `color` (`'default' | 'primary' | 'success' | 'warning' | 'error'` or a `#rgb` / `#rrggbb` hex string — hex values use `@ctrl/tinycolor` to derive `--yiz-tag-*` CSS custom properties for background, text, border, and close-button hover), `mode` (`'filled' | 'solid' | 'outlined'`, default `outlined`), `closable` (renders an inline SVG close icon, emits `close`), `checkable` (toggles `v-model:checked` on click or Enter/Space and takes priority over `closable`; unchecked state is borderless white, checked state uses `color` or primary by default), `disabled` (only affects checkable mode, blocks mouse/keyboard changes while preserving checked appearance), `size` (`'default' | 'small' | 'large'`). Emits `change(checked)` when a checkable tag toggles. Default slot for tag content.
 
 ### Ripple wave animation
 
-Button, Checkbox, Radio, and Switch share a ripple wave effect. The `yiz-wave` span uses CSS keyframes `yiz-wave-spread` and `yiz-wave-opacity` defined in `scripts/style.less`. The effect is triggered by briefly adding/removing the `yiz-wave` element via a `ref` toggle with a `nextTick` → `setTimeout` pattern.
+Button (except `filled` and `text`), Checkbox, Radio, and Switch share a ripple wave effect. The `yiz-wave` span uses CSS keyframes `yiz-wave-spread` and `yiz-wave-opacity` defined in `scripts/style.less`. The effect is triggered by briefly adding/removing the `yiz-wave` element via a `ref` toggle with a `nextTick` → `setTimeout` pattern.
 
 ### Native input overlay pattern
 
@@ -206,7 +206,7 @@ Checkbox, Radio, and Switch hide a native `<input>` behind a styled `<span>` (th
 
 ### Theming
 
-All design tokens are CSS custom properties defined in `scripts/style.less`, prefixed with `--yiz-`. The palette includes primary, success, warning, and error color scales (each with light/heavy variants). Individual components reference these tokens and can also accept arbitrary hex colors at runtime via `@ctrl/tinycolor` manipulation applied to inline `--yiz-button-color-*` custom properties.
+All design tokens are CSS custom properties defined in `scripts/style.less`, prefixed with `--yiz-`. The palette includes primary, success, warning, and error color scales (each with light/heavy variants). Component size typography uses `--yiz-font-size-small` (12px), `--yiz-font-size-default` (14px), and `--yiz-font-size-large` (16px). Individual components reference these tokens and can also accept arbitrary hex colors at runtime via `@ctrl/tinycolor` manipulation applied to inline `--yiz-button-color-*` custom properties.
 
 ### Path aliases
 
@@ -336,7 +336,7 @@ Dropdown menu triggered by a click on a trigger element. Wraps a Menu inside a T
 
 ### Button (`scripts/button/`)
 
-The foundational interactive component. Props: `type` (`'default' | 'primary'`), `color` (`'default' | 'success' | 'warning' | 'error'` or a `#rrggbb` hex string), `shape` (`'default' | 'round' | 'circle'`), `size`, `disabled`. When `color` is a hex string, `@ctrl/tinycolor` derives `--yiz-button-color-*` CSS custom properties for hover/press/disabled states. Text children are automatically wrapped in `<span>` for proper flex alignment alongside icons. Emits `click`. Includes the `yiz-wave` ripple animation.
+The foundational interactive component. Props: `type` (`'outlined' | 'primary' | 'plain' | 'dash' | 'filled' | 'text'`, default `outlined`), `color` (`'default' | 'success' | 'warning' | 'error'` or a `#rrggbb` hex string), `shape` (`'default' | 'round' | 'circle'`), `size`, `disabled`. `dash` mirrors `outlined` with a dashed border; `filled` mirrors `plain` without a visible border or wave; `text` uses a transparent background and the filled background on hover, also without wave. When `color` is a hex string, `@ctrl/tinycolor` derives `--yiz-button-color-*` CSS custom properties for hover/press/disabled states. Text children are automatically wrapped in `<span>` for proper flex alignment alongside icons. Emits `click` and exposes `focus()` and `blur()`.
 
 ### Input (`scripts/input/`)
 
@@ -368,7 +368,7 @@ Page navigation with computed pager items (ellipsis logic for large page counts)
 
 ### RadioButton and RadioButtonGroup (`scripts/radio-button/`, `scripts/radio-button-group/`)
 
-Button-style radio selection. `RadioButton` uses the native input overlay pattern (hidden `<input type="radio">`). Supports standalone `v-model` or group mode via `inject('yizRadioButtonGroup')`. `RadioButtonGroup` provides `{ modelValue, disabled, size, changeValue }` and renders children in a flex row. Props on the group: `size` (`'small' | 'default' | 'large'`), `disabled`.
+Button-style radio selection. `RadioButton` uses the native input overlay pattern (hidden `<input type="radio">`). Supports standalone `v-model` or group mode via `inject('yizRadioButtonGroup')`, with string, number, or boolean option values. `RadioButtonGroup` provides `{ modelValue, disabled, size, changeValue }` and renders children in a flex row. Props on the group: `size` (`'small' | 'default' | 'large'`), `disabled`.
 
 ### Dialog drag and Drawer resize
 
@@ -402,4 +402,5 @@ Always pair `onMounted` listeners with corresponding `onBeforeUnmount` cleanup.
 - Components that share state use `provide`/`inject` with a string key prefixed `yiz` (e.g. `'yizCheckboxGroup'`)
 - Overlay components (Dialog, Drawer, Select) use `<Teleport to="body">` with `scripts/zIndex.ts` for stacking
 - Input-like components expose `focus()` and `blur()` through `defineExpose`; range pickers additionally accept `focus('start' | 'end')`
+- Input, InputNumber, Textarea, Select, ColorPicker, and date/time pickers support `readonly`; readonly controls remain focusable but cannot clear, edit, or open a selection panel
 - Document event listeners registered in `onMounted` must be cleaned up in `onBeforeUnmount`

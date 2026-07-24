@@ -59,7 +59,9 @@ const mergedBorder = computed(() => props.border || (group?.border.value ?? fals
 const mergedSize = computed(() => props.size ?? group?.size.value ?? 'default')
 
 const vClass = computed(() => {
-  const c: Record<string, boolean> = {}
+  const c: Record<string, boolean> = {
+    [`yiz-checkbox-${mergedSize.value}`]: true,
+  }
   if (isChecked.value) {
     c['yiz-checkbox-checked'] = true
   }
@@ -112,12 +114,12 @@ defineExpose({
   --yiz-checkbox-border-height: 32px;
   --yiz-checkbox-border-padding-x: 12px;
   --yiz-checkbox-border-radius: var(--yiz-base-border-radius-default);
-  --yiz-checkbox-border-font-size: 14px;
+  --yiz-checkbox-border-font-size: var(--yiz-font-size-default);
 
   display: inline-flex;
   align-items: center;
   cursor: pointer;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
   color: #333;
   user-select: none;
   vertical-align: middle;
@@ -173,14 +175,22 @@ defineExpose({
   --yiz-checkbox-border-height: 24px;
   --yiz-checkbox-border-padding-x: 8px;
   --yiz-checkbox-border-radius: var(--yiz-base-border-radius-small);
-  --yiz-checkbox-border-font-size: 13px;
+  --yiz-checkbox-border-font-size: var(--yiz-font-size-small);
 }
 
 .yiz-checkbox-border-large {
   --yiz-checkbox-border-height: 40px;
   --yiz-checkbox-border-padding-x: 16px;
   --yiz-checkbox-border-radius: var(--yiz-base-border-radius-large);
-  --yiz-checkbox-border-font-size: 16px;
+  --yiz-checkbox-border-font-size: var(--yiz-font-size-large);
+}
+
+.yiz-checkbox-small {
+  font-size: var(--yiz-font-size-small);
+}
+
+.yiz-checkbox-large {
+  font-size: var(--yiz-font-size-large);
 }
 
 .yiz-checkbox-input {

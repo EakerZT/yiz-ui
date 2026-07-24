@@ -282,7 +282,7 @@ function commitSimplePage() {
   align-items: center;
   gap: 8px;
   color: #333;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
   line-height: 1;
   user-select: none;
 }
@@ -305,7 +305,7 @@ function commitSimplePage() {
   background: #fff;
   color: #333;
   font-family: inherit;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
   line-height: 30px;
   text-align: center;
   cursor: pointer;
@@ -370,7 +370,7 @@ function commitSimplePage() {
 
 .yiz-pagination-small {
   gap: 6px;
-  font-size: 13px;
+  font-size: var(--yiz-font-size-small);
 
   .yiz-pagination-item,
   .yiz-pagination-go {
@@ -378,7 +378,7 @@ function commitSimplePage() {
     height: 24px;
     padding: 0 4px;
     border-radius: var(--yiz-base-border-radius-small);
-    font-size: 12px;
+    font-size: var(--yiz-font-size-small);
     line-height: 22px;
   }
 
@@ -393,7 +393,7 @@ function commitSimplePage() {
 
 .yiz-pagination-large {
   gap: 10px;
-  font-size: 16px;
+  font-size: var(--yiz-font-size-large);
 
   .yiz-pagination-item,
   .yiz-pagination-go {
@@ -401,7 +401,7 @@ function commitSimplePage() {
     height: 40px;
     padding: 0 10px;
     border-radius: var(--yiz-base-border-radius-large);
-    font-size: 16px;
+    font-size: var(--yiz-font-size-large);
     line-height: 38px;
   }
 

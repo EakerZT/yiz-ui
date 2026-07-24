@@ -237,7 +237,7 @@ const zhCN: LangMessages = {
   'demo.descriptions.license': '许可证',
 
   'demo.button.title': 'Button 按钮',
-  'demo.button.desc': '支持 default / primary / plain 三种类型，多种预设颜色和自定义颜色，以及圆形、圆角形状。',
+  'demo.button.desc': '支持 outlined / primary / dash / filled / text / plain 类型、多种颜色及圆形、圆角形状。',
   'demo.button.customColor': '自定义色',
   'demo.button.color': '颜色',
   'demo.button.shape': '形状',
@@ -912,6 +912,8 @@ const zhCN: LangMessages = {
 
   'demo.table.title': 'Table 表格',
   'demo.table.desc': '用于展示多行结构化的数据，支持排序、边框、条纹等。',
+  'demo.table.rowDblclickTip': '双击任意数据行可触发 row-dblclick 事件。',
+  'demo.table.rowDblclickValue': '最近双击：第 {index} 行，{name}',
   'demo.table.borderedStripe': '边框 + 条纹',
   'demo.table.customColumn': '自定义列渲染 + 插槽',
   'demo.table.ageTemplate': '{value} 岁',
@@ -941,6 +943,7 @@ const zhCN: LangMessages = {
 
   'demo.tag.title': 'Tag 标签',
   'demo.tag.desc': '用于标记和分类的标签。',
+  'demo.tag.mode': '模式',
   'demo.tag.smallTag': '小标签',
   'demo.tag.defaultTag': '默认标签',
   'demo.tag.largeTag': '大标签',
@@ -1306,7 +1309,7 @@ const enUS: LangMessages = {
   'demo.descriptions.license': 'License',
 
   'demo.button.title': 'Button',
-  'demo.button.desc': 'Supports default / primary / plain types, preset and custom colors, round and circle shapes.',
+  'demo.button.desc': 'Supports outlined, primary, dash, filled, text, and plain types with multiple colors and shapes.',
   'demo.button.customColor': 'Custom color',
   'demo.button.color': 'Color',
   'demo.button.shape': 'Shape',
@@ -2000,6 +2003,8 @@ const enUS: LangMessages = {
 
   'demo.table.title': 'Table',
   'demo.table.desc': 'Display structured rows with sorting, borders, stripes, and more.',
+  'demo.table.rowDblclickTip': 'Double-click any data row to trigger the row-dblclick event.',
+  'demo.table.rowDblclickValue': 'Last double-clicked: row {index}, {name}',
   'demo.table.borderedStripe': 'Bordered + striped',
   'demo.table.customColumn': 'Custom column render + slot',
   'demo.table.ageTemplate': '{value} years old',
@@ -2029,6 +2034,7 @@ const enUS: LangMessages = {
 
   'demo.tag.title': 'Tag',
   'demo.tag.desc': 'Tags for marking and categorizing content.',
+  'demo.tag.mode': 'Mode',
   'demo.tag.smallTag': 'Small tag',
   'demo.tag.defaultTag': 'Default tag',
   'demo.tag.largeTag': 'Large tag',

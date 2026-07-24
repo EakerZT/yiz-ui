@@ -6,9 +6,12 @@
     </p>
 
     <y-card :title="$t('demo.common.basicShort')">
-      <y-button-group>
-        <y-button>default</y-button>
+      <y-button-group wrap gap="8">
         <y-button type="primary">primary</y-button>
+        <y-button>outlined</y-button>
+        <y-button type="dash">dash</y-button>
+        <y-button type="filled">filled</y-button>
+        <y-button type="text">text</y-button>
         <y-button type="plain">plain</y-button>
       </y-button-group>
     </y-card>
@@ -26,6 +29,9 @@
       <y-button-group>
         <y-button color="#8a2be2">#8a2be2</y-button>
         <y-button type="primary" color="#8a2be2">#8a2be2</y-button>
+        <y-button type="dash" color="#8a2be2">#8a2be2</y-button>
+        <y-button type="filled" color="#8a2be2">#8a2be2</y-button>
+        <y-button type="text" color="#8a2be2">#8a2be2</y-button>
         <y-button type="plain" color="#8a2be2">#8a2be2</y-button>
       </y-button-group>
     </y-card>
@@ -42,8 +48,11 @@
       <div class="demo-button-size-panel">
         <y-radio-button-group v-model:value="buttonSize" :options="buttonSizeOptions" />
         <y-button-group wrap gap="8">
-          <y-button :size="buttonSize">default</y-button>
+          <y-button :size="buttonSize">outlined</y-button>
           <y-button type="primary" :size="buttonSize">primary</y-button>
+          <y-button type="dash" :size="buttonSize">dash</y-button>
+          <y-button type="filled" :size="buttonSize">filled</y-button>
+          <y-button type="text" :size="buttonSize">text</y-button>
           <y-button type="plain" :size="buttonSize">plain</y-button>
           <y-button type="primary" color="success" :size="buttonSize">success</y-button>
           <y-button type="primary" color="warning" :size="buttonSize">warning</y-button>
@@ -80,8 +89,11 @@
 
     <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-button-group>
-        <y-button disabled>default</y-button>
+        <y-button disabled>outlined</y-button>
         <y-button type="primary" disabled>primary</y-button>
+        <y-button type="dash" disabled>dash</y-button>
+        <y-button type="filled" disabled>filled</y-button>
+        <y-button type="text" disabled>text</y-button>
         <y-button type="plain" disabled>plain</y-button>
       </y-button-group>
     </y-card>
@@ -90,7 +102,7 @@
       <div class="demo-button-loading-panel">
         <y-switch v-model:value="buttonLoading" />
         <y-button-group>
-          <y-button :loading="buttonLoading">default</y-button>
+          <y-button :loading="buttonLoading">outlined</y-button>
           <y-button type="primary" color="error" :loading="buttonLoading">primary</y-button>
           <y-button type="primary" :loading="buttonLoading">primary</y-button>
           <y-button type="plain" :loading="buttonLoading">plain</y-button>

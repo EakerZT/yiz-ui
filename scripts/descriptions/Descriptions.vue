@@ -211,7 +211,7 @@ function contentColspan(item: ResolvedDescriptionItem) {
 <style lang="less">
 .yiz-descriptions {
   color: #333;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
 }
 
 .yiz-descriptions-header {
@@ -325,7 +325,7 @@ function contentColspan(item: ResolvedDescriptionItem) {
 }
 
 .yiz-descriptions-size-small {
-  font-size: 13px;
+  font-size: var(--yiz-font-size-small);
 
   .yiz-descriptions-cell {
     padding: 4px 0;
@@ -340,6 +340,8 @@ function contentColspan(item: ResolvedDescriptionItem) {
 }
 
 .yiz-descriptions-size-large {
+  font-size: var(--yiz-font-size-large);
+
   .yiz-descriptions-cell {
     padding: 12px 0;
   }

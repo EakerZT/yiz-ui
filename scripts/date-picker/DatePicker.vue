@@ -18,6 +18,7 @@
         :value="inputText"
         :placeholder="placeholderText"
         :disabled="disabled"
+        :readonly="readonly"
         @input="onInput"
         @focus="onInputFocus"
         @blur="onInputBlur"
@@ -25,7 +26,7 @@
       />
       <Transition name="yiz-date-picker-clear-zoom">
         <span
-          v-if="clearable && modelValue && !disabled && (isHovering || open)"
+          v-if="clearable && modelValue && !disabled && !readonly && (isHovering || open)"
           class="yiz-date-picker-clear"
           @click.stop="onClear"
         >
@@ -37,7 +38,9 @@
         <slot v-else name="suffix" />
       </span>
       <Icon
-        :class="{ 'yiz-date-picker-suffix--hidden': clearable && modelValue && !disabled && (isHovering || open) }"
+        :class="{
+          'yiz-date-picker-suffix--hidden': clearable && modelValue && !disabled && !readonly && (isHovering || open),
+        }"
         class="yiz-date-picker-suffix"
         size="16"
         :icon="CalendarLtr16Regular"
@@ -128,6 +131,7 @@ const props = withDefaults(
   defineProps<{
     placeholder?: string
     disabled?: boolean
+    readonly?: boolean
     clearable?: boolean
     size?: 'small' | 'default' | 'large'
     disabledDate?: (date: Date) => boolean
@@ -138,6 +142,7 @@ const props = withDefaults(
   }>(),
   {
     disabled: false,
+    readonly: false,
     clearable: false,
     size: 'default',
     format: 'YYYY-MM-DD',
@@ -192,6 +197,7 @@ const vClass = computed(() => {
   const c: Record<string, boolean> = {}
   if (open.value) c['yiz-date-picker-open'] = true
   if (props.disabled) c['yiz-date-picker-disabled'] = true
+  if (props.readonly) c['yiz-date-picker-readonly'] = true
   if (props.size === 'small') c['yiz-date-picker-small'] = true
   if (props.size === 'large') c['yiz-date-picker-large'] = true
   return c
@@ -376,6 +382,7 @@ function applyInputText(value: string): Date | null {
 }
 
 function openPanel() {
+  if (props.disabled || props.readonly) return
   if (open.value) return
   currentZIndex.value = nextZIndex()
   showYearPicker.value = false
@@ -393,19 +400,19 @@ function openPanel() {
 // ==================== 操作 ====================
 
 function onTriggerClick() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   openPanel()
   nextTick(() => inputRef.value?.focus())
 }
 
 function onInputFocus() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   inputFocused.value = true
   openPanel()
 }
 
 function onInput(e: Event) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   const value = (e.target as HTMLInputElement).value
   inputText.value = value
   inputDirty.value = true
@@ -422,7 +429,7 @@ function onInputBlur() {
 }
 
 function onClear() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   modelValue.value = null
   draft.value = null
   inputText.value = ''
@@ -431,7 +438,7 @@ function onClear() {
 }
 
 function onCellClick(cell: CalendarCell) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   if (cell.disabled) return
   if (!cell.current) {
     viewYear.value = cell.date.getFullYear()
@@ -444,7 +451,7 @@ function onCellClick(cell: CalendarCell) {
 }
 
 function onToday() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   const today = new Date()
   const date = new Date(today.getFullYear(), today.getMonth(), today.getDate())
   draft.value = date
@@ -455,7 +462,7 @@ function onToday() {
 }
 
 function onConfirm() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   if (inputDirty.value) {
     if (!applyInputText(inputText.value)) return
     inputDirty.value = false
@@ -559,9 +566,9 @@ watch(
 )
 
 watch(
-  () => props.disabled,
-  (disabled) => {
-    if (disabled) {
+  () => [props.disabled, props.readonly],
+  ([disabled, readonly]) => {
+    if (disabled || readonly) {
       open.value = false
       showYearPicker.value = false
     }
@@ -652,7 +659,7 @@ defineExpose({
     outline: none;
     box-sizing: border-box;
     background: transparent;
-    font-size: 14px;
+    font-size: var(--yiz-font-size-default);
     color: #333;
     cursor: text;
     min-width: 0;
@@ -705,7 +712,7 @@ defineExpose({
   border-radius: var(--yiz-base-border-radius-small);
 
   input {
-    font-size: 13px;
+    font-size: var(--yiz-font-size-small);
   }
 }
 
@@ -714,7 +721,7 @@ defineExpose({
   border-radius: var(--yiz-base-border-radius-large);
 
   input {
-    font-size: 16px;
+    font-size: var(--yiz-font-size-large);
   }
 }
 
@@ -960,5 +967,10 @@ defineExpose({
 .yiz-date-picker-panel-fade-leave-to {
   opacity: 0;
   transform: translateY(-4px);
+}
+
+.yiz-date-picker-readonly .yiz-date-picker-input,
+.yiz-date-picker-readonly .yiz-date-picker-input input {
+  cursor: default;
 }
 </style>

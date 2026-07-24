@@ -20,6 +20,7 @@
         :value="startInputText"
         :placeholder="startPlaceholder"
         :disabled="disabled"
+        :readonly="readonly"
         @click.stop="onSegmentClick('start')"
         @focus="onInputFocus('start')"
         @input="onInput('start', $event)"
@@ -40,6 +41,7 @@
         :value="endInputText"
         :placeholder="endPlaceholder"
         :disabled="disabled"
+        :readonly="readonly"
         @click.stop="onSegmentClick('end')"
         @focus="onInputFocus('end')"
         @input="onInput('end', $event)"
@@ -49,7 +51,7 @@
       />
       <Transition name="yiz-datetime-range-picker-clear-zoom">
         <span
-          v-if="clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open)"
+          v-if="clearable && (startModel != null || endModel != null) && !disabled && !readonly && (isHovering || open)"
           class="yiz-datetime-range-picker-clear"
           @click.stop="onClear"
         >
@@ -63,7 +65,7 @@
       <Icon
         :class="{
           'yiz-datetime-range-picker-suffix--hidden':
-            clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open),
+            clearable && (startModel != null || endModel != null) && !disabled && !readonly && (isHovering || open),
         }"
         class="yiz-datetime-range-picker-suffix"
         size="16"
@@ -366,6 +368,7 @@ const endModel = defineModel<DateTimeValue>('end')
 const props = withDefaults(
   defineProps<{
     disabled?: boolean
+    readonly?: boolean
     clearable?: boolean
     forceRange?: boolean
     autoSort?: boolean
@@ -382,6 +385,7 @@ const props = withDefaults(
   }>(),
   {
     disabled: false,
+    readonly: false,
     clearable: false,
     forceRange: false,
     autoSort: true,
@@ -452,6 +456,7 @@ const endCalendarCells = computed(() => makeCalendarCells('end', endViewYear.val
 const vClass = computed(() => ({
   'yiz-datetime-range-picker-open': open.value,
   'yiz-datetime-range-picker-disabled': props.disabled,
+  'yiz-datetime-range-picker-readonly': props.readonly,
   'yiz-datetime-range-picker-small': props.size === 'small',
   'yiz-datetime-range-picker-large': props.size === 'large',
 }))
@@ -479,9 +484,9 @@ watch(
 )
 
 watch(
-  () => props.disabled,
-  (disabled) => {
-    if (disabled) open.value = false
+  () => [props.disabled, props.readonly],
+  ([disabled, readonly]) => {
+    if (disabled || readonly) open.value = false
   },
 )
 
@@ -643,7 +648,7 @@ function syncViewFromDraft() {
 }
 
 function openPanel(side: DateTimeRangeSide) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   activeSide.value = side
   draftStart.value = parseModelValue('start', startModel.value)
   draftEnd.value = parseModelValue('end', endModel.value)
@@ -667,7 +672,7 @@ function onTriggerClick() {
 }
 
 function onSegmentClick(side: DateTimeRangeSide) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   if (!open.value) {
     openPanel(side)
   }
@@ -683,7 +688,7 @@ function onSegmentClick(side: DateTimeRangeSide) {
 }
 
 function onInputFocus(side: DateTimeRangeSide) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   if (side === 'start') {
     startInputFocused.value = true
   } else {
@@ -696,7 +701,7 @@ function onInputFocus(side: DateTimeRangeSide) {
 }
 
 function onInput(side: DateTimeRangeSide, e: Event) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   const value = (e.target as HTMLInputElement).value
   setInputText(side, value)
   setInputDirty(side, true)
@@ -716,7 +721,7 @@ function onInputBlur(side: DateTimeRangeSide) {
 }
 
 function onCellClick(side: DateTimeRangeSide, cell: CalendarCell) {
-  if (props.disabled || cell.disabled) return
+  if (props.disabled || props.readonly || cell.disabled) return
   activeSide.value = side
   if (!cell.current) {
     setView(side, cell.date.getFullYear(), cell.date.getMonth() + 1)
@@ -728,7 +733,7 @@ function onCellClick(side: DateTimeRangeSide, cell: CalendarCell) {
 }
 
 function setTime(side: DateTimeRangeSide, unit: TimeUnit, value: number) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   activeSide.value = side
   if (side === 'start') {
     if (unit === 'hour') startHour.value = value
@@ -753,7 +758,7 @@ function setTime(side: DateTimeRangeSide, unit: TimeUnit, value: number) {
 }
 
 function onNow() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   const value = new Date()
   setDraft(activeSide.value, value)
   syncTimeFromDate(activeSide.value, value)
@@ -764,7 +769,7 @@ function onNow() {
 }
 
 function onConfirm() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   if (startInputDirty.value) {
     if (!applyInputText('start', startInputText.value)) return
     startInputDirty.value = false
@@ -789,7 +794,7 @@ function onConfirm() {
 }
 
 function confirmFromInput(side: DateTimeRangeSide) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   const inputValue = getInputElement(side)?.value ?? getInputText(side)
   const shouldValidateInput = isInputDirty(side) || inputValue !== getInputText(side)
   if (!open.value) {
@@ -818,7 +823,7 @@ function onInputEnter(side: DateTimeRangeSide, e: KeyboardEvent) {
 }
 
 function onClear() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   startModel.value = null
   endModel.value = null
   draftStart.value = null
@@ -985,6 +990,7 @@ defineExpose({
     box-shadow 0.3s;
   box-sizing: border-box;
   gap: 4px;
+  font-size: var(--yiz-font-size-default);
 }
 
 .yiz-datetime-range-picker:not(.yiz-datetime-range-picker-disabled) .yiz-datetime-range-picker-input:hover {
@@ -1104,13 +1110,13 @@ defineExpose({
 .yiz-datetime-range-picker-small .yiz-datetime-range-picker-input {
   height: 24px;
   border-radius: var(--yiz-base-border-radius-small);
-  font-size: 13px;
+  font-size: var(--yiz-font-size-small);
 }
 
 .yiz-datetime-range-picker-large .yiz-datetime-range-picker-input {
   height: 40px;
   border-radius: var(--yiz-base-border-radius-large);
-  font-size: 16px;
+  font-size: var(--yiz-font-size-large);
 }
 
 .yiz-datetime-range-picker-panel {
@@ -1384,5 +1390,10 @@ defineExpose({
 .yiz-datetime-range-picker-clear-zoom-leave-to {
   transform: translateY(-50%) scale(0);
   opacity: 0;
+}
+
+.yiz-datetime-range-picker-readonly .yiz-datetime-range-picker-input,
+.yiz-datetime-range-picker-readonly .yiz-datetime-range-picker-segment {
+  cursor: default;
 }
 </style>

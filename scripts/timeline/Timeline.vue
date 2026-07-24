@@ -34,6 +34,7 @@ const vClass = computed(() => ({
   --yiz-timeline-line-offset: 9px;
   --yiz-timeline-item-gap: 4px;
   --yiz-timeline-content-gap: 28px;
+  --yiz-timeline-font-size: var(--yiz-font-size-default);
 
   display: block;
   box-sizing: border-box;
@@ -47,6 +48,7 @@ const vClass = computed(() => ({
   --yiz-timeline-dot-size: 8px;
   --yiz-timeline-line-offset: 8px;
   --yiz-timeline-content-gap: 24px;
+  --yiz-timeline-font-size: var(--yiz-font-size-small);
 }
 
 .yiz-timeline-size-large {
@@ -54,6 +56,7 @@ const vClass = computed(() => ({
   --yiz-timeline-line-offset: 10px;
   --yiz-timeline-item-gap: 6px;
   --yiz-timeline-content-gap: 32px;
+  --yiz-timeline-font-size: var(--yiz-font-size-large);
 }
 
 .yiz-timeline-mode-right {

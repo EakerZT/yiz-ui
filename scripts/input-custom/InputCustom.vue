@@ -105,7 +105,7 @@ defineExpose({
   align-items: center;
   padding: 0 8px;
   font-family: inherit;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
   background: var(--yiz-color-bg);
   vertical-align: middle;
   outline: none;
@@ -133,7 +133,7 @@ defineExpose({
   &.yiz-input-custom-small {
     min-height: 24px;
     border-radius: var(--yiz-base-border-radius-small);
-    font-size: 13px;
+    font-size: var(--yiz-font-size-small);
     padding-left: 7px;
     padding-right: 7px;
   }
@@ -141,7 +141,7 @@ defineExpose({
   &.yiz-input-custom-large {
     min-height: 40px;
     border-radius: var(--yiz-base-border-radius-large);
-    font-size: 16px;
+    font-size: var(--yiz-font-size-large);
     padding-left: 11px;
     padding-right: 11px;
   }

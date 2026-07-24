@@ -1,5 +1,15 @@
 # update
 
+## 0.0.24
+
+`2026/07/25`
+
+- 添加 focus/blur的支持
+- 添加 readonly的支持
+- 调整 size为small的字号为12px
+- 调整 tag组件支持mode
+- 调整 button组件添加更多type
+
 ## 0.0.23
 
 `2026/07/13`

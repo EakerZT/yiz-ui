@@ -14,6 +14,7 @@
         :value="inputText"
         :placeholder="placeholderText"
         :disabled="disabled"
+        :readonly="readonly"
         @input="onInput"
         @focus="onInputFocus"
         @blur="onInputBlur"
@@ -21,7 +22,7 @@
       />
       <Transition name="yiz-datetime-picker-clear-zoom">
         <span
-          v-if="clearable && modelValue != null && !disabled && (isHovering || open)"
+          v-if="clearable && modelValue != null && !disabled && !readonly && (isHovering || open)"
           class="yiz-datetime-picker-clear"
           @click.stop="onClear"
         >
@@ -30,7 +31,8 @@
       </Transition>
       <Icon
         :class="{
-          'yiz-datetime-picker-suffix--hidden': clearable && modelValue != null && !disabled && (isHovering || open),
+          'yiz-datetime-picker-suffix--hidden':
+            clearable && modelValue != null && !disabled && !readonly && (isHovering || open),
         }"
         class="yiz-datetime-picker-suffix"
         size="16"
@@ -177,6 +179,7 @@ const props = withDefaults(
   defineProps<{
     placeholder?: string
     disabled?: boolean
+    readonly?: boolean
     clearable?: boolean
     size?: 'small' | 'default' | 'large'
     format?: string
@@ -185,6 +188,7 @@ const props = withDefaults(
   }>(),
   {
     disabled: false,
+    readonly: false,
     clearable: false,
     size: 'default',
     format: 'YYYY-MM-DD HH:mm:ss',
@@ -229,6 +233,7 @@ const valueFormat = computed(() => props.valueFormat ?? props.format)
 const vClass = computed(() => ({
   'yiz-datetime-picker-open': open.value,
   'yiz-datetime-picker-disabled': props.disabled,
+  'yiz-datetime-picker-readonly': props.readonly,
   'yiz-datetime-picker-small': props.size === 'small',
   'yiz-datetime-picker-large': props.size === 'large',
 }))
@@ -310,7 +315,7 @@ function formatModelValue(date: Date): DateTimeValue {
 }
 
 function openPanel() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   const value = parseDateTimeValue(modelValue.value, valueFormat.value)
   draft.value = cloneDate(value)
   syncTimeFromDate(value)
@@ -326,16 +331,19 @@ function openPanel() {
 }
 
 function onTriggerClick() {
+  if (props.disabled || props.readonly) return
   if (!open.value) openPanel()
   nextTick(() => inputRef.value?.focus())
 }
 
 function onInputFocus() {
+  if (props.disabled || props.readonly) return
   inputFocused.value = true
   if (!open.value) openPanel()
 }
 
 function onInput(e: Event) {
+  if (props.disabled || props.readonly) return
   inputText.value = (e.target as HTMLInputElement).value
   inputDirty.value = true
   applyInputText(inputText.value)
@@ -350,7 +358,7 @@ function onInputBlur() {
 }
 
 function onClear() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   modelValue.value = null
   draft.value = null
   inputText.value = ''
@@ -359,6 +367,7 @@ function onClear() {
 }
 
 function onCellClick(cell: CalendarCell) {
+  if (props.disabled || props.readonly) return
   if (cell.disabled) return
   if (!cell.current) {
     viewYear.value = cell.date.getFullYear()
@@ -377,6 +386,7 @@ function onCellClick(cell: CalendarCell) {
 }
 
 function setTime(unit: 'hour' | 'minute' | 'second', value: number) {
+  if (props.disabled || props.readonly) return
   if (unit === 'hour') pickedHour.value = value
   if (unit === 'minute') pickedMinute.value = value
   if (unit === 'second') pickedSecond.value = value
@@ -393,6 +403,7 @@ function setTime(unit: 'hour' | 'minute' | 'second', value: number) {
 }
 
 function onNow() {
+  if (props.disabled || props.readonly) return
   const value = new Date()
   draft.value = value
   syncTimeFromDate(value)
@@ -402,7 +413,7 @@ function onNow() {
 }
 
 function onConfirm() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   if (inputDirty.value) {
     if (!applyInputText(inputText.value)) return
     inputDirty.value = false
@@ -465,6 +476,13 @@ watch(open, async (val) => {
 
 watch(() => [modelValue.value, props.format, props.valueFormat], syncInputFromModel, { immediate: true })
 
+watch(
+  () => [props.disabled, props.readonly],
+  ([disabled, readonly]) => {
+    if (disabled || readonly) open.value = false
+  },
+)
+
 function onClickOutside(e: MouseEvent) {
   const target = e.target as HTMLElement
   if (!open.value || triggerRef.value?.contains(target) || panelRef.value?.contains(target)) return
@@ -519,7 +537,7 @@ defineExpose({
     outline: none;
     box-sizing: border-box;
     background: transparent;
-    font-size: 14px;
+    font-size: var(--yiz-font-size-default);
     cursor: text;
   }
 }
@@ -538,7 +556,7 @@ defineExpose({
   height: 24px;
   border-radius: var(--yiz-base-border-radius-small);
   input {
-    font-size: 13px;
+    font-size: var(--yiz-font-size-small);
   }
 }
 
@@ -546,7 +564,7 @@ defineExpose({
   height: 40px;
   border-radius: var(--yiz-base-border-radius-large);
   input {
-    font-size: 16px;
+    font-size: var(--yiz-font-size-large);
   }
 }
 
@@ -821,5 +839,10 @@ defineExpose({
 .yiz-datetime-picker-clear-zoom-leave-to {
   transform: translateY(-50%) scale(0);
   opacity: 0;
+}
+
+.yiz-datetime-picker-readonly .yiz-datetime-picker-input,
+.yiz-datetime-picker-readonly .yiz-datetime-picker-input input {
+  cursor: default;
 }
 </style>

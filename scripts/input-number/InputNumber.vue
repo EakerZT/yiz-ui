@@ -3,7 +3,7 @@
     <button
       v-if="controls"
       class="yiz-input-number-btn yiz-input-number-decrease"
-      :disabled="disabled || isMin"
+      :disabled="disabled || readonly || isMin"
       @click="decrease"
     >
       <Icon size="16" :icon="Subtract16Regular" />
@@ -18,6 +18,7 @@
         class="yiz-input-number-input"
         :value="displayValue"
         :disabled="disabled"
+        :readonly="readonly"
         :placeholder="placeholder"
         @input="onInput"
         @blur="onBlur"
@@ -34,7 +35,7 @@
     <button
       v-if="controls"
       class="yiz-input-number-btn yiz-input-number-increase"
-      :disabled="disabled || isMax"
+      :disabled="disabled || readonly || isMax"
       @click="increase"
     >
       <Icon size="16" :icon="Add16Regular" />
@@ -56,6 +57,7 @@ const props = withDefaults(
     step?: number
     precision?: number
     disabled?: boolean
+    readonly?: boolean
     placeholder?: string
     size?: 'small' | 'default' | 'large'
     controls?: boolean
@@ -68,6 +70,7 @@ const props = withDefaults(
     controls: true,
     align: 'left',
     disabled: false,
+    readonly: false,
     placeholder: '',
     size: 'default',
   },
@@ -89,6 +92,7 @@ const vClass = computed(() => {
   const c: Record<string, boolean> = {}
   if (isFocus.value) c['yiz-input-number-focus'] = true
   if (props.disabled) c['yiz-input-number-disabled'] = true
+  if (props.readonly) c['yiz-input-number-readonly'] = true
   if (props.size === 'small') c['yiz-input-number-small'] = true
   if (props.size === 'large') c['yiz-input-number-large'] = true
   c[`yiz-input-number-align-${props.align}`] = true
@@ -120,7 +124,7 @@ function toPrecision(val: number): number {
 }
 
 function adjust(amount: number) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   const current = modelValue.value ?? props.min ?? 0
   let newVal = current + amount
   if (props.min != null) newVal = Math.max(newVal, props.min)
@@ -137,6 +141,7 @@ function decrease() {
 }
 
 function onInput(e: Event) {
+  if (props.disabled || props.readonly) return
   const raw = (e.target as HTMLInputElement).value
   if (raw === '' || raw === '-') {
     modelValue.value = null
@@ -150,6 +155,7 @@ function onInput(e: Event) {
 }
 
 function onInputKeydown(e: KeyboardEvent) {
+  if (props.disabled) return
   if (e.key === 'Enter') {
     emit('pressEnter')
   }
@@ -157,6 +163,7 @@ function onInputKeydown(e: KeyboardEvent) {
 
 function onBlur() {
   isFocus.value = false
+  if (props.readonly) return
   if (modelValue.value == null) return
   if (props.min != null && modelValue.value < props.min) {
     modelValue.value = props.min
@@ -205,6 +212,10 @@ defineExpose({
     }
   }
 
+  &.yiz-input-number-readonly .yiz-input-number-input {
+    cursor: default;
+  }
+
   &.yiz-input-number-small {
     height: 24px;
     border-radius: var(--yiz-base-border-radius-small);
@@ -232,13 +243,13 @@ defineExpose({
 .yiz-input-number-prefix {
   margin: 0 8px 0 12px;
   user-select: none;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
 }
 
 .yiz-input-number-suffix {
   margin: 0 12px 0 8px;
   user-select: none;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
 }
 
 .yiz-input-number-btn {
@@ -293,7 +304,7 @@ defineExpose({
   height: 100%;
   border: none;
   outline: none;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
   font-family: inherit;
   padding: 0 8px;
   background: transparent;
@@ -314,14 +325,21 @@ defineExpose({
 }
 
 .yiz-input-number-small .yiz-input-number-input {
-  font-size: 13px;
+  font-size: var(--yiz-font-size-small);
+}
+
+.yiz-input-number-small {
+  .yiz-input-number-prefix,
+  .yiz-input-number-suffix {
+    font-size: var(--yiz-font-size-small);
+  }
 }
 
 .yiz-input-number-large {
   .yiz-input-number-input,
   .yiz-input-number-prefix,
   .yiz-input-number-suffix {
-    font-size: 16px;
+    font-size: var(--yiz-font-size-large);
   }
 
   .yiz-input-number-btn {

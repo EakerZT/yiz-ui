@@ -13,6 +13,19 @@
       </y-button-group>
     </y-card>
 
+    <y-card :title="$t('demo.tag.mode')" style="margin-top: 8px">
+      <div class="demo-tag-mode-panel">
+        <div v-for="mode in tagModes" :key="mode" class="demo-tag-mode-row">
+          <span class="demo-tag-mode-label">{{ mode }}</span>
+          <y-button-group>
+            <y-tag v-for="preset in tagPresets" :key="preset.color" :mode="mode" :color="preset.color">
+              {{ preset.label }}
+            </y-tag>
+          </y-button-group>
+        </div>
+      </div>
+    </y-card>
+
     <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-tag-size-panel">
         <y-radio-button-group v-model:value="tagSize" :options="sizeOptions" />
@@ -60,16 +73,6 @@
       </div>
     </y-card>
 
-    <y-card :title="$t('demo.common.withoutBorder')" style="margin-top: 8px">
-      <y-button-group>
-        <y-tag :bordered="false">{{ $t('demo.common.default') }}</y-tag>
-        <y-tag color="primary" :bordered="false">{{ $t('demo.common.primary') }}</y-tag>
-        <y-tag color="success" :bordered="false">{{ $t('demo.common.success') }}</y-tag>
-        <y-tag color="warning" :bordered="false">{{ $t('demo.common.warning') }}</y-tag>
-        <y-tag color="error" :bordered="false">{{ $t('demo.common.error') }}</y-tag>
-      </y-button-group>
-    </y-card>
-
     <y-card :title="$t('demo.common.customColor')" style="margin-top: 8px">
       <y-button-group>
         <y-tag color="#f50">#f50</y-tag>
@@ -83,13 +86,21 @@
 </template>
 
 <script lang="ts" setup>
-import { $t } from 'yiz-ui'
+import { $t, type TagMode } from 'yiz-ui'
 import { ref } from 'vue'
 
 type DemoSize = 'small' | 'default' | 'large'
 
 const tags = ref([$t('demo.tab.tab1'), $t('demo.tab.tab2'), $t('demo.tab.tab3'), $t('demo.tag.tag4')])
 const tagSize = ref<DemoSize>('default')
+const tagModes: TagMode[] = ['filled', 'solid', 'outlined']
+const tagPresets = [
+  { label: 'default', color: 'default' },
+  { label: 'primary', color: 'primary' },
+  { label: 'success', color: 'success' },
+  { label: 'warning', color: 'warning' },
+  { label: 'error', color: 'error' },
+]
 const checkableTag1 = ref(false)
 const checkableTag2 = ref(true)
 const disabledCheckableTag = ref(false)
@@ -116,6 +127,23 @@ function addTag() {
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
+}
+
+.demo-tag-mode-panel,
+.demo-tag-mode-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.demo-tag-mode-panel {
+  gap: 16px;
+}
+
+.demo-tag-mode-label {
+  color: #666;
+  font-size: 13px;
 }
 
 .demo-tag-checkable-panel {

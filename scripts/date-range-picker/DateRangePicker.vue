@@ -20,6 +20,7 @@
         :value="startInputText"
         :placeholder="startPlaceholder"
         :disabled="disabled"
+        :readonly="readonly"
         @click.stop="onSegmentClick('start')"
         @focus="onInputFocus('start')"
         @input="onInput('start', $event)"
@@ -39,6 +40,7 @@
         :value="endInputText"
         :placeholder="endPlaceholder"
         :disabled="disabled"
+        :readonly="readonly"
         @click.stop="onSegmentClick('end')"
         @focus="onInputFocus('end')"
         @input="onInput('end', $event)"
@@ -47,7 +49,7 @@
       />
       <Transition name="yiz-date-range-picker-clear-zoom">
         <span
-          v-if="clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open)"
+          v-if="clearable && (startModel != null || endModel != null) && !disabled && !readonly && (isHovering || open)"
           class="yiz-date-range-picker-clear"
           @click.stop="onClear"
         >
@@ -61,7 +63,7 @@
       <Icon
         :class="{
           'yiz-date-range-picker-suffix--hidden':
-            clearable && (startModel != null || endModel != null) && !disabled && (isHovering || open),
+            clearable && (startModel != null || endModel != null) && !disabled && !readonly && (isHovering || open),
         }"
         class="yiz-date-range-picker-suffix"
         size="16"
@@ -273,6 +275,7 @@ const endModel = defineModel<DateRangeValue>('end')
 const props = withDefaults(
   defineProps<{
     disabled?: boolean
+    readonly?: boolean
     clearable?: boolean
     forceRange?: boolean
     autoSort?: boolean
@@ -291,6 +294,7 @@ const props = withDefaults(
   }>(),
   {
     disabled: false,
+    readonly: false,
     clearable: false,
     forceRange: false,
     autoSort: true,
@@ -347,6 +351,7 @@ const panelStyle = computed(() => ({
 const vClass = computed(() => ({
   'yiz-date-range-picker-open': open.value,
   'yiz-date-range-picker-disabled': props.disabled,
+  'yiz-date-range-picker-readonly': props.readonly,
   'yiz-date-range-picker-small': props.size === 'small',
   'yiz-date-range-picker-large': props.size === 'large',
 }))
@@ -378,9 +383,9 @@ watch(
 )
 
 watch(
-  () => props.disabled,
-  (disabled) => {
-    if (disabled) open.value = false
+  () => [props.disabled, props.readonly],
+  ([disabled, readonly]) => {
+    if (disabled || readonly) open.value = false
   },
 )
 
@@ -598,7 +603,7 @@ function syncViewFromDraft() {
 }
 
 function openPanel(side: DateRangeSide) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   activeSide.value = side
   draftStart.value = parseModelValue('start', startModel.value)
   draftEnd.value = parseModelValue('end', endModel.value)
@@ -620,7 +625,7 @@ function onTriggerClick() {
 }
 
 function onSegmentClick(side: DateRangeSide) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   if (!open.value) {
     openPanel(side)
   }
@@ -635,7 +640,7 @@ function onSegmentClick(side: DateRangeSide) {
 }
 
 function onInputFocus(side: DateRangeSide) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   if (side === 'start') {
     startInputFocused.value = true
   } else {
@@ -648,7 +653,7 @@ function onInputFocus(side: DateRangeSide) {
 }
 
 function onInput(side: DateRangeSide, e: Event) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   const value = (e.target as HTMLInputElement).value
   setInputText(side, value)
   setInputDirty(side, true)
@@ -669,7 +674,7 @@ function onInputBlur(side: DateRangeSide) {
 }
 
 function onCellClick(side: DateRangeSide, cell: CalendarCell) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   if (cell.disabled) return
   activeSide.value = side
   if (!cell.current) {
@@ -688,7 +693,7 @@ function onCellClick(side: DateRangeSide, cell: CalendarCell) {
 }
 
 function onToday() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   const today = new Date()
   const date = new Date(today.getFullYear(), today.getMonth(), today.getDate())
   if (activeSide.value === 'start') {
@@ -705,7 +710,7 @@ function onToday() {
 }
 
 function onConfirm() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   if (startInputDirty.value) {
     if (!applyInputText('start', startInputText.value)) return
     startInputDirty.value = false
@@ -738,7 +743,7 @@ function confirmFromInput(side: DateRangeSide) {
 }
 
 function onClear() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   startModel.value = null
   endModel.value = null
   draftStart.value = null
@@ -889,6 +894,7 @@ defineExpose({
     box-shadow 0.3s;
   box-sizing: border-box;
   gap: 4px;
+  font-size: var(--yiz-font-size-default);
 }
 
 .yiz-date-range-picker:not(.yiz-date-range-picker-disabled) .yiz-date-range-picker-input:hover {
@@ -1006,13 +1012,13 @@ defineExpose({
 .yiz-date-range-picker-small .yiz-date-range-picker-input {
   height: 24px;
   border-radius: var(--yiz-base-border-radius-small);
-  font-size: 13px;
+  font-size: var(--yiz-font-size-small);
 }
 
 .yiz-date-range-picker-large .yiz-date-range-picker-input {
   height: 40px;
   border-radius: var(--yiz-base-border-radius-large);
-  font-size: 16px;
+  font-size: var(--yiz-font-size-large);
 }
 
 .yiz-date-range-picker-panel {
@@ -1222,5 +1228,10 @@ defineExpose({
 .yiz-date-range-picker-clear-zoom-leave-to {
   transform: translateY(-50%) scale(0);
   opacity: 0;
+}
+
+.yiz-date-range-picker-readonly .yiz-date-range-picker-input,
+.yiz-date-range-picker-readonly .yiz-date-range-picker-segment {
+  cursor: default;
 }
 </style>

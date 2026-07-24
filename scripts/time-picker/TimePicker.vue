@@ -18,6 +18,7 @@
         :value="inputText"
         :placeholder="placeholderText"
         :disabled="disabled"
+        :readonly="readonly"
         @input="onInput"
         @focus="onInputFocus"
         @blur="onInputBlur"
@@ -25,7 +26,7 @@
       />
       <Transition name="yiz-time-picker-clear-zoom">
         <span
-          v-if="clearable && modelValue != null && !disabled && (isHovering || open)"
+          v-if="clearable && modelValue != null && !disabled && !readonly && (isHovering || open)"
           class="yiz-time-picker-clear"
           @click.stop="onClear"
         >
@@ -38,7 +39,8 @@
       </span>
       <Icon
         :class="{
-          'yiz-time-picker-suffix--hidden': clearable && modelValue != null && !disabled && (isHovering || open),
+          'yiz-time-picker-suffix--hidden':
+            clearable && modelValue != null && !disabled && !readonly && (isHovering || open),
         }"
         class="yiz-time-picker-suffix"
         size="16"
@@ -120,6 +122,7 @@ const props = withDefaults(
   defineProps<{
     placeholder?: string
     disabled?: boolean
+    readonly?: boolean
     clearable?: boolean
     size?: 'small' | 'default' | 'large'
     showSeconds?: boolean
@@ -129,6 +132,7 @@ const props = withDefaults(
   }>(),
   {
     disabled: false,
+    readonly: false,
     clearable: false,
     size: 'default',
     showSeconds: false,
@@ -232,9 +236,9 @@ watch(
 )
 
 watch(
-  () => props.disabled,
-  (disabled) => {
-    if (disabled) open.value = false
+  () => [props.disabled, props.readonly],
+  ([disabled, readonly]) => {
+    if (disabled || readonly) open.value = false
   },
 )
 
@@ -265,6 +269,7 @@ const vClass = computed(() => {
   const c: Record<string, boolean> = {}
   if (open.value) c['yiz-time-picker-open'] = true
   if (props.disabled) c['yiz-time-picker-disabled'] = true
+  if (props.readonly) c['yiz-time-picker-readonly'] = true
   if (props.size === 'small') c['yiz-time-picker-small'] = true
   if (props.size === 'large') c['yiz-time-picker-large'] = true
   return c
@@ -367,6 +372,7 @@ function syncInputTextFromModel() {
 }
 
 function openPanel() {
+  if (props.disabled || props.readonly) return
   if (open.value) return
   currentZIndex.value = nextZIndex()
   const parsed = modelValue.value ? parseValue(modelValue.value) : null
@@ -379,19 +385,19 @@ function openPanel() {
 // ==================== 操作 ====================
 
 function onTriggerClick() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   openPanel()
   nextTick(() => inputRef.value?.focus())
 }
 
 function onInputFocus() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   inputFocused.value = true
   openPanel()
 }
 
 function onInput(e: Event) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   const value = (e.target as HTMLInputElement).value
   inputText.value = value
   inputDirty.value = true
@@ -407,7 +413,7 @@ function onInputBlur() {
 }
 
 function onClear() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   modelValue.value = null
   inputText.value = ''
   inputDirty.value = false
@@ -415,7 +421,7 @@ function onClear() {
 }
 
 function setPicked(unit: 'hour' | 'minute' | 'second', value: number) {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   if (unit === 'hour') pickedHour.value = value
   if (unit === 'minute') pickedMinute.value = value
   if (unit === 'second') pickedSecond.value = value
@@ -424,7 +430,7 @@ function setPicked(unit: 'hour' | 'minute' | 'second', value: number) {
 }
 
 function onNow() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   const now = new Date()
   pickedHour.value = now.getHours()
   pickedMinute.value = now.getMinutes()
@@ -435,7 +441,7 @@ function onNow() {
 }
 
 function onConfirm() {
-  if (props.disabled) return
+  if (props.disabled || props.readonly) return
   if (inputDirty.value) {
     if (!applyInputText(inputText.value)) return
     inputDirty.value = false
@@ -535,7 +541,7 @@ defineExpose({
     outline: none;
     box-sizing: border-box;
     background: transparent;
-    font-size: 14px;
+    font-size: var(--yiz-font-size-default);
     color: #333;
     cursor: text;
     min-width: 0;
@@ -588,7 +594,7 @@ defineExpose({
   border-radius: var(--yiz-base-border-radius-small);
 
   input {
-    font-size: 13px;
+    font-size: var(--yiz-font-size-small);
   }
 }
 
@@ -597,7 +603,7 @@ defineExpose({
   border-radius: var(--yiz-base-border-radius-large);
 
   input {
-    font-size: 16px;
+    font-size: var(--yiz-font-size-large);
   }
 }
 
@@ -743,5 +749,10 @@ defineExpose({
 .yiz-time-picker-panel-fade-leave-to {
   opacity: 0;
   transform: translateY(-4px);
+}
+
+.yiz-time-picker-readonly .yiz-time-picker-input,
+.yiz-time-picker-readonly .yiz-time-picker-input input {
+  cursor: default;
 }
 </style>
