@@ -1,5 +1,14 @@
 # update
 
+## 0.0.25
+
+`2026/07/25`
+
+- 调整 RadioButton组件样式
+- 优化 Tab组件无active时不能操作
+- 优化 SelectOption插槽
+- 优化 Select项间距
+
 ## 0.0.24
 
 `2026/07/25`

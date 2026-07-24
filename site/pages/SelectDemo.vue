@@ -43,9 +43,19 @@
 
     <y-card :title="$t('demo.common.slot')" style="margin-top: 8px">
       <y-select v-model:value="v9">
-        <y-select-option :label="$t('demo.common.beijing')" value="beijing" />
+        <y-select-option value="beijing">
+          <span class="demo-select-option-content">
+            <span class="demo-select-option-dot demo-select-option-dot-primary"></span>
+            {{ $t('demo.common.beijing') }}
+          </span>
+        </y-select-option>
         <y-select-option :label="$t('demo.common.shanghai')" value="shanghai" :disabled="shanghaiDisabled" />
-        <y-select-option :label="$t('demo.common.guangzhou')" value="guangzhou" />
+        <y-select-option value="guangzhou">
+          <span class="demo-select-option-content">
+            <span class="demo-select-option-dot demo-select-option-dot-success"></span>
+            {{ $t('demo.common.guangzhou') }}
+          </span>
+        </y-select-option>
         <y-select-option :label="$t('demo.common.shenzhen')" value="shenzhen" />
         <y-select-option :label="$t('demo.common.hangzhou')" value="hangzhou" />
       </y-select>
@@ -124,5 +134,25 @@ function onSearch(query: string) {
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
+}
+
+.demo-select-option-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.demo-select-option-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.demo-select-option-dot-primary {
+  background: var(--yiz-color-primary);
+}
+
+.demo-select-option-dot-success {
+  background: var(--yiz-color-success);
 }
 </style>

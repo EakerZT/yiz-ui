@@ -5,7 +5,7 @@
 
     <!-- 基础用法 -->
     <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
-      <y-tab v-model:active="tab1">
+      <y-tab>
         <y-tab-pane :label="$t('demo.tab.tab1')" key="a">
           <p style="padding: 12px 0">{{ $t('demo.tab.tab1Content') }}</p>
         </y-tab-pane>

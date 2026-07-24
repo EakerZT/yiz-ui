@@ -13,8 +13,9 @@
       <template v-if="$props.prefix">{{ $props.prefix }}</template>
       <slot v-else name="prefix" />
     </span>
-    <span class="yiz-select-label" :class="{ 'yiz-select-placeholder': !selectedLabel }">
-      {{ selectedLabel || placeholderText }}
+    <span class="yiz-select-label" :class="{ 'yiz-select-placeholder': !selectedOption }">
+      <SelectContentRenderer v-if="selectedOption" :content="selectedOption.label" />
+      <template v-else>{{ placeholderText }}</template>
     </span>
     <span class="yiz-select-suffix">
       <span class="yiz-select-extra-suffix" v-if="$props.suffix || $slots.suffix">
@@ -67,7 +68,7 @@
             @mouseenter="onOptionMouseenter(opt, idx)"
           >
             <slot name="option" :option="opt" :index="idx" :selected="isSelected(opt)">
-              {{ opt.label }}
+              <SelectContentRenderer :content="opt.label" />
             </slot>
           </div>
           <div v-if="filteredOptions.length === 0" class="yiz-select-empty">{{ $t('common.noData') }}</div>
@@ -79,7 +80,20 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, Fragment, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  Fragment,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  shallowRef,
+  useSlots,
+  watch,
+  type PropType,
+  type VNodeChild,
+} from 'vue'
 import { ChevronDown16Regular, DismissCircle16Filled } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { Input } from '../input'
@@ -89,11 +103,22 @@ import { ScrollBox } from '../scroll-box'
 import SelectOptionComp from '../select-option/SelectOption.vue'
 import { nextZIndex } from '../zIndex'
 
+export type SelectOptionContent = VNodeChild | (() => VNodeChild)
+
 export interface SelectOption {
-  label: string
+  label: SelectOptionContent
   value: any
   disabled?: boolean
 }
+
+const SelectContentRenderer = defineComponent({
+  props: {
+    content: { type: null as unknown as PropType<SelectOptionContent>, default: undefined },
+  },
+  setup(props) {
+    return () => (typeof props.content === 'function' ? props.content() : props.content)
+  },
+})
 
 const props = withDefaults(
   defineProps<{
@@ -153,10 +178,19 @@ const slotOptions = computed(() => {
   for (const vnode of nodes) {
     if (vnode.props) {
       const p = vnode.props as Record<string, any>
+      const vnodeSlots = vnode.children
+      const defaultSlot =
+        vnodeSlots && typeof vnodeSlots === 'object' && typeof vnodeSlots.default === 'function'
+          ? vnodeSlots.default
+          : undefined
       if (p.item) {
-        opts.push(p.item)
+        opts.push(defaultSlot ? { ...p.item, label: defaultSlot } : p.item)
       } else {
-        opts.push({ label: p.label, value: p.value, disabled: p.disabled === '' || p.disabled === true })
+        opts.push({
+          label: defaultSlot ?? p.label,
+          value: p.value,
+          disabled: p.disabled === '' || p.disabled === true,
+        })
       }
     }
   }
@@ -179,7 +213,7 @@ const scrollBoxMaxHeight = ref(240)
 const dropdownPos = ref<{ top?: string; bottom?: string; left?: string }>({})
 useOverlayElement(dropdownRef, open)
 
-const filteredOptions = ref<SelectOption[]>([...allOptions.value])
+const filteredOptions = shallowRef<SelectOption[]>([...allOptions.value])
 
 watch(searchQuery, async (q) => {
   if (!props.search || !q) {
@@ -204,10 +238,7 @@ const vClass = computed(() => {
   return c
 })
 
-const selectedLabel = computed(() => {
-  const opt = allOptions.value.find((o) => o.value === modelValue.value)
-  return opt ? opt.label : ''
-})
+const selectedOption = computed(() => allOptions.value.find((option) => option.value === modelValue.value))
 const placeholderText = computed(() => props.placeholder ?? $t('select.placeholder'))
 
 const dropdownStyle = computed(() => {
@@ -561,7 +592,7 @@ defineExpose({
 
 .yiz-select-option {
   margin: 4px;
-  padding: 8px 12px;
+  padding: 6px 8px;
   border-radius: var(--yiz-pane-item-border-radius);
   font-size: 14px;
   color: #333;

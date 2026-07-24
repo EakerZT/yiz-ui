@@ -123,14 +123,17 @@ defineExpose({
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  height: 32px;
   min-width: 72px;
-  padding: 6px 14px;
+  padding: 0 14px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
   background: #fff;
   color: #333;
+  font-family: inherit;
   font-size: var(--yiz-font-size-default);
-  line-height: 20px;
+  line-height: normal;
   cursor: pointer;
   user-select: none;
   transition:
@@ -189,18 +192,18 @@ defineExpose({
 }
 
 .yiz-radio-button-small {
+  height: 24px;
   min-width: 56px;
-  padding: 4px 10px;
+  padding: 0 10px;
   border-radius: var(--yiz-base-border-radius-small);
   font-size: var(--yiz-font-size-small);
-  line-height: 18px;
 }
 
 .yiz-radio-button-large {
+  height: 40px;
   min-width: 84px;
-  padding: 8px 18px;
+  padding: 0 18px;
   border-radius: var(--yiz-base-border-radius-large);
   font-size: var(--yiz-font-size-large);
-  line-height: 22px;
 }
 </style>

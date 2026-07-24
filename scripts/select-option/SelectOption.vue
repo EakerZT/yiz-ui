@@ -1,10 +1,16 @@
 <template></template>
 
 <script lang="ts" setup>
+import type { VNodeChild } from 'vue'
+
 defineProps<{
-  label?: string
+  label?: VNodeChild | (() => VNodeChild)
   value?: any
   disabled?: boolean
-  item?: { label: string; value: any; disabled?: boolean; [key: string]: any }
+  item?: { label: VNodeChild | (() => VNodeChild); value: any; disabled?: boolean; [key: string]: any }
+}>()
+
+defineSlots<{
+  default?: () => VNodeChild
 }>()
 </script>

@@ -51,7 +51,19 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, Fragment, h, nextTick, provide, reactive, ref, useSlots, watch, type CSSProperties } from 'vue'
+import {
+  computed,
+  Fragment,
+  h,
+  nextTick,
+  provide,
+  reactive,
+  ref,
+  useSlots,
+  watch,
+  watchEffect,
+  type CSSProperties,
+} from 'vue'
 import { Dismiss16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
 import TabPaneComp from './TabPane.vue'
@@ -132,9 +144,20 @@ const panes = computed<PaneData[]>(() => {
     .filter((v) => !closedKeys.has(v.key))
 })
 
-if (active.value == null && panes.value.length > 0) {
-  active.value = panes.value[0]?.key
-}
+const activeIndex = ref(0)
+
+// 当前激活项消失时，优先保持原索引；删除末项时回退到新的最后一项
+watchEffect(() => {
+  const currentPanes = panes.value
+  if (currentPanes.length === 0) return
+
+  let nextActiveIndex = currentPanes.findIndex((pane) => pane.key === active.value)
+  if (nextActiveIndex === -1) {
+    nextActiveIndex = Math.max(0, Math.min(activeIndex.value, currentPanes.length - 1))
+    active.value = currentPanes[nextActiveIndex]?.key
+  }
+  activeIndex.value = nextActiveIndex
+})
 
 function isActive(pane: PaneData) {
   return active.value != null && pane.key === active.value
@@ -149,12 +172,6 @@ function onTabClick(pane: PaneData) {
 function onClosePane(pane: PaneData) {
   closedKeys.add(pane.key)
   emit('close', pane.key)
-  if (active.value === pane.key) {
-    const remaining = panes.value.filter((p) => p.key !== pane.key)
-    if (remaining.length > 0) {
-      active.value = remaining[0].key
-    }
-  }
 }
 
 const isVertical = computed(() => props.direction === 'left' || props.direction === 'right')
