@@ -1,0 +1,5792 @@
+[
+  {
+    "name": "Breadcrumb",
+    "source": "scripts/breadcrumb/Breadcrumb.vue",
+    "props": [
+      {
+        "name": "ariaLabel",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'breadcrumb'"
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "separator",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "BreadcrumbItem",
+    "source": "scripts/breadcrumb/BreadcrumbItem.vue",
+    "props": [
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "item",
+        "type": "BreadcrumbItemData",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [],
+    "events": [
+      {
+        "name": "click",
+        "type": "[event: MouseEvent]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [],
+    "methods": []
+  },
+  {
+    "name": "Button",
+    "source": "scripts/button/Button.vue",
+    "props": [
+      {
+        "name": "type",
+        "type": "ButtonType",
+        "required": false,
+        "description": "按钮视觉类型。",
+        "descriptionEn": "Visual style of the button.",
+        "default": "'outlined'"
+      },
+      {
+        "name": "color",
+        "type": "'default' | 'success' | 'warning' | 'error' | string",
+        "required": false,
+        "description": "预设语义色或自定义 HEX 颜色。",
+        "descriptionEn": "Preset semantic color or a custom HEX color.",
+        "default": "'default'"
+      },
+      {
+        "name": "shape",
+        "type": "'default' | 'round' | 'circle'",
+        "required": false,
+        "description": "按钮形状。",
+        "descriptionEn": "Shape of the button.",
+        "default": "'default'"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "按钮尺寸。",
+        "descriptionEn": "Size of the button.",
+        "default": "'default'"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "是否禁用按钮。",
+        "descriptionEn": "Whether the button is disabled.",
+        "default": "false"
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "是否显示加载状态，加载时按钮不可点击。",
+        "descriptionEn": "Whether to show the loading state. The button cannot be clicked while loading.",
+        "default": "false"
+      }
+    ],
+    "models": [],
+    "events": [
+      {
+        "name": "click",
+        "type": "[event: MouseEvent]",
+        "description": "点击可用按钮时触发。",
+        "descriptionEn": "Emitted when an enabled button is clicked."
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "() => any[]",
+        "description": "按钮内容。",
+        "descriptionEn": "Button content."
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "() => void",
+        "description": "聚焦按钮。",
+        "descriptionEn": "Focuses the button."
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "移除按钮焦点。",
+        "descriptionEn": "Removes focus from the button."
+      }
+    ]
+  },
+  {
+    "name": "ButtonGroup",
+    "source": "scripts/button-group/ButtonGroup.vue",
+    "props": [
+      {
+        "name": "direction",
+        "type": "'horizontal' | 'vertical'",
+        "required": false,
+        "description": "子按钮排列方向。",
+        "descriptionEn": "Layout direction of child buttons.",
+        "default": "'horizontal'"
+      },
+      {
+        "name": "gap",
+        "type": "number | string",
+        "required": false,
+        "description": "子按钮间距，数值和数字字符串均按像素处理。",
+        "descriptionEn": "Gap between child buttons in pixels.",
+        "default": "12"
+      },
+      {
+        "name": "align",
+        "type": "'start' | 'center' | 'end' | 'baseline'",
+        "required": false,
+        "description": "子按钮在交叉轴上的对齐方式。",
+        "descriptionEn": "Cross-axis alignment of child buttons.",
+        "default": "'center'"
+      },
+      {
+        "name": "wrap",
+        "type": "boolean",
+        "required": false,
+        "description": "空间不足时是否换行。",
+        "descriptionEn": "Whether child buttons can wrap.",
+        "default": "false"
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "按钮组内容。",
+        "descriptionEn": "Content of the button group."
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Card",
+    "source": "scripts/card/Card.vue",
+    "props": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "bordered",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
+      },
+      {
+        "name": "shadow",
+        "type": "'never' | 'hover' | 'always'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'never'"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "title",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "extra",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "cover",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "footer",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Checkbox",
+    "source": "scripts/checkbox/Checkbox.vue",
+    "props": [
+      {
+        "name": "value",
+        "type": "string | number",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "border",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:checked",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[checked: boolean]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "CheckboxGroup",
+    "source": "scripts/checkbox-group/CheckboxGroup.vue",
+    "props": [
+      {
+        "name": "options",
+        "type": "CheckboxOption[]",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "direction",
+        "type": "'horizontal' | 'vertical' | 'free'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'horizontal'"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "border",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "(string | number)[]",
+        "required": false,
+        "default": "() => []",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "focus",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "blur",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "Collapse",
+    "source": "scripts/collapse/Collapse.vue",
+    "props": [
+      {
+        "name": "accordion",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "bordered",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "CollapseValue | undefined",
+        "required": false,
+        "default": "() => []",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[value: CollapseValue | undefined]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "CollapseItem",
+    "source": "scripts/collapse/CollapseItem.vue",
+    "props": [
+      {
+        "name": "name",
+        "type": "CollapseKey",
+        "required": true,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "extra",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "title",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "ColorPicker",
+    "source": "scripts/color-picker/ColorPicker.vue",
+    "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "alpha",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "presets",
+        "type": "string[]",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "[\n      '#1677ff',\n      '#52c41a',\n      '#faad14',\n      '#ff4d4f',\n      '#722ed1',\n      '#13c2c2',\n      '#eb2f96',\n      '#2f54eb',\n      '#000000',\n      '#ffffff',\n    ]"
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[value: string]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "DatePicker",
+    "source": "scripts/date-picker/DatePicker.vue",
+    "props": [
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "clearable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "disabledDate",
+        "type": "(date: Date) => boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "format",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'YYYY-MM-DD'"
+      },
+      {
+        "name": "valueFormat",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "DatePickerValue",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[date: DatePickerValue]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "DateRangePicker",
+    "source": "scripts/date-range-picker/DateRangePicker.vue",
+    "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "clearable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "forceRange",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "autoSort",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "disabledDate",
+        "type": "(date: Date) => boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "format",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'YYYY-MM-DD'"
+      },
+      {
+        "name": "startValueFormat",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "endValueFormat",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "startPlaceholder",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "endPlaceholder",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "startLabel",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "endLabel",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "separator",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'-'"
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:start",
+        "type": "DateRangeValue",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "v-model:end",
+        "type": "DateRangeValue",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[start: DateRangeValue, end: DateRangeValue]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "prefix",
+        "type": "unknown",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "separator",
+        "type": "unknown",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "unknown",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "(side: 'start' | 'end' = 'start') => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "DateTimePicker",
+    "source": "scripts/datetime-picker/DateTimePicker.vue",
+    "props": [
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "clearable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "format",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'YYYY-MM-DD HH:mm:ss'"
+      },
+      {
+        "name": "valueFormat",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "disabledDate",
+        "type": "(date: Date) => boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "DateTimeValue",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[value: DateTimeValue]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "DateTimeRangePicker",
+    "source": "scripts/datetime-range-picker/DateTimeRangePicker.vue",
+    "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "clearable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "forceRange",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "autoSort",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "format",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'YYYY-MM-DD HH:mm:ss'"
+      },
+      {
+        "name": "startValueFormat",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "endValueFormat",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "disabledDate",
+        "type": "(date: Date) => boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "startPlaceholder",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "endPlaceholder",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "separator",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'-'"
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:start",
+        "type": "DateTimeValue",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "v-model:end",
+        "type": "DateTimeValue",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[start: DateTimeValue, end: DateTimeValue]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "prefix",
+        "type": "unknown",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "separator",
+        "type": "unknown",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "unknown",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "(side: 'start' | 'end' = 'start') => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "DescriptionItem",
+    "source": "scripts/descriptions/DescriptionItem.vue",
+    "props": [
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "span",
+        "type": "number | string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [],
+    "methods": []
+  },
+  {
+    "name": "Descriptions",
+    "source": "scripts/descriptions/Descriptions.vue",
+    "props": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "column",
+        "type": "number | string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "3"
+      },
+      {
+        "name": "bordered",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "layout",
+        "type": "'horizontal' | 'vertical'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'horizontal'"
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "title",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "extra",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Dialog",
+    "source": "scripts/dialog/Dialog.vue",
+    "props": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "description": "对话框标题。",
+        "descriptionEn": "Dialog title.",
+        "default": "''"
+      },
+      {
+        "name": "width",
+        "type": "string",
+        "required": false,
+        "description": "对话框宽度。",
+        "descriptionEn": "Width of the dialog.",
+        "default": "'420px'"
+      },
+      {
+        "name": "closable",
+        "type": "boolean",
+        "required": false,
+        "description": "是否显示关闭按钮。",
+        "descriptionEn": "Whether to show the close button.",
+        "default": "true"
+      },
+      {
+        "name": "mask",
+        "type": "boolean",
+        "required": false,
+        "description": "是否显示遮罩层。",
+        "descriptionEn": "Whether to show the mask.",
+        "default": "true"
+      },
+      {
+        "name": "maskClosable",
+        "type": "boolean",
+        "required": false,
+        "description": "点击遮罩时是否关闭。",
+        "descriptionEn": "Whether clicking the mask closes the dialog.",
+        "default": "false"
+      },
+      {
+        "name": "drag",
+        "type": "boolean",
+        "required": false,
+        "description": "是否允许拖动标题栏移动对话框。",
+        "descriptionEn": "Whether the dialog can be moved by dragging its header.",
+        "default": "false"
+      },
+      {
+        "name": "disabledHeader",
+        "type": "boolean",
+        "required": false,
+        "description": "是否隐藏头部区域。",
+        "descriptionEn": "Whether to hide the header.",
+        "default": "false"
+      },
+      {
+        "name": "disabledFooter",
+        "type": "boolean",
+        "required": false,
+        "description": "是否隐藏默认页脚。",
+        "descriptionEn": "Whether to hide the default footer.",
+        "default": "false"
+      },
+      {
+        "name": "modalLayerParent",
+        "type": "ModalLayerContext | null",
+        "required": false,
+        "description": "指定父级模态层上下文，用于嵌套弹层。",
+        "descriptionEn": "Parent modal layer context for nested overlays.",
+        "default": "null"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:show",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "对话框是否显示。",
+        "descriptionEn": "Whether the dialog is visible."
+      }
+    ],
+    "events": [
+      {
+        "name": "close",
+        "type": "[]",
+        "description": "对话框请求关闭时触发。",
+        "descriptionEn": "Emitted when the dialog requests to close."
+      },
+      {
+        "name": "ok",
+        "type": "[]",
+        "description": "点击默认确定按钮时触发。",
+        "descriptionEn": "Emitted when the default confirm button is clicked."
+      },
+      {
+        "name": "afterLeave",
+        "type": "[]",
+        "description": "关闭过渡结束后触发。",
+        "descriptionEn": "Emitted after the leave transition finishes."
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "对话框主体内容。",
+        "descriptionEn": "Dialog body content."
+      },
+      {
+        "name": "title",
+        "type": "any",
+        "description": "自定义标题内容。",
+        "descriptionEn": "Custom title content."
+      },
+      {
+        "name": "footer",
+        "type": "any",
+        "description": "自定义页脚内容。",
+        "descriptionEn": "Custom footer content."
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Divider",
+    "source": "scripts/divider/Divider.vue",
+    "props": [
+      {
+        "name": "direction",
+        "type": "'horizontal' | 'vertical'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'horizontal'"
+      },
+      {
+        "name": "dashed",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "textPlacement",
+        "type": "'left' | 'center' | 'right'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'center'"
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "() => any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Drawer",
+    "source": "scripts/drawer/Drawer.vue",
+    "props": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "placement",
+        "type": "'left' | 'right' | 'top' | 'bottom'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'right'"
+      },
+      {
+        "name": "width",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'30%'"
+      },
+      {
+        "name": "height",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'30%'"
+      },
+      {
+        "name": "closable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
+      },
+      {
+        "name": "mask",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
+      },
+      {
+        "name": "maskClosable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "resize",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "resizeMin",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'200px'"
+      },
+      {
+        "name": "resizeMax",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "disabledFooter",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:show",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "close",
+        "type": "[]",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "ok",
+        "type": "[]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "title",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "footer",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Dropmenu",
+    "source": "scripts/dropmenu/Dropmenu.vue",
+    "props": [
+      {
+        "name": "options",
+        "type": "DropmenuOption[]",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "[]"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "width",
+        "type": "number | string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "undefined"
+      },
+      {
+        "name": "placement",
+        "type": "'bottom-start' | 'bottom-end' | 'top-start' | 'top-end'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'bottom-start'"
+      }
+    ],
+    "models": [],
+    "events": [
+      {
+        "name": "select",
+        "type": "[item: DropmenuOption]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "() => any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "trigger",
+        "type": "(props: { open: boolean }) => any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "item",
+        "type": "(props: { item: DropmenuOption; index: number }) => any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "icon",
+        "type": "(props: { icon: string; item: DropmenuOption }) => any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "DropmenuItem",
+    "source": "scripts/dropmenu-item/DropmenuItem.vue",
+    "props": [
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "icon",
+        "type": "string | (() => any) | any",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "children",
+        "type": "DropmenuOption[]",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "type",
+        "type": "'item' | 'divider'",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "item",
+        "type": "DropmenuOption",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [],
+    "methods": []
+  },
+  {
+    "name": "Empty",
+    "source": "scripts/empty/Empty.vue",
+    "props": [
+      {
+        "name": "description",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "image",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "description",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Form",
+    "source": "scripts/form/Form.vue",
+    "props": [
+      {
+        "name": "model",
+        "type": "Record<string, any>",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "({})"
+      },
+      {
+        "name": "rules",
+        "type": "FormRules",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "({})"
+      },
+      {
+        "name": "labelWidth",
+        "type": "string | number",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "96"
+      },
+      {
+        "name": "layout",
+        "type": "FormLayout",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'horizontal'"
+      }
+    ],
+    "models": [],
+    "events": [
+      {
+        "name": "submit",
+        "type": "[valid: boolean]",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "validate",
+        "type": "[valid: boolean]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "validate",
+        "type": "validate",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "validateField",
+        "type": "validateField",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "resetFields",
+        "type": "resetFields",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "clearValidate",
+        "type": "clearValidate",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "FormItem",
+    "source": "scripts/form-item/FormItem.vue",
+    "props": [
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "prop",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "rules",
+        "type": "FormItemRule | FormItemRule[]",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "labelWidth",
+        "type": "string | number",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "tooltip",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "label",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "tooltip",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "validate",
+        "type": "validate",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "resetField",
+        "type": "resetField",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "clearValidate",
+        "type": "clearValidate",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "Icon",
+    "source": "scripts/icon/Icon.vue",
+    "props": [
+      {
+        "name": "icon",
+        "type": "Component<unknown>",
+        "required": true,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "size",
+        "type": "number | string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "icon",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Info",
+    "source": "scripts/info/Info.vue",
+    "props": [
+      {
+        "name": "message",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "type",
+        "type": "InfoType",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'info'"
+      },
+      {
+        "name": "showIcon",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
+      },
+      {
+        "name": "closable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "closeText",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "icon",
+        "type": "Component",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [],
+    "events": [
+      {
+        "name": "close",
+        "type": "[event: MouseEvent]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "message",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "icon",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "action",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Input",
+    "source": "scripts/input/Input.vue",
+    "props": [
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "clearable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "unknown",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "pressEnter",
+        "type": "[]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "prefix",
+        "type": "unknown",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "unknown",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "InputCustom",
+    "source": "scripts/input-custom/InputCustom.vue",
+    "props": [
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "active",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "(props: { disabled: boolean }) => unknown",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "prefix",
+        "type": "unknown",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "unknown",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "focus",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "blur",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "InputGroup",
+    "source": "scripts/input-group/InputGroup.vue",
+    "props": [
+      {
+        "name": "block",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "beforeAddon",
+        "type": "string | number",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "afterAddon",
+        "type": "string | number",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "beforeAddon",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "afterAddon",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "focus",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "blur",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "InputNumber",
+    "source": "scripts/input-number/InputNumber.vue",
+    "props": [
+      {
+        "name": "min",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "step",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "1"
+      },
+      {
+        "name": "precision",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "controls",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
+      },
+      {
+        "name": "align",
+        "type": "'left' | 'center' | 'right'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'left'"
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "number | null",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "pressEnter",
+        "type": "[]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "prefix",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "InputPassword",
+    "source": "scripts/input-password/InputPassword.vue",
+    "props": [
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "clearable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "showToggle",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
+      },
+      {
+        "name": "autocomplete",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'current-password'"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "pressEnter",
+        "type": "[]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "prefix",
+        "type": "unknown",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "unknown",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "LinkButton",
+    "source": "scripts/link-button/LinkButton.vue",
+    "props": [
+      {
+        "name": "color",
+        "type": "'default' | 'primary' | 'success' | 'warning' | 'error' | string",
+        "required": false,
+        "description": "预设语义色或自定义 HEX 颜色。",
+        "descriptionEn": "Preset semantic color or a custom HEX color.",
+        "default": "'primary'"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "是否禁用文字按钮。",
+        "descriptionEn": "Whether the link button is disabled.",
+        "default": "false"
+      },
+      {
+        "name": "underline",
+        "type": "boolean",
+        "required": false,
+        "description": "悬停时是否显示下划线。",
+        "descriptionEn": "Whether to show an underline on hover.",
+        "default": "false"
+      }
+    ],
+    "models": [],
+    "events": [
+      {
+        "name": "click",
+        "type": "[event: MouseEvent]",
+        "description": "点击可用文字按钮时触发。",
+        "descriptionEn": "Emitted when an enabled link button is clicked."
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "文字按钮内容。",
+        "descriptionEn": "Link button content."
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Loading",
+    "source": "scripts/loading/Loading.vue",
+    "props": [
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "indicator",
+        "type": "IndicatorType",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'ring'"
+      },
+      {
+        "name": "tip",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "delay",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "0"
+      },
+      {
+        "name": "fullHeight",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "tip",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "indicator",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Menu",
+    "source": "scripts/menu/Menu.vue",
+    "props": [
+      {
+        "name": "items",
+        "type": "MenuItem[]",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "[]"
+      },
+      {
+        "name": "width",
+        "type": "number | string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "256"
+      },
+      {
+        "name": "collapsed",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "dark",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:select",
+        "type": "any",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "select",
+        "type": "[item: MenuItem]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "() => any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "item",
+        "type": "(props: { item: MenuItem; index: number }) => any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "icon",
+        "type": "(props: { icon: any; item: MenuItem; selected: boolean }) => any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "MenuOption",
+    "source": "scripts/menu-option/MenuOption.vue",
+    "props": [
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "icon",
+        "type": "string | (() => any) | any",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "children",
+        "type": "MenuItem[]",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "item",
+        "type": "{ label: string; key: any; icon?: any; children?: MenuItem[]; [key: string]: any }",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [],
+    "methods": []
+  },
+  {
+    "name": "Pagination",
+    "source": "scripts/pagination/Pagination.vue",
+    "props": [
+      {
+        "name": "total",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "0"
+      },
+      {
+        "name": "pageSizes",
+        "type": "number[]",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "[10, 20, 50, 100]"
+      },
+      {
+        "name": "pagerCount",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "7"
+      },
+      {
+        "name": "showTotal",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "showSizeChanger",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "showQuickJumper",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "simple",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:page",
+        "type": "number",
+        "required": false,
+        "default": "1",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "v-model:pageSize",
+        "type": "number",
+        "required": false,
+        "default": "10",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[page: number, pageSize: number]",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "pageSizeChange",
+        "type": "[pageSize: number]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [],
+    "methods": []
+  },
+  {
+    "name": "Popover",
+    "source": "scripts/popover/Popover.vue",
+    "props": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "placement",
+        "type": "PopoverPlacement",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'top'"
+      },
+      {
+        "name": "trigger",
+        "type": "PopoverTrigger",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'click'"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "width",
+        "type": "number | string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "260"
+      },
+      {
+        "name": "showArrow",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:open",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "openChange",
+        "type": "[open: boolean]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "() => any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "title",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "content",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Progress",
+    "source": "scripts/progress/Progress.vue",
+    "props": [
+      {
+        "name": "percentage",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "0"
+      },
+      {
+        "name": "status",
+        "type": "ProgressStatus",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'normal'"
+      },
+      {
+        "name": "color",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "strokeWidth",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "8"
+      },
+      {
+        "name": "showText",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
+      },
+      {
+        "name": "format",
+        "type": "(percentage: number) => string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "(props: { percentage: number }) => any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Radio",
+    "source": "scripts/radio/Radio.vue",
+    "props": [
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "value",
+        "type": "string | number",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "modelValue",
+        "type": "string | number",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "checked",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      }
+    ],
+    "models": [],
+    "events": [
+      {
+        "name": "update:modelValue",
+        "type": "[value: string | number | undefined]",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "update:checked",
+        "type": "[checked: boolean]",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "change",
+        "type": "[value: string | number | undefined]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "RadioButton",
+    "source": "scripts/radio-button/RadioButton.vue",
+    "props": [
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "value",
+        "type": "string | number | boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "textColor",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "fillColor",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:checked",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[value: string | number | boolean | undefined]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "() => VNodeChild",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "render",
+        "type": "(props: {\n    label: string\n    value: string | number | boolean | undefined\n    checked: boolean\n    selected: boolean\n    disabled: boolean\n  }) => VNodeChild",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "RadioButtonGroup",
+    "source": "scripts/radio-button-group/RadioButtonGroup.vue",
+    "props": [
+      {
+        "name": "options",
+        "type": "RadioButtonOption[]",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "[]"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "textColor",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "fillColor",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "string | number | boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[value: string | number | boolean]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "() => VNodeChild",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "render",
+        "type": "(props: {\n    label: string\n    value: string | number | boolean | undefined\n    checked: boolean\n    selected: boolean\n    disabled: boolean\n  }) => VNodeChild",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "focus",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "blur",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "RadioGroup",
+    "source": "scripts/radio-group/RadioGroup.vue",
+    "props": [
+      {
+        "name": "options",
+        "type": "RadioOption[]",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "[]"
+      },
+      {
+        "name": "direction",
+        "type": "'horizontal' | 'vertical' | 'free'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'horizontal'"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "string | number",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[value: string | number]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "focus",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "blur",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "ScrollBox",
+    "source": "scripts/scroll-box/ScrollBox.vue",
+    "props": [
+      {
+        "name": "height",
+        "type": "number | string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "maxHeight",
+        "type": "number | string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "width",
+        "type": "number | string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "autoHide",
+        "type": "'never' | 'scroll' | 'move' | 'leave'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'leave'"
+      },
+      {
+        "name": "autoHideDelay",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "1300"
+      },
+      {
+        "name": "theme",
+        "type": "string | null",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "null"
+      },
+      {
+        "name": "overflowX",
+        "type": "'hidden' | 'visible' | 'scroll' | 'auto'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'auto'"
+      },
+      {
+        "name": "overflowY",
+        "type": "'hidden' | 'visible' | 'scroll' | 'auto'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'auto'"
+      },
+      {
+        "name": "zIndex",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "1"
+      }
+    ],
+    "models": [],
+    "events": [
+      {
+        "name": "scroll",
+        "type": "[event: Event]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "viewport",
+        "type": "viewport: viewportRef",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "sync",
+        "type": "sync",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "Segmented",
+    "source": "scripts/segmented/Segmented.vue",
+    "props": [
+      {
+        "name": "options",
+        "type": "SegmentedOption[]",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "[]"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "shape",
+        "type": "'block' | 'round'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'block'"
+      },
+      {
+        "name": "block",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "string | number",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[value: string | number]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "render",
+        "type": "(props: { option: SegmentedOption; selected: boolean; disabled: boolean }) => VNodeChild",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "focus",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "blur",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "Select",
+    "source": "scripts/select/Select.vue",
+    "props": [
+      {
+        "name": "options",
+        "type": "SelectOption[]",
+        "required": false,
+        "description": "选项数据。",
+        "descriptionEn": "Options displayed in the dropdown.",
+        "default": "[]"
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "未选择时的占位文本。",
+        "descriptionEn": "Placeholder shown when no option is selected."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "是否禁用选择器。",
+        "descriptionEn": "Whether the select is disabled.",
+        "default": "false"
+      },
+      {
+        "name": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "是否为只读状态。",
+        "descriptionEn": "Whether the select is read-only.",
+        "default": "false"
+      },
+      {
+        "name": "clearable",
+        "type": "boolean",
+        "required": false,
+        "description": "是否允许清空当前值。",
+        "descriptionEn": "Whether the current value can be cleared.",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "选择器尺寸。",
+        "descriptionEn": "Size of the select.",
+        "default": "'default'"
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "description": "前缀文本。",
+        "descriptionEn": "Prefix text."
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "required": false,
+        "description": "后缀文本。",
+        "descriptionEn": "Suffix text."
+      },
+      {
+        "name": "search",
+        "type": "(query: string) => SelectOption[] | Promise<SelectOption[]>",
+        "required": false,
+        "description": "搜索处理函数，可同步或异步返回匹配选项。",
+        "descriptionEn": "Search handler that synchronously or asynchronously returns matching options."
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "any",
+        "required": false,
+        "description": "当前选中值。",
+        "descriptionEn": "Currently selected value."
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[option: SelectOption | null]",
+        "description": "选择项变化时触发。",
+        "descriptionEn": "Emitted when the selected option changes."
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "() => any",
+        "description": "通过 SelectOption 声明选项。",
+        "descriptionEn": "Declares options with SelectOption components."
+      },
+      {
+        "name": "prefix",
+        "type": "any",
+        "description": "自定义前缀内容。",
+        "descriptionEn": "Custom prefix content."
+      },
+      {
+        "name": "suffix",
+        "type": "any",
+        "description": "自定义后缀内容。",
+        "descriptionEn": "Custom suffix content."
+      },
+      {
+        "name": "option",
+        "type": "(props: { option: SelectOption; index: number; selected: boolean }) => any",
+        "description": "自定义选项渲染内容。",
+        "descriptionEn": "Custom option rendering content."
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "() => void",
+        "description": "聚焦选择器。",
+        "descriptionEn": "Focuses the select."
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "移除选择器焦点。",
+        "descriptionEn": "Removes focus from the select."
+      }
+    ]
+  },
+  {
+    "name": "SelectOption",
+    "source": "scripts/select-option/SelectOption.vue",
+    "props": [
+      {
+        "name": "label",
+        "type": "VNodeChild | (() => VNodeChild)",
+        "required": false,
+        "description": "选项标签，也可通过默认插槽提供。",
+        "descriptionEn": "Option label. It can also be provided by the default slot."
+      },
+      {
+        "name": "value",
+        "type": "any",
+        "required": false,
+        "description": "选项值。",
+        "descriptionEn": "Option value."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "是否禁用该选项。",
+        "descriptionEn": "Whether the option is disabled."
+      },
+      {
+        "name": "item",
+        "type": "{ label: VNodeChild | (() => VNodeChild); value: any; disabled?: boolean; [key: string]: any }",
+        "required": false,
+        "description": "由 options 数据生成选项时使用的完整数据项。",
+        "descriptionEn": "Full data item used when options are generated from data."
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "() => VNodeChild",
+        "description": "自定义选项标签内容。",
+        "descriptionEn": "Custom option label content."
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Slider",
+    "source": "scripts/slider/Slider.vue",
+    "props": [
+      {
+        "name": "min",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "0"
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "100"
+      },
+      {
+        "name": "step",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "1"
+      },
+      {
+        "name": "range",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "showTooltip",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
+      },
+      {
+        "name": "showStops",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "marks",
+        "type": "SliderMark[]",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "[]"
+      },
+      {
+        "name": "formatTooltip",
+        "type": "(value: number) => string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "SliderValue",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[value: SliderValue]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "focus",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "blur",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "SortableBox",
+    "source": "scripts/sortable-box/SortableBox.vue",
+    "props": [
+      {
+        "name": "list",
+        "type": "unknown[] | null",
+        "required": false,
+        "default": "null",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "itemKey",
+        "type": "string | ((item: unknown) => SortableKey)",
+        "required": true,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "tag",
+        "type": "string",
+        "required": false,
+        "default": "'div'",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "componentData",
+        "type": "Record<string, unknown> | null",
+        "required": false,
+        "default": "null",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "mode",
+        "type": "SortableBoxMode",
+        "required": false,
+        "default": "'sortable'",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "group",
+        "type": "SortableGroup | string | null",
+        "required": false,
+        "default": "null",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "sort",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "direction",
+        "type": "SortableDirection",
+        "required": false,
+        "default": "'vertical'",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "handleClass",
+        "type": "string",
+        "required": false,
+        "default": "undefined",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "filter",
+        "type": "SortableFilter",
+        "required": false,
+        "default": "undefined",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "preventOnFilter",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "minItems",
+        "type": "number",
+        "required": false,
+        "default": "undefined",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "maxItems",
+        "type": "number",
+        "required": false,
+        "default": "undefined",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "lockedKeys",
+        "type": "SortableKey[]",
+        "required": false,
+        "default": "[]",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "animation",
+        "type": "number",
+        "required": false,
+        "default": "150",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "easing",
+        "type": "string",
+        "required": false,
+        "default": "'cubic-bezier(0.2, 0, 0, 1)'",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "swapThreshold",
+        "type": "number",
+        "required": false,
+        "default": "1",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "invertSwap",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "invertedSwapThreshold",
+        "type": "number",
+        "required": false,
+        "default": "undefined",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "emptyInsertThreshold",
+        "type": "number",
+        "required": false,
+        "default": "5",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "ghostClass",
+        "type": "string",
+        "required": false,
+        "default": "'yiz-sortable-box-ghost'",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "chosenClass",
+        "type": "string",
+        "required": false,
+        "default": "'yiz-sortable-box-chosen'",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "dragClass",
+        "type": "string",
+        "required": false,
+        "default": "'yiz-sortable-box-drag'",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "clone",
+        "type": "(item: unknown) => unknown",
+        "required": false,
+        "default": "(item: unknown) => item",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "createItem",
+        "type": "(item: unknown) => unknown",
+        "required": false,
+        "default": "undefined",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "move",
+        "type": "(event: SortableMoveEvent, originalEvent: PointerEvent) => boolean | void",
+        "required": false,
+        "default": "undefined",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "canDrag",
+        "type": "SortableGuard",
+        "required": false,
+        "default": "undefined",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "canLeave",
+        "type": "SortableGuard",
+        "required": false,
+        "default": "undefined",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "canEnter",
+        "type": "SortableGuard",
+        "required": false,
+        "default": "undefined",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "canDrop",
+        "type": "SortableGuard",
+        "required": false,
+        "default": "undefined",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "canSort",
+        "type": "SortableGuard",
+        "required": false,
+        "default": "undefined",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "preview",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "scroll",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "scrollSensitivity",
+        "type": "number",
+        "required": false,
+        "default": "30",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "scrollSpeed",
+        "type": "number",
+        "required": false,
+        "default": "10",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "bubbleScroll",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [],
+    "events": [
+      {
+        "name": "update:list",
+        "type": "(...args: unknown[]) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "change",
+        "type": "(...args: unknown[]) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "choose",
+        "type": "(...args: unknown[]) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "unchoose",
+        "type": "(...args: unknown[]) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "start",
+        "type": "(...args: unknown[]) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "end",
+        "type": "(...args: unknown[]) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "add",
+        "type": "(...args: unknown[]) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "remove",
+        "type": "(...args: unknown[]) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "update",
+        "type": "(...args: unknown[]) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "sort",
+        "type": "(...args: unknown[]) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "filter",
+        "type": "(...args: unknown[]) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "preview-start",
+        "type": "(...args: unknown[]) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "preview-change",
+        "type": "(...args: unknown[]) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "preview-cancel",
+        "type": "(...args: unknown[]) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "preview-commit",
+        "type": "(...args: unknown[]) => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [],
+    "methods": []
+  },
+  {
+    "name": "Switch",
+    "source": "scripts/switch/Switch.vue",
+    "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "color",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "checkedValue",
+        "type": "any",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
+      },
+      {
+        "name": "uncheckedValue",
+        "type": "any",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "any",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[value: any]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "Tab",
+    "source": "scripts/tab/Tab.vue",
+    "props": [
+      {
+        "name": "direction",
+        "type": "'top' | 'bottom' | 'left' | 'right'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'top'"
+      },
+      {
+        "name": "type",
+        "type": "'default' | 'card'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "transitionType",
+        "type": "'none' | 'fade' | 'slide'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'none'"
+      },
+      {
+        "name": "flex",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "overflow",
+        "type": "CSSProperties['overflow']",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'hidden'"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:active",
+        "type": "any",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "select",
+        "type": "[key: any]",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "close",
+        "type": "[key: any]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "leftExtra",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "rightExtra",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Table",
+    "source": "scripts/table/Table.vue",
+    "props": [
+      {
+        "name": "data",
+        "type": "Record<string, any>[]",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "[]"
+      },
+      {
+        "name": "bordered",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "stripe",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "resize",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "no",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "selectMode",
+        "type": "'none' | 'single' | 'multi'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'none'"
+      },
+      {
+        "name": "rowKey",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "selectDisabled",
+        "type": "(row: any, index: number) => boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "undefined"
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "showOverflow",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "showFooter",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "footerMethod",
+        "type": "TableFooterMethod",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "undefined"
+      },
+      {
+        "name": "sortMode",
+        "type": "'local' | 'remote'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'local'"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:selected",
+        "type": "any",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "v-model:sort",
+        "type": "TableSortState | null",
+        "required": false,
+        "default": "null",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "select",
+        "type": "[selected: Record<string, any> | Record<string, any>[] | null]",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "row-dblclick",
+        "type": "[row: Record<string, any>, index: number, event: MouseEvent]",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "sort-change",
+        "type": "[sort: TableSortState | null]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "empty",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "loading",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "footer-cell",
+        "type": "(scope: TableFooterCellScope) => any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "TableColumn",
+    "source": "scripts/table/TableColumn.vue",
+    "props": [
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "field",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "width",
+        "type": "string | number",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "sortable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "align",
+        "type": "'left' | 'center' | 'right'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'left'"
+      },
+      {
+        "name": "minWidth",
+        "type": "string | number",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "40"
+      },
+      {
+        "name": "maxWidth",
+        "type": "string | number",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "fixed",
+        "type": "'none' | 'left' | 'right'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'none'"
+      },
+      {
+        "name": "formatter",
+        "type": "(value: any, row: any, index: number) => any",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "showOverflow",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "undefined"
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [],
+    "methods": []
+  },
+  {
+    "name": "TabPane",
+    "source": "scripts/tab/TabPane.vue",
+    "props": [
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "closable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "label",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Tag",
+    "source": "scripts/tag/Tag.vue",
+    "props": [
+      {
+        "name": "color",
+        "type": "'default' | 'primary' | 'success' | 'warning' | 'error' | string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "mode",
+        "type": "TagMode",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'outlined'"
+      },
+      {
+        "name": "closable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'default' | 'small' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "checkable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:checked",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "close",
+        "type": "[]",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "change",
+        "type": "[checked: boolean]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [],
+    "methods": []
+  },
+  {
+    "name": "Textarea",
+    "source": "scripts/textarea/Textarea.vue",
+    "props": [
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "rows",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "3"
+      },
+      {
+        "name": "maxlength",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "showCount",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "clearable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "resize",
+        "type": "'none' | 'both' | 'horizontal' | 'vertical'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'vertical'"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "pressEnter",
+        "type": "[]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "Timeline",
+    "source": "scripts/timeline/Timeline.vue",
+    "props": [
+      {
+        "name": "mode",
+        "type": "'left' | 'right' | 'alternate'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'left'"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "TimelineItem",
+    "source": "scripts/timeline/TimelineItem.vue",
+    "props": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "time",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "type",
+        "type": "'default' | 'primary' | 'success' | 'warning' | 'error'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "color",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "hollow",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "position",
+        "type": "'left' | 'right'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "undefined"
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "title",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "dot",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "TimePicker",
+    "source": "scripts/time-picker/TimePicker.vue",
+    "props": [
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "clearable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "showSeconds",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "format",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'HH:mm:ss'"
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "string | null",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[value: string | null]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "TimeRangePicker",
+    "source": "scripts/time-range-picker/TimeRangePicker.vue",
+    "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "clearable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "forceRange",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'default'"
+      },
+      {
+        "name": "showSeconds",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "format",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'HH:mm:ss'"
+      },
+      {
+        "name": "startPlaceholder",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "endPlaceholder",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "startLabel",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "endLabel",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "separator",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'-'"
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:start",
+        "type": "string | null",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "v-model:end",
+        "type": "string | null",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[start: string | null, end: string | null]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "prefix",
+        "type": "unknown",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "separator",
+        "type": "unknown",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "suffix",
+        "type": "unknown",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "(side: 'start' | 'end' = 'start') => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "Tooltip",
+    "source": "scripts/tooltip/Tooltip.vue",
+    "props": [
+      {
+        "name": "content",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "placement",
+        "type": "'top' | 'bottom' | 'left' | 'right'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'top'"
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "() => any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "content",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Tree",
+    "source": "scripts/tree/Tree.vue",
+    "props": [
+      {
+        "name": "data",
+        "type": "TreeNodeData[]",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "[]"
+      },
+      {
+        "name": "checkable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "selectable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
+      },
+      {
+        "name": "defaultExpandAll",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "expandOnClickNode",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
+      },
+      {
+        "name": "indent",
+        "type": "number",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "24"
+      },
+      {
+        "name": "emptyText",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:selected",
+        "type": "TreeKey | null",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "v-model:checked",
+        "type": "TreeKey[]",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "v-model:expanded",
+        "type": "TreeKey[]",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "select",
+        "type": "[node: TreeNodeData, key: TreeKey]",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "check",
+        "type": "[checkedKeys: TreeKey[], node: TreeNodeData, checked: boolean]",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "expand",
+        "type": "[expandedKeys: TreeKey[], node: TreeNodeData, expanded: boolean]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "before",
+        "type": "(props: TreeSlotProps) => any",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "after",
+        "type": "(props: TreeSlotProps) => any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": []
+  },
+  {
+    "name": "Upload",
+    "source": "scripts/upload/Upload.vue",
+    "props": [
+      {
+        "name": "accept",
+        "type": "string",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "''"
+      },
+      {
+        "name": "multiple",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "allowDrag",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "false"
+      }
+    ],
+    "models": [],
+    "events": [
+      {
+        "name": "upload",
+        "type": "[files: File[], event: Event]",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "Dialog.confirm",
+    "source": "scripts/dialog/confirm.ts",
+    "props": [],
+    "models": [],
+    "events": [],
+    "slots": [],
+    "methods": [
+      {
+        "name": "Dialog.confirm",
+        "type": "(options: DialogConfirmOptions) => DialogConfirmHandle",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "message",
+    "source": "scripts/message/message.ts",
+    "props": [],
+    "models": [],
+    "events": [],
+    "slots": [],
+    "methods": [
+      {
+        "name": "message[type]",
+        "type": "(content: MessageContent, options?: MessageOptions) => MessageHandle",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "notification",
+    "source": "scripts/notification/notification.ts",
+    "props": [],
+    "models": [],
+    "events": [],
+    "slots": [],
+    "methods": [
+      {
+        "name": "notification[type]",
+        "type": "(options: NotificationOptions) => NotificationHandle",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "loadingBar",
+    "source": "scripts/loading-bar/loadingBar.ts",
+    "props": [],
+    "models": [],
+    "events": [],
+    "slots": [],
+    "methods": [
+      {
+        "name": "start",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "done",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "fail",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "set",
+        "type": "(progress: number) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "inc",
+        "type": "(amount?: number) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "pause",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "resume",
+        "type": "() => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "configure",
+        "type": "(options: LoadingBarOptions) => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "showContextMenu",
+    "source": "scripts/context-menu/showContextMenu.ts",
+    "props": [],
+    "models": [],
+    "events": [],
+    "slots": [],
+    "methods": [
+      {
+        "name": "showContextMenu",
+        "type": "(x: number, y: number, items: ContextMenuItem[], onSelect?: Function) => void",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "Emitter",
+    "source": "scripts/emitter/index.ts",
+    "props": [],
+    "models": [],
+    "events": [],
+    "slots": [],
+    "methods": [
+      {
+        "name": "emitter",
+        "type": "Emitter<EmitterEvents>",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "createEmitter",
+        "type": "<Events>(name?: EmitterName) => Emitter<Events>",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "useEmitter",
+        "type": "<Events>(name?: EmitterName) => EmitterApi<Events>",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "LayerManager",
+    "source": "scripts/overlay/modalLayer.ts",
+    "props": [],
+    "models": [],
+    "events": [],
+    "slots": [],
+    "methods": [
+      {
+        "name": "useModalLayer",
+        "type": "() => ModalLayerContext",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "useModalLayerManager",
+        "type": "() => ModalLayerManager",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "useDialog",
+        "type": "() => DialogApi",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  }
+]
