@@ -3,7 +3,7 @@
     <h2 class="demo-section-title">{{ $t('demo.sortableBox.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.sortableBox.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')" style="margin-top: 8px">
       <y-sortable-box
         v-model:list="basicItems"
         class="demo-sortable-list"
@@ -19,9 +19,9 @@
         </template>
       </y-sortable-box>
       <div class="demo-sortable-log">{{ basicLog }}</div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.sortableBox.dragClassTitle')" style="margin-top: 16px">
+    <demo-card :source-index="1" :title="$t('demo.sortableBox.dragClassTitle')" style="margin-top: 16px">
       <y-sortable-box
         v-model:list="dragClassItems"
         class="demo-sortable-list"
@@ -34,9 +34,9 @@
           </div>
         </template>
       </y-sortable-box>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.sortableBox.animationThresholdTitle')" style="margin-top: 16px">
+    <demo-card :source-index="2" :title="$t('demo.sortableBox.animationThresholdTitle')" style="margin-top: 16px">
       <div class="demo-sortable-board">
         <y-sortable-box
           v-model:list="thresholdLeftItems"
@@ -70,9 +70,9 @@
           </template>
         </y-sortable-box>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.sortableBox.horizontalTitle')" style="margin-top: 16px">
+    <demo-card :source-index="3" :title="$t('demo.sortableBox.horizontalTitle')" style="margin-top: 16px">
       <y-sortable-box
         v-model:list="horizontalItems"
         class="demo-sortable-horizontal-list"
@@ -83,9 +83,9 @@
           <div class="demo-sortable-horizontal-item">{{ getItemTitle(element) }}</div>
         </template>
       </y-sortable-box>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.sortableBox.syncedPanelsTitle')" style="margin-top: 16px">
+    <demo-card :source-index="4" :title="$t('demo.sortableBox.syncedPanelsTitle')" style="margin-top: 16px">
       <div class="demo-sortable-sync-board">
         <div>
           <div class="demo-sortable-subtitle">{{ $t('demo.sortableBox.canvasView') }}</div>
@@ -134,9 +134,9 @@
           </y-sortable-box>
         </div>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.sortableBox.nestedTitle')" style="margin-top: 16px">
+    <demo-card :source-index="5" :title="$t('demo.sortableBox.nestedTitle')" style="margin-top: 16px">
       <y-sortable-box
         v-model:list="nestedColumns"
         class="demo-sortable-nested-columns"
@@ -164,9 +164,9 @@
           </section>
         </template>
       </y-sortable-box>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.sortableBox.sourceTitle')" style="margin-top: 16px">
+    <demo-card :source-index="6" :title="$t('demo.sortableBox.sourceTitle')" style="margin-top: 16px">
       <div class="demo-sortable-board">
         <div>
           <div class="demo-sortable-subtitle">{{ $t('demo.sortableBox.library') }}</div>
@@ -209,9 +209,9 @@
         </div>
       </div>
       <div class="demo-sortable-preview">{{ previewText || $t('demo.sortableBox.noPreview') }}</div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.sortableBox.guardTitle')" style="margin-top: 16px">
+    <demo-card :source-index="7" :title="$t('demo.sortableBox.guardTitle')" style="margin-top: 16px">
       <div class="demo-sortable-board">
         <y-sortable-box v-model:list="leftItems" class="demo-sortable-list" item-key="id" group="guard" :min-items="1">
           <template #header>
@@ -230,9 +230,9 @@
           </template>
         </y-sortable-box>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.sortableBox.autoScrollTitle')" style="margin-top: 16px">
+    <demo-card :source-index="8" :title="$t('demo.sortableBox.autoScrollTitle')" style="margin-top: 16px">
       <div style="height: 500px">
         <scroll-box>
           <y-sortable-box v-model:list="scrollItems" class="demo-sortable-list demo-sortable-scroll-list" item-key="id">
@@ -242,7 +242,7 @@
           </y-sortable-box>
         </scroll-box>
       </div>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

@@ -3,66 +3,66 @@
     <h2 class="demo-section-title">{{ $t('demo.nav.drawer') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.drawer.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')" style="margin-top: 8px">
       <y-button type="primary" @click="visible1 = true">{{ $t('demo.drawer.openDrawer') }}</y-button>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.placement')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.common.placement')" style="margin-top: 8px">
       <y-button-group>
         <y-button @click="openDrawer('left')">Left</y-button>
         <y-button @click="openDrawer('right')">Right</y-button>
         <y-button @click="openDrawer('top')">{{ $t('demo.drawer.top') }}</y-button>
         <y-button @click="openDrawer('bottom')">{{ $t('demo.drawer.bottom') }}</y-button>
       </y-button-group>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.noMask')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.common.noMask')" style="margin-top: 8px">
       <y-button @click="visible3 = true">{{ $t('demo.common.noMask') }}</y-button>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.maskClosable')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.common.maskClosable')" style="margin-top: 8px">
       <y-button @click="visible4 = true">{{ $t('demo.common.maskClosable') }}</y-button>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.hideCloseButton')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.common.hideCloseButton')" style="margin-top: 8px">
       <y-button @click="visible5 = true">{{ $t('demo.common.hideCloseButton') }}</y-button>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.customWidthHeight')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.common.customWidthHeight')" style="margin-top: 8px">
       <y-button-group>
         <y-button @click="visible6 = true">width="500px"</y-button>
         <y-button @click="visible7 = true">height="300px"</y-button>
       </y-button-group>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.resize')" style="margin-top: 8px">
+    <demo-card :source-index="6" :title="$t('demo.common.resize')" style="margin-top: 8px">
       <y-button-group>
         <y-button @click="visible11 = true">{{ $t('demo.drawer.horizontalResize') }}</y-button>
         <y-button @click="visible12 = true">{{ $t('demo.drawer.verticalResize') }}</y-button>
       </y-button-group>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.footer')" style="margin-top: 8px">
+    <demo-card :source-index="7" :title="$t('demo.common.footer')" style="margin-top: 8px">
       <y-button-group>
         <y-button type="primary" @click="visible8 = true">{{ $t('demo.drawer.customFooter') }}</y-button>
         <y-button @click="visible15 = true">{{ $t('demo.drawer.disabledFooter') }}</y-button>
       </y-button-group>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.customTitle')" style="margin-top: 8px">
+    <demo-card :source-index="8" :title="$t('demo.common.customTitle')" style="margin-top: 8px">
       <y-button @click="visible9 = true">{{ $t('demo.common.customTitle') }}</y-button>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.drawer.secondLevel')" style="margin-top: 8px">
+    <demo-card :source-index="9" :title="$t('demo.drawer.secondLevel')" style="margin-top: 8px">
       <y-button @click="visible13 = true">{{ $t('demo.drawer.secondLevel') }}</y-button>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.dialog.closeEvent')" style="margin-top: 8px">
+    <demo-card :source-index="10" :title="$t('demo.dialog.closeEvent')" style="margin-top: 8px">
       <y-button @click="visible10 = true">{{ $t('demo.common.open') }}</y-button>
       <span v-if="closeCount > 0 || okCount > 0" class="demo-hint">
         {{ $t('demo.drawer.footerEventCount', { close: closeCount, ok: okCount }) }}
       </span>
-    </y-card>
+    </demo-card>
 
     <!-- Drawers -->
     <y-drawer v-model:show="visible1" :title="$t('demo.drawer.basicDrawer')">

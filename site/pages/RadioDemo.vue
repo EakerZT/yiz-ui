@@ -3,38 +3,38 @@
     <h2 class="demo-section-title">{{ $t('demo.radio.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.radio.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <y-radio v-model:checked="radio1A" value="a" :label="$t('demo.checkbox.optionA')" />
       <y-radio v-model:checked="radio1B" value="b" :label="$t('demo.checkbox.optionB')" />
       <span class="demo-hint">{{ radio1A }} / {{ radio1B }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-radio v-model:checked="radio2A" value="a" disabled :label="$t('demo.common.unselectedDisabled')" />
       <y-radio v-model:checked="radio2B" value="b" disabled :label="$t('demo.common.selectedDisabled')" />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.slot')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.common.slot')" style="margin-top: 8px">
       <y-radio v-model:checked="radio3" value="x">
         <span style="color: var(--yiz-color-primary)">{{ $t('demo.common.customSlot') }}</span>
       </y-radio>
-    </y-card>
+    </demo-card>
   </section>
 
   <section class="demo-section">
     <h2 class="demo-section-title">{{ $t('demo.radio.groupTitle') }}</h2>
 
-    <y-card :title="$t('demo.common.horizontal')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.common.horizontal')" style="margin-top: 8px">
       <y-radio-group v-model:value="group1" :options="groupOptions" direction="horizontal" />
       <span class="demo-hint">{{ group1 }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.vertical')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.common.vertical')" style="margin-top: 8px">
       <y-radio-group v-model:value="group2" :options="groupOptions" direction="vertical" />
       <span class="demo-hint">{{ group2 }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.radio.slotGroup')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.radio.slotGroup')" style="margin-top: 8px">
       <y-radio-group v-model:value="group4">
         <y-radio value="apple">{{ $t('demo.radio.apple') }}</y-radio>
         <y-radio value="banana">
@@ -43,43 +43,43 @@
         <y-radio value="orange" disabled>{{ $t('demo.radio.orange') }}</y-radio>
       </y-radio-group>
       <span class="demo-hint">{{ group4 }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+    <demo-card :source-index="6" :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-radio-group v-model:value="group3" :options="groupOptions" disabled />
-    </y-card>
+    </demo-card>
   </section>
   <section class="demo-section">
     <h2 class="demo-section-title">{{ $t('demo.radio.radioButton') }}</h2>
 
-    <y-card :title="$t('demo.radio.standalone')" style="margin-top: 8px">
+    <demo-card :source-index="7" :title="$t('demo.radio.standalone')" style="margin-top: 8px">
       <y-radio-button v-model:checked="buttonRadioLeft" value="left">{{ $t('demo.radio.left') }}</y-radio-button>
       <y-radio-button v-model:checked="buttonRadioRight" value="right">{{ $t('demo.radio.right') }}</y-radio-button>
       <span class="demo-hint">{{ buttonRadioLeft }} / {{ buttonRadioRight }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.radio.groupOptions')" style="margin-top: 8px">
+    <demo-card :source-index="8" :title="$t('demo.radio.groupOptions')" style="margin-top: 8px">
       <y-radio-button-group v-model:value="buttonGroup1" :options="buttonOptions" />
       <span class="demo-hint">{{ buttonGroup1 }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.radio.slotGroup')" style="margin-top: 8px">
+    <demo-card :source-index="9" :title="$t('demo.radio.slotGroup')" style="margin-top: 8px">
       <y-radio-button-group v-model:value="buttonGroup2">
         <y-radio-button value="day">{{ $t('demo.radio.day') }}</y-radio-button>
         <y-radio-button value="week">{{ $t('demo.radio.week') }}</y-radio-button>
         <y-radio-button value="month">{{ $t('demo.radio.month') }}</y-radio-button>
       </y-radio-button-group>
       <span class="demo-hint">{{ buttonGroup2 }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+    <demo-card :source-index="10" :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-radio-button-stack">
         <y-radio-button-group v-model:value="radioButtonSize" :options="sizeOptions" />
         <y-radio-button-group v-model:value="buttonSizeValue" :options="buttonOptions" :size="radioButtonSize" />
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.customColor')" style="margin-top: 8px">
+    <demo-card :source-index="11" :title="$t('demo.common.customColor')" style="margin-top: 8px">
       <div class="demo-radio-button-stack">
         <y-radio-button-group
           v-model:value="buttonColor1"
@@ -99,9 +99,9 @@
           </y-radio-button>
         </y-radio-button-group>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.customRender')" style="margin-top: 8px">
+    <demo-card :source-index="12" :title="$t('demo.common.customRender')" style="margin-top: 8px">
       <y-radio-button-group v-model:value="buttonRender" :options="buttonOptions">
         <template #render="{ label, selected }">
           <span class="demo-radio-button-render" :class="{ 'demo-radio-button-render-selected': selected }">
@@ -110,12 +110,12 @@
           </span>
         </template>
       </y-radio-button-group>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+    <demo-card :source-index="13" :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-radio-button-group v-model:value="buttonGroup3" :options="buttonOptionsWithDisabled" />
       <y-radio-button-group v-model:value="buttonGroup4" :options="buttonOptions" disabled style="margin-left: 12px" />
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

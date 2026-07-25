@@ -3,13 +3,13 @@
     <h2 class="demo-section-title">{{ $t('demo.nav.card') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.card.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')" style="margin-top: 8px">
       <Card :title="$t('demo.card.cardTitle')" style="width: 360px">
         <p>{{ $t('demo.card.content') }}</p>
       </Card>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.card.border')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.card.border')" style="margin-top: 8px">
       <y-button-group>
         <Card :title="$t('demo.card.bordered')" style="width: 300px">
           <p>{{ $t('demo.card.borderedDefault') }}</p>
@@ -18,9 +18,9 @@
           <p>{{ $t('demo.card.borderlessHint') }}</p>
         </Card>
       </y-button-group>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.card.shadow')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.card.shadow')" style="margin-top: 8px">
       <y-button-group>
         <Card :title="$t('demo.card.shadowHover')" shadow="hover" style="width: 280px">
           <p>{{ $t('demo.card.shadowHoverHint') }}</p>
@@ -29,45 +29,45 @@
           <p>{{ $t('demo.card.shadowAlwaysHint') }}</p>
         </Card>
       </y-button-group>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-card-size-panel">
         <y-radio-button-group v-model:value="cardSize" :options="sizeOptions" />
         <Card :title="$t('demo.card.defaultSize')" :size="cardSize" style="width: 280px">
           <p>{{ $t('demo.card.defaultSizeHint') }}</p>
         </Card>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.card.extraHeader')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.card.extraHeader')" style="margin-top: 8px">
       <Card :title="$t('demo.card.userList')" style="width: 400px">
         <template #extra>
           <span class="demo-link">{{ $t('demo.common.more') }}</span>
         </template>
         <p>{{ $t('demo.card.extraHint') }}</p>
       </Card>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.card.cover')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.card.cover')" style="margin-top: 8px">
       <Card :title="$t('demo.card.landscape')" style="width: 320px">
         <template #cover>
           <div class="demo-cover">{{ $t('demo.card.coverArea') }}</div>
         </template>
         <p>{{ $t('demo.card.coverHint') }}</p>
       </Card>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.customTitle')" style="margin-top: 8px">
+    <demo-card :source-index="6" :title="$t('demo.common.customTitle')" style="margin-top: 8px">
       <Card style="width: 360px">
         <template #title>
           <span style="color: var(--yiz-color-primary); font-weight: 600">{{ $t('demo.card.customTitleStyle') }}</span>
         </template>
         <p>{{ $t('demo.card.customTitleHint') }}</p>
       </Card>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.card.footerActions')" style="margin-top: 8px">
+    <demo-card :source-index="7" :title="$t('demo.card.footerActions')" style="margin-top: 8px">
       <Card :title="$t('demo.card.confirmAction')" style="width: 360px">
         <p>{{ $t('demo.card.confirmMsg') }}</p>
         <template #footer>
@@ -77,7 +77,7 @@
           </div>
         </template>
       </Card>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

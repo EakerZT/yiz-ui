@@ -122,14 +122,50 @@ const SelectContentRenderer = defineComponent({
 
 const props = withDefaults(
   defineProps<{
+    /**
+     * 选项数据。
+     * @en Options displayed in the dropdown.
+     */
     options?: SelectOption[]
+    /**
+     * 未选择时的占位文本。
+     * @en Placeholder shown when no option is selected.
+     */
     placeholder?: string
+    /**
+     * 是否禁用选择器。
+     * @en Whether the select is disabled.
+     */
     disabled?: boolean
+    /**
+     * 是否为只读状态。
+     * @en Whether the select is read-only.
+     */
     readonly?: boolean
+    /**
+     * 是否允许清空当前值。
+     * @en Whether the current value can be cleared.
+     */
     clearable?: boolean
+    /**
+     * 选择器尺寸。
+     * @en Size of the select.
+     */
     size?: 'small' | 'default' | 'large'
+    /**
+     * 前缀文本。
+     * @en Prefix text.
+     */
     prefix?: string
+    /**
+     * 后缀文本。
+     * @en Suffix text.
+     */
     suffix?: string
+    /**
+     * 搜索处理函数，可同步或异步返回匹配选项。
+     * @en Search handler that synchronously or asynchronously returns matching options.
+     */
     search?: (query: string) => SelectOption[] | Promise<SelectOption[]>
   }>(),
   {
@@ -142,16 +178,40 @@ const props = withDefaults(
 )
 
 defineSlots<{
+  /**
+   * 通过 SelectOption 声明选项。
+   * @en Declares options with SelectOption components.
+   */
   default?: () => any
+  /**
+   * 自定义前缀内容。
+   * @en Custom prefix content.
+   */
   prefix?: any
+  /**
+   * 自定义后缀内容。
+   * @en Custom suffix content.
+   */
   suffix?: any
+  /**
+   * 自定义选项渲染内容。
+   * @en Custom option rendering content.
+   */
   option?: (props: { option: SelectOption; index: number; selected: boolean }) => any
 }>()
 
 const emit = defineEmits<{
+  /**
+   * 选择项变化时触发。
+   * @en Emitted when the selected option changes.
+   */
   change: [option: SelectOption | null]
 }>()
 
+/**
+ * 当前选中值。
+ * @en Currently selected value.
+ */
 const modelValue = defineModel<any>('value')
 
 const slots = useSlots()
@@ -415,9 +475,17 @@ onBeforeUnmount(() => {
 })
 
 defineExpose({
+  /**
+   * 聚焦选择器。
+   * @en Focuses the select.
+   */
   focus: () => {
     if (!props.disabled) triggerRef.value?.focus()
   },
+  /**
+   * 移除选择器焦点。
+   * @en Removes focus from the select.
+   */
   blur: () => triggerRef.value?.blur(),
 })
 </script>

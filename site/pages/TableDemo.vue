@@ -3,7 +3,7 @@
     <h2 class="demo-section-title">{{ $t('demo.nav.table') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.table.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <div style="height: 250px">
         <y-table :data="data" @row-dblclick="onRowDblclick">
           <y-table-column :label="$t('demo.common.name')" field="name" width="120px" sortable />
@@ -16,9 +16,9 @@
       <p v-if="doubleClickedRow && doubleClickedRowIndex !== null" class="demo-table-info">
         {{ $t('demo.table.rowDblclickValue', { index: doubleClickedRowIndex + 1, name: doubleClickedRow.name }) }}
       </p>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.table.remoteSort')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.table.remoteSort')" style="margin-top: 8px">
       <p class="demo-section-desc" style="margin-bottom: 12px">{{ $t('demo.table.remoteSortDesc') }}</p>
       <div style="height: 250px">
         <y-table
@@ -35,9 +35,9 @@
         </y-table>
       </div>
       <p class="demo-table-info">{{ remoteSortSignalText }}</p>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.table.borderedStripe')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.table.borderedStripe')" style="margin-top: 8px">
       <div style="height: 250px">
         <y-table :data="data" bordered stripe>
           <y-table-column :label="$t('demo.common.name')" field="name" sortable />
@@ -46,9 +46,9 @@
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.table.multiRowFooter')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.table.multiRowFooter')" style="margin-top: 8px">
       <p class="demo-section-desc" style="margin-bottom: 12px">{{ $t('demo.table.multiRowFooterDesc') }}</p>
       <div style="height: 300px">
         <y-table :data="footerData" bordered stripe no show-footer :footer-method="getFooter">
@@ -77,9 +77,9 @@
           </template>
         </y-table>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-table-size-panel">
         <y-radio-button-group v-model:value="tableSize" :options="sizeOptions" />
         <div class="demo-table-size-table">
@@ -91,9 +91,9 @@
           </y-table>
         </div>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.table.customColumn')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.table.customColumn')" style="margin-top: 8px">
       <div style="height: 250px">
         <y-table :data="data" bordered>
           <y-table-column :label="$t('demo.common.name')" field="name" />
@@ -109,9 +109,9 @@
           </y-table-column>
         </y-table>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.table.formatter')" style="margin-top: 8px">
+    <demo-card :source-index="6" :title="$t('demo.table.formatter')" style="margin-top: 8px">
       <div style="height: 250px">
         <y-table :data="data" bordered>
           <y-table-column :label="$t('demo.common.name')" field="name" />
@@ -120,9 +120,9 @@
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" :formatter="formatStatus" />
         </y-table>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.loading')" style="margin-top: 8px">
+    <demo-card :source-index="7" :title="$t('demo.common.loading')" style="margin-top: 8px">
       <y-button style="margin-bottom: 8px" @click="tableLoading = !tableLoading">
         {{ $t('demo.table.toggleLoading') }}
       </y-button>
@@ -134,9 +134,9 @@
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.table.customLoading')" style="margin-top: 8px">
+    <demo-card :source-index="8" :title="$t('demo.table.customLoading')" style="margin-top: 8px">
       <div style="height: 250px">
         <y-table :data="data" bordered loading>
           <template #loading>
@@ -151,9 +151,9 @@
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.table.columnResize')" style="margin-top: 8px">
+    <demo-card :source-index="9" :title="$t('demo.table.columnResize')" style="margin-top: 8px">
       <div style="height: 250px">
         <y-table :data="data" bordered resize>
           <y-table-column :label="$t('demo.common.name')" field="name" :width="120" />
@@ -162,9 +162,9 @@
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.table.emptyData')" style="margin-top: 8px">
+    <demo-card :source-index="10" :title="$t('demo.table.emptyData')" style="margin-top: 8px">
       <div style="height: 300px">
         <y-table :data="[]" bordered>
           <y-table-column :label="$t('demo.common.name')" field="name" />
@@ -173,9 +173,9 @@
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.table.showRowNumber')" style="margin-top: 8px">
+    <demo-card :source-index="11" :title="$t('demo.table.showRowNumber')" style="margin-top: 8px">
       <div style="height: 250px">
         <table-box :value="data">
           <y-table-column :label="$t('demo.common.name')" field="name" />
@@ -184,9 +184,9 @@
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </table-box>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.table.resizeConstraint')" style="margin-top: 8px">
+    <demo-card :source-index="12" :title="$t('demo.table.resizeConstraint')" style="margin-top: 8px">
       <div style="height: 250px">
         <y-table :data="data" bordered resize>
           <y-table-column :label="$t('demo.common.name')" field="name" width="150px" min-width="100" max-width="300" />
@@ -202,9 +202,9 @@
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.table.singleSelect')" style="margin-top: 8px">
+    <demo-card :source-index="13" :title="$t('demo.table.singleSelect')" style="margin-top: 8px">
       <div class="demo-table-fixed-height">
         <y-table :data="data" bordered select-mode="single" v-model:selected="singleSelected" @select="onSingleSelect">
           <y-table-column :label="$t('demo.common.name')" field="name" />
@@ -221,9 +221,9 @@
           })
         }}
       </p>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.table.multiSelect')" style="margin-top: 8px">
+    <demo-card :source-index="14" :title="$t('demo.table.multiSelect')" style="margin-top: 8px">
       <div class="demo-table-fixed-height">
         <y-table :data="data" bordered select-mode="multi" v-model:selected="multiSelected" @select="onMultiSelect">
           <y-table-column :label="$t('demo.common.name')" field="name" />
@@ -234,9 +234,9 @@
       </div>
       <p class="demo-table-info">{{ $t('demo.table.selectedValue', { value: multiSelected.join(', ') }) }}</p>
       <p class="demo-table-info">{{ $t('demo.table.selectedCount', { count: multiSelectRows.length }) }}</p>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.table.fixedColumns')" style="margin-top: 8px">
+    <demo-card :source-index="15" :title="$t('demo.table.fixedColumns')" style="margin-top: 8px">
       <div style="height: 200px">
         <y-table :data="fixedData" bordered resize no select-mode="single">
           <y-table-column :label="$t('demo.common.name')" field="name" width="120px" fixed="left" />
@@ -250,9 +250,9 @@
           <y-table-column :label="$t('demo.common.action')" field="action" width="100px" align="center" fixed="right" />
         </y-table>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.table.fixedHeader')" style="margin-top: 8px">
+    <demo-card :source-index="16" :title="$t('demo.table.fixedHeader')" style="margin-top: 8px">
       <div style="height: 300px">
         <y-table :data="tallData" bordered>
           <y-table-column :label="$t('demo.common.name')" field="name" width="120px" sortable />
@@ -261,9 +261,9 @@
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
         </y-table>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.table.disableRows')" style="margin-top: 8px">
+    <demo-card :source-index="17" :title="$t('demo.table.disableRows')" style="margin-top: 8px">
       <div class="demo-table-fixed-height">
         <y-table
           :data="data"
@@ -279,9 +279,9 @@
         </y-table>
       </div>
       <p class="demo-table-info">{{ $t('demo.table.selectedValue', { value: disabledSelected.join(', ') }) }}</p>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.table.overflowTooltip')" style="margin-top: 8px">
+    <demo-card :source-index="18" :title="$t('demo.table.overflowTooltip')" style="margin-top: 8px">
       <p class="demo-section-desc" style="margin-bottom: 12px">{{ $t('demo.table.overflowTooltipDesc') }}</p>
       <y-table resize :data="overflowData" bordered show-overflow>
         <y-table-column :label="$t('demo.common.name')" field="name" width="100px" />
@@ -297,7 +297,7 @@
         <y-table-column :label="$t('demo.common.role')" field="role" width="220px" />
         <y-table-column :label="$t('demo.common.city')" field="city" width="160px" show-overflow />
       </y-table>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

@@ -3,43 +3,43 @@
     <h2 class="demo-section-title">{{ $t('demo.nav.dateRangePicker') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.dateRangePicker.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basic')">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')">
       <div class="demo-picker-field">
         <y-date-range-picker v-model:start="start" v-model:end="end" clearable @change="onChange" />
         <span class="demo-item-hint">{{ format(start) }} - {{ format(end) }}</span>
       </div>
       <p class="demo-date-range-info">{{ $t('demo.dateRangePicker.lastChange', { value: lastChange }) }}</p>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.dateRangePicker.allowSingle')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.dateRangePicker.allowSingle')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-date-range-picker v-model:start="optionalStart" v-model:end="optionalEnd" clearable />
         <span class="demo-item-hint">{{ format(optionalStart) }} - {{ format(optionalEnd) }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.dateRangePicker.requiredRange')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.dateRangePicker.requiredRange')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-date-range-picker v-model:start="requiredStart" v-model:end="requiredEnd" force-range clearable />
         <span class="demo-item-hint">{{ format(requiredStart) }} - {{ format(requiredEnd) }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-date-range-picker v-model:start="disabledStart" v-model:end="disabledEnd" disabled />
         <span class="demo-item-hint">{{ format(disabledStart) }} - {{ format(disabledEnd) }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.dateRangePicker.disableAutoSort')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.dateRangePicker.disableAutoSort')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-date-range-picker v-model:start="manualStart" v-model:end="manualEnd" :auto-sort="false" clearable />
         <span class="demo-item-hint">{{ format(manualStart) }} - {{ format(manualEnd) }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.dateRangePicker.disableDates')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.dateRangePicker.disableDates')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-date-range-picker
           v-model:start="workStart"
@@ -49,9 +49,9 @@
         />
         <span class="demo-item-hint">{{ format(workStart) }} - {{ format(workEnd) }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.dateRangePicker.valueFormat')" style="margin-top: 8px">
+    <demo-card :source-index="6" :title="$t('demo.dateRangePicker.valueFormat')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-date-range-picker
           v-model:start="stringStart"
@@ -62,9 +62,9 @@
         />
         <span class="demo-item-hint">{{ formatValue(stringStart) }} - {{ formatValue(stringEnd) }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
+    <demo-card :source-index="7" :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-date-range-picker
           v-model:start="affixStart"
@@ -75,7 +75,7 @@
         />
         <span class="demo-item-hint">{{ format(affixStart) }} - {{ format(affixEnd) }}</span>
       </div>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

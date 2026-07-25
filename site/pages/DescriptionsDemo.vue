@@ -3,7 +3,7 @@
     <h2 class="demo-section-title">{{ $t('demo.descriptions.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.descriptions.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <y-descriptions :title="$t('demo.descriptions.userInfo')">
         <y-description-item :label="$t('demo.descriptions.username')">{{
           $t('demo.common.personZhangsan')
@@ -20,9 +20,9 @@
           <y-tag>{{ $t('demo.common.enabled') }}</y-tag>
         </y-description-item>
       </y-descriptions>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.withBorder')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.common.withBorder')" style="margin-top: 8px">
       <y-descriptions bordered :title="$t('demo.descriptions.orderInfo')">
         <y-description-item :label="$t('demo.descriptions.orderNo')">YIZ-20260707-001</y-description-item>
         <y-description-item :label="$t('demo.descriptions.amount')">1280.00</y-description-item>
@@ -39,9 +39,9 @@
           {{ $t('demo.descriptions.addressValue') }}
         </y-description-item>
       </y-descriptions>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-descriptions-panel">
         <y-radio-button-group v-model:value="size" :options="sizeOptions" />
         <y-descriptions bordered :size="size" :title="$t('demo.descriptions.sizeTitle')">
@@ -54,9 +54,9 @@
           </y-description-item>
         </y-descriptions>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.descriptions.vertical')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.descriptions.vertical')" style="margin-top: 8px">
       <y-descriptions bordered layout="vertical" :title="$t('demo.descriptions.projectInfo')">
         <y-description-item :label="$t('demo.descriptions.projectName')">Yiz UI</y-description-item>
         <y-description-item>
@@ -67,7 +67,7 @@
         </y-description-item>
         <y-description-item :label="$t('demo.descriptions.license')">MIT</y-description-item>
       </y-descriptions>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

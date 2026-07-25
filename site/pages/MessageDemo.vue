@@ -3,35 +3,35 @@
     <h2 class="demo-section-title">{{ $t('demo.nav.message') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.message.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')" style="margin-top: 8px">
       <y-button type="primary" @click="openBasic">{{ $t('demo.message.open') }}</y-button>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.message.types')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.message.types')" style="margin-top: 8px">
       <y-button-group>
         <y-button @click="openInfo">info</y-button>
         <y-button color="success" @click="openSuccess">success</y-button>
         <y-button color="warning" @click="openWarning">warning</y-button>
         <y-button color="error" @click="openError">error</y-button>
       </y-button-group>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.message.loading')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.message.loading')" style="margin-top: 8px">
       <y-button @click="openLoading">{{ $t('demo.message.loadingButton') }}</y-button>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.customContent')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.common.customContent')" style="margin-top: 8px">
       <y-button @click="openCustom">{{ $t('demo.message.openCustom') }}</y-button>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.dialog.closeEvent')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.dialog.closeEvent')" style="margin-top: 8px">
       <y-button @click="openCloseEvent">{{ $t('demo.common.open') }}</y-button>
       <span class="demo-hint">{{ $t('demo.message.closeCount', { count: closeCount }) }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.close')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.common.close')" style="margin-top: 8px">
       <y-button @click="destroyAll">{{ $t('demo.message.destroyAll') }}</y-button>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

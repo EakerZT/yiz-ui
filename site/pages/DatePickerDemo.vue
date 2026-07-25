@@ -3,53 +3,53 @@
     <h2 class="demo-section-title">{{ $t('demo.datePicker.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.datePicker.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <DatePicker v-model:value="value1" />
         <span class="demo-item-hint">{{ value1 ? fmt(value1) : $t('demo.common.notSelected') }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.clearable')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.common.clearable')" style="margin-top: 8px">
       <DatePicker v-model:value="value2" clearable />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <DatePicker v-model:value="value3" disabled />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-radio-button-group v-model:value="datePickerSize" :options="sizeOptions" />
         <DatePicker v-model:value="value4" :size="datePickerSize" />
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.datePicker.disableDates')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.datePicker.disableDates')" style="margin-top: 8px">
       <DatePicker v-model:value="value5" :disabled-date="disabledDate" />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.customFormat')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.common.customFormat')" style="margin-top: 8px">
       <DatePicker
         v-model:value="value6"
         :format="$t('demo.datePicker.yearMonthDay')"
         :placeholder="$t('demo.common.placeholder')"
       />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.datePicker.valueFormat')" style="margin-top: 8px">
+    <demo-card :source-index="6" :title="$t('demo.datePicker.valueFormat')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <DatePicker v-model:value="value8" value-format="YYYY-MM-DD 00:00:00" clearable />
         <span class="demo-item-hint">{{ value8 ?? $t('demo.common.notSelected') }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
+    <demo-card :source-index="7" :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <DatePicker v-model:value="value7" prefix="Due" suffix="CST" clearable />
         <span class="demo-item-hint">{{ value7 ? fmt(value7) : $t('demo.common.notSelected') }}</span>
       </div>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

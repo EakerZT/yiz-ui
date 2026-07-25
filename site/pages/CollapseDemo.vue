@@ -3,7 +3,7 @@
     <h2 class="demo-section-title">{{ $t('demo.collapse.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.collapse.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <y-collapse v-model:value="basicValue">
         <y-collapse-item name="profile" :title="$t('demo.collapse.profileTitle')">
           {{ $t('demo.collapse.profileContent') }}
@@ -13,9 +13,9 @@
         </y-collapse-item>
       </y-collapse>
       <p class="demo-collapse-info">{{ $t('demo.collapse.activeValue', { value: basicValue.join(', ') }) }}</p>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.collapse.accordion')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.collapse.accordion')" style="margin-top: 8px">
       <y-collapse v-model:value="accordionValue" accordion>
         <y-collapse-item name="account" :title="$t('demo.collapse.accountTitle')">
           {{ $t('demo.collapse.accountContent') }}
@@ -30,9 +30,9 @@
       <p class="demo-collapse-info">
         {{ $t('demo.collapse.activeValue', { value: accordionValue ?? $t('demo.common.none') }) }}
       </p>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-collapse v-model:value="disabledValue">
         <y-collapse-item name="enabled" :title="$t('demo.collapse.enabledPanel')">
           {{ $t('demo.collapse.enabledContent') }}
@@ -41,9 +41,9 @@
           {{ $t('demo.collapse.disabledContent') }}
         </y-collapse-item>
       </y-collapse>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.customTitle')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.common.customTitle')" style="margin-top: 8px">
       <y-collapse v-model:value="slotValue" :bordered="false">
         <y-collapse-item name="slot">
           <template #title>
@@ -56,7 +56,7 @@
         </y-collapse-item>
       </y-collapse>
       <p class="demo-collapse-info">{{ $t('demo.collapse.extraCount', { count: extraClickCount }) }}</p>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

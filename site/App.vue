@@ -36,7 +36,9 @@
       </aside>
       <main class="demo-main">
         <scroll-box height="100%" width="100%">
-          <component :is="currentDemo" />
+          <DocsPageProvider :key="currentPage" :page-name="currentDemoName">
+            <component :is="currentDemo" />
+          </DocsPageProvider>
         </scroll-box>
       </main>
     </div>
@@ -99,6 +101,7 @@ import TreeDemo from './pages/TreeDemo.vue'
 import UploadDemo from './pages/UploadDemo.vue'
 import { ScrollBox } from 'yiz-ui'
 import { demoLang, demoLangOptions, setDemoLang, $t } from './i18n'
+import DocsPageProvider from './components/docs/DocsPageProvider.vue'
 
 const pages: Record<string, any> = {
   breadcrumb: BreadcrumbDemo,
@@ -218,6 +221,7 @@ function getPageFromHash(): string {
 const currentPage = ref(getPageFromHash())
 
 const currentDemo = computed(() => pages[currentPage.value] || ButtonDemo)
+const currentDemoName = computed(() => currentDemo.value.__name ?? '')
 
 function onHashChange() {
   currentPage.value = getPageFromHash()

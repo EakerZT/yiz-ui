@@ -3,45 +3,45 @@
     <h2 class="demo-section-title">{{ $t('demo.timePicker.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.timePicker.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <TimePicker v-model:value="value1" />
         <span class="demo-item-hint">{{ value1 || $t('demo.common.notSelected') }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.clearable')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.common.clearable')" style="margin-top: 8px">
       <TimePicker v-model:value="value2" clearable />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.timePicker.showSeconds')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.timePicker.showSeconds')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <TimePicker v-model:value="value3" :show-seconds="true" />
         <span class="demo-item-hint">{{ value3 || $t('demo.common.notSelected') }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <TimePicker v-model:value="value4" disabled />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-radio-button-group v-model:value="timePickerSize" :options="sizeOptions" />
         <TimePicker v-model:value="value5" :size="timePickerSize" clearable />
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.timePicker.defaultValue')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.timePicker.defaultValue')" style="margin-top: 8px">
       <TimePicker v-model:value="value6" :format="'HH:mm'" />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
+    <demo-card :source-index="6" :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <TimePicker v-model:value="value7" prefix="Start" suffix="UTC+8" clearable />
         <span class="demo-item-hint">{{ value7 || $t('demo.common.notSelected') }}</span>
       </div>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

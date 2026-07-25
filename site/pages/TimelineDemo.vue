@@ -3,7 +3,7 @@
     <h2 class="demo-section-title">{{ $t('demo.timeline.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.timeline.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')" style="margin-top: 8px">
       <y-timeline>
         <y-timeline-item :title="$t('demo.timeline.create')" :time="$t('demo.timeline.time1')">
           {{ $t('demo.timeline.createDesc') }}
@@ -15,9 +15,9 @@
           {{ $t('demo.timeline.releaseDesc') }}
         </y-timeline-item>
       </y-timeline>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.status')" style="margin-top: 16px">
+    <demo-card :source-index="1" :title="$t('demo.common.status')" style="margin-top: 16px">
       <y-timeline>
         <y-timeline-item :title="$t('demo.timeline.processing')" type="primary" />
         <y-timeline-item :title="$t('demo.timeline.waiting')" type="warning" hollow />
@@ -26,9 +26,9 @@
         </y-timeline-item>
         <y-timeline-item :title="$t('demo.timeline.customColor')" color="#722ed1" />
       </y-timeline>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.timeline.alternate')" style="margin-top: 16px">
+    <demo-card :source-index="2" :title="$t('demo.timeline.alternate')" style="margin-top: 16px">
       <y-timeline mode="alternate">
         <y-timeline-item :title="$t('demo.timeline.plan')" :time="$t('demo.timeline.time1')" type="primary">
           {{ $t('demo.timeline.planDesc') }}
@@ -40,9 +40,9 @@
           {{ $t('demo.timeline.verifyDesc') }}
         </y-timeline-item>
       </y-timeline>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.customSlot')" style="margin-top: 16px">
+    <demo-card :source-index="3" :title="$t('demo.common.customSlot')" style="margin-top: 16px">
       <y-timeline>
         <y-timeline-item :title="$t('demo.timeline.upload')" :time="$t('demo.timeline.time1')">
           <template #dot>
@@ -60,7 +60,7 @@
           {{ $t('demo.timeline.doneDesc') }}
         </y-timeline-item>
       </y-timeline>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

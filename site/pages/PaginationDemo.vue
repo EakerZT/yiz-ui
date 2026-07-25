@@ -3,12 +3,12 @@
     <h2 class="demo-section-title">{{ $t('demo.nav.pagination') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.pagination.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basic')">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')">
       <y-pagination v-model:page="page" :total="128" />
       <p class="demo-pagination-info">{{ $t('demo.pagination.currentPage', { page }) }}</p>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.pagination.totalAndSize')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.pagination.totalAndSize')" style="margin-top: 8px">
       <y-pagination
         v-model:page="sizePage"
         v-model:page-size="pageSize"
@@ -19,13 +19,13 @@
       />
       <p class="demo-pagination-info">{{ $t('demo.pagination.pageAndSize', { page: sizePage, pageSize }) }}</p>
       <p class="demo-pagination-info">{{ $t('demo.pagination.lastChange', { value: lastChange }) }}</p>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.pagination.quickJumper')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.pagination.quickJumper')" style="margin-top: 8px">
       <y-pagination v-model:page="jumpPage" :total="500" show-total show-quick-jumper />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-pagination-size-list">
         <y-radio-button-group v-model:value="paginationSize" :options="sizeOptions" />
         <y-pagination
@@ -37,15 +37,15 @@
           show-quick-jumper
         />
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.pagination.simple')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.pagination.simple')" style="margin-top: 8px">
       <y-pagination v-model:page="simplePage" :total="320" simple />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-pagination :page="3" :total="100" disabled show-total show-size-changer show-quick-jumper />
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

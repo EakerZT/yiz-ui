@@ -3,26 +3,26 @@
     <h2 class="demo-section-title">{{ $t('demo.datetimePicker.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.datetimePicker.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basic')">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')">
       <div class="demo-picker-field">
         <y-datetime-picker v-model:value="value1" clearable />
         <span class="demo-item-hint">{{ formatValue(value1) }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.datePicker.valueFormat')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.datePicker.valueFormat')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-datetime-picker v-model:value="value2" value-format="YYYY-MM-DD HH:mm:ss" clearable />
         <span class="demo-item-hint">{{ value2 ?? $t('demo.common.empty') }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-radio-button-group v-model:value="pickerSize" :options="sizeOptions" />
         <y-datetime-picker v-model:value="value3" :size="pickerSize" clearable />
       </div>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

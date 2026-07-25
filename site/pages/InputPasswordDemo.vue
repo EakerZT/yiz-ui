@@ -3,18 +3,18 @@
     <h2 class="demo-section-title">{{ $t('demo.inputPassword.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.inputPassword.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <y-input-password v-model:value="password" :placeholder="$t('demo.inputPassword.placeholder')" />
       <span class="demo-hint">
         {{ $t('demo.inputPassword.currentValue', { value: password || $t('demo.common.empty') }) }}
       </span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.clearable')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.common.clearable')" style="margin-top: 8px">
       <y-input-password v-model:value="clearPassword" :placeholder="$t('demo.common.clearable')" clearable />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-input-row">
         <y-radio-button-group v-model:value="passwordSize" :options="sizeOptions" />
         <y-input-password
@@ -23,13 +23,13 @@
           :size="passwordSize"
         />
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-input-password v-model:value="disabledPassword" :placeholder="$t('demo.common.disabled')" disabled />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
       <y-input-password
         v-model:value="affixPassword"
         :placeholder="$t('demo.inputPassword.placeholder')"
@@ -37,15 +37,15 @@
         suffix="Safe"
         clearable
       />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.inputPassword.noToggle')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.inputPassword.noToggle')" style="margin-top: 8px">
       <y-input-password
         v-model:value="fixedPassword"
         :placeholder="$t('demo.inputPassword.placeholder')"
         :show-toggle="false"
       />
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

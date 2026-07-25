@@ -4,7 +4,7 @@
     <p class="demo-section-desc">{{ $t('demo.tab.desc') }}</p>
 
     <!-- 基础用法 -->
-    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')" style="margin-top: 8px">
       <y-tab>
         <y-tab-pane :label="$t('demo.tab.tab1')" key="a">
           <p style="padding: 12px 0">{{ $t('demo.tab.tab1Content') }}</p>
@@ -16,10 +16,10 @@
           <p style="padding: 12px 0">{{ $t('demo.tab.tab3Content') }}</p>
         </y-tab-pane>
       </y-tab>
-    </y-card>
+    </demo-card>
 
     <!-- 禁用 -->
-    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-tab v-model:active="tab2">
         <y-tab-pane :label="$t('demo.tab.tab1')" key="a">
           <p style="padding: 12px 0">{{ $t('demo.tab.content1') }}</p>
@@ -31,19 +31,19 @@
           <p style="padding: 12px 0">{{ $t('demo.tab.content3') }}</p>
         </y-tab-pane>
       </y-tab>
-    </y-card>
+    </demo-card>
 
     <!-- 更多标签 -->
-    <y-card :title="$t('demo.tab.moreTabs')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.tab.moreTabs')" style="margin-top: 8px">
       <y-tab v-model:active="tab3">
         <y-tab-pane v-for="i in 6" :key="i" :label="$t('demo.tab.tabN', { index: i })">
           <p style="padding: 12px 0">{{ $t('demo.tab.tabNContent', { index: i }) }}</p>
         </y-tab-pane>
       </y-tab>
-    </y-card>
+    </demo-card>
 
     <!-- 自定义 label -->
-    <y-card :title="'自定义 label / 图标'" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="'自定义 label / 图标'" style="margin-top: 8px">
       <y-tab v-model:active="customLabelTab">
         <y-tab-pane key="a">
           <template #label>🏠 首页</template>
@@ -58,10 +58,10 @@
           <p style="padding: 12px 0">用户内容</p>
         </y-tab-pane>
       </y-tab>
-    </y-card>
+    </demo-card>
 
     <!-- 方向 -->
-    <y-card :title="$t('demo.tab.directions')" style="margin-top: 16px">
+    <demo-card :source-index="4" :title="$t('demo.tab.directions')" style="margin-top: 16px">
       <div class="demo-tab-direction-control">
         <y-radio-button-group v-model:value="directionDemoDirection" size="small">
           <y-radio-button value="top">{{ $t('demo.tab.directionTop') }}</y-radio-button>
@@ -84,10 +84,10 @@
           </y-tab-pane>
         </y-tab>
       </div>
-    </y-card>
+    </demo-card>
 
     <!-- 卡片类型 -->
-    <y-card :title="$t('demo.tab.cardType')" style="margin-top: 16px">
+    <demo-card :source-index="5" :title="$t('demo.tab.cardType')" style="margin-top: 16px">
       <y-tab v-model:active="cardTab" type="card" @close="onCardClose">
         <y-tab-pane :label="$t('demo.tab.tab1')" key="a">
           <p style="padding: 12px 0">{{ $t('demo.tab.tab1Content') }}</p>
@@ -103,10 +103,10 @@
         </y-tab-pane>
       </y-tab>
       <p v-if="cardCloseMsg" style="margin-top: 8px; color: #999; font-size: 13px">{{ cardCloseMsg }}</p>
-    </y-card>
+    </demo-card>
 
     <!-- 卡片类型方向 -->
-    <y-card :title="$t('demo.tab.cardDirections')" style="margin-top: 16px">
+    <demo-card :source-index="6" :title="$t('demo.tab.cardDirections')" style="margin-top: 16px">
       <div class="demo-tab-direction-control">
         <y-radio-button-group v-model:value="cardDirectionDemoDirection" size="small">
           <y-radio-button value="top">{{ $t('demo.tab.directionTop') }}</y-radio-button>
@@ -129,10 +129,10 @@
           </y-tab-pane>
         </y-tab>
       </div>
-    </y-card>
+    </demo-card>
 
     <!-- 切换动画 -->
-    <y-card :title="$t('demo.tab.transitions')" style="margin-top: 16px">
+    <demo-card :source-index="7" :title="$t('demo.tab.transitions')" style="margin-top: 16px">
       <p style="font-size: 13px; color: #999; margin-bottom: 8px">{{ $t('demo.tab.fadeTransition') }}</p>
       <y-tab v-model:active="fadeTab" transition-type="fade">
         <y-tab-pane :label="$t('demo.tab.tab1')" key="a">
@@ -160,10 +160,10 @@
           <p style="padding: 12px 0">{{ $t('demo.tab.tab3Content') }}</p>
         </y-tab-pane>
       </y-tab>
-    </y-card>
+    </demo-card>
 
     <!-- Flex 弹性布局 -->
-    <y-card :title="$t('demo.tab.flexMode')" style="margin-top: 16px">
+    <demo-card :source-index="8" :title="$t('demo.tab.flexMode')" style="margin-top: 16px">
       <div style="height: 200px; border: 1px dashed #d9d9d9; border-radius: 4px">
         <y-tab v-model:active="flexTab" flex overflow="auto">
           <y-tab-pane :label="$t('demo.tab.tab1')" key="a">
@@ -178,19 +178,19 @@
           </y-tab-pane>
         </y-tab>
       </div>
-    </y-card>
+    </demo-card>
 
     <!-- 溢出滚动 -->
-    <y-card :title="$t('demo.tab.overflowTabs')" style="margin-top: 16px">
+    <demo-card :source-index="9" :title="$t('demo.tab.overflowTabs')" style="margin-top: 16px">
       <y-tab v-model:active="overflowTab">
         <y-tab-pane v-for="i in 15" :key="i" :label="$t('demo.tab.tabN', { index: i })">
           <p style="padding: 12px 0">{{ $t('demo.tab.tabNContent', { index: i }) }}</p>
         </y-tab-pane>
       </y-tab>
-    </y-card>
+    </demo-card>
 
     <!-- 额外插槽 -->
-    <y-card :title="$t('demo.tab.extraSlots')" style="margin-top: 16px">
+    <demo-card :source-index="10" :title="$t('demo.tab.extraSlots')" style="margin-top: 16px">
       <y-tab v-model:active="extraTab">
         <template #leftExtra>
           <y-button size="small" @click="addExtraTab">{{ $t('demo.tab.addTab') }}</y-button>
@@ -202,7 +202,7 @@
           <p style="padding: 12px 0">{{ $t('demo.tab.tabNContent', { index: i }) }}</p>
         </y-tab-pane>
       </y-tab>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

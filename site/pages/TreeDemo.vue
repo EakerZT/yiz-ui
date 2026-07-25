@@ -3,25 +3,25 @@
     <h2 class="demo-section-title">{{ $t('demo.nav.tree') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.tree.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basic')">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')">
       <y-tree :data="treeData" default-expand-all />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.tree.selectable')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.tree.selectable')" style="margin-top: 8px">
       <y-tree v-model:selected="selectedKey" :data="treeData" default-expand-all @select="onSelect" />
       <p class="demo-tree-info">{{ $t('demo.tree.selected', { value: selectedKey ?? $t('demo.common.none') }) }}</p>
       <p class="demo-tree-info">{{ $t('demo.tree.lastSelected', { value: lastSelected }) }}</p>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.tree.checkable')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.tree.checkable')" style="margin-top: 8px">
       <y-tree v-model:checked="checkedKeys" :data="treeData" checkable default-expand-all @check="onCheck" />
       <p class="demo-tree-info">
         {{ $t('demo.tree.checked', { value: checkedKeys.join(', ') || $t('demo.common.none') }) }}
       </p>
       <p class="demo-tree-info">{{ $t('demo.tree.lastCheck', { value: lastCheck }) }}</p>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.tree.beforeAfterSlots')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.tree.beforeAfterSlots')" style="margin-top: 8px">
       <y-tree
         v-model:selected="slotSelectedKey"
         v-model:checked="slotCheckedKeys"
@@ -48,23 +48,23 @@
           </span>
         </template>
       </y-tree>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.tree.controlledExpand')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.tree.controlledExpand')" style="margin-top: 8px">
       <y-button-group style="margin-bottom: 12px">
         <y-button @click="expandedKeys = ['components', 'data-entry']">{{ $t('demo.tree.expandDataEntry') }}</y-button>
         <y-button @click="expandedKeys = []">{{ $t('demo.tree.collapseAll') }}</y-button>
       </y-button-group>
       <y-tree v-model:expanded="expandedKeys" :data="treeData" />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.tree.disabledNode')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.tree.disabledNode')" style="margin-top: 8px">
       <y-tree :data="disabledData" checkable default-expand-all />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.tree.emptyState')" style="margin-top: 8px">
+    <demo-card :source-index="6" :title="$t('demo.tree.emptyState')" style="margin-top: 8px">
       <y-tree :data="[]" />
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

@@ -10,8 +10,20 @@ import { TinyColor } from '@ctrl/tinycolor'
 
 const props = withDefaults(
   defineProps<{
+    /**
+     * 预设语义色或自定义 HEX 颜色。
+     * @en Preset semantic color or a custom HEX color.
+     */
     color?: 'default' | 'primary' | 'success' | 'warning' | 'error' | string
+    /**
+     * 是否禁用文字按钮。
+     * @en Whether the link button is disabled.
+     */
     disabled?: boolean
+    /**
+     * 悬停时是否显示下划线。
+     * @en Whether to show an underline on hover.
+     */
     underline?: boolean
   }>(),
   {
@@ -21,7 +33,21 @@ const props = withDefaults(
   },
 )
 
-const emit = defineEmits(['click'])
+const emit = defineEmits<{
+  /**
+   * 点击可用文字按钮时触发。
+   * @en Emitted when an enabled link button is clicked.
+   */
+  click: [event: MouseEvent]
+}>()
+
+defineSlots<{
+  /**
+   * 文字按钮内容。
+   * @en Link button content.
+   */
+  default?: any
+}>()
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}

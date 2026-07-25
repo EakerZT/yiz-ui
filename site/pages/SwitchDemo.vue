@@ -3,45 +3,45 @@
     <h2 class="demo-section-title">{{ $t('demo.nav.switch') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.switch.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <y-switch v-model:value="v1" />
       <span class="demo-hint">{{ v1 ? $t('demo.switch.on') : $t('demo.switch.off') }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-button-group>
         <y-switch v-model:value="v2" disabled />
         <y-switch v-model:value="v3" disabled />
       </y-button-group>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-switch-size-panel">
         <y-radio-button-group v-model:value="switchSize" :options="sizeOptions" />
         <y-switch v-model:value="v4" :size="switchSize" />
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.button.customColor')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.button.customColor')" style="margin-top: 8px">
       <y-button-group>
         <y-switch v-model:value="v6" color="#67c23a" />
         <y-switch v-model:value="v7" color="#ff4d4f" />
       </y-button-group>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.loading')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.common.loading')" style="margin-top: 8px">
       <y-switch v-model:value="v8" loading />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.event')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.common.event')" style="margin-top: 8px">
       <y-switch v-model:value="v9" @change="onChange" />
       <span class="demo-hint">{{ $t('demo.switch.toggleCount', { count: changeCount }) }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.switch.customValue')" style="margin-top: 8px">
+    <demo-card :source-index="6" :title="$t('demo.switch.customValue')" style="margin-top: 8px">
       <y-switch v-model:value="v10" checked-value="enabled" unchecked-value="disabled" />
       <span class="demo-hint">{{ v10 }}</span>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

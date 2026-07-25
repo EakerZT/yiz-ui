@@ -3,7 +3,7 @@
     <h2 class="demo-section-title">{{ $t('demo.dropmenu.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.dropmenu.desc') }}</p>
 
-    <y-card :title="$t('demo.dropmenu.options')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.dropmenu.options')" style="margin-top: 8px">
       <y-dropmenu :options="options" @select="onSelect1">
         <template #trigger>
           <y-button>{{ $t('demo.dropmenu.open') }}</y-button>
@@ -13,9 +13,9 @@
         </template>
       </y-dropmenu>
       <span class="demo-hint">{{ $t('demo.dropmenu.selected', { value: v1 ?? $t('demo.common.empty') }) }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.slot')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.common.slot')" style="margin-top: 8px">
       <y-dropmenu @select="onSelect2">
         <template #trigger>
           <y-button type="primary">{{ $t('demo.dropmenu.slotOpen') }}</y-button>
@@ -25,9 +25,9 @@
         <y-dropmenu-item :label="$t('demo.common.delete')" key="delete" />
       </y-dropmenu>
       <span class="demo-hint">{{ $t('demo.dropmenu.selected', { value: v2 ?? $t('demo.common.empty') }) }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.menu.submenu')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.menu.submenu')" style="margin-top: 8px">
       <y-dropmenu
         :options="nestedOptions"
         :label="$t('demo.dropmenu.openNested')"
@@ -35,7 +35,7 @@
         @select="onSelect3"
       />
       <span class="demo-hint">{{ $t('demo.dropmenu.selected', { value: v3 ?? $t('demo.common.empty') }) }}</span>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

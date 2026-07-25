@@ -3,7 +3,7 @@
     <h2 class="demo-section-title">{{ $t('demo.layerManager.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.layerManager.desc') }}</p>
 
-    <y-card :title="$t('demo.layerManager.status')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.layerManager.status')" style="margin-top: 8px">
       <div class="layer-status-grid">
         <div class="layer-status-item">
           <span>{{ $t('demo.layerManager.isTopLayer') }}</span>
@@ -24,9 +24,9 @@
           <strong>{{ shortcutCount }}</strong>
         </div>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.layerManager.actions')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.layerManager.actions')" style="margin-top: 8px">
       <div class="demo-row">
         <div class="demo-items">
           <y-button type="primary" @click="runRootAction">{{ $t('demo.layerManager.runRootAction') }}</y-button>
@@ -37,14 +37,14 @@
         </div>
       </div>
       <p class="layer-action-hint">{{ $t('demo.layerManager.actionHint') }}</p>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.layerManager.eventLog')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.layerManager.eventLog')" style="margin-top: 8px">
       <ul v-if="logs.length" class="layer-event-list">
         <li v-for="(item, index) in logs" :key="index">{{ item }}</li>
       </ul>
       <p v-else class="layer-empty-log">{{ $t('demo.layerManager.noEvent') }}</p>
-    </y-card>
+    </demo-card>
 
     <y-dialog v-model:show="showDialog" :title="$t('demo.layerManager.dialogTitle')">
       <p>{{ $t('demo.layerManager.dialogContent') }}</p>

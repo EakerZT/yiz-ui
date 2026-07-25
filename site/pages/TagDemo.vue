@@ -3,7 +3,7 @@
     <h2 class="demo-section-title">{{ $t('demo.nav.tag') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.tag.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')" style="margin-top: 8px">
       <y-button-group>
         <y-tag>{{ $t('demo.tab.tab1') }}</y-tag>
         <y-tag color="primary">{{ $t('demo.common.primary') }}</y-tag>
@@ -11,9 +11,9 @@
         <y-tag color="warning">{{ $t('demo.common.warning') }}</y-tag>
         <y-tag color="error">{{ $t('demo.common.error') }}</y-tag>
       </y-button-group>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.tag.mode')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.tag.mode')" style="margin-top: 8px">
       <div class="demo-tag-mode-panel">
         <div v-for="mode in tagModes" :key="mode" class="demo-tag-mode-row">
           <span class="demo-tag-mode-label">{{ mode }}</span>
@@ -24,9 +24,9 @@
           </y-button-group>
         </div>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-tag-size-panel">
         <y-radio-button-group v-model:value="tagSize" :options="sizeOptions" />
         <y-button-group>
@@ -35,9 +35,9 @@
           <y-tag color="success" :size="tagSize">{{ $t('demo.common.success') }}</y-tag>
         </y-button-group>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.closable')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.common.closable')" style="margin-top: 8px">
       <y-button-group>
         <y-tag v-for="tag in tags" :key="tag" closable @close="handleClose(tag)">
           {{ tag }}
@@ -46,9 +46,9 @@
       <div style="margin-top: 8px">
         <y-button size="small" @click="addTag">{{ $t('demo.tag.addTag') }}</y-button>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.tag.checkable')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.tag.checkable')" style="margin-top: 8px">
       <div class="demo-tag-checkable-panel">
         <y-button-group>
           <y-tag v-model:checked="checkableTag1" checkable>{{ $t('demo.tag.checkableDefault') }}</y-tag>
@@ -71,9 +71,9 @@
           }}
         </span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.customColor')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.common.customColor')" style="margin-top: 8px">
       <y-button-group>
         <y-tag color="#f50">#f50</y-tag>
         <y-tag color="#2db7f5">#2db7f5</y-tag>
@@ -81,7 +81,7 @@
         <y-tag color="#108ee9">#108ee9</y-tag>
         <y-tag color="#f50" closable>{{ $t('demo.common.closable') }}</y-tag>
       </y-button-group>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

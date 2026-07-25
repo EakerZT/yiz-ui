@@ -3,26 +3,26 @@
     <h2 class="demo-section-title">{{ $t('demo.menu.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.menu.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <y-menu v-model:select="v1" :items="opts" @select="onSelect" />
       <span class="demo-hint">{{ $t('demo.menu.selected', { value: v1 }) }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.menu.submenu')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.menu.submenu')" style="margin-top: 8px">
       <y-menu v-model:select="v2" :items="navItems" @select="onSelect2" />
       <span class="demo-hint">{{ $t('demo.menu.selected', { value: v2 }) }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.slot')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.common.slot')" style="margin-top: 8px">
       <y-menu v-model:select="v3" @select="onSelect3">
         <y-menu-option :label="$t('demo.common.view')" key="view" />
         <y-menu-option :label="$t('demo.common.edit')" key="edit" />
         <y-menu-option :label="$t('demo.common.delete')" key="delete" />
       </y-menu>
       <span class="demo-hint">{{ $t('demo.menu.selected', { value: v3 }) }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.customRender')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.common.customRender')" style="margin-top: 8px">
       <y-menu v-model:select="v4" :items="navItems" @select="onSelect4">
         <template #item="{ item }">
           <span style="display: flex; align-items: center; gap: 6px">
@@ -32,19 +32,19 @@
         </template>
       </y-menu>
       <span class="demo-hint">{{ $t('demo.menu.selected', { value: v4 }) }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.menu.iconString')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.menu.iconString')" style="margin-top: 8px">
       <y-menu v-model:select="v5" :items="iconItems" @select="onSelect5" />
       <span class="demo-hint">{{ $t('demo.menu.selected', { value: v5 }) }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.menu.iconFn')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.menu.iconFn')" style="margin-top: 8px">
       <y-menu v-model:select="v6" :items="fnIconItems" @select="onSelect6" />
       <span class="demo-hint">{{ $t('demo.menu.selected', { value: v6 }) }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.menu.collapsed')" style="margin-top: 8px">
+    <demo-card :source-index="6" :title="$t('demo.menu.collapsed')" style="margin-top: 8px">
       <div class="demo-menu-toolbar">
         <y-switch v-model:value="dark" />
         <span class="demo-hint">{{ dark ? 'dark' : 'light' }}</span>
@@ -55,7 +55,7 @@
         <y-menu v-model:select="v7" :items="collapsedItems" :collapsed="collapsed" :dark="dark" @select="onSelect7" />
       </div>
       <span class="demo-hint">{{ $t('demo.menu.selected', { value: v7 }) }}</span>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

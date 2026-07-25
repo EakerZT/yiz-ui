@@ -3,22 +3,22 @@
     <h2 class="demo-section-title">{{ $t('demo.nav.empty') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.empty.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')" style="margin-top: 8px">
       <Empty />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.customDesc')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.common.customDesc')" style="margin-top: 8px">
       <Empty :description="$t('demo.empty.noResult')" />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-empty-size-panel">
         <y-radio-button-group v-model:value="emptySize" :options="sizeOptions" />
         <Empty :size="emptySize" :description="$t('demo.empty.listEmpty')" />
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.customImage')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.common.customImage')" style="margin-top: 8px">
       <Empty :description="$t('demo.empty.networkError')">
         <template #image>
           <svg viewBox="0 0 64 64" width="64" height="64" fill="none">
@@ -27,19 +27,19 @@
           </svg>
         </template>
       </Empty>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.empty.withAction')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.empty.withAction')" style="margin-top: 8px">
       <Empty :description="$t('demo.empty.cartEmpty')">
         <y-button type="primary" size="small">{{ $t('demo.empty.goBrowse') }}</y-button>
       </Empty>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.empty.tableEmpty')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.empty.tableEmpty')" style="margin-top: 8px">
       <div style="border: 1px solid #d9d9d9; border-radius: 4px">
         <Empty :description="$t('demo.empty.noData')" size="small" />
       </div>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

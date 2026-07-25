@@ -3,7 +3,7 @@
     <h2 class="demo-section-title">{{ $t('demo.nav.loading') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.loading.desc') }}</p>
 
-    <y-card :title="$t('demo.loading.indicatorType')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.loading.indicatorType')" style="margin-top: 8px">
       <y-button-group>
         <span class="demo-loading-item">
           <y-loading />
@@ -18,9 +18,9 @@
           <em>think</em>
         </span>
       </y-button-group>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-loading-size-panel">
         <y-radio-button-group v-model:value="loadingSize" :options="sizeOptions" />
         <span class="demo-loading-item">
@@ -28,13 +28,13 @@
           <em>{{ loadingSize }}</em>
         </span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.loading.tipText')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.loading.tipText')" style="margin-top: 8px">
       <y-loading tip="Loading..." />
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.loading.containerMode')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.loading.containerMode')" style="margin-top: 8px">
       <y-loading :loading="containerLoading">
         <div class="demo-loading-content">
           <p>{{ $t('demo.loading.wrappedContent') }}</p>
@@ -46,16 +46,16 @@
           {{ containerLoading ? $t('demo.loading.stopLoading') : $t('demo.loading.startLoading') }}
         </y-button>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.loading.delayShow')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.loading.delayShow')" style="margin-top: 8px">
       <y-loading :loading="delayLoading" :delay="500" :tip="$t('demo.loading.delayHint')" />
       <div style="margin-top: 8px">
         <y-button size="small" @click="delayLoading = !delayLoading">
           {{ delayLoading ? $t('demo.loading.stopLoading') : $t('demo.loading.startLoading') }}
         </y-button>
       </div>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

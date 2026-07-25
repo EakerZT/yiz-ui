@@ -3,7 +3,7 @@
     <h2 class="demo-section-title">{{ $t('demo.nav.form') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.form.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <y-form ref="basicFormRef" :model="basicForm" :rules="rules" :label-width="96" @validate="onValidate">
         <y-form-item :label="$t('demo.common.name')" prop="name" :tooltip="$t('demo.form.nameTooltip')">
           <y-input v-model:value="basicForm.name" :placeholder="$t('demo.form.namePlaceholder')" clearable />
@@ -39,9 +39,9 @@
         <y-button @click="resetBasicForm">{{ $t('demo.form.reset') }}</y-button>
         <span class="form-demo-hint">{{ submitResult }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.form.topLabel')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.form.topLabel')" style="margin-top: 8px">
       <y-form :model="profileForm" layout="vertical">
         <y-form-item :label="$t('demo.form.profileName')" prop="profileName" required>
           <y-input v-model:value="profileForm.profileName" :placeholder="$t('demo.form.profileNamePlaceholder')" />
@@ -50,9 +50,9 @@
           <y-input v-model:value="profileForm.profileDesc" :placeholder="$t('demo.form.profileDescPlaceholder')" />
         </y-form-item>
       </y-form>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.form.layout')" style="margin-top: 16px">
+    <demo-card :source-index="2" :title="$t('demo.form.layout')" style="margin-top: 16px">
       <div style="margin-bottom: 12px">
         <y-radio-button-group v-model:value="demoLayout" size="small">
           <y-radio-button value="horizontal">{{ $t('demo.form.layoutHorizontal') }}</y-radio-button>
@@ -71,7 +71,7 @@
           <y-input-number v-model:value="layoutDemoForm.age" :min="0" :max="120" />
         </y-form-item>
       </y-form>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

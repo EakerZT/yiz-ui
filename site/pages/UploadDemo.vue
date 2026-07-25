@@ -3,21 +3,21 @@
     <h2 class="demo-section-title">{{ $t('demo.upload.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.upload.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <y-upload @upload="onBasicUpload">
         <y-button>{{ $t('demo.upload.selectFile') }}</y-button>
       </y-upload>
       <p class="demo-upload-info">{{ basicFilesText }}</p>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.upload.multipleImage')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.upload.multipleImage')" style="margin-top: 8px">
       <y-upload multiple accept="image/*" @upload="onMultipleUpload">
         <y-button type="primary">{{ $t('demo.upload.selectImages') }}</y-button>
       </y-upload>
       <p class="demo-upload-info">{{ multipleFilesText }}</p>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.drag')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.common.drag')" style="margin-top: 8px">
       <y-upload multiple accept=".png,.jpg,.jpeg,image/*" allow-drag @upload="onDragUpload">
         <div class="demo-upload-drop">
           <strong>{{ $t('demo.upload.dropTitle') }}</strong>
@@ -25,7 +25,7 @@
         </div>
       </y-upload>
       <p class="demo-upload-info">{{ dragFilesText }}</p>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

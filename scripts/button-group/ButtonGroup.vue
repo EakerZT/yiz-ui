@@ -9,9 +9,25 @@ import { computed } from 'vue'
 
 const props = withDefaults(
   defineProps<{
+    /**
+     * 子按钮排列方向。
+     * @en Layout direction of child buttons.
+     */
     direction?: 'horizontal' | 'vertical'
+    /**
+     * 子按钮间距，数值和数字字符串均按像素处理。
+     * @en Gap between child buttons in pixels.
+     */
     gap?: number | string
+    /**
+     * 子按钮在交叉轴上的对齐方式。
+     * @en Cross-axis alignment of child buttons.
+     */
     align?: 'start' | 'center' | 'end' | 'baseline'
+    /**
+     * 空间不足时是否换行。
+     * @en Whether child buttons can wrap.
+     */
     wrap?: boolean
   }>(),
   {
@@ -23,6 +39,10 @@ const props = withDefaults(
 )
 
 defineSlots<{
+  /**
+   * 按钮组内容。
+   * @en Content of the button group.
+   */
   default?: any
 }>()
 

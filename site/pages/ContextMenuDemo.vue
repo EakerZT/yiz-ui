@@ -3,10 +3,10 @@
     <h2 class="demo-section-title">{{ $t('demo.contextMenu.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.contextMenu.desc') }}</p>
 
-    <y-card :title="$t('demo.contextMenu.fnCall')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.contextMenu.fnCall')" style="margin-top: 8px">
       <y-button @click="onShowMenu">{{ $t('demo.contextMenu.clickToOpen') }}</y-button>
       <span class="demo-hint">{{ $t('demo.contextMenu.selected', { value: last }) }}</span>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

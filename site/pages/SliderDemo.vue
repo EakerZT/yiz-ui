@@ -3,47 +3,47 @@
     <h2 class="demo-section-title">{{ $t('demo.slider.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.slider.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')" style="margin-top: 8px">
       <div class="demo-slider-row">
         <y-slider v-model:value="basic" />
         <span class="demo-slider-value">{{ basic }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.slider.step')" style="margin-top: 16px">
+    <demo-card :source-index="1" :title="$t('demo.slider.step')" style="margin-top: 16px">
       <div class="demo-slider-row">
         <y-slider v-model:value="stepValue" :min="-50" :max="50" :step="10" show-stops />
         <span class="demo-slider-value">{{ stepValue }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.slider.range')" style="margin-top: 16px">
+    <demo-card :source-index="2" :title="$t('demo.slider.range')" style="margin-top: 16px">
       <div class="demo-slider-row">
         <y-slider v-model:value="rangeValue" range :marks="rangeMarks" />
         <span class="demo-slider-value">{{ rangeValue[0] }} - {{ rangeValue[1] }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.slider.marks')" style="margin-top: 16px">
+    <demo-card :source-index="3" :title="$t('demo.slider.marks')" style="margin-top: 16px">
       <div class="demo-slider-row">
         <y-slider v-model:value="markValue" :step="10" :marks="marks" />
         <span class="demo-slider-value">{{ markValue }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.slider.tooltip')" style="margin-top: 16px">
+    <demo-card :source-index="4" :title="$t('demo.slider.tooltip')" style="margin-top: 16px">
       <div class="demo-slider-row">
         <y-slider v-model:value="tooltipValue" :format-tooltip="formatTooltip" />
         <span class="demo-slider-value">{{ tooltipValue }}%</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.disabled')" style="margin-top: 16px">
+    <demo-card :source-index="5" :title="$t('demo.common.disabled')" style="margin-top: 16px">
       <div class="demo-slider-stack">
         <y-slider v-model:value="disabledValue" disabled />
         <y-slider v-model:value="disabledRangeValue" range disabled />
       </div>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

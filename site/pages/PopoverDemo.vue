@@ -3,21 +3,21 @@
     <h2 class="demo-section-title">{{ $t('demo.popover.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.popover.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basic')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')" style="margin-top: 8px">
       <y-popover :title="$t('demo.popover.basicTitle')" :content="$t('demo.popover.basicContent')">
         <y-button type="primary">{{ $t('demo.popover.clickMe') }}</y-button>
       </y-popover>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.placement')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.common.placement')" style="margin-top: 8px">
       <y-button-group>
         <y-popover v-for="placement in placements" :key="placement" :placement="placement" :content="placement">
           <y-button>{{ placement }}</y-button>
         </y-popover>
       </y-button-group>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.popover.trigger')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.popover.trigger')" style="margin-top: 8px">
       <y-button-group>
         <y-popover trigger="click" :content="$t('demo.popover.clickContent')">
           <y-button>{{ $t('demo.popover.click') }}</y-button>
@@ -29,9 +29,9 @@
           <y-button>{{ $t('demo.popover.focus') }}</y-button>
         </y-popover>
       </y-button-group>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.customContent')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.common.customContent')" style="margin-top: 8px">
       <y-popover :width="1200">
         <template #title>{{ $t('demo.popover.customTitle') }}</template>
         <template #content>
@@ -45,9 +45,9 @@
         </template>
         <y-button>{{ $t('demo.common.customSlot') }}</y-button>
       </y-popover>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.popover.nestedOverlay')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.popover.nestedOverlay')" style="margin-top: 8px">
       <y-popover :width="320">
         <template #title>{{ $t('demo.popover.nestedTitle') }}</template>
         <template #content>
@@ -58,16 +58,16 @@
         </template>
         <y-button>{{ $t('demo.popover.nestedButton') }}</y-button>
       </y-popover>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.controlled')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.common.controlled')" style="margin-top: 8px">
       <div class="demo-popover-row">
         <y-switch v-model:checked="controlledOpen" />
         <y-popover v-model:open="controlledOpen" :content="$t('demo.popover.controlledContent')">
           <y-button>{{ $t('demo.popover.controlledButton') }}</y-button>
         </y-popover>
       </div>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

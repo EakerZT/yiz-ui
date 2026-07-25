@@ -61,14 +61,50 @@ const currentZIndex = ref(0)
 
 const props = withDefaults(
   defineProps<{
+    /**
+     * 对话框标题。
+     * @en Dialog title.
+     */
     title?: string
+    /**
+     * 对话框宽度。
+     * @en Width of the dialog.
+     */
     width?: string
+    /**
+     * 是否显示关闭按钮。
+     * @en Whether to show the close button.
+     */
     closable?: boolean
+    /**
+     * 是否显示遮罩层。
+     * @en Whether to show the mask.
+     */
     mask?: boolean
+    /**
+     * 点击遮罩时是否关闭。
+     * @en Whether clicking the mask closes the dialog.
+     */
     maskClosable?: boolean
+    /**
+     * 是否允许拖动标题栏移动对话框。
+     * @en Whether the dialog can be moved by dragging its header.
+     */
     drag?: boolean
+    /**
+     * 是否隐藏头部区域。
+     * @en Whether to hide the header.
+     */
     disabledHeader?: boolean
+    /**
+     * 是否隐藏默认页脚。
+     * @en Whether to hide the default footer.
+     */
     disabledFooter?: boolean
+    /**
+     * 指定父级模态层上下文，用于嵌套弹层。
+     * @en Parent modal layer context for nested overlays.
+     */
     modalLayerParent?: ModalLayerContext | null
   }>(),
   {
@@ -85,17 +121,45 @@ const props = withDefaults(
 )
 
 defineSlots<{
+  /**
+   * 对话框主体内容。
+   * @en Dialog body content.
+   */
   default?: any
+  /**
+   * 自定义标题内容。
+   * @en Custom title content.
+   */
   title?: any
+  /**
+   * 自定义页脚内容。
+   * @en Custom footer content.
+   */
   footer?: any
 }>()
 
 const emit = defineEmits<{
+  /**
+   * 对话框请求关闭时触发。
+   * @en Emitted when the dialog requests to close.
+   */
   close: []
+  /**
+   * 点击默认确定按钮时触发。
+   * @en Emitted when the default confirm button is clicked.
+   */
   ok: []
+  /**
+   * 关闭过渡结束后触发。
+   * @en Emitted after the leave transition finishes.
+   */
   afterLeave: []
 }>()
 
+/**
+ * 对话框是否显示。
+ * @en Whether the dialog is visible.
+ */
 const visible = defineModel<boolean>('show', { default: false })
 const modalLayer = useOptionalModalLayer(props.modalLayerParent)
 

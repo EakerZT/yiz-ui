@@ -7,7 +7,7 @@ tsconfig.tsbuildinfo
 Sortable
 vue.draggable.next
 bprogress
-docs
+/docs
 emittery
 eventemitter3
 tiny-emitter

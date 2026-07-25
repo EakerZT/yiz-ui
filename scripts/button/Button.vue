@@ -18,6 +18,10 @@ import Icon from '../icon/Icon.vue'
 export type ButtonType = 'outlined' | 'primary' | 'plain' | 'dash' | 'filled' | 'text'
 
 const slots = defineSlots<{
+  /**
+   * 按钮内容。
+   * @en Button content.
+   */
   default?: () => any[]
 }>()
 
@@ -44,11 +48,35 @@ const c = computed(() => normalizeSlotNodes(slots.default?.() ?? []))
 
 const props = withDefaults(
   defineProps<{
+    /**
+     * 按钮视觉类型。
+     * @en Visual style of the button.
+     */
     type?: ButtonType
+    /**
+     * 预设语义色或自定义 HEX 颜色。
+     * @en Preset semantic color or a custom HEX color.
+     */
     color?: 'default' | 'success' | 'warning' | 'error' | string
+    /**
+     * 按钮形状。
+     * @en Shape of the button.
+     */
     shape?: 'default' | 'round' | 'circle'
+    /**
+     * 按钮尺寸。
+     * @en Size of the button.
+     */
     size?: 'small' | 'default' | 'large'
+    /**
+     * 是否禁用按钮。
+     * @en Whether the button is disabled.
+     */
     disabled?: boolean
+    /**
+     * 是否显示加载状态，加载时按钮不可点击。
+     * @en Whether to show the loading state. The button cannot be clicked while loading.
+     */
     loading?: boolean
   }>(),
   {
@@ -103,7 +131,13 @@ const vStyle = computed(() => {
   }
   return s
 })
-const emits = defineEmits(['click'])
+const emits = defineEmits<{
+  /**
+   * 点击可用按钮时触发。
+   * @en Emitted when an enabled button is clicked.
+   */
+  click: [event: MouseEvent]
+}>()
 let waveTimerId: ReturnType<typeof setTimeout>
 const onClick = (e: MouseEvent) => {
   if (isDisabled.value) {
@@ -125,7 +159,15 @@ const onClick = (e: MouseEvent) => {
 }
 
 defineExpose({
+  /**
+   * 聚焦按钮。
+   * @en Focuses the button.
+   */
   focus: () => buttonRef.value?.focus(),
+  /**
+   * 移除按钮焦点。
+   * @en Removes focus from the button.
+   */
   blur: () => buttonRef.value?.blur(),
 })
 </script>

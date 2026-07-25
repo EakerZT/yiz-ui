@@ -3,7 +3,7 @@
     <h2 class="demo-section-title">{{ $t('demo.nav.icon') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.icon.desc') }}</p>
 
-    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-icon-size-panel">
         <y-radio-button-group v-model:value="iconSize" :options="sizeOptions" />
         <span class="demo-icon-item">
@@ -11,16 +11,16 @@
           <em>{{ iconSize }}px</em>
         </span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.icon.renderSvg')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.icon.renderSvg')" style="margin-top: 8px">
       <span class="demo-icon-item">
         <y-icon :icon="customSvgIcon" :size="32" />
         <em>{{ $t('demo.icon.svgString') }}</em>
       </span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.icon.renderSvgIcon')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.icon.renderSvgIcon')" style="margin-top: 8px">
       <div class="demo-icon-size-panel">
         <y-radio-button-group v-model:value="svgIconSize" :options="sizeOptions" />
         <span class="demo-icon-item">
@@ -28,7 +28,7 @@
           <em>{{ $t('demo.icon.svgStringWithSize') }}</em>
         </span>
       </div>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

@@ -3,14 +3,14 @@
     <h2 class="demo-section-title">{{ $t('demo.datetimeRangePicker.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.datetimeRangePicker.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basic')">
+    <demo-card :source-index="0" :title="$t('demo.common.basic')">
       <div class="demo-picker-field">
         <y-datetime-range-picker v-model:start="start" v-model:end="end" clearable />
         <span class="demo-item-hint">{{ formatValue(start) }} - {{ formatValue(end) }}</span>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.dateRangePicker.valueFormat')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.dateRangePicker.valueFormat')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-datetime-range-picker
           v-model:start="stringStart"
@@ -23,14 +23,14 @@
           >{{ stringStart ?? $t('demo.common.empty') }} - {{ stringEnd ?? $t('demo.common.empty') }}</span
         >
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.dateRangePicker.requiredRange')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.dateRangePicker.requiredRange')" style="margin-top: 8px">
       <div class="demo-picker-field">
         <y-datetime-range-picker v-model:start="requiredStart" v-model:end="requiredEnd" force-range clearable />
         <span class="demo-item-hint">{{ formatValue(requiredStart) }} - {{ formatValue(requiredEnd) }}</span>
       </div>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

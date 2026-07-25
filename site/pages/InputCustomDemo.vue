@@ -3,13 +3,13 @@
     <h2 class="demo-section-title">{{ $t('demo.inputCustom.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.inputCustom.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <y-input-custom style="width: 240px" @click="toggleStatus">
         <span class="demo-input-custom-value">{{ statusLabel }}</span>
       </y-input-custom>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
       <div class="demo-input-custom-stack">
         <y-radio-button-group v-model:value="customSize" :options="sizeOptions" />
         <y-input-custom :size="customSize" style="width: 280px">
@@ -20,15 +20,15 @@
           <template #suffix>{{ keyword.length }}</template>
         </y-input-custom>
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <y-input-custom disabled style="width: 240px">
         <span class="demo-input-custom-placeholder">{{ $t('demo.inputCustom.disabledValue') }}</span>
       </y-input-custom>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.nav.inputGroup')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.nav.inputGroup')" style="margin-top: 8px">
       <y-input-group>
         <template #beforeAddon>{{ $t('demo.inputCustom.filter') }}</template>
         <y-input-custom style="width: 180px" @click="toggleStatus">
@@ -36,7 +36,7 @@
         </y-input-custom>
         <y-button type="primary">{{ $t('demo.inputGroup.searchButton') }}</y-button>
       </y-input-group>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 

@@ -3,40 +3,40 @@
     <h2 class="demo-section-title">{{ $t('demo.segmented.title') }}</h2>
     <p class="demo-section-desc">{{ $t('demo.segmented.desc') }}</p>
 
-    <y-card :title="$t('demo.common.basicShort')" style="margin-top: 8px">
+    <demo-card :source-index="0" :title="$t('demo.common.basicShort')" style="margin-top: 8px">
       <y-segmented v-model:value="basic" :options="periodOptions" />
       <span class="demo-hint">{{ $t('demo.segmented.currentValue', { value: basic }) }}</span>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.disabled')" style="margin-top: 8px">
+    <demo-card :source-index="1" :title="$t('demo.common.disabled')" style="margin-top: 8px">
       <div class="demo-segmented-stack">
         <y-segmented v-model:value="disabledItem" :options="disabledOptions" />
         <y-segmented v-model:value="disabledGroup" :options="periodOptions" disabled />
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.size')" style="margin-top: 8px">
+    <demo-card :source-index="2" :title="$t('demo.common.size')" style="margin-top: 8px">
       <div class="demo-segmented-stack">
         <y-radio-button-group v-model:value="segmentedSize" :options="sizeOptions" />
         <y-segmented v-model:value="sizeValue" :options="periodOptions" :size="segmentedSize" />
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.segmented.shape')" style="margin-top: 8px">
+    <demo-card :source-index="3" :title="$t('demo.segmented.shape')" style="margin-top: 8px">
       <div class="demo-segmented-stack">
         <y-radio-button-group v-model:value="shapeSize" :options="sizeOptions" />
         <y-segmented v-model:value="shapeBlock" :options="periodOptions" :size="shapeSize" />
         <y-segmented v-model:value="shapeRound" :options="periodOptions" shape="round" :size="shapeSize" />
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.segmented.block')" style="margin-top: 8px">
+    <demo-card :source-index="4" :title="$t('demo.segmented.block')" style="margin-top: 8px">
       <div class="demo-segmented-block">
         <y-segmented v-model:value="block" :options="viewOptions" block />
       </div>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.customRender')" style="margin-top: 8px">
+    <demo-card :source-index="5" :title="$t('demo.common.customRender')" style="margin-top: 8px">
       <y-segmented v-model:value="renderValue" :options="statusOptions">
         <template #render="{ option, selected }">
           <span class="demo-segmented-render" :class="{ 'demo-segmented-render-selected': selected }">
@@ -45,12 +45,12 @@
           </span>
         </template>
       </y-segmented>
-    </y-card>
+    </demo-card>
 
-    <y-card :title="$t('demo.common.event')" style="margin-top: 8px">
+    <demo-card :source-index="6" :title="$t('demo.common.event')" style="margin-top: 8px">
       <y-segmented v-model:value="eventValue" :options="periodOptions" @change="onChange" />
       <span class="demo-hint">{{ $t('demo.segmented.changeCount', { count: changeCount }) }}</span>
-    </y-card>
+    </demo-card>
   </section>
 </template>
 
