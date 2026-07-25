@@ -21,6 +21,7 @@
 
 <script lang="ts" setup>
 import { cloneVNode, h, nextTick, onBeforeUnmount, ref, useSlots, watch, type VNode } from 'vue'
+import { findFirstTriggerVNode } from '../triggerVNode'
 import { nextZIndex } from '../zIndex'
 
 const props = withDefaults(
@@ -58,7 +59,7 @@ function clearTriggerElement(vnode: VNode) {
 }
 
 function renderTrigger(): VNode {
-  const child = slots.default?.()[0] as VNode | undefined
+  const child = findFirstTriggerVNode(slots.default?.() ?? [])
   if (child) {
     return cloneVNode(child, {
       onMouseenter: onMouseEnter,

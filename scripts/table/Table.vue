@@ -157,14 +157,59 @@
         </div>
       </ScrollBox>
 
-      <Transition name="yiz-table-loading-fade">
-        <div v-if="loading" class="yiz-table-loading-mask" role="status">
-          <slot name="loading">
-            <Loading />
-          </slot>
-        </div>
-      </Transition>
     </div>
+
+    <!-- Footer table -->
+    <div v-if="footerRows.length > 0" ref="footerWrapperRef" class="yiz-table-footer-wrapper" role="rowgroup">
+      <div class="yiz-table-footer" :style="{ width: tableContentWidth }">
+        <div
+          v-for="(footerRow, rowIndex) in footerRows"
+          :key="footerRow.key"
+          role="row"
+          class="yiz-table-footer-row"
+          :class="footerRow.className"
+          :style="{ gridTemplateColumns: columnTemplate }"
+        >
+          <div
+            v-for="col in renderedColumns"
+            :key="col.field"
+            role="cell"
+            class="yiz-table-td yiz-table-footer-cell"
+            :class="{
+              'yiz-table-gap-col': col.field === '__yiz_gap',
+              'yiz-table-fixed': col.fixed !== 'none',
+              'yiz-table-fixed-left': col.fixed === 'left',
+              'yiz-table-fixed-right': col.fixed === 'right',
+              'yiz-table-last-non-fixed': borderMarkerFields.lastNonFixed === col.field,
+              'yiz-table-first-right-fixed': borderMarkerFields.firstRightFixed === col.field,
+              'yiz-table-last-right-fixed': borderMarkerFields.lastRightFixed === col.field,
+              'yiz-table-left-fixed-shadow': borderMarkerFields.lastLeftFixed === col.field && leftFixedShadowVisible,
+              'yiz-table-right-fixed-shadow':
+                borderMarkerFields.firstRightFixed === col.field && rightFixedShadowVisible,
+            }"
+            :style="{ textAlign: col.align || 'left', ...getCellStyle(col) }"
+          >
+            <slot
+              name="footer-cell"
+              :footer-row="footerRow"
+              :row-index="rowIndex"
+              :column="col"
+              :value="footerRow.cells[col.field]"
+            >
+              <FooterCellRenderer :value="footerRow.cells[col.field]" />
+            </slot>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <Transition name="yiz-table-loading-fade">
+      <div v-if="loading" class="yiz-table-loading-mask" role="status">
+        <slot name="loading">
+          <Loading />
+        </slot>
+      </div>
+    </Transition>
 
     <div style="display: none"><slot /></div>
   </div>
@@ -198,7 +243,21 @@
 </template>
 
 <script lang="ts" setup>
-import { Comment, computed, Fragment, nextTick, onMounted, onUnmounted, provide, ref, Text, useSlots, watch } from 'vue'
+import {
+  Comment,
+  computed,
+  defineComponent,
+  Fragment,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  provide,
+  ref,
+  Text,
+  useSlots,
+  watch,
+  type VNodeChild,
+} from 'vue'
 import { ArrowSort16Regular, ArrowSortDownLines16Regular } from '@vicons/fluent'
 import TableColumnComp from './TableColumn.vue'
 import CellRenderer from './CellRenderer.vue'
@@ -225,9 +284,49 @@ export interface TableColumn {
   showOverflow?: boolean
 }
 
+export type TableFooterValue = VNodeChild
+
+export interface TableFooterRow {
+  key: string | number
+  cells: Record<string, TableFooterValue>
+  className?: string
+}
+
+export interface TableFooterContext {
+  columns: readonly TableColumn[]
+  data: readonly Record<string, any>[]
+}
+
+export type TableFooterMethod = (context: TableFooterContext) => readonly TableFooterRow[]
+
+export interface TableFooterCellScope {
+  footerRow: TableFooterRow
+  rowIndex: number
+  column: TableColumn
+  value: TableFooterValue
+}
+
+export type TableSortOrder = 'asc' | 'desc'
+
+export interface TableSortState {
+  field: string
+  order: TableSortOrder
+}
+
+const FooterCellRenderer = defineComponent({
+  name: 'TableFooterCellRenderer',
+  props: {
+    value: {},
+  },
+  setup(rendererProps) {
+    return () => rendererProps.value as VNodeChild
+  },
+})
+
 const slots = useSlots()
 
 const selected = defineModel<any>('selected')
+const sort = defineModel<TableSortState | null>('sort', { default: null })
 
 const props = withDefaults(
   defineProps<{
@@ -242,6 +341,9 @@ const props = withDefaults(
     selectDisabled?: (row: any, index: number) => boolean
     loading?: boolean
     showOverflow?: boolean
+    showFooter?: boolean
+    footerMethod?: TableFooterMethod
+    sortMode?: 'local' | 'remote'
   }>(),
   {
     data: () => [],
@@ -254,6 +356,9 @@ const props = withDefaults(
     selectDisabled: undefined,
     loading: false,
     showOverflow: false,
+    showFooter: false,
+    footerMethod: undefined,
+    sortMode: 'local',
   },
 )
 
@@ -558,6 +663,7 @@ provide('yizTableRegisterColumn', registerColumn)
 const emit = defineEmits<{
   select: [selected: Record<string, any> | Record<string, any>[] | null]
   'row-dblclick': [row: Record<string, any>, index: number, event: MouseEvent]
+  'sort-change': [sort: TableSortState | null]
 }>()
 
 function onRowDblclick(row: Record<string, any>, index: number, event: MouseEvent) {
@@ -568,41 +674,57 @@ defineSlots<{
   default?: any
   empty?: any
   loading?: any
+  'footer-cell'?: (scope: TableFooterCellScope) => any
 }>()
 
-const sortKey = ref('')
-const sortOrder = ref<'asc' | 'desc'>('asc')
+const sortKey = computed(() => sort.value?.field ?? '')
+const sortOrder = computed<TableSortOrder>(() => sort.value?.order ?? 'asc')
 
 const sortedData = computed(() => {
-  if (!sortKey.value) return props.data
+  if (!sort.value || props.sortMode === 'remote') return props.data
   const sorted = [...props.data]
+  const { field, order } = sort.value
   sorted.sort((a, b) => {
-    const va = a[sortKey.value]
-    const vb = b[sortKey.value]
+    const va = a[field]
+    const vb = b[field]
     if (va == null) return 1
     if (vb == null) return -1
     if (typeof va === 'number' && typeof vb === 'number') {
-      return sortOrder.value === 'asc' ? va - vb : vb - va
+      return order === 'asc' ? va - vb : vb - va
     }
     const sa = String(va)
     const sb = String(vb)
-    return sortOrder.value === 'asc' ? sa.localeCompare(sb) : sb.localeCompare(sa)
+    return order === 'asc' ? sa.localeCompare(sb) : sb.localeCompare(sa)
   })
   return sorted
 })
 
+const footerColumns = computed(() =>
+  displayColumns.value.filter(
+    (column) => column.field !== '__yiz_select' && column.field !== '__yiz_row_no' && column.field !== '__yiz_gap',
+  ),
+)
+
+const footerRows = computed<readonly TableFooterRow[]>(() => {
+  if (!props.showFooter || !props.footerMethod) return []
+  const rows = props.footerMethod({
+    columns: footerColumns.value,
+    data: sortedData.value,
+  })
+  return Array.isArray(rows) ? rows : []
+})
+
 function onSort(col: TableColumn) {
-  if (sortKey.value === col.field) {
-    if (sortOrder.value === 'asc') {
-      sortOrder.value = 'desc'
-    } else {
-      sortKey.value = ''
-      sortOrder.value = 'asc'
-    }
+  let nextSort: TableSortState | null
+  if (sort.value?.field !== col.field) {
+    nextSort = { field: col.field, order: 'asc' }
+  } else if (sort.value.order === 'asc') {
+    nextSort = { field: col.field, order: 'desc' }
   } else {
-    sortKey.value = col.field
-    sortOrder.value = 'asc'
+    nextSort = null
   }
+  sort.value = nextSort
+  emit('sort-change', nextSort)
 }
 
 const vClass = computed(() => ({
@@ -614,6 +736,7 @@ const vClass = computed(() => ({
 
 const tableWrapperRef = ref<HTMLDivElement>()
 const headerWrapperRef = ref<HTMLDivElement>()
+const footerWrapperRef = ref<HTMLDivElement>()
 const bodyScrollBoxRef = ref<InstanceType<typeof ScrollBox>>()
 const bodyContentRef = ref<HTMLDivElement>()
 const columnWidths = ref<Record<string, string>>({})
@@ -706,8 +829,9 @@ function checkFixedColumnShadow() {
 
 function onBodyScroll() {
   const bodyViewport = bodyScrollBoxRef.value?.viewport as HTMLElement | undefined
-  if (headerWrapperRef.value && bodyViewport) {
-    headerWrapperRef.value.scrollLeft = bodyViewport.scrollLeft
+  if (bodyViewport) {
+    if (headerWrapperRef.value) headerWrapperRef.value.scrollLeft = bodyViewport.scrollLeft
+    if (footerWrapperRef.value) footerWrapperRef.value.scrollLeft = bodyViewport.scrollLeft
   }
   checkBodyContentShort()
   checkFixedColumnShadow()
@@ -764,6 +888,14 @@ watch(
   bodyContentRef,
   () => {
     nextTick(() => observeBodyContentTargets())
+  },
+  { flush: 'post' },
+)
+
+watch(
+  footerWrapperRef,
+  () => {
+    nextTick(() => onBodyScroll())
   },
   { flush: 'post' },
 )
@@ -960,6 +1092,7 @@ onUnmounted(() => {
 
 <style lang="less">
 .yiz-table-wrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -969,6 +1102,11 @@ onUnmounted(() => {
 }
 
 .yiz-table-header-wrapper {
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.yiz-table-footer-wrapper {
   flex-shrink: 0;
   overflow: hidden;
 }
@@ -991,7 +1129,8 @@ onUnmounted(() => {
 }
 
 .yiz-table-header,
-.yiz-table-row {
+.yiz-table-row,
+.yiz-table-footer-row {
   display: grid;
   box-sizing: border-box;
 }
@@ -1020,6 +1159,11 @@ onUnmounted(() => {
   background: #fff;
   word-break: break-all;
   min-width: 0;
+}
+
+.yiz-table-footer-cell {
+  background: #fafafa;
+  font-weight: 600;
 }
 
 .yiz-table-row:hover .yiz-table-td {
@@ -1159,6 +1303,11 @@ onUnmounted(() => {
 }
 
 .yiz-table-th.yiz-table-gap-col {
+  border-bottom: 1px solid var(--yiz-color-border, #d9d9d9) !important;
+}
+
+.yiz-table-footer-cell.yiz-table-gap-col {
+  background: #fafafa;
   border-bottom: 1px solid var(--yiz-color-border, #d9d9d9) !important;
 }
 

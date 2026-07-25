@@ -29,6 +29,7 @@
 <script lang="ts" setup>
 import { cloneVNode, computed, h, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch, type VNode } from 'vue'
 import { nextZIndex } from '../zIndex'
+import { findFirstTriggerVNode } from '../triggerVNode'
 import {
   createOverlayScope,
   disposeOverlayScope,
@@ -124,7 +125,7 @@ function clearTriggerElement(vnode: VNode) {
 }
 
 function renderTrigger(): VNode {
-  const child = slots.default?.()[0] as VNode | undefined
+  const child = findFirstTriggerVNode(slots.default?.() ?? [])
   if (child) {
     return cloneVNode(child, {
       class: { 'yiz-popover-trigger-open': visible.value },

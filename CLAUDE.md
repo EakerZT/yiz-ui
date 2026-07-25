@@ -112,7 +112,7 @@ Key options: `title`, `content` (string or VNode), `type` (`'info' | 'success' |
 
 The most complex component. Three files:
 
-- **`Table.vue`** — main SFC using separate CSS Grid header/body structures with synchronized column templates. Flex column layout fills parent height (no `height` prop). Features: sorting, column resize with min/max constraints, single/multi selection (v-model via `defineModel`), row-level select disabling (`selectDisabled`), `select` event (emits full row data), row numbers, empty/loading slots, fixed columns with sticky positioning.
+- **`Table.vue`** — main SFC using separate CSS Grid header/body/footer structures with synchronized column templates. Flex column layout fills parent height (no `height` prop). Features: local/remote sorting, column resize with min/max constraints, single/multi selection (v-model via `defineModel`), row-level select disabling (`selectDisabled`), `select` event (emits full row data), row numbers, empty/loading slots, fixed columns with sticky positioning, and multi-row footers.
 - **`TableColumn.vue`** — renderless declarative component; declares column config via props (`label`, `field`, `width`, `sortable`, `align`, `minWidth`, `maxWidth`, `fixed`, `formatter`). Supports a `#default` slot for custom cell rendering.
 - Table column pixel dimensions accept numbers, numeric strings, and `px` strings. Values are normalized to pixels; invalid or negative values are treated as omitted.
 - **`CellRenderer.vue`** — internal helper that calls a slot render function with `{ value, row, index }` scope and returns VNodes. Uses `defineComponent` with a setup-returning-render-function pattern (NOT `<script setup>`).
@@ -132,13 +132,17 @@ The most complex component. Three files:
 
 **Fixed columns:** `TableColumn.fixed` (`'none' | 'left' | 'right'`) — `displayColumns` reorders user columns so left-fixed come first (after virtual columns), then non-fixed, then right-fixed. `fixedOffsets` computed calculates cumulative sticky `left`/`right` offsets. During resize, fixed column widths are preserved from `columnWidths` to prevent sticky-offset drift.
 
-**Key props on `y-table`:** `data`, `bordered`, `stripe`, `size`, `resize`, `no`, `selectMode`, `rowKey`, `selectDisabled`, `loading`, `v-model:selected`. The `#loading` slot replaces the default loading indicator and mask content.
+**Footer rows:** Enable with `show-footer` and provide `footer-method`, which receives the current rendered data plus business columns and returns `TableFooterRow[]`. Each row maps values through `cells: Record<field, value>`, so selection, row-number, gap, and reordered fixed columns cannot shift footer values. The footer stays below the vertical scroll area, shares the header/body grid template and sticky offsets, and exposes `#footer-cell` for custom rendering.
 
-**Key events:** `select` — fires when selection changes, payload is the selected row data (single object for single mode, array for multi mode, null when deselected in single mode). `row-dblclick` — fires when a data row is double-clicked with `(row, displayIndex, MouseEvent)`.
+**Sorting:** `sortMode` defaults to `'local'`, where the table sorts a copied data array. In `'remote'` mode, clicks only update the sort indicator and emit `sort-change`; the parent replaces `data` after its request. The optional `v-model:sort` uses `{ field, order: 'asc' | 'desc' } | null`; without a binding, the model falls back to internal state so the three-step ascending/descending/cleared cycle still works.
 
-**Body scrolling with ScrollBox:** The body area uses `<ScrollBox ref="bodyScrollBoxRef" :z-index="4" @scroll="onBodyScroll">`. Header horizontal sync reads `bodyScrollBoxRef.value.viewport.scrollLeft` (exposed via `defineExpose`). The `:z-index="4"` ensures scrollbar tracks render above fixed columns (z-index 2–3). `bodyHasOverflow` ref tracks `viewport.scrollHeight > clientHeight` to conditionally restore the last row's bottom border when content doesn't overflow.
+**Key props on `y-table`:** `data`, `bordered`, `stripe`, `size`, `resize`, `no`, `selectMode`, `sortMode`, `rowKey`, `selectDisabled`, `loading`, `showFooter`, `footerMethod`, `v-model:selected`, `v-model:sort`. The root-level loading mask covers the header, body, and footer; `#loading` replaces its default indicator. `#footer-cell` customizes footer cell rendering.
 
-**Last row border logic:** For bordered tables, `tr:last-child td { border-bottom: none }` is the default. When `bodyHasOverflow` is false (content doesn't fill the viewport), the `.yiz-table-no-overflow` class overrides this to restore the border. When content overflows, the ScrollBox host's `border-bottom` provides the visual closure instead.
+**Key events:** `select` — fires when selection changes, payload is the selected row data (single object for single mode, array for multi mode, null when deselected in single mode). `row-dblclick` — fires when a data row is double-clicked with `(row, displayIndex, MouseEvent)`. `sort-change` — fires only for user-triggered sort changes with `TableSortState | null`; programmatic model updates do not emit it.
+
+**Body scrolling with ScrollBox:** The body area uses `<ScrollBox ref="bodyScrollBoxRef" :z-index="4" @scroll="onBodyScroll">`. Header and footer horizontal sync read `bodyScrollBoxRef.value.viewport.scrollLeft` (exposed via `defineExpose`). The `:z-index="4"` ensures scrollbar tracks render above fixed columns (z-index 2–3). `bodyContentShort` tracks whether body content is shorter than the viewport to control the last row's bottom border.
+
+**Last row border logic:** For bordered tables, the last body row omits its bottom border by default. When `bodyContentShort` is true, `.yiz-table-body-short` restores it; when content reaches or exceeds the viewport, the ScrollBox host's bottom border provides the visual closure instead.
 
 **Right-fixed column border:** `borderMarkerFields` computed identifies the last non-fixed column before right-fixed columns and the first right-fixed column. CSS removes `border-right` from the former and adds `border-left` to the latter, creating a clean boundary line.
 

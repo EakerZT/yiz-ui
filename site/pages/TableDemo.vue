@@ -18,6 +18,25 @@
       </p>
     </y-card>
 
+    <y-card :title="$t('demo.table.remoteSort')" style="margin-top: 8px">
+      <p class="demo-section-desc" style="margin-bottom: 12px">{{ $t('demo.table.remoteSortDesc') }}</p>
+      <div style="height: 250px">
+        <y-table
+          :data="remoteData"
+          bordered
+          sort-mode="remote"
+          :loading="remoteSortLoading"
+          @sort-change="onRemoteSortChange"
+        >
+          <y-table-column :label="$t('demo.common.name')" field="name" width="160px" sortable />
+          <y-table-column :label="$t('demo.common.age')" field="age" width="120px" sortable align="center" />
+          <y-table-column :label="$t('demo.common.city')" field="city" width="180px" />
+          <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
+        </y-table>
+      </div>
+      <p class="demo-table-info">{{ remoteSortSignalText }}</p>
+    </y-card>
+
     <y-card :title="$t('demo.table.borderedStripe')" style="margin-top: 8px">
       <div style="height: 250px">
         <y-table :data="data" bordered stripe>
@@ -25,6 +44,37 @@
           <y-table-column :label="$t('demo.common.age')" field="age" sortable align="center" />
           <y-table-column :label="$t('demo.common.city')" field="city" sortable />
           <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
+        </y-table>
+      </div>
+    </y-card>
+
+    <y-card :title="$t('demo.table.multiRowFooter')" style="margin-top: 8px">
+      <p class="demo-section-desc" style="margin-bottom: 12px">{{ $t('demo.table.multiRowFooterDesc') }}</p>
+      <div style="height: 300px">
+        <y-table :data="footerData" bordered stripe no show-footer :footer-method="getFooter">
+          <y-table-column :label="$t('demo.table.product')" field="product" width="240px" fixed="left" />
+          <y-table-column :label="$t('demo.table.category')" field="category" width="280px" />
+          <y-table-column :label="$t('demo.table.quantity')" field="quantity" width="180px" align="right" />
+          <y-table-column
+            :label="$t('demo.table.unitPrice')"
+            field="unitPrice"
+            width="220px"
+            align="right"
+            :formatter="formatMoney"
+          />
+          <y-table-column
+            :label="$t('demo.table.amount')"
+            field="amount"
+            width="240px"
+            align="right"
+            fixed="right"
+            :formatter="formatMoney"
+          />
+          <template #footer-cell="{ footerRow, column, value }">
+            <span :class="{ 'demo-table-footer-total': footerRow.key === 'total' }">
+              {{ column.field === 'amount' && typeof value === 'number' ? formatMoney(value) : value }}
+            </span>
+          </template>
         </y-table>
       </div>
     </y-card>
@@ -252,9 +302,8 @@
 </template>
 
 <script lang="ts" setup>
-import { $t } from 'yiz-ui'
-import { computed, ref } from 'vue'
-import { LinkButton } from 'yiz-ui'
+import { $t, LinkButton, type TableFooterMethod, type TableSortState } from 'yiz-ui'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import TableBox from '../components/TableBox.vue'
 
 type DemoSize = 'small' | 'default' | 'large'
@@ -293,6 +342,98 @@ const data = computed<Row[]>(() => [
     status: $t('demo.common.disabled'),
   },
 ])
+
+const remoteData = ref<Row[]>([])
+const remoteSortLoading = ref(false)
+const remoteSortSignal = ref<TableSortState | null>(null)
+let remoteSortTimer: ReturnType<typeof setTimeout> | null = null
+
+function sortRemoteRows(rows: readonly Row[], sortState: TableSortState | null) {
+  if (!sortState) return [...rows]
+  const result = [...rows]
+  const { field, order } = sortState
+  result.sort((a, b) => {
+    const left = a[field as keyof Row]
+    const right = b[field as keyof Row]
+    const compared =
+      typeof left === 'number' && typeof right === 'number' ? left - right : String(left).localeCompare(String(right))
+    return order === 'asc' ? compared : -compared
+  })
+  return result
+}
+
+watch(
+  data,
+  (rows) => {
+    remoteData.value = sortRemoteRows(rows, remoteSortSignal.value)
+  },
+  { immediate: true },
+)
+
+function onRemoteSortChange(sortState: TableSortState | null) {
+  remoteSortSignal.value = sortState
+  remoteSortLoading.value = true
+  if (remoteSortTimer !== null) clearTimeout(remoteSortTimer)
+  remoteSortTimer = setTimeout(() => {
+    remoteData.value = sortRemoteRows(data.value, sortState)
+    remoteSortLoading.value = false
+    remoteSortTimer = null
+  }, 5000)
+}
+
+const remoteSortSignalText = computed(() => {
+  const sortState = remoteSortSignal.value
+  return sortState
+    ? $t('demo.table.remoteSortSignal', { field: sortState.field, order: sortState.order })
+    : $t('demo.table.remoteSortCleared')
+})
+
+onBeforeUnmount(() => {
+  if (remoteSortTimer !== null) clearTimeout(remoteSortTimer)
+})
+
+interface FooterDemoRow {
+  product: string
+  category: string
+  quantity: number
+  unitPrice: number
+  amount: number
+}
+
+const footerData = computed<FooterDemoRow[]>(() => [
+  { product: 'YIZ-001', category: $t('demo.common.electronics'), quantity: 3, unitPrice: 2999, amount: 8997 },
+  { product: 'YIZ-002', category: $t('demo.common.clothing'), quantity: 8, unitPrice: 399, amount: 3192 },
+  { product: 'YIZ-003', category: $t('demo.common.food'), quantity: 12, unitPrice: 89, amount: 1068 },
+])
+
+const getFooter: TableFooterMethod = ({ data }) => {
+  const quantity = data.reduce((sum, row) => sum + Number(row.quantity), 0)
+  const amount = data.reduce((sum, row) => sum + Number(row.amount), 0)
+  const count = data.length
+
+  return [
+    {
+      key: 'total',
+      cells: {
+        product: $t('demo.table.total'),
+        quantity,
+        amount,
+      },
+    },
+    {
+      key: 'average',
+      cells: {
+        product: $t('demo.table.average'),
+        quantity: count ? Number((quantity / count).toFixed(2)) : '-',
+        amount: count ? Number((amount / count).toFixed(2)) : '-',
+      },
+    },
+  ]
+}
+
+function formatMoney(value: number) {
+  return `¥${value.toFixed(2)}`
+}
 
 function formatAge(value: number) {
   return $t('demo.table.ageTemplate', { value })
@@ -520,6 +661,10 @@ const overflowData = computed<OverflowRow[]>(() => [
   border-radius: 50%;
   background: currentColor;
   animation: demo-table-loading-pulse 0.8s ease-in-out infinite alternate;
+}
+
+.demo-table-footer-total {
+  color: var(--yiz-color-primary);
 }
 
 @keyframes demo-table-loading-pulse {

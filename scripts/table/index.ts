@@ -2,4 +2,13 @@ import Table from './Table.vue'
 import TableColumn from './TableColumn.vue'
 
 export { Table, TableColumn }
-export type { TableColumn as TableColumnConfig } from './Table.vue'
+export type {
+  TableColumn as TableColumnConfig,
+  TableFooterCellScope,
+  TableFooterContext,
+  TableFooterMethod,
+  TableFooterRow,
+  TableFooterValue,
+  TableSortOrder,
+  TableSortState,
+} from './Table.vue'

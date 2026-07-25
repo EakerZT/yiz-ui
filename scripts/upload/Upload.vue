@@ -12,6 +12,7 @@
 
 <script lang="ts" setup>
 import { cloneVNode, h, ref, useSlots, type VNode } from 'vue'
+import { findFirstTriggerVNode } from '../triggerVNode'
 
 const props = withDefaults(
   defineProps<{
@@ -49,7 +50,7 @@ function clearTriggerElement(vnode: VNode) {
 }
 
 function renderTrigger(): VNode {
-  const child = slots.default?.()[0] as VNode | undefined
+  const child = findFirstTriggerVNode(slots.default?.() ?? [])
   const listeners = {
     onClick: onClick,
     onDragenter: onDragEnter,
