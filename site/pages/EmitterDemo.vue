@@ -1,8 +1,11 @@
 <template>
-  <section class="demo-section emitter-demo">
-    <h2 class="demo-section-title">{{ $t('demo.emitter.title') }}</h2>
-    <p class="demo-section-desc">{{ $t('demo.emitter.desc') }}</p>
-
+  <ComponentDocPage
+    class="emitter-demo"
+    title-key="demo.emitter.title"
+    description-key="demo.emitter.desc"
+    :demos="[]"
+    :api-components="['Emitter']"
+  >
     <article class="emitter-doc">
       <h3>{{ $t('demo.emitter.apiTitle') }}</h3>
       <p>{{ $t('demo.emitter.apiDesc') }}</p>
@@ -37,11 +40,12 @@
         <li>{{ $t('demo.emitter.ruleClear') }}</li>
       </ul>
     </article>
-  </section>
+  </ComponentDocPage>
 </template>
 
 <script lang="ts" setup>
 import { $t } from 'yiz-ui'
+import ComponentDocPage from '../components/docs/ComponentDocPage.vue'
 
 const apiCode = `import { emitter, createEmitter, useEmitter } from 'yiz-ui'
 

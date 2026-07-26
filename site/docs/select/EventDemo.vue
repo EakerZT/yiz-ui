@@ -1,11 +1,11 @@
 <template>
-  <Select v-model:value="value" :options="options" @change="changeCount++" />
+  <y-select v-model:value="value" :options="options" @change="changeCount++" />
   <span class="demo-hint">{{ $t('demo.select.changeCount', { count: changeCount }) }}</span>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t, Select } from 'yiz-ui'
+import { $t } from 'yiz-ui'
 
 const value = ref()
 const changeCount = ref(0)

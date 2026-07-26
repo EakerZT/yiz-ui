@@ -40,7 +40,6 @@
   ],
   "scripts": {
     "docs:api": "node site/build/generate-component-api.mjs",
-    "docs:demos": "node site/build/generate-demo-sources.mjs",
     "dev": "vite",
     "site:build": "vite build --config vite.config.site.mts",
     "typecheck": "vue-tsc --noEmit",

@@ -1,13 +1,13 @@
 <template>
-  <ButtonGroup wrap gap="8">
-    <Button type="primary" @click="openConfirm">{{ $t('demo.dialog.confirm') }}</Button>
-    <Button @click="openAsyncConfirm">{{ $t('demo.dialog.asyncConfirm') }}</Button>
-    <Button @click="openPreventConfirm">{{ $t('demo.dialog.preventClose') }}</Button>
-  </ButtonGroup>
+  <y-button-group wrap gap="8">
+    <y-button type="primary" @click="openConfirm">{{ $t('demo.dialog.confirm') }}</y-button>
+    <y-button @click="openAsyncConfirm">{{ $t('demo.dialog.asyncConfirm') }}</y-button>
+    <y-button @click="openPreventConfirm">{{ $t('demo.dialog.preventClose') }}</y-button>
+  </y-button-group>
 </template>
 
 <script lang="ts" setup>
-import { $t, Button, ButtonGroup, Dialog, message } from 'yiz-ui'
+import { $t, Dialog, message } from 'yiz-ui'
 
 function openConfirm() {
   Dialog.confirm({

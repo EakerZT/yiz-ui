@@ -1,0 +1,3 @@
+<template>
+  <y-empty />
+</template>

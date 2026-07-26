@@ -1,29 +1,28 @@
 <template>
   <div class="button-size-demo">
-    <RadioButtonGroup v-model:value="size" :options="sizeOptions" />
-    <ButtonGroup wrap gap="8">
-      <Button :size="size">outlined</Button>
-      <Button type="primary" :size="size">primary</Button>
-      <Button type="dash" :size="size">dash</Button>
-      <Button type="filled" :size="size">filled</Button>
-      <Button type="text" :size="size">text</Button>
-      <Button type="plain" :size="size">plain</Button>
-      <Button type="primary" color="success" :size="size">success</Button>
-      <Button type="primary" color="warning" :size="size">warning</Button>
-      <Button type="primary" color="error" :size="size">error</Button>
-      <Button type="primary" :size="size"><Icon size="16" :icon="Flash16Regular" /></Button>
-      <Button type="primary" :size="size"><Icon size="16" :icon="Flash16Regular" /> Search</Button>
-      <Button type="primary" shape="round" :size="size">round</Button>
-      <Button type="primary" shape="round" :size="size"><Icon size="16" :icon="Flash16Regular" /></Button>
-      <Button type="primary" shape="circle" :size="size"><Icon size="16" :icon="Flash16Regular" /></Button>
-    </ButtonGroup>
+    <y-radio-button-group v-model:value="size" :options="sizeOptions" />
+    <y-button-group wrap gap="8">
+      <y-button :size="size">outlined</y-button>
+      <y-button type="primary" :size="size">primary</y-button>
+      <y-button type="dash" :size="size">dash</y-button>
+      <y-button type="filled" :size="size">filled</y-button>
+      <y-button type="text" :size="size">text</y-button>
+      <y-button type="plain" :size="size">plain</y-button>
+      <y-button type="primary" color="success" :size="size">success</y-button>
+      <y-button type="primary" color="warning" :size="size">warning</y-button>
+      <y-button type="primary" color="error" :size="size">error</y-button>
+      <y-button type="primary" :size="size"><y-icon size="16" :icon="Flash16Regular" /></y-button>
+      <y-button type="primary" :size="size"><y-icon size="16" :icon="Flash16Regular" /> Search</y-button>
+      <y-button type="primary" shape="round" :size="size">round</y-button>
+      <y-button type="primary" shape="round" :size="size"><y-icon size="16" :icon="Flash16Regular" /></y-button>
+      <y-button type="primary" shape="circle" :size="size"><y-icon size="16" :icon="Flash16Regular" /></y-button>
+    </y-button-group>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { Flash16Regular } from '@vicons/fluent'
-import { Button, ButtonGroup, Icon, RadioButtonGroup } from 'yiz-ui'
+import { ref } from 'vue'
 
 const size = ref<'small' | 'default' | 'large'>('default')
 const sizeOptions = [

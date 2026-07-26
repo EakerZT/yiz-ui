@@ -1,0 +1,35 @@
+<template>
+  <y-segmented v-model:value="eventValue" :options="periodOptions" @change="onChange" /><span class="demo-hint">{{
+    $t('demo.segmented.changeCount', { count: changeCount })
+  }}</span>
+</template>
+
+<script lang="ts" setup>
+import { computed, ref } from 'vue'
+import { $t } from 'yiz-ui'
+
+const periodOptions = computed(() => [
+  { label: $t('demo.segmented.day'), value: 'day' },
+  { label: $t('demo.segmented.week'), value: 'week' },
+  { label: $t('demo.segmented.month'), value: 'month' },
+  { label: $t('demo.segmented.year'), value: 'year' },
+])
+
+const eventValue = ref('day')
+
+const changeCount = ref(0)
+
+function onChange() {
+  changeCount.value++
+}
+</script>
+
+<style scoped>
+.demo-hint {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 12px;
+  color: #999;
+  vertical-align: middle;
+}
+</style>

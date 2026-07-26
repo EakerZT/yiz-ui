@@ -1,27 +1,27 @@
 <template>
-  <ButtonGroup>
-    <Button type="primary" @click="customVisible = true">{{ $t('demo.dialog.customFooter') }}</Button>
-    <Button @click="disabledVisible = true">{{ $t('demo.dialog.disabledFooter') }}</Button>
-  </ButtonGroup>
+  <y-button-group>
+    <y-button type="primary" @click="customVisible = true">{{ $t('demo.dialog.customFooter') }}</y-button>
+    <y-button @click="disabledVisible = true">{{ $t('demo.dialog.disabledFooter') }}</y-button>
+  </y-button-group>
 
-  <Dialog v-model:show="customVisible" :title="$t('demo.card.confirmAction')">
+  <y-dialog v-model:show="customVisible" :title="$t('demo.card.confirmAction')">
     <p>{{ $t('demo.card.confirmMsg') }}</p>
     <template #footer>
       <div class="dialog-footer-actions">
-        <Button @click="customVisible = false">{{ $t('demo.common.cancel') }}</Button>
-        <Button type="primary" @click="customVisible = false">{{ $t('demo.common.confirm') }}</Button>
+        <y-button @click="customVisible = false">{{ $t('demo.common.cancel') }}</y-button>
+        <y-button type="primary" @click="customVisible = false">{{ $t('demo.common.confirm') }}</y-button>
       </div>
     </template>
-  </Dialog>
+  </y-dialog>
 
-  <Dialog v-model:show="disabledVisible" :title="$t('demo.dialog.disabledFooter')" disabled-footer>
+  <y-dialog v-model:show="disabledVisible" :title="$t('demo.dialog.disabledFooter')" disabled-footer>
     <p>{{ $t('demo.dialog.disabledFooterHint') }}</p>
-  </Dialog>
+  </y-dialog>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t, Button, ButtonGroup, Dialog } from 'yiz-ui'
+import { $t } from 'yiz-ui'
 
 const customVisible = ref(false)
 const disabledVisible = ref(false)

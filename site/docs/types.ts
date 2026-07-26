@@ -1,6 +1,7 @@
 import type { Component } from 'vue'
 
 export interface DemoDefinition {
+  id: string
   titleKey: string
   descriptionKey?: string
   component: Component

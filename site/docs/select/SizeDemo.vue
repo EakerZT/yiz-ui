@@ -1,13 +1,13 @@
 <template>
   <div class="select-size-demo">
-    <RadioButtonGroup v-model:value="size" :options="sizeOptions" />
-    <Select v-model:value="value" :options="options" :size="size" />
+    <y-radio-button-group v-model:value="size" :options="sizeOptions" />
+    <y-select v-model:value="value" :options="options" :size="size" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t, RadioButtonGroup, Select } from 'yiz-ui'
+import { $t } from 'yiz-ui'
 
 const value = ref()
 const size = ref<'small' | 'default' | 'large'>('default')

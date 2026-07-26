@@ -1,11 +1,10 @@
 <template>
-  <ButtonGroup>
-    <Button type="primary"><Icon :icon="Flash16Regular" /> Search</Button>
-    <Button type="primary" shape="circle"><Icon :icon="Flash16Regular" /></Button>
-  </ButtonGroup>
+  <y-button-group>
+    <y-button type="primary"><y-icon :icon="Flash16Regular" /> Search</y-button>
+    <y-button type="primary" shape="circle"><y-icon :icon="Flash16Regular" /></y-button>
+  </y-button-group>
 </template>
 
 <script lang="ts" setup>
 import { Flash16Regular } from '@vicons/fluent'
-import { Button, ButtonGroup, Icon } from 'yiz-ui'
 </script>

@@ -1,24 +1,24 @@
 <template>
-  <Select v-model:value="city">
-    <SelectOption value="beijing">
+  <y-select v-model:value="city">
+    <y-select-option value="beijing">
       <span class="city-option"><i class="primary"></i>{{ $t('demo.common.beijing') }}</span>
-    </SelectOption>
-    <SelectOption :label="$t('demo.common.shanghai')" value="shanghai" :disabled="shanghaiDisabled" />
-    <SelectOption value="guangzhou">
+    </y-select-option>
+    <y-select-option :label="$t('demo.common.shanghai')" value="shanghai" :disabled="shanghaiDisabled" />
+    <y-select-option value="guangzhou">
       <span class="city-option"><i class="success"></i>{{ $t('demo.common.guangzhou') }}</span>
-    </SelectOption>
-    <SelectOption :label="$t('demo.common.shenzhen')" value="shenzhen" />
-    <SelectOption :label="$t('demo.common.hangzhou')" value="hangzhou" />
-  </Select>
-  <Button style="margin-left: 8px" @click="shanghaiDisabled = !shanghaiDisabled">
+    </y-select-option>
+    <y-select-option :label="$t('demo.common.shenzhen')" value="shenzhen" />
+    <y-select-option :label="$t('demo.common.hangzhou')" value="hangzhou" />
+  </y-select>
+  <y-button style="margin-left: 8px" @click="shanghaiDisabled = !shanghaiDisabled">
     {{ shanghaiDisabled ? $t('demo.common.enabled') : $t('demo.common.disabled') }}
-  </Button>
+  </y-button>
   <span class="demo-hint">{{ $t('demo.select.value', { value: city }) }}</span>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t, Button, Select, SelectOption } from 'yiz-ui'
+import { $t } from 'yiz-ui'
 
 const city = ref()
 const shanghaiDisabled = ref(true)

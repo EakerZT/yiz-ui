@@ -1,10 +1,10 @@
 <template>
-  <Button @click="count++">{{ $t('demo.button.clickCount', { count }) }}</Button>
+  <y-button @click="count++">{{ $t('demo.button.clickCount', { count }) }}</y-button>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t, Button } from 'yiz-ui'
+import { $t } from 'yiz-ui'
 
 const count = ref(0)
 </script>

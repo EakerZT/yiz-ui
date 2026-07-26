@@ -28,16 +28,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, onBeforeUnmount, ref } from 'vue'
+import { onBeforeUnmount, ref } from 'vue'
 import { Card } from 'yiz-ui'
 import { $t } from '../../i18n'
-import { demoSourcePageKey } from './demoSourceContext'
 
 defineOptions({ inheritAttrs: false })
 
 const props = withDefaults(
   defineProps<{
-    sourceIndex: number
+    source: string
     title?: string
     bordered?: boolean
     shadow?: 'never' | 'hover' | 'always'
@@ -59,26 +58,16 @@ defineSlots<{
   footer?: () => any
 }>()
 
-const sourcePage = inject(demoSourcePageKey)
 const sourceVisible = ref(false)
 const copied = ref(false)
 let copiedTimer: number | undefined
-
-const source = computed(() => {
-  const page = sourcePage?.value
-  if (!page) return ''
-  const sections = [`<template>\n${page.demos[props.sourceIndex] ?? ''}\n</template>`]
-  if (page.script) sections.push(page.script)
-  sections.push(...page.styles)
-  return sections.join('\n\n')
-})
 
 function toggleSource() {
   sourceVisible.value = !sourceVisible.value
 }
 
 async function copySource() {
-  await navigator.clipboard.writeText(source.value)
+  await navigator.clipboard.writeText(props.source)
   copied.value = true
   if (copiedTimer) window.clearTimeout(copiedTimer)
   copiedTimer = window.setTimeout(() => {

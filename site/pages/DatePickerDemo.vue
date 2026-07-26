@@ -1,108 +1,13 @@
 <template>
-  <section class="demo-section">
-    <h2 class="demo-section-title">{{ $t('demo.datePicker.title') }}</h2>
-    <p class="demo-section-desc">{{ $t('demo.datePicker.desc') }}</p>
-
-    <demo-card :source-index="0" :title="$t('demo.common.basic')" style="margin-top: 8px">
-      <div class="demo-picker-field">
-        <DatePicker v-model:value="value1" />
-        <span class="demo-item-hint">{{ value1 ? fmt(value1) : $t('demo.common.notSelected') }}</span>
-      </div>
-    </demo-card>
-
-    <demo-card :source-index="1" :title="$t('demo.common.clearable')" style="margin-top: 8px">
-      <DatePicker v-model:value="value2" clearable />
-    </demo-card>
-
-    <demo-card :source-index="2" :title="$t('demo.common.disabled')" style="margin-top: 8px">
-      <DatePicker v-model:value="value3" disabled />
-    </demo-card>
-
-    <demo-card :source-index="3" :title="$t('demo.common.size')" style="margin-top: 8px">
-      <div class="demo-picker-field">
-        <y-radio-button-group v-model:value="datePickerSize" :options="sizeOptions" />
-        <DatePicker v-model:value="value4" :size="datePickerSize" />
-      </div>
-    </demo-card>
-
-    <demo-card :source-index="4" :title="$t('demo.datePicker.disableDates')" style="margin-top: 8px">
-      <DatePicker v-model:value="value5" :disabled-date="disabledDate" />
-    </demo-card>
-
-    <demo-card :source-index="5" :title="$t('demo.common.customFormat')" style="margin-top: 8px">
-      <DatePicker
-        v-model:value="value6"
-        :format="$t('demo.datePicker.yearMonthDay')"
-        :placeholder="$t('demo.common.placeholder')"
-      />
-    </demo-card>
-
-    <demo-card :source-index="6" :title="$t('demo.datePicker.valueFormat')" style="margin-top: 8px">
-      <div class="demo-picker-field">
-        <DatePicker v-model:value="value8" value-format="YYYY-MM-DD 00:00:00" clearable />
-        <span class="demo-item-hint">{{ value8 ?? $t('demo.common.notSelected') }}</span>
-      </div>
-    </demo-card>
-
-    <demo-card :source-index="7" :title="$t('demo.common.prefixSuffix')" style="margin-top: 8px">
-      <div class="demo-picker-field">
-        <DatePicker v-model:value="value7" prefix="Due" suffix="CST" clearable />
-        <span class="demo-item-hint">{{ value7 ? fmt(value7) : $t('demo.common.notSelected') }}</span>
-      </div>
-    </demo-card>
-  </section>
+  <ComponentDocPage
+    title-key="demo.datePicker.title"
+    description-key="demo.datePicker.desc"
+    :demos="demos"
+    :api-components="apiComponents"
+  />
 </template>
 
 <script lang="ts" setup>
-import { $t } from 'yiz-ui'
-import { ref } from 'vue'
-import { DatePicker } from 'yiz-ui'
-
-type DemoSize = 'small' | 'default' | 'large'
-
-const value1 = ref<Date | null>(null)
-const value2 = ref<Date | null>(new Date())
-const value3 = ref<Date | null>(new Date())
-const value4 = ref<Date | null>(null)
-const value5 = ref<Date | null>(null)
-const value6 = ref<Date | null>(new Date())
-const value7 = ref<Date | null>(new Date(2026, 5, 17))
-const value8 = ref<string | null>('2026-06-17 00:00:00')
-const datePickerSize = ref<DemoSize>('default')
-const sizeOptions = [
-  { label: 'small', value: 'small' },
-  { label: 'default', value: 'default' },
-  { label: 'large', value: 'large' },
-]
-
-function fmt(d: Date): string {
-  const y = d.getFullYear()
-  const m = String(d.getMonth() + 1).padStart(2, '0')
-  const day = String(d.getDate()).padStart(2, '0')
-  return `${y}-${m}-${day}`
-}
-
-function disabledDate(d: Date): boolean {
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  return d.getTime() < today.getTime()
-}
+import ComponentDocPage from '../components/docs/ComponentDocPage.vue'
+import { apiComponents, demos } from '../docs/date-picker'
 </script>
-
-<style scoped>
-.demo-picker-field {
-  display: flex;
-  flex: 1;
-  min-width: 0;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.demo-picker-field :deep(.yiz-date-picker) {
-  width: 100%;
-}
-
-.demo-picker-field .demo-item-hint {
-  margin: 0;
-}
-</style>

@@ -1,120 +1,13 @@
 <template>
-  <section class="demo-section">
-    <h2 class="demo-section-title">{{ $t('demo.inputGroup.title') }}</h2>
-    <p class="demo-section-desc">{{ $t('demo.inputGroup.desc') }}</p>
-
-    <demo-card :source-index="0" :title="$t('demo.inputGroup.addonProps')" style="margin-top: 8px">
-      <y-input-group before-addon="https://" after-addon=".com">
-        <y-input v-model:value="domain" :placeholder="$t('demo.inputGroup.domain')" />
-      </y-input-group>
-    </demo-card>
-
-    <demo-card :source-index="1" :title="$t('demo.inputGroup.addonSlots')" style="margin-top: 8px">
-      <y-input-group>
-        <template #beforeAddon>¥</template>
-        <y-input-number v-model:value="price" :controls="false" />
-        <template #afterAddon>{{ $t('demo.inputGroup.perMonth') }}</template>
-      </y-input-group>
-    </demo-card>
-
-    <demo-card :source-index="2" :title="$t('demo.inputGroup.search')" style="margin-top: 8px">
-      <y-input-group>
-        <y-select v-model:value="city" :options="cityOptions" style="width: 128px" />
-        <y-input v-model:value="keyword" :placeholder="$t('demo.inputGroup.keyword')" style="width: 220px" />
-        <y-button type="primary">{{ $t('demo.inputGroup.searchButton') }}</y-button>
-      </y-input-group>
-    </demo-card>
-
-    <demo-card :source-index="3" :title="$t('demo.card.border')" style="margin-top: 8px">
-      <y-input-group>
-        <y-checkbox v-model:checked="includeArchived" border>{{ $t('demo.common.enabled') }}</y-checkbox>
-        <y-input v-model:value="keyword" :placeholder="$t('demo.inputGroup.keyword')" style="width: 220px" />
-        <y-button type="primary">{{ $t('demo.inputGroup.searchButton') }}</y-button>
-      </y-input-group>
-    </demo-card>
-
-    <demo-card :source-index="4" :title="$t('demo.inputGroup.password')" style="margin-top: 8px">
-      <y-input-group :before-addon="$t('demo.inputGroup.accountAddon')">
-        <y-input v-model:value="account" :placeholder="$t('demo.inputGroup.account')" style="width: 180px" />
-        <y-input-password
-          v-model:value="password"
-          :placeholder="$t('demo.inputGroup.passwordPlaceholder')"
-          style="width: 220px"
-        />
-        <y-button>{{ $t('demo.inputGroup.login') }}</y-button>
-      </y-input-group>
-    </demo-card>
-
-    <demo-card :source-index="5" :title="$t('demo.inputGroup.pickers')" style="margin-top: 8px">
-      <div class="demo-input-group-stack">
-        <y-input-group>
-          <y-date-picker v-model:value="dateValue" clearable style="width: 180px" />
-          <y-button>{{ $t('demo.common.confirm') }}</y-button>
-        </y-input-group>
-        <y-input-group>
-          <y-time-picker v-model:value="timeValue" clearable style="width: 180px" />
-          <y-button>{{ $t('demo.common.confirm') }}</y-button>
-        </y-input-group>
-      </div>
-    </demo-card>
-
-    <demo-card :source-index="6" :title="$t('demo.common.size')" style="margin-top: 8px">
-      <div class="demo-input-group-stack">
-        <y-radio-button-group v-model:value="groupSize" :options="sizeOptions" />
-        <y-input-group :size="groupSize">
-          <y-select v-model:value="city" :options="cityOptions" style="width: 128px" />
-          <y-input v-model:value="keyword" :placeholder="$t('demo.inputGroup.keyword')" style="width: 220px" />
-          <y-button type="primary">{{ $t('demo.inputGroup.searchButton') }}</y-button>
-        </y-input-group>
-      </div>
-    </demo-card>
-
-    <demo-card :source-index="7" :title="$t('demo.inputGroup.block')" style="margin-top: 8px">
-      <y-input-group block before-addon="https://" after-addon=".com">
-        <y-input v-model:value="blockDomain" :placeholder="$t('demo.inputGroup.domain')" style="flex: 1" />
-        <y-button type="primary">{{ $t('demo.inputGroup.visit') }}</y-button>
-      </y-input-group>
-    </demo-card>
-  </section>
+  <ComponentDocPage
+    title-key="demo.inputGroup.title"
+    description-key="demo.inputGroup.desc"
+    :demos="demos"
+    :api-components="apiComponents"
+  />
 </template>
 
 <script lang="ts" setup>
-import { $t } from 'yiz-ui'
-import { ref } from 'vue'
-
-type DemoSize = 'small' | 'default' | 'large'
-
-const domain = ref('yiz-ui')
-const blockDomain = ref('docs')
-const price = ref<number | null>(99)
-const city = ref('beijing')
-const keyword = ref('')
-const includeArchived = ref(true)
-const account = ref('')
-const password = ref('')
-const dateValue = ref<Date | null>(null)
-const timeValue = ref<string | null>(null)
-const groupSize = ref<DemoSize>('default')
-
-const cityOptions = [
-  { label: $t('demo.common.beijing'), value: 'beijing' },
-  { label: $t('demo.common.shanghai'), value: 'shanghai' },
-  { label: $t('demo.common.guangzhou'), value: 'guangzhou' },
-  { label: $t('demo.common.shenzhen'), value: 'shenzhen' },
-]
-
-const sizeOptions = [
-  { label: 'small', value: 'small' },
-  { label: 'default', value: 'default' },
-  { label: 'large', value: 'large' },
-]
+import ComponentDocPage from '../components/docs/ComponentDocPage.vue'
+import { apiComponents, demos } from '../docs/input-group'
 </script>
-
-<style scoped>
-.demo-input-group-stack {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
-}
-</style>

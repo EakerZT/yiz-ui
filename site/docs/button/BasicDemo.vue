@@ -1,14 +1,10 @@
 <template>
-  <ButtonGroup wrap gap="8">
-    <Button type="primary">primary</Button>
-    <Button>outlined</Button>
-    <Button type="dash">dash</Button>
-    <Button type="filled">filled</Button>
-    <Button type="text">text</Button>
-    <Button type="plain">plain</Button>
-  </ButtonGroup>
+  <y-button-group wrap gap="8">
+    <y-button type="primary">primary</y-button>
+    <y-button>outlined</y-button>
+    <y-button type="dash">dash</y-button>
+    <y-button type="filled">filled</y-button>
+    <y-button type="text">text</y-button>
+    <y-button type="plain">plain</y-button>
+  </y-button-group>
 </template>
-
-<script lang="ts" setup>
-import { Button, ButtonGroup } from 'yiz-ui'
-</script>

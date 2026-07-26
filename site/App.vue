@@ -19,26 +19,24 @@
           </svg>
         </a>
         <span class="demo-lang-label">{{ $t('demo.app.lang') }}</span>
-        <y-select
+        <Select
           :value="demoLang"
           :options="demoLangOptions"
           size="small"
           style="width: 120px"
-          @update:model-value="setDemoLang"
+          @update:value="setDemoLang"
         />
       </div>
     </header>
     <div class="demo-body">
       <aside class="demo-sidebar">
         <scroll-box height="100%" width="100%">
-          <y-menu v-model:select="currentPage" :items="menuItems" :width="200" @select="onNavSelect" />
+          <Menu v-model:select="currentPage" :items="menuItems" :width="200" @select="onNavSelect" />
         </scroll-box>
       </aside>
       <main class="demo-main">
         <scroll-box height="100%" width="100%">
-          <DocsPageProvider :key="currentPage" :page-name="currentDemoName">
-            <component :is="currentDemo" />
-          </DocsPageProvider>
+          <component :is="currentDemo" :key="currentPage" />
         </scroll-box>
       </main>
     </div>
@@ -46,116 +44,71 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue'
-import BreadcrumbDemo from './pages/BreadcrumbDemo.vue'
-import ButtonDemo from './pages/ButtonDemo.vue'
-import CardDemo from './pages/CardDemo.vue'
-import CheckboxDemo from './pages/CheckboxDemo.vue'
-import CollapseDemo from './pages/CollapseDemo.vue'
-import ColorPickerDemo from './pages/ColorPickerDemo.vue'
-import ContextMenuDemo from './pages/ContextMenuDemo.vue'
-import DatePickerDemo from './pages/DatePickerDemo.vue'
-import DateRangePickerDemo from './pages/DateRangePickerDemo.vue'
-import DateTimePickerDemo from './pages/DateTimePickerDemo.vue'
-import DateTimeRangePickerDemo from './pages/DateTimeRangePickerDemo.vue'
-import DescriptionsDemo from './pages/DescriptionsDemo.vue'
-import EmptyDemo from './pages/EmptyDemo.vue'
-import EmitterDemo from './pages/EmitterDemo.vue'
-import FormDemo from './pages/FormDemo.vue'
-import DividerDemo from './pages/DividerDemo.vue'
-import DropmenuDemo from './pages/DropmenuDemo.vue'
-import InputDemo from './pages/InputDemo.vue'
-import InputCustomDemo from './pages/InputCustomDemo.vue'
-import InputGroupDemo from './pages/InputGroupDemo.vue'
-import InputPasswordDemo from './pages/InputPasswordDemo.vue'
-import InputNumberDemo from './pages/InputNumberDemo.vue'
-import InfoDemo from './pages/InfoDemo.vue'
-import LayerManagerDemo from './pages/LayerManagerDemo.vue'
-import LoadingDemo from './pages/LoadingDemo.vue'
-import LoadingBarDemo from './pages/LoadingBarDemo.vue'
-import MenuDemo from './pages/MenuDemo.vue'
-import MessageDemo from './pages/MessageDemo.vue'
-import NotificationDemo from './pages/NotificationDemo.vue'
-import IconDemo from './pages/IconDemo.vue'
-import PaginationDemo from './pages/PaginationDemo.vue'
-import PopoverDemo from './pages/PopoverDemo.vue'
-import ProgressDemo from './pages/ProgressDemo.vue'
-import RadioDemo from './pages/RadioDemo.vue'
-import ScrollBoxDemo from './pages/ScrollBoxDemo.vue'
-import SegmentedDemo from './pages/SegmentedDemo.vue'
-import SliderDemo from './pages/SliderDemo.vue'
-import SortableBoxDemo from './pages/SortableBoxDemo.vue'
-import SelectDemo from './pages/SelectDemo.vue'
-import SwitchDemo from './pages/SwitchDemo.vue'
-import TabDemo from './pages/TabDemo.vue'
-import TableDemo from './pages/TableDemo.vue'
-import TagDemo from './pages/TagDemo.vue'
-import TimePickerDemo from './pages/TimePickerDemo.vue'
-import TimeRangePickerDemo from './pages/TimeRangePickerDemo.vue'
-import TimelineDemo from './pages/TimelineDemo.vue'
-import DialogDemo from './pages/DialogDemo.vue'
-import DrawerDemo from './pages/DrawerDemo.vue'
-import TooltipDemo from './pages/TooltipDemo.vue'
-import TextareaDemo from './pages/TextareaDemo.vue'
-import TreeDemo from './pages/TreeDemo.vue'
-import UploadDemo from './pages/UploadDemo.vue'
-import { ScrollBox } from 'yiz-ui'
+import { computed, defineAsyncComponent, onMounted, onUnmounted, ref, type Component } from 'vue'
+import { Menu, ScrollBox, Select } from 'yiz-ui'
 import { demoLang, demoLangOptions, setDemoLang, $t } from './i18n'
-import DocsPageProvider from './components/docs/DocsPageProvider.vue'
 
-const pages: Record<string, any> = {
-  breadcrumb: BreadcrumbDemo,
-  button: ButtonDemo,
-  card: CardDemo,
-  checkbox: CheckboxDemo,
-  collapse: CollapseDemo,
-  'color-picker': ColorPickerDemo,
-  'context-menu': ContextMenuDemo,
-  'date-picker': DatePickerDemo,
-  'date-range-picker': DateRangePickerDemo,
-  'datetime-picker': DateTimePickerDemo,
-  'datetime-range-picker': DateTimeRangePickerDemo,
-  descriptions: DescriptionsDemo,
-  empty: EmptyDemo,
-  emitter: EmitterDemo,
-  form: FormDemo,
-  dialog: DialogDemo,
-  divider: DividerDemo,
-  dropmenu: DropmenuDemo,
-  drawer: DrawerDemo,
-  input: InputDemo,
-  'input-custom': InputCustomDemo,
-  'input-group': InputGroupDemo,
-  'input-password': InputPasswordDemo,
-  'input-number': InputNumberDemo,
-  info: InfoDemo,
-  'layer-manager': LayerManagerDemo,
-  loading: LoadingDemo,
-  'loading-bar': LoadingBarDemo,
-  menu: MenuDemo,
-  message: MessageDemo,
-  notification: NotificationDemo,
-  pagination: PaginationDemo,
-  popover: PopoverDemo,
-  progress: ProgressDemo,
-  radio: RadioDemo,
-  'scroll-box': ScrollBoxDemo,
-  segmented: SegmentedDemo,
-  slider: SliderDemo,
-  'sortable-box': SortableBoxDemo,
-  select: SelectDemo,
-  switch: SwitchDemo,
-  tab: TabDemo,
-  textarea: TextareaDemo,
-  table: TableDemo,
-  tag: TagDemo,
-  timeline: TimelineDemo,
-  'time-picker': TimePickerDemo,
-  'time-range-picker': TimeRangePickerDemo,
-  tooltip: TooltipDemo,
-  tree: TreeDemo,
-  upload: UploadDemo,
-  icon: IconDemo,
+const pageModules = import.meta.glob<{ default: Component }>('./pages/*Demo.vue')
+
+function createPage(name: string) {
+  const load = pageModules[`./pages/${name}Demo.vue`]
+  if (!load) throw new Error(`Unknown demo page: ${name}`)
+  return defineAsyncComponent(async () => (await load()).default)
+}
+
+const pages: Record<string, Component> = {
+  breadcrumb: createPage('Breadcrumb'),
+  button: createPage('Button'),
+  card: createPage('Card'),
+  checkbox: createPage('Checkbox'),
+  collapse: createPage('Collapse'),
+  'color-picker': createPage('ColorPicker'),
+  'context-menu': createPage('ContextMenu'),
+  'date-picker': createPage('DatePicker'),
+  'date-range-picker': createPage('DateRangePicker'),
+  'datetime-picker': createPage('DateTimePicker'),
+  'datetime-range-picker': createPage('DateTimeRangePicker'),
+  descriptions: createPage('Descriptions'),
+  empty: createPage('Empty'),
+  emitter: createPage('Emitter'),
+  form: createPage('Form'),
+  dialog: createPage('Dialog'),
+  divider: createPage('Divider'),
+  dropmenu: createPage('Dropmenu'),
+  drawer: createPage('Drawer'),
+  input: createPage('Input'),
+  'input-custom': createPage('InputCustom'),
+  'input-group': createPage('InputGroup'),
+  'input-password': createPage('InputPassword'),
+  'input-number': createPage('InputNumber'),
+  info: createPage('Info'),
+  'layer-manager': createPage('LayerManager'),
+  loading: createPage('Loading'),
+  'loading-bar': createPage('LoadingBar'),
+  menu: createPage('Menu'),
+  message: createPage('Message'),
+  notification: createPage('Notification'),
+  pagination: createPage('Pagination'),
+  popover: createPage('Popover'),
+  progress: createPage('Progress'),
+  radio: createPage('Radio'),
+  'scroll-box': createPage('ScrollBox'),
+  segmented: createPage('Segmented'),
+  slider: createPage('Slider'),
+  'sortable-box': createPage('SortableBox'),
+  select: createPage('Select'),
+  switch: createPage('Switch'),
+  tab: createPage('Tab'),
+  textarea: createPage('Textarea'),
+  table: createPage('Table'),
+  tag: createPage('Tag'),
+  timeline: createPage('Timeline'),
+  'time-picker': createPage('TimePicker'),
+  'time-range-picker': createPage('TimeRangePicker'),
+  tooltip: createPage('Tooltip'),
+  tree: createPage('Tree'),
+  upload: createPage('Upload'),
+  icon: createPage('Icon'),
 }
 
 const menuItems = computed(() => [
@@ -220,8 +173,7 @@ function getPageFromHash(): string {
 
 const currentPage = ref(getPageFromHash())
 
-const currentDemo = computed(() => pages[currentPage.value] || ButtonDemo)
-const currentDemoName = computed(() => currentDemo.value.__name ?? '')
+const currentDemo = computed(() => pages[currentPage.value] ?? pages.button)
 
 function onHashChange() {
   currentPage.value = getPageFromHash()

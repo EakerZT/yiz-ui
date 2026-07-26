@@ -1,10 +1,6 @@
 <template>
-  <ButtonGroup>
-    <LinkButton color="#8a2be2">#8a2be2</LinkButton>
-    <LinkButton color="#ff6b35">#ff6b35</LinkButton>
-  </ButtonGroup>
+  <y-button-group>
+    <y-link-button color="#8a2be2">#8a2be2</y-link-button>
+    <y-link-button color="#ff6b35">#ff6b35</y-link-button>
+  </y-button-group>
 </template>
-
-<script lang="ts" setup>
-import { ButtonGroup, LinkButton } from 'yiz-ui'
-</script>

@@ -1,10 +1,10 @@
 <template>
-  <Select v-model:value="value" :options="options" :search="search" />
+  <y-select v-model:value="value" :options="options" :search="search" />
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t, Select } from 'yiz-ui'
+import { $t } from 'yiz-ui'
 
 const value = ref()
 const options = computed(() => [

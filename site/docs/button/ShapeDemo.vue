@@ -1,11 +1,7 @@
 <template>
-  <ButtonGroup>
-    <Button type="primary">default</Button>
-    <Button type="primary" shape="round">round</Button>
-    <Button type="primary" shape="circle">A</Button>
-  </ButtonGroup>
+  <y-button-group>
+    <y-button type="primary">default</y-button>
+    <y-button type="primary" shape="round">round</y-button>
+    <y-button type="primary" shape="circle">A</y-button>
+  </y-button-group>
 </template>
-
-<script lang="ts" setup>
-import { Button, ButtonGroup } from 'yiz-ui'
-</script>

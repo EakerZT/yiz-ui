@@ -1,11 +1,11 @@
 <template>
-  <Select v-model:value="value" :options="options" />
+  <y-select v-model:value="value" :options="options" />
   <span class="demo-hint">{{ $t('demo.select.value', { value }) }}</span>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t, Select } from 'yiz-ui'
+import { $t } from 'yiz-ui'
 
 const value = ref()
 const options = computed(() => [
