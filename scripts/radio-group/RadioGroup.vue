@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { provide, ref, toRef } from 'vue'
+import { computed, getCurrentInstance, provide, ref, toRef } from 'vue'
 import { Radio } from '../radio'
 
 export interface RadioOption {
@@ -28,6 +28,7 @@ const props = withDefaults(
     options?: RadioOption[]
     direction?: 'horizontal' | 'vertical' | 'free'
     disabled?: boolean
+    name?: string
   }>(),
   {
     options: () => [],
@@ -43,6 +44,8 @@ defineSlots<{
 const emit = defineEmits<{ change: [value: string | number] }>()
 const modelValue = defineModel<string | number>('value')
 const groupRef = ref<HTMLElement>()
+const instanceId = getCurrentInstance()?.uid ?? 0
+const groupName = computed(() => props.name ?? `yiz-radio-group-${instanceId}`)
 
 function changeValue(value: string | number) {
   if (props.disabled) return
@@ -53,6 +56,7 @@ function changeValue(value: string | number) {
 provide('yizRadioGroup', {
   modelValue,
   disabled: toRef(props, 'disabled'),
+  name: groupName,
   changeValue,
 })
 

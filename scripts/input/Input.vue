@@ -64,7 +64,7 @@ const props = withDefaults(
   },
 )
 
-const modelValue = defineModel('value')
+const modelValue = defineModel<string>('value')
 const emit = defineEmits<{ pressEnter: [] }>()
 
 const inputRef = ref<HTMLInputElement>()

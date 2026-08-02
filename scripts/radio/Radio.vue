@@ -4,6 +4,7 @@
       <input
         ref="inputRef"
         type="radio"
+        :name="mergedName"
         :checked="checked"
         :disabled="mergedDisabled"
         :value="value"
@@ -24,6 +25,7 @@ import { computed, getCurrentInstance, inject, nextTick, ref, type Ref } from 'v
 interface RadioGroupContext {
   modelValue: Ref<string | number | undefined>
   disabled: Ref<boolean>
+  name: Ref<string>
   changeValue: (value: string | number) => void
 }
 
@@ -34,6 +36,7 @@ const props = withDefaults(
     modelValue?: string | number
     checked?: boolean
     disabled?: boolean
+    name?: string
   }>(),
   {
     checked: false,
@@ -65,6 +68,7 @@ const checked = computed(() => {
   return props.checked
 })
 const mergedDisabled = computed(() => props.disabled || (group?.disabled.value ?? false))
+const mergedName = computed(() => props.name ?? group?.name.value)
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}

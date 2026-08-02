@@ -458,10 +458,32 @@ function selectYear(y: number) {
 }
 
 function repositionPanel() {
-  if (!panelRef.value || !triggerRef.value) return
-  const rect = triggerRef.value.getBoundingClientRect()
-  panelRef.value.style.left = `${rect.left}px`
-  panelRef.value.style.top = `${rect.bottom + 4}px`
+  if (!panelRef.value || !triggerRef.value || !open.value) return
+  const panelRect = panelRef.value.getBoundingClientRect()
+  const triggerRect = triggerRef.value.getBoundingClientRect()
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+  const gap = 4
+  const margin = 8
+
+  const spaceBelow = vh - triggerRect.bottom - gap - margin
+  const spaceAbove = triggerRect.top - gap - margin
+
+  if (spaceBelow >= panelRect.height || spaceBelow >= spaceAbove) {
+    panelRef.value.style.top = `${triggerRect.bottom + gap}px`
+    panelRef.value.style.bottom = ''
+  } else {
+    panelRef.value.style.bottom = `${vh - triggerRect.top + gap}px`
+    panelRef.value.style.top = ''
+  }
+
+  let left = triggerRect.left
+  if (left + panelRect.width > vw - margin) {
+    left = triggerRect.right - panelRect.width
+    if (left < margin) left = margin
+  }
+  if (left < margin) left = margin
+  panelRef.value.style.left = `${left}px`
 }
 
 watch(open, async (val) => {
@@ -489,6 +511,12 @@ function onClickOutside(e: MouseEvent) {
   open.value = false
 }
 
+function onReposition() {
+  if (open.value) {
+    repositionPanel()
+  }
+}
+
 function onKeydown(e: KeyboardEvent) {
   if (!open.value) return
   if (e.key === 'Escape') open.value = false
@@ -498,11 +526,15 @@ function onKeydown(e: KeyboardEvent) {
 onMounted(() => {
   document.addEventListener('click', onClickOutside, true)
   document.addEventListener('keydown', onKeydown)
+  window.addEventListener('scroll', onReposition, true)
+  window.addEventListener('resize', onReposition)
 })
 
 onBeforeUnmount(() => {
   document.removeEventListener('click', onClickOutside, true)
   document.removeEventListener('keydown', onKeydown)
+  window.removeEventListener('scroll', onReposition, true)
+  window.removeEventListener('resize', onReposition)
 })
 
 defineExpose({

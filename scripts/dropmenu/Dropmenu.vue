@@ -1,7 +1,14 @@
 <template>
   <component :is="renderTrigger()" />
 
-  <DropmenuPanel :visible="open" :options="allOptions" :position="popupStyle" @select="onSelect">
+  <DropmenuPanel
+    :id="menuId"
+    ref="panelRef"
+    :visible="open"
+    :options="allOptions"
+    :position="popupStyle"
+    @select="onSelect"
+  >
     <template #icon="scope"><slot name="icon" v-bind="scope" /></template>
     <template #item="scope"><slot name="item" v-bind="scope" /></template>
   </DropmenuPanel>
@@ -17,6 +24,7 @@ import {
   onBeforeUnmount,
   onMounted,
   ref,
+  useId,
   useSlots,
   watch,
   type VNode,
@@ -60,6 +68,9 @@ const emit = defineEmits<{
 const slots = useSlots()
 const open = ref(false)
 const triggerRef = ref<HTMLElement>()
+const panelRef = ref<InstanceType<typeof DropmenuPanel>>()
+const menuId = useId()
+let pendingFocus: 'first' | 'last' | null = null
 
 function updateTriggerElement(vnode: VNode) {
   triggerRef.value = vnode.el instanceof HTMLElement ? vnode.el : undefined
@@ -80,6 +91,11 @@ function renderTrigger(): VNode {
     return cloneVNode(child, {
       class: { 'yiz-dropmenu-disabled': props.disabled, 'yiz-dropmenu-open': open.value },
       onClick: onTriggerClick,
+      onKeydown: onTriggerKeydown,
+      'aria-haspopup': 'menu',
+      'aria-expanded': open.value,
+      'aria-controls': menuId,
+      'aria-disabled': props.disabled || undefined,
       onVnodeMounted: updateTriggerElement,
       onVnodeUpdated: updateTriggerElement,
       onVnodeBeforeUnmount: clearTriggerElement,
@@ -92,6 +108,10 @@ function renderTrigger(): VNode {
       class: ['yiz-dropmenu-trigger', { 'yiz-dropmenu-disabled': props.disabled, 'yiz-dropmenu-open': open.value }],
       disabled: props.disabled,
       onClick: onTriggerClick,
+      onKeydown: onTriggerKeydown,
+      'aria-haspopup': 'menu',
+      'aria-expanded': open.value,
+      'aria-controls': menuId,
       onVnodeMounted: updateTriggerElement,
       onVnodeUpdated: updateTriggerElement,
       onVnodeBeforeUnmount: clearTriggerElement,
@@ -165,17 +185,20 @@ function toCssSize(value: number | string | undefined) {
 function updatePopupPosition() {
   if (!triggerRef.value) return
   const rect = triggerRef.value.getBoundingClientRect()
+  const panelRect = panelRef.value?.getElement()?.getBoundingClientRect()
   const gap = 4
   const margin = 8
   const width = toCssSize(props.width)
-  const popupWidth = props.width == null ? Math.max(160, rect.width) : Number.parseFloat(String(props.width))
-  const estimatedHeight = Math.min(allOptions.value.length * 40, 360)
-  const placeTop = props.placement.startsWith('top')
+  const popupWidth = panelRect?.width || Math.max(160, rect.width)
+  const popupHeight = panelRect?.height || Math.min(allOptions.value.length * 40, 360)
+  const preferTop = props.placement.startsWith('top')
   const alignEnd = props.placement.endsWith('end')
   const style: Record<string, string> = {
     position: 'fixed',
     zIndex: `${currentZIndex.value + 1}`,
     minWidth: `${Math.max(160, rect.width)}px`,
+    maxWidth: `calc(100vw - ${margin * 2}px)`,
+    maxHeight: `calc(100vh - ${margin * 2}px)`,
   }
 
   if (width) {
@@ -191,40 +214,70 @@ function updatePopupPosition() {
   }
   style.left = `${left}px`
 
-  if (placeTop) {
-    style.bottom = `${window.innerHeight - rect.top + gap}px`
-  } else if (rect.bottom + gap + estimatedHeight > window.innerHeight - margin && rect.top > estimatedHeight) {
-    style.bottom = `${window.innerHeight - rect.top + gap}px`
-  } else {
-    style.top = `${rect.bottom + gap}px`
-  }
+  const roomAbove = rect.top - gap - margin
+  const roomBelow = window.innerHeight - rect.bottom - gap - margin
+  const placeTop = preferTop
+    ? roomAbove >= popupHeight || roomAbove > roomBelow
+    : roomBelow < popupHeight && roomAbove > roomBelow
+  const desiredTop = placeTop ? rect.top - gap - popupHeight : rect.bottom + gap
+  const top = Math.max(margin, Math.min(desiredTop, window.innerHeight - popupHeight - margin))
+  style.top = `${top}px`
 
   popupStyle.value = style
 }
 
-function openMenu() {
+async function openMenu(focus: 'first' | 'last' | null = null) {
   if (props.disabled) return
   currentZIndex.value = nextZIndex()
+  pendingFocus = focus
   open.value = true
-  nextTick(updatePopupPosition)
+  await nextTick()
+  updatePopupPosition()
+  await nextTick()
+  updatePopupPosition()
+  panelRef.value?.updateOpenSubmenuPosition()
+  if (pendingFocus === 'last') {
+    panelRef.value?.focusLast()
+  } else if (pendingFocus === 'first') {
+    panelRef.value?.focusFirst()
+  }
+  pendingFocus = null
 }
 
-function closeMenu() {
+function closeMenu(restoreFocus = false) {
   open.value = false
+  pendingFocus = null
+  if (restoreFocus) {
+    nextTick(() => triggerRef.value?.focus())
+  }
 }
 
-function onTriggerClick() {
+function onTriggerClick(e: MouseEvent) {
   if (props.disabled) return
   if (open.value) {
     closeMenu()
   } else {
-    openMenu()
+    openMenu(e.detail === 0 ? 'first' : null)
   }
+}
+
+function onTriggerKeydown(e: KeyboardEvent) {
+  if (props.disabled || (e.key !== 'ArrowDown' && e.key !== 'ArrowUp')) return
+  e.preventDefault()
+  if (open.value) {
+    if (e.key === 'ArrowUp') {
+      panelRef.value?.focusLast()
+    } else {
+      panelRef.value?.focusFirst()
+    }
+    return
+  }
+  openMenu(e.key === 'ArrowUp' ? 'last' : 'first')
 }
 
 function onSelect(item: DropmenuOption) {
   emit('select', item)
-  closeMenu()
+  closeMenu(true)
 }
 
 function onClickOutside(e: MouseEvent) {
@@ -236,18 +289,29 @@ function onClickOutside(e: MouseEvent) {
 }
 
 function onKeydown(e: KeyboardEvent) {
+  if (!open.value) return
   if (e.key === 'Escape') {
+    closeMenu(true)
+  } else if (e.key === 'Tab') {
     closeMenu()
+    triggerRef.value?.focus()
   }
 }
 
 function onReposition() {
   if (open.value) {
     updatePopupPosition()
+    nextTick(() => panelRef.value?.updateOpenSubmenuPosition())
   }
 }
 
-watch(allOptions, onReposition)
+watch([allOptions, () => props.width, () => props.placement], onReposition, { deep: true })
+watch(
+  () => props.disabled,
+  (disabled) => {
+    if (disabled) closeMenu()
+  },
+)
 
 onMounted(() => {
   document.addEventListener('click', onClickOutside, true)

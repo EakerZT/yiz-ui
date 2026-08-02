@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, provide, ref } from 'vue'
+import { computed, getCurrentInstance, provide, ref } from 'vue'
 import type { VNodeChild } from 'vue'
 import RadioButton from '../radio-button/RadioButton.vue'
 
@@ -32,6 +32,7 @@ const props = withDefaults(
   defineProps<{
     options?: RadioButtonOption[]
     disabled?: boolean
+    name?: string
     size?: 'small' | 'default' | 'large'
     textColor?: string
     fillColor?: string
@@ -59,6 +60,8 @@ defineSlots<{
 const emit = defineEmits<{ change: [value: string | number | boolean] }>()
 const modelValue = defineModel<string | number | boolean>('value')
 const groupRef = ref<HTMLElement>()
+const instanceId = getCurrentInstance()?.uid ?? 0
+const groupName = computed(() => props.name ?? `yiz-radio-button-group-${instanceId}`)
 
 const disabledValue = computed(() => props.disabled)
 const sizeValue = computed(() => props.size)
@@ -79,6 +82,7 @@ function changeValue(value: string | number | boolean) {
 provide('yizRadioButtonGroup', {
   modelValue,
   disabled: disabledValue,
+  name: groupName,
   size: sizeValue,
   textColor: textColorValue,
   fillColor: fillColorValue,

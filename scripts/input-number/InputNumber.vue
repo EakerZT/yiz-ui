@@ -2,6 +2,7 @@
   <div class="yiz-input-number" :class="vClass">
     <button
       v-if="controls"
+      type="button"
       class="yiz-input-number-btn yiz-input-number-decrease"
       :disabled="disabled || readonly || isMin"
       @click="decrease"
@@ -34,6 +35,7 @@
     </div>
     <button
       v-if="controls"
+      type="button"
       class="yiz-input-number-btn yiz-input-number-increase"
       :disabled="disabled || readonly || isMax"
       @click="increase"

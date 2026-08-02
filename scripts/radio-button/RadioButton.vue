@@ -4,6 +4,7 @@
       ref="inputRef"
       class="yiz-radio-button-input"
       type="radio"
+      :name="mergedName"
       :checked="checked"
       :disabled="mergedDisabled"
       :value="value"
@@ -31,6 +32,7 @@ import type { Ref, VNodeChild } from 'vue'
 interface RadioButtonGroupContext {
   modelValue: Ref<string | number | boolean | undefined>
   disabled: Ref<boolean>
+  name: Ref<string>
   size: Ref<'small' | 'default' | 'large'>
   textColor: Ref<string>
   fillColor: Ref<string>
@@ -42,6 +44,7 @@ const props = withDefaults(
     label?: string
     value?: string | number | boolean
     disabled?: boolean
+    name?: string
     size?: 'small' | 'default' | 'large'
     textColor?: string
     fillColor?: string
@@ -73,6 +76,7 @@ const group = inject<RadioButtonGroupContext | null>('yizRadioButtonGroup', null
 const inputRef = ref<HTMLInputElement>()
 
 const mergedDisabled = computed(() => props.disabled || (group?.disabled.value ?? false))
+const mergedName = computed(() => props.name ?? group?.name.value)
 const mergedSize = computed(() => group?.size.value ?? props.size)
 const mergedTextColor = computed(() => props.textColor || group?.textColor.value || '')
 const mergedFillColor = computed(() => props.fillColor || group?.fillColor.value || '')

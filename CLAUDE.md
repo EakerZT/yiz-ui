@@ -336,7 +336,7 @@ Content separator with horizontal and vertical modes. Props: `direction` (`'hori
 
 ### Dropmenu (`scripts/dropmenu/`)
 
-Dropdown menu triggered by a click on a trigger element. Wraps a Menu inside a Teleported popup positioned via `getBoundingClientRect()` relative to the trigger. Follows the same Teleport + `nextZIndex()` + click-outside + scroll/resize reposition pattern as Select. Supports both `:items` prop and `<y-menu-option>` slot children. Emits `select` event.
+Dropdown menu triggered by a click on a cloned trigger VNode. Renders a recursive `DropmenuPanel` in a Teleported popup positioned via `getBoundingClientRect()` relative to the trigger. Follows the same Teleport + `nextZIndex()` + click-outside + scroll/resize reposition pattern as Select. Supports both the `options` prop and `<y-dropmenu-item>` slot children, including `{ type: 'divider' }` separators and nested `children`. Emits `select` and supports keyboard navigation between enabled items.
 
 ### Button (`scripts/button/`)
 

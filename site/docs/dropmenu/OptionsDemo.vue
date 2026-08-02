@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import { Delete16Filled, Edit16Regular, Eye16Regular, Folder20Regular, Settings20Regular } from '@vicons/fluent'
 import { computed, ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { $t, type DropmenuOption } from 'yiz-ui'
 
 const v1 = ref()
 
@@ -24,9 +24,10 @@ const iconMap: Record<string, any> = {
   settings: Settings20Regular,
 }
 
-const options = computed(() => [
+const options = computed<DropmenuOption[]>(() => [
   { label: $t('demo.common.view'), key: 'view', icon: 'view' },
   { label: $t('demo.common.edit'), key: 'edit', icon: 'edit' },
+  { type: 'divider' },
   { label: $t('demo.common.delete'), key: 'delete', icon: 'delete' },
 ])
 
