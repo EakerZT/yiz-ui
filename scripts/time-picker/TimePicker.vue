@@ -113,6 +113,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { Clock16Regular, DismissCircle16Filled } from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import { Icon } from '../icon'
+import { useInputStyleMode } from '../input-style'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
@@ -125,6 +126,7 @@ const props = withDefaults(
     readonly?: boolean
     clearable?: boolean
     size?: 'small' | 'default' | 'large'
+    styleMode?: 'outlined' | 'filled'
     showSeconds?: boolean
     format?: string
     prefix?: string
@@ -135,6 +137,7 @@ const props = withDefaults(
     readonly: false,
     clearable: false,
     size: 'default',
+    styleMode: 'outlined',
     showSeconds: false,
     format: 'HH:mm:ss',
   },
@@ -265,8 +268,11 @@ function scrollToSelected() {
 
 // ==================== 计算属性 ====================
 
+const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
+  c[`yiz-time-picker-${mergedStyleMode.value}`] = true
   if (open.value) c['yiz-time-picker-open'] = true
   if (props.disabled) c['yiz-time-picker-disabled'] = true
   if (props.readonly) c['yiz-time-picker-readonly'] = true

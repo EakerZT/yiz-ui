@@ -407,4 +407,5 @@ Always pair `onMounted` listeners with corresponding `onBeforeUnmount` cleanup.
 - Overlay components (Dialog, Drawer, Select) use `<Teleport to="body">` with `scripts/zIndex.ts` for stacking
 - Input-like components expose `focus()` and `blur()` through `defineExpose`; range pickers additionally accept `focus('start' | 'end')`
 - Input, InputNumber, Textarea, Select, ColorPicker, and date/time pickers support `readonly`; readonly controls remain focusable but cannot clear, edit, or open a selection panel
+- Input-like components support `styleMode="outlined" | "filled"` (default `outlined`). `InputGroup` exposes the same prop and overrides the style mode declared by descendant input controls.
 - Document event listeners registered in `onMounted` must be cleaned up in `onBeforeUnmount`

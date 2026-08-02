@@ -161,6 +161,7 @@ import {
 import Button from '../button/Button.vue'
 import LinkButton from '../link-button/LinkButton.vue'
 import { Icon } from '../icon'
+import { useInputStyleMode } from '../input-style'
 import { $t, $tList } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
 import { nextZIndex } from '../zIndex'
@@ -182,6 +183,7 @@ const props = withDefaults(
     readonly?: boolean
     clearable?: boolean
     size?: 'small' | 'default' | 'large'
+    styleMode?: 'outlined' | 'filled'
     format?: string
     valueFormat?: string
     disabledDate?: (date: Date) => boolean
@@ -191,6 +193,7 @@ const props = withDefaults(
     readonly: false,
     clearable: false,
     size: 'default',
+    styleMode: 'outlined',
     format: 'YYYY-MM-DD HH:mm:ss',
   },
 )
@@ -230,7 +233,10 @@ const confirmDisabled = computed(() => draft.value == null)
 const panelStyle = computed(() => ({ zIndex: currentZIndex.value + 1 }))
 const valueFormat = computed(() => props.valueFormat ?? props.format)
 
+const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+
 const vClass = computed(() => ({
+  [`yiz-datetime-picker-${mergedStyleMode.value}`]: true,
   'yiz-datetime-picker-open': open.value,
   'yiz-datetime-picker-disabled': props.disabled,
   'yiz-datetime-picker-readonly': props.readonly,

@@ -193,6 +193,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { ArrowRight16Regular, Clock16Regular, DismissCircle16Filled } from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import { Icon } from '../icon'
+import { useInputStyleMode } from '../input-style'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
@@ -223,6 +224,7 @@ const props = withDefaults(
     clearable?: boolean
     forceRange?: boolean
     size?: 'small' | 'default' | 'large'
+    styleMode?: 'outlined' | 'filled'
     showSeconds?: boolean
     format?: string
     startPlaceholder?: string
@@ -239,6 +241,7 @@ const props = withDefaults(
     clearable: false,
     forceRange: false,
     size: 'default',
+    styleMode: 'outlined',
     showSeconds: false,
     format: 'HH:mm:ss',
     separator: '-',
@@ -299,7 +302,10 @@ const panelStyle = computed(() => ({
   ...dropdownPos.value,
 }))
 
+const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+
 const vClass = computed(() => ({
+  [`yiz-time-range-picker-${mergedStyleMode.value}`]: true,
   'yiz-time-range-picker-open': open.value,
   'yiz-time-range-picker-disabled': props.disabled,
   'yiz-time-range-picker-readonly': props.readonly,

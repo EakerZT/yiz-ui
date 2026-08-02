@@ -97,6 +97,7 @@ import {
 import { ChevronDown16Regular, DismissCircle16Filled } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { Input } from '../input'
+import { useInputStyleMode } from '../input-style'
 import { $t } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
 import { ScrollBox } from '../scroll-box'
@@ -153,6 +154,11 @@ const props = withDefaults(
      */
     size?: 'small' | 'default' | 'large'
     /**
+     * 输入框显示风格。
+     * @en Visual style of the input control.
+     */
+    styleMode?: 'outlined' | 'filled'
+    /**
      * 前缀文本。
      * @en Prefix text.
      */
@@ -174,6 +180,7 @@ const props = withDefaults(
     readonly: false,
     clearable: false,
     size: 'default',
+    styleMode: 'outlined',
   },
 )
 
@@ -288,8 +295,11 @@ watch(searchQuery, async (q) => {
   }
 })
 
+const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
+  c[`yiz-select-${mergedStyleMode.value}`] = true
   if (open.value) c['yiz-select-open'] = true
   if (props.disabled) c['yiz-select-disabled'] = true
   if (props.readonly) c['yiz-select-readonly'] = true

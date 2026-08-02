@@ -49,6 +49,7 @@
 import { computed, ref, useSlots } from 'vue'
 import { Add16Regular, Subtract16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
+import { useInputStyleMode } from '../input-style'
 
 const slots = useSlots()
 
@@ -62,6 +63,7 @@ const props = withDefaults(
     readonly?: boolean
     placeholder?: string
     size?: 'small' | 'default' | 'large'
+    styleMode?: 'outlined' | 'filled'
     controls?: boolean
     align?: 'left' | 'center' | 'right'
     prefix?: string
@@ -75,6 +77,7 @@ const props = withDefaults(
     readonly: false,
     placeholder: '',
     size: 'default',
+    styleMode: 'outlined',
   },
 )
 
@@ -89,9 +92,11 @@ const modelValue = defineModel<number | null>('value')
 
 const inputRef = ref<HTMLInputElement>()
 const isFocus = ref(false)
+const mergedStyleMode = useInputStyleMode(() => props.styleMode)
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
+  c[`yiz-input-number-${mergedStyleMode.value}`] = true
   if (isFocus.value) c['yiz-input-number-focus'] = true
   if (props.disabled) c['yiz-input-number-disabled'] = true
   if (props.readonly) c['yiz-input-number-readonly'] = true

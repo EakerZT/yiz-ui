@@ -15,8 +15,16 @@ import SizeDemo from './SizeDemo.vue'
 import sizeDemoSource from './SizeDemo.vue?raw'
 import BlockDemo from './BlockDemo.vue'
 import blockDemoSource from './BlockDemo.vue?raw'
+import StyleModeDemo from './StyleModeDemo.vue'
+import styleModeDemoSource from './StyleModeDemo.vue?raw'
 
 export const demos: DemoDefinition[] = [
+  {
+    id: 'StyleModeDemo',
+    titleKey: 'demo.common.styleMode',
+    component: StyleModeDemo,
+    source: styleModeDemoSource,
+  },
   {
     id: 'AddonPropsDemo',
     titleKey: 'demo.inputGroup.addonProps',

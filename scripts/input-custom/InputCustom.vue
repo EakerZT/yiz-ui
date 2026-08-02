@@ -28,6 +28,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
+import { useInputStyleMode } from '../input-style'
 
 defineSlots<{
   default?: (props: { disabled: boolean }) => unknown
@@ -42,19 +43,23 @@ const props = withDefaults(
     disabled?: boolean
     active?: boolean
     size?: 'small' | 'default' | 'large'
+    styleMode?: 'outlined' | 'filled'
   }>(),
   {
     disabled: false,
     active: false,
     size: 'default',
+    styleMode: 'outlined',
   },
 )
 
 const rootRef = ref<HTMLElement>()
 const isFocus = ref(false)
+const mergedStyleMode = useInputStyleMode(() => props.styleMode)
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
+  c[`yiz-input-custom-${mergedStyleMode.value}`] = true
   if (props.active || isFocus.value) {
     c.focus = true
   }

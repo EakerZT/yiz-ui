@@ -121,6 +121,7 @@ import {
   DismissCircle16Filled,
 } from '@vicons/fluent'
 import { Icon } from '../icon'
+import { useInputStyleMode } from '../input-style'
 import Button from '../button/Button.vue'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t, $tList } from '../locale'
@@ -134,6 +135,7 @@ const props = withDefaults(
     readonly?: boolean
     clearable?: boolean
     size?: 'small' | 'default' | 'large'
+    styleMode?: 'outlined' | 'filled'
     disabledDate?: (date: Date) => boolean
     format?: string
     valueFormat?: string
@@ -145,6 +147,7 @@ const props = withDefaults(
     readonly: false,
     clearable: false,
     size: 'default',
+    styleMode: 'outlined',
     format: 'YYYY-MM-DD',
   },
 )
@@ -193,8 +196,11 @@ const yearRange = computed(() => {
   return result
 })
 
+const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
+  c[`yiz-date-picker-${mergedStyleMode.value}`] = true
   if (open.value) c['yiz-date-picker-open'] = true
   if (props.disabled) c['yiz-date-picker-disabled'] = true
   if (props.readonly) c['yiz-date-picker-readonly'] = true

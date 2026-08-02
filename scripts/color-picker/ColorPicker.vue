@@ -92,6 +92,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import Button from '../button/Button.vue'
 import Input from '../input/Input.vue'
+import { useInputStyleMode } from '../input-style'
 import { $t } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
 import { nextZIndex } from '../zIndex'
@@ -107,6 +108,7 @@ const props = withDefaults(
     disabled?: boolean
     readonly?: boolean
     size?: 'small' | 'default' | 'large'
+    styleMode?: 'outlined' | 'filled'
     alpha?: boolean
     presets?: string[]
     prefix?: string
@@ -116,6 +118,7 @@ const props = withDefaults(
     disabled: false,
     readonly: false,
     size: 'default',
+    styleMode: 'outlined',
     alpha: false,
     presets: () => [
       '#1677ff',
@@ -171,7 +174,10 @@ const alphaSliderStyle = computed(() => ({
   backgroundSize: '100% 100%, 8px 8px, 8px 8px, 8px 8px, 8px 8px',
 }))
 
+const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+
 const vClass = computed(() => ({
+  [`yiz-color-picker-${mergedStyleMode.value}`]: true,
   'yiz-color-picker-open': open.value,
   'yiz-color-picker-disabled': props.disabled,
   'yiz-color-picker-readonly': props.readonly,

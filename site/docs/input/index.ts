@@ -9,9 +9,12 @@ import DisabledDemo from './DisabledDemo.vue'
 import disabledDemoSource from './DisabledDemo.vue?raw'
 import PrefixSuffixDemo from './PrefixSuffixDemo.vue'
 import prefixSuffixDemoSource from './PrefixSuffixDemo.vue?raw'
+import StyleModeDemo from './StyleModeDemo.vue'
+import styleModeDemoSource from './StyleModeDemo.vue?raw'
 
 export const demos: DemoDefinition[] = [
   { id: 'BasicDemo', titleKey: 'demo.common.basicShort', component: BasicDemo, source: basicDemoSource },
+  { id: 'StyleModeDemo', titleKey: 'demo.common.styleMode', component: StyleModeDemo, source: styleModeDemoSource },
   { id: 'ClearableDemo', titleKey: 'demo.common.clearable', component: ClearableDemo, source: clearableDemoSource },
   { id: 'SizeDemo', titleKey: 'demo.common.size', component: SizeDemo, source: sizeDemoSource },
   { id: 'DisabledDemo', titleKey: 'demo.common.disabled', component: DisabledDemo, source: disabledDemoSource },

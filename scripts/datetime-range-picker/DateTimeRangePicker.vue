@@ -338,6 +338,7 @@ import {
 } from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import { Icon } from '../icon'
+import { useInputStyleMode } from '../input-style'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t, $tList } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
@@ -373,6 +374,7 @@ const props = withDefaults(
     forceRange?: boolean
     autoSort?: boolean
     size?: 'small' | 'default' | 'large'
+    styleMode?: 'outlined' | 'filled'
     format?: string
     startValueFormat?: string
     endValueFormat?: string
@@ -390,6 +392,7 @@ const props = withDefaults(
     forceRange: false,
     autoSort: true,
     size: 'default',
+    styleMode: 'outlined',
     format: 'YYYY-MM-DD HH:mm:ss',
     separator: '-',
   },
@@ -453,7 +456,10 @@ const endYearRange = computed(() => makeYearRange(endViewYear.value))
 const startCalendarCells = computed(() => makeCalendarCells('start', startViewYear.value, startViewMonth.value))
 const endCalendarCells = computed(() => makeCalendarCells('end', endViewYear.value, endViewMonth.value))
 
+const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+
 const vClass = computed(() => ({
+  [`yiz-datetime-range-picker-${mergedStyleMode.value}`]: true,
   'yiz-datetime-range-picker-open': open.value,
   'yiz-datetime-range-picker-disabled': props.disabled,
   'yiz-datetime-range-picker-readonly': props.readonly,

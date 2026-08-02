@@ -34,6 +34,7 @@
 import { computed, ref } from 'vue'
 import { DismissCircle16Filled } from '@vicons/fluent'
 import { Icon } from '../icon'
+import { useInputStyleMode } from '../input-style'
 
 const props = withDefaults(
   defineProps<{
@@ -45,6 +46,7 @@ const props = withDefaults(
     disabled?: boolean
     readonly?: boolean
     resize?: 'none' | 'both' | 'horizontal' | 'vertical'
+    styleMode?: 'outlined' | 'filled'
   }>(),
   {
     rows: 3,
@@ -53,6 +55,7 @@ const props = withDefaults(
     disabled: false,
     readonly: false,
     resize: 'vertical',
+    styleMode: 'outlined',
   },
 )
 
@@ -61,9 +64,11 @@ const emit = defineEmits<{ pressEnter: [] }>()
 
 const textareaRef = ref<HTMLTextAreaElement>()
 const isFocus = ref(false)
+const mergedStyleMode = useInputStyleMode(() => props.styleMode)
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
+  c[`yiz-textarea-${mergedStyleMode.value}`] = true
   if (isFocus.value) {
     c.focus = true
   }

@@ -5,6 +5,7 @@
 `2026/08/01`
 
 - 添加 Dropmenu组件支持分割线
+- 添加 input型组件支持styleMode=filled
 
 ## 0.0.26
 

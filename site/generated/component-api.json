@@ -556,6 +556,14 @@
         "default": "'default'"
       },
       {
+        "name": "styleMode",
+        "type": "'outlined' | 'filled'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'outlined'"
+      },
+      {
         "name": "alpha",
         "type": "boolean",
         "required": false,
@@ -661,6 +669,14 @@
         "description": "",
         "descriptionEn": "",
         "default": "'default'"
+      },
+      {
+        "name": "styleMode",
+        "type": "'outlined' | 'filled'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'outlined'"
       },
       {
         "name": "disabledDate",
@@ -783,6 +799,14 @@
         "description": "",
         "descriptionEn": "",
         "default": "'default'"
+      },
+      {
+        "name": "styleMode",
+        "type": "'outlined' | 'filled'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'outlined'"
       },
       {
         "name": "disabledDate",
@@ -967,6 +991,14 @@
         "default": "'default'"
       },
       {
+        "name": "styleMode",
+        "type": "'outlined' | 'filled'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'outlined'"
+      },
+      {
         "name": "format",
         "type": "string",
         "required": false,
@@ -1073,6 +1105,14 @@
         "description": "",
         "descriptionEn": "",
         "default": "'default'"
+      },
+      {
+        "name": "styleMode",
+        "type": "'outlined' | 'filled'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'outlined'"
       },
       {
         "name": "format",
@@ -2140,6 +2180,14 @@
         "description": "",
         "descriptionEn": "",
         "default": "'default'"
+      },
+      {
+        "name": "styleMode",
+        "type": "'outlined' | 'filled'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'outlined'"
       }
     ],
     "models": [
@@ -2229,6 +2277,14 @@
         "description": "",
         "descriptionEn": "",
         "default": "'default'"
+      },
+      {
+        "name": "styleMode",
+        "type": "'outlined' | 'filled'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'outlined'"
       }
     ],
     "models": [],
@@ -2287,6 +2343,14 @@
         "description": "",
         "descriptionEn": "",
         "default": "'default'"
+      },
+      {
+        "name": "styleMode",
+        "type": "'outlined' | 'filled'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'outlined'"
       },
       {
         "name": "beforeAddon",
@@ -2404,6 +2468,14 @@
         "description": "",
         "descriptionEn": "",
         "default": "'default'"
+      },
+      {
+        "name": "styleMode",
+        "type": "'outlined' | 'filled'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'outlined'"
       },
       {
         "name": "controls",
@@ -2546,6 +2618,14 @@
         "description": "",
         "descriptionEn": "",
         "default": "'default'"
+      },
+      {
+        "name": "styleMode",
+        "type": "'outlined' | 'filled'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'outlined'"
       }
     ],
     "models": [
@@ -3729,6 +3809,14 @@
         "description": "选择器尺寸。",
         "descriptionEn": "Size of the select.",
         "default": "'default'"
+      },
+      {
+        "name": "styleMode",
+        "type": "'outlined' | 'filled'",
+        "required": false,
+        "description": "输入框显示风格。",
+        "descriptionEn": "Visual style of the input control.",
+        "default": "'outlined'"
       },
       {
         "name": "prefix",
@@ -4991,6 +5079,14 @@
         "description": "",
         "descriptionEn": "",
         "default": "'vertical'"
+      },
+      {
+        "name": "styleMode",
+        "type": "'outlined' | 'filled'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'outlined'"
       }
     ],
     "models": [
@@ -5180,6 +5276,14 @@
         "default": "'default'"
       },
       {
+        "name": "styleMode",
+        "type": "'outlined' | 'filled'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'outlined'"
+      },
+      {
         "name": "showSeconds",
         "type": "boolean",
         "required": false,
@@ -5286,6 +5390,14 @@
         "description": "",
         "descriptionEn": "",
         "default": "'default'"
+      },
+      {
+        "name": "styleMode",
+        "type": "'outlined' | 'filled'",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "'outlined'"
       },
       {
         "name": "showSeconds",

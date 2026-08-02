@@ -205,6 +205,7 @@ import {
 } from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import { Icon } from '../icon'
+import { useInputStyleMode } from '../input-style'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t, $tList } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
@@ -280,6 +281,7 @@ const props = withDefaults(
     forceRange?: boolean
     autoSort?: boolean
     size?: 'small' | 'default' | 'large'
+    styleMode?: 'outlined' | 'filled'
     disabledDate?: (date: Date) => boolean
     format?: string
     startValueFormat?: string
@@ -299,6 +301,7 @@ const props = withDefaults(
     forceRange: false,
     autoSort: true,
     size: 'default',
+    styleMode: 'outlined',
     format: 'YYYY-MM-DD',
     separator: '-',
   },
@@ -348,7 +351,10 @@ const panelStyle = computed(() => ({
   ...dropdownPos.value,
 }))
 
+const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+
 const vClass = computed(() => ({
+  [`yiz-date-range-picker-${mergedStyleMode.value}`]: true,
   'yiz-date-range-picker-open': open.value,
   'yiz-date-range-picker-disabled': props.disabled,
   'yiz-date-range-picker-readonly': props.readonly,

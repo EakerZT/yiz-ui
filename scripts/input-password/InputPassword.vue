@@ -49,6 +49,7 @@
 import { computed, ref } from 'vue'
 import { DismissCircle16Filled, Eye16Regular, EyeOff16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
+import { useInputStyleMode } from '../input-style'
 import { $t } from '../locale'
 
 defineSlots<{
@@ -66,6 +67,7 @@ const props = withDefaults(
     showToggle?: boolean
     autocomplete?: string
     size?: 'small' | 'default' | 'large'
+    styleMode?: 'outlined' | 'filled'
   }>(),
   {
     clearable: false,
@@ -73,6 +75,7 @@ const props = withDefaults(
     showToggle: true,
     autocomplete: 'current-password',
     size: 'default',
+    styleMode: 'outlined',
   },
 )
 
@@ -82,9 +85,11 @@ const emit = defineEmits<{ pressEnter: [] }>()
 const inputRef = ref<HTMLInputElement>()
 const isFocus = ref(false)
 const passwordVisible = ref(false)
+const mergedStyleMode = useInputStyleMode(() => props.styleMode)
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
+  c[`yiz-input-${mergedStyleMode.value}`] = true
   if (isFocus.value) {
     c.focus = true
   }

@@ -40,6 +40,7 @@
 import { computed, ref } from 'vue'
 import { DismissCircle16Filled } from '@vicons/fluent'
 import { Icon } from '../icon'
+import { useInputStyleMode } from '../input-style'
 
 defineSlots<{
   prefix: unknown
@@ -55,12 +56,14 @@ const props = withDefaults(
     disabled?: boolean
     readonly?: boolean
     size?: 'small' | 'default' | 'large'
+    styleMode?: 'outlined' | 'filled'
   }>(),
   {
     clearable: false,
     disabled: false,
     readonly: false,
     size: 'default',
+    styleMode: 'outlined',
   },
 )
 
@@ -69,8 +72,10 @@ const emit = defineEmits<{ pressEnter: [] }>()
 
 const inputRef = ref<HTMLInputElement>()
 const isFocus = ref(false)
+const mergedStyleMode = useInputStyleMode(() => props.styleMode)
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
+  c[`yiz-input-${mergedStyleMode.value}`] = true
   if (isFocus.value) {
     c.focus = true
   }
@@ -228,6 +233,7 @@ defineExpose({
       box-sizing: border-box;
       font-size: var(--yiz-font-size-default);
       font-family: inherit;
+      background: transparent;
       min-width: 0;
 
       &:disabled {

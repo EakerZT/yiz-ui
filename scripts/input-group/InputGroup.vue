@@ -11,18 +11,21 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, provide, ref, toRef } from 'vue'
+import { inputGroupStyleKey } from '../input-style'
 
 const props = withDefaults(
   defineProps<{
     block?: boolean
     size?: 'small' | 'default' | 'large'
+    styleMode?: 'outlined' | 'filled'
     beforeAddon?: string | number
     afterAddon?: string | number
   }>(),
   {
     block: false,
     size: 'default',
+    styleMode: 'outlined',
   },
 )
 
@@ -37,9 +40,14 @@ const vClass = computed(() => ({
   'yiz-input-group-small': props.size === 'small',
   'yiz-input-group-default': props.size === 'default',
   'yiz-input-group-large': props.size === 'large',
+  [`yiz-input-group-${props.styleMode}`]: true,
 }))
 
 const groupRef = ref<HTMLElement>()
+
+provide(inputGroupStyleKey, {
+  styleMode: toRef(props, 'styleMode'),
+})
 
 function focus() {
   groupRef.value
@@ -99,6 +107,10 @@ defineExpose({
 
   > *:hover {
     z-index: 2;
+  }
+
+  > *:focus-within {
+    z-index: 3;
   }
 
   > .focus,
