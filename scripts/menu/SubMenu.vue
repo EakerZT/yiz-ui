@@ -1,8 +1,18 @@
 <template>
   <Transition name="yiz-menu-sub-slide">
     <div v-if="visible" class="yiz-menu-sub">
-      <template v-for="(item, idx) in items" :key="idx">
+      <template v-for="(item, idx) in items" :key="item.key ?? idx">
         <div
+          v-if="item.type === 'divider'"
+          class="yiz-menu-divider"
+          :class="{ 'yiz-menu-divider-with-name': item.name }"
+          :style="dividerStyle"
+          role="separator"
+        >
+          <span v-if="item.name" class="yiz-menu-divider-name">{{ item.name }}</span>
+        </div>
+        <div
+          v-else
           class="yiz-menu-item"
           :class="{ 'yiz-menu-item-selected': isSelected(item), 'yiz-menu-item-ancestor': isAncestor(item) }"
           :style="itemStyle"
@@ -30,6 +40,7 @@
           />
         </div>
         <SubMenu
+          v-if="item.type !== 'divider'"
           :visible="!!(item.children?.length && isExpanded(item))"
           :items="item.children"
           :selected="selected"
@@ -49,12 +60,12 @@
 import { computed, ref } from 'vue'
 import { ChevronRight16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
-import type { MenuItem } from './Menu.vue'
+import { isMenuDivider, type MenuEntry, type MenuItemOption } from './types'
 import IconRenderer from './IconRenderer.vue'
 
 const props = withDefaults(
   defineProps<{
-    items?: MenuItem[]
+    items?: MenuEntry[]
     selected?: any
     width?: number | string
     visible?: boolean
@@ -66,12 +77,12 @@ const props = withDefaults(
 )
 
 defineSlots<{
-  icon?: (props: { icon: string; item: MenuItem; selected: boolean }) => any
-  item?: (props: { item: MenuItem; index: number }) => any
+  icon?: (props: { icon: string; item: MenuItemOption; selected: boolean }) => any
+  item?: (props: { item: MenuItemOption; index: number }) => any
 }>()
 
 const emit = defineEmits<{
-  select: [item: MenuItem]
+  select: [item: MenuItemOption]
 }>()
 
 const expandedKeys = ref<Set<any>>(new Set())
@@ -80,8 +91,13 @@ const itemStyle = computed(() => ({
   paddingLeft: `${12 + props.depth * 16}px`,
 }))
 
-function findAncestors(items: MenuItem[], target: any, ancestors = new Set<any>()): Set<any> | null {
+const dividerStyle = computed(() => ({
+  marginLeft: `${20 + props.depth * 16}px`,
+}))
+
+function findAncestors(items: MenuEntry[], target: any, ancestors = new Set<any>()): Set<any> | null {
   for (const item of items) {
+    if (isMenuDivider(item)) continue
     if (item.key === target) return ancestors
     if (item.children?.length) {
       const next = new Set(ancestors)
@@ -98,19 +114,19 @@ const ancestorKeys = computed(() => {
   return findAncestors(props.items, props.selected) ?? new Set()
 })
 
-function isAncestor(item: MenuItem) {
+function isAncestor(item: MenuItemOption) {
   return ancestorKeys.value.has(item.key)
 }
 
-function isSelected(item: MenuItem) {
+function isSelected(item: MenuItemOption) {
   return props.selected != null && item.key === props.selected
 }
 
-function isExpanded(item: MenuItem) {
+function isExpanded(item: MenuItemOption) {
   return expandedKeys.value.has(item.key)
 }
 
-function onItemClick(item: MenuItem) {
+function onItemClick(item: MenuItemOption) {
   if (item.children?.length) {
     const key = item.key
     if (expandedKeys.value.has(key)) {
@@ -124,7 +140,7 @@ function onItemClick(item: MenuItem) {
   }
 }
 
-function onChildSelect(item: MenuItem) {
+function onChildSelect(item: MenuItemOption) {
   emit('select', item)
 }
 </script>

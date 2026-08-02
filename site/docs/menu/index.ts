@@ -29,4 +29,4 @@ export const demos: DemoDefinition[] = [
   { id: 'CollapsedDemo', titleKey: 'demo.menu.collapsed', component: CollapsedDemo, source: collapsedDemoSource },
 ]
 
-export const apiComponents = ['Menu', 'MenuOption']
+export const apiComponents = ['Menu', 'MenuItem', 'MenuDivider']

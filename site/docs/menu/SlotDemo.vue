@@ -1,8 +1,18 @@
 <template>
   <y-menu v-model:select="v3" @select="onSelect3">
-    <y-menu-option :label="$t('demo.common.view')" key="view" />
-    <y-menu-option :label="$t('demo.common.edit')" key="edit" />
-    <y-menu-option :label="$t('demo.common.delete')" key="delete" /> </y-menu
+    <y-menu-item :label="$t('demo.common.home')" key="home" />
+    <y-menu-divider :name="$t('demo.menu.navigationGroup')" />
+    <y-menu-item :label="$t('demo.common.products')" key="products">
+      <y-menu-item :label="$t('demo.common.allProducts')" key="all-products" />
+      <y-menu-divider />
+      <y-menu-item :label="$t('demo.common.categories')" key="categories">
+        <y-menu-item :label="$t('demo.common.tags')" key="tags" />
+      </y-menu-item>
+    </y-menu-item>
+    <y-menu-item :label="$t('demo.common.settings')" key="settings">
+      <y-menu-item :label="$t('demo.common.profile')" key="profile" />
+      <y-menu-item :label="$t('demo.common.systemSettings')" key="system" />
+    </y-menu-item> </y-menu
   ><span class="demo-hint">{{ $t('demo.menu.selected', { value: v3 }) }}</span>
 </template>
 

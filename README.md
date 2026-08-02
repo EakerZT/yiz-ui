@@ -302,7 +302,8 @@ console.log(count('change'))
 | LinkButton          | `YLinkButton`                                      | Text-style button                                                 |
 | Loading             | `YLoading`                                         | Loading indicators and container loading mode                     |
 | Menu                | `YMenu`                                            | Menu with expanded and collapsed modes                            |
-| MenuOption          | `YMenuOption`                                      | Declarative menu item                                             |
+| MenuDivider         | `YMenuDivider`                                     | Declarative menu group divider with an optional name              |
+| MenuItem            | `YMenuItem`                                        | Declarative menu item with nested child support                   |
 | Pagination          | `YPagination`                                      | Pagination with ellipsis, size changer, and quick jumper          |
 | Popover             | `YPopover`                                         | Floating card with click, hover, focus, and controlled modes      |
 | Progress            | `YProgress`                                        | Linear progress with status, custom color, and text formatting    |

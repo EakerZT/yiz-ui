@@ -33,7 +33,8 @@ import type {
   LinkButton,
   Loading,
   Menu,
-  MenuOption,
+  MenuDivider,
+  MenuItem,
   Pagination,
   Popover,
   Progress,
@@ -135,8 +136,10 @@ declare module 'vue' {
     'y-loading': typeof Loading
     YMenu: typeof Menu
     'y-menu': typeof Menu
-    YMenuOption: typeof MenuOption
-    'y-menu-option': typeof MenuOption
+    YMenuDivider: typeof MenuDivider
+    'y-menu-divider': typeof MenuDivider
+    YMenuItem: typeof MenuItem
+    'y-menu-item': typeof MenuItem
     YPagination: typeof Pagination
     'y-pagination': typeof Pagination
     YPopover: typeof Popover

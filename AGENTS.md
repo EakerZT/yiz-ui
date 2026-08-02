@@ -73,7 +73,7 @@ yarn build           # vite build --config vite.config.lib.mts && vue-tsc --proj
 
 - Dialog and Drawer use `scripts/zIndex.ts` (`nextZIndex()`), Teleport to `body`, inline z-index styles, Escape handling, and body scroll locking. Tooltip is the exception — it uses a hardcoded `z-index: 2000` and is NOT Teleported.
 - CheckboxGroup and RadioGroup use provide/inject for group state; follow that pattern for future grouped controls (string key prefixed `yiz`, e.g. `'yizCheckboxGroup'`).
-- Menu, ContextMenu, Dropmenu, Select, Table, and Tab use slot-based declarative child extraction via renderless child components (e.g. `MenuOption`, `SelectOption`, `TableColumn`).
+- Menu, ContextMenu, Dropmenu, Select, Table, and Tab use slot-based declarative child extraction via renderless child components (e.g. `MenuItem`, `MenuDivider`, `SelectOption`, `TableColumn`).
 - Button, Checkbox, Radio, and Switch share the `yiz-wave` ripple animation defined in `scripts/style.less`.
 - Checkbox, Radio, and Switch use the native input overlay pattern for accessibility.
 - Notification and `showContextMenu` are imperative APIs implemented with `createVNode` and `render`; they are not normal declarative component usage paths. `loadingBar` (`scripts/loading-bar/`) is also imperative but pure-DOM (no VNode/render) — it ports the bprogress engine, uses `--yiz-loading-bar-*` tokens (default color `var(--yiz-color-primary)`, `fail()` uses `var(--yiz-color-error)`), a fixed `--yiz-loading-bar-z-index: 9999` (NOT `nextZIndex()`), and has no declarative component / global registration.

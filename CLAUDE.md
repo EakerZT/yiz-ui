@@ -227,19 +227,19 @@ During development, `yiz-ui` is aliased to `./scripts` via both `vite.config.mts
 
 ### Slot-based declarative children (Menu, ContextMenu, Select, Table, Tab)
 
-Menu, ContextMenu, and Select mirror Table's slot-based child extraction pattern. Each has a renderless `-option` child component (`MenuOption`, `ContextMenuOption`, `SelectOption`) whose props and default slot functions are extracted via `useSlots()`:
+Menu, ContextMenu, and Select mirror Table's slot-based child extraction pattern. Menu uses the renderless `MenuItem` and `MenuDivider` components; ContextMenu and Select use `ContextMenuOption` and `SelectOption`. Their props and default slot functions are extracted via `useSlots()`:
 
 ```ts
 const slotItems = computed(() => {
   const nodes = slots.default?.() ?? []
   // iterate VNodes, match on child component type, extract props
   for (const vnode of nodes) {
-    if (vnode.type === MenuOptionComp && vnode.props) { ... }
+    if (vnode.type === MenuItemComp && vnode.props) { ... }
   }
 })
 ```
 
-The `allItems` computed falls back to the `items` prop when no slot children are provided. Both APIs coexist — consumers can use either `<y-menu-option>` children or `:items`.
+The `allItems` computed falls back to the `items` prop when no slot children are provided. Both APIs coexist — consumers can nest `<y-menu-item>` children, insert `<y-menu-divider name="...">`, or use `:items` with `MenuEntry[]` data.
 
 ### Menu and ContextMenu
 
@@ -248,13 +248,15 @@ Both components share the same architecture:
 - **`Menu.vue`** — main SFC rendering items with select/expand logic. Delegates submenus to `SubMenu` (inline expand) and `PopupSubMenu` (teleported popups).
 - **`SubMenu.vue`** (`scripts/menu/SubMenu.vue`) — renders items directly with expand/collapse and slide `<Transition>`. Recursively renders nested `SubMenu` for children. Owns its own `expandedKeys` state.
 - **`PopupSubMenu.vue`** (`scripts/menu/PopupSubMenu.vue`) — renders items directly in a `<Teleport>`-ed popup. Handles recursive nested hover popups with edge detection. Owns its own hover/timer state.
-- **`MenuOption.vue` / `ContextMenuOption.vue`** — renderless declarative child for slot-based usage
+- **`MenuItem.vue` / `MenuDivider.vue` / `ContextMenuOption.vue`** — renderless declarative children for slot-based usage
 - **`IconRenderer.vue`** (`scripts/menu/IconRenderer.vue`) — shared internal utility that renders icon VNodes; used by both Menu and ContextMenu
 
 **Menu modes:**
 
 - **Default** — sidebar with expandable submenus (inline expand/collapse with `<Transition>`)
 - **`collapsed`** — sidebar collapsed to icon-only width (56px); childless items wrap in `<Tooltip>`; items with children show Teleported popups at `z-index: 3000`
+
+Menu entries use the `MenuEntry` union (`MenuItemOption | MenuDividerOption`). Dividers render in the main menu, inline submenus, and collapsed popup submenus; their optional `name` appears as a muted group label on its own row above the horizontal rule.
 
 **ContextMenu item types** — ContextMenu supports five item `type` values: `item`, `divider`, `submenu`, `checkbox`, and `radiogroup`. The `checkbox` and `radiogroup` types are unique to ContextMenu (not in Menu). Checkbox items maintain a `checkedValues: Set<any>` so multiple can be toggled independently. Radiogroup items use `name` to group selections and store the active value in `radioValues: Map<string, any>`. Both emit `select` with the item + a `checked` boolean.
 

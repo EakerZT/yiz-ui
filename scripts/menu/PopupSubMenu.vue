@@ -9,8 +9,17 @@
       @mouseleave="$emit('mouseleave', $event)"
     >
       <div class="yiz-menu" :class="{ 'yiz-menu-dark': dark }">
-        <template v-for="(item, idx) in items" :key="idx">
+        <template v-for="(item, idx) in items" :key="item.key ?? idx">
           <div
+            v-if="item.type === 'divider'"
+            class="yiz-menu-divider"
+            :class="{ 'yiz-menu-divider-with-name': item.name }"
+            role="separator"
+          >
+            <span v-if="item.name" class="yiz-menu-divider-name">{{ item.name }}</span>
+          </div>
+          <div
+            v-else
             class="yiz-menu-item"
             :class="{ 'yiz-menu-item-selected': isSelected(item), 'yiz-menu-item-ancestor': isAncestor(item) }"
             @click="onItemClick(item)"
@@ -58,11 +67,11 @@ import { computed, ref, toRef } from 'vue'
 import { ChevronRight16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { useOverlayElement } from '../overlay/overlayScope'
-import type { MenuItem } from './Menu.vue'
+import { isMenuDivider, type MenuEntry, type MenuItemOption } from './types'
 import IconRenderer from './IconRenderer.vue'
 
 const props = defineProps<{
-  items?: MenuItem[]
+  items?: MenuEntry[]
   selected?: any
   visible?: boolean
   position?: Record<string, string>
@@ -71,24 +80,25 @@ const props = defineProps<{
 }>()
 
 defineSlots<{
-  icon?: (props: { icon: string; item: MenuItem; selected: boolean }) => any
-  item?: (props: { item: MenuItem; index: number }) => any
+  icon?: (props: { icon: string; item: MenuItemOption; selected: boolean }) => any
+  item?: (props: { item: MenuItemOption; index: number }) => any
 }>()
 
 const emit = defineEmits<{
-  select: [item: MenuItem]
+  select: [item: MenuItemOption]
   mouseenter: []
   mouseleave: [e: MouseEvent]
 }>()
 
-const hoveredItem = ref<MenuItem | null>(null)
+const hoveredItem = ref<MenuItemOption | null>(null)
 const childStyle = ref<Record<string, string>>({})
 const panelRef = ref<HTMLElement>()
 useOverlayElement(panelRef, toRef(props, 'visible'))
 let childTimer: ReturnType<typeof setTimeout> | null = null
 
-function findAncestors(items: MenuItem[], target: any, ancestors = new Set<any>()): Set<any> | null {
+function findAncestors(items: MenuEntry[], target: any, ancestors = new Set<any>()): Set<any> | null {
   for (const item of items) {
+    if (isMenuDivider(item)) continue
     if (item.key === target) return ancestors
     if (item.children?.length) {
       const next = new Set(ancestors)
@@ -105,20 +115,20 @@ const ancestorKeys = computed(() => {
   return findAncestors(props.items, props.selected) ?? new Set()
 })
 
-function isAncestor(item: MenuItem) {
+function isAncestor(item: MenuItemOption) {
   return ancestorKeys.value.has(item.key)
 }
 
-function isSelected(item: MenuItem) {
+function isSelected(item: MenuItemOption) {
   return props.selected != null && item.key === props.selected
 }
 
-function onItemClick(item: MenuItem) {
+function onItemClick(item: MenuItemOption) {
   if (item.children?.length) return
   emit('select', item)
 }
 
-function onItemMouseEnter(item: MenuItem, e: MouseEvent) {
+function onItemMouseEnter(item: MenuItemOption, e: MouseEvent) {
   if (childTimer) {
     clearTimeout(childTimer)
     childTimer = null
@@ -148,7 +158,7 @@ function onItemMouseEnter(item: MenuItem, e: MouseEvent) {
   }
 }
 
-function onItemMouseLeave(_item: MenuItem) {
+function onItemMouseLeave(_item: MenuItemOption) {
   childTimer = setTimeout(() => {
     hoveredItem.value = null
   }, 100)
@@ -167,7 +177,7 @@ function onChildLeave(e: MouseEvent) {
   hoveredItem.value = null
 }
 
-function onChildSelect(item: MenuItem) {
+function onChildSelect(item: MenuItemOption) {
   emit('select', item)
 }
 </script>

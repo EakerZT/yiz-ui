@@ -515,7 +515,7 @@ const zhCN: LangMessages = {
   'demo.divider.vertical': '垂直分割线',
 
   'demo.dropmenu.title': 'Dropmenu 下拉菜单',
-  'demo.dropmenu.desc': '基于菜单弹层的下拉菜单，支持 options 属性和 y-menu-option 插槽声明。',
+  'demo.dropmenu.desc': '基于菜单弹层的下拉菜单，支持 options 属性和 y-dropmenu-item 插槽声明。',
   'demo.dropmenu.options': 'Options 配置',
   'demo.dropmenu.open': '打开菜单',
   'demo.dropmenu.slotOpen': '插槽菜单',
@@ -660,9 +660,10 @@ const zhCN: LangMessages = {
   'demo.loadingBar.reset': '重置配置',
 
   'demo.menu.title': 'Menu 导航菜单',
-  'demo.menu.desc': '垂直导航菜单，支持子菜单和选中状态。',
+  'demo.menu.desc': '垂直导航菜单，支持多级子菜单、分组分割线和选中状态。',
   'demo.menu.selected': '选中: {value}',
   'demo.menu.submenu': '子菜单',
+  'demo.menu.navigationGroup': '导航',
   'demo.menu.iconString': '图标-字符串',
   'demo.menu.iconFn': '图标-函数',
   'demo.menu.collapsed': '折叠',
@@ -1655,7 +1656,7 @@ const enUS: LangMessages = {
   'demo.divider.vertical': 'Vertical divider',
 
   'demo.dropmenu.title': 'Dropmenu',
-  'demo.dropmenu.desc': 'Dropdown menu based on menu popups. Supports options and y-menu-option slots.',
+  'demo.dropmenu.desc': 'Dropdown menu based on menu popups. Supports options and y-dropmenu-item slots.',
   'demo.dropmenu.options': 'Options',
   'demo.dropmenu.open': 'Open menu',
   'demo.dropmenu.slotOpen': 'Slot menu',
@@ -1805,9 +1806,10 @@ const enUS: LangMessages = {
   'demo.loadingBar.reset': 'Reset config',
 
   'demo.menu.title': 'Menu',
-  'demo.menu.desc': 'Vertical navigation menu with submenus and selected state.',
+  'demo.menu.desc': 'Vertical navigation menu with nested submenus, group dividers, and selected state.',
   'demo.menu.selected': 'Selected: {value}',
   'demo.menu.submenu': 'Submenu',
+  'demo.menu.navigationGroup': 'Navigation',
   'demo.menu.iconString': 'Icon as string',
   'demo.menu.iconFn': 'Icon as function',
   'demo.menu.collapsed': 'Collapsed',
