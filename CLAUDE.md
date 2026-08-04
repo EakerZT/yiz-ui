@@ -275,7 +275,8 @@ A dropdown selection component combining several patterns:
 - **Click-outside** — document-level `click` listener (capture phase) closes the dropdown when clicking outside trigger + dropdown refs
 - **Keyboard** — Escape to close, ArrowUp/ArrowDown to navigate `hoverIndex`, Enter to select
 - **Search** — optional `search` prop (sync or async function returning filtered `SelectOption[]`); renders an `<Input>` in the dropdown. Search input is fixed outside the ScrollBox so it doesn't scroll with options.
-- **`defineModel`** — `defineModel<any>('modelValue')` tracks selected value
+- **`defineModel`** — `defineModel<any>('value')` tracks the selected value or value array
+- **Multiple selection** — `multiple` switches `v-model:value` to an array and keeps the dropdown open while toggling options. Optional `max` limits new selections; once reached, unselected options are disabled while selected options remain available for deselection.
 
 **Options scrolling:** The options list is wrapped in `<ScrollBox :max-height="scrollBoxMaxHeight">`. `scrollBoxMaxHeight` is a ref (default 240) dynamically adjusted by `repositionDropdown()` based on available viewport space minus search bar height. The search input sits outside the ScrollBox, staying fixed at the top of the dropdown.
 

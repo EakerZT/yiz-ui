@@ -3827,6 +3827,21 @@
         "default": "false"
       },
       {
+        "name": "multiple",
+        "type": "boolean",
+        "required": false,
+        "description": "是否允许选择多个选项。多选时 v-model:value 应为数组。",
+        "descriptionEn": "Whether multiple options can be selected. v-model:value should be an array in multiple mode.",
+        "default": "false"
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "description": "多选时最多可选择的数量，为空时不限制。",
+        "descriptionEn": "Maximum number of selections in multiple mode. No limit when omitted."
+      },
+      {
         "name": "size",
         "type": "'small' | 'default' | 'large'",
         "required": false,
@@ -3876,9 +3891,9 @@
     "events": [
       {
         "name": "change",
-        "type": "[option: SelectOption | null]",
-        "description": "选择项变化时触发。",
-        "descriptionEn": "Emitted when the selected option changes."
+        "type": "[option: SelectOption | SelectOption[] | null]",
+        "description": "选择项变化时触发，多选模式返回选项数组。",
+        "descriptionEn": "Emitted when the selection changes. Returns an option array in multiple mode."
       }
     ],
     "slots": [

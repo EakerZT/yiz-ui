@@ -2,6 +2,7 @@
   <div class="select-size-demo">
     <y-radio-button-group v-model:value="size" :options="sizeOptions" />
     <y-select v-model:value="value" :options="options" :size="size" />
+    <y-select v-model:value="multipleValue" :options="options" :size="size" multiple />
   </div>
 </template>
 
@@ -10,6 +11,7 @@ import { computed, ref } from 'vue'
 import { $t } from 'yiz-ui'
 
 const value = ref()
+const multipleValue = ref(['beijing', 'shanghai'])
 const size = ref<'small' | 'default' | 'large'>('default')
 const sizeOptions = [
   { label: 'small', value: 'small' },

@@ -30,6 +30,14 @@ const zhCN: LangMessages = {
   'demo.docs.default': '默认值',
   'demo.docs.required': '必填',
 
+  'demo.navGroup.basic': '基础',
+  'demo.navGroup.layout': '布局',
+  'demo.navGroup.navigation': '导航',
+  'demo.navGroup.dataEntry': '数据录入',
+  'demo.navGroup.dataDisplay': '数据展示',
+  'demo.navGroup.feedback': '反馈',
+  'demo.navGroup.utilities': '工具',
+
   'demo.nav.breadcrumb': 'Breadcrumb 面包屑',
   'demo.nav.button': 'Button 按钮',
   'demo.nav.card': 'Card 卡片',
@@ -817,6 +825,7 @@ const zhCN: LangMessages = {
   'demo.select.cityPlaceholder': '请选择城市',
   'demo.select.changeCount': 'change 次数: {count}',
   'demo.select.search': '搜索',
+  'demo.select.multiple': '多选（最多两项）',
 
   'demo.segmented.title': 'Segmented 分段器',
   'demo.segmented.desc': '用于在一组互斥选项中快速切换，支持 v-model:value、尺寸、形状、禁用和铺满宽度。',
@@ -1165,6 +1174,14 @@ const enUS: LangMessages = {
   'demo.docs.type': 'Type',
   'demo.docs.default': 'Default',
   'demo.docs.required': 'Required',
+
+  'demo.navGroup.basic': 'Basic',
+  'demo.navGroup.layout': 'Layout',
+  'demo.navGroup.navigation': 'Navigation',
+  'demo.navGroup.dataEntry': 'Data Entry',
+  'demo.navGroup.dataDisplay': 'Data Display',
+  'demo.navGroup.feedback': 'Feedback',
+  'demo.navGroup.utilities': 'Utilities',
 
   'demo.nav.breadcrumb': 'Breadcrumb',
   'demo.nav.button': 'Button',
@@ -1968,6 +1985,7 @@ const enUS: LangMessages = {
   'demo.select.cityPlaceholder': 'Select city',
   'demo.select.changeCount': 'change count: {count}',
   'demo.select.search': 'Search',
+  'demo.select.multiple': 'Multiple (up to two)',
 
   'demo.segmented.title': 'Segmented',
   'demo.segmented.desc':

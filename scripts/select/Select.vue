@@ -4,7 +4,15 @@
     class="yiz-select"
     :class="vClass"
     :tabindex="disabled ? -1 : 0"
+    role="combobox"
+    aria-haspopup="listbox"
+    :aria-expanded="open"
+    :aria-controls="listboxId"
+    :aria-activedescendant="activeOptionId"
+    :aria-disabled="disabled || undefined"
+    :aria-readonly="readonly || undefined"
     @click="onTriggerClick"
+    @keydown.stop="onTriggerKeydown"
     @mouseenter="isHovering = true"
     @mouseleave="isHovering = false"
     v-bind="$attrs"
@@ -13,8 +21,26 @@
       <template v-if="$props.prefix">{{ $props.prefix }}</template>
       <slot v-else name="prefix" />
     </span>
-    <span class="yiz-select-label" :class="{ 'yiz-select-placeholder': !selectedOption }">
-      <SelectContentRenderer v-if="selectedOption" :content="selectedOption.label" />
+    <span
+      class="yiz-select-label"
+      :class="{
+        'yiz-select-label-multiple': multiple,
+        'yiz-select-placeholder': !hasSelection,
+      }"
+    >
+      <template v-if="multiple && selectedOptions.length > 0">
+        <template v-for="(option, index) in selectedOptions" :key="index">
+          <Tag
+            class="yiz-select-selection-tag"
+            :size="size"
+            :closable="!disabled && !readonly"
+            @close="onRemoveSelected(option)"
+          >
+            <SelectContentRenderer :content="option.label" />
+          </Tag>
+        </template>
+      </template>
+      <SelectContentRenderer v-else-if="selectedOption" :content="selectedOption.label" />
       <template v-else>{{ placeholderText }}</template>
     </span>
     <span class="yiz-select-suffix">
@@ -26,7 +52,7 @@
         class="yiz-select-arrow"
         :class="{
           'yiz-select-arrow-up': open,
-          'yiz-select-arrow--hidden': clearable && modelValue != null && !disabled && !readonly && (isHovering || open),
+          'yiz-select-arrow--hidden': clearable && hasClearValue && !disabled && !readonly && (isHovering || open),
         }"
         size="16"
         :icon="ChevronDown16Regular"
@@ -34,7 +60,7 @@
     </span>
     <Transition name="yiz-select-clear-zoom">
       <span
-        v-if="clearable && modelValue != null && !disabled && !readonly && (isHovering || open)"
+        v-if="clearable && hasClearValue && !disabled && !readonly && (isHovering || open)"
         class="yiz-select-clear"
         @click.stop="onClear"
       >
@@ -44,32 +70,52 @@
   </div>
   <Teleport to="body">
     <Transition name="yiz-select-dropdown-fade">
-      <div v-if="open" class="yiz-select-dropdown" :style="dropdownStyle" ref="dropdownRef">
+      <div
+        v-if="open"
+        :id="listboxId"
+        ref="dropdownRef"
+        class="yiz-select-dropdown"
+        role="listbox"
+        :aria-multiselectable="multiple || undefined"
+        :style="dropdownStyle"
+      >
         <div v-if="search" class="yiz-select-search-wrap" @click.stop>
           <Input
             ref="searchInputRef"
             v-model:value="searchQuery"
             :placeholder="$t('select.searchPlaceholder')"
-            @keydown.stop
+            @keydown.stop="onKeydown"
           />
         </div>
         <ScrollBox :max-height="scrollBoxMaxHeight">
           <div
             v-for="(opt, idx) in filteredOptions"
             :key="idx"
+            :id="getOptionId(idx)"
             class="yiz-select-option"
+            role="option"
             :class="{
               'yiz-select-option-selected': isSelected(opt),
-              'yiz-select-option-hover': hoverIndex === idx && !opt.disabled,
-              'yiz-select-option-disabled': opt.disabled,
+              'yiz-select-option-hover': hoverIndex === idx && !isOptionDisabled(opt),
+              'yiz-select-option-disabled': isOptionDisabled(opt),
             }"
-            :aria-disabled="opt.disabled || undefined"
+            :aria-selected="isSelected(opt)"
+            :aria-disabled="isOptionDisabled(opt) || undefined"
             @click.stop="onSelect(opt)"
             @mouseenter="onOptionMouseenter(opt, idx)"
           >
-            <slot name="option" :option="opt" :index="idx" :selected="isSelected(opt)">
-              <SelectContentRenderer :content="opt.label" />
-            </slot>
+            <span class="yiz-select-option-content">
+              <slot name="option" :option="opt" :index="idx" :selected="isSelected(opt)">
+                <SelectContentRenderer :content="opt.label" />
+              </slot>
+            </span>
+            <Icon
+              v-if="multiple && isSelected(opt)"
+              class="yiz-select-option-check"
+              size="16"
+              :icon="Checkmark16Regular"
+              aria-hidden="true"
+            />
           </div>
           <div v-if="filteredOptions.length === 0" class="yiz-select-empty">{{ $t('common.noData') }}</div>
         </ScrollBox>
@@ -84,6 +130,7 @@ import {
   computed,
   defineComponent,
   Fragment,
+  getCurrentInstance,
   nextTick,
   onBeforeUnmount,
   onMounted,
@@ -94,7 +141,7 @@ import {
   type PropType,
   type VNodeChild,
 } from 'vue'
-import { ChevronDown16Regular, DismissCircle16Filled } from '@vicons/fluent'
+import { Checkmark16Regular, ChevronDown16Regular, DismissCircle16Filled } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { Input } from '../input'
 import { useInputStyleMode } from '../input-style'
@@ -102,6 +149,7 @@ import { $t } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
 import { ScrollBox } from '../scroll-box'
 import SelectOptionComp from '../select-option/SelectOption.vue'
+import { Tag } from '../tag'
 import { nextZIndex } from '../zIndex'
 
 export type SelectOptionContent = VNodeChild | (() => VNodeChild)
@@ -149,6 +197,16 @@ const props = withDefaults(
      */
     clearable?: boolean
     /**
+     * 是否允许选择多个选项。多选时 v-model:value 应为数组。
+     * @en Whether multiple options can be selected. v-model:value should be an array in multiple mode.
+     */
+    multiple?: boolean
+    /**
+     * 多选时最多可选择的数量，为空时不限制。
+     * @en Maximum number of selections in multiple mode. No limit when omitted.
+     */
+    max?: number
+    /**
      * 选择器尺寸。
      * @en Size of the select.
      */
@@ -179,6 +237,7 @@ const props = withDefaults(
     disabled: false,
     readonly: false,
     clearable: false,
+    multiple: false,
     size: 'default',
     styleMode: 'outlined',
   },
@@ -209,10 +268,10 @@ defineSlots<{
 
 const emit = defineEmits<{
   /**
-   * 选择项变化时触发。
-   * @en Emitted when the selected option changes.
+   * 选择项变化时触发，多选模式返回选项数组。
+   * @en Emitted when the selection changes. Returns an option array in multiple mode.
    */
-  change: [option: SelectOption | null]
+  change: [option: SelectOption | SelectOption[] | null]
 }>()
 
 /**
@@ -278,6 +337,7 @@ const searchQuery = ref('')
 const searchInputRef = ref<InstanceType<typeof Input>>()
 const scrollBoxMaxHeight = ref(240)
 const dropdownPos = ref<{ top?: string; bottom?: string; left?: string }>({})
+const listboxId = `yiz-select-listbox-${getCurrentInstance()?.uid}`
 useOverlayElement(dropdownRef, open)
 
 const filteredOptions = shallowRef<SelectOption[]>([...allOptions.value])
@@ -308,8 +368,36 @@ const vClass = computed(() => {
   return c
 })
 
-const selectedOption = computed(() => allOptions.value.find((option) => option.value === modelValue.value))
+const multipleValues = computed<any[]>(() =>
+  props.multiple && Array.isArray(modelValue.value) ? modelValue.value : [],
+)
+const selectedOptions = computed<SelectOption[]>(() => {
+  return multipleValues.value
+    .map((value) => allOptions.value.find((option) => option.value === value))
+    .filter((option): option is SelectOption => option !== undefined)
+})
+const selectedOption = computed(() => {
+  if (props.multiple) return undefined
+  return allOptions.value.find((option) => option.value === modelValue.value)
+})
+const hasSelection = computed(() =>
+  props.multiple ? selectedOptions.value.length > 0 : selectedOption.value !== undefined,
+)
+const hasClearValue = computed(() =>
+  props.multiple ? Array.isArray(modelValue.value) && modelValue.value.length > 0 : modelValue.value != null,
+)
+const selectionLimit = computed(() => {
+  if (props.max == null || !Number.isFinite(props.max)) return undefined
+  return Math.max(0, Math.floor(props.max))
+})
+const selectionLimitReached = computed(() => {
+  return props.multiple && selectionLimit.value !== undefined && multipleValues.value.length >= selectionLimit.value
+})
 const placeholderText = computed(() => props.placeholder ?? $t('select.placeholder'))
+const activeOptionId = computed(() => {
+  const option = filteredOptions.value[hoverIndex.value]
+  return open.value && option && !isOptionDisabled(option) ? getOptionId(hoverIndex.value) : undefined
+})
 
 const dropdownStyle = computed(() => {
   const s: Record<string, string | number> = {
@@ -322,21 +410,37 @@ const dropdownStyle = computed(() => {
 })
 
 function isSelected(opt: SelectOption) {
+  if (props.multiple) return multipleValues.value.some((value) => value === opt.value)
   return opt.value === modelValue.value
+}
+
+function isOptionDisabled(opt: SelectOption) {
+  return Boolean(opt.disabled || (selectionLimitReached.value && !isSelected(opt)))
+}
+
+function getOptionId(index: number) {
+  return `${listboxId}-option-${index}`
+}
+
+function openDropdown() {
+  if (props.disabled || props.readonly || open.value) return
+  open.value = true
+  currentZIndex.value = nextZIndex()
+  hoverIndex.value = -1
+  searchQuery.value = ''
+  filteredOptions.value = [...allOptions.value]
+  if (props.search) {
+    setTimeout(() => searchInputRef.value?.focus(), 50)
+  }
 }
 
 function onTriggerClick() {
   if (props.disabled || props.readonly) return
-  open.value = !open.value
   if (open.value) {
-    currentZIndex.value = nextZIndex()
-    hoverIndex.value = -1
-    searchQuery.value = ''
-    filteredOptions.value = [...allOptions.value]
-    if (props.search) {
-      setTimeout(() => searchInputRef.value?.focus(), 50)
-    }
+    open.value = false
+    return
   }
+  openDropdown()
 }
 
 watch(allOptions, () => {
@@ -405,20 +509,47 @@ watch(open, async (val) => {
 })
 
 function onSelect(opt: SelectOption) {
-  if (props.disabled || props.readonly || opt.disabled) return
+  if (props.disabled || props.readonly || isOptionDisabled(opt)) return
+  if (props.multiple) {
+    const values = [...multipleValues.value]
+    const selectedIndex = values.findIndex((value) => value === opt.value)
+    if (selectedIndex >= 0) {
+      values.splice(selectedIndex, 1)
+    } else {
+      values.push(opt.value)
+    }
+    modelValue.value = values
+    emit(
+      'change',
+      values
+        .map((value) => allOptions.value.find((option) => option.value === value))
+        .filter((option): option is SelectOption => option !== undefined),
+    )
+    return
+  }
   modelValue.value = opt.value
   open.value = false
   emit('change', opt)
 }
 
 function onOptionMouseenter(opt: SelectOption, index: number) {
-  if (!opt.disabled) hoverIndex.value = index
+  if (!isOptionDisabled(opt)) hoverIndex.value = index
+}
+
+function onRemoveSelected(opt: SelectOption) {
+  if (!props.multiple || !isSelected(opt)) return
+  onSelect(opt)
 }
 
 function onClear() {
   if (props.disabled || props.readonly) return
-  modelValue.value = undefined
-  emit('change', null)
+  if (props.multiple) {
+    modelValue.value = []
+    emit('change', [])
+  } else {
+    modelValue.value = undefined
+    emit('change', null)
+  }
 }
 
 function onClickOutside(e: MouseEvent) {
@@ -432,15 +563,39 @@ function onClickOutside(e: MouseEvent) {
 // keyboard
 function findEnabledOptionIndex(startIndex: number, direction: 1 | -1): number {
   for (let index = startIndex; index >= 0 && index < filteredOptions.value.length; index += direction) {
-    if (!filteredOptions.value[index]?.disabled) return index
+    const option = filteredOptions.value[index]
+    if (option && !isOptionDisabled(option)) return index
   }
   return -1
+}
+
+function onTriggerKeydown(e: KeyboardEvent) {
+  if (props.disabled || props.readonly) return
+  if (open.value) {
+    onKeydown(e)
+    return
+  }
+  if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return
+
+  e.preventDefault()
+  openDropdown()
+
+  const selectedIndex = filteredOptions.value.findIndex((option) => isSelected(option) && !isOptionDisabled(option))
+  if (selectedIndex >= 0) {
+    hoverIndex.value = selectedIndex
+  } else if (e.key === 'ArrowUp') {
+    hoverIndex.value = findEnabledOptionIndex(filteredOptions.value.length - 1, -1)
+  } else {
+    hoverIndex.value = findEnabledOptionIndex(0, 1)
+  }
 }
 
 function onKeydown(e: KeyboardEvent) {
   if (!open.value) return
   if (e.key === 'Escape') {
+    e.preventDefault()
     open.value = false
+    nextTick(() => triggerRef.value?.focus())
     return
   }
   if (e.key === 'ArrowDown') {
@@ -459,7 +614,10 @@ function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Enter' && hoverIndex.value >= 0) {
     e.preventDefault()
     const opt = filteredOptions.value[hoverIndex.value]
-    if (opt) onSelect(opt)
+    if (opt) {
+      onSelect(opt)
+      if (!props.multiple) nextTick(() => triggerRef.value?.focus())
+    }
   }
 }
 
@@ -577,6 +735,17 @@ defineExpose({
   white-space: nowrap;
 }
 
+.yiz-select-label-multiple {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.yiz-select-selection-tag {
+  flex-shrink: 0;
+  max-width: 100%;
+}
+
 .yiz-select-prefix,
 .yiz-select-extra-suffix {
   display: inline-flex;
@@ -669,6 +838,9 @@ defineExpose({
 }
 
 .yiz-select-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 4px;
   padding: 6px 8px;
   border-radius: var(--yiz-pane-item-border-radius);
@@ -697,6 +869,18 @@ defineExpose({
     cursor: not-allowed;
     background: transparent;
   }
+}
+
+.yiz-select-option-content {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.yiz-select-option-check {
+  flex-shrink: 0;
+  color: var(--yiz-color-primary);
 }
 
 .yiz-select-empty {

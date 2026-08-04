@@ -7,6 +7,7 @@
 - 添加 Dropmenu组件支持分割线
 - 添加 input型组件支持styleMode=filled
 - 添加 Menu组件支持分割线
+- 添加 Select组件支持多选
 
 ## 0.0.26
 
