@@ -193,7 +193,7 @@ Hover-triggered tooltip with `placement` (`top` | `bottom` | `left` | `right`), 
 
 ### Tab (`scripts/tab/`)
 
-- **`Tab.vue`** — main container using slot-based child extraction to find `TabPane` children. Extracts `label`, `value`, `disabled` props from each pane, renders a header row with a sliding active indicator bar, and renders the default slot (which TabPane children control via `v-show`). Uses `v-model:active` (`defineModel`), emits `select` event.
+- **`Tab.vue`** — main container using slot-based child extraction to find `TabPane` children. Extracts `label`, `value`, `disabled` props from each pane, renders a header row with a sliding active indicator bar, and renders the default slot (which TabPane children control via `v-show`). Uses `v-model:active` (`defineModel`), emits `select` event. Card tabs keep an internal closed-key set for unmanaged panes; when the parent removes a pane, its closed key is released synchronously so the same key can be mounted again later.
 - **`TabPane.vue`** — renderless child that declares `label` / `value` / `disabled` props and a default slot for content. Injects `'yizTab'` context and uses `v-show` to toggle visibility based on whether its `value` matches the parent's `active`.
 
 ### Tag (`scripts/tag/`)
@@ -340,6 +340,10 @@ Content separator with horizontal and vertical modes. Props: `direction` (`'hori
 ### Dropmenu (`scripts/dropmenu/`)
 
 Dropdown menu triggered by a click on a cloned trigger VNode. Renders a recursive `DropmenuPanel` in a Teleported popup positioned via `getBoundingClientRect()` relative to the trigger. Follows the same Teleport + `nextZIndex()` + click-outside + scroll/resize reposition pattern as Select. Supports both the `options` prop and `<y-dropmenu-item>` slot children, including `{ type: 'divider' }` separators and nested `children`. Emits `select` and supports keyboard navigation between enabled items.
+
+### Popconfirm (`scripts/popconfirm/`)
+
+Confirmation popup composed on top of `Popover`, preserving its renderless cloned trigger, Teleport positioning, dynamic `nextZIndex()`, and nested `overlayScope` behavior. It can therefore render above Dialog/Drawer and remain interactive inside an outer Popover; overlays opened inside its description are registered with the Popover scope. Overlay scopes form a parent/child tree, so ancestors recognize Teleported elements from arbitrarily deep descendants (for example Popover → Popconfirm → Select). Supports controlled `v-model:open`, confirm/cancel events, external `confirmLoading`, and an async `beforeConfirm` guard that keeps the popup open on `false` or rejection.
 
 ### Button (`scripts/button/`)
 

@@ -21,6 +21,8 @@ import OverflowTabsDemo from './OverflowTabsDemo.vue'
 import overflowTabsDemoSource from './OverflowTabsDemo.vue?raw'
 import ExtraSlotsDemo from './ExtraSlotsDemo.vue'
 import extraSlotsDemoSource from './ExtraSlotsDemo.vue?raw'
+import ReopenClosedDemo from './ReopenClosedDemo.vue'
+import reopenClosedDemoSource from './ReopenClosedDemo.vue?raw'
 
 export const demos: DemoDefinition[] = [
   { id: 'BasicDemo', titleKey: 'demo.common.basic', component: BasicDemo, source: basicDemoSource },
@@ -34,6 +36,12 @@ export const demos: DemoDefinition[] = [
   },
   { id: 'DirectionsDemo', titleKey: 'demo.tab.directions', component: DirectionsDemo, source: directionsDemoSource },
   { id: 'CardTypeDemo', titleKey: 'demo.tab.cardType', component: CardTypeDemo, source: cardTypeDemoSource },
+  {
+    id: 'ReopenClosedDemo',
+    titleKey: 'demo.tab.reopenClosed',
+    component: ReopenClosedDemo,
+    source: reopenClosedDemoSource,
+  },
   {
     id: 'CardDirectionsDemo',
     titleKey: 'demo.tab.cardDirections',

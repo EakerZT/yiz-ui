@@ -1,7 +1,12 @@
 <template>
   <div
     class="yiz-carousel"
-    :class="[`yiz-carousel-${direction}`, `yiz-carousel-arrow-${arrow}`, `yiz-carousel-indicator-${indicatorPosition}`]"
+    :class="[
+      `yiz-carousel-${isVertical ? 'vertical' : 'horizontal'}`,
+      `yiz-carousel-dot-${dotPosition}`,
+      `yiz-carousel-arrow-${arrow}`,
+      `yiz-carousel-indicator-${indicatorPosition}`,
+    ]"
     role="region"
     aria-roledescription="carousel"
     :aria-label="ariaLabel || $t('carousel.ariaLabel')"
@@ -23,7 +28,7 @@
           :aria-label="$t('carousel.previous')"
           @click="prev"
         >
-          <Icon size="20" :icon="direction === 'vertical' ? ChevronUp20Regular : ChevronLeft20Regular" />
+          <Icon size="20" :icon="isVertical ? ChevronUp20Regular : ChevronLeft20Regular" />
         </button>
         <button
           class="yiz-carousel-arrow yiz-carousel-arrow-next"
@@ -32,7 +37,7 @@
           :aria-label="$t('carousel.next')"
           @click="next"
         >
-          <Icon size="20" :icon="direction === 'vertical' ? ChevronDown20Regular : ChevronRight20Regular" />
+          <Icon size="20" :icon="isVertical ? ChevronDown20Regular : ChevronRight20Regular" />
         </button>
       </template>
     </div>
@@ -56,25 +61,14 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  nextTick,
-  onBeforeUnmount,
-  onMounted,
-  provide,
-  readonly,
-  ref,
-  toRef,
-  watch,
-  type CSSProperties,
-} from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, provide, readonly, ref, watch, type CSSProperties } from 'vue'
 import { ChevronDown20Regular, ChevronLeft20Regular, ChevronRight20Regular, ChevronUp20Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { $t } from '../locale'
 import {
   carouselContextKey,
   type CarouselArrow,
-  type CarouselDirection,
+  type CarouselDotPosition,
   type CarouselIndicatorPosition,
   type CarouselTrigger,
 } from './types'
@@ -127,10 +121,10 @@ const props = withDefaults(
      */
     trigger?: CarouselTrigger
     /**
-     * 轮播方向。
-     * @en Carousel direction.
+     * 指示点位置。位于左侧或右侧时自动使用纵向轮播。
+     * @en Dot position. Left and right positions automatically use vertical sliding.
      */
-    direction?: CarouselDirection
+    dotPosition?: CarouselDotPosition
     /**
      * 轮播区域的可访问名称。
      * @en Accessible label of the carousel region.
@@ -147,7 +141,7 @@ const props = withDefaults(
     arrow: 'hover',
     indicatorPosition: 'inside',
     trigger: 'click',
-    direction: 'horizontal',
+    dotPosition: 'bottom',
     ariaLabel: '',
   },
 )
@@ -184,6 +178,7 @@ const activeIndex = ref(0)
 const hovered = ref(false)
 const pageVisible = ref(true)
 const itemCount = computed(() => items.value.length)
+const isVertical = computed(() => props.dotPosition === 'left' || props.dotPosition === 'right')
 let timer: ReturnType<typeof setInterval> | undefined
 
 const viewportStyle = computed<CSSProperties>(() => ({
@@ -193,7 +188,7 @@ const viewportStyle = computed<CSSProperties>(() => ({
 const trackStyle = computed<CSSProperties>(() => {
   const offset = `${-activeIndex.value * 100}%`
   return {
-    transform: props.direction === 'vertical' ? `translate3d(0, ${offset}, 0)` : `translate3d(${offset}, 0, 0)`,
+    transform: isVertical.value ? `translate3d(0, ${offset}, 0)` : `translate3d(${offset}, 0, 0)`,
   }
 })
 
@@ -270,8 +265,8 @@ function onIndicatorMouseenter(index: number) {
 }
 
 function onKeydown(event: KeyboardEvent) {
-  const previousKey = props.direction === 'vertical' ? 'ArrowUp' : 'ArrowLeft'
-  const nextKey = props.direction === 'vertical' ? 'ArrowDown' : 'ArrowRight'
+  const previousKey = isVertical.value ? 'ArrowUp' : 'ArrowLeft'
+  const nextKey = isVertical.value ? 'ArrowDown' : 'ArrowRight'
   if (event.key === previousKey) {
     event.preventDefault()
     prev()
@@ -287,7 +282,6 @@ function onVisibilityChange() {
 
 provide(carouselContextKey, {
   activeIndex: readonly(activeIndex),
-  direction: toRef(props, 'direction'),
   registerItem,
   unregisterItem,
   getItemIndex,
@@ -340,6 +334,7 @@ defineExpose({
 <style lang="less">
 .yiz-carousel {
   position: relative;
+  box-sizing: border-box;
   width: 100%;
   outline: none;
   --yiz-carousel-arrow-size: 36px;
@@ -445,33 +440,64 @@ defineExpose({
   gap: 2px;
 }
 
-.yiz-carousel-horizontal .yiz-carousel-indicators {
+.yiz-carousel-dot-top .yiz-carousel-indicators,
+.yiz-carousel-dot-bottom .yiz-carousel-indicators {
   right: 0;
-  bottom: 10px;
   left: 0;
 }
 
-.yiz-carousel-vertical .yiz-carousel-indicators {
+.yiz-carousel-dot-top .yiz-carousel-indicators {
+  top: 10px;
+}
+
+.yiz-carousel-dot-bottom .yiz-carousel-indicators {
+  bottom: 10px;
+}
+
+.yiz-carousel-dot-left .yiz-carousel-indicators,
+.yiz-carousel-dot-right .yiz-carousel-indicators {
   top: 0;
-  right: 10px;
   bottom: 0;
   flex-direction: column;
 }
 
-.yiz-carousel-indicator-outside {
+.yiz-carousel-dot-left .yiz-carousel-indicators {
+  left: 10px;
+}
+
+.yiz-carousel-dot-right .yiz-carousel-indicators {
+  right: 10px;
+}
+
+.yiz-carousel-indicator-outside.yiz-carousel-dot-top {
+  padding-top: 26px;
+}
+
+.yiz-carousel-indicator-outside.yiz-carousel-dot-bottom {
   padding-bottom: 26px;
 }
 
-.yiz-carousel-indicator-outside .yiz-carousel-indicators {
+.yiz-carousel-indicator-outside.yiz-carousel-dot-left {
+  padding-left: 26px;
+}
+
+.yiz-carousel-indicator-outside.yiz-carousel-dot-right {
+  padding-right: 26px;
+}
+
+.yiz-carousel-indicator-outside.yiz-carousel-dot-top .yiz-carousel-indicators {
+  top: 0;
+}
+
+.yiz-carousel-indicator-outside.yiz-carousel-dot-bottom .yiz-carousel-indicators {
   bottom: 0;
 }
 
-.yiz-carousel-indicator-outside.yiz-carousel-vertical {
-  padding-right: 26px;
-  padding-bottom: 0;
+.yiz-carousel-indicator-outside.yiz-carousel-dot-left .yiz-carousel-indicators {
+  left: 0;
 }
 
-.yiz-carousel-indicator-outside.yiz-carousel-vertical .yiz-carousel-indicators {
+.yiz-carousel-indicator-outside.yiz-carousel-dot-right .yiz-carousel-indicators {
   right: 0;
 }
 

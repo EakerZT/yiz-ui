@@ -10,6 +10,7 @@
 - 添加 Select组件支持多选
 - 添加 Carousel轮播组件
 - 添加 Rate评分组件
+- 添加 Popconfirm组件
 
 ## 0.0.26
 

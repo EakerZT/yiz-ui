@@ -4,6 +4,8 @@ import type {
   Button,
   ButtonGroup,
   Card,
+  Carousel,
+  CarouselItem,
   Checkbox,
   CheckboxGroup,
   Collapse,
@@ -36,8 +38,10 @@ import type {
   MenuDivider,
   MenuItem,
   Pagination,
+  Popconfirm,
   Popover,
   Progress,
+  Rate,
   Radio,
   RadioButton,
   RadioButtonGroup,
@@ -76,6 +80,10 @@ declare module 'vue' {
     'y-button-group': typeof ButtonGroup
     YCard: typeof Card
     'y-card': typeof Card
+    YCarousel: typeof Carousel
+    'y-carousel': typeof Carousel
+    YCarouselItem: typeof CarouselItem
+    'y-carousel-item': typeof CarouselItem
     YCheckbox: typeof Checkbox
     'y-checkbox': typeof Checkbox
     YCheckboxGroup: typeof CheckboxGroup
@@ -142,10 +150,14 @@ declare module 'vue' {
     'y-menu-item': typeof MenuItem
     YPagination: typeof Pagination
     'y-pagination': typeof Pagination
+    YPopconfirm: typeof Popconfirm
+    'y-popconfirm': typeof Popconfirm
     YPopover: typeof Popover
     'y-popover': typeof Popover
     YProgress: typeof Progress
     'y-progress': typeof Progress
+    YRate: typeof Rate
+    'y-rate': typeof Rate
     YRadio: typeof Radio
     'y-radio': typeof Radio
     YRadioButton: typeof RadioButton

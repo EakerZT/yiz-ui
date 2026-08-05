@@ -91,6 +91,7 @@ const pages: Record<string, Component> = {
   notification: createPage('Notification'),
   pagination: createPage('Pagination'),
   popover: createPage('Popover'),
+  popconfirm: createPage('Popconfirm'),
   progress: createPage('Progress'),
   rate: createPage('Rate'),
   radio: createPage('Radio'),
@@ -174,6 +175,7 @@ const menuItems = computed(() => [
   { label: $t('demo.nav.loadingBar'), key: 'loading-bar' },
   { label: $t('demo.nav.message'), key: 'message' },
   { label: $t('demo.nav.notification'), key: 'notification' },
+  { label: $t('demo.nav.popconfirm'), key: 'popconfirm' },
   { label: $t('demo.nav.popover'), key: 'popover' },
   { label: $t('demo.nav.tooltip'), key: 'tooltip' },
 

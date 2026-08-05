@@ -9,7 +9,7 @@ import verticalDemoSource from './VerticalDemo.vue?raw'
 export const demos: DemoDefinition[] = [
   { id: 'BasicDemo', titleKey: 'demo.common.basic', component: BasicDemo, source: basicDemoSource },
   { id: 'ControlDemo', titleKey: 'demo.carousel.control', component: ControlDemo, source: controlDemoSource },
-  { id: 'VerticalDemo', titleKey: 'demo.common.vertical', component: VerticalDemo, source: verticalDemoSource },
+  { id: 'VerticalDemo', titleKey: 'demo.carousel.dotPosition', component: VerticalDemo, source: verticalDemoSource },
 ]
 
 export const apiComponents = ['Carousel', 'CarouselItem']

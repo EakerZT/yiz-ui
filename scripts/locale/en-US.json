@@ -34,6 +34,7 @@
   "pagination.pageSize": "{size} / page",
   "pagination.total": "Total {total}",
   "pagination.totalRange": "Total {total}, {start}-{end}",
+  "popconfirm.title": "Are you sure you want to continue?",
   "rate.ariaLabel": "Rating",
   "rate.value": "{value} out of {total}",
   "pagination.goTo": "Go to",

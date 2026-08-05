@@ -352,12 +352,12 @@
         "default": "'click'"
       },
       {
-        "name": "direction",
-        "type": "CarouselDirection",
+        "name": "dotPosition",
+        "type": "CarouselDotPosition",
         "required": false,
-        "description": "轮播方向。",
-        "descriptionEn": "Carousel direction.",
-        "default": "'horizontal'"
+        "description": "指示点位置。位于左侧或右侧时自动使用纵向轮播。",
+        "descriptionEn": "Dot position. Left and right positions automatically use vertical sliding.",
+        "default": "'bottom'"
       },
       {
         "name": "ariaLabel",
@@ -3210,6 +3210,187 @@
     ],
     "slots": [],
     "methods": []
+  },
+  {
+    "name": "Popconfirm",
+    "source": "scripts/popconfirm/Popconfirm.vue",
+    "props": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "description": "确认标题。",
+        "descriptionEn": "Confirmation title.",
+        "default": "''"
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "required": false,
+        "description": "补充说明。",
+        "descriptionEn": "Additional description.",
+        "default": "''"
+      },
+      {
+        "name": "placement",
+        "type": "PopconfirmPlacement",
+        "required": false,
+        "description": "弹出位置。",
+        "descriptionEn": "Popup placement.",
+        "default": "'top'"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "是否禁用。",
+        "descriptionEn": "Whether the popconfirm is disabled.",
+        "default": "false"
+      },
+      {
+        "name": "width",
+        "type": "string | number",
+        "required": false,
+        "description": "弹出层宽度。",
+        "descriptionEn": "Popup width.",
+        "default": "280"
+      },
+      {
+        "name": "showArrow",
+        "type": "boolean",
+        "required": false,
+        "description": "是否显示箭头。",
+        "descriptionEn": "Whether to show the arrow.",
+        "default": "true"
+      },
+      {
+        "name": "confirmText",
+        "type": "string",
+        "required": false,
+        "description": "确认按钮文字。",
+        "descriptionEn": "Confirm button text.",
+        "default": "''"
+      },
+      {
+        "name": "cancelText",
+        "type": "string",
+        "required": false,
+        "description": "取消按钮文字。",
+        "descriptionEn": "Cancel button text.",
+        "default": "''"
+      },
+      {
+        "name": "confirmColor",
+        "type": "'default' | 'success' | 'warning' | 'error' | string",
+        "required": false,
+        "description": "确认按钮颜色。",
+        "descriptionEn": "Confirm button color.",
+        "default": "'default'"
+      },
+      {
+        "name": "confirmLoading",
+        "type": "boolean",
+        "required": false,
+        "description": "外部控制的确认加载状态。",
+        "descriptionEn": "Externally controlled loading state of the confirm button.",
+        "default": "false"
+      },
+      {
+        "name": "beforeConfirm",
+        "type": "() => boolean | void | Promise<boolean | void>",
+        "required": false,
+        "description": "确认前执行的守卫，返回 false 时保持打开；Promise 执行期间自动显示加载状态。",
+        "descriptionEn": "Guard invoked before confirmation. Returning false keeps the popup open; promises enable loading automatically."
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:open",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "弹出层是否打开。",
+        "descriptionEn": "Whether the popup is open."
+      }
+    ],
+    "events": [
+      {
+        "name": "confirm",
+        "type": "[]",
+        "description": "确认成功后触发。",
+        "descriptionEn": "Emitted after confirmation succeeds."
+      },
+      {
+        "name": "cancel",
+        "type": "[]",
+        "description": "点击取消按钮时触发。",
+        "descriptionEn": "Emitted when the cancel button is clicked."
+      },
+      {
+        "name": "confirmError",
+        "type": "[error: unknown]",
+        "description": "确认守卫抛出错误或 Promise 被拒绝时触发。",
+        "descriptionEn": "Emitted when the confirmation guard throws or rejects."
+      },
+      {
+        "name": "openChange",
+        "type": "[open: boolean]",
+        "description": "打开状态变化时触发。",
+        "descriptionEn": "Emitted when the open state changes."
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "() => any",
+        "description": "触发元素，只使用第一个有效节点且不增加包裹元素。",
+        "descriptionEn": "Trigger element. Only the first valid node is used without adding a wrapper."
+      },
+      {
+        "name": "title",
+        "type": "any",
+        "description": "自定义标题。",
+        "descriptionEn": "Custom title."
+      },
+      {
+        "name": "description",
+        "type": "any",
+        "description": "自定义说明。",
+        "descriptionEn": "Custom description."
+      },
+      {
+        "name": "icon",
+        "type": "any",
+        "description": "自定义图标。",
+        "descriptionEn": "Custom icon."
+      },
+      {
+        "name": "cancel",
+        "type": "any",
+        "description": "自定义取消按钮内容。",
+        "descriptionEn": "Custom cancel button content."
+      },
+      {
+        "name": "confirm",
+        "type": "any",
+        "description": "自定义确认按钮内容。",
+        "descriptionEn": "Custom confirm button content."
+      }
+    ],
+    "methods": [
+      {
+        "name": "open",
+        "type": "() => void",
+        "description": "打开确认框。",
+        "descriptionEn": "Opens the confirmation popup."
+      },
+      {
+        "name": "close",
+        "type": "() => void",
+        "description": "关闭确认框。",
+        "descriptionEn": "Closes the confirmation popup."
+      }
+    ]
   },
   {
     "name": "Popover",

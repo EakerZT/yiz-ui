@@ -34,6 +34,7 @@
   "pagination.pageSize": "{size} 条/页",
   "pagination.total": "共 {total} 条",
   "pagination.totalRange": "共 {total} 条，{start}-{end}",
+  "popconfirm.title": "确定要执行此操作吗？",
   "rate.ariaLabel": "评分",
   "rate.value": "{value} 分，共 {total} 分",
   "pagination.goTo": "前往",

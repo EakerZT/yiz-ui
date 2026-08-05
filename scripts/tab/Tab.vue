@@ -127,22 +127,33 @@ function collectPaneVNodes(nodes: any[]): any[] {
   return result
 }
 
-const panes = computed<PaneData[]>(() => {
+const allPanes = computed<PaneData[]>(() => {
   const nodes = slots.default?.() ?? []
   const paneVNodes = collectPaneVNodes(nodes)
-  return paneVNodes
-    .map((vnode, idx) => {
-      const p = vnode.props as Record<string, any>
-      return {
-        label: p.label ?? `Tab ${idx + 1}`,
-        key: vnode.key ?? p.key ?? idx,
-        disabled: p.disabled != null && p.disabled !== false,
-        closable: p.closable != null && p.closable !== false,
-        labelSlot: (vnode as any).children?.label as (() => any) | undefined,
-      }
-    })
-    .filter((v) => !closedKeys.has(v.key))
+  return paneVNodes.map((vnode, idx) => {
+    const p = vnode.props as Record<string, any>
+    return {
+      label: p.label ?? `Tab ${idx + 1}`,
+      key: vnode.key ?? p.key ?? idx,
+      disabled: p.disabled != null && p.disabled !== false,
+      closable: p.closable != null && p.closable !== false,
+      labelSlot: (vnode as any).children?.label as (() => any) | undefined,
+    }
+  })
 })
+
+const panes = computed<PaneData[]>(() => allPanes.value.filter((pane) => !closedKeys.has(pane.key)))
+
+// 父级真正移除页签后释放关闭记录，允许之后使用相同 key 重新挂载。
+watch(
+  () => allPanes.value.map((pane) => pane.key),
+  (keys) => {
+    for (const key of closedKeys) {
+      if (!keys.some((paneKey) => paneKey === key)) closedKeys.delete(key)
+    }
+  },
+  { flush: 'sync' },
+)
 
 const activeIndex = ref(0)
 

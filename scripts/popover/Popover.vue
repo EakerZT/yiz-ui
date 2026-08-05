@@ -74,7 +74,7 @@ const emit = defineEmits<{
 }>()
 
 const parentOverlayScope = injectOverlayScope()
-const overlayScope = createOverlayScope()
+const overlayScope = createOverlayScope(parentOverlayScope)
 provideOverlayScope(overlayScope)
 
 const openModel = defineModel<boolean>('open')
