@@ -21,7 +21,7 @@
       <template v-if="$props.prefix">{{ $props.prefix }}</template>
       <slot v-else name="prefix" />
     </span>
-    <span
+    <div
       class="yiz-select-label"
       :class="{
         'yiz-select-label-multiple': multiple,
@@ -29,20 +29,42 @@
       }"
     >
       <template v-if="multiple && selectedOptions.length > 0">
-        <template v-for="(option, index) in selectedOptions" :key="index">
-          <Tag
-            class="yiz-select-selection-tag"
-            :size="size"
-            :closable="!disabled && !readonly"
-            @close="onRemoveSelected(option)"
-          >
-            <SelectContentRenderer :content="option.label" />
-          </Tag>
-        </template>
+        <ScrollBox
+          ref="selectionScrollRef"
+          class="yiz-select-multiple-scroll"
+          width="100%"
+          height="100%"
+          overflow-x="auto"
+          overflow-y="hidden"
+          auto-hide="leave"
+          @wheel="onSelectionWheel"
+        >
+          <span class="yiz-select-selection-list">
+            <template v-for="(option, index) in visibleSelectedOptions" :key="index">
+              <Tag
+                class="yiz-select-selection-tag"
+                :size="size"
+                :closable="!disabled && !readonly"
+                @close="onRemoveSelected(option)"
+              >
+                <SelectContentRenderer :content="option.label" />
+              </Tag>
+            </template>
+            <Tag
+              v-if="hiddenSelectedCount > 0"
+              class="yiz-select-selection-tag yiz-select-selection-summary"
+              :size="size"
+              :title="$t('select.moreSelected', { count: hiddenSelectedCount })"
+              :aria-label="$t('select.moreSelected', { count: hiddenSelectedCount })"
+            >
+              +{{ hiddenSelectedCount }}
+            </Tag>
+          </span>
+        </ScrollBox>
       </template>
       <SelectContentRenderer v-else-if="selectedOption" :content="selectedOption.label" />
       <template v-else>{{ placeholderText }}</template>
-    </span>
+    </div>
     <span class="yiz-select-suffix">
       <span class="yiz-select-extra-suffix" v-if="$props.suffix || $slots.suffix">
         <template v-if="$props.suffix">{{ $props.suffix }}</template>
@@ -207,6 +229,11 @@ const props = withDefaults(
      */
     max?: number
     /**
+     * 多选时最多展示的标签数量，超出部分折叠为 +N；为空时展示全部标签并允许横向滚动。
+     * @en Maximum visible tags in multiple mode. Extra tags collapse into +N; all tags remain horizontally scrollable when omitted.
+     */
+    maxTagCount?: number
+    /**
      * 选择器尺寸。
      * @en Size of the select.
      */
@@ -335,6 +362,7 @@ const dropdownRef = ref<HTMLElement>()
 const hoverIndex = ref(-1)
 const searchQuery = ref('')
 const searchInputRef = ref<InstanceType<typeof Input>>()
+const selectionScrollRef = ref<InstanceType<typeof ScrollBox>>()
 const scrollBoxMaxHeight = ref(240)
 const dropdownPos = ref<{ top?: string; bottom?: string; left?: string }>({})
 const listboxId = `yiz-select-listbox-${getCurrentInstance()?.uid}`
@@ -376,6 +404,15 @@ const selectedOptions = computed<SelectOption[]>(() => {
     .map((value) => allOptions.value.find((option) => option.value === value))
     .filter((option): option is SelectOption => option !== undefined)
 })
+const normalizedMaxTagCount = computed(() => {
+  if (props.maxTagCount == null || !Number.isFinite(props.maxTagCount)) return undefined
+  return Math.max(0, Math.floor(props.maxTagCount))
+})
+const visibleSelectedOptions = computed(() => {
+  if (normalizedMaxTagCount.value === undefined) return selectedOptions.value
+  return selectedOptions.value.slice(0, normalizedMaxTagCount.value)
+})
+const hiddenSelectedCount = computed(() => selectedOptions.value.length - visibleSelectedOptions.value.length)
 const selectedOption = computed(() => {
   if (props.multiple) return undefined
   return allOptions.value.find((option) => option.value === modelValue.value)
@@ -434,8 +471,9 @@ function openDropdown() {
   }
 }
 
-function onTriggerClick() {
+function onTriggerClick(event: MouseEvent) {
   if (props.disabled || props.readonly) return
+  if ((event.target as HTMLElement).closest('.yiz-scroll-box-track')) return
   if (open.value) {
     open.value = false
     return
@@ -550,6 +588,16 @@ function onClear() {
     modelValue.value = undefined
     emit('change', null)
   }
+}
+
+function onSelectionWheel(event: WheelEvent) {
+  const viewport = selectionScrollRef.value?.viewport
+  if (!viewport || viewport.scrollWidth <= viewport.clientWidth) return
+  const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY
+  if (!delta) return
+  event.preventDefault()
+  event.stopPropagation()
+  viewport.scrollLeft += delta
 }
 
 function onClickOutside(e: MouseEvent) {
@@ -738,12 +786,39 @@ defineExpose({
 .yiz-select-label-multiple {
   display: flex;
   align-items: center;
+  height: 100%;
+  white-space: normal;
+}
+
+.yiz-select-multiple-scroll {
+  min-width: 0;
+  height: 100%;
+
+  > .yiz-scroll-box-viewport {
+    display: flex;
+    align-items: center;
+  }
+
+  .yiz-scroll-box-track-h {
+    --yiz-scroll-track-offset: 0px;
+    --yiz-scroll-track-size: 4px;
+  }
+}
+
+.yiz-select-selection-list {
+  display: inline-flex;
+  align-items: center;
   gap: 4px;
+  width: max-content;
+  min-width: 100%;
 }
 
 .yiz-select-selection-tag {
   flex-shrink: 0;
-  max-width: 100%;
+}
+
+.yiz-select-selection-summary {
+  color: #666;
 }
 
 .yiz-select-prefix,

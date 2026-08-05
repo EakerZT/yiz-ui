@@ -11,6 +11,8 @@ import EventDemo from './EventDemo.vue'
 import eventSource from './EventDemo.vue?raw'
 import MultipleDemo from './MultipleDemo.vue'
 import multipleSource from './MultipleDemo.vue?raw'
+import TagOverflowDemo from './TagOverflowDemo.vue'
+import tagOverflowSource from './TagOverflowDemo.vue?raw'
 import PlaceholderDemo from './PlaceholderDemo.vue'
 import placeholderSource from './PlaceholderDemo.vue?raw'
 import PrefixSuffixDemo from './PrefixSuffixDemo.vue'
@@ -27,6 +29,12 @@ export const demos: DemoDefinition[] = [
   { id: 'PlaceholderDemo', titleKey: 'demo.select.placeholder', component: PlaceholderDemo, source: placeholderSource },
   { id: 'ClearableDemo', titleKey: 'demo.common.clearable', component: ClearableDemo, source: clearableSource },
   { id: 'MultipleDemo', titleKey: 'demo.select.multiple', component: MultipleDemo, source: multipleSource },
+  {
+    id: 'TagOverflowDemo',
+    titleKey: 'demo.select.tagOverflow',
+    component: TagOverflowDemo,
+    source: tagOverflowSource,
+  },
   { id: 'DisabledDemo', titleKey: 'demo.common.disabled', component: DisabledDemo, source: disabledSource },
   {
     id: 'PrefixSuffixDemo',

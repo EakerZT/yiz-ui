@@ -276,6 +276,169 @@
     "methods": []
   },
   {
+    "name": "Carousel",
+    "source": "scripts/carousel/Carousel.vue",
+    "props": [
+      {
+        "name": "initialIndex",
+        "type": "number",
+        "required": false,
+        "description": "初始激活项索引。",
+        "descriptionEn": "Initially active item index.",
+        "default": "0"
+      },
+      {
+        "name": "height",
+        "type": "string | number",
+        "required": false,
+        "description": "轮播区域高度。数字按像素处理。",
+        "descriptionEn": "Carousel viewport height; numbers are treated as pixels.",
+        "default": "300"
+      },
+      {
+        "name": "autoplay",
+        "type": "boolean",
+        "required": false,
+        "description": "是否自动播放。",
+        "descriptionEn": "Whether to autoplay.",
+        "default": "true"
+      },
+      {
+        "name": "interval",
+        "type": "number",
+        "required": false,
+        "description": "自动播放间隔，单位毫秒。",
+        "descriptionEn": "Autoplay interval in milliseconds.",
+        "default": "3000"
+      },
+      {
+        "name": "loop",
+        "type": "boolean",
+        "required": false,
+        "description": "是否循环播放。",
+        "descriptionEn": "Whether navigation wraps around.",
+        "default": "true"
+      },
+      {
+        "name": "pauseOnHover",
+        "type": "boolean",
+        "required": false,
+        "description": "鼠标悬停时是否暂停自动播放。",
+        "descriptionEn": "Whether autoplay pauses on hover.",
+        "default": "true"
+      },
+      {
+        "name": "arrow",
+        "type": "CarouselArrow",
+        "required": false,
+        "description": "箭头显示方式。",
+        "descriptionEn": "Arrow visibility mode.",
+        "default": "'hover'"
+      },
+      {
+        "name": "indicatorPosition",
+        "type": "CarouselIndicatorPosition",
+        "required": false,
+        "description": "指示器位置。",
+        "descriptionEn": "Indicator position.",
+        "default": "'inside'"
+      },
+      {
+        "name": "trigger",
+        "type": "CarouselTrigger",
+        "required": false,
+        "description": "指示器触发方式。",
+        "descriptionEn": "Indicator trigger mode.",
+        "default": "'click'"
+      },
+      {
+        "name": "direction",
+        "type": "CarouselDirection",
+        "required": false,
+        "description": "轮播方向。",
+        "descriptionEn": "Carousel direction.",
+        "default": "'horizontal'"
+      },
+      {
+        "name": "ariaLabel",
+        "type": "string",
+        "required": false,
+        "description": "轮播区域的可访问名称。",
+        "descriptionEn": "Accessible label of the carousel region.",
+        "default": "''"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:currentIndex",
+        "type": "number | undefined",
+        "required": false,
+        "description": "当前激活项索引。",
+        "descriptionEn": "Currently active item index."
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[current: number, previous: number]",
+        "description": "激活项变化时触发。",
+        "descriptionEn": "Emitted when the active item changes."
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "CarouselItem 列表。",
+        "descriptionEn": "CarouselItem list."
+      }
+    ],
+    "methods": [
+      {
+        "name": "prev",
+        "type": "prev",
+        "description": "切换到上一项。",
+        "descriptionEn": "Switch to the previous item."
+      },
+      {
+        "name": "next",
+        "type": "next",
+        "description": "切换到下一项。",
+        "descriptionEn": "Switch to the next item."
+      },
+      {
+        "name": "setActiveItem",
+        "type": "setActiveItem",
+        "description": "切换到指定索引。",
+        "descriptionEn": "Switch to a specified index."
+      }
+    ]
+  },
+  {
+    "name": "CarouselItem",
+    "source": "scripts/carousel/CarouselItem.vue",
+    "props": [
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "轮播项的可访问名称。",
+        "descriptionEn": "Accessible name of the carousel item."
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "any",
+        "description": "轮播项内容。",
+        "descriptionEn": "Carousel item content."
+      }
+    ],
+    "methods": []
+  },
+  {
     "name": "Checkbox",
     "source": "scripts/checkbox/Checkbox.vue",
     "props": [
@@ -3585,6 +3748,156 @@
     ]
   },
   {
+    "name": "Rate",
+    "source": "scripts/rate/Rate.vue",
+    "props": [
+      {
+        "name": "count",
+        "type": "number",
+        "required": false,
+        "description": "评分总数。",
+        "descriptionEn": "Maximum rating value.",
+        "default": "5"
+      },
+      {
+        "name": "allowHalf",
+        "type": "boolean",
+        "required": false,
+        "description": "是否允许选择半星。",
+        "descriptionEn": "Whether half ratings are allowed.",
+        "default": "false"
+      },
+      {
+        "name": "allowClear",
+        "type": "boolean",
+        "required": false,
+        "description": "再次选择相同值时是否允许清空。",
+        "descriptionEn": "Whether selecting the same value again clears the rating.",
+        "default": "true"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "是否禁用。",
+        "descriptionEn": "Whether the rating is disabled.",
+        "default": "false"
+      },
+      {
+        "name": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "是否只读。",
+        "descriptionEn": "Whether the rating is read-only.",
+        "default": "false"
+      },
+      {
+        "name": "size",
+        "type": "string | number",
+        "required": false,
+        "description": "图标尺寸，数字按像素处理。",
+        "descriptionEn": "Icon size; numbers are treated as pixels.",
+        "default": "24"
+      },
+      {
+        "name": "color",
+        "type": "string",
+        "required": false,
+        "description": "激活颜色。",
+        "descriptionEn": "Active character color.",
+        "default": "'#f7ba2a'"
+      },
+      {
+        "name": "voidColor",
+        "type": "string",
+        "required": false,
+        "description": "未激活颜色。",
+        "descriptionEn": "Inactive character color.",
+        "default": "'#c6d1de'"
+      },
+      {
+        "name": "texts",
+        "type": "string[]",
+        "required": false,
+        "description": "各评分对应的提示文本。",
+        "descriptionEn": "Text labels corresponding to each rating.",
+        "default": "[]"
+      },
+      {
+        "name": "showText",
+        "type": "boolean",
+        "required": false,
+        "description": "是否显示提示文本。",
+        "descriptionEn": "Whether to display the matching text label.",
+        "default": "false"
+      },
+      {
+        "name": "showScore",
+        "type": "boolean",
+        "required": false,
+        "description": "是否显示当前分数。",
+        "descriptionEn": "Whether to display the current score.",
+        "default": "false"
+      },
+      {
+        "name": "scoreTemplate",
+        "type": "string",
+        "required": false,
+        "description": "分数显示模板，使用 {value} 和 {total} 占位。",
+        "descriptionEn": "Score template using {value} and {total} placeholders.",
+        "default": "'{value} / {total}'"
+      },
+      {
+        "name": "ariaLabel",
+        "type": "string",
+        "required": false,
+        "description": "组件的可访问名称。",
+        "descriptionEn": "Accessible label of the component.",
+        "default": "''"
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "description": "当前评分值。",
+        "descriptionEn": "Current rating value."
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[value: number]",
+        "description": "评分值变化时触发。",
+        "descriptionEn": "Emitted when the rating changes."
+      }
+    ],
+    "slots": [
+      {
+        "name": "character",
+        "type": "(props: { index: number; active: boolean }) => any",
+        "description": "自定义评分字符。",
+        "descriptionEn": "Custom rating character."
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "focus",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "blur",
+        "type": "blur",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
     "name": "ScrollBox",
     "source": "scripts/scroll-box/ScrollBox.vue",
     "props": [
@@ -3840,6 +4153,13 @@
         "required": false,
         "description": "多选时最多可选择的数量，为空时不限制。",
         "descriptionEn": "Maximum number of selections in multiple mode. No limit when omitted."
+      },
+      {
+        "name": "maxTagCount",
+        "type": "number",
+        "required": false,
+        "description": "多选时最多展示的标签数量，超出部分折叠为 +N；为空时展示全部标签并允许横向滚动。",
+        "descriptionEn": "Maximum visible tags in multiple mode. Extra tags collapse into +N; all tags remain horizontally scrollable when omitted."
       },
       {
         "name": "size",

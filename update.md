@@ -8,6 +8,8 @@
 - 添加 input型组件支持styleMode=filled
 - 添加 Menu组件支持分割线
 - 添加 Select组件支持多选
+- 添加 Carousel轮播组件
+- 添加 Rate评分组件
 
 ## 0.0.26
 
