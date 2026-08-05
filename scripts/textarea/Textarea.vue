@@ -117,8 +117,8 @@ defineExpose({
     border-color 0.3s,
     box-shadow 0.3s;
   font-family: inherit;
-  font-size: 14px;
-  background: var(--yiz-color-bg, #fff);
+  font-size: var(--yiz-font-size-default);
+  background: var(--yiz-color-bg-container);
   padding: 4px 8px;
   width: 100%;
   box-sizing: border-box;
@@ -129,12 +129,12 @@ defineExpose({
 
   &.focus:not(.yiz-textarea-disabled) {
     border-color: var(--yiz-color-primary);
-    box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+    box-shadow: var(--yiz-control-focus-shadow);
   }
 
   &.yiz-textarea-disabled {
-    background: #f5f5f5;
-    color: #c0c4cc;
+    background: var(--yiz-color-bg-muted);
+    color: var(--yiz-color-text-disabled);
     cursor: not-allowed;
   }
 
@@ -151,7 +151,7 @@ defineExpose({
 
     &.focus {
       border-color: var(--yiz-color-error);
-      box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+      box-shadow: var(--yiz-control-error-focus-shadow);
     }
   }
 }
@@ -161,7 +161,7 @@ defineExpose({
   width: 100%;
   border: 0;
   outline: none;
-  font-size: 14px;
+  font-size: var(--yiz-font-size-default);
   font-family: inherit;
   line-height: 1.5;
   padding: 0;
@@ -169,7 +169,7 @@ defineExpose({
   resize: vertical;
 
   &:disabled {
-    color: #c0c4cc;
+    color: var(--yiz-color-text-disabled);
     cursor: not-allowed;
   }
 }
@@ -184,7 +184,7 @@ defineExpose({
 
 .yiz-textarea-count {
   font-size: 12px;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   user-select: none;
 }
 

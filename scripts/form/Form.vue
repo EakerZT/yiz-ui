@@ -110,7 +110,7 @@ defineExpose({
 .yiz-form {
   display: block;
   font-size: 14px;
-  color: #333;
+  color: var(--yiz-color-text-primary);
 }
 
 .yiz-form-layout-inline {

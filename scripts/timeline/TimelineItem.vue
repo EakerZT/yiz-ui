@@ -126,13 +126,13 @@ const vStyle = computed(() => {
 
 .yiz-timeline-item-time {
   margin-bottom: 4px;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   font-size: 12px;
   line-height: 18px;
 }
 
 .yiz-timeline-item-title {
-  color: #333;
+  color: var(--yiz-color-text-primary);
   font-size: var(--yiz-timeline-font-size);
   font-weight: 500;
   line-height: 22px;
@@ -140,7 +140,7 @@ const vStyle = computed(() => {
 
 .yiz-timeline-item-description {
   margin-top: 4px;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   font-size: 13px;
   line-height: 20px;
 }
@@ -166,7 +166,7 @@ const vStyle = computed(() => {
 }
 
 .yiz-timeline-item-hollow .yiz-timeline-item-dot {
-  background: #fff;
+  background: var(--yiz-color-bg-container);
 }
 
 .yiz-timeline-item-custom-dot {

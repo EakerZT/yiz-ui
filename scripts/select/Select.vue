@@ -711,18 +711,18 @@ defineExpose({
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 32px;
+  height: var(--yiz-control-height-default);
   padding: 0 11px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
-  background: #fff;
+  background: var(--yiz-color-bg-container);
   cursor: pointer;
   user-select: none;
   transition:
     border-color 0.3s,
     box-shadow 0.3s;
   font-size: var(--yiz-font-size-default);
-  color: #333;
+  color: var(--yiz-color-text-primary);
   box-sizing: border-box;
   position: relative;
 
@@ -732,13 +732,13 @@ defineExpose({
 
   &.yiz-select-open {
     border-color: var(--yiz-color-primary);
-    box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+    box-shadow: var(--yiz-control-focus-shadow);
   }
 
   &.yiz-select-disabled {
-    background: #f5f5f5;
+    background: var(--yiz-color-bg-muted);
     cursor: not-allowed;
-    color: #c0c4cc;
+    color: var(--yiz-color-text-disabled);
 
     &:hover {
       border-color: var(--yiz-color-border, #d9d9d9);
@@ -750,13 +750,13 @@ defineExpose({
   }
 
   &.yiz-select-small {
-    height: 24px;
+    height: var(--yiz-control-height-small);
     border-radius: var(--yiz-base-border-radius-small);
     font-size: var(--yiz-font-size-small);
   }
 
   &.yiz-select-large {
-    height: 40px;
+    height: var(--yiz-control-height-large);
     border-radius: var(--yiz-base-border-radius-large);
     font-size: var(--yiz-font-size-large);
   }
@@ -770,7 +770,7 @@ defineExpose({
 
     &.yiz-select-open {
       border-color: var(--yiz-color-error);
-      box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+      box-shadow: var(--yiz-control-error-focus-shadow);
     }
   }
 }
@@ -818,7 +818,7 @@ defineExpose({
 }
 
 .yiz-select-selection-summary {
-  color: #666;
+  color: var(--yiz-color-text-secondary);
 }
 
 .yiz-select-prefix,
@@ -826,7 +826,7 @@ defineExpose({
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   user-select: none;
 }
 
@@ -839,7 +839,7 @@ defineExpose({
 }
 
 .yiz-select-placeholder {
-  color: #c0c4cc;
+  color: var(--yiz-color-text-disabled);
 }
 
 .yiz-select-suffix {
@@ -848,12 +848,12 @@ defineExpose({
   gap: 4px;
   margin-left: 8px;
   flex-shrink: 0;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
 }
 
 .yiz-select-arrow {
   transition:
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard),
     opacity 0.2s;
 
   &.yiz-select-arrow-up {
@@ -901,10 +901,10 @@ defineExpose({
 // dropdown
 .yiz-select-dropdown {
   position: fixed;
-  background: #fff;
+  background: var(--yiz-color-bg-elevated);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--yiz-shadow-popup);
 }
 
 .yiz-select-search-wrap {
@@ -919,8 +919,8 @@ defineExpose({
   margin: 4px;
   padding: 6px 8px;
   border-radius: var(--yiz-pane-item-border-radius);
-  font-size: 14px;
-  color: #333;
+  font-size: var(--yiz-font-size-default);
+  color: var(--yiz-color-text-primary);
   cursor: pointer;
   transition: background 0.2s;
   white-space: nowrap;
@@ -940,7 +940,7 @@ defineExpose({
   }
 
   &.yiz-select-option-disabled {
-    color: #c0c4cc;
+    color: var(--yiz-color-text-disabled);
     cursor: not-allowed;
     background: transparent;
   }
@@ -960,8 +960,8 @@ defineExpose({
 
 .yiz-select-empty {
   padding: 8px 12px;
-  font-size: 14px;
-  color: #c0c4cc;
+  font-size: var(--yiz-font-size-default);
+  color: var(--yiz-color-text-disabled);
   text-align: center;
 }
 
@@ -969,8 +969,8 @@ defineExpose({
 .yiz-select-dropdown-fade-enter-active,
 .yiz-select-dropdown-fade-leave-active {
   transition:
-    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard),
+    transform var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard);
 }
 
 .yiz-select-dropdown-fade-enter-from,

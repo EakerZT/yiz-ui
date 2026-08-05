@@ -72,7 +72,7 @@ provide<CollapseContext>('yizCollapse', {
 .yiz-collapse {
   border: 1px solid var(--yiz-color-border);
   border-radius: var(--yiz-base-border-radius-default);
-  background: #fff;
+  background: var(--yiz-color-bg-container);
   overflow: hidden;
 }
 

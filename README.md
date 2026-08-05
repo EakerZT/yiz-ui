@@ -86,6 +86,31 @@ Some component dimensions rely on `border-box`. Add this rule to your applicatio
 }
 ```
 
+### Design Tokens
+
+YIZ UI exposes layered CSS custom properties on `:root`. Override semantic tokens after importing the library stylesheet to create a desktop theme without editing component styles:
+
+```css
+:root {
+  --yiz-color-primary: #7c3aed;
+  --yiz-color-text-primary: #1f2937;
+  --yiz-color-bg-container: #ffffff;
+  --yiz-control-height-default: 34px;
+  --yiz-radius-default: 6px;
+  --yiz-shadow-popup: 0 8px 24px rgba(15, 23, 42, 0.12);
+  --yiz-motion-duration-default: 0.18s;
+}
+```
+
+The public token groups are:
+
+- Color: `--yiz-color-{primary|success|warning|error}-*`, `--yiz-color-text-*`, `--yiz-color-bg-*`, `--yiz-color-border-*`, and `--yiz-color-mask`.
+- Size and spacing: `--yiz-control-height-*`, `--yiz-control-padding-x-*`, `--yiz-icon-size-*`, and `--yiz-space-*`.
+- Shape and type: `--yiz-radius-*`, `--yiz-font-size-*`, `--yiz-font-weight-*`, and `--yiz-line-height-*`.
+- Elevation and interaction: `--yiz-shadow-*`, `--yiz-motion-*`, `--yiz-control-*-shadow`, and `--yiz-focus-ring-color`.
+
+The old misspelled `--yiz-color-*-heary*` variables remain as compatibility aliases. New themes should use `--yiz-color-*-dark*`.
+
 ### On-Demand Import
 
 ```ts

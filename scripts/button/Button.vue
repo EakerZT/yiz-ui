@@ -118,8 +118,8 @@ const vStyle = computed(() => {
   const s: Record<string, string> = {}
   if (props.color && props.color.match(/^#[\da-fA-F]{6}$/g)) {
     const color = new TinyColor(props.color)
-    s['--yiz-button-color-text'] = 'white'
-    s['--yiz-button-color-text2'] = 'black'
+    s['--yiz-button-color-text'] = 'var(--yiz-color-text-inverse)'
+    s['--yiz-button-color-text2'] = 'var(--yiz-color-text-primary)'
     s['--yiz-button-color-disabled-text'] = color.tint(50).toString()
     s['--yiz-button-color-disabled-border'] = color.tint(80).toString()
     s['--yiz-button-color-disabled-bg'] = color.tint(90).toString()
@@ -175,10 +175,10 @@ defineExpose({
 <style lang="less">
 .yiz-button {
   margin: 0;
-  font-weight: 400;
+  font-weight: var(--yiz-font-weight-regular);
   line-height: 1;
   font-family: inherit;
-  height: 32px;
+  height: var(--yiz-control-height-default);
   font-size: var(--yiz-font-size-default);
   white-space: nowrap;
   outline: none;
@@ -194,15 +194,15 @@ defineExpose({
   cursor: pointer;
   text-decoration: none;
   transition:
-    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    padding 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    font-size 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    border-radius 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard),
+    background-color var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard),
+    opacity var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard),
+    border-color var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard),
+    height var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard),
+    width var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard),
+    padding var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard),
+    font-size var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard),
+    border-radius var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard);
   border: 1px solid transparent;
 
   &.yiz-button-disabled {
@@ -293,7 +293,7 @@ defineExpose({
 
 .yiz-button-shape-default {
   border-radius: var(--yiz-base-border-radius-default);
-  padding: 0 14px;
+  padding: 0 var(--yiz-control-padding-x-default);
 
   & > .yiz-wave {
     border-radius: var(--yiz-base-border-radius-default);
@@ -319,7 +319,7 @@ defineExpose({
 }
 
 .yiz-button-size-small {
-  height: 24px;
+  height: var(--yiz-control-height-small);
   font-size: var(--yiz-font-size-small);
 
   &.yiz-button-icon-only {
@@ -329,7 +329,7 @@ defineExpose({
 
   &.yiz-button-shape-default {
     border-radius: var(--yiz-base-border-radius-small);
-    padding: 0 10px;
+    padding: 0 var(--yiz-control-padding-x-small);
 
     & > .yiz-wave {
       border-radius: var(--yiz-base-border-radius-small);
@@ -346,12 +346,12 @@ defineExpose({
   }
 
   & > .yiz-icon {
-    font-size: 14px;
+    font-size: var(--yiz-icon-size-small);
   }
 }
 
 .yiz-button-size-default {
-  height: 32px;
+  height: var(--yiz-control-height-default);
   font-size: var(--yiz-font-size-default);
 
   &.yiz-button-icon-only {
@@ -361,7 +361,7 @@ defineExpose({
 
   &.yiz-button-shape-default {
     border-radius: var(--yiz-base-border-radius-default);
-    padding: 0 14px;
+    padding: 0 var(--yiz-control-padding-x-default);
 
     & > .yiz-wave {
       border-radius: var(--yiz-base-border-radius-default);
@@ -378,12 +378,12 @@ defineExpose({
   }
 
   & > .yiz-icon {
-    font-size: 16px;
+    font-size: var(--yiz-icon-size-default);
   }
 }
 
 .yiz-button-size-large {
-  height: 40px;
+  height: var(--yiz-control-height-large);
   font-size: var(--yiz-font-size-large);
 
   &.yiz-button-icon-only {
@@ -393,7 +393,7 @@ defineExpose({
 
   &.yiz-button-shape-default {
     border-radius: var(--yiz-base-border-radius-large);
-    padding: 0 18px;
+    padding: 0 var(--yiz-control-padding-x-large);
 
     & > .yiz-wave {
       border-radius: var(--yiz-base-border-radius-large);
@@ -410,7 +410,7 @@ defineExpose({
   }
 
   & > .yiz-icon {
-    font-size: 18px;
+    font-size: var(--yiz-icon-size-large);
   }
 }
 
@@ -430,61 +430,61 @@ defineExpose({
 }
 
 .yiz-button-color-default {
-  --yiz-button-color-text: white;
-  --yiz-button-color-text2: black;
+  --yiz-button-color-text: var(--yiz-color-text-inverse);
+  --yiz-button-color-text2: var(--yiz-color-text-primary);
   --yiz-button-color-disabled-text: var(--yiz-color-primary-light5);
   --yiz-button-color-disabled-border: var(--yiz-color-primary-light8);
   --yiz-button-color-disabled-bg: var(--yiz-color-primary-light9);
   --yiz-button-color-bg: var(--yiz-color-primary-light9);
   --yiz-button-color-primary: var(--yiz-color-primary);
   --yiz-button-color-hover: var(--yiz-color-primary-light2);
-  --yiz-button-color-press: var(--yiz-color-primary-heary);
+  --yiz-button-color-press: var(--yiz-color-primary-dark);
   --yiz-color-wave: var(--yiz-color-primary);
 }
 
 .yiz-button-color-success {
-  --yiz-button-color-text: white;
-  --yiz-button-color-text2: black;
+  --yiz-button-color-text: var(--yiz-color-text-inverse);
+  --yiz-button-color-text2: var(--yiz-color-text-primary);
   --yiz-button-color-disabled-text: var(--yiz-color-success-light5);
   --yiz-button-color-disabled-border: var(--yiz-color-success-light8);
   --yiz-button-color-disabled-bg: var(--yiz-color-success-light9);
   --yiz-button-color-bg: var(--yiz-color-success-light9);
   --yiz-button-color-primary: var(--yiz-color-success);
   --yiz-button-color-hover: var(--yiz-color-success-light2);
-  --yiz-button-color-press: var(--yiz-color-success-heary);
+  --yiz-button-color-press: var(--yiz-color-success-dark);
   --yiz-color-wave: var(--yiz-color-success);
 }
 
 .yiz-button-color-warning {
-  --yiz-button-color-text: white;
-  --yiz-button-color-text2: black;
+  --yiz-button-color-text: var(--yiz-color-text-inverse);
+  --yiz-button-color-text2: var(--yiz-color-text-primary);
   --yiz-button-color-disabled-text: var(--yiz-color-warning-light5);
   --yiz-button-color-disabled-border: var(--yiz-color-warning-light8);
   --yiz-button-color-disabled-bg: var(--yiz-color-warning-light9);
   --yiz-button-color-bg: var(--yiz-color-warning-light9);
   --yiz-button-color-primary: var(--yiz-color-warning);
   --yiz-button-color-hover: var(--yiz-color-warning-light2);
-  --yiz-button-color-press: var(--yiz-color-warning-heary);
+  --yiz-button-color-press: var(--yiz-color-warning-dark);
   --yiz-color-wave: var(--yiz-color-warning);
 }
 
 .yiz-button-color-error {
-  --yiz-button-color-text: white;
-  --yiz-button-color-text2: black;
+  --yiz-button-color-text: var(--yiz-color-text-inverse);
+  --yiz-button-color-text2: var(--yiz-color-text-primary);
   --yiz-button-color-disabled-text: var(--yiz-color-error-light5);
   --yiz-button-color-disabled-border: var(--yiz-color-error-light8);
   --yiz-button-color-disabled-bg: var(--yiz-color-error-light9);
   --yiz-button-color-bg: var(--yiz-color-error-light9);
   --yiz-button-color-primary: var(--yiz-color-error);
   --yiz-button-color-hover: var(--yiz-color-error-light2);
-  --yiz-button-color-press: var(--yiz-color-error-heary);
+  --yiz-button-color-press: var(--yiz-color-error-dark);
   --yiz-color-wave: var(--yiz-color-error);
 }
 
 .yiz-button-type-outlined,
 .yiz-button-type-dash {
   &.yiz-button-disabled {
-    background-color: #fff;
+    background-color: var(--yiz-color-bg-container);
     border-color: #e4e7ed;
     color: #a8abb2;
   }
@@ -512,7 +512,7 @@ defineExpose({
   &.yiz-button-disabled {
     background-color: var(--yiz-button-color-disabled-text);
     border-color: var(--yiz-button-color-disabled-text);
-    color: white;
+    color: var(--yiz-color-text-inverse);
   }
 
   background-color: var(--yiz-button-color-primary);
@@ -547,13 +547,13 @@ defineExpose({
   &:not(.yiz-button-disabled):hover {
     background-color: var(--yiz-button-color-hover);
     border-color: var(--yiz-button-color-hover);
-    color: white;
+    color: var(--yiz-color-text-inverse);
   }
 
   &:not(.yiz-button-disabled):active {
     background-color: var(--yiz-button-color-press);
     border-color: var(--yiz-button-color-press);
-    color: white;
+    color: var(--yiz-color-text-inverse);
   }
 }
 
@@ -587,7 +587,7 @@ defineExpose({
   &:not(.yiz-button-disabled):active {
     background-color: var(--yiz-button-color-press);
     border-color: transparent;
-    color: white;
+    color: var(--yiz-color-text-inverse);
   }
 }
 </style>

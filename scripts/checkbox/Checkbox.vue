@@ -111,7 +111,7 @@ defineExpose({
 
 <style lang="less">
 .yiz-checkbox {
-  --yiz-checkbox-border-height: 32px;
+  --yiz-checkbox-border-height: var(--yiz-control-height-default);
   --yiz-checkbox-border-padding-x: 12px;
   --yiz-checkbox-border-radius: var(--yiz-base-border-radius-default);
   --yiz-checkbox-border-font-size: var(--yiz-font-size-default);
@@ -120,7 +120,7 @@ defineExpose({
   align-items: center;
   cursor: pointer;
   font-size: var(--yiz-font-size-default);
-  color: #333;
+  color: var(--yiz-color-text-primary);
   user-select: none;
   vertical-align: middle;
   line-height: 1;
@@ -129,11 +129,11 @@ defineExpose({
     cursor: not-allowed;
 
     .yiz-checkbox-inner {
-      background-color: #f5f5f5;
+      background-color: var(--yiz-color-bg-muted);
       border-color: #d9d9d9;
     }
     .yiz-checkbox-label {
-      color: #c0c4cc;
+      color: var(--yiz-color-text-disabled);
     }
 
     &.yiz-checkbox-checked .yiz-checkbox-inner {
@@ -150,7 +150,7 @@ defineExpose({
   border-radius: var(--yiz-checkbox-border-radius);
   box-sizing: border-box;
   font-size: var(--yiz-checkbox-border-font-size);
-  background: #fff;
+  background: var(--yiz-color-bg-container);
   transition:
     color 0.2s,
     border-color 0.2s,
@@ -166,20 +166,20 @@ defineExpose({
   }
 
   &.yiz-checkbox-disabled {
-    background: #f5f5f5;
+    background: var(--yiz-color-bg-muted);
     border-color: #d9d9d9;
   }
 }
 
 .yiz-checkbox-border-small {
-  --yiz-checkbox-border-height: 24px;
+  --yiz-checkbox-border-height: var(--yiz-control-height-small);
   --yiz-checkbox-border-padding-x: 8px;
   --yiz-checkbox-border-radius: var(--yiz-base-border-radius-small);
   --yiz-checkbox-border-font-size: var(--yiz-font-size-small);
 }
 
 .yiz-checkbox-border-large {
-  --yiz-checkbox-border-height: 40px;
+  --yiz-checkbox-border-height: var(--yiz-control-height-large);
   --yiz-checkbox-border-padding-x: 16px;
   --yiz-checkbox-border-radius: var(--yiz-base-border-radius-large);
   --yiz-checkbox-border-font-size: var(--yiz-font-size-large);
@@ -218,8 +218,8 @@ defineExpose({
   height: 16px;
   border: 1px solid var(--yiz-color-border);
   border-radius: 4px;
-  background-color: #fff;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--yiz-color-bg-container);
+  transition: all var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard);
   position: relative;
   box-sizing: border-box;
 
@@ -231,7 +231,7 @@ defineExpose({
     inset-inline-start: 21.5%;
     width: 5.7142857142857135px;
     height: 9.142857142857142px;
-    border: 2px solid #fff;
+    border: 2px solid var(--yiz-color-text-inverse);
     border-top: 0;
     border-left: 0;
     transform: rotate(45deg) scale(0) translate(-50%, -50%);

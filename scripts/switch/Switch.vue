@@ -143,8 +143,8 @@ defineExpose({
   width: 44px;
   height: 22px;
   border-radius: 11px;
-  background: #c0c4cc;
-  transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--yiz-color-text-disabled);
+  transition: background var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
   box-sizing: border-box;
 
   .yiz-wave {
@@ -168,11 +168,11 @@ defineExpose({
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--yiz-color-bg-container);
   transition:
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard),
     box-shadow 0.3s;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--yiz-shadow-thumb);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -214,7 +214,7 @@ defineExpose({
 
   .yiz-switch-track {
     opacity: 0.5;
-    background: #c0c4cc;
+    background: var(--yiz-color-text-disabled);
   }
 
   &.yiz-switch-checked .yiz-switch-track {

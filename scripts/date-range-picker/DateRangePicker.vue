@@ -889,11 +889,11 @@ defineExpose({
   min-width: 0;
   width: 100%;
   position: relative;
-  height: 32px;
+  height: var(--yiz-control-height-default);
   padding: 0 8px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
-  background: #fff;
+  background: var(--yiz-color-bg-container);
   cursor: pointer;
   transition:
     border-color 0.3s,
@@ -930,7 +930,7 @@ defineExpose({
 }
 
 .yiz-date-range-picker-disabled .yiz-date-range-picker-input {
-  background: #f5f5f5;
+  background: var(--yiz-color-bg-muted);
   cursor: not-allowed;
 }
 
@@ -944,7 +944,7 @@ defineExpose({
   box-sizing: border-box;
   border-radius: 3px;
   background: transparent;
-  color: #333;
+  color: var(--yiz-color-text-primary);
   cursor: text;
   font: inherit;
   text-align: center;
@@ -954,23 +954,23 @@ defineExpose({
     color 0.2s;
 
   &::placeholder {
-    color: #c0c4cc;
+    color: var(--yiz-color-text-disabled);
   }
 }
 
 .yiz-date-range-picker-segment:disabled {
-  color: #c0c4cc;
+  color: var(--yiz-color-text-disabled);
   cursor: not-allowed;
 }
 
 .yiz-date-range-picker-placeholder {
-  color: #c0c4cc;
+  color: var(--yiz-color-text-disabled);
 }
 
 .yiz-date-range-picker-separator {
   display: inline-flex;
   align-items: center;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   flex-shrink: 0;
 }
 
@@ -979,7 +979,7 @@ defineExpose({
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
 }
 
 .yiz-date-range-picker-suffix {
@@ -995,7 +995,7 @@ defineExpose({
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   user-select: none;
 }
 
@@ -1016,13 +1016,13 @@ defineExpose({
 }
 
 .yiz-date-range-picker-small .yiz-date-range-picker-input {
-  height: 24px;
+  height: var(--yiz-control-height-small);
   border-radius: var(--yiz-base-border-radius-small);
   font-size: var(--yiz-font-size-small);
 }
 
 .yiz-date-range-picker-large .yiz-date-range-picker-input {
-  height: 40px;
+  height: var(--yiz-control-height-large);
   border-radius: var(--yiz-base-border-radius-large);
   font-size: var(--yiz-font-size-large);
 }
@@ -1030,7 +1030,7 @@ defineExpose({
 .yiz-date-range-picker-panel {
   position: fixed;
   width: 560px;
-  background: #fff;
+  background: var(--yiz-color-bg-elevated);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -1064,7 +1064,7 @@ defineExpose({
 
 .yiz-date-range-picker-nav {
   cursor: pointer;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   border-radius: 2px;
   flex-shrink: 0;
   transition:
@@ -1082,7 +1082,7 @@ defineExpose({
   text-align: center;
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: var(--yiz-color-text-primary);
   cursor: pointer;
   padding: 2px 0;
   border-radius: var(--yiz-pane-item-border-radius);
@@ -1104,7 +1104,7 @@ defineExpose({
   padding: 6px 0;
   text-align: center;
   font-size: 13px;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   border-radius: var(--yiz-pane-item-border-radius);
   cursor: pointer;
   transition:
@@ -1135,7 +1135,7 @@ defineExpose({
   text-align: center;
   font-size: 12px;
   font-weight: 600;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   height: 28px;
   line-height: 28px;
 }
@@ -1173,7 +1173,7 @@ defineExpose({
 .yiz-date-range-picker-cell-selected .yiz-date-range-picker-cell-inner,
 .yiz-date-range-picker-cell-selected .yiz-date-range-picker-cell-inner:hover {
   background: var(--yiz-color-primary);
-  color: #fff;
+  color: var(--yiz-color-text-inverse);
   border-radius: var(--yiz-pane-item-border-radius);
 }
 
@@ -1184,7 +1184,7 @@ defineExpose({
   width: 30px;
   height: 30px;
   font-size: 13px;
-  color: #333;
+  color: var(--yiz-color-text-primary);
   border-radius: var(--yiz-pane-item-border-radius);
   transition:
     background 0.2s,

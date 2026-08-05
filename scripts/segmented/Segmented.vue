@@ -242,9 +242,9 @@ defineExpose({
   gap: 2px;
   padding: 2px;
   vertical-align: middle;
-  background: #f5f5f5;
+  background: var(--yiz-color-bg-muted);
   border-radius: var(--yiz-base-border-radius-default);
-  color: #333;
+  color: var(--yiz-color-text-primary);
 }
 
 .yiz-segmented-indicator {
@@ -254,20 +254,20 @@ defineExpose({
   left: 0;
   z-index: 0;
   border-radius: var(--yiz-base-border-radius-default);
-  background: #fff;
+  background: var(--yiz-color-bg-container);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
   pointer-events: none;
 }
 
 .yiz-segmented-indicator-transition-ready {
   transition:
-    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transform var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard),
+    width var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard),
+    opacity var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard);
 }
 
 .yiz-segmented-indicator-disabled {
-  background: #fafafa;
+  background: var(--yiz-color-bg-subtle);
   box-shadow: none;
 }
 
@@ -294,7 +294,7 @@ defineExpose({
   min-width: 68px;
   padding: 4px 12px;
   border-radius: var(--yiz-base-border-radius-default);
-  color: #333;
+  color: var(--yiz-color-text-primary);
   font-size: var(--yiz-font-size-default);
   line-height: 22px;
   cursor: pointer;

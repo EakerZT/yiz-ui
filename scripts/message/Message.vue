@@ -123,17 +123,15 @@ onBeforeUnmount(clearTimer)
 .yiz-message {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--yiz-space-2);
   max-width: min(560px, calc(100vw - 32px));
-  min-height: 40px;
+  min-height: var(--yiz-control-height-large);
   padding: 9px 16px;
   border-radius: var(--yiz-pane-border-radius);
-  background: #fff;
-  box-shadow:
-    0 6px 18px rgba(0, 0, 0, 0.14),
-    0 0 0 1px rgba(0, 0, 0, 0.04);
-  color: #333;
-  font-size: 14px;
+  background: var(--yiz-color-bg-elevated);
+  box-shadow: var(--yiz-shadow-message);
+  color: var(--yiz-color-text-primary);
+  font-size: var(--yiz-font-size-default);
   line-height: 22px;
   box-sizing: border-box;
   pointer-events: auto;
@@ -175,8 +173,8 @@ onBeforeUnmount(clearTimer)
 .yiz-message-move-up-enter-active,
 .yiz-message-move-up-leave-active {
   transition:
-    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard),
+    transform var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard);
 }
 
 .yiz-message-move-up-enter-from,

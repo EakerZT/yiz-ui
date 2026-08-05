@@ -131,8 +131,8 @@ function forceReflow(element: HTMLElement) {
   width: 100%;
   min-height: 44px;
   box-sizing: border-box;
-  background: #fff;
-  color: #333;
+  background: var(--yiz-color-bg-container);
+  color: var(--yiz-color-text-primary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -144,17 +144,17 @@ function forceReflow(element: HTMLElement) {
 }
 
 .yiz-collapse-header:hover {
-  background: #fafafa;
+  background: var(--yiz-color-bg-subtle);
 }
 
 .yiz-collapse-item-disabled .yiz-collapse-header {
   color: #bfbfbf;
   cursor: not-allowed;
-  background: #fff;
+  background: var(--yiz-color-bg-container);
 }
 
 .yiz-collapse-arrow {
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   transform: rotate(-90deg);
   transition: transform 0.2s;
   flex-shrink: 0;
@@ -176,13 +176,13 @@ function forceReflow(element: HTMLElement) {
 
 .yiz-collapse-content {
   overflow: hidden;
-  background: #fff;
+  background: var(--yiz-color-bg-container);
   border-top: 1px solid var(--yiz-color-border);
 }
 
 .yiz-collapse-content-inner {
   padding: 0 16px 16px 31px;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   font-size: 14px;
   line-height: 1.6;
 }

@@ -1,7 +1,14 @@
 <template>
-  <div ref="tableWrapperRef" class="yiz-table-wrapper" :class="vClass" :aria-busy="loading" v-bind="$attrs">
+  <div
+    ref="tableWrapperRef"
+    class="yiz-table-wrapper"
+    :class="vClass"
+    role="table"
+    :aria-busy="loading"
+    v-bind="$attrs"
+  >
     <!-- Header table -->
-    <div class="yiz-table-header-wrapper" ref="headerWrapperRef">
+    <div class="yiz-table-header-wrapper" ref="headerWrapperRef" role="rowgroup">
       <div
         class="yiz-table-header"
         role="row"
@@ -26,7 +33,11 @@
             'yiz-table-right-fixed-shadow': borderMarkerFields.firstRightFixed === col.field && rightFixedShadowVisible,
           }"
           :style="{ textAlign: col.align || 'left', ...getCellStyle(col) }"
+          :tabindex="col.sortable ? 0 : undefined"
+          :aria-sort="getAriaSort(col)"
           @click="col.sortable && onSort(col)"
+          @keydown.enter.prevent="col.sortable && onSort(col)"
+          @keydown.space.prevent="col.sortable && onSort(col)"
         >
           <label
             v-if="col.field === '__yiz_select' && selectMode === 'multi'"
@@ -86,6 +97,7 @@
           v-else
           class="yiz-table-body"
           ref="bodyContentRef"
+          role="rowgroup"
           :class="{ 'yiz-table-body-short': bodyContentShort }"
           :style="{ width: tableContentWidth }"
         >
@@ -156,7 +168,6 @@
           </div>
         </div>
       </ScrollBox>
-
     </div>
 
     <!-- Footer table -->
@@ -727,6 +738,12 @@ function onSort(col: TableColumn) {
   emit('sort-change', nextSort)
 }
 
+function getAriaSort(col: TableColumn): 'ascending' | 'descending' | 'none' | undefined {
+  if (!col.sortable) return undefined
+  if (sort.value?.field !== col.field) return 'none'
+  return sort.value.order === 'asc' ? 'ascending' : 'descending'
+}
+
 const vClass = computed(() => ({
   'yiz-table-bordered': props.bordered,
   'yiz-table-stripe': props.stripe,
@@ -1097,8 +1114,8 @@ onUnmounted(() => {
   flex-direction: column;
   height: 100%;
   font-size: var(--yiz-font-size-default);
-  color: #333;
-  line-height: 1.6;
+  color: var(--yiz-color-text-primary);
+  line-height: var(--yiz-line-height-default);
 }
 
 .yiz-table-header-wrapper {
@@ -1143,9 +1160,9 @@ onUnmounted(() => {
 .yiz-table-th {
   position: relative;
   box-sizing: border-box;
-  background: #fafafa;
+  background: var(--yiz-color-bg-subtle);
   font-weight: 600;
-  padding: 12px 16px;
+  padding: var(--yiz-space-3) var(--yiz-space-4);
   border-bottom: 1px solid var(--yiz-color-border, #d9d9d9);
   white-space: nowrap;
   user-select: none;
@@ -1154,20 +1171,20 @@ onUnmounted(() => {
 
 .yiz-table-td {
   box-sizing: border-box;
-  padding: 12px 16px;
+  padding: var(--yiz-space-3) var(--yiz-space-4);
   border-bottom: 1px solid var(--yiz-color-border, #d9d9d9);
-  background: #fff;
+  background: var(--yiz-color-bg-container);
   word-break: break-all;
   min-width: 0;
 }
 
 .yiz-table-footer-cell {
-  background: #fafafa;
+  background: var(--yiz-color-bg-subtle);
   font-weight: 600;
 }
 
 .yiz-table-row:hover .yiz-table-td {
-  background: #f5f7fa;
+  background: var(--yiz-color-bg-row-hover);
 }
 
 // bordered
@@ -1202,11 +1219,11 @@ onUnmounted(() => {
 
 // stripe
 .yiz-table-stripe .yiz-table-body .yiz-table-row-stripe .yiz-table-td {
-  background: #fafafa;
+  background: var(--yiz-color-bg-subtle);
 }
 
 .yiz-table-stripe .yiz-table-body .yiz-table-row-stripe:hover .yiz-table-td {
-  background: #f0f2f5;
+  background: var(--yiz-color-bg-active);
 }
 
 // size
@@ -1221,7 +1238,7 @@ onUnmounted(() => {
 .yiz-table-large {
   .yiz-table-th,
   .yiz-table-td {
-    padding: 16px 20px;
+    padding: var(--yiz-space-4) var(--yiz-space-5);
     font-size: var(--yiz-font-size-large);
   }
 }
@@ -1231,7 +1248,7 @@ onUnmounted(() => {
   cursor: pointer;
 
   &:hover {
-    background: #f0f2f5;
+    background: var(--yiz-color-bg-active);
   }
 }
 
@@ -1240,7 +1257,7 @@ onUnmounted(() => {
   align-items: center;
   vertical-align: middle;
   margin-left: 4px;
-  color: #c0c4cc;
+  color: var(--yiz-color-text-disabled);
 }
 
 .yiz-table-sort-icon {
@@ -1307,7 +1324,7 @@ onUnmounted(() => {
 }
 
 .yiz-table-footer-cell.yiz-table-gap-col {
-  background: #fafafa;
+  background: var(--yiz-color-bg-subtle);
   border-bottom: 1px solid var(--yiz-color-border, #d9d9d9) !important;
 }
 
@@ -1321,15 +1338,15 @@ onUnmounted(() => {
 }
 
 .yiz-table-row:hover .yiz-table-td.yiz-table-fixed {
-  background: #f5f7fa;
+  background: var(--yiz-color-bg-row-hover);
 }
 
 .yiz-table-stripe .yiz-table-body .yiz-table-row-stripe .yiz-table-td.yiz-table-fixed {
-  background: #fafafa;
+  background: var(--yiz-color-bg-subtle);
 }
 
 .yiz-table-stripe .yiz-table-body .yiz-table-row-stripe:hover .yiz-table-td.yiz-table-fixed {
-  background: #f0f2f5;
+  background: var(--yiz-color-bg-active);
 }
 
 .yiz-table-left-fixed-shadow::after,
@@ -1433,11 +1450,11 @@ onUnmounted(() => {
 
 .yiz-table-cell-tooltip-content {
   background: #303133;
-  color: #fff;
+  color: var(--yiz-color-text-inverse);
   border-radius: var(--yiz-pane-border-radius);
   padding: 6px 12px;
   line-height: 1.4;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--yiz-shadow-small);
 }
 
 .yiz-table-cell-tooltip-arrow {

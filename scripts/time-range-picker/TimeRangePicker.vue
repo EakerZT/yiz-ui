@@ -730,11 +730,11 @@ defineExpose({
   min-width: 0;
   width: 100%;
   position: relative;
-  height: 32px;
+  height: var(--yiz-control-height-default);
   padding: 0 8px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
-  background: #fff;
+  background: var(--yiz-color-bg-container);
   cursor: pointer;
   transition:
     border-color 0.3s,
@@ -771,7 +771,7 @@ defineExpose({
 }
 
 .yiz-time-range-picker-disabled .yiz-time-range-picker-input {
-  background: #f5f5f5;
+  background: var(--yiz-color-bg-muted);
   cursor: not-allowed;
 }
 
@@ -785,7 +785,7 @@ defineExpose({
   box-sizing: border-box;
   border-radius: 3px;
   background: transparent;
-  color: #333;
+  color: var(--yiz-color-text-primary);
   cursor: text;
   font: inherit;
   text-align: center;
@@ -795,19 +795,19 @@ defineExpose({
     color 0.2s;
 
   &::placeholder {
-    color: #c0c4cc;
+    color: var(--yiz-color-text-disabled);
   }
 }
 
 .yiz-time-range-picker-segment:disabled {
-  color: #c0c4cc;
+  color: var(--yiz-color-text-disabled);
   cursor: not-allowed;
 }
 
 .yiz-time-range-picker-separator {
   display: inline-flex;
   align-items: center;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   flex-shrink: 0;
 }
 
@@ -816,7 +816,7 @@ defineExpose({
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
 }
 
 .yiz-time-range-picker-suffix {
@@ -832,7 +832,7 @@ defineExpose({
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   user-select: none;
 }
 
@@ -853,13 +853,13 @@ defineExpose({
 }
 
 .yiz-time-range-picker-small .yiz-time-range-picker-input {
-  height: 24px;
+  height: var(--yiz-control-height-small);
   border-radius: var(--yiz-base-border-radius-small);
   font-size: var(--yiz-font-size-small);
 }
 
 .yiz-time-range-picker-large .yiz-time-range-picker-input {
-  height: 40px;
+  height: var(--yiz-control-height-large);
   border-radius: var(--yiz-base-border-radius-large);
   font-size: var(--yiz-font-size-large);
 }
@@ -867,7 +867,7 @@ defineExpose({
 .yiz-time-range-picker-panel {
   position: fixed;
   width: 520px;
-  background: #fff;
+  background: var(--yiz-color-bg-elevated);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -906,7 +906,7 @@ defineExpose({
 .yiz-time-range-picker-col-header {
   text-align: center;
   font-size: 12px;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   padding: 4px 0;
   border-bottom: 1px solid var(--yiz-color-border, #d9d9d9);
   margin-bottom: 2px;
@@ -928,7 +928,7 @@ defineExpose({
   text-align: center;
   padding: 6px 0;
   font-size: 14px;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   cursor: pointer;
   border-radius: var(--yiz-pane-item-border-radius);
   transition:

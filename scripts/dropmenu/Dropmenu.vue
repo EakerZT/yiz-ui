@@ -338,12 +338,12 @@ onBeforeUnmount(() => {
   align-items: center;
   vertical-align: middle;
   gap: 6px;
-  height: 32px;
+  height: var(--yiz-control-height-default);
   padding: 0 12px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: 4px;
-  background: #fff;
-  color: #333;
+  background: var(--yiz-color-bg-container);
+  color: var(--yiz-color-text-primary);
   font-family: inherit;
   font-size: 14px;
   cursor: pointer;
@@ -358,8 +358,8 @@ onBeforeUnmount(() => {
   }
 
   &:disabled {
-    background: #f5f5f5;
-    color: #c0c4cc;
+    background: var(--yiz-color-bg-muted);
+    color: var(--yiz-color-text-disabled);
     cursor: not-allowed;
   }
 

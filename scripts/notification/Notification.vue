@@ -16,7 +16,13 @@
             <slot>{{ content }}</slot>
           </div>
         </div>
-        <button v-if="closable" class="yiz-notification-close" type="button" @click="close">
+        <button
+          v-if="closable"
+          class="yiz-notification-close"
+          type="button"
+          :aria-label="$t('common.close')"
+          @click="close"
+        >
           <Icon size="16" :icon="Dismiss16Regular" />
         </button>
         <div v-if="duration > 0" class="yiz-notification-progress">
@@ -37,6 +43,7 @@ import {
   Warning24Regular,
 } from '@vicons/fluent'
 import { Icon } from '../icon'
+import { $t } from '../locale'
 import { nextZIndex } from '../zIndex'
 
 type NotificationType = 'info' | 'success' | 'warning' | 'error'
@@ -164,16 +171,14 @@ onBeforeUnmount(clearTimer)
   position: fixed;
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: var(--yiz-space-3);
   min-height: 72px;
-  padding: 16px 40px 16px 16px;
+  padding: var(--yiz-space-4) var(--yiz-space-10) var(--yiz-space-4) var(--yiz-space-4);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
-  background: #fff;
-  box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.14),
-    0 0 0 1px rgba(0, 0, 0, 0.04);
-  color: #333;
+  background: var(--yiz-color-bg-elevated);
+  box-shadow: var(--yiz-shadow-elevated);
+  color: var(--yiz-color-text-primary);
   box-sizing: border-box;
   pointer-events: auto;
   overflow: hidden;
@@ -214,16 +219,16 @@ onBeforeUnmount(clearTimer)
 
 .yiz-notification-title {
   font-size: 15px;
-  font-weight: 600;
-  line-height: 24px;
-  color: #333;
+  font-weight: var(--yiz-font-weight-semibold);
+  line-height: var(--yiz-control-height-small);
+  color: var(--yiz-color-text-primary);
 }
 
 .yiz-notification-message {
   margin-top: 4px;
   font-size: 13px;
   line-height: 20px;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   word-break: break-word;
 }
 
@@ -240,14 +245,14 @@ onBeforeUnmount(clearTimer)
   border: none;
   border-radius: 4px;
   background: transparent;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   cursor: pointer;
   transition:
     color 0.2s,
     background 0.2s;
 
   &:hover {
-    color: #333;
+    color: var(--yiz-color-text-primary);
     background: var(--yiz-color-hover-bg);
   }
 }

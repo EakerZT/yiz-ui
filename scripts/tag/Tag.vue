@@ -129,10 +129,10 @@ function onKeydown(e: KeyboardEvent) {
   border-radius: 4px;
   padding: 2px 8px;
   height: 22px;
-  color: var(--yiz-tag-color, var(--yiz-tag-base-color, #333));
-  background: var(--yiz-tag-bg, #fff);
+  color: var(--yiz-tag-color, var(--yiz-tag-base-color, var(--yiz-color-text-primary)));
+  background: var(--yiz-tag-bg, var(--yiz-color-bg-container));
   border: 1px solid var(--yiz-tag-border-color, transparent);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard);
   cursor: default;
 
   &.yiz-tag-closable {
@@ -173,7 +173,7 @@ function onKeydown(e: KeyboardEvent) {
   border-radius: 50%;
   cursor: pointer;
   color: currentColor;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard);
   flex-shrink: 0;
 
   &:hover {
@@ -184,8 +184,8 @@ function onKeydown(e: KeyboardEvent) {
 
 // color variants
 .yiz-tag-color-default {
-  --yiz-tag-base-color: #333;
-  --yiz-tag-filled-bg: #f5f5f5;
+  --yiz-tag-base-color: var(--yiz-color-text-primary);
+  --yiz-tag-filled-bg: var(--yiz-color-bg-muted);
   --yiz-tag-solid-bg: #595959;
   --yiz-tag-outlined-border: #d9d9d9;
   --yiz-tag-close-hover-bg: rgba(0, 0, 0, 0.08);
@@ -208,7 +208,7 @@ function onKeydown(e: KeyboardEvent) {
 }
 
 .yiz-tag-color-warning {
-  --yiz-tag-base-color: var(--yiz-color-warning-heary5);
+  --yiz-tag-base-color: var(--yiz-color-warning-dark5);
   --yiz-tag-filled-bg: var(--yiz-color-warning-light9);
   --yiz-tag-solid-bg: var(--yiz-color-warning);
   --yiz-tag-outlined-border: var(--yiz-color-warning);
@@ -231,7 +231,7 @@ function onKeydown(e: KeyboardEvent) {
 }
 
 .yiz-tag-mode-solid {
-  --yiz-tag-color: #fff;
+  --yiz-tag-color: var(--yiz-color-text-inverse);
   --yiz-tag-bg: var(--yiz-tag-solid-bg);
   --yiz-tag-border-color: var(--yiz-tag-solid-bg);
   --yiz-tag-close-hover-bg: rgba(255, 255, 255, 0.2);
@@ -244,8 +244,8 @@ function onKeydown(e: KeyboardEvent) {
 }
 
 .yiz-tag.yiz-tag-checkable {
-  color: #333;
-  background: #fff;
+  color: var(--yiz-color-text-primary);
+  background: var(--yiz-color-bg-container);
   border-color: transparent;
   cursor: pointer;
   user-select: none;
@@ -264,15 +264,15 @@ function onKeydown(e: KeyboardEvent) {
 
 .yiz-tag.yiz-tag-checkable-checked,
 .yiz-tag.yiz-tag-checkable-checked:hover {
-  color: #fff;
+  color: var(--yiz-color-text-inverse);
   background: var(--yiz-tag-checkable-color, var(--yiz-color-primary));
   border-color: transparent;
 }
 
 .yiz-tag.yiz-tag-checkable-disabled,
 .yiz-tag.yiz-tag-checkable-disabled:hover {
-  color: #333;
-  background: #fff;
+  color: var(--yiz-color-text-primary);
+  background: var(--yiz-color-bg-container);
   border-color: transparent;
   cursor: not-allowed;
   opacity: 0.5;
@@ -280,7 +280,7 @@ function onKeydown(e: KeyboardEvent) {
 
 .yiz-tag.yiz-tag-checkable-checked.yiz-tag-checkable-disabled,
 .yiz-tag.yiz-tag-checkable-checked.yiz-tag-checkable-disabled:hover {
-  color: #fff;
+  color: var(--yiz-color-text-inverse);
   background: var(--yiz-tag-checkable-color, var(--yiz-color-primary));
 }
 </style>

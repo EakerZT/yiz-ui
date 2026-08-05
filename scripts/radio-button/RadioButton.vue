@@ -119,7 +119,7 @@ defineExpose({
 
 <style lang="less">
 .yiz-radio-button {
-  --yiz-radio-button-checked-text-color: #fff;
+  --yiz-radio-button-checked-text-color: var(--yiz-color-text-inverse);
   --yiz-radio-button-checked-fill-color: var(--yiz-color-primary);
   --yiz-radio-button-checked-hover-fill-color: var(--yiz-color-primary-light2);
 
@@ -128,13 +128,13 @@ defineExpose({
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  height: 32px;
+  height: var(--yiz-control-height-default);
   min-width: 72px;
   padding: 0 14px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
-  background: #fff;
-  color: #333;
+  background: var(--yiz-color-bg-container);
+  color: var(--yiz-color-text-primary);
   font-family: inherit;
   font-size: var(--yiz-font-size-default);
   line-height: normal;
@@ -181,7 +181,7 @@ defineExpose({
 
 .yiz-radio-button-disabled {
   cursor: not-allowed;
-  background: #f5f5f5;
+  background: var(--yiz-color-bg-muted);
   color: #bfbfbf;
 }
 
@@ -192,11 +192,11 @@ defineExpose({
 .yiz-radio-button-disabled.yiz-radio-button-checked {
   background: var(--yiz-color-primary-light8);
   border-color: var(--yiz-color-primary-light8);
-  color: #fff;
+  color: var(--yiz-color-text-inverse);
 }
 
 .yiz-radio-button-small {
-  height: 24px;
+  height: var(--yiz-control-height-small);
   min-width: 56px;
   padding: 0 10px;
   border-radius: var(--yiz-base-border-radius-small);
@@ -204,7 +204,7 @@ defineExpose({
 }
 
 .yiz-radio-button-large {
-  height: 40px;
+  height: var(--yiz-control-height-large);
   min-width: 84px;
   padding: 0 18px;
   border-radius: var(--yiz-base-border-radius-large);

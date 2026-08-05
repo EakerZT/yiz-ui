@@ -4,6 +4,7 @@
       v-if="controls"
       type="button"
       class="yiz-input-number-btn yiz-input-number-decrease"
+      :aria-label="$t('inputNumber.decrease')"
       :disabled="disabled || readonly || isMin"
       @click="decrease"
     >
@@ -37,6 +38,7 @@
       v-if="controls"
       type="button"
       class="yiz-input-number-btn yiz-input-number-increase"
+      :aria-label="$t('inputNumber.increase')"
       :disabled="disabled || readonly || isMax"
       @click="increase"
     >
@@ -50,6 +52,7 @@ import { computed, ref, useSlots } from 'vue'
 import { Add16Regular, Subtract16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { useInputStyleMode } from '../input-style'
+import { $t } from '../locale'
 
 const slots = useSlots()
 
@@ -192,13 +195,13 @@ defineExpose({
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  height: 32px;
+  height: var(--yiz-control-height-default);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
   transition:
     border-color 0.3s,
     box-shadow 0.3s;
-  background: #fff;
+  background: var(--yiz-color-bg-container);
   overflow: hidden;
 
   &:hover {
@@ -207,11 +210,11 @@ defineExpose({
 
   &.yiz-input-number-focus {
     border-color: var(--yiz-color-primary);
-    box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+    box-shadow: var(--yiz-control-focus-shadow);
   }
 
   &.yiz-input-number-disabled {
-    background: #f5f5f5;
+    background: var(--yiz-color-bg-muted);
     cursor: not-allowed;
 
     &:hover {
@@ -224,12 +227,12 @@ defineExpose({
   }
 
   &.yiz-input-number-small {
-    height: 24px;
+    height: var(--yiz-control-height-small);
     border-radius: var(--yiz-base-border-radius-small);
   }
 
   &.yiz-input-number-large {
-    height: 40px;
+    height: var(--yiz-control-height-large);
     border-radius: var(--yiz-base-border-radius-large);
   }
 
@@ -242,7 +245,7 @@ defineExpose({
 
     &.yiz-input-number-focus {
       border-color: var(--yiz-color-error);
-      box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+      box-shadow: var(--yiz-control-error-focus-shadow);
     }
   }
 }
@@ -268,7 +271,7 @@ defineExpose({
   border: none;
   background: none;
   cursor: pointer;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   transition:
     color 0.2s,
     background 0.2s;
@@ -281,7 +284,7 @@ defineExpose({
   }
 
   &:disabled {
-    color: #c0c4cc;
+    color: var(--yiz-color-text-disabled);
     cursor: not-allowed;
   }
 
@@ -327,7 +330,7 @@ defineExpose({
 
   &:disabled {
     cursor: not-allowed;
-    color: #c0c4cc;
+    color: var(--yiz-color-text-disabled);
   }
 }
 

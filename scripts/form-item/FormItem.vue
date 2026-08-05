@@ -291,7 +291,7 @@ defineExpose({
 .yiz-form-item {
   display: flex;
   align-items: flex-start;
-  color: #333;
+  color: var(--yiz-color-text-primary);
 
   &:last-child {
     margin-bottom: 0;
@@ -305,9 +305,9 @@ defineExpose({
 
 .yiz-form-item-label {
   flex-shrink: 0;
-  min-height: 32px;
+  min-height: var(--yiz-control-height-default);
   padding-right: 12px;
-  line-height: 32px;
+  line-height: var(--yiz-control-height-default);
   color: rgba(0, 0, 0, 0.88);
   box-sizing: border-box;
 }
@@ -335,7 +335,7 @@ defineExpose({
   position: relative;
   flex: 1;
   min-width: 0;
-  line-height: 32px;
+  line-height: var(--yiz-control-height-default);
 }
 
 // vertical — label 在上，content 在下
@@ -365,7 +365,7 @@ defineExpose({
   line-height: 1.4;
   color: var(--yiz-color-error);
   opacity: 0;
-  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard);
 }
 
 .yiz-form-item-error-visible {

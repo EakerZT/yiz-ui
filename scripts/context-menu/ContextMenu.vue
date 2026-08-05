@@ -284,7 +284,7 @@ function onChildSelect(item: ContextMenuItem) {
 <style lang="less">
 .yiz-context-menu {
   user-select: none;
-  background: #fff;
+  background: var(--yiz-color-bg-elevated);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
@@ -326,12 +326,12 @@ function onChildSelect(item: ContextMenuItem) {
 .yiz-context-menu-item {
   display: flex;
   align-items: center;
-  height: 24px;
+  height: var(--yiz-control-height-small);
   border-radius: var(--yiz-pane-item-border-radius);
   margin: 4px;
   padding: 0 12px;
   font-size: 14px;
-  color: #333;
+  color: var(--yiz-color-text-primary);
   cursor: pointer;
   transition: background 0.15s;
   white-space: nowrap;
@@ -346,7 +346,7 @@ function onChildSelect(item: ContextMenuItem) {
   }
 
   &.yiz-context-menu-item-disabled {
-    color: #c0c4cc;
+    color: var(--yiz-color-text-disabled);
     cursor: not-allowed;
 
     &:hover {

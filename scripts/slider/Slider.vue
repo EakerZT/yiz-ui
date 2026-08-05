@@ -350,7 +350,7 @@ defineExpose({
 }
 
 .yiz-slider-stop-active {
-  background: #fff;
+  background: var(--yiz-color-bg-container);
 }
 
 .yiz-slider-handle-wrap {
@@ -369,7 +369,7 @@ defineExpose({
   padding: 0;
   border: 2px solid var(--yiz-slider-color);
   border-radius: 50%;
-  background: #fff;
+  background: var(--yiz-color-bg-container);
   outline: none;
   cursor: grab;
   transition:
@@ -396,7 +396,7 @@ defineExpose({
   padding: 2px 6px;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.75);
-  color: #fff;
+  color: var(--yiz-color-text-inverse);
   font-size: 12px;
   line-height: 18px;
   white-space: nowrap;
@@ -427,7 +427,7 @@ defineExpose({
   padding: 0;
   border: none;
   background: transparent;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   font-size: 12px;
   line-height: 18px;
   white-space: nowrap;
@@ -458,7 +458,7 @@ defineExpose({
   }
 
   .yiz-slider-stop-active {
-    background: #f5f5f5;
+    background: var(--yiz-color-bg-muted);
   }
 
   .yiz-slider-mark {

@@ -176,15 +176,15 @@ async function handleOk() {
 }
 
 .yiz-dialog-confirm-title {
-  color: #333;
+  color: var(--yiz-color-text-primary);
   font-size: 16px;
   font-weight: 600;
-  line-height: 24px;
+  line-height: var(--yiz-control-height-small);
 }
 
 .yiz-dialog-confirm-message {
   margin-top: 8px;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   font-size: 14px;
   line-height: 22px;
   word-break: break-word;

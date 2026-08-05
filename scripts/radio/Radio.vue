@@ -119,8 +119,8 @@ defineExpose({
   display: inline-flex;
   align-items: center;
   cursor: pointer;
-  font-size: 14px;
-  color: #333;
+  font-size: var(--yiz-font-size-default);
+  color: var(--yiz-color-text-primary);
   user-select: none;
   vertical-align: middle;
   line-height: 1;
@@ -129,11 +129,11 @@ defineExpose({
     cursor: not-allowed;
 
     .yiz-radio-inner {
-      background-color: #f5f5f5;
+      background-color: var(--yiz-color-bg-muted);
       border-color: #d9d9d9;
     }
     .yiz-radio-label {
-      color: #c0c4cc;
+      color: var(--yiz-color-text-disabled);
     }
 
     &.yiz-radio-checked .yiz-radio-inner {
@@ -171,8 +171,8 @@ defineExpose({
   height: 16px;
   border: 1px solid var(--yiz-color-border);
   border-radius: 50%;
-  background-color: #fff;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--yiz-color-bg-container);
+  transition: all var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard);
   position: relative;
 
   &::after {
@@ -183,7 +183,7 @@ defineExpose({
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: #fff;
+    background-color: var(--yiz-color-text-inverse);
     transform: translate(-50%, -50%) scale(0);
     transition: transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
   }

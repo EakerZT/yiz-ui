@@ -151,7 +151,7 @@ function onItemClick(event: MouseEvent, item: ResolvedBreadcrumbItem, index: num
 
 <style lang="less">
 .yiz-breadcrumb {
-  color: #333;
+  color: var(--yiz-color-text-primary);
   font-size: 14px;
   line-height: 1;
 }
@@ -177,13 +177,13 @@ function onItemClick(event: MouseEvent, item: ResolvedBreadcrumbItem, index: num
   padding: 0;
   border: none;
   background: none;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   font: inherit;
   line-height: 20px;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard);
 
   &:hover {
     color: var(--yiz-color-primary);
@@ -192,13 +192,13 @@ function onItemClick(event: MouseEvent, item: ResolvedBreadcrumbItem, index: num
 
 .yiz-breadcrumb-link-current,
 .yiz-breadcrumb-link-current:hover {
-  color: #333;
+  color: var(--yiz-color-text-primary);
   cursor: default;
 }
 
 .yiz-breadcrumb-link-disabled,
 .yiz-breadcrumb-link-disabled:hover {
-  color: #c0c4cc;
+  color: var(--yiz-color-text-disabled);
   cursor: not-allowed;
 }
 
@@ -207,7 +207,7 @@ function onItemClick(event: MouseEvent, item: ResolvedBreadcrumbItem, index: num
   align-items: center;
   justify-content: center;
   margin: 0 8px;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   line-height: 1;
 }
 </style>

@@ -11,11 +11,23 @@
         @click.self="onWrapperClick"
       >
         <div
+          ref="dialogRef"
           class="yiz-dialog"
           :class="{ 'yiz-dialog-standalone-close': disabledHeader && closable }"
           :style="{ width: props.width, ...dragStyle }"
+          role="dialog"
+          aria-modal="true"
+          :aria-labelledby="!disabledHeader && (title || $slots.title) ? titleId : undefined"
+          :aria-label="disabledHeader || (!title && !$slots.title) ? title || $t('dialog.ariaLabel') : undefined"
+          tabindex="-1"
         >
-          <button v-if="disabledHeader && closable" class="yiz-dialog-close yiz-dialog-close-standalone" @click="close">
+          <button
+            v-if="disabledHeader && closable"
+            class="yiz-dialog-close yiz-dialog-close-standalone"
+            type="button"
+            :aria-label="$t('common.close')"
+            @click="close"
+          >
             <Icon size="16" :icon="Dismiss16Regular" />
           </button>
           <div
@@ -24,10 +36,18 @@
             :class="{ 'yiz-dialog-header-draggable': drag }"
             @mousedown="onHeaderMouseDown"
           >
-            <slot name="title">
-              <span class="yiz-dialog-title">{{ title }}</span>
-            </slot>
-            <button v-if="closable" class="yiz-dialog-close" @click="close">
+            <div :id="titleId" class="yiz-dialog-title-wrap">
+              <slot name="title">
+                <span class="yiz-dialog-title">{{ title }}</span>
+              </slot>
+            </div>
+            <button
+              v-if="closable"
+              class="yiz-dialog-close"
+              type="button"
+              :aria-label="$t('common.close')"
+              @click="close"
+            >
               <Icon size="16" :icon="Dismiss16Regular" />
             </button>
           </div>
@@ -49,12 +69,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, useId, watch } from 'vue'
 import { Dismiss16Regular } from '@vicons/fluent'
 import { Button } from '../button'
 import { Icon } from '../icon'
 import { $t } from '../locale'
 import { useOptionalModalLayer, type ModalLayerContext } from '../overlay/modalLayer'
+import { useModalFocus } from '../overlay/useModalFocus'
 import { nextZIndex } from '../zIndex'
 
 const currentZIndex = ref(0)
@@ -162,6 +183,9 @@ const emit = defineEmits<{
  */
 const visible = defineModel<boolean>('show', { default: false })
 const modalLayer = useOptionalModalLayer(props.modalLayerParent)
+const dialogRef = ref<HTMLElement>()
+const titleId = `yiz-dialog-title-${useId()}`
+const modalFocus = useModalFocus(visible, dialogRef)
 
 const dragPosition = ref({ x: 0, y: 0 })
 const dragging = ref(false)
@@ -234,7 +258,8 @@ function onWrapperClick() {
 
 // Escape key
 function onKeydown(e: KeyboardEvent) {
-  if (e.key === 'Escape' && visible.value) {
+  if (e.key === 'Escape' && visible.value && modalFocus.isTopLayer.value) {
+    e.stopPropagation()
     close()
   }
 }
@@ -264,7 +289,7 @@ function onDragMove(e: MouseEvent) {
   if (!dragging.value) return
   const dx = e.clientX - dragStart.x
   const dy = e.clientY - dragStart.y
-  const el = document.querySelector('.yiz-dialog') as HTMLElement | null
+  const el = dialogRef.value
   if (!el) return
   const dlgW = el.offsetWidth
   const dlgH = el.offsetHeight
@@ -286,7 +311,7 @@ function onDragEnd() {
 }
 
 function clampPosition() {
-  const el = document.querySelector('.yiz-dialog') as HTMLElement | null
+  const el = dialogRef.value
   if (!el) return
   const dlgW = el.offsetWidth
   const dlgH = el.offsetHeight
@@ -313,7 +338,7 @@ onBeforeUnmount(() => window.removeEventListener('resize', onViewportResize))
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.45);
+  background: var(--yiz-color-mask);
 }
 
 .yiz-dialog-wrapper {
@@ -328,9 +353,9 @@ onBeforeUnmount(() => window.removeEventListener('resize', onViewportResize))
 
 .yiz-dialog {
   position: relative;
-  background: #fff;
+  background: var(--yiz-color-bg-elevated);
   border-radius: var(--yiz-pane-border-radius);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--yiz-shadow-modal);
   display: flex;
   flex-direction: column;
   max-height: 80vh;
@@ -341,7 +366,7 @@ onBeforeUnmount(() => window.removeEventListener('resize', onViewportResize))
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
+  padding: var(--yiz-space-4) var(--yiz-space-6);
   border-bottom: 1px solid var(--yiz-color-border, #d9d9d9);
   flex-shrink: 0;
 }
@@ -349,7 +374,11 @@ onBeforeUnmount(() => window.removeEventListener('resize', onViewportResize))
 .yiz-dialog-title {
   font-size: 16px;
   font-weight: 600;
-  color: #333;
+  color: var(--yiz-color-text-primary);
+}
+
+.yiz-dialog-title-wrap {
+  min-width: 0;
 }
 
 .yiz-dialog-header-draggable {
@@ -366,13 +395,13 @@ onBeforeUnmount(() => window.removeEventListener('resize', onViewportResize))
   align-items: center;
   justify-content: center;
   border-radius: 2px;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   font-size: 18px;
   transition: color 0.2s;
 
   &:hover {
-    color: #333;
-    background: #f5f5f5;
+    color: var(--yiz-color-text-primary);
+    background: var(--yiz-color-bg-muted);
   }
 }
 
@@ -390,11 +419,11 @@ onBeforeUnmount(() => window.removeEventListener('resize', onViewportResize))
 .yiz-dialog-body {
   flex: 1;
   overflow-y: auto;
-  padding: 24px;
+  padding: var(--yiz-space-6);
 }
 
 .yiz-dialog-footer {
-  padding: 12px 24px;
+  padding: var(--yiz-space-3) var(--yiz-space-6);
   border-top: 1px solid var(--yiz-color-border, #d9d9d9);
   flex-shrink: 0;
   text-align: right;
@@ -403,13 +432,13 @@ onBeforeUnmount(() => window.removeEventListener('resize', onViewportResize))
 .yiz-dialog-footer-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
+  gap: var(--yiz-space-3);
 }
 
 // mask fade
 .yiz-dialog-mask-fade-enter-active,
 .yiz-dialog-mask-fade-leave-active {
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
 }
 .yiz-dialog-mask-fade-enter-from,
 .yiz-dialog-mask-fade-leave-to {
@@ -420,8 +449,8 @@ onBeforeUnmount(() => window.removeEventListener('resize', onViewportResize))
 .yiz-dialog-fade-enter-active,
 .yiz-dialog-fade-leave-active {
   transition:
-    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard),
+    transform var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
 }
 .yiz-dialog-fade-enter-from {
   opacity: 0;

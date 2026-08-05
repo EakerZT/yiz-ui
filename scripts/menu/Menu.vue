@@ -3,6 +3,7 @@
     class="yiz-menu"
     :class="{ 'yiz-menu-collapsed': collapsed, 'yiz-menu-dark': props.dark }"
     :style="{ width: collapsed ? '56px' : menuWidth }"
+    role="menu"
     v-bind="$attrs"
   >
     <template v-for="(item, idx) in allItems" :key="item.key ?? idx">
@@ -21,6 +22,12 @@
           class="yiz-menu-item"
           :class="{ 'yiz-menu-item-selected': isSelected(item), 'yiz-menu-item-ancestor': isAncestor(item) }"
           @click="onItemClick(item)"
+          role="menuitem"
+          tabindex="0"
+          :aria-current="isSelected(item) ? 'page' : undefined"
+          :aria-haspopup="item.children?.length ? 'menu' : undefined"
+          :aria-expanded="item.children?.length ? isExpanded(item) : undefined"
+          @keydown="onItemKeydown($event, item)"
         >
           <span class="yiz-menu-item-icon">
             <template v-if="item.icon">
@@ -51,6 +58,14 @@
         class="yiz-menu-item"
         :class="{ 'yiz-menu-item-selected': isSelected(item), 'yiz-menu-item-ancestor': isAncestor(item) }"
         @click="onItemClick(item)"
+        role="menuitem"
+        tabindex="0"
+        :aria-current="isSelected(item) ? 'page' : undefined"
+        :aria-haspopup="item.children?.length ? 'menu' : undefined"
+        :aria-expanded="
+          item.children?.length ? (collapsed ? !!popupItem && popupItem.key === item.key : isExpanded(item)) : undefined
+        "
+        @keydown="onItemKeydown($event, item)"
         @mouseenter="onItemMouseEnter(item, $event)"
         @mouseleave="onItemMouseLeave(item)"
       >
@@ -110,7 +125,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, Fragment, ref, useSlots } from 'vue'
+import { computed, Fragment, nextTick, ref, useSlots } from 'vue'
 import { ChevronRight16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
 import MenuDividerComp from '../menu-divider/MenuDivider.vue'
@@ -120,6 +135,7 @@ import Tooltip from '../tooltip/Tooltip.vue'
 import SubMenu from './SubMenu.vue'
 import PopupSubMenu from './PopupSubMenu.vue'
 import { isMenuDivider, type MenuEntry, type MenuItemOption } from './types'
+import { moveMenuFocus } from './keyboard'
 
 const props = withDefaults(
   defineProps<{
@@ -261,6 +277,39 @@ function onItemClick(item: MenuItemOption) {
   }
 }
 
+async function openCollapsedPopup(item: MenuItemOption, element: HTMLElement) {
+  const rect = element.getBoundingClientRect()
+  popupItem.value = item
+  popupStyle.value = {
+    position: 'fixed',
+    left: `${rect.right}px`,
+    top: `${rect.top}px`,
+  }
+  await nextTick()
+  document.querySelector<HTMLElement>('.yiz-menu-popup .yiz-menu-item')?.focus()
+}
+
+function onItemKeydown(event: KeyboardEvent, item: MenuItemOption) {
+  const current = event.currentTarget as HTMLElement
+  if (event.key === 'ArrowDown') moveMenuFocus(current, 'next')
+  else if (event.key === 'ArrowUp') moveMenuFocus(current, 'previous')
+  else if (event.key === 'Home') moveMenuFocus(current, 'first')
+  else if (event.key === 'End') moveMenuFocus(current, 'last')
+  else if (event.key === 'ArrowRight' && item.children?.length) {
+    if (props.collapsed) void openCollapsedPopup(item, current)
+    else if (!isExpanded(item)) onItemClick(item)
+  } else if (event.key === 'ArrowLeft' && item.children?.length) {
+    if (props.collapsed) popupItem.value = null
+    else if (isExpanded(item)) onItemClick(item)
+  } else if (event.key === 'Enter' || event.key === ' ') {
+    if (props.collapsed && item.children?.length) void openCollapsedPopup(item, current)
+    else onItemClick(item)
+  } else {
+    return
+  }
+  event.preventDefault()
+}
+
 function onChildSelect(item: MenuItemOption) {
   selected.value = item.key
   emit('select', item)
@@ -275,11 +324,7 @@ function onItemMouseEnter(item: MenuItemOption, e: MouseEvent) {
     const el = e.currentTarget as HTMLElement
     const rect = el.getBoundingClientRect()
     popupItem.value = item
-    popupStyle.value = {
-      position: 'fixed',
-      left: `${rect.right}px`,
-      top: `${rect.top}px`,
-    }
+    popupStyle.value = { position: 'fixed', left: `${rect.right}px`, top: `${rect.top}px` }
   }
 }
 
@@ -316,31 +361,31 @@ function onCollapsedPopupSelect(item: MenuItemOption) {
 .yiz-menu {
   user-select: none;
   border-right: 1px solid var(--yiz-color-border, #d9d9d9);
-  background: #fff;
+  background: var(--yiz-color-bg-container);
   padding: 4px 0;
-  transition: width 0.2s;
+  transition: width var(--yiz-motion-duration-default);
   min-height: 100%;
 }
 
 .yiz-menu-dark {
   background: rgb(0, 20, 40);
-  color: #fff;
+  color: var(--yiz-color-text-inverse);
   border-right-color: rgb(0, 20, 40);
 
   .yiz-menu-item {
-    color: #fff;
+    color: var(--yiz-color-text-inverse);
 
     &:hover {
       background: rgba(255, 255, 255, 0.12);
     }
 
     &.yiz-menu-item-selected {
-      background: var(--yiz-color-primary-heary);
-      color: #fff;
+      background: var(--yiz-color-primary-dark);
+      color: var(--yiz-color-text-inverse);
     }
 
     &.yiz-menu-item-ancestor {
-      color: #fff;
+      color: var(--yiz-color-text-inverse);
     }
   }
 
@@ -388,7 +433,7 @@ function onCollapsedPopupSelect(item: MenuItemOption) {
   display: block;
   min-height: 1px;
   margin: 12px 20px 8px;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   font-size: 14px;
   line-height: 20px;
   pointer-events: none;
@@ -409,14 +454,14 @@ function onCollapsedPopupSelect(item: MenuItemOption) {
 .yiz-menu-item {
   display: flex;
   align-items: center;
-  height: 40px;
+  height: var(--yiz-control-height-large);
   margin: 4px;
   border-radius: var(--yiz-pane-item-border-radius);
   padding: 0 12px;
   font-size: 14px;
-  color: #333;
+  color: var(--yiz-color-text-primary);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background var(--yiz-motion-duration-default);
   white-space: nowrap;
 
   &:hover {

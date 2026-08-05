@@ -339,7 +339,7 @@ defineExpose({
   outline: none;
   --yiz-carousel-arrow-size: 36px;
   --yiz-carousel-indicator-color: rgba(255, 255, 255, 0.55);
-  --yiz-carousel-indicator-active-color: #fff;
+  --yiz-carousel-indicator-active-color: var(--yiz-color-text-inverse);
 }
 
 .yiz-carousel:focus-visible {
@@ -377,7 +377,7 @@ defineExpose({
   border: 0;
   border-radius: 50%;
   background: rgba(31, 45, 61, 0.45);
-  color: #fff;
+  color: var(--yiz-color-text-inverse);
   cursor: pointer;
   opacity: 0;
   transition:
@@ -390,7 +390,7 @@ defineExpose({
 }
 
 .yiz-carousel-arrow:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--yiz-color-text-inverse);
   outline-offset: 1px;
 }
 

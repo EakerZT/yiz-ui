@@ -210,7 +210,7 @@ function contentColspan(item: ResolvedDescriptionItem) {
 
 <style lang="less">
 .yiz-descriptions {
-  color: #333;
+  color: var(--yiz-color-text-primary);
   font-size: var(--yiz-font-size-default);
 }
 
@@ -223,10 +223,10 @@ function contentColspan(item: ResolvedDescriptionItem) {
 }
 
 .yiz-descriptions-title {
-  color: #333;
+  color: var(--yiz-color-text-primary);
   font-size: 16px;
   font-weight: 600;
-  line-height: 24px;
+  line-height: var(--yiz-control-height-small);
 }
 
 .yiz-descriptions-extra {
@@ -252,13 +252,13 @@ function contentColspan(item: ResolvedDescriptionItem) {
 }
 
 .yiz-descriptions-label {
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   font-weight: 500;
   vertical-align: top;
 }
 
 .yiz-descriptions-content {
-  color: #333;
+  color: var(--yiz-color-text-primary);
   vertical-align: top;
 }
 
@@ -300,7 +300,7 @@ function contentColspan(item: ResolvedDescriptionItem) {
   }
 
   .yiz-descriptions-label {
-    background: #fafafa;
+    background: var(--yiz-color-bg-subtle);
   }
 }
 

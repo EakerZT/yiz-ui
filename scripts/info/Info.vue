@@ -19,7 +19,7 @@
       <slot name="action" />
     </div>
 
-    <button v-if="closable" class="yiz-info-close" type="button" @click="close">
+    <button v-if="closable" class="yiz-info-close" type="button" :aria-label="$t('common.close')" @click="close">
       <span v-if="closeText" class="yiz-info-close-text">{{ closeText }}</span>
       <Icon v-else size="16" :icon="Dismiss16Regular" />
     </button>
@@ -37,6 +37,7 @@ import {
   Warning20Regular,
 } from '@vicons/fluent'
 import { Icon } from '../icon'
+import { $t } from '../locale'
 
 export type InfoType = 'info' | 'success' | 'warning' | 'error'
 
@@ -102,15 +103,15 @@ function close(event: MouseEvent) {
 .yiz-info {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: var(--yiz-space-2);
   box-sizing: border-box;
   width: 100%;
   padding: 8px 12px;
   border: 1px solid var(--yiz-info-border-color);
-  border-radius: 6px;
+  border-radius: var(--yiz-radius-large);
   background: var(--yiz-info-bg);
-  color: #333;
-  font-size: 14px;
+  color: var(--yiz-color-text-primary);
+  font-size: var(--yiz-font-size-default);
   line-height: 22px;
 }
 
@@ -129,12 +130,12 @@ function close(event: MouseEvent) {
 }
 
 .yiz-info-message {
-  color: #333;
-  font-weight: 500;
+  color: var(--yiz-color-text-primary);
+  font-weight: var(--yiz-font-weight-medium);
 }
 
 .yiz-info-description {
-  color: #666;
+  color: var(--yiz-color-text-secondary);
 }
 
 .yiz-info-message + .yiz-info-description {
@@ -159,14 +160,14 @@ function close(event: MouseEvent) {
   padding: 0;
   border: none;
   background: transparent;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   font: inherit;
   line-height: 1;
   cursor: pointer;
-  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard);
 
   &:hover {
-    color: #666;
+    color: var(--yiz-color-text-secondary);
   }
 }
 
@@ -177,7 +178,7 @@ function close(event: MouseEvent) {
 }
 
 .yiz-info-with-description {
-  padding: 12px 16px;
+  padding: var(--yiz-space-3) var(--yiz-space-4);
 
   .yiz-info-message {
     font-size: 16px;
@@ -198,7 +199,7 @@ function close(event: MouseEvent) {
 }
 
 .yiz-info-warning {
-  --yiz-info-color: var(--yiz-color-warning-heary5);
+  --yiz-info-color: var(--yiz-color-warning-dark5);
   --yiz-info-bg: var(--yiz-color-warning-light9);
   --yiz-info-border-color: var(--yiz-color-warning-light8);
 }

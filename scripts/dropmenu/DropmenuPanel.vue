@@ -288,8 +288,8 @@ defineExpose({ getElement, focusFirst, focusLast, updateOpenSubmenuPosition })
   overflow: auto;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  background: var(--yiz-color-bg-elevated);
+  box-shadow: var(--yiz-shadow-popup);
   box-sizing: border-box;
   user-select: none;
 }
@@ -298,11 +298,11 @@ defineExpose({ getElement, focusFirst, focusLast, updateOpenSubmenuPosition })
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 32px;
+  height: var(--yiz-control-height-default);
   margin: 4px;
   padding: 0 8px;
   border-radius: var(--yiz-pane-item-border-radius);
-  color: #333;
+  color: var(--yiz-color-text-primary);
   cursor: pointer;
   font-size: 14px;
   white-space: nowrap;
@@ -319,7 +319,7 @@ defineExpose({ getElement, focusFirst, focusLast, updateOpenSubmenuPosition })
 }
 
 .yiz-dropmenu-item-disabled {
-  color: #c0c4cc;
+  color: var(--yiz-color-text-disabled);
   cursor: not-allowed;
 
   &:hover,
@@ -351,7 +351,7 @@ defineExpose({ getElement, focusFirst, focusLast, updateOpenSubmenuPosition })
 .yiz-dropmenu-sub-arrow {
   flex-shrink: 0;
   margin-left: 12px;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
 }
 
 .yiz-dropmenu-divider {
@@ -362,8 +362,8 @@ defineExpose({ getElement, focusFirst, focusLast, updateOpenSubmenuPosition })
 .yiz-dropmenu-panel-fade-enter-active,
 .yiz-dropmenu-panel-fade-leave-active {
   transition:
-    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard),
+    transform var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard);
 }
 
 .yiz-dropmenu-panel-fade-enter-from,

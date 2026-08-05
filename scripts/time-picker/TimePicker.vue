@@ -524,11 +524,11 @@ defineExpose({
   min-width: 0;
   width: 100%;
   position: relative;
-  height: 32px;
+  height: var(--yiz-control-height-default);
   padding: 0 11px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
-  background: #fff;
+  background: var(--yiz-color-bg-container);
   cursor: pointer;
   transition:
     border-color 0.3s,
@@ -548,17 +548,17 @@ defineExpose({
     box-sizing: border-box;
     background: transparent;
     font-size: var(--yiz-font-size-default);
-    color: #333;
+    color: var(--yiz-color-text-primary);
     cursor: text;
     min-width: 0;
 
     &::placeholder {
-      color: #c0c4cc;
+      color: var(--yiz-color-text-disabled);
     }
 
     &:disabled {
       cursor: not-allowed;
-      color: #c0c4cc;
+      color: var(--yiz-color-text-disabled);
     }
   }
 }
@@ -582,7 +582,7 @@ defineExpose({
 }
 
 .yiz-time-picker-disabled .yiz-time-picker-input {
-  background: #f5f5f5;
+  background: var(--yiz-color-bg-muted);
   cursor: not-allowed;
 
   &:hover {
@@ -591,12 +591,12 @@ defineExpose({
 
   input {
     cursor: not-allowed;
-    color: #c0c4cc;
+    color: var(--yiz-color-text-disabled);
   }
 }
 
 .yiz-time-picker-small .yiz-time-picker-input {
-  height: 24px;
+  height: var(--yiz-control-height-small);
   border-radius: var(--yiz-base-border-radius-small);
 
   input {
@@ -605,7 +605,7 @@ defineExpose({
 }
 
 .yiz-time-picker-large .yiz-time-picker-input {
-  height: 40px;
+  height: var(--yiz-control-height-large);
   border-radius: var(--yiz-base-border-radius-large);
 
   input {
@@ -636,13 +636,13 @@ defineExpose({
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   user-select: none;
 }
 
 .yiz-time-picker-suffix {
   flex-shrink: 0;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   transition: opacity 0.2s;
 }
 
@@ -669,7 +669,7 @@ defineExpose({
 
 .yiz-time-picker-panel {
   position: fixed;
-  background: #fff;
+  background: var(--yiz-color-bg-elevated);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -693,7 +693,7 @@ defineExpose({
 .yiz-time-picker-col-header {
   text-align: center;
   font-size: 12px;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   padding: 4px 0;
   border-bottom: 1px solid var(--yiz-color-border, #d9d9d9);
   margin-bottom: 2px;
@@ -715,7 +715,7 @@ defineExpose({
   text-align: center;
   padding: 6px 0;
   font-size: 14px;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   cursor: pointer;
   border-radius: var(--yiz-pane-item-border-radius);
   transition:

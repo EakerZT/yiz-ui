@@ -59,7 +59,7 @@ defineSlots<{
   align-items: center;
   justify-content: center;
   padding: 32px 0;
-  color: #c0c4cc;
+  color: var(--yiz-color-text-disabled);
 }
 
 .yiz-empty-small {
@@ -73,7 +73,7 @@ defineSlots<{
 
 .yiz-empty-description {
   font-size: var(--yiz-font-size-default);
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   line-height: 1.6;
 }
 

@@ -86,6 +86,31 @@ app.mount('#app')
 }
 ```
 
+### 设计 Token
+
+YIZ UI 在 `:root` 上提供分层的 CSS 自定义属性。引入组件库样式后覆盖语义 Token，即可创建桌面端主题，无需修改组件内部样式：
+
+```css
+:root {
+  --yiz-color-primary: #7c3aed;
+  --yiz-color-text-primary: #1f2937;
+  --yiz-color-bg-container: #ffffff;
+  --yiz-control-height-default: 34px;
+  --yiz-radius-default: 6px;
+  --yiz-shadow-popup: 0 8px 24px rgba(15, 23, 42, 0.12);
+  --yiz-motion-duration-default: 0.18s;
+}
+```
+
+对外开放的 Token 分组包括：
+
+- 颜色：`--yiz-color-{primary|success|warning|error}-*`、`--yiz-color-text-*`、`--yiz-color-bg-*`、`--yiz-color-border-*` 和 `--yiz-color-mask`。
+- 尺寸与间距：`--yiz-control-height-*`、`--yiz-control-padding-x-*`、`--yiz-icon-size-*` 和 `--yiz-space-*`。
+- 圆角与排版：`--yiz-radius-*`、`--yiz-font-size-*`、`--yiz-font-weight-*` 和 `--yiz-line-height-*`。
+- 阴影与交互：`--yiz-shadow-*`、`--yiz-motion-*`、`--yiz-control-*-shadow` 和 `--yiz-focus-ring-color`。
+
+原有拼写错误的 `--yiz-color-*-heary*` 变量继续作为兼容别名保留；新主题请使用 `--yiz-color-*-dark*`。
+
 ### 按需引入
 
 ```ts

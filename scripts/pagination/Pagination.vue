@@ -281,14 +281,14 @@ function commitSimplePage() {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #333;
+  color: var(--yiz-color-text-primary);
   font-size: var(--yiz-font-size-default);
   line-height: 1;
   user-select: none;
 }
 
 .yiz-pagination-total {
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   white-space: nowrap;
 }
 
@@ -298,12 +298,12 @@ function commitSimplePage() {
   align-items: center;
   justify-content: center;
   min-width: 32px;
-  height: 32px;
+  height: var(--yiz-control-height-default);
   padding: 0 8px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
-  background: #fff;
-  color: #333;
+  background: var(--yiz-color-bg-container);
+  color: var(--yiz-color-text-primary);
   font-family: inherit;
   font-size: var(--yiz-font-size-default);
   line-height: 30px;
@@ -325,7 +325,7 @@ function commitSimplePage() {
 .yiz-pagination-item-active:not(:disabled):hover {
   background: var(--yiz-color-primary);
   border-color: var(--yiz-color-primary);
-  color: #fff;
+  color: var(--yiz-color-text-inverse);
 }
 
 .yiz-pagination-more {
@@ -336,7 +336,7 @@ function commitSimplePage() {
 .yiz-pagination-go:disabled {
   cursor: not-allowed;
   color: #bfbfbf;
-  background: #f5f5f5;
+  background: var(--yiz-color-bg-muted);
 }
 
 .yiz-pagination-simple,
@@ -348,7 +348,7 @@ function commitSimplePage() {
 }
 
 .yiz-pagination-simple-split {
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
 }
 
 .yiz-pagination-input {
@@ -375,7 +375,7 @@ function commitSimplePage() {
   .yiz-pagination-item,
   .yiz-pagination-go {
     min-width: 24px;
-    height: 24px;
+    height: var(--yiz-control-height-small);
     padding: 0 4px;
     border-radius: var(--yiz-base-border-radius-small);
     font-size: var(--yiz-font-size-small);
@@ -398,7 +398,7 @@ function commitSimplePage() {
   .yiz-pagination-item,
   .yiz-pagination-go {
     min-width: 40px;
-    height: 40px;
+    height: var(--yiz-control-height-large);
     padding: 0 10px;
     border-radius: var(--yiz-base-border-radius-large);
     font-size: var(--yiz-font-size-large);

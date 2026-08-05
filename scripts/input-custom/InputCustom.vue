@@ -105,7 +105,7 @@ defineExpose({
   border-radius: var(--yiz-base-border-radius-default);
   border: 1px solid var(--yiz-color-border);
   transition: 0.3s all;
-  min-height: 32px;
+  min-height: var(--yiz-control-height-default);
   display: inline-flex;
   align-items: center;
   padding: 0 8px;
@@ -122,13 +122,13 @@ defineExpose({
 
   &.focus:not(.yiz-input-custom-disabled) {
     border: 1px solid var(--yiz-color-primary);
-    box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+    box-shadow: var(--yiz-control-focus-shadow);
   }
 
   &.yiz-input-custom-disabled {
-    background: #f5f5f5;
+    background: var(--yiz-color-bg-muted);
     cursor: not-allowed;
-    color: #c0c4cc;
+    color: var(--yiz-color-text-disabled);
 
     &:hover {
       border-color: var(--yiz-color-border);
@@ -136,7 +136,7 @@ defineExpose({
   }
 
   &.yiz-input-custom-small {
-    min-height: 24px;
+    min-height: var(--yiz-control-height-small);
     border-radius: var(--yiz-base-border-radius-small);
     font-size: var(--yiz-font-size-small);
     padding-left: 7px;
@@ -144,7 +144,7 @@ defineExpose({
   }
 
   &.yiz-input-custom-large {
-    min-height: 40px;
+    min-height: var(--yiz-control-height-large);
     border-radius: var(--yiz-base-border-radius-large);
     font-size: var(--yiz-font-size-large);
     padding-left: 11px;
@@ -160,7 +160,7 @@ defineExpose({
 
     &.focus {
       border-color: var(--yiz-color-error);
-      box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+      box-shadow: var(--yiz-control-error-focus-shadow);
     }
   }
 
@@ -169,7 +169,7 @@ defineExpose({
     display: inline-flex;
     align-items: center;
     flex-shrink: 0;
-    color: #666;
+    color: var(--yiz-color-text-secondary);
     user-select: none;
   }
 

@@ -504,12 +504,12 @@ defineExpose({
   display: flex;
   align-items: center;
   gap: 8px;
-  height: 32px;
+  height: var(--yiz-control-height-default);
   padding: 0 10px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
-  background: #fff;
-  color: #333;
+  background: var(--yiz-color-bg-container);
+  color: var(--yiz-color-text-primary);
   font-size: var(--yiz-font-size-default);
   cursor: pointer;
   user-select: none;
@@ -527,8 +527,8 @@ defineExpose({
   }
 
   &.yiz-color-picker-disabled {
-    background: #f5f5f5;
-    color: #c0c4cc;
+    background: var(--yiz-color-bg-muted);
+    color: var(--yiz-color-text-disabled);
     cursor: not-allowed;
 
     &:hover {
@@ -541,7 +541,7 @@ defineExpose({
   }
 
   &.yiz-color-picker-small {
-    height: 24px;
+    height: var(--yiz-control-height-small);
     padding: 0 8px;
     border-radius: var(--yiz-base-border-radius-small);
     font-size: var(--yiz-font-size-small);
@@ -553,7 +553,7 @@ defineExpose({
   }
 
   &.yiz-color-picker-large {
-    height: 40px;
+    height: var(--yiz-control-height-large);
     padding: 0 12px;
     border-radius: var(--yiz-base-border-radius-large);
     font-size: var(--yiz-font-size-large);
@@ -608,7 +608,7 @@ defineExpose({
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   user-select: none;
 }
 
@@ -629,7 +629,7 @@ defineExpose({
   padding: 12px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
-  background: #fff;
+  background: var(--yiz-color-bg-elevated);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
@@ -727,7 +727,7 @@ defineExpose({
 
 .yiz-color-picker-alpha-label {
   width: 34px;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   font-size: 12px;
   text-align: right;
 }
@@ -811,8 +811,8 @@ defineExpose({
 .yiz-color-picker-dropdown-fade-enter-active,
 .yiz-color-picker-dropdown-fade-leave-active {
   transition:
-    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard),
+    transform var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard);
 }
 
 .yiz-color-picker-dropdown-fade-enter-from,

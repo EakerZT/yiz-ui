@@ -245,13 +245,13 @@ defineExpose({
 
 <style lang="less">
 .yiz-popconfirm {
-  color: #333;
+  color: var(--yiz-color-text-primary);
 }
 
 .yiz-popconfirm-message {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: var(--yiz-space-2);
 }
 
 .yiz-popconfirm-icon {
@@ -267,15 +267,15 @@ defineExpose({
 }
 
 .yiz-popconfirm-title {
-  color: #333;
-  font-weight: 500;
+  color: var(--yiz-color-text-primary);
+  font-weight: var(--yiz-font-weight-medium);
   line-height: 22px;
   word-break: break-word;
 }
 
 .yiz-popconfirm-description {
   margin-top: 4px;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   font-size: 13px;
   line-height: 20px;
   word-break: break-word;
@@ -284,7 +284,7 @@ defineExpose({
 .yiz-popconfirm-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
-  margin-top: 12px;
+  gap: var(--yiz-space-2);
+  margin-top: var(--yiz-space-3);
 }
 </style>

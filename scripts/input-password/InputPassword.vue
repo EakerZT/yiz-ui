@@ -167,7 +167,7 @@ defineExpose({
     }
 
     &:disabled {
-      color: #c0c4cc;
+      color: var(--yiz-color-text-disabled);
       cursor: not-allowed;
     }
   }

@@ -41,7 +41,7 @@ const vClass = computed(() => ({
   margin: 0;
   padding: 0;
   list-style: none;
-  color: #333;
+  color: var(--yiz-color-text-primary);
 }
 
 .yiz-timeline-size-small {

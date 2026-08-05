@@ -97,7 +97,7 @@ function onClick(e: MouseEvent) {
   text-align: center;
   cursor: pointer;
   text-decoration: none;
-  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
   border: none;
   background: none;
   color: var(--yiz-link-button-color, var(--yiz-color-primary));
@@ -107,12 +107,12 @@ function onClick(e: MouseEvent) {
   }
 
   &:active {
-    color: var(--yiz-link-button-color-active, var(--yiz-color-primary-heary));
+    color: var(--yiz-link-button-color-active, var(--yiz-color-primary-dark));
   }
 
   &.yiz-link-button-disabled {
     cursor: not-allowed;
-    color: var(--yiz-link-button-color-disabled, #c0c4cc);
+    color: var(--yiz-link-button-color-disabled, var(--yiz-color-text-disabled));
   }
 }
 
@@ -133,35 +133,35 @@ function onClick(e: MouseEvent) {
 .yiz-link-button-color-primary {
   --yiz-link-button-color: var(--yiz-color-primary);
   --yiz-link-button-color-hover: var(--yiz-color-primary-light2);
-  --yiz-link-button-color-active: var(--yiz-color-primary-heary);
+  --yiz-link-button-color-active: var(--yiz-color-primary-dark);
   --yiz-link-button-color-disabled: var(--yiz-color-primary-light5);
 }
 
 .yiz-link-button-color-default {
-  --yiz-link-button-color: #333;
+  --yiz-link-button-color: var(--yiz-color-text-primary);
   --yiz-link-button-color-hover: var(--yiz-color-primary);
-  --yiz-link-button-color-active: var(--yiz-color-primary-heary);
-  --yiz-link-button-color-disabled: #c0c4cc;
+  --yiz-link-button-color-active: var(--yiz-color-primary-dark);
+  --yiz-link-button-color-disabled: var(--yiz-color-text-disabled);
 }
 
 .yiz-link-button-color-success {
   --yiz-link-button-color: var(--yiz-color-success);
   --yiz-link-button-color-hover: var(--yiz-color-success-light2);
-  --yiz-link-button-color-active: var(--yiz-color-success-heary);
+  --yiz-link-button-color-active: var(--yiz-color-success-dark);
   --yiz-link-button-color-disabled: var(--yiz-color-success-light5);
 }
 
 .yiz-link-button-color-warning {
   --yiz-link-button-color: var(--yiz-color-warning);
   --yiz-link-button-color-hover: var(--yiz-color-warning-light2);
-  --yiz-link-button-color-active: var(--yiz-color-warning-heary);
+  --yiz-link-button-color-active: var(--yiz-color-warning-dark);
   --yiz-link-button-color-disabled: var(--yiz-color-warning-light5);
 }
 
 .yiz-link-button-color-error {
   --yiz-link-button-color: var(--yiz-color-error);
   --yiz-link-button-color-hover: var(--yiz-color-error-light2);
-  --yiz-link-button-color-active: var(--yiz-color-error-heary);
+  --yiz-link-button-color-active: var(--yiz-color-error-dark);
   --yiz-link-button-color-disabled: var(--yiz-color-error-light5);
 }
 </style>

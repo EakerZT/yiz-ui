@@ -1,5 +1,5 @@
 <template>
-  <div class="yiz-tree" :class="vClass">
+  <div class="yiz-tree" :class="vClass" role="tree">
     <div v-if="data.length === 0" class="yiz-tree-empty">{{ emptyTextValue }}</div>
     <TreeNode v-for="node in data" v-else :key="node.key" :node="node" :level="0">
       <template v-if="$slots.before" #before="scope">
@@ -37,6 +37,8 @@ export interface TreeContext {
   isSelected: (node: TreeNodeData) => boolean
   isChecked: (node: TreeNodeData) => boolean
   isHalfChecked: (node: TreeNodeData) => boolean
+  isFocused: (node: TreeNodeData) => boolean
+  setFocused: (node: TreeNodeData) => void
   toggleExpand: (node: TreeNodeData) => void
   selectNode: (node: TreeNodeData) => void
   toggleCheck: (node: TreeNodeData) => void
@@ -84,6 +86,7 @@ const emit = defineEmits<{
 }>()
 
 const initialized = ref(false)
+const focusedKey = ref<TreeKey | null>(null)
 
 const expandedKeys = computed({
   get: () => expanded.value ?? [],
@@ -121,8 +124,40 @@ watch(
   { immediate: true },
 )
 
+watch(
+  [() => props.data, selected],
+  () => {
+    const selectedNode = selected.value == null ? null : findNode(props.data, selected.value)
+    if (selectedNode && !selectedNode.disabled) {
+      focusedKey.value = selectedNode.key
+      return
+    }
+    if (focusedKey.value != null && findNode(props.data, focusedKey.value)) return
+    focusedKey.value = findFirstEnabledNode(props.data)?.key ?? null
+  },
+  { immediate: true },
+)
+
 function hasChildren(node: TreeNodeData) {
   return Array.isArray(node.children) && node.children.length > 0
+}
+
+function findNode(nodes: TreeNodeData[], key: TreeKey): TreeNodeData | null {
+  for (const node of nodes) {
+    if (node.key === key) return node
+    const child = findNode(node.children ?? [], key)
+    if (child) return child
+  }
+  return null
+}
+
+function findFirstEnabledNode(nodes: TreeNodeData[]): TreeNodeData | null {
+  for (const node of nodes) {
+    if (!node.disabled) return node
+    const child = findFirstEnabledNode(node.children ?? [])
+    if (child) return child
+  }
+  return null
 }
 
 function collectExpandableKeys(nodes: TreeNodeData[]): TreeKey[] {
@@ -174,6 +209,14 @@ function isHalfChecked(node: TreeNodeData) {
   return descendants.some((key) => checkedKeys.value.includes(key))
 }
 
+function isFocused(node: TreeNodeData) {
+  return focusedKey.value === node.key
+}
+
+function setFocused(node: TreeNodeData) {
+  if (!node.disabled) focusedKey.value = node.key
+}
+
 function toggleExpand(node: TreeNodeData) {
   if (!hasChildren(node) || node.disabled) return
 
@@ -222,6 +265,8 @@ provide<TreeContext>('yizTree', {
   isSelected,
   isChecked,
   isHalfChecked,
+  isFocused,
+  setFocused,
   toggleExpand,
   selectNode,
   toggleCheck,
@@ -230,21 +275,21 @@ provide<TreeContext>('yizTree', {
 
 <style lang="less">
 .yiz-tree {
-  color: #333;
+  color: var(--yiz-color-text-primary);
   font-size: 14px;
   line-height: 1;
 }
 
 .yiz-tree-empty {
   padding: 16px 0;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   text-align: center;
 }
 
 .yiz-tree-node-content {
   display: flex;
   align-items: center;
-  min-height: 32px;
+  min-height: var(--yiz-control-height-default);
   border-radius: 3px;
   cursor: default;
   transition:
@@ -257,7 +302,7 @@ provide<TreeContext>('yizTree', {
 }
 
 .yiz-tree-node-content:not(.yiz-tree-node-disabled):hover {
-  background: #f5f7fa;
+  background: var(--yiz-color-bg-row-hover);
 }
 
 .yiz-tree-node-selected,
@@ -274,7 +319,7 @@ provide<TreeContext>('yizTree', {
 .yiz-tree-switcher,
 .yiz-tree-switcher-placeholder {
   width: 24px;
-  height: 24px;
+  height: var(--yiz-control-height-small);
   flex-shrink: 0;
 }
 
@@ -286,7 +331,7 @@ provide<TreeContext>('yizTree', {
   padding: 0;
   border: none;
   background: transparent;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   cursor: pointer;
 }
 
@@ -314,7 +359,7 @@ provide<TreeContext>('yizTree', {
   width: 8px;
   height: 2px;
   border: none;
-  background: #fff;
+  background: var(--yiz-color-text-inverse);
   transform: translate(-50%, -50%);
 }
 
@@ -336,7 +381,7 @@ provide<TreeContext>('yizTree', {
 .yiz-tree-expand-leave-active {
   overflow: hidden;
   transition:
-    height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    height var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard),
     opacity 0.2s ease;
 }
 

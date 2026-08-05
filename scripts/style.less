@@ -1,4 +1,4 @@
-body {
+:root {
   --yiz-color-primary-light9: #e8f1ff;
   --yiz-color-primary-light8: #d0e4ff;
   --yiz-color-primary-light5: #8bbbff;
@@ -7,11 +7,11 @@ body {
   --yiz-color-primary-light2: #4592ff;
   --yiz-color-primary-light: #2d85ff;
   --yiz-color-primary: #1677ff;
-  --yiz-color-primary-heary: #146be6;
-  --yiz-color-primary-heary2: #125fcc;
-  --yiz-color-primary-heary3: #0f53b3;
-  --yiz-color-primary-heary4: #0d4799;
-  --yiz-color-primary-heary5: #0b3c80;
+  --yiz-color-primary-dark: var(--yiz-color-primary-heary, #146be6);
+  --yiz-color-primary-dark2: var(--yiz-color-primary-heary2, #125fcc);
+  --yiz-color-primary-dark3: var(--yiz-color-primary-heary3, #0f53b3);
+  --yiz-color-primary-dark4: var(--yiz-color-primary-heary4, #0d4799);
+  --yiz-color-primary-dark5: var(--yiz-color-primary-heary5, #0b3c80);
 
   --yiz-color-success-light9: #eef9e8;
   --yiz-color-success-light8: #dcf3d1;
@@ -21,11 +21,11 @@ body {
   --yiz-color-success-light2: #75d048;
   --yiz-color-success-light: #63ca31;
   --yiz-color-success: #52c41a;
-  --yiz-color-success-heary: #4ab017;
-  --yiz-color-success-heary2: #429d15;
-  --yiz-color-success-heary3: #398912;
-  --yiz-color-success-heary4: #317610;
-  --yiz-color-success-heary5: #29620d;
+  --yiz-color-success-dark: var(--yiz-color-success-heary, #4ab017);
+  --yiz-color-success-dark2: var(--yiz-color-success-heary2, #429d15);
+  --yiz-color-success-dark3: var(--yiz-color-success-heary3, #398912);
+  --yiz-color-success-dark4: var(--yiz-color-success-heary4, #317610);
+  --yiz-color-success-dark5: var(--yiz-color-success-heary5, #29620d);
 
   --yiz-color-warning-light9: #fff7e8;
   --yiz-color-warning-light8: #feefd0;
@@ -35,11 +35,11 @@ body {
   --yiz-color-warning-light2: #fbbd43;
   --yiz-color-warning-light: #fbb52c;
   --yiz-color-warning: #faad14;
-  --yiz-color-warning-heary: #e19c12;
-  --yiz-color-warning-heary2: #c88a10;
-  --yiz-color-warning-heary3: #af790e;
-  --yiz-color-warning-heary4: #96680c;
-  --yiz-color-warning-heary5: #7d570a;
+  --yiz-color-warning-dark: var(--yiz-color-warning-heary, #e19c12);
+  --yiz-color-warning-dark2: var(--yiz-color-warning-heary2, #c88a10);
+  --yiz-color-warning-dark3: var(--yiz-color-warning-heary3, #af790e);
+  --yiz-color-warning-dark4: var(--yiz-color-warning-heary4, #96680c);
+  --yiz-color-warning-dark5: var(--yiz-color-warning-heary5, #7d570a);
 
   --yiz-color-error-light9: #ffeded;
   --yiz-color-error-light8: #ffdbdc;
@@ -49,29 +49,120 @@ body {
   --yiz-color-error-light2: #ff7172;
   --yiz-color-error-light: #ff5f61;
   --yiz-color-error: #ff4d4f;
+  --yiz-color-error-dark: var(--yiz-color-error-heary, #e64547);
+  --yiz-color-error-dark2: var(--yiz-color-error-heary2, #cc3e3f);
+  --yiz-color-error-dark3: var(--yiz-color-error-heary3, #b33637);
+  --yiz-color-error-dark4: var(--yiz-color-error-heary4, #992e2f);
+  --yiz-color-error-dark5: var(--yiz-color-error-heary5, #802728);
+
+  /* semantic colors */
+  --yiz-color-text-primary: #333333;
+  --yiz-color-text-secondary: #666666;
+  --yiz-color-text-tertiary: #999999;
+  --yiz-color-text-disabled: #c0c4cc;
+  --yiz-color-text-inverse: #ffffff;
+  --yiz-color-border: #d9d9d9;
+  --yiz-color-border-light: #e4e7ed;
+  --yiz-color-border-subtle: #f0f2f5;
+  --yiz-color-bg: #ffffff;
+  --yiz-color-bg-container: #ffffff;
+  --yiz-color-bg-elevated: #ffffff;
+  --yiz-color-bg-muted: #f5f5f5;
+  --yiz-color-bg-subtle: #fafafa;
+  --yiz-color-bg-active: #f0f2f5;
+  --yiz-color-bg-row-hover: #f5f7fa;
+  --yiz-color-mask: rgba(0, 0, 0, 0.45);
+  --yiz-color-hover-bg: rgba(0, 0, 0, 0.06);
+
+  /* typography */
+  --yiz-font-size-small: 12px;
+  --yiz-font-size-default: 14px;
+  --yiz-font-size-large: 16px;
+  --yiz-font-size-title: 18px;
+  --yiz-font-weight-regular: 400;
+  --yiz-font-weight-medium: 500;
+  --yiz-font-weight-semibold: 600;
+  --yiz-line-height-compact: 1.4;
+  --yiz-line-height-default: 1.6;
+
+  /* sizing */
+  --yiz-control-height-small: 24px;
+  --yiz-control-height-default: 32px;
+  --yiz-control-height-large: 40px;
+  --yiz-control-padding-x-small: 10px;
+  --yiz-control-padding-x-default: 14px;
+  --yiz-control-padding-x-large: 18px;
+  --yiz-icon-size-small: 14px;
+  --yiz-icon-size-default: 16px;
+  --yiz-icon-size-large: 18px;
+
+  /* spacing */
+  --yiz-space-1: 4px;
+  --yiz-space-2: 8px;
+  --yiz-space-3: 12px;
+  --yiz-space-4: 16px;
+  --yiz-space-5: 20px;
+  --yiz-space-6: 24px;
+  --yiz-space-8: 32px;
+  --yiz-space-10: 40px;
+
+  /* radius */
+  --yiz-radius-small: 2px;
+  --yiz-radius-default: 4px;
+  --yiz-radius-large: 6px;
+  --yiz-radius-container: 8px;
+  --yiz-radius-round: 9999px;
+
+  /* elevation */
+  --yiz-shadow-small: 0 1px 6px rgba(0, 0, 0, 0.12);
+  --yiz-shadow-default: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --yiz-shadow-popup: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --yiz-shadow-modal: 0 12px 40px rgba(0, 0, 0, 0.15);
+  --yiz-shadow-drawer: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --yiz-shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  --yiz-shadow-message: 0 6px 18px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  --yiz-shadow-thumb: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+  /* motion */
+  --yiz-motion-duration-fast: 0.15s;
+  --yiz-motion-duration-default: 0.2s;
+  --yiz-motion-duration-slow: 0.3s;
+  --yiz-motion-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* controls */
+  --yiz-control-filled-bg: rgba(0, 0, 0, 0.04);
+  --yiz-control-filled-hover-bg: rgba(0, 0, 0, 0.06);
+  --yiz-control-active-bg: var(--yiz-color-bg);
+  --yiz-control-focus-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+  --yiz-control-error-focus-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+  --yiz-focus-ring-color: rgba(22, 119, 255, 0.35);
+
+  /* compatibility aliases */
+  --yiz-base-border-radius-small: var(--yiz-radius-small);
+  --yiz-base-border-radius-default: var(--yiz-radius-default);
+  --yiz-base-border-radius-large: var(--yiz-radius-large);
+  --yiz-pane-border-radius: var(--yiz-radius-default);
+  --yiz-pane-item-border-radius: var(--yiz-radius-default);
+  --yiz-color-primary-heary: #146be6;
+  --yiz-color-primary-heary2: #125fcc;
+  --yiz-color-primary-heary3: #0f53b3;
+  --yiz-color-primary-heary4: #0d4799;
+  --yiz-color-primary-heary5: #0b3c80;
+  --yiz-color-success-heary: #4ab017;
+  --yiz-color-success-heary2: #429d15;
+  --yiz-color-success-heary3: #398912;
+  --yiz-color-success-heary4: #317610;
+  --yiz-color-success-heary5: #29620d;
+  --yiz-color-warning-heary: #e19c12;
+  --yiz-color-warning-heary2: #c88a10;
+  --yiz-color-warning-heary3: #af790e;
+  --yiz-color-warning-heary4: #96680c;
+  --yiz-color-warning-heary5: #7d570a;
   --yiz-color-error-heary: #e64547;
   --yiz-color-error-heary2: #cc3e3f;
   --yiz-color-error-heary3: #b33637;
   --yiz-color-error-heary4: #992e2f;
   --yiz-color-error-heary5: #802728;
-
-  --yiz-color-border: #d9d9d9;
-
-  --yiz-base-border-radius-small: 2px;
-  --yiz-base-border-radius-default: 4px;
-  --yiz-base-border-radius-large: 6px;
-  --yiz-pane-border-radius: 4px;
-  --yiz-pane-item-border-radius: 4px;
-
-  --yiz-font-size-small: 12px;
-  --yiz-font-size-default: 14px;
-  --yiz-font-size-large: 16px;
-
-  --yiz-color-bg: #ffffff;
-  --yiz-color-hover-bg: rgba(0, 0, 0, 0.06);
-  --yiz-control-filled-bg: rgba(0, 0, 0, 0.04);
-  --yiz-control-filled-hover-bg: rgba(0, 0, 0, 0.06);
-  --yiz-control-active-bg: var(--yiz-color-bg);
 
   --yiz-loading-bar-color: var(--yiz-color-primary);
   --yiz-loading-bar-height: 2px;
@@ -192,4 +283,36 @@ body {
     'Apple Color Emoji',
     'Segoe UI Emoji',
     'Segoe UI Symbol';
+}
+
+:where(
+  .yiz-button,
+  .yiz-link-button,
+  .yiz-dialog-close,
+  .yiz-drawer-close,
+  .yiz-info-close,
+  .yiz-notification-close,
+  .yiz-input-password_toggle,
+  .yiz-input-number-btn,
+  .yiz-color-picker-preset,
+  .yiz-carousel-arrow,
+  .yiz-carousel-indicator,
+  .yiz-pagination button,
+  .yiz-rate-item,
+  .yiz-slider-handle,
+  .yiz-tree-switcher,
+  .yiz-tree-node-content,
+  .yiz-menu-item,
+  .yiz-tab-header-item,
+  .yiz-table-sortable
+):focus-visible {
+  outline: 2px solid var(--yiz-focus-ring-color);
+  outline-offset: 2px;
+}
+
+.yiz-checkbox input:focus-visible + .yiz-checkbox-inner,
+.yiz-radio input:focus-visible + .yiz-radio-inner,
+.yiz-switch-input:has(input:focus-visible) + .yiz-switch-track {
+  outline: 2px solid var(--yiz-focus-ring-color);
+  outline-offset: 2px;
 }

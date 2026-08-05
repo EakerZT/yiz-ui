@@ -4,12 +4,30 @@
       <div v-if="visible && mask" class="yiz-drawer-mask" :style="{ zIndex: currentZIndex }" @click="onMaskClick" />
     </Transition>
     <Transition :name="transitionName">
-      <div v-if="visible" class="yiz-drawer" :class="`yiz-drawer-${placement}`" :style="panelStyle">
+      <div
+        v-if="visible"
+        ref="drawerRef"
+        class="yiz-drawer"
+        :class="`yiz-drawer-${placement}`"
+        :style="panelStyle"
+        role="dialog"
+        aria-modal="true"
+        :aria-labelledby="titleId"
+        tabindex="-1"
+      >
         <div class="yiz-drawer-header">
-          <slot name="title">
-            <span class="yiz-drawer-title">{{ title }}</span>
-          </slot>
-          <button v-if="closable" class="yiz-drawer-close" @click="close">
+          <div :id="titleId" class="yiz-drawer-title-wrap">
+            <slot name="title">
+              <span class="yiz-drawer-title">{{ title || $t('drawer.ariaLabel') }}</span>
+            </slot>
+          </div>
+          <button
+            v-if="closable"
+            class="yiz-drawer-close"
+            type="button"
+            :aria-label="$t('common.close')"
+            @click="close"
+          >
             <Icon size="16" :icon="Dismiss16Regular" />
           </button>
         </div>
@@ -36,12 +54,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, useId, watch } from 'vue'
 import { Dismiss16Regular } from '@vicons/fluent'
 import { Button } from '../button'
 import { Icon } from '../icon'
 import { $t } from '../locale'
 import { useOptionalModalLayer } from '../overlay/modalLayer'
+import { useModalFocus } from '../overlay/useModalFocus'
 import { nextZIndex } from '../zIndex'
 
 const currentZIndex = ref(0)
@@ -88,6 +107,9 @@ const emit = defineEmits<{
 
 const visible = defineModel<boolean>('show', { default: false })
 const modalLayer = useOptionalModalLayer()
+const drawerRef = ref<HTMLElement>()
+const titleId = `yiz-drawer-title-${useId()}`
+const modalFocus = useModalFocus(visible, drawerRef)
 
 const transitionName = computed(() => `yiz-drawer-slide-${props.placement}`)
 
@@ -146,6 +168,15 @@ function onMaskClick() {
     close()
   }
 }
+
+function onKeydown(e: KeyboardEvent) {
+  if (e.key !== 'Escape' || !visible.value || !modalFocus.isTopLayer.value) return
+  e.stopPropagation()
+  close()
+}
+
+onMounted(() => document.addEventListener('keydown', onKeydown))
+onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
 
 // resize
 const resizing = ref(false)
@@ -207,7 +238,7 @@ onMounted(() => window.addEventListener('resize', onViewportResize))
 onBeforeUnmount(() => window.removeEventListener('resize', onViewportResize))
 
 function getCurrentSize(): number {
-  const el = document.querySelector('.yiz-drawer') as HTMLElement | null
+  const el = drawerRef.value
   if (!el) return 0
   const isHorizontal = props.placement === 'left' || props.placement === 'right'
   return isHorizontal ? el.offsetWidth : el.offsetHeight
@@ -229,16 +260,16 @@ function parseSize(val: string, refSize: number): number {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.45);
+  background: var(--yiz-color-mask);
 }
 
 .yiz-drawer {
   position: fixed;
   z-index: 1001;
-  background: #fff;
+  background: var(--yiz-color-bg-elevated);
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--yiz-shadow-drawer);
 }
 
 .yiz-drawer-right {
@@ -269,7 +300,7 @@ function parseSize(val: string, refSize: number): number {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
+  padding: var(--yiz-space-4) var(--yiz-space-6);
   border-bottom: 1px solid var(--yiz-color-border, #d9d9d9);
   flex-shrink: 0;
 }
@@ -277,7 +308,11 @@ function parseSize(val: string, refSize: number): number {
 .yiz-drawer-title {
   font-size: 16px;
   font-weight: 600;
-  color: #333;
+  color: var(--yiz-color-text-primary);
+}
+
+.yiz-drawer-title-wrap {
+  min-width: 0;
 }
 
 .yiz-drawer-close {
@@ -289,20 +324,20 @@ function parseSize(val: string, refSize: number): number {
   align-items: center;
   justify-content: center;
   border-radius: 2px;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   font-size: 18px;
   transition: color 0.2s;
 
   &:hover {
-    color: #333;
-    background: #f5f5f5;
+    color: var(--yiz-color-text-primary);
+    background: var(--yiz-color-bg-muted);
   }
 }
 
 .yiz-drawer-body {
   flex: 1;
   overflow-y: auto;
-  padding: 24px;
+  padding: var(--yiz-space-6);
 }
 
 .yiz-drawer-resize {
@@ -382,7 +417,7 @@ function parseSize(val: string, refSize: number): number {
 }
 
 .yiz-drawer-footer {
-  padding: 12px 24px;
+  padding: var(--yiz-space-3) var(--yiz-space-6);
   border-top: 1px solid var(--yiz-color-border, #d9d9d9);
   flex-shrink: 0;
   text-align: right;
@@ -391,13 +426,13 @@ function parseSize(val: string, refSize: number): number {
 .yiz-drawer-footer-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
+  gap: var(--yiz-space-3);
 }
 
 // mask fade transition
 .yiz-drawer-mask-fade-enter-active,
 .yiz-drawer-mask-fade-leave-active {
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
 }
 .yiz-drawer-mask-fade-enter-from,
 .yiz-drawer-mask-fade-leave-to {
@@ -407,7 +442,7 @@ function parseSize(val: string, refSize: number): number {
 // slide transitions per direction
 .yiz-drawer-slide-right-enter-active,
 .yiz-drawer-slide-right-leave-active {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
 }
 .yiz-drawer-slide-right-enter-from,
 .yiz-drawer-slide-right-leave-to {
@@ -416,7 +451,7 @@ function parseSize(val: string, refSize: number): number {
 
 .yiz-drawer-slide-left-enter-active,
 .yiz-drawer-slide-left-leave-active {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
 }
 .yiz-drawer-slide-left-enter-from,
 .yiz-drawer-slide-left-leave-to {
@@ -425,7 +460,7 @@ function parseSize(val: string, refSize: number): number {
 
 .yiz-drawer-slide-top-enter-active,
 .yiz-drawer-slide-top-leave-active {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
 }
 .yiz-drawer-slide-top-enter-from,
 .yiz-drawer-slide-top-leave-to {
@@ -434,7 +469,7 @@ function parseSize(val: string, refSize: number): number {
 
 .yiz-drawer-slide-bottom-enter-active,
 .yiz-drawer-slide-bottom-leave-active {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
 }
 .yiz-drawer-slide-bottom-enter-from,
 .yiz-drawer-slide-bottom-leave-to {

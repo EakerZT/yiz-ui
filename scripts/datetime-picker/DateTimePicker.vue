@@ -559,11 +559,11 @@ defineExpose({
   align-items: center;
   width: 100%;
   position: relative;
-  height: 32px;
+  height: var(--yiz-control-height-default);
   padding: 0 11px;
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
-  background: #fff;
+  background: var(--yiz-color-bg-container);
   box-sizing: border-box;
   gap: 4px;
 
@@ -586,12 +586,12 @@ defineExpose({
 }
 
 .yiz-datetime-picker-disabled .yiz-datetime-picker-input {
-  background: #f5f5f5;
+  background: var(--yiz-color-bg-muted);
   cursor: not-allowed;
 }
 
 .yiz-datetime-picker-small .yiz-datetime-picker-input {
-  height: 24px;
+  height: var(--yiz-control-height-small);
   border-radius: var(--yiz-base-border-radius-small);
   input {
     font-size: var(--yiz-font-size-small);
@@ -599,7 +599,7 @@ defineExpose({
 }
 
 .yiz-datetime-picker-large .yiz-datetime-picker-input {
-  height: 40px;
+  height: var(--yiz-control-height-large);
   border-radius: var(--yiz-base-border-radius-large);
   input {
     font-size: var(--yiz-font-size-large);
@@ -628,7 +628,7 @@ defineExpose({
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   transition: opacity 0.2s;
 }
 
@@ -639,7 +639,7 @@ defineExpose({
 .yiz-datetime-picker-panel {
   position: fixed;
   width: 448px;
-  background: #fff;
+  background: var(--yiz-color-bg-elevated);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -663,12 +663,12 @@ defineExpose({
   align-items: center;
   gap: 2px;
   margin-bottom: 8px;
-  height: 24px;
+  height: var(--yiz-control-height-small);
 }
 
 .yiz-datetime-picker-nav {
   cursor: pointer;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   border-radius: 2px;
   flex-shrink: 0;
   transition:
@@ -686,7 +686,7 @@ defineExpose({
   text-align: center;
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: var(--yiz-color-text-primary);
   cursor: pointer;
   padding: 2px 0;
   border-radius: var(--yiz-pane-item-border-radius);
@@ -707,7 +707,7 @@ defineExpose({
   padding: 6px 0;
   text-align: center;
   font-size: 13px;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   cursor: pointer;
   border-radius: var(--yiz-pane-item-border-radius);
   transition:
@@ -747,7 +747,7 @@ defineExpose({
 .yiz-datetime-picker-weekday {
   height: 28px;
   line-height: 28px;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   font-size: 12px;
   font-weight: 600;
 }
@@ -764,7 +764,7 @@ defineExpose({
   width: 28px;
   height: 28px;
   font-size: 13px;
-  color: #333;
+  color: var(--yiz-color-text-primary);
   border-radius: var(--yiz-pane-item-border-radius);
   transition:
     background 0.2s,
@@ -788,7 +788,7 @@ defineExpose({
 .yiz-datetime-picker-cell-selected .yiz-datetime-picker-cell-inner,
 .yiz-datetime-picker-cell-selected .yiz-datetime-picker-cell-inner:hover {
   background: var(--yiz-color-primary);
-  color: #fff;
+  color: var(--yiz-color-text-inverse);
 }
 
 .yiz-datetime-picker-time {
@@ -807,7 +807,7 @@ defineExpose({
 
 .yiz-datetime-picker-time-title {
   text-align: center;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   font-size: 12px;
   padding: 4px 0;
 }
@@ -826,7 +826,7 @@ defineExpose({
   text-align: center;
   padding: 6px 0;
   font-size: 14px;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   border-radius: var(--yiz-pane-item-border-radius);
   cursor: pointer;
   transition:

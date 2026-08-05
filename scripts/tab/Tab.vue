@@ -12,7 +12,7 @@
         auto-hide="move"
         :auto-hide-delay="600"
       >
-        <div class="yiz-tab-header-inner">
+        <div class="yiz-tab-header-inner" role="tablist" :aria-orientation="isVertical ? 'vertical' : 'horizontal'">
           <div
             v-for="(pane, idx) in panes"
             :key="pane.key ?? idx"
@@ -23,13 +23,24 @@
               'yiz-tab-header-item-disabled': pane.disabled,
               'yiz-tab-header-item-closable': props.type === 'card' && pane.closable,
             }"
+            role="tab"
+            :id="getTabId(idx)"
+            :aria-controls="getPaneId(pane.key)"
+            :aria-label="pane.label"
+            :aria-selected="isActive(pane)"
+            :aria-disabled="pane.disabled || undefined"
+            :tabindex="isActive(pane) && !pane.disabled ? 0 : -1"
             @click="onTabClick(pane)"
+            @keydown="onTabKeydown($event, pane, idx)"
           >
             <component v-if="pane.labelSlot" :is="getLabelComp(pane.labelSlot)" />
             <span v-else class="yiz-tab-header-item-label">{{ pane.label }}</span>
             <span
               v-if="props.type === 'card' && pane.closable"
               class="yiz-tab-header-item-close"
+              role="button"
+              tabindex="-1"
+              :aria-label="$t('tab.close', { label: pane.label })"
               @click.stop="onClosePane(pane)"
             >
               <Icon size="16" :icon="Dismiss16Regular" />
@@ -59,6 +70,7 @@ import {
   provide,
   reactive,
   ref,
+  useId,
   useSlots,
   watch,
   watchEffect,
@@ -68,6 +80,7 @@ import { Dismiss16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
 import TabPaneComp from './TabPane.vue'
 import ScrollBox from '../scroll-box/ScrollBox.vue'
+import { $t } from '../locale'
 
 interface PaneData {
   label: string
@@ -108,6 +121,7 @@ const emit = defineEmits<{
 const slots = useSlots()
 
 const active = defineModel<any>('active')
+const tabBaseId = `yiz-tab-${useId()}`
 
 const closedKeys = reactive(new Set<any>())
 
@@ -185,6 +199,60 @@ function onClosePane(pane: PaneData) {
   emit('close', pane.key)
 }
 
+function getTabId(index: number) {
+  return `${tabBaseId}-tab-${index}`
+}
+
+function getPaneId(key: any) {
+  const index = panes.value.findIndex((pane) => pane.key === key)
+  return `${tabBaseId}-panel-${Math.max(0, index)}`
+}
+
+function findEnabledTabIndex(startIndex: number, direction: 1 | -1) {
+  const count = panes.value.length
+  if (count === 0) return -1
+  for (let offset = 1; offset <= count; offset += 1) {
+    const index = (startIndex + offset * direction + count) % count
+    if (!panes.value[index]?.disabled) return index
+  }
+  return -1
+}
+
+async function activateAndFocusTab(index: number) {
+  const pane = panes.value[index]
+  if (!pane || pane.disabled) return
+  onTabClick(pane)
+  await nextTick()
+  itemRefs.value[index]?.focus()
+}
+
+function onTabKeydown(event: KeyboardEvent, pane: PaneData, index: number) {
+  let targetIndex = -1
+  if ((!isVertical.value && event.key === 'ArrowRight') || (isVertical.value && event.key === 'ArrowDown')) {
+    targetIndex = findEnabledTabIndex(index, 1)
+  } else if ((!isVertical.value && event.key === 'ArrowLeft') || (isVertical.value && event.key === 'ArrowUp')) {
+    targetIndex = findEnabledTabIndex(index, -1)
+  } else if (event.key === 'Home') {
+    targetIndex = panes.value.findIndex((item) => !item.disabled)
+  } else if (event.key === 'End') {
+    targetIndex = panes.value.findLastIndex((item) => !item.disabled)
+  } else if (event.key === 'Delete' && props.type === 'card' && pane.closable) {
+    onClosePane(pane)
+    event.preventDefault()
+    nextTick(() => itemRefs.value[Math.min(index, panes.value.length - 1)]?.focus())
+    return
+  } else if (event.key === 'Enter' || event.key === ' ') {
+    onTabClick(pane)
+    event.preventDefault()
+    return
+  } else {
+    return
+  }
+
+  if (targetIndex >= 0) void activateAndFocusTab(targetIndex)
+  event.preventDefault()
+}
+
 const isVertical = computed(() => props.direction === 'left' || props.direction === 'right')
 
 function getLabelComp(slotFn: (() => any) | undefined) {
@@ -257,6 +325,14 @@ provide('yizTab', {
   direction: computed(() => props.direction),
   flex: computed(() => props.flex),
   overflow: computed(() => props.overflow),
+  getTabId: (key: any) =>
+    getTabId(
+      Math.max(
+        0,
+        panes.value.findIndex((pane) => pane.key === key),
+      ),
+    ),
+  getPaneId,
 })
 </script>
 
@@ -294,7 +370,7 @@ provide('yizTab', {
 .yiz-tab-top .yiz-tab-header,
 .yiz-tab-bottom .yiz-tab-header {
   border-bottom: 1px solid var(--yiz-color-border, #d9d9d9);
-  min-height: 40px;
+  min-height: var(--yiz-control-height-large);
 }
 
 .yiz-tab-bottom .yiz-tab-header {
@@ -351,14 +427,14 @@ provide('yizTab', {
 
 .yiz-tab-header-item {
   flex: none;
-  height: 40px;
+  height: var(--yiz-control-height-large);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 14px;
-  color: #666;
+  color: var(--yiz-color-text-secondary);
   cursor: pointer;
-  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color var(--yiz-motion-duration-default) var(--yiz-motion-easing-standard);
   white-space: nowrap;
   padding: 0 12px;
 
@@ -382,7 +458,7 @@ provide('yizTab', {
 .yiz-tab-right .yiz-tab-header-item {
   flex: none;
   height: auto;
-  padding: 12px 16px;
+  padding: var(--yiz-space-3) var(--yiz-space-4);
   justify-content: flex-start;
 }
 
@@ -398,16 +474,16 @@ provide('yizTab', {
   bottom: 0;
   height: 2px;
   transition:
-    left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    left var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard),
+    width var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
 }
 
 .yiz-tab-bottom .yiz-tab-header-bar {
   top: 0;
   height: 2px;
   transition:
-    left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    left var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard),
+    width var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
 }
 
 // 垂直 bar（left/right）
@@ -415,16 +491,16 @@ provide('yizTab', {
   right: 0;
   width: 2px;
   transition:
-    top 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    top var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard),
+    height var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
 }
 
 .yiz-tab-right .yiz-tab-header-bar {
   left: 0;
   width: 2px;
   transition:
-    top 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    top var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard),
+    height var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
 }
 
 // ========================= Content =========================
@@ -474,19 +550,19 @@ provide('yizTab', {
     border-bottom-color: var(--yiz-color-border, #d9d9d9);
     border-radius: 4px 4px 0 0;
     margin-right: 2px;
-    background: #fafafa;
+    background: var(--yiz-color-bg-subtle);
 
     &:hover {
       color: var(--yiz-color-primary);
     }
 
     &.yiz-tab-header-item-active {
-      background: var(--yiz-color-bg, #fff);
-      border-bottom-color: var(--yiz-color-bg, #fff);
+      background: var(--yiz-color-bg-container);
+      border-bottom-color: var(--yiz-color-bg-container);
     }
 
     &.yiz-tab-header-item-disabled {
-      background: #f5f5f5;
+      background: var(--yiz-color-bg-muted);
       color: #ccc;
     }
   }
@@ -526,7 +602,7 @@ provide('yizTab', {
     border-bottom-color: var(--yiz-color-border, #d9d9d9);
 
     &.yiz-tab-header-item-active {
-      border-top-color: var(--yiz-color-bg, #fff);
+      border-top-color: var(--yiz-color-bg-container);
     }
   }
 
@@ -551,7 +627,7 @@ provide('yizTab', {
     border-right-color: var(--yiz-color-border, #d9d9d9);
 
     &.yiz-tab-header-item-active {
-      border-right-color: var(--yiz-color-bg, #fff);
+      border-right-color: var(--yiz-color-bg-container);
     }
   }
 
@@ -576,7 +652,7 @@ provide('yizTab', {
     border-left-color: var(--yiz-color-border, #d9d9d9);
 
     &.yiz-tab-header-item-active {
-      border-left-color: var(--yiz-color-bg, #fff);
+      border-left-color: var(--yiz-color-bg-container);
     }
   }
 
@@ -595,14 +671,14 @@ provide('yizTab', {
   height: 16px;
   margin-left: 6px;
   border-radius: 2px;
-  color: #999;
+  color: var(--yiz-color-text-tertiary);
   transition:
     color 0.2s,
     background-color 0.2s;
   flex-shrink: 0;
 
   &:hover {
-    color: #333;
+    color: var(--yiz-color-text-primary);
     background: rgba(0, 0, 0, 0.06);
   }
 

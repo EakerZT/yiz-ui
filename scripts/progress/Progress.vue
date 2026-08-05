@@ -78,7 +78,7 @@ const barStyle = computed(() => {
   align-items: center;
   width: 100%;
   gap: 10px;
-  color: #333;
+  color: var(--yiz-color-text-primary);
   font-size: 14px;
   line-height: 1;
 
@@ -112,8 +112,8 @@ const barStyle = computed(() => {
   border-radius: inherit;
   background: var(--yiz-progress-color);
   transition:
-    width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard),
+    background-color var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
 }
 
 .yiz-progress-text {

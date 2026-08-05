@@ -8,7 +8,7 @@
       @mouseenter="$emit('mouseenter')"
       @mouseleave="$emit('mouseleave', $event)"
     >
-      <div class="yiz-menu" :class="{ 'yiz-menu-dark': dark }">
+      <div class="yiz-menu" :class="{ 'yiz-menu-dark': dark }" role="menu">
         <template v-for="(item, idx) in items" :key="item.key ?? idx">
           <div
             v-if="item.type === 'divider'"
@@ -23,6 +23,12 @@
             class="yiz-menu-item"
             :class="{ 'yiz-menu-item-selected': isSelected(item), 'yiz-menu-item-ancestor': isAncestor(item) }"
             @click="onItemClick(item)"
+            role="menuitem"
+            tabindex="0"
+            :aria-current="isSelected(item) ? 'page' : undefined"
+            :aria-haspopup="item.children?.length ? 'menu' : undefined"
+            :aria-expanded="item.children?.length ? hoveredItem?.key === item.key : undefined"
+            @keydown="onItemKeydown($event, item)"
             @mouseenter="onItemMouseEnter(item, $event)"
             @mouseleave="onItemMouseLeave(item)"
           >
@@ -69,6 +75,7 @@ import { Icon } from '../icon'
 import { useOverlayElement } from '../overlay/overlayScope'
 import { isMenuDivider, type MenuEntry, type MenuItemOption } from './types'
 import IconRenderer from './IconRenderer.vue'
+import { moveMenuFocus } from './keyboard'
 
 const props = defineProps<{
   items?: MenuEntry[]
@@ -126,6 +133,17 @@ function isSelected(item: MenuItemOption) {
 function onItemClick(item: MenuItemOption) {
   if (item.children?.length) return
   emit('select', item)
+}
+
+function onItemKeydown(event: KeyboardEvent, item: MenuItemOption) {
+  const current = event.currentTarget as HTMLElement
+  if (event.key === 'ArrowDown') moveMenuFocus(current, 'next')
+  else if (event.key === 'ArrowUp') moveMenuFocus(current, 'previous')
+  else if (event.key === 'Home') moveMenuFocus(current, 'first')
+  else if (event.key === 'End') moveMenuFocus(current, 'last')
+  else if (event.key === 'Enter' || event.key === ' ') onItemClick(item)
+  else return
+  event.preventDefault()
 }
 
 function onItemMouseEnter(item: MenuItemOption, e: MouseEvent) {
@@ -189,7 +207,7 @@ function onChildSelect(item: MenuItemOption) {
   > .yiz-menu {
     border: 1px solid var(--yiz-color-border, #d9d9d9);
     border-radius: var(--yiz-pane-border-radius);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--yiz-shadow-popup);
     padding: 0;
   }
 }
@@ -200,7 +218,7 @@ function onChildSelect(item: MenuItemOption) {
   > .yiz-menu {
     border: 1px solid var(--yiz-color-border, #d9d9d9);
     border-radius: var(--yiz-pane-border-radius);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--yiz-shadow-popup);
     padding: 0;
   }
 }

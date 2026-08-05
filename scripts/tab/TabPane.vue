@@ -1,13 +1,29 @@
 <template>
   <template v-if="transitionName">
     <Transition :name="transitionName">
-      <div v-if="isActive" class="yiz-tab-pane" :style="paneStyle">
+      <div
+        v-if="isActive"
+        class="yiz-tab-pane"
+        :style="paneStyle"
+        role="tabpanel"
+        :id="paneId"
+        :aria-labelledby="tabId"
+        tabindex="0"
+      >
         <slot />
       </div>
     </Transition>
   </template>
   <template v-else>
-    <div v-show="isActive" class="yiz-tab-pane" :style="paneStyle">
+    <div
+      v-show="isActive"
+      class="yiz-tab-pane"
+      :style="paneStyle"
+      role="tabpanel"
+      :id="paneId"
+      :aria-labelledby="tabId"
+      tabindex="0"
+    >
       <slot />
     </div>
   </template>
@@ -22,6 +38,8 @@ interface TabContext {
   direction: Ref<'top' | 'bottom' | 'left' | 'right'>
   flex: Ref<boolean>
   overflow: Ref<CSSProperties['overflow']>
+  getTabId: (key: any) => string
+  getPaneId: (key: any) => string
 }
 
 defineProps<{
@@ -39,6 +57,8 @@ const tabContext = inject<TabContext | null>('yizTab', null)
 const instance = getCurrentInstance()
 
 const paneKey = computed(() => instance?.vnode.key)
+const tabId = computed(() => tabContext?.getTabId(paneKey.value))
+const paneId = computed(() => tabContext?.getPaneId(paneKey.value))
 
 const paneStyle = computed<CSSProperties>(() => {
   if (!tabContext?.flex.value) return {}

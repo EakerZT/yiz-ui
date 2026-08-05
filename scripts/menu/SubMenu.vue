@@ -1,6 +1,6 @@
 <template>
   <Transition name="yiz-menu-sub-slide">
-    <div v-if="visible" class="yiz-menu-sub">
+    <div v-if="visible" class="yiz-menu-sub" role="group">
       <template v-for="(item, idx) in items" :key="item.key ?? idx">
         <div
           v-if="item.type === 'divider'"
@@ -16,7 +16,13 @@
           class="yiz-menu-item"
           :class="{ 'yiz-menu-item-selected': isSelected(item), 'yiz-menu-item-ancestor': isAncestor(item) }"
           :style="itemStyle"
+          role="menuitem"
+          tabindex="0"
+          :aria-current="isSelected(item) ? 'page' : undefined"
+          :aria-haspopup="item.children?.length ? 'menu' : undefined"
+          :aria-expanded="item.children?.length ? isExpanded(item) : undefined"
           @click="onItemClick(item)"
+          @keydown="onItemKeydown($event, item)"
         >
           <span class="yiz-menu-item-icon">
             <template v-if="item.icon">
@@ -62,6 +68,7 @@ import { ChevronRight16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { isMenuDivider, type MenuEntry, type MenuItemOption } from './types'
 import IconRenderer from './IconRenderer.vue'
+import { moveMenuFocus } from './keyboard'
 
 const props = withDefaults(
   defineProps<{
@@ -140,6 +147,19 @@ function onItemClick(item: MenuItemOption) {
   }
 }
 
+function onItemKeydown(event: KeyboardEvent, item: MenuItemOption) {
+  const current = event.currentTarget as HTMLElement
+  if (event.key === 'ArrowDown') moveMenuFocus(current, 'next')
+  else if (event.key === 'ArrowUp') moveMenuFocus(current, 'previous')
+  else if (event.key === 'Home') moveMenuFocus(current, 'first')
+  else if (event.key === 'End') moveMenuFocus(current, 'last')
+  else if (event.key === 'ArrowRight' && item.children?.length && !isExpanded(item)) onItemClick(item)
+  else if (event.key === 'ArrowLeft' && item.children?.length && isExpanded(item)) onItemClick(item)
+  else if (event.key === 'Enter' || event.key === ' ') onItemClick(item)
+  else return
+  event.preventDefault()
+}
+
 function onChildSelect(item: MenuItemOption) {
   emit('select', item)
 }
@@ -154,7 +174,7 @@ function onChildSelect(item: MenuItemOption) {
 
 .yiz-menu-sub-slide-enter-active,
 .yiz-menu-sub-slide-leave-active {
-  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: max-height var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
 }
 
 .yiz-menu-sub-slide-enter-from,

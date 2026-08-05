@@ -74,9 +74,9 @@ const vClass = computed(() => {
 .yiz-card {
   display: flex;
   flex-direction: column;
-  background: #fff;
-  border-radius: 8px;
-  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--yiz-color-bg-container);
+  border-radius: var(--yiz-radius-container);
+  transition: box-shadow var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
 }
 
 // bordered
@@ -86,11 +86,11 @@ const vClass = computed(() => {
 
 // shadow
 .yiz-card-shadow-hover:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--yiz-shadow-popup);
 }
 
 .yiz-card-shadow-always {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--yiz-shadow-default);
 }
 
 // size
@@ -98,31 +98,31 @@ const vClass = computed(() => {
   border-radius: 4px;
 
   .yiz-card-header {
-    padding: 8px 16px;
+    padding: var(--yiz-space-2) var(--yiz-space-4);
   }
   .yiz-card-title {
     font-size: 14px;
   }
   .yiz-card-body {
-    padding: 12px 16px;
+    padding: var(--yiz-space-3) var(--yiz-space-4);
   }
   .yiz-card-footer {
-    padding: 8px 16px;
+    padding: var(--yiz-space-2) var(--yiz-space-4);
   }
 }
 
 .yiz-card-size-large {
   .yiz-card-header {
-    padding: 16px 24px;
+    padding: var(--yiz-space-4) var(--yiz-space-6);
   }
   .yiz-card-title {
     font-size: 18px;
   }
   .yiz-card-body {
-    padding: 20px 24px;
+    padding: var(--yiz-space-5) var(--yiz-space-6);
   }
   .yiz-card-footer {
-    padding: 16px 24px;
+    padding: var(--yiz-space-4) var(--yiz-space-6);
   }
 }
 
@@ -144,7 +144,7 @@ const vClass = computed(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 20px;
+  padding: var(--yiz-space-3) var(--yiz-space-5);
   flex-shrink: 0;
 }
 
@@ -156,7 +156,7 @@ const vClass = computed(() => {
 .yiz-card-title {
   font-size: 16px;
   font-weight: 600;
-  color: #333;
+  color: var(--yiz-color-text-primary);
 }
 
 .yiz-card-header-extra {
@@ -167,15 +167,15 @@ const vClass = computed(() => {
 // body
 .yiz-card-body {
   flex: 1;
-  padding: 16px 20px;
+  padding: var(--yiz-space-4) var(--yiz-space-5);
   font-size: 14px;
-  color: #333;
-  line-height: 1.6;
+  color: var(--yiz-color-text-primary);
+  line-height: var(--yiz-line-height-default);
 }
 
 // footer
 .yiz-card-footer {
-  padding: 12px 20px;
+  padding: var(--yiz-space-3) var(--yiz-space-5);
   border-top: 1px solid var(--yiz-color-border, #d9d9d9);
   flex-shrink: 0;
 }

@@ -345,32 +345,30 @@ onBeforeUnmount(() => {
 <style lang="less">
 .yiz-popover-pop {
   position: fixed;
-  font-size: 14px;
-  color: #333;
+  font-size: var(--yiz-font-size-default);
+  color: var(--yiz-color-text-primary);
   box-sizing: border-box;
 }
 
 .yiz-popover-content {
-  background: #fff;
+  background: var(--yiz-color-bg-elevated);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
-  box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.14),
-    0 0 0 1px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--yiz-shadow-elevated);
   overflow: hidden;
 }
 
 .yiz-popover-title {
   padding: 10px 12px;
   border-bottom: 1px solid var(--yiz-color-border, #d9d9d9);
-  font-weight: 600;
+  font-weight: var(--yiz-font-weight-semibold);
   line-height: 20px;
 }
 
 .yiz-popover-body {
   padding: 12px;
-  line-height: 1.6;
-  color: #666;
+  line-height: var(--yiz-line-height-default);
+  color: var(--yiz-color-text-secondary);
   word-break: break-word;
 }
 
@@ -378,7 +376,7 @@ onBeforeUnmount(() => {
   position: absolute;
   width: 10px;
   height: 10px;
-  background: #fff;
+  background: var(--yiz-color-bg-elevated);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   transform: rotate(45deg);
 }
