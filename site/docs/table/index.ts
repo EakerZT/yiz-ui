@@ -37,6 +37,8 @@ import DisableRowsDemo from './DisableRowsDemo.vue'
 import disableRowsDemoSource from './DisableRowsDemo.vue?raw'
 import OverflowTooltipDemo from './OverflowTooltipDemo.vue'
 import overflowTooltipDemoSource from './OverflowTooltipDemo.vue?raw'
+import DynamicStyleDemo from './DynamicStyleDemo.vue'
+import dynamicStyleDemoSource from './DynamicStyleDemo.vue?raw'
 
 export const demos: DemoDefinition[] = [
   { id: 'BasicDemo', titleKey: 'demo.common.basicShort', component: BasicDemo, source: basicDemoSource },
@@ -46,6 +48,12 @@ export const demos: DemoDefinition[] = [
     titleKey: 'demo.table.borderedStripe',
     component: BorderedStripeDemo,
     source: borderedStripeDemoSource,
+  },
+  {
+    id: 'DynamicStyleDemo',
+    titleKey: 'demo.table.dynamicStyle',
+    component: DynamicStyleDemo,
+    source: dynamicStyleDemoSource,
   },
   {
     id: 'MultiRowFooterDemo',

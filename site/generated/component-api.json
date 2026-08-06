@@ -5277,6 +5277,38 @@
         "description": "",
         "descriptionEn": "",
         "default": "'local'"
+      },
+      {
+        "name": "rowClass",
+        "type": "TableClassSource<TableRowContext>",
+        "required": false,
+        "description": "数据行的动态 class。",
+        "descriptionEn": "Dynamic class for a data row.",
+        "default": "undefined"
+      },
+      {
+        "name": "rowStyle",
+        "type": "TableStyleSource<TableRowContext>",
+        "required": false,
+        "description": "数据行的动态内联样式。",
+        "descriptionEn": "Dynamic inline style for a data row.",
+        "default": "undefined"
+      },
+      {
+        "name": "cellClass",
+        "type": "TableClassSource<TableCellContext>",
+        "required": false,
+        "description": "全表数据单元格的动态 class。",
+        "descriptionEn": "Dynamic class for data cells across the table.",
+        "default": "undefined"
+      },
+      {
+        "name": "cellStyle",
+        "type": "TableStyleSource<TableCellContext>",
+        "required": false,
+        "description": "全表数据单元格的动态内联样式。",
+        "descriptionEn": "Dynamic inline style for data cells across the table.",
+        "default": "undefined"
       }
     ],
     "models": [
@@ -5422,6 +5454,38 @@
         "required": false,
         "description": "",
         "descriptionEn": "",
+        "default": "undefined"
+      },
+      {
+        "name": "cellClass",
+        "type": "TableClassSource<TableCellContext>",
+        "required": false,
+        "description": "当前列数据单元格的动态 class。",
+        "descriptionEn": "Dynamic class for data cells in this column.",
+        "default": "undefined"
+      },
+      {
+        "name": "cellStyle",
+        "type": "TableStyleSource<TableCellContext>",
+        "required": false,
+        "description": "当前列数据单元格的动态内联样式。",
+        "descriptionEn": "Dynamic inline style for data cells in this column.",
+        "default": "undefined"
+      },
+      {
+        "name": "headerClass",
+        "type": "TableClassSource<TableHeaderCellContext>",
+        "required": false,
+        "description": "当前列表头单元格的动态 class。",
+        "descriptionEn": "Dynamic class for this column's header cell.",
+        "default": "undefined"
+      },
+      {
+        "name": "headerStyle",
+        "type": "TableStyleSource<TableHeaderCellContext>",
+        "required": false,
+        "description": "当前列表头单元格的动态内联样式。",
+        "descriptionEn": "Dynamic inline style for this column's header cell.",
         "default": "undefined"
       }
     ],

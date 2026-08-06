@@ -19,20 +19,24 @@
           :key="col.field"
           role="columnheader"
           class="yiz-table-th"
-          :class="{
-            'yiz-table-gap-col': col.field === '__yiz_gap',
-            'yiz-table-sortable': col.sortable,
-            'yiz-table-resizing': resizing === col.field,
-            'yiz-table-fixed': col.fixed !== 'none',
-            'yiz-table-fixed-left': col.fixed === 'left',
-            'yiz-table-fixed-right': col.fixed === 'right',
-            'yiz-table-last-non-fixed': borderMarkerFields.lastNonFixed === col.field,
-            'yiz-table-first-right-fixed': borderMarkerFields.firstRightFixed === col.field,
-            'yiz-table-last-right-fixed': borderMarkerFields.lastRightFixed === col.field,
-            'yiz-table-left-fixed-shadow': borderMarkerFields.lastLeftFixed === col.field && leftFixedShadowVisible,
-            'yiz-table-right-fixed-shadow': borderMarkerFields.firstRightFixed === col.field && rightFixedShadowVisible,
-          }"
-          :style="{ textAlign: col.align || 'left', ...getCellStyle(col) }"
+          :class="[
+            {
+              'yiz-table-gap-col': col.field === '__yiz_gap',
+              'yiz-table-sortable': col.sortable,
+              'yiz-table-resizing': resizing === col.field,
+              'yiz-table-fixed': col.fixed !== 'none',
+              'yiz-table-fixed-left': col.fixed === 'left',
+              'yiz-table-fixed-right': col.fixed === 'right',
+              'yiz-table-last-non-fixed': borderMarkerFields.lastNonFixed === col.field,
+              'yiz-table-first-right-fixed': borderMarkerFields.firstRightFixed === col.field,
+              'yiz-table-last-right-fixed': borderMarkerFields.lastRightFixed === col.field,
+              'yiz-table-left-fixed-shadow': borderMarkerFields.lastLeftFixed === col.field && leftFixedShadowVisible,
+              'yiz-table-right-fixed-shadow':
+                borderMarkerFields.firstRightFixed === col.field && rightFixedShadowVisible,
+            },
+            getHeaderCellClass(col),
+          ]"
+          :style="[{ textAlign: col.align || 'left' }, getHeaderCellStyle(col), getCellLayoutStyle(col)]"
           :tabindex="col.sortable ? 0 : undefined"
           :aria-sort="getAriaSort(col)"
           @click="col.sortable && onSort(col)"
@@ -106,8 +110,8 @@
             :key="getRowKey(row, idx)"
             role="row"
             class="yiz-table-row"
-            :class="{ 'yiz-table-row-stripe': stripe && idx % 2 === 1 }"
-            :style="{ gridTemplateColumns: columnTemplate }"
+            :class="[{ 'yiz-table-row-stripe': stripe && idx % 2 === 1 }, getRowClass(row, idx)]"
+            :style="[getRowStyle(row, idx), { gridTemplateColumns: columnTemplate }]"
             @dblclick="onRowDblclick(row, idx, $event)"
           >
             <div
@@ -115,19 +119,23 @@
               :key="col.field"
               role="cell"
               class="yiz-table-td"
-              :class="{
-                'yiz-table-gap-col': col.field === '__yiz_gap',
-                'yiz-table-fixed': col.fixed !== 'none',
-                'yiz-table-fixed-left': col.fixed === 'left',
-                'yiz-table-fixed-right': col.fixed === 'right',
-                'yiz-table-last-non-fixed': borderMarkerFields.lastNonFixed === col.field,
-                'yiz-table-first-right-fixed': borderMarkerFields.firstRightFixed === col.field,
-                'yiz-table-last-right-fixed': borderMarkerFields.lastRightFixed === col.field,
-                'yiz-table-left-fixed-shadow': borderMarkerFields.lastLeftFixed === col.field && leftFixedShadowVisible,
-                'yiz-table-right-fixed-shadow':
-                  borderMarkerFields.firstRightFixed === col.field && rightFixedShadowVisible,
-              }"
-              :style="{ textAlign: col.align || 'left', ...getCellStyle(col) }"
+              :class="[
+                {
+                  'yiz-table-gap-col': col.field === '__yiz_gap',
+                  'yiz-table-fixed': col.fixed !== 'none',
+                  'yiz-table-fixed-left': col.fixed === 'left',
+                  'yiz-table-fixed-right': col.fixed === 'right',
+                  'yiz-table-last-non-fixed': borderMarkerFields.lastNonFixed === col.field,
+                  'yiz-table-first-right-fixed': borderMarkerFields.firstRightFixed === col.field,
+                  'yiz-table-last-right-fixed': borderMarkerFields.lastRightFixed === col.field,
+                  'yiz-table-left-fixed-shadow':
+                    borderMarkerFields.lastLeftFixed === col.field && leftFixedShadowVisible,
+                  'yiz-table-right-fixed-shadow':
+                    borderMarkerFields.firstRightFixed === col.field && rightFixedShadowVisible,
+                },
+                getBodyCellClass(row, idx, col),
+              ]"
+              :style="[{ textAlign: col.align || 'left' }, getBodyCellStyle(row, idx, col), getCellLayoutStyle(col)]"
             >
               <template v-if="col.field === '__yiz_select'">
                 <label class="yiz-table-select-cell" @click.stop>
@@ -198,7 +206,7 @@
               'yiz-table-right-fixed-shadow':
                 borderMarkerFields.firstRightFixed === col.field && rightFixedShadowVisible,
             }"
-            :style="{ textAlign: col.align || 'left', ...getCellStyle(col) }"
+            :style="[{ textAlign: col.align || 'left' }, getCellLayoutStyle(col)]"
           >
             <slot
               name="footer-cell"
@@ -267,6 +275,7 @@ import {
   Text,
   useSlots,
   watch,
+  type CSSProperties,
   type VNodeChild,
 } from 'vue'
 import { ArrowSort16Regular, ArrowSortDownLines16Regular } from '@vicons/fluent'
@@ -293,6 +302,42 @@ export interface TableColumn {
   renderFn?: (scope: { value: any; row: any; index: number }) => any
   formatter?: (value: any, row: any, index: number) => any
   showOverflow?: boolean
+  cellClass?: TableClassSource<TableCellContext>
+  cellStyle?: TableStyleSource<TableCellContext>
+  headerClass?: TableClassSource<TableHeaderCellContext>
+  headerStyle?: TableStyleSource<TableHeaderCellContext>
+}
+
+export type TableClassValue = string | Record<string, boolean> | TableClassValue[] | false | null | undefined
+
+export type TableStyleValue = CSSProperties | string | TableStyleValue[] | false | null | undefined
+
+type TablePresentationResolver<Context, Result> = {
+  bivarianceHack(context: Context): Result
+}['bivarianceHack']
+
+export type TableClassSource<Context> = TableClassValue | TablePresentationResolver<Context, TableClassValue>
+
+export type TableStyleSource<Context> = TableStyleValue | TablePresentationResolver<Context, TableStyleValue>
+
+export interface TableRowContext<Row extends Record<string, any> = Record<string, any>> {
+  row: Row
+  rowIndex: number
+  dataIndex: number
+  rowKey: string | number
+  selected: boolean
+  disabled: boolean
+}
+
+export interface TableHeaderCellContext {
+  column: TableColumn
+  columnIndex: number
+}
+
+export interface TableCellContext<Row extends Record<string, any> = Record<string, any>> extends TableRowContext<Row> {
+  value: any
+  column: TableColumn
+  columnIndex: number
 }
 
 export type TableFooterValue = VNodeChild
@@ -355,6 +400,26 @@ const props = withDefaults(
     showFooter?: boolean
     footerMethod?: TableFooterMethod
     sortMode?: 'local' | 'remote'
+    /**
+     * 数据行的动态 class。
+     * @en Dynamic class for a data row.
+     */
+    rowClass?: TableClassSource<TableRowContext>
+    /**
+     * 数据行的动态内联样式。
+     * @en Dynamic inline style for a data row.
+     */
+    rowStyle?: TableStyleSource<TableRowContext>
+    /**
+     * 全表数据单元格的动态 class。
+     * @en Dynamic class for data cells across the table.
+     */
+    cellClass?: TableClassSource<TableCellContext>
+    /**
+     * 全表数据单元格的动态内联样式。
+     * @en Dynamic inline style for data cells across the table.
+     */
+    cellStyle?: TableStyleSource<TableCellContext>
   }>(),
   {
     data: () => [],
@@ -370,6 +435,10 @@ const props = withDefaults(
     showFooter: false,
     footerMethod: undefined,
     sortMode: 'local',
+    rowClass: undefined,
+    rowStyle: undefined,
+    cellClass: undefined,
+    cellStyle: undefined,
   },
 )
 
@@ -465,6 +534,10 @@ const columns = computed(() => {
           renderFn: defaultSlot,
           formatter: p.formatter,
           showOverflow: normalizeBoolProp(p.showOverflow ?? p['show-overflow']),
+          cellClass: p.cellClass ?? p['cell-class'],
+          cellStyle: p.cellStyle ?? p['cell-style'],
+          headerClass: p.headerClass ?? p['header-class'],
+          headerStyle: p.headerStyle ?? p['header-style'],
         })
       }
     }
@@ -577,7 +650,7 @@ function colWidth(col: TableColumn): string {
   return columnWidths.value[col.field] || col.width || 'auto'
 }
 
-function getCellStyle(col: TableColumn): Record<string, string> {
+function getCellLayoutStyle(col: TableColumn): Record<string, string> {
   const style: Record<string, string> = {}
   if (col.fixed === 'left') {
     style.position = 'sticky'
@@ -709,6 +782,95 @@ const sortedData = computed(() => {
   })
   return sorted
 })
+
+const columnIndexByField = computed(() => {
+  const indexes = new Map<string, number>()
+  columns.value.forEach((column, index) => indexes.set(column.field, index))
+  return indexes
+})
+
+function createRowContext(row: Record<string, any>, rowIndex: number): TableRowContext {
+  const dataIndex = props.data.indexOf(row)
+  return {
+    row,
+    rowIndex,
+    dataIndex: dataIndex >= 0 ? dataIndex : rowIndex,
+    rowKey: getRowKey(row, rowIndex) as string | number,
+    selected: isSelected(row, rowIndex),
+    disabled: isRowDisabled(row, rowIndex),
+  }
+}
+
+const rowContexts = computed(() => sortedData.value.map((row, rowIndex) => createRowContext(row, rowIndex)))
+
+function getRowContext(row: Record<string, any>, rowIndex: number): TableRowContext {
+  const context = rowContexts.value[rowIndex]
+  return context?.row === row ? context : createRowContext(row, rowIndex)
+}
+
+function resolvePresentation<Result, Context>(
+  source: Result | ((context: Context) => Result) | undefined,
+  context: Context,
+): Result | undefined {
+  return typeof source === 'function' ? (source as (context: Context) => Result)(context) : source
+}
+
+function getRowClass(row: Record<string, any>, rowIndex: number): TableClassValue {
+  if (props.rowClass == null) return undefined
+  return resolvePresentation(props.rowClass, getRowContext(row, rowIndex))
+}
+
+function getRowStyle(row: Record<string, any>, rowIndex: number): TableStyleValue {
+  if (props.rowStyle == null) return undefined
+  return resolvePresentation(props.rowStyle, getRowContext(row, rowIndex))
+}
+
+function getHeaderCellContext(column: TableColumn): TableHeaderCellContext | undefined {
+  const columnIndex = columnIndexByField.value.get(column.field)
+  if (columnIndex == null) return undefined
+  return { column, columnIndex }
+}
+
+function getHeaderCellClass(column: TableColumn): TableClassValue {
+  if (column.headerClass == null) return undefined
+  const context = getHeaderCellContext(column)
+  return context ? resolvePresentation(column.headerClass, context) : undefined
+}
+
+function getHeaderCellStyle(column: TableColumn): TableStyleValue {
+  if (column.headerStyle == null) return undefined
+  const context = getHeaderCellContext(column)
+  return context ? resolvePresentation(column.headerStyle, context) : undefined
+}
+
+function getBodyCellContext(
+  row: Record<string, any>,
+  rowIndex: number,
+  column: TableColumn,
+): TableCellContext | undefined {
+  const columnIndex = columnIndexByField.value.get(column.field)
+  if (columnIndex == null) return undefined
+  return {
+    ...getRowContext(row, rowIndex),
+    value: row[column.field],
+    column,
+    columnIndex,
+  }
+}
+
+function getBodyCellClass(row: Record<string, any>, rowIndex: number, column: TableColumn): TableClassValue {
+  if (column.cellClass == null && props.cellClass == null) return undefined
+  const context = getBodyCellContext(row, rowIndex, column)
+  if (!context) return undefined
+  return [resolvePresentation(column.cellClass, context), resolvePresentation(props.cellClass, context)]
+}
+
+function getBodyCellStyle(row: Record<string, any>, rowIndex: number, column: TableColumn): TableStyleValue {
+  if (column.cellStyle == null && props.cellStyle == null) return undefined
+  const context = getBodyCellContext(row, rowIndex, column)
+  if (!context) return undefined
+  return [resolvePresentation(column.cellStyle, context), resolvePresentation(props.cellStyle, context)]
+}
 
 const footerColumns = computed(() =>
   displayColumns.value.filter(
@@ -1152,6 +1314,10 @@ onUnmounted(() => {
   box-sizing: border-box;
 }
 
+.yiz-table-row {
+  background: var(--yiz-color-bg-container);
+}
+
 .yiz-table-body {
   box-sizing: border-box;
 }
@@ -1173,7 +1339,7 @@ onUnmounted(() => {
   box-sizing: border-box;
   padding: var(--yiz-space-3) var(--yiz-space-4);
   border-bottom: 1px solid var(--yiz-color-border, #d9d9d9);
-  background: var(--yiz-color-bg-container);
+  background: inherit;
   word-break: break-all;
   min-width: 0;
 }
@@ -1183,7 +1349,7 @@ onUnmounted(() => {
   font-weight: 600;
 }
 
-.yiz-table-row:hover .yiz-table-td {
+.yiz-table-row:hover {
   background: var(--yiz-color-bg-row-hover);
 }
 
@@ -1218,11 +1384,11 @@ onUnmounted(() => {
 }
 
 // stripe
-.yiz-table-stripe .yiz-table-body .yiz-table-row-stripe .yiz-table-td {
+.yiz-table-stripe .yiz-table-body .yiz-table-row-stripe {
   background: var(--yiz-color-bg-subtle);
 }
 
-.yiz-table-stripe .yiz-table-body .yiz-table-row-stripe:hover .yiz-table-td {
+.yiz-table-stripe .yiz-table-body .yiz-table-row-stripe:hover {
   background: var(--yiz-color-bg-active);
 }
 
@@ -1335,18 +1501,6 @@ onUnmounted(() => {
 
 .yiz-table-td.yiz-table-fixed {
   z-index: 2;
-}
-
-.yiz-table-row:hover .yiz-table-td.yiz-table-fixed {
-  background: var(--yiz-color-bg-row-hover);
-}
-
-.yiz-table-stripe .yiz-table-body .yiz-table-row-stripe .yiz-table-td.yiz-table-fixed {
-  background: var(--yiz-color-bg-subtle);
-}
-
-.yiz-table-stripe .yiz-table-body .yiz-table-row-stripe:hover .yiz-table-td.yiz-table-fixed {
-  background: var(--yiz-color-bg-active);
 }
 
 .yiz-table-left-fixed-shadow::after,
