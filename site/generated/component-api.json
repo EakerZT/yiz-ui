@@ -2011,6 +2011,22 @@
         "default": "96"
       },
       {
+        "name": "labelAlign",
+        "type": "FormLabelAlign",
+        "required": false,
+        "description": "横向布局下的标签对齐方式。 @en Label alignment in horizontal layout.",
+        "descriptionEn": "",
+        "default": "'left'"
+      },
+      {
+        "name": "labelOverflow",
+        "type": "boolean",
+        "required": false,
+        "description": "标签溢出时是否单行截断并显示完整内容提示。 @en Whether to truncate overflowing labels and show the full label in a tooltip.",
+        "descriptionEn": "",
+        "default": "false"
+      },
+      {
         "name": "layout",
         "type": "FormLayout",
         "required": false,
@@ -2107,6 +2123,21 @@
         "required": false,
         "description": "",
         "descriptionEn": ""
+      },
+      {
+        "name": "labelAlign",
+        "type": "FormLabelAlign",
+        "required": false,
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "labelOverflow",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "undefined"
       },
       {
         "name": "tooltip",

@@ -1,18 +1,33 @@
 <template>
   <div class="yiz-form-item" :class="vClass" @focusout="onFieldBlur">
     <div v-if="label || $slots.label" class="yiz-form-item-label" :style="labelStyle">
-      <span v-if="isRequired" class="yiz-form-item-required">*</span>
-      <Tooltip v-if="hasTooltip" :content="tooltip" placement="top">
-        <span class="yiz-form-item-label-text yiz-form-item-label-tooltip">
+      <div class="yiz-form-item-label-inner" :class="labelAlignClass">
+        <span v-if="isRequired" class="yiz-form-item-required">*</span>
+        <Tooltip v-if="showLabelOverflowTooltip" :content="label" placement="top">
+          <span
+            ref="labelTextRef"
+            class="yiz-form-item-label-text yiz-form-item-label-overflow yiz-form-item-label-overflow-active"
+          >
+            {{ label }}
+          </span>
+        </Tooltip>
+        <span
+          v-else
+          ref="labelTextRef"
+          class="yiz-form-item-label-text"
+          :class="{ 'yiz-form-item-label-overflow': canOverflowLabel }"
+        >
           <slot name="label">{{ label }}</slot>
         </span>
-        <template v-if="$slots.tooltip" #content>
-          <slot name="tooltip" />
-        </template>
-      </Tooltip>
-      <span v-else class="yiz-form-item-label-text">
-        <slot name="label">{{ label }}</slot>
-      </span>
+        <Tooltip v-if="hasTooltip" :content="tooltip" placement="top">
+          <span class="yiz-form-item-tooltip-icon">
+            <Icon size="14" :icon="QuestionCircle16Regular" />
+          </span>
+          <template v-if="$slots.tooltip" #content>
+            <slot name="tooltip" />
+          </template>
+        </Tooltip>
+      </div>
     </div>
     <div class="yiz-form-item-content">
       <slot />
@@ -28,7 +43,9 @@
 </template>
 
 <script lang="ts" setup>
+import { QuestionCircle16Regular } from '@vicons/fluent'
 import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
+import { Icon } from '../icon'
 import { $t } from '../locale'
 import { Tooltip } from '../tooltip'
 import {
@@ -36,18 +53,26 @@ import {
   type FormItemContext,
   type FormItemRule,
   type FormItemValidateResult,
+  type FormLabelAlign,
   type FormRule,
   type FormValidateTrigger,
 } from '../form/types'
 
-const props = defineProps<{
-  label?: string
-  prop?: string
-  required?: boolean
-  rules?: FormItemRule | FormItemRule[]
-  labelWidth?: string | number
-  tooltip?: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    label?: string
+    prop?: string
+    required?: boolean
+    rules?: FormItemRule | FormItemRule[]
+    labelWidth?: string | number
+    labelAlign?: FormLabelAlign
+    labelOverflow?: boolean
+    tooltip?: string
+  }>(),
+  {
+    labelOverflow: undefined,
+  },
+)
 
 defineSlots<{
   default?: any
@@ -60,8 +85,11 @@ const form = inject(formContextKey, null)
 const validateState = ref<'idle' | 'validating' | 'success' | 'error'>('idle')
 const errorMessage = ref('')
 const initialValue = ref<any>()
+const labelTextRef = ref<HTMLElement>()
+const isLabelOverflowing = ref(false)
 let hasInitialValue = false
 let isResetting = false
+let labelResizeObserver: ResizeObserver | undefined
 
 const fieldLabel = computed(() => props.label || props.prop || '')
 
@@ -82,6 +110,21 @@ const isRequired = computed(() => {
 
 const hasValidationRules = computed(() => formItemRules.value.length > 0)
 const hasTooltip = computed(() => Boolean(props.tooltip || slots.tooltip))
+const canOverflowLabel = computed(() =>
+  Boolean((props.labelOverflow ?? form?.labelOverflow?.value) && props.label && !slots.label),
+)
+const showLabelOverflowTooltip = computed(() => canOverflowLabel.value && isLabelOverflowing.value)
+
+const labelAlignClass = computed(() => {
+  const layout = form?.layout.value ?? 'horizontal'
+  const align =
+    layout === 'horizontal'
+      ? (props.labelAlign ?? form?.labelAlign?.value ?? 'left')
+      : layout === 'inline'
+        ? 'right'
+        : 'left'
+  return `yiz-form-item-label-align-${align}`
+})
 
 const fieldValue = computed(() => {
   if (!form || !props.prop) return undefined
@@ -113,7 +156,6 @@ const labelStyle = computed(() => {
     if (width !== undefined) {
       s.width = typeof width === 'number' ? `${width}px` : width
     }
-    s.textAlign = 'right'
   }
   return s
 })
@@ -134,15 +176,36 @@ watch(
   { deep: true },
 )
 
+watch(labelTextRef, (element, previousElement) => {
+  if (previousElement) labelResizeObserver?.unobserve(previousElement)
+  if (element) labelResizeObserver?.observe(element)
+  nextTick(updateLabelOverflow)
+})
+
+watch(canOverflowLabel, () => nextTick(updateLabelOverflow))
+watch(
+  () => props.label,
+  () => nextTick(updateLabelOverflow),
+)
+
 onMounted(() => {
+  labelResizeObserver = new ResizeObserver(updateLabelOverflow)
+  if (labelTextRef.value) labelResizeObserver.observe(labelTextRef.value)
+  updateLabelOverflow()
   initialValue.value = cloneValue(fieldValue.value)
   hasInitialValue = true
   form?.addItem(itemContext)
 })
 
 onBeforeUnmount(() => {
+  labelResizeObserver?.disconnect()
   form?.removeItem(itemContext)
 })
+
+function updateLabelOverflow() {
+  const element = labelTextRef.value
+  isLabelOverflowing.value = Boolean(canOverflowLabel.value && element && element.scrollWidth > element.clientWidth)
+}
 
 function normalizeRules(rules?: FormItemRule | FormItemRule[]): FormRule[] {
   if (!rules) return []
@@ -312,23 +375,56 @@ defineExpose({
   box-sizing: border-box;
 }
 
+.yiz-form-item-label-inner {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+}
+
+.yiz-form-item-label-align-left {
+  justify-content: flex-start;
+}
+
+.yiz-form-item-label-align-center {
+  justify-content: center;
+}
+
+.yiz-form-item-label-align-right {
+  justify-content: flex-end;
+}
+
 .yiz-form-item-required {
+  flex: none;
   margin-right: 4px;
   color: var(--yiz-color-error);
   font-family: SimSun, sans-serif;
 }
 
 .yiz-form-item-label-text {
-  display: inline-flex;
-  align-items: center;
+  display: block;
+  min-width: 0;
 }
 
-.yiz-form-item-label-tooltip {
+.yiz-form-item-label-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.yiz-form-item-label-overflow-active {
   cursor: help;
   text-decoration: underline;
   text-decoration-style: dashed;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
+}
+
+.yiz-form-item-tooltip-icon {
+  display: inline-flex;
+  flex: none;
+  margin-left: 4px;
+  color: var(--yiz-color-text-secondary);
+  cursor: help;
 }
 
 .yiz-form-item-content {

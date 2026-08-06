@@ -588,6 +588,11 @@ const zhCN: LangMessages = {
   'demo.form.layoutHorizontal': '水平',
   'demo.form.layoutVertical': '垂直',
   'demo.form.layoutInline': '行内',
+  'demo.form.labelBehavior': '标签对齐与溢出',
+  'demo.form.longLabel': '这是一个长度超出显示范围的字段标签',
+  'demo.form.alignLeft': '左对齐',
+  'demo.form.alignCenter': '居中对齐',
+  'demo.form.alignRight': '右对齐',
 
   'demo.icon.title': 'Icon 图标',
   'demo.icon.desc': '渲染 @vicons/fluent 图标，支持自定义尺寸。',
@@ -1815,6 +1820,11 @@ const enUS: LangMessages = {
   'demo.form.layoutHorizontal': 'Horizontal',
   'demo.form.layoutVertical': 'Vertical',
   'demo.form.layoutInline': 'Inline',
+  'demo.form.labelBehavior': 'Label alignment and overflow',
+  'demo.form.longLabel': 'A field label that exceeds the available display width',
+  'demo.form.alignLeft': 'Left',
+  'demo.form.alignCenter': 'Center',
+  'demo.form.alignRight': 'Right',
 
   'demo.icon.title': 'Icon',
   'demo.icon.desc': 'Render @vicons/fluent icons with custom sizes.',

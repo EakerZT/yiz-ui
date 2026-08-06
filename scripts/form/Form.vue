@@ -6,19 +6,32 @@
 
 <script lang="ts" setup>
 import { computed, provide, toRef } from 'vue'
-import { formContextKey, type FormContext, type FormItemContext, type FormLayout, type FormRules } from './types'
+import {
+  formContextKey,
+  type FormContext,
+  type FormItemContext,
+  type FormLabelAlign,
+  type FormLayout,
+  type FormRules,
+} from './types'
 
 const props = withDefaults(
   defineProps<{
     model?: Record<string, any>
     rules?: FormRules
     labelWidth?: string | number
+    /** 横向布局下的标签对齐方式。 @en Label alignment in horizontal layout. */
+    labelAlign?: FormLabelAlign
+    /** 标签溢出时是否单行截断并显示完整内容提示。 @en Whether to truncate overflowing labels and show the full label in a tooltip. */
+    labelOverflow?: boolean
     layout?: FormLayout
   }>(),
   {
     model: () => ({}),
     rules: () => ({}),
     labelWidth: 96,
+    labelAlign: 'left',
+    labelOverflow: false,
     layout: 'horizontal',
   },
 )
@@ -91,6 +104,8 @@ const context: FormContext = {
   model: modelRef,
   rules: rulesRef,
   labelWidth: toRef(props, 'labelWidth'),
+  labelAlign: toRef(props, 'labelAlign'),
+  labelOverflow: toRef(props, 'labelOverflow'),
   layout: toRef(props, 'layout'),
   addItem,
   removeItem,

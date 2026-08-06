@@ -8,6 +8,9 @@
 - 优化 键盘操作
 - 优化 标签语义
 - 优化 design token
+- 添加 Table组件支持动态样式
+- 添加 Form/FormItem组件labelOverflow属性
+- 添加 Form/FormItem组件labelAlign属性
 
 ## 0.0.26
 
