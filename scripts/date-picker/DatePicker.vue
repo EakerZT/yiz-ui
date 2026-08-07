@@ -636,6 +636,9 @@ defineExpose({
 }
 
 .yiz-date-picker-input {
+  --yiz-date-picker-padding-inline: var(--yiz-control-padding-inline-default);
+  --yiz-date-picker-affix-gap: var(--yiz-control-affix-gap-default);
+
   display: inline-flex;
   align-items: center;
   flex: 1;
@@ -643,7 +646,7 @@ defineExpose({
   width: 100%;
   position: relative;
   height: var(--yiz-control-height-default);
-  padding: 0 11px;
+  padding: 0 var(--yiz-date-picker-padding-inline);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
   background: var(--yiz-color-bg-container);
@@ -652,7 +655,7 @@ defineExpose({
     border-color 0.3s,
     box-shadow 0.3s;
   box-sizing: border-box;
-  gap: 4px;
+  gap: var(--yiz-date-picker-affix-gap);
 
   &:hover {
     border-color: var(--yiz-color-primary);
@@ -714,6 +717,9 @@ defineExpose({
 }
 
 .yiz-date-picker-small .yiz-date-picker-input {
+  --yiz-date-picker-padding-inline: var(--yiz-control-padding-inline-small);
+  --yiz-date-picker-affix-gap: var(--yiz-control-affix-gap-small);
+
   height: var(--yiz-control-height-small);
   border-radius: var(--yiz-base-border-radius-small);
 
@@ -723,6 +729,9 @@ defineExpose({
 }
 
 .yiz-date-picker-large .yiz-date-picker-input {
+  --yiz-date-picker-padding-inline: var(--yiz-control-padding-inline-large);
+  --yiz-date-picker-affix-gap: var(--yiz-control-affix-gap-large);
+
   height: var(--yiz-control-height-large);
   border-radius: var(--yiz-base-border-radius-large);
 
@@ -733,7 +742,7 @@ defineExpose({
 
 .yiz-date-picker-clear {
   position: absolute;
-  right: 11px;
+  right: var(--yiz-date-picker-padding-inline);
   top: 50%;
   transform: translateY(-50%);
   display: inline-flex;

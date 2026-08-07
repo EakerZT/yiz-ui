@@ -555,17 +555,20 @@ defineExpose({
 }
 
 .yiz-datetime-picker-input {
+  --yiz-datetime-picker-padding-inline: var(--yiz-control-padding-inline-default);
+  --yiz-datetime-picker-affix-gap: var(--yiz-control-affix-gap-default);
+
   display: inline-flex;
   align-items: center;
   width: 100%;
   position: relative;
   height: var(--yiz-control-height-default);
-  padding: 0 11px;
+  padding: 0 var(--yiz-datetime-picker-padding-inline);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
   background: var(--yiz-color-bg-container);
   box-sizing: border-box;
-  gap: 4px;
+  gap: var(--yiz-datetime-picker-affix-gap);
 
   input {
     flex: 1;
@@ -591,6 +594,9 @@ defineExpose({
 }
 
 .yiz-datetime-picker-small .yiz-datetime-picker-input {
+  --yiz-datetime-picker-padding-inline: var(--yiz-control-padding-inline-small);
+  --yiz-datetime-picker-affix-gap: var(--yiz-control-affix-gap-small);
+
   height: var(--yiz-control-height-small);
   border-radius: var(--yiz-base-border-radius-small);
   input {
@@ -599,6 +605,9 @@ defineExpose({
 }
 
 .yiz-datetime-picker-large .yiz-datetime-picker-input {
+  --yiz-datetime-picker-padding-inline: var(--yiz-control-padding-inline-large);
+  --yiz-datetime-picker-affix-gap: var(--yiz-control-affix-gap-large);
+
   height: var(--yiz-control-height-large);
   border-radius: var(--yiz-base-border-radius-large);
   input {
@@ -608,7 +617,7 @@ defineExpose({
 
 .yiz-datetime-picker-clear {
   position: absolute;
-  right: 11px;
+  right: var(--yiz-datetime-picker-padding-inline);
   top: 50%;
   transform: translateY(-50%);
   display: inline-flex;

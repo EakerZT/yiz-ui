@@ -501,11 +501,14 @@ defineExpose({
 
 <style lang="less">
 .yiz-color-picker {
+  --yiz-color-picker-padding-inline: var(--yiz-control-padding-inline-default);
+  --yiz-color-picker-affix-gap: var(--yiz-control-affix-gap-default);
+
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--yiz-color-picker-affix-gap);
   height: var(--yiz-control-height-default);
-  padding: 0 10px;
+  padding: 0 var(--yiz-color-picker-padding-inline);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
   background: var(--yiz-color-bg-container);
@@ -541,8 +544,10 @@ defineExpose({
   }
 
   &.yiz-color-picker-small {
+    --yiz-color-picker-padding-inline: var(--yiz-control-padding-inline-small);
+    --yiz-color-picker-affix-gap: var(--yiz-control-affix-gap-small);
+
     height: var(--yiz-control-height-small);
-    padding: 0 8px;
     border-radius: var(--yiz-base-border-radius-small);
     font-size: var(--yiz-font-size-small);
 
@@ -553,8 +558,10 @@ defineExpose({
   }
 
   &.yiz-color-picker-large {
+    --yiz-color-picker-padding-inline: var(--yiz-control-padding-inline-large);
+    --yiz-color-picker-affix-gap: var(--yiz-control-affix-gap-large);
+
     height: var(--yiz-control-height-large);
-    padding: 0 12px;
     border-radius: var(--yiz-base-border-radius-large);
     font-size: var(--yiz-font-size-large);
 

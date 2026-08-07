@@ -979,6 +979,9 @@ defineExpose({
 }
 
 .yiz-datetime-range-picker-input {
+  --yiz-datetime-range-picker-padding-inline: var(--yiz-control-padding-inline-default);
+  --yiz-datetime-range-picker-affix-gap: var(--yiz-control-affix-gap-default);
+
   display: inline-flex;
   align-items: center;
   flex: 1;
@@ -986,7 +989,7 @@ defineExpose({
   width: 100%;
   position: relative;
   height: var(--yiz-control-height-default);
-  padding: 0 8px;
+  padding: 0 var(--yiz-datetime-range-picker-padding-inline);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
   background: var(--yiz-color-bg-container);
@@ -995,7 +998,7 @@ defineExpose({
     border-color 0.3s,
     box-shadow 0.3s;
   box-sizing: border-box;
-  gap: 4px;
+  gap: var(--yiz-datetime-range-picker-affix-gap);
   font-size: var(--yiz-font-size-default);
 }
 
@@ -1099,7 +1102,7 @@ defineExpose({
 
 .yiz-datetime-range-picker-clear {
   position: absolute;
-  right: 8px;
+  right: var(--yiz-datetime-range-picker-padding-inline);
   top: 50%;
   transform: translateY(-50%);
   user-select: none;
@@ -1114,12 +1117,18 @@ defineExpose({
 }
 
 .yiz-datetime-range-picker-small .yiz-datetime-range-picker-input {
+  --yiz-datetime-range-picker-padding-inline: var(--yiz-control-padding-inline-small);
+  --yiz-datetime-range-picker-affix-gap: var(--yiz-control-affix-gap-small);
+
   height: var(--yiz-control-height-small);
   border-radius: var(--yiz-base-border-radius-small);
   font-size: var(--yiz-font-size-small);
 }
 
 .yiz-datetime-range-picker-large .yiz-datetime-range-picker-input {
+  --yiz-datetime-range-picker-padding-inline: var(--yiz-control-padding-inline-large);
+  --yiz-datetime-range-picker-affix-gap: var(--yiz-control-affix-gap-large);
+
   height: var(--yiz-control-height-large);
   border-radius: var(--yiz-base-border-radius-large);
   font-size: var(--yiz-font-size-large);

@@ -125,7 +125,7 @@ defineExpose({
   height: var(--yiz-control-height-default);
   display: flex;
   align-items: center;
-  padding: 0 4px;
+  padding: 0 var(--yiz-control-padding-inline-default);
   font-family: inherit;
   font-size: var(--yiz-font-size-default);
   background: var(--yiz-color-bg);
@@ -157,6 +157,8 @@ defineExpose({
     height: var(--yiz-control-height-small);
     border-radius: var(--yiz-base-border-radius-small);
     font-size: var(--yiz-font-size-small);
+    padding-right: var(--yiz-control-padding-inline-small);
+    padding-left: var(--yiz-control-padding-inline-small);
 
     .yiz-input_outer .yiz-input_inner {
       font-size: var(--yiz-font-size-small);
@@ -167,6 +169,8 @@ defineExpose({
     height: var(--yiz-control-height-large);
     border-radius: var(--yiz-base-border-radius-large);
     font-size: var(--yiz-font-size-large);
+    padding-right: var(--yiz-control-padding-inline-large);
+    padding-left: var(--yiz-control-padding-inline-large);
 
     .yiz-input_outer .yiz-input_inner {
       font-size: var(--yiz-font-size-large);
@@ -189,15 +193,13 @@ defineExpose({
   .yiz-input_prefix {
     display: inline-flex;
     align-items: center;
-    margin-left: 4px;
-    margin-right: 4px;
+    margin-right: var(--yiz-control-affix-gap-default);
     user-select: none;
   }
 
   .yiz-input_clear {
     display: inline-flex;
-    margin-left: 8px;
-    margin-right: 4px;
+    margin-left: var(--yiz-control-affix-gap-default);
     user-select: none;
     cursor: pointer;
     color: rgba(0, 0, 0, 0.45);
@@ -211,8 +213,7 @@ defineExpose({
   .yiz-input_suffix {
     display: inline-flex;
     align-items: center;
-    margin-left: 8px;
-    margin-right: 4px;
+    margin-left: var(--yiz-control-affix-gap-default);
     user-select: none;
   }
 
@@ -224,7 +225,7 @@ defineExpose({
 
     .yiz-input_inner {
       flex: 1;
-      padding: 0 4px;
+      padding: 0;
       height: 100%;
       line-height: normal;
       border: 0;
@@ -241,6 +242,28 @@ defineExpose({
         color: var(--yiz-color-text-disabled);
         background: transparent;
       }
+    }
+  }
+
+  &.yiz-input-small {
+    .yiz-input_prefix {
+      margin-right: var(--yiz-control-affix-gap-small);
+    }
+
+    .yiz-input_clear,
+    .yiz-input_suffix {
+      margin-left: var(--yiz-control-affix-gap-small);
+    }
+  }
+
+  &.yiz-input-large {
+    .yiz-input_prefix {
+      margin-right: var(--yiz-control-affix-gap-large);
+    }
+
+    .yiz-input_clear,
+    .yiz-input_suffix {
+      margin-left: var(--yiz-control-affix-gap-large);
     }
   }
 }

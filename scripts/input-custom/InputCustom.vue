@@ -108,13 +108,13 @@ defineExpose({
   min-height: var(--yiz-control-height-default);
   display: inline-flex;
   align-items: center;
-  padding: 0 8px;
+  padding: 0 var(--yiz-control-padding-inline-default);
   font-family: inherit;
   font-size: var(--yiz-font-size-default);
   background: var(--yiz-color-bg);
   vertical-align: middle;
   outline: none;
-  gap: 8px;
+  gap: var(--yiz-control-affix-gap-default);
 
   &:not(.yiz-input-custom-disabled):hover {
     border: 1px solid var(--yiz-color-primary);
@@ -139,16 +139,18 @@ defineExpose({
     min-height: var(--yiz-control-height-small);
     border-radius: var(--yiz-base-border-radius-small);
     font-size: var(--yiz-font-size-small);
-    padding-left: 7px;
-    padding-right: 7px;
+    padding-right: var(--yiz-control-padding-inline-small);
+    padding-left: var(--yiz-control-padding-inline-small);
+    gap: var(--yiz-control-affix-gap-small);
   }
 
   &.yiz-input-custom-large {
     min-height: var(--yiz-control-height-large);
     border-radius: var(--yiz-base-border-radius-large);
     font-size: var(--yiz-font-size-large);
-    padding-left: 11px;
-    padding-right: 11px;
+    padding-right: var(--yiz-control-padding-inline-large);
+    padding-left: var(--yiz-control-padding-inline-large);
+    gap: var(--yiz-control-affix-gap-large);
   }
 
   .yiz-form-item-error-status &:not(.yiz-input-custom-disabled) {

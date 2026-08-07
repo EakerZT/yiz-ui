@@ -664,6 +664,9 @@ const zhCN: LangMessages = {
   'demo.inputNumber.precision': '精度',
   'demo.inputNumber.noControls': '无按钮',
   'demo.inputNumber.yuan': '元',
+  'demo.inputNumber.sizeSpacing': '尺寸与紧凑间距',
+  'demo.inputNumber.length': '长度',
+  'demo.inputNumber.allowEmpty': '允许为空',
 
   'demo.loading.title': 'Loading 加载',
   'demo.loading.desc': '页面或容器局部加载时使用的动画图标。',
@@ -1899,6 +1902,9 @@ const enUS: LangMessages = {
   'demo.inputNumber.precision': 'Precision',
   'demo.inputNumber.noControls': 'No buttons',
   'demo.inputNumber.yuan': 'yuan',
+  'demo.inputNumber.sizeSpacing': 'Size and compact spacing',
+  'demo.inputNumber.length': 'Length',
+  'demo.inputNumber.allowEmpty': 'Allow empty',
 
   'demo.loading.title': 'Loading',
   'demo.loading.desc': 'Animated indicators for page or container loading states.',

@@ -152,8 +152,7 @@ defineExpose({
     justify-content: center;
     width: 22px;
     height: 22px;
-    margin-left: 8px;
-    margin-right: 4px;
+    margin-left: var(--yiz-control-affix-gap-default);
     padding: 0;
     border: 0;
     outline: none;
@@ -170,6 +169,14 @@ defineExpose({
       color: var(--yiz-color-text-disabled);
       cursor: not-allowed;
     }
+  }
+
+  &.yiz-input-small .yiz-input-password_toggle {
+    margin-left: var(--yiz-control-affix-gap-small);
+  }
+
+  &.yiz-input-large .yiz-input-password_toggle {
+    margin-left: var(--yiz-control-affix-gap-large);
   }
 }
 </style>

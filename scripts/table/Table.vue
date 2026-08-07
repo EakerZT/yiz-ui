@@ -263,7 +263,6 @@
 
 <script lang="ts" setup>
 import {
-  Comment,
   computed,
   defineComponent,
   Fragment,
@@ -272,7 +271,6 @@ import {
   onUnmounted,
   provide,
   ref,
-  Text,
   useSlots,
   watch,
   type CSSProperties,
@@ -470,29 +468,11 @@ function normalizePixelWidth(value: unknown): string | undefined {
   return numberValue == null ? undefined : `${numberValue}px`
 }
 
-function isRenderableSlotContent(nodes: any[]): boolean {
-  return nodes.some((node) => {
-    if (node == null || typeof node === 'boolean') return false
-    if (Array.isArray(node)) return isRenderableSlotContent(node)
-    if (node.type === Comment) return false
-    if (node.type === Text) return String(node.children ?? '').trim().length > 0
-    if (node.type === Fragment) {
-      return Array.isArray(node.children) ? isRenderableSlotContent(node.children) : false
-    }
-    return true
-  })
-}
-
-function getRenderableDefaultSlot(vnode: any) {
+function getDefaultSlot(vnode: any) {
   const vnodeSlots = vnode.children
-  const defaultSlot =
-    vnodeSlots && typeof vnodeSlots === 'object' && typeof vnodeSlots.default === 'function'
-      ? vnodeSlots.default
-      : undefined
-  if (!defaultSlot) return undefined
-
-  const nodes = defaultSlot({ value: '__yiz_table_slot_probe__', row: {}, index: 0 })
-  return Array.isArray(nodes) && isRenderableSlotContent(nodes) ? defaultSlot : undefined
+  return vnodeSlots && typeof vnodeSlots === 'object' && typeof vnodeSlots.default === 'function'
+    ? vnodeSlots.default
+    : undefined
 }
 
 // 递归展平 Fragment，确保包裹组件或 v-for 生成的 TableColumn 能被正确提取
@@ -518,7 +498,7 @@ const columns = computed(() => {
     if (vnode.props) {
       const p = vnode.props as Record<string, any>
       if (p.field) {
-        const defaultSlot = getRenderableDefaultSlot(vnode)
+        const defaultSlot = getDefaultSlot(vnode)
         const minWidth = parsePixelValue(p.minWidth ?? p['min-width'])
         const maxWidth = parsePixelValue(p.maxWidth ?? p['max-width'])
         const fixed = p.fixed ?? 'none'

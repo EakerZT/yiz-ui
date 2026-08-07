@@ -518,6 +518,9 @@ defineExpose({
 }
 
 .yiz-time-picker-input {
+  --yiz-time-picker-padding-inline: var(--yiz-control-padding-inline-default);
+  --yiz-time-picker-affix-gap: var(--yiz-control-affix-gap-default);
+
   display: inline-flex;
   align-items: center;
   flex: 1;
@@ -525,7 +528,7 @@ defineExpose({
   width: 100%;
   position: relative;
   height: var(--yiz-control-height-default);
-  padding: 0 11px;
+  padding: 0 var(--yiz-time-picker-padding-inline);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
   background: var(--yiz-color-bg-container);
@@ -534,7 +537,7 @@ defineExpose({
     border-color 0.3s,
     box-shadow 0.3s;
   box-sizing: border-box;
-  gap: 4px;
+  gap: var(--yiz-time-picker-affix-gap);
 
   &:hover {
     border-color: var(--yiz-color-primary);
@@ -596,6 +599,9 @@ defineExpose({
 }
 
 .yiz-time-picker-small .yiz-time-picker-input {
+  --yiz-time-picker-padding-inline: var(--yiz-control-padding-inline-small);
+  --yiz-time-picker-affix-gap: var(--yiz-control-affix-gap-small);
+
   height: var(--yiz-control-height-small);
   border-radius: var(--yiz-base-border-radius-small);
 
@@ -605,6 +611,9 @@ defineExpose({
 }
 
 .yiz-time-picker-large .yiz-time-picker-input {
+  --yiz-time-picker-padding-inline: var(--yiz-control-padding-inline-large);
+  --yiz-time-picker-affix-gap: var(--yiz-control-affix-gap-large);
+
   height: var(--yiz-control-height-large);
   border-radius: var(--yiz-base-border-radius-large);
 
@@ -615,7 +624,7 @@ defineExpose({
 
 .yiz-time-picker-clear {
   position: absolute;
-  right: 11px;
+  right: var(--yiz-time-picker-padding-inline);
   top: 50%;
   transform: translateY(-50%);
   display: inline-flex;

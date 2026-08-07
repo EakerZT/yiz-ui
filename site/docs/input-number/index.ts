@@ -15,6 +15,8 @@ import NoControlsDemo from './NoControlsDemo.vue'
 import noControlsDemoSource from './NoControlsDemo.vue?raw'
 import PrefixSuffixDemo from './PrefixSuffixDemo.vue'
 import prefixSuffixDemoSource from './PrefixSuffixDemo.vue?raw'
+import SpacingDemo from './SpacingDemo.vue'
+import spacingDemoSource from './SpacingDemo.vue?raw'
 
 export const demos: DemoDefinition[] = [
   { id: 'BasicDemo', titleKey: 'demo.common.basicShort', component: BasicDemo, source: basicDemoSource },
@@ -39,6 +41,12 @@ export const demos: DemoDefinition[] = [
     titleKey: 'demo.common.prefixSuffix',
     component: PrefixSuffixDemo,
     source: prefixSuffixDemoSource,
+  },
+  {
+    id: 'SpacingDemo',
+    titleKey: 'demo.inputNumber.sizeSpacing',
+    component: SpacingDemo,
+    source: spacingDemoSource,
   },
 ]
 

@@ -708,11 +708,14 @@ defineExpose({
 
 <style lang="less">
 .yiz-select {
+  --yiz-select-padding-inline: var(--yiz-control-padding-inline-default);
+  --yiz-select-affix-gap: var(--yiz-control-affix-gap-default);
+
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: var(--yiz-control-height-default);
-  padding: 0 11px;
+  padding: 0 var(--yiz-select-padding-inline);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
   background: var(--yiz-color-bg-container);
@@ -750,12 +753,18 @@ defineExpose({
   }
 
   &.yiz-select-small {
+    --yiz-select-padding-inline: var(--yiz-control-padding-inline-small);
+    --yiz-select-affix-gap: var(--yiz-control-affix-gap-small);
+
     height: var(--yiz-control-height-small);
     border-radius: var(--yiz-base-border-radius-small);
     font-size: var(--yiz-font-size-small);
   }
 
   &.yiz-select-large {
+    --yiz-select-padding-inline: var(--yiz-control-padding-inline-large);
+    --yiz-select-affix-gap: var(--yiz-control-affix-gap-large);
+
     height: var(--yiz-control-height-large);
     border-radius: var(--yiz-base-border-radius-large);
     font-size: var(--yiz-font-size-large);
@@ -831,11 +840,11 @@ defineExpose({
 }
 
 .yiz-select-prefix {
-  margin-right: 8px;
+  margin-right: var(--yiz-select-affix-gap);
 }
 
 .yiz-select-extra-suffix {
-  margin-right: 4px;
+  margin-right: var(--yiz-select-affix-gap);
 }
 
 .yiz-select-placeholder {
@@ -845,8 +854,8 @@ defineExpose({
 .yiz-select-suffix {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  margin-left: 8px;
+  gap: var(--yiz-select-affix-gap);
+  margin-left: var(--yiz-select-affix-gap);
   flex-shrink: 0;
   color: var(--yiz-color-text-tertiary);
 }
@@ -867,7 +876,7 @@ defineExpose({
 
 .yiz-select-clear {
   position: absolute;
-  right: 11px;
+  right: var(--yiz-select-padding-inline);
   top: 50%;
   transform: translateY(-50%);
   display: inline-flex;
