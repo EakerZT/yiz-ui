@@ -10,6 +10,7 @@
 - 修复 Table组件排序图标换行
 - 优化 ButtonGroup组件Gap为0的样式
 - 优化 ButtonGroup/InputGroup组件PrimaryButton连接样式
+- 修复 Pagination组件选择器逻辑问题
 
 ## 0.0.27
 

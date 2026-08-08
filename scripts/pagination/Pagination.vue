@@ -58,11 +58,11 @@
 
     <span v-if="showSizeChanger" class="yiz-pagination-size-select">
       <Select
-        :model-value="pageSizeValue"
+        :value="pageSizeValue"
         :options="pageSizeOptions"
         :disabled="disabled"
         :size="size"
-        @update:model-value="onPageSizeChange"
+        @update:value="onPageSizeChange"
       />
     </span>
 
