@@ -1407,7 +1407,6 @@ onUnmounted(() => {
 }
 
 .yiz-table-sort-icon {
-  transform: rotate(-180deg);
   transition:
     color 0.2s,
     transform 0.2s;
@@ -1415,11 +1414,11 @@ onUnmounted(() => {
 
 .yiz-table-sort-icon-active {
   color: var(--yiz-color-primary);
-  transform: rotate(0deg);
+  transform: rotate(180deg);
 }
 
 .yiz-table-sort-icon-desc {
-  transform: rotate(180deg);
+  transform: rotate(0deg);
 }
 
 // select
@@ -1573,6 +1572,12 @@ onUnmounted(() => {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.yiz-table-sortable .yiz-table-th-label.yiz-table-cell-ellipsis {
+  display: inline-block;
+  max-width: calc(100% - 20px);
+  vertical-align: middle;
 }
 
 // cell overflow tooltip

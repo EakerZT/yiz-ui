@@ -1,9 +1,9 @@
 <template>
   <p class="demo-section-desc" style="margin-bottom: 12px">{{ $t('demo.table.overflowTooltipDesc') }}</p>
   <y-table resize :data="overflowData" bordered show-overflow>
-    <y-table-column :label="$t('demo.common.name')" field="name" width="100px" />
-    <y-table-column :label="$t('demo.common.role')" field="role" width="160px" />
-    <y-table-column :label="$t('demo.common.city')" field="city" width="160px" />
+    <y-table-column :label="$t('demo.common.name')" field="name" width="100px" sortable />
+    <y-table-column :label="$t('demo.common.role')" field="role" width="160px" sortable />
+    <y-table-column :label="$t('demo.common.city')" field="city" width="160px" sortable />
   </y-table>
   <h3 class="demo-section-title" style="margin-top: 16px; font-size: 14px">
     {{ $t('demo.table.overflowColumnOnly') }}
