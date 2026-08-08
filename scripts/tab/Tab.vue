@@ -43,7 +43,7 @@
               :aria-label="$t('tab.close', { label: pane.label })"
               @click.stop="onClosePane(pane)"
             >
-              <Icon size="16" :icon="Dismiss16Regular" />
+              <Icon size="12" :icon="Dismiss16Regular" />
             </span>
           </div>
           <div v-if="props.type !== 'card'" class="yiz-tab-header-bar" :style="barStyle" />
@@ -670,8 +670,9 @@ provide('yizTab', {
   width: 16px;
   height: 16px;
   margin-left: 6px;
-  border-radius: 2px;
+  border-radius: 50%;
   color: var(--yiz-color-text-tertiary);
+  cursor: pointer;
   transition:
     color 0.2s,
     background-color 0.2s;
@@ -680,11 +681,6 @@ provide('yizTab', {
   &:hover {
     color: var(--yiz-color-text-primary);
     background: rgba(0, 0, 0, 0.06);
-  }
-
-  svg {
-    width: 10px;
-    height: 10px;
   }
 }
 
