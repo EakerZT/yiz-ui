@@ -9,6 +9,8 @@ import CustomColorDemo from './CustomColorDemo.vue'
 import customColorSource from './CustomColorDemo.vue?raw'
 import DisabledDemo from './DisabledDemo.vue'
 import disabledSource from './DisabledDemo.vue?raw'
+import GaplessDemo from './GaplessDemo.vue'
+import gaplessSource from './GaplessDemo.vue?raw'
 import IconDemo from './IconDemo.vue'
 import iconSource from './IconDemo.vue?raw'
 import LinkBasicDemo from './LinkBasicDemo.vue'
@@ -30,6 +32,7 @@ import sizeSource from './SizeDemo.vue?raw'
 
 export const demos: DemoDefinition[] = [
   { id: 'BasicDemo', titleKey: 'demo.common.basicShort', component: BasicDemo, source: basicSource },
+  { id: 'GaplessDemo', titleKey: 'demo.button.gapless', component: GaplessDemo, source: gaplessSource },
   { id: 'ColorDemo', titleKey: 'demo.button.color', component: ColorDemo, source: colorSource },
   { id: 'CustomColorDemo', titleKey: 'demo.button.customColor', component: CustomColorDemo, source: customColorSource },
   { id: 'ShapeDemo', titleKey: 'demo.button.shape', component: ShapeDemo, source: shapeSource },

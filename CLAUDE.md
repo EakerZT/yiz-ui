@@ -332,7 +332,7 @@ Content container with structured slots: `#cover` (full-width image area at top)
 
 ### ButtonGroup (`scripts/button-group/`)
 
-Flex container for grouping buttons. Props: `direction` (`'horizontal' | 'vertical'`), `size` (`'small' | 'default' | 'large'` or a number for gap in px), `align`, `wrap`. Styled via `--yiz-button-group-gap` and `--yiz-button-group-align` CSS custom properties. Simple slot container, no provide/inject.
+Flex container for grouping buttons. Props: `direction` (`'horizontal' | 'vertical'`), `gap` (number or numeric string in px), `align`, `wrap`. Styled via `--yiz-button-group-gap` and `--yiz-button-group-align` CSS custom properties. When `gap` normalizes to `0`, direct Button children collapse adjacent borders and remove their inner corner radii in both directions. Simple slot container, no provide/inject.
 
 ### Divider (`scripts/divider/`)
 

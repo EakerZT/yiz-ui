@@ -46,9 +46,15 @@ defineSlots<{
   default?: any
 }>()
 
+const normalizedGap = computed(() => {
+  const parsedGap = typeof props.gap === 'number' ? props.gap : Number(props.gap)
+  return Number.isFinite(parsedGap) ? parsedGap : 12
+})
+
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
   c[`yiz-button-group-${props.direction}`] = true
+  c['yiz-button-group-gapless'] = normalizedGap.value === 0
   if (props.wrap) {
     c['yiz-button-group-wrap'] = true
   }
@@ -57,9 +63,7 @@ const vClass = computed(() => {
 
 const vStyle = computed(() => {
   const s: Record<string, string> = {}
-  const parsedGap = typeof props.gap === 'number' ? props.gap : Number(props.gap)
-  const gap = Number.isFinite(parsedGap) ? parsedGap : 12
-  s['--yiz-button-group-gap'] = `${gap}px`
+  s['--yiz-button-group-gap'] = `${normalizedGap.value}px`
   s['--yiz-button-group-align'] = props.align
   return s
 })
@@ -82,5 +86,54 @@ const vStyle = computed(() => {
 
 .yiz-button-group-wrap {
   flex-wrap: wrap;
+}
+
+.yiz-button-group-gapless > .yiz-button {
+  z-index: 1;
+
+  &:hover,
+  &:focus {
+    z-index: 2;
+  }
+
+  &:active {
+    z-index: 3;
+  }
+}
+
+.yiz-button-group-horizontal.yiz-button-group-gapless {
+  > .yiz-button + .yiz-button {
+    margin-left: -1px;
+  }
+
+  > .yiz-button:not(:first-child),
+  > .yiz-button:not(:first-child) > .yiz-wave {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  > .yiz-button:not(:last-child),
+  > .yiz-button:not(:last-child) > .yiz-wave {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.yiz-button-group-vertical.yiz-button-group-gapless {
+  > .yiz-button + .yiz-button {
+    margin-top: -1px;
+  }
+
+  > .yiz-button:not(:first-child),
+  > .yiz-button:not(:first-child) > .yiz-wave {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  > .yiz-button:not(:last-child),
+  > .yiz-button:not(:last-child) > .yiz-wave {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 }
 </style>
