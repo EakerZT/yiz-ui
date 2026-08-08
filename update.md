@@ -2,13 +2,14 @@
 
 ## 0.0.28
 
-`2026/08/07`
+`2026/08/08`
 
 - 优化 Table组件渲染
 - 调整 输入型组件内部间距
 - 修复 Table组件排序图标不正确
 - 修复 Table组件排序图标换行
 - 优化 ButtonGroup组件Gap为0的样式
+- 优化 ButtonGroup/InputGroup组件PrimaryButton连接样式
 
 ## 0.0.27
 

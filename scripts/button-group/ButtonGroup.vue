@@ -106,6 +106,18 @@ const vStyle = computed(() => {
     margin-left: -1px;
   }
 
+  > .yiz-button-type-primary + .yiz-button-type-primary::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 0;
+    z-index: 2;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+  }
+
   > .yiz-button:not(:first-child),
   > .yiz-button:not(:first-child) > .yiz-wave {
     border-top-left-radius: 0;
@@ -122,6 +134,18 @@ const vStyle = computed(() => {
 .yiz-button-group-vertical.yiz-button-group-gapless {
   > .yiz-button + .yiz-button {
     margin-top: -1px;
+  }
+
+  > .yiz-button-type-primary + .yiz-button-type-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 4px;
+    left: 4px;
+    z-index: 2;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.4);
+    pointer-events: none;
   }
 
   > .yiz-button:not(:first-child),

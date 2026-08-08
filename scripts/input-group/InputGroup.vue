@@ -113,6 +113,18 @@ defineExpose({
     z-index: 3;
   }
 
+  > .yiz-button-type-primary + .yiz-button-type-primary::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 0;
+    z-index: 2;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+  }
+
   > .focus,
   > .yiz-input-custom.focus,
   > .yiz-input-number-focus,
