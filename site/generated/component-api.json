@@ -1516,6 +1516,13 @@
         "default": "'420px'"
       },
       {
+        "name": "height",
+        "type": "string",
+        "required": false,
+        "description": "对话框高度，支持任意合法的 CSS 高度值。",
+        "descriptionEn": "Dialog height. Any valid CSS height value is supported."
+      },
+      {
         "name": "closable",
         "type": "boolean",
         "required": false,

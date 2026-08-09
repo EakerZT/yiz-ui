@@ -14,7 +14,7 @@
           ref="dialogRef"
           class="yiz-dialog"
           :class="{ 'yiz-dialog-standalone-close': disabledHeader && closable }"
-          :style="{ width: props.width, ...dragStyle }"
+          :style="{ width: props.width, height: props.height, ...dragStyle }"
           role="dialog"
           aria-modal="true"
           :aria-labelledby="!disabledHeader && (title || $slots.title) ? titleId : undefined"
@@ -92,6 +92,11 @@ const props = withDefaults(
      * @en Width of the dialog.
      */
     width?: string
+    /**
+     * 对话框高度，支持任意合法的 CSS 高度值。
+     * @en Dialog height. Any valid CSS height value is supported.
+     */
+    height?: string
     /**
      * 是否显示关闭按钮。
      * @en Whether to show the close button.

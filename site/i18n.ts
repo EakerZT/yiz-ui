@@ -428,6 +428,8 @@ const zhCN: LangMessages = {
   'demo.dialog.wideDialogHint': '宽度为 600px 的弹窗。',
   'demo.dialog.narrowDialog': '窄弹窗',
   'demo.dialog.narrowDialogHint': '宽度为 300px 的弹窗。',
+  'demo.dialog.customHeight': '自定义高度',
+  'demo.dialog.customHeightHint': '高度为视口 80% 的弹窗，也支持 px、vh 和 calc() 等 CSS 高度值。',
   'demo.dialog.noMaskHint': '没有遮罩层的弹窗。',
   'demo.dialog.maskClosableHint': '点击遮罩即可关闭弹窗。',
   'demo.dialog.noCloseHint': '没有关闭按钮和遮罩关闭，只能通过代码控制关闭。',
@@ -1660,6 +1662,9 @@ const enUS: LangMessages = {
   'demo.dialog.wideDialogHint': 'Dialog with 600px width.',
   'demo.dialog.narrowDialog': 'Narrow dialog',
   'demo.dialog.narrowDialogHint': 'Dialog with 300px width.',
+  'demo.dialog.customHeight': 'Custom height',
+  'demo.dialog.customHeightHint':
+    'A dialog at 80% of the viewport height; px, vh, calc(), and other CSS height values are also supported.',
   'demo.dialog.noMaskHint': 'Dialog without mask.',
   'demo.dialog.maskClosableHint': 'Click the mask to close the dialog.',
   'demo.dialog.noCloseHint': 'No close button or mask close; it can only be closed by code.',
