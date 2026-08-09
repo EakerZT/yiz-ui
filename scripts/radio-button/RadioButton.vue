@@ -122,6 +122,8 @@ defineExpose({
   --yiz-radio-button-checked-text-color: var(--yiz-color-text-inverse);
   --yiz-radio-button-checked-fill-color: var(--yiz-color-primary);
   --yiz-radio-button-checked-hover-fill-color: var(--yiz-color-primary-light2);
+  --yiz-radio-button-min-width: 68px;
+  --yiz-radio-button-padding-inline: var(--yiz-space-3);
 
   position: relative;
   display: inline-flex;
@@ -129,8 +131,8 @@ defineExpose({
   justify-content: center;
   box-sizing: border-box;
   height: var(--yiz-control-height-default);
-  min-width: 72px;
-  padding: 0 14px;
+  min-width: var(--yiz-radio-button-min-width);
+  padding: 0 var(--yiz-radio-button-padding-inline);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-base-border-radius-default);
   background: var(--yiz-color-bg-container);
@@ -196,17 +198,19 @@ defineExpose({
 }
 
 .yiz-radio-button-small {
+  --yiz-radio-button-min-width: 56px;
+  --yiz-radio-button-padding-inline: var(--yiz-space-2);
+
   height: var(--yiz-control-height-small);
-  min-width: 56px;
-  padding: 0 10px;
   border-radius: var(--yiz-base-border-radius-small);
   font-size: var(--yiz-font-size-small);
 }
 
 .yiz-radio-button-large {
+  --yiz-radio-button-min-width: 80px;
+  --yiz-radio-button-padding-inline: var(--yiz-space-4);
+
   height: var(--yiz-control-height-large);
-  min-width: 84px;
-  padding: 0 18px;
   border-radius: var(--yiz-base-border-radius-large);
   font-size: var(--yiz-font-size-large);
 }

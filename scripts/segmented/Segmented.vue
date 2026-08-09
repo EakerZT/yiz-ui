@@ -236,11 +236,18 @@ defineExpose({
 
 <style lang="less">
 .yiz-segmented {
+  --yiz-segmented-gap: 2px;
+  --yiz-segmented-padding: 2px;
+  --yiz-segmented-item-min-width: 68px;
+  --yiz-segmented-item-padding-block: var(--yiz-space-1);
+  --yiz-segmented-item-padding-inline: var(--yiz-space-3);
+  --yiz-segmented-round-item-padding-inline: 15px;
+
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 2px;
-  padding: 2px;
+  gap: var(--yiz-segmented-gap);
+  padding: var(--yiz-segmented-padding);
   vertical-align: middle;
   background: var(--yiz-color-bg-muted);
   border-radius: var(--yiz-base-border-radius-default);
@@ -249,8 +256,8 @@ defineExpose({
 
 .yiz-segmented-indicator {
   position: absolute;
-  top: 2px;
-  bottom: 2px;
+  top: var(--yiz-segmented-padding);
+  bottom: var(--yiz-segmented-padding);
   left: 0;
   z-index: 0;
   border-radius: var(--yiz-base-border-radius-default);
@@ -291,8 +298,8 @@ defineExpose({
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 68px;
-  padding: 4px 12px;
+  min-width: var(--yiz-segmented-item-min-width);
+  padding: var(--yiz-segmented-item-padding-block) var(--yiz-segmented-item-padding-inline);
   border-radius: var(--yiz-base-border-radius-default);
   color: var(--yiz-color-text-primary);
   font-size: var(--yiz-font-size-default);
@@ -341,6 +348,11 @@ defineExpose({
 }
 
 .yiz-segmented-small {
+  --yiz-segmented-item-min-width: 56px;
+  --yiz-segmented-item-padding-block: 2px;
+  --yiz-segmented-item-padding-inline: var(--yiz-space-2);
+  --yiz-segmented-round-item-padding-inline: var(--yiz-space-3);
+
   border-radius: var(--yiz-base-border-radius-small);
 
   .yiz-segmented-indicator,
@@ -349,14 +361,17 @@ defineExpose({
   }
 
   .yiz-segmented-item {
-    min-width: 56px;
-    padding: 2px 8px;
     font-size: var(--yiz-font-size-small);
     line-height: 20px;
   }
 }
 
 .yiz-segmented-large {
+  --yiz-segmented-item-min-width: 80px;
+  --yiz-segmented-item-padding-block: 6px;
+  --yiz-segmented-item-padding-inline: var(--yiz-space-4);
+  --yiz-segmented-round-item-padding-inline: var(--yiz-space-5);
+
   border-radius: var(--yiz-base-border-radius-large);
 
   .yiz-segmented-indicator,
@@ -365,8 +380,6 @@ defineExpose({
   }
 
   .yiz-segmented-item {
-    min-width: 80px;
-    padding: 6px 16px;
     font-size: var(--yiz-font-size-large);
     line-height: 24px;
   }
@@ -381,7 +394,7 @@ defineExpose({
   }
 
   .yiz-segmented-item {
-    padding: 4px 15px;
+    padding-inline: var(--yiz-segmented-round-item-padding-inline);
   }
 
   &.yiz-segmented-small {
@@ -390,16 +403,6 @@ defineExpose({
     .yiz-segmented-indicator,
     .yiz-segmented-item {
       border-radius: 14px;
-    }
-
-    .yiz-segmented-item {
-      padding: 2px 12px;
-    }
-  }
-
-  &.yiz-segmented-large {
-    .yiz-segmented-item {
-      padding: 6px 20px;
     }
   }
 }
