@@ -6,7 +6,7 @@
         v-model:value="values[size]"
         :size="size"
         :prefix="$t('demo.inputNumber.length')"
-        :controls="false"
+        controls="none"
         style="width: 120px"
       />
       <y-checkbox v-model:checked="nullable[size]">{{ $t('demo.inputNumber.allowEmpty') }}</y-checkbox>

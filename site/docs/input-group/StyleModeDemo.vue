@@ -2,7 +2,7 @@
   <div class="demo-input-group-style-mode">
     <y-input-group style-mode="outlined">
       <y-input v-model:value="outlinedValue" style-mode="filled" placeholder="Outlined group" />
-      <y-input-number v-model:value="outlinedNumber" style-mode="filled" :controls="false" />
+      <y-input-number v-model:value="outlinedNumber" style-mode="filled" controls="none" />
     </y-input-group>
     <y-input-group style-mode="filled">
       <y-input v-model:value="filledValue" style-mode="outlined" placeholder="Filled group" />

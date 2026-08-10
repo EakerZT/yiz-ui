@@ -13,8 +13,8 @@ import SmallAlignmentDemo from './SmallAlignmentDemo.vue'
 import smallAlignmentDemoSource from './SmallAlignmentDemo.vue?raw'
 import DisabledDemo from './DisabledDemo.vue'
 import disabledDemoSource from './DisabledDemo.vue?raw'
-import NoControlsDemo from './NoControlsDemo.vue'
-import noControlsDemoSource from './NoControlsDemo.vue?raw'
+import ControlsDemo from './ControlsDemo.vue'
+import controlsDemoSource from './ControlsDemo.vue?raw'
 import PrefixSuffixDemo from './PrefixSuffixDemo.vue'
 import prefixSuffixDemoSource from './PrefixSuffixDemo.vue?raw'
 import SpacingDemo from './SpacingDemo.vue'
@@ -39,10 +39,10 @@ export const demos: DemoDefinition[] = [
   },
   { id: 'DisabledDemo', titleKey: 'demo.common.disabled', component: DisabledDemo, source: disabledDemoSource },
   {
-    id: 'NoControlsDemo',
-    titleKey: 'demo.inputNumber.noControls',
-    component: NoControlsDemo,
-    source: noControlsDemoSource,
+    id: 'ControlsDemo',
+    titleKey: 'demo.inputNumber.controls',
+    component: ControlsDemo,
+    source: controlsDemoSource,
   },
   {
     id: 'PrefixSuffixDemo',

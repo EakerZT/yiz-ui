@@ -180,7 +180,7 @@ Toggle switch using the native input overlay pattern (hidden `<input type="check
 
 ### InputNumber (`scripts/input-number/`)
 
-Number input with increment/decrement buttons. Uses `defineModel<number | null>('modelValue')` — null represents empty input. Props: `min`, `max`, `step`, `precision`, `controls` (show +/- buttons), `prefix`/`suffix` (text or slots), `align`. Supports ArrowUp/ArrowDown keyboard shortcuts and Enter key (`pressEnter` event). Uses `defineExpose({ focus, blur })` to expose focus control methods to parents. Hides native spinner buttons via `-webkit-appearance: none` / `-moz-appearance: textfield`.
+Number input with increment/decrement buttons. Uses `defineModel<number | null>('value')` — null represents empty input. Props: `min`, `max`, `step`, `precision`, `controls` (`left` / `right` stack the buttons vertically, `separate` places them on opposite sides, `none` hides them), `prefix`/`suffix` (text or slots), `align`. Supports ArrowUp/ArrowDown keyboard shortcuts and Enter key (`pressEnter` event). Uses `defineExpose({ focus, blur })` to expose focus control methods to parents. Hides native spinner buttons via `-webkit-appearance: none` / `-moz-appearance: textfield`.
 
 ### Icon (`scripts/icon/`)
 

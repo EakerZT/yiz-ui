@@ -1,7 +1,7 @@
 <template>
   <div class="yiz-input-number" :class="vClass">
     <button
-      v-if="controls"
+      v-if="controls === 'separate'"
       type="button"
       class="yiz-input-number-btn yiz-input-number-decrease"
       :aria-label="$t('inputNumber.decrease')"
@@ -10,6 +10,26 @@
     >
       <Icon size="16" :icon="Subtract16Regular" />
     </button>
+    <div v-if="controls === 'left'" class="yiz-input-number-controls yiz-input-number-controls-left">
+      <button
+        type="button"
+        class="yiz-input-number-btn yiz-input-number-increase"
+        :aria-label="$t('inputNumber.increase')"
+        :disabled="disabled || readonly || isMax"
+        @click="increase"
+      >
+        <Icon size="12" :icon="Add16Regular" />
+      </button>
+      <button
+        type="button"
+        class="yiz-input-number-btn yiz-input-number-decrease"
+        :aria-label="$t('inputNumber.decrease')"
+        :disabled="disabled || readonly || isMin"
+        @click="decrease"
+      >
+        <Icon size="12" :icon="Subtract16Regular" />
+      </button>
+    </div>
     <div class="yiz-input-number-prefix" v-if="$props.prefix || $slots.prefix">
       <template v-if="$props.prefix">{{ $props.prefix }}</template>
       <slot v-else name="prefix" />
@@ -34,8 +54,28 @@
       <template v-if="$props.suffix">{{ $props.suffix }}</template>
       <slot v-else name="suffix" />
     </div>
+    <div v-if="controls === 'right'" class="yiz-input-number-controls yiz-input-number-controls-right">
+      <button
+        type="button"
+        class="yiz-input-number-btn yiz-input-number-increase"
+        :aria-label="$t('inputNumber.increase')"
+        :disabled="disabled || readonly || isMax"
+        @click="increase"
+      >
+        <Icon size="12" :icon="Add16Regular" />
+      </button>
+      <button
+        type="button"
+        class="yiz-input-number-btn yiz-input-number-decrease"
+        :aria-label="$t('inputNumber.decrease')"
+        :disabled="disabled || readonly || isMin"
+        @click="decrease"
+      >
+        <Icon size="12" :icon="Subtract16Regular" />
+      </button>
+    </div>
     <button
-      v-if="controls"
+      v-if="controls === 'separate'"
       type="button"
       class="yiz-input-number-btn yiz-input-number-increase"
       :aria-label="$t('inputNumber.increase')"
@@ -67,14 +107,14 @@ const props = withDefaults(
     placeholder?: string
     size?: 'small' | 'default' | 'large'
     styleMode?: 'outlined' | 'filled'
-    controls?: boolean
+    controls?: 'left' | 'right' | 'separate' | 'none'
     align?: 'left' | 'center' | 'right'
     prefix?: string
     suffix?: string
   }>(),
   {
     step: 1,
-    controls: true,
+    controls: 'right',
     align: 'left',
     disabled: false,
     readonly: false,
@@ -111,6 +151,7 @@ const vClass = computed(() => {
   c[`yiz-input-number-align-${props.align}`] = true
   if (props.prefix || slots.prefix) c['yiz-input-number-has-prefix'] = true
   if (props.suffix || slots.suffix) c['yiz-input-number-has-suffix'] = true
+  c[`yiz-input-number-controls-${props.controls}`] = true
   return c
 })
 
@@ -282,6 +323,7 @@ defineExpose({
     background 0.2s;
   flex-shrink: 0;
   border-radius: 0;
+  padding: 0;
 
   &:hover:not(:disabled) {
     color: var(--yiz-color-primary);
@@ -298,12 +340,38 @@ defineExpose({
   }
 }
 
-.yiz-input-number-decrease {
+.yiz-input-number-controls-separate > .yiz-input-number-decrease {
   border-right: 1px solid var(--yiz-color-border, #d9d9d9);
 }
 
-.yiz-input-number-increase {
+.yiz-input-number-controls-separate > .yiz-input-number-increase {
   border-left: 1px solid var(--yiz-color-border, #d9d9d9);
+}
+
+.yiz-input-number-controls {
+  display: flex;
+  align-self: stretch;
+  flex-direction: column;
+  flex-shrink: 0;
+
+  &.yiz-input-number-controls-left {
+    border-right: 1px solid var(--yiz-color-border, #d9d9d9);
+  }
+
+  &.yiz-input-number-controls-right {
+    border-left: 1px solid var(--yiz-color-border, #d9d9d9);
+  }
+
+  .yiz-input-number-btn {
+    flex: 1;
+    width: 28px;
+    height: 50%;
+    min-height: 0;
+  }
+
+  .yiz-input-number-btn + .yiz-input-number-btn {
+    border-top: 1px solid var(--yiz-color-border, #d9d9d9);
+  }
 }
 
 .yiz-input-number-input-wrap {

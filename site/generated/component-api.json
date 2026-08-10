@@ -2680,11 +2680,11 @@
       },
       {
         "name": "controls",
-        "type": "boolean",
+        "type": "'left' | 'right' | 'separate' | 'none'",
         "required": false,
         "description": "",
         "descriptionEn": "",
-        "default": "true"
+        "default": "'right'"
       },
       {
         "name": "align",

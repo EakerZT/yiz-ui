@@ -1,7 +1,7 @@
 <template>
   <y-input-group>
     <template #beforeAddon>¥</template>
-    <y-input-number v-model:value="price" :controls="false" />
+    <y-input-number v-model:value="price" controls="none" />
     <template #afterAddon>{{ $t('demo.inputGroup.perMonth') }}</template>
   </y-input-group>
 </template>

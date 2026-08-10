@@ -35,12 +35,24 @@
 }
 
 .yiz-input-number.yiz-input-number-filled {
-  .yiz-input-number-decrease {
+  .yiz-input-number-controls-separate > .yiz-input-number-decrease {
     border-right-color: transparent;
   }
 
-  .yiz-input-number-increase {
+  .yiz-input-number-controls-separate > .yiz-input-number-increase {
     border-left-color: transparent;
+  }
+
+  .yiz-input-number-controls-left {
+    border-right-color: transparent;
+  }
+
+  .yiz-input-number-controls-right {
+    border-left-color: transparent;
+  }
+
+  .yiz-input-number-controls .yiz-input-number-btn + .yiz-input-number-btn {
+    border-top-color: transparent;
   }
 
   &:not(.yiz-input-number-disabled):not(:focus-within) .yiz-input-number-btn:hover:not(:disabled) {
@@ -49,12 +61,24 @@
 
   &.yiz-input-number-focus,
   &:focus-within {
-    .yiz-input-number-decrease {
+    .yiz-input-number-controls-separate > .yiz-input-number-decrease {
       border-right-color: var(--yiz-color-border);
     }
 
-    .yiz-input-number-increase {
+    .yiz-input-number-controls-separate > .yiz-input-number-increase {
       border-left-color: var(--yiz-color-border);
+    }
+
+    .yiz-input-number-controls-left {
+      border-right-color: var(--yiz-color-border);
+    }
+
+    .yiz-input-number-controls-right {
+      border-left-color: var(--yiz-color-border);
+    }
+
+    .yiz-input-number-controls .yiz-input-number-btn + .yiz-input-number-btn {
+      border-top-color: var(--yiz-color-border);
     }
   }
 }
