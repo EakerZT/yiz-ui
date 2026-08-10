@@ -51,7 +51,7 @@
 import { computed, ref, useSlots } from 'vue'
 import { Add16Regular, Subtract16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
-import { useInputStyleMode } from '../input-style'
+import { useInputStyle } from '../input-style'
 import { $t } from '../locale'
 
 const slots = useSlots()
@@ -95,7 +95,10 @@ const modelValue = defineModel<number | null>('value')
 
 const inputRef = ref<HTMLInputElement>()
 const isFocus = ref(false)
-const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+const { styleMode: mergedStyleMode, size: mergedSize } = useInputStyle(
+  () => props.styleMode,
+  () => props.size,
+)
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
@@ -103,8 +106,8 @@ const vClass = computed(() => {
   if (isFocus.value) c['yiz-input-number-focus'] = true
   if (props.disabled) c['yiz-input-number-disabled'] = true
   if (props.readonly) c['yiz-input-number-readonly'] = true
-  if (props.size === 'small') c['yiz-input-number-small'] = true
-  if (props.size === 'large') c['yiz-input-number-large'] = true
+  if (mergedSize.value === 'small') c['yiz-input-number-small'] = true
+  if (mergedSize.value === 'large') c['yiz-input-number-large'] = true
   c[`yiz-input-number-align-${props.align}`] = true
   if (props.prefix || slots.prefix) c['yiz-input-number-has-prefix'] = true
   if (props.suffix || slots.suffix) c['yiz-input-number-has-suffix'] = true
@@ -254,12 +257,14 @@ defineExpose({
   margin: 0 var(--yiz-control-affix-gap-default) 0 var(--yiz-control-padding-inline-default);
   user-select: none;
   font-size: var(--yiz-font-size-default);
+  line-height: 1;
 }
 
 .yiz-input-number-suffix {
   margin: 0 var(--yiz-control-padding-inline-default) 0 var(--yiz-control-affix-gap-default);
   user-select: none;
   font-size: var(--yiz-font-size-default);
+  line-height: 1;
 }
 
 .yiz-input-number-btn {

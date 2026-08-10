@@ -161,7 +161,7 @@ import {
 import Button from '../button/Button.vue'
 import LinkButton from '../link-button/LinkButton.vue'
 import { Icon } from '../icon'
-import { useInputStyleMode } from '../input-style'
+import { useInputStyle } from '../input-style'
 import { $t, $tList } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
 import { nextZIndex } from '../zIndex'
@@ -233,15 +233,18 @@ const confirmDisabled = computed(() => draft.value == null)
 const panelStyle = computed(() => ({ zIndex: currentZIndex.value + 1 }))
 const valueFormat = computed(() => props.valueFormat ?? props.format)
 
-const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+const { styleMode: mergedStyleMode, size: mergedSize } = useInputStyle(
+  () => props.styleMode,
+  () => props.size,
+)
 
 const vClass = computed(() => ({
   [`yiz-datetime-picker-${mergedStyleMode.value}`]: true,
   'yiz-datetime-picker-open': open.value,
   'yiz-datetime-picker-disabled': props.disabled,
   'yiz-datetime-picker-readonly': props.readonly,
-  'yiz-datetime-picker-small': props.size === 'small',
-  'yiz-datetime-picker-large': props.size === 'large',
+  'yiz-datetime-picker-small': mergedSize.value === 'small',
+  'yiz-datetime-picker-large': mergedSize.value === 'large',
 }))
 
 const yearRange = computed(() => {

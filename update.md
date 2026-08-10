@@ -7,6 +7,8 @@
 - 添加 Dialog组件支持高度属性
 - 优化 RadioButton组件间距
 - 优化 Segmented组件间距
+- 修复 InputGroup组件Size未透传
+- 修复 组件行高未锁定
 
 ## 0.0.28
 

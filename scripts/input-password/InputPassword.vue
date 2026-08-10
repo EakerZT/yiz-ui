@@ -49,7 +49,7 @@
 import { computed, ref } from 'vue'
 import { DismissCircle16Filled, Eye16Regular, EyeOff16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
-import { useInputStyleMode } from '../input-style'
+import { useInputStyle } from '../input-style'
 import { $t } from '../locale'
 
 defineSlots<{
@@ -85,7 +85,10 @@ const emit = defineEmits<{ pressEnter: [] }>()
 const inputRef = ref<HTMLInputElement>()
 const isFocus = ref(false)
 const passwordVisible = ref(false)
-const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+const { styleMode: mergedStyleMode, size: mergedSize } = useInputStyle(
+  () => props.styleMode,
+  () => props.size,
+)
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
@@ -96,10 +99,10 @@ const vClass = computed(() => {
   if (props.disabled) {
     c['yiz-input-disabled'] = true
   }
-  if (props.size === 'small') {
+  if (mergedSize.value === 'small') {
     c['yiz-input-small'] = true
   }
-  if (props.size === 'large') {
+  if (mergedSize.value === 'large') {
     c['yiz-input-large'] = true
   }
   return c

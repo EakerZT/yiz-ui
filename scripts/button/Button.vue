@@ -14,6 +14,7 @@
 import { Comment, computed, Fragment, h, isVNode, nextTick, ref, Text, type VNode } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
 import Icon from '../icon/Icon.vue'
+import { useInputSize } from '../input-style'
 
 export type ButtonType = 'outlined' | 'primary' | 'plain' | 'dash' | 'filled' | 'text'
 
@@ -92,12 +93,13 @@ const props = withDefaults(
 const isDisabled = computed(() => props.disabled || props.loading)
 const hasWave = computed(() => props.type !== 'filled' && props.type !== 'text')
 const buttonRef = ref<HTMLButtonElement>()
+const mergedSize = useInputSize(() => props.size)
 
 const vClass = computed(() => {
   const classes: Record<string, boolean> = {
     [`yiz-button-type-${props.type}`]: true,
     [`yiz-button-shape-${props.shape}`]: true,
-    [`yiz-button-size-${props.size}`]: true,
+    [`yiz-button-size-${mergedSize.value}`]: true,
   }
   if (['success', 'default', 'warning', 'error'].includes(props.color)) {
     classes[`yiz-button-color-${props.color}`] = true

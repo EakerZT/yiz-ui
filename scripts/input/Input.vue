@@ -40,7 +40,7 @@
 import { computed, ref } from 'vue'
 import { DismissCircle16Filled } from '@vicons/fluent'
 import { Icon } from '../icon'
-import { useInputStyleMode } from '../input-style'
+import { useInputStyle } from '../input-style'
 
 defineSlots<{
   prefix: unknown
@@ -72,7 +72,10 @@ const emit = defineEmits<{ pressEnter: [] }>()
 
 const inputRef = ref<HTMLInputElement>()
 const isFocus = ref(false)
-const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+const { styleMode: mergedStyleMode, size: mergedSize } = useInputStyle(
+  () => props.styleMode,
+  () => props.size,
+)
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
   c[`yiz-input-${mergedStyleMode.value}`] = true
@@ -85,10 +88,10 @@ const vClass = computed(() => {
   if (props.readonly) {
     c['yiz-input-readonly'] = true
   }
-  if (props.size === 'small') {
+  if (mergedSize.value === 'small') {
     c['yiz-input-small'] = true
   }
-  if (props.size === 'large') {
+  if (mergedSize.value === 'large') {
     c['yiz-input-large'] = true
   }
   return c
@@ -128,6 +131,7 @@ defineExpose({
   padding: 0 var(--yiz-control-padding-inline-default);
   font-family: inherit;
   font-size: var(--yiz-font-size-default);
+  line-height: 1;
   background: var(--yiz-color-bg);
 
   &:not(.yiz-input-disabled):hover {

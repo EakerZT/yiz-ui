@@ -121,7 +121,7 @@ import {
   DismissCircle16Filled,
 } from '@vicons/fluent'
 import { Icon } from '../icon'
-import { useInputStyleMode } from '../input-style'
+import { useInputStyle } from '../input-style'
 import Button from '../button/Button.vue'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t, $tList } from '../locale'
@@ -196,7 +196,10 @@ const yearRange = computed(() => {
   return result
 })
 
-const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+const { styleMode: mergedStyleMode, size: mergedSize } = useInputStyle(
+  () => props.styleMode,
+  () => props.size,
+)
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
@@ -204,8 +207,8 @@ const vClass = computed(() => {
   if (open.value) c['yiz-date-picker-open'] = true
   if (props.disabled) c['yiz-date-picker-disabled'] = true
   if (props.readonly) c['yiz-date-picker-readonly'] = true
-  if (props.size === 'small') c['yiz-date-picker-small'] = true
-  if (props.size === 'large') c['yiz-date-picker-large'] = true
+  if (mergedSize.value === 'small') c['yiz-date-picker-small'] = true
+  if (mergedSize.value === 'large') c['yiz-date-picker-large'] = true
   return c
 })
 
@@ -651,6 +654,8 @@ defineExpose({
   border-radius: var(--yiz-base-border-radius-default);
   background: var(--yiz-color-bg-container);
   cursor: pointer;
+  font-size: var(--yiz-font-size-default);
+  line-height: 1;
   transition:
     border-color 0.3s,
     box-shadow 0.3s;
@@ -722,6 +727,7 @@ defineExpose({
 
   height: var(--yiz-control-height-small);
   border-radius: var(--yiz-base-border-radius-small);
+  font-size: var(--yiz-font-size-small);
 
   input {
     font-size: var(--yiz-font-size-small);
@@ -734,6 +740,7 @@ defineExpose({
 
   height: var(--yiz-control-height-large);
   border-radius: var(--yiz-base-border-radius-large);
+  font-size: var(--yiz-font-size-large);
 
   input {
     font-size: var(--yiz-font-size-large);

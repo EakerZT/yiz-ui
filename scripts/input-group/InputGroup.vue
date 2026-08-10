@@ -47,6 +47,7 @@ const groupRef = ref<HTMLElement>()
 
 provide(inputGroupStyleKey, {
   styleMode: toRef(props, 'styleMode'),
+  size: toRef(props, 'size'),
 })
 
 function focus() {
@@ -220,6 +221,7 @@ defineExpose({
     border: 1px solid var(--yiz-color-border, #d9d9d9);
     background: var(--yiz-color-bg-subtle);
     color: var(--yiz-color-text-secondary);
+    line-height: 1;
     white-space: nowrap;
     user-select: none;
   }

@@ -28,7 +28,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { useInputStyleMode } from '../input-style'
+import { useInputStyle } from '../input-style'
 
 defineSlots<{
   default?: (props: { disabled: boolean }) => unknown
@@ -55,7 +55,10 @@ const props = withDefaults(
 
 const rootRef = ref<HTMLElement>()
 const isFocus = ref(false)
-const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+const { styleMode: mergedStyleMode, size: mergedSize } = useInputStyle(
+  () => props.styleMode,
+  () => props.size,
+)
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
@@ -66,10 +69,10 @@ const vClass = computed(() => {
   if (props.disabled) {
     c['yiz-input-custom-disabled'] = true
   }
-  if (props.size === 'small') {
+  if (mergedSize.value === 'small') {
     c['yiz-input-custom-small'] = true
   }
-  if (props.size === 'large') {
+  if (mergedSize.value === 'large') {
     c['yiz-input-custom-large'] = true
   }
   return c
@@ -111,6 +114,7 @@ defineExpose({
   padding: 0 var(--yiz-control-padding-inline-default);
   font-family: inherit;
   font-size: var(--yiz-font-size-default);
+  line-height: 1;
   background: var(--yiz-color-bg);
   vertical-align: middle;
   outline: none;

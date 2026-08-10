@@ -193,7 +193,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { ArrowRight16Regular, Clock16Regular, DismissCircle16Filled } from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import { Icon } from '../icon'
-import { useInputStyleMode } from '../input-style'
+import { useInputStyle } from '../input-style'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
@@ -302,15 +302,18 @@ const panelStyle = computed(() => ({
   ...dropdownPos.value,
 }))
 
-const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+const { styleMode: mergedStyleMode, size: mergedSize } = useInputStyle(
+  () => props.styleMode,
+  () => props.size,
+)
 
 const vClass = computed(() => ({
   [`yiz-time-range-picker-${mergedStyleMode.value}`]: true,
   'yiz-time-range-picker-open': open.value,
   'yiz-time-range-picker-disabled': props.disabled,
   'yiz-time-range-picker-readonly': props.readonly,
-  'yiz-time-range-picker-small': props.size === 'small',
-  'yiz-time-range-picker-large': props.size === 'large',
+  'yiz-time-range-picker-small': mergedSize.value === 'small',
+  'yiz-time-range-picker-large': mergedSize.value === 'large',
 }))
 
 watch(open, async (val) => {
@@ -745,6 +748,7 @@ defineExpose({
   box-sizing: border-box;
   gap: var(--yiz-time-range-picker-affix-gap);
   font-size: var(--yiz-font-size-default);
+  line-height: 1;
 }
 
 .yiz-time-range-picker:not(.yiz-time-range-picker-disabled) .yiz-time-range-picker-input:hover {

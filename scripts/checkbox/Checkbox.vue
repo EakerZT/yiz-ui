@@ -13,6 +13,7 @@
 
 <script lang="ts" setup>
 import { computed, inject, nextTick, ref, type Ref } from 'vue'
+import { useInputSize } from '../input-style'
 
 interface CheckboxGroupContext {
   modelValue: Ref<(string | number)[]>
@@ -56,7 +57,8 @@ const mergedDisabled = computed(() => {
   return (group?.disabled.value ?? false) || props.disabled
 })
 const mergedBorder = computed(() => props.border || (group?.border.value ?? false))
-const mergedSize = computed(() => props.size ?? group?.size.value ?? 'default')
+const standaloneSize = computed(() => props.size ?? group?.size.value ?? 'default')
+const mergedSize = useInputSize(() => standaloneSize.value)
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {

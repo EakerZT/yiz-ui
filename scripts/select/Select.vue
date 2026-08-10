@@ -43,7 +43,7 @@
             <template v-for="(option, index) in visibleSelectedOptions" :key="index">
               <Tag
                 class="yiz-select-selection-tag"
-                :size="size"
+                :size="mergedSize"
                 :closable="!disabled && !readonly"
                 @close="onRemoveSelected(option)"
               >
@@ -53,7 +53,7 @@
             <Tag
               v-if="hiddenSelectedCount > 0"
               class="yiz-select-selection-tag yiz-select-selection-summary"
-              :size="size"
+              :size="mergedSize"
               :title="$t('select.moreSelected', { count: hiddenSelectedCount })"
               :aria-label="$t('select.moreSelected', { count: hiddenSelectedCount })"
             >
@@ -166,7 +166,7 @@ import {
 import { Checkmark16Regular, ChevronDown16Regular, DismissCircle16Filled } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { Input } from '../input'
-import { useInputStyleMode } from '../input-style'
+import { useInputStyle } from '../input-style'
 import { $t } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
 import { ScrollBox } from '../scroll-box'
@@ -383,7 +383,10 @@ watch(searchQuery, async (q) => {
   }
 })
 
-const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+const { styleMode: mergedStyleMode, size: mergedSize } = useInputStyle(
+  () => props.styleMode,
+  () => props.size,
+)
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
@@ -391,8 +394,8 @@ const vClass = computed(() => {
   if (open.value) c['yiz-select-open'] = true
   if (props.disabled) c['yiz-select-disabled'] = true
   if (props.readonly) c['yiz-select-readonly'] = true
-  if (props.size === 'small') c['yiz-select-small'] = true
-  if (props.size === 'large') c['yiz-select-large'] = true
+  if (mergedSize.value === 'small') c['yiz-select-small'] = true
+  if (mergedSize.value === 'large') c['yiz-select-large'] = true
   return c
 })
 
@@ -721,6 +724,7 @@ defineExpose({
   background: var(--yiz-color-bg-container);
   cursor: pointer;
   user-select: none;
+  line-height: 1;
   transition:
     border-color 0.3s,
     box-shadow 0.3s;

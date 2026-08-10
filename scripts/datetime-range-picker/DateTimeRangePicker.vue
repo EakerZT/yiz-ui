@@ -338,7 +338,7 @@ import {
 } from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import { Icon } from '../icon'
-import { useInputStyleMode } from '../input-style'
+import { useInputStyle } from '../input-style'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t, $tList } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
@@ -456,15 +456,18 @@ const endYearRange = computed(() => makeYearRange(endViewYear.value))
 const startCalendarCells = computed(() => makeCalendarCells('start', startViewYear.value, startViewMonth.value))
 const endCalendarCells = computed(() => makeCalendarCells('end', endViewYear.value, endViewMonth.value))
 
-const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+const { styleMode: mergedStyleMode, size: mergedSize } = useInputStyle(
+  () => props.styleMode,
+  () => props.size,
+)
 
 const vClass = computed(() => ({
   [`yiz-datetime-range-picker-${mergedStyleMode.value}`]: true,
   'yiz-datetime-range-picker-open': open.value,
   'yiz-datetime-range-picker-disabled': props.disabled,
   'yiz-datetime-range-picker-readonly': props.readonly,
-  'yiz-datetime-range-picker-small': props.size === 'small',
-  'yiz-datetime-range-picker-large': props.size === 'large',
+  'yiz-datetime-range-picker-small': mergedSize.value === 'small',
+  'yiz-datetime-range-picker-large': mergedSize.value === 'large',
 }))
 
 watch(open, async (val) => {
@@ -1000,6 +1003,7 @@ defineExpose({
   box-sizing: border-box;
   gap: var(--yiz-datetime-range-picker-affix-gap);
   font-size: var(--yiz-font-size-default);
+  line-height: 1;
 }
 
 .yiz-datetime-range-picker:not(.yiz-datetime-range-picker-disabled) .yiz-datetime-range-picker-input:hover {

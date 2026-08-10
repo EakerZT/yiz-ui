@@ -92,7 +92,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import Button from '../button/Button.vue'
 import Input from '../input/Input.vue'
-import { useInputStyleMode } from '../input-style'
+import { useInputStyle } from '../input-style'
 import { $t } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
 import { nextZIndex } from '../zIndex'
@@ -174,15 +174,18 @@ const alphaSliderStyle = computed(() => ({
   backgroundSize: '100% 100%, 8px 8px, 8px 8px, 8px 8px, 8px 8px',
 }))
 
-const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+const { styleMode: mergedStyleMode, size: mergedSize } = useInputStyle(
+  () => props.styleMode,
+  () => props.size,
+)
 
 const vClass = computed(() => ({
   [`yiz-color-picker-${mergedStyleMode.value}`]: true,
   'yiz-color-picker-open': open.value,
   'yiz-color-picker-disabled': props.disabled,
   'yiz-color-picker-readonly': props.readonly,
-  'yiz-color-picker-small': props.size === 'small',
-  'yiz-color-picker-large': props.size === 'large',
+  'yiz-color-picker-small': mergedSize.value === 'small',
+  'yiz-color-picker-large': mergedSize.value === 'large',
 }))
 
 const dropdownStyle = computed(() => ({
@@ -514,6 +517,7 @@ defineExpose({
   background: var(--yiz-color-bg-container);
   color: var(--yiz-color-text-primary);
   font-size: var(--yiz-font-size-default);
+  line-height: 1;
   cursor: pointer;
   user-select: none;
   transition:

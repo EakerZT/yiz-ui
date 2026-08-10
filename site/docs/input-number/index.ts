@@ -9,6 +9,8 @@ import PrecisionDemo from './PrecisionDemo.vue'
 import precisionDemoSource from './PrecisionDemo.vue?raw'
 import SizeDemo from './SizeDemo.vue'
 import sizeDemoSource from './SizeDemo.vue?raw'
+import SmallAlignmentDemo from './SmallAlignmentDemo.vue'
+import smallAlignmentDemoSource from './SmallAlignmentDemo.vue?raw'
 import DisabledDemo from './DisabledDemo.vue'
 import disabledDemoSource from './DisabledDemo.vue?raw'
 import NoControlsDemo from './NoControlsDemo.vue'
@@ -29,6 +31,12 @@ export const demos: DemoDefinition[] = [
     source: precisionDemoSource,
   },
   { id: 'SizeDemo', titleKey: 'demo.common.size', component: SizeDemo, source: sizeDemoSource },
+  {
+    id: 'SmallAlignmentDemo',
+    titleKey: 'demo.inputNumber.smallAlignment',
+    component: SmallAlignmentDemo,
+    source: smallAlignmentDemoSource,
+  },
   { id: 'DisabledDemo', titleKey: 'demo.common.disabled', component: DisabledDemo, source: disabledDemoSource },
   {
     id: 'NoControlsDemo',

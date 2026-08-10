@@ -205,7 +205,7 @@ import {
 } from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import { Icon } from '../icon'
-import { useInputStyleMode } from '../input-style'
+import { useInputStyle } from '../input-style'
 import LinkButton from '../link-button/LinkButton.vue'
 import { $t, $tList } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
@@ -351,15 +351,18 @@ const panelStyle = computed(() => ({
   ...dropdownPos.value,
 }))
 
-const mergedStyleMode = useInputStyleMode(() => props.styleMode)
+const { styleMode: mergedStyleMode, size: mergedSize } = useInputStyle(
+  () => props.styleMode,
+  () => props.size,
+)
 
 const vClass = computed(() => ({
   [`yiz-date-range-picker-${mergedStyleMode.value}`]: true,
   'yiz-date-range-picker-open': open.value,
   'yiz-date-range-picker-disabled': props.disabled,
   'yiz-date-range-picker-readonly': props.readonly,
-  'yiz-date-range-picker-small': props.size === 'small',
-  'yiz-date-range-picker-large': props.size === 'large',
+  'yiz-date-range-picker-small': mergedSize.value === 'small',
+  'yiz-date-range-picker-large': mergedSize.value === 'large',
 }))
 
 const startYearRange = computed(() => makeYearRange(startViewYear.value))
@@ -904,6 +907,7 @@ defineExpose({
   box-sizing: border-box;
   gap: var(--yiz-date-range-picker-affix-gap);
   font-size: var(--yiz-font-size-default);
+  line-height: 1;
 }
 
 .yiz-date-range-picker:not(.yiz-date-range-picker-disabled) .yiz-date-range-picker-input:hover {
