@@ -1,13 +1,15 @@
 <template>
   <div class="demo-picker-field">
     <y-date-picker v-model:value="value1" />
-    <span class="demo-item-hint">{{ value1 ? fmt(value1) : $t('demo.common.notSelected') }}</span>
+    <span class="demo-item-hint">{{ value1 ? fmt(value1) : t('demo.common.notSelected') }}</span>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const value1 = ref<Date | null>(null)
 

@@ -1,7 +1,7 @@
 <template>
   <div class="demo-sortable-board">
     <div>
-      <div class="demo-sortable-subtitle">{{ $t('demo.sortableBox.library') }}</div>
+      <div class="demo-sortable-subtitle">{{ t('demo.sortableBox.library') }}</div>
       <y-sortable-box
         :list="libraryItems"
         class="demo-sortable-list"
@@ -16,7 +16,7 @@
       </y-sortable-box>
     </div>
     <div>
-      <div class="demo-sortable-subtitle">{{ $t('demo.sortableBox.canvas') }}</div>
+      <div class="demo-sortable-subtitle">{{ t('demo.sortableBox.canvas') }}</div>
       <div style="height: 500px">
         <scroll-box>
           <y-sortable-box
@@ -40,12 +40,14 @@
       </div>
     </div>
   </div>
-  <div class="demo-sortable-preview">{{ previewText || $t('demo.sortableBox.noPreview') }}</div>
+  <div class="demo-sortable-preview">{{ previewText || t('demo.sortableBox.noPreview') }}</div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t, type SortablePreviewChange } from 'yiz-ui'
+import { useLocale, type SortablePreviewChange } from 'yiz-ui'
+
+const t = useLocale()
 
 interface DemoItem {
   id: string
@@ -84,7 +86,7 @@ function createCanvasItem(item: unknown) {
 }
 
 function getPreviewText(event: SortablePreviewChange) {
-  return `${$t('demo.sortableBox.preview')}: ${event.targetPreview.map((item) => getItemTitle(item)).join(' / ')}`
+  return `${t('demo.sortableBox.preview')}: ${event.targetPreview.map((item) => getItemTitle(item)).join(' / ')}`
 }
 </script>
 

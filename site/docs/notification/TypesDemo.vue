@@ -8,33 +8,35 @@
 </template>
 
 <script lang="ts" setup>
-import { $t, notification } from 'yiz-ui'
+import { useLocale, notification } from 'yiz-ui'
+
+const t = useLocale()
 
 function openInfo() {
   notification.info({
-    title: $t('demo.common.info'),
-    content: $t('demo.notification.infoMsg'),
+    title: t('demo.common.info'),
+    content: t('demo.notification.infoMsg'),
   })
 }
 
 function openSuccess() {
   notification.success({
-    title: $t('demo.common.success'),
-    content: $t('demo.notification.successMsg'),
+    title: t('demo.common.success'),
+    content: t('demo.notification.successMsg'),
   })
 }
 
 function openWarning() {
   notification.warning({
-    title: $t('demo.common.warning'),
-    content: $t('demo.notification.warningMsg'),
+    title: t('demo.common.warning'),
+    content: t('demo.notification.warningMsg'),
   })
 }
 
 function openError() {
   notification.error({
-    title: $t('demo.common.error'),
-    content: $t('demo.notification.errorMsg'),
+    title: t('demo.common.error'),
+    content: t('demo.notification.errorMsg'),
   })
 }
 </script>

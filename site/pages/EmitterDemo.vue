@@ -7,45 +7,47 @@
     :api-components="['Emitter']"
   >
     <article class="emitter-doc">
-      <h3>{{ $t('demo.emitter.apiTitle') }}</h3>
-      <p>{{ $t('demo.emitter.apiDesc') }}</p>
+      <h3>{{ t('demo.emitter.apiTitle') }}</h3>
+      <p>{{ t('demo.emitter.apiDesc') }}</p>
       <pre><code>{{ apiCode }}</code></pre>
     </article>
 
     <article class="emitter-doc">
-      <h3>{{ $t('demo.emitter.componentTitle') }}</h3>
-      <p>{{ $t('demo.emitter.componentDesc') }}</p>
+      <h3>{{ t('demo.emitter.componentTitle') }}</h3>
+      <p>{{ t('demo.emitter.componentDesc') }}</p>
       <pre><code>{{ componentCode }}</code></pre>
     </article>
 
     <article class="emitter-doc">
-      <h3>{{ $t('demo.emitter.namedTitle') }}</h3>
-      <p>{{ $t('demo.emitter.namedDesc') }}</p>
+      <h3>{{ t('demo.emitter.namedTitle') }}</h3>
+      <p>{{ t('demo.emitter.namedDesc') }}</p>
       <pre><code>{{ namedCode }}</code></pre>
     </article>
 
     <article class="emitter-doc">
-      <h3>{{ $t('demo.emitter.tsTitle') }}</h3>
-      <p>{{ $t('demo.emitter.tsDesc') }}</p>
+      <h3>{{ t('demo.emitter.tsTitle') }}</h3>
+      <p>{{ t('demo.emitter.tsDesc') }}</p>
       <pre><code>{{ tsCode }}</code></pre>
     </article>
 
     <article class="emitter-doc">
-      <h3>{{ $t('demo.emitter.rulesTitle') }}</h3>
+      <h3>{{ t('demo.emitter.rulesTitle') }}</h3>
       <ul>
-        <li>{{ $t('demo.emitter.ruleScope') }}</li>
-        <li>{{ $t('demo.emitter.ruleNamed') }}</li>
-        <li>{{ $t('demo.emitter.ruleDuplicate') }}</li>
-        <li>{{ $t('demo.emitter.ruleEmit') }}</li>
-        <li>{{ $t('demo.emitter.ruleClear') }}</li>
+        <li>{{ t('demo.emitter.ruleScope') }}</li>
+        <li>{{ t('demo.emitter.ruleNamed') }}</li>
+        <li>{{ t('demo.emitter.ruleDuplicate') }}</li>
+        <li>{{ t('demo.emitter.ruleEmit') }}</li>
+        <li>{{ t('demo.emitter.ruleClear') }}</li>
       </ul>
     </article>
   </ComponentDocPage>
 </template>
 
 <script lang="ts" setup>
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
 import ComponentDocPage from '../components/docs/ComponentDocPage.vue'
+
+const t = useLocale()
 
 const apiCode = `import { emitter, createEmitter, useEmitter } from 'yiz-ui'
 

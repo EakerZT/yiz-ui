@@ -1,10 +1,12 @@
 <template>
-  <y-input v-model:value="disabledText" :placeholder="$t('demo.common.disabled')" disabled />
+  <y-input v-model:value="disabledText" :placeholder="t('demo.common.disabled')" disabled />
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const disabledText = ref('Disabled input')
 </script>

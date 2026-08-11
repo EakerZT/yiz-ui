@@ -1,11 +1,13 @@
 <template>
-  <y-tooltip :content="$t('demo.tooltip.tipHint')" placement="top">
-    <span class="demo-link">{{ $t('demo.tooltip.hoverHere') }}</span>
+  <y-tooltip :content="t('demo.tooltip.tipHint')" placement="top">
+    <span class="demo-link">{{ t('demo.tooltip.hoverHere') }}</span>
   </y-tooltip>
 </template>
 
 <script lang="ts" setup>
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 </script>
 
 <style scoped>

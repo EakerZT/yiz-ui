@@ -148,7 +148,7 @@ function forceReflow(element: HTMLElement) {
 }
 
 .yiz-collapse-item-disabled .yiz-collapse-header {
-  color: #bfbfbf;
+  color: var(--yiz-color-text-disabled);
   cursor: not-allowed;
   background: var(--yiz-color-bg-container);
 }

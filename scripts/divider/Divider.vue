@@ -41,7 +41,7 @@ const vClass = computed(() => ({
 <style lang="less">
 .yiz-divider {
   box-sizing: border-box;
-  color: rgba(0, 0, 0, 0.88);
+  color: var(--yiz-color-text-primary);
   border-color: var(--yiz-color-border, #d9d9d9);
 }
 
@@ -112,7 +112,7 @@ const vClass = computed(() => ({
   display: inline-block;
   flex-shrink: 0;
   padding: 0 12px;
-  color: rgba(0, 0, 0, 0.88);
+  color: var(--yiz-color-text-primary);
   font-size: 14px;
   font-weight: 500;
   white-space: nowrap;

@@ -28,6 +28,7 @@
 <script lang="ts" setup>
 import { computed, inject, ref } from 'vue'
 import type { Ref, VNodeChild } from 'vue'
+import { useThemeSize } from '../theme'
 
 interface RadioButtonGroupContext {
   modelValue: Ref<string | number | boolean | undefined>
@@ -52,7 +53,6 @@ const props = withDefaults(
   {
     label: '',
     disabled: false,
-    size: 'default',
     textColor: '',
     fillColor: '',
   },
@@ -77,7 +77,7 @@ const inputRef = ref<HTMLInputElement>()
 
 const mergedDisabled = computed(() => props.disabled || (group?.disabled.value ?? false))
 const mergedName = computed(() => props.name ?? group?.name.value)
-const mergedSize = computed(() => group?.size.value ?? props.size)
+const mergedSize = useThemeSize(() => group?.size.value ?? props.size)
 const mergedTextColor = computed(() => props.textColor || group?.textColor.value || '')
 const mergedFillColor = computed(() => props.fillColor || group?.fillColor.value || '')
 const checked = computed(() => (group ? group.modelValue.value === props.value : checkedModel.value))
@@ -121,7 +121,7 @@ defineExpose({
 .yiz-radio-button {
   --yiz-radio-button-checked-text-color: var(--yiz-color-text-inverse);
   --yiz-radio-button-checked-fill-color: var(--yiz-color-primary);
-  --yiz-radio-button-checked-hover-fill-color: var(--yiz-color-primary-light2);
+  --yiz-radio-button-checked-hover-fill-color: var(--yiz-color-primary-hover);
   --yiz-radio-button-min-width: 68px;
   --yiz-radio-button-padding-inline: var(--yiz-space-3);
 
@@ -184,7 +184,7 @@ defineExpose({
 .yiz-radio-button-disabled {
   cursor: not-allowed;
   background: var(--yiz-color-bg-muted);
-  color: #bfbfbf;
+  color: var(--yiz-color-text-disabled);
 }
 
 .yiz-radio-button-disabled .yiz-radio-button-input {
@@ -192,8 +192,8 @@ defineExpose({
 }
 
 .yiz-radio-button-disabled.yiz-radio-button-checked {
-  background: var(--yiz-color-primary-light8);
-  border-color: var(--yiz-color-primary-light8);
+  background: var(--yiz-color-primary-bg-hover);
+  border-color: var(--yiz-color-primary-bg-hover);
   color: var(--yiz-color-text-inverse);
 }
 

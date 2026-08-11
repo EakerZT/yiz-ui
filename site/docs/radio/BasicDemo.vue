@@ -1,14 +1,16 @@
 <template>
-  <y-radio v-model:checked="radio1A" value="a" :label="$t('demo.checkbox.optionA')" /><y-radio
+  <y-radio v-model:checked="radio1A" value="a" :label="t('demo.checkbox.optionA')" /><y-radio
     v-model:checked="radio1B"
     value="b"
-    :label="$t('demo.checkbox.optionB')"
+    :label="t('demo.checkbox.optionB')"
   /><span class="demo-hint">{{ radio1A }} / {{ radio1B }}</span>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const radio1A = ref(true)
 

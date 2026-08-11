@@ -3,7 +3,7 @@
     <y-radio-button-group v-model:value="passwordSize" :options="sizeOptions" />
     <y-input-password
       v-model:value="sizePassword"
-      :placeholder="$t('demo.inputPassword.placeholder')"
+      :placeholder="t('demo.inputPassword.placeholder')"
       :size="passwordSize"
     />
   </div>
@@ -11,7 +11,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 type DemoSize = 'small' | 'default' | 'large'
 

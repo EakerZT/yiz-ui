@@ -11,12 +11,14 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const statusOptions = computed(() => [
-  { label: $t('demo.segmented.processing'), value: 'processing' },
-  { label: $t('demo.segmented.done'), value: 'done' },
-  { label: $t('demo.segmented.failed'), value: 'failed' },
+  { label: t('demo.segmented.processing'), value: 'processing' },
+  { label: t('demo.segmented.done'), value: 'done' },
+  { label: t('demo.segmented.failed'), value: 'failed' },
 ])
 
 const renderValue = ref('processing')

@@ -1,12 +1,14 @@
 <template>
   <y-input-number v-model:value="v4" :step="0.1" :precision="1" /><span class="demo-hint">{{
-    $t('demo.inputNumber.currentValue', { value: v4 ?? '' })
+    t('demo.inputNumber.currentValue', { value: v4 ?? '' })
   }}</span>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const v4 = ref<number | null>(0)
 </script>

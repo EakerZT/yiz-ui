@@ -49,13 +49,13 @@
     </div>
   </div>
 
-  <Teleport to="body">
+  <AppTeleport>
     <Transition name="yiz-time-picker-panel-fade">
       <div v-if="open" ref="panelRef" class="yiz-time-picker-panel" :style="panelStyle" @click.stop>
         <div class="yiz-time-picker-body">
           <!-- 时 -->
           <div class="yiz-time-picker-col">
-            <div class="yiz-time-picker-col-header">{{ $t('timePicker.hour') }}</div>
+            <div class="yiz-time-picker-col-header">{{ t('timePicker.hour') }}</div>
             <div class="yiz-time-picker-col-list" ref="hourListRef">
               <div
                 v-for="h in hours"
@@ -70,7 +70,7 @@
           </div>
           <!-- 分 -->
           <div class="yiz-time-picker-col">
-            <div class="yiz-time-picker-col-header">{{ $t('timePicker.minute') }}</div>
+            <div class="yiz-time-picker-col-header">{{ t('timePicker.minute') }}</div>
             <div class="yiz-time-picker-col-list" ref="minuteListRef">
               <div
                 v-for="m in minutes"
@@ -85,7 +85,7 @@
           </div>
           <!-- 秒 -->
           <div v-if="showSeconds" class="yiz-time-picker-col">
-            <div class="yiz-time-picker-col-header">{{ $t('timePicker.second') }}</div>
+            <div class="yiz-time-picker-col-header">{{ t('timePicker.second') }}</div>
             <div class="yiz-time-picker-col-list">
               <div
                 v-for="s in 60"
@@ -100,24 +100,27 @@
           </div>
         </div>
         <div class="yiz-time-picker-footer">
-          <LinkButton @click="onNow">{{ $t('timePicker.now') }}</LinkButton>
-          <Button type="primary" size="small" @click="onConfirm">{{ $t('common.confirm') }}</Button>
+          <LinkButton @click="onNow">{{ t('timePicker.now') }}</LinkButton>
+          <Button type="primary" size="small" @click="onConfirm">{{ t('common.confirm') }}</Button>
         </div>
       </div>
     </Transition>
-  </Teleport>
+  </AppTeleport>
 </template>
 
 <script lang="ts" setup>
+import AppTeleport from '../app/AppTeleport.vue'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { Clock16Regular, DismissCircle16Filled } from '@vicons/fluent'
 import Button from '../button/Button.vue'
 import { Icon } from '../icon'
 import { useInputStyle } from '../input-style'
 import LinkButton from '../link-button/LinkButton.vue'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
-import { nextZIndex } from '../zIndex'
+import { useZIndexManager } from '../zIndex'
+
+const t = useLocale()
 
 const props = withDefaults(
   defineProps<{
@@ -136,8 +139,6 @@ const props = withDefaults(
     disabled: false,
     readonly: false,
     clearable: false,
-    size: 'default',
-    styleMode: 'outlined',
     showSeconds: false,
     format: 'HH:mm:ss',
   },
@@ -154,6 +155,7 @@ const modelValue = defineModel<string | null>('value')
 const open = ref(false)
 const isHovering = ref(false)
 const currentZIndex = ref(0)
+const zIndexManager = useZIndexManager()
 const triggerRef = ref<HTMLElement>()
 const panelRef = ref<HTMLElement>()
 useOverlayElement(panelRef, open)
@@ -170,7 +172,7 @@ const pickedSecond = ref(0)
 
 const hours = Array.from({ length: 24 }, (_, i) => i)
 const minutes = Array.from({ length: 60 }, (_, i) => i)
-const placeholderText = computed(() => props.placeholder ?? $t('timePicker.placeholder'))
+const placeholderText = computed(() => props.placeholder ?? t('timePicker.placeholder'))
 
 function pad(n: number): string {
   return n < 10 ? `0${n}` : `${n}`
@@ -383,7 +385,7 @@ function syncInputTextFromModel() {
 function openPanel() {
   if (props.disabled || props.readonly) return
   if (open.value) return
-  currentZIndex.value = nextZIndex()
+  currentZIndex.value = zIndexManager.next()
   const parsed = modelValue.value ? parseValue(modelValue.value) : null
   applyPicked(parsed ?? getNowParts())
   syncInputTextFromPicked()
@@ -573,7 +575,7 @@ defineExpose({
 
 .yiz-time-picker-open .yiz-time-picker-input {
   border-color: var(--yiz-color-primary);
-  box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+  box-shadow: var(--yiz-control-focus-shadow);
 }
 
 .yiz-form-item-error-status .yiz-time-picker:not(.yiz-time-picker-disabled) .yiz-time-picker-input {
@@ -586,7 +588,7 @@ defineExpose({
 
 .yiz-form-item-error-status .yiz-time-picker-open:not(.yiz-time-picker-disabled) .yiz-time-picker-input {
   border-color: var(--yiz-color-error);
-  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+  box-shadow: var(--yiz-control-error-focus-shadow);
 }
 
 .yiz-time-picker-disabled .yiz-time-picker-input {
@@ -638,12 +640,12 @@ defineExpose({
   align-items: center;
   user-select: none;
   cursor: pointer;
-  color: rgba(0, 0, 0, 0.45);
+  color: var(--yiz-color-text-tertiary);
   transition: color 0.3s;
   z-index: 1;
 
   &:hover {
-    color: rgba(0, 0, 0, 0.88);
+    color: var(--yiz-color-text-primary);
   }
 }
 
@@ -745,7 +747,7 @@ defineExpose({
   &--active,
   &--active:hover {
     color: var(--yiz-color-primary);
-    background: var(--yiz-color-primary-light8);
+    background: var(--yiz-color-primary-bg-hover);
     font-weight: 600;
   }
 }

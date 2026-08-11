@@ -1,7 +1,7 @@
 <template>
   <component :is="renderTrigger()" />
 
-  <Teleport to="body">
+  <AppTeleport>
     <transition name="yiz-tooltip-fade">
       <div
         v-if="visible"
@@ -16,13 +16,14 @@
         <div class="yiz-tooltip-arrow" />
       </div>
     </transition>
-  </Teleport>
+  </AppTeleport>
 </template>
 
 <script lang="ts" setup>
+import AppTeleport from '../app/AppTeleport.vue'
 import { cloneVNode, h, nextTick, onBeforeUnmount, ref, useSlots, watch, type VNode } from 'vue'
 import { findFirstTriggerVNode } from '../triggerVNode'
-import { nextZIndex } from '../zIndex'
+import { useZIndexManager } from '../zIndex'
 
 const props = withDefaults(
   defineProps<{
@@ -46,6 +47,7 @@ const visible = ref(false)
 const effectivePlacement = ref<'top' | 'bottom' | 'left' | 'right'>(props.placement)
 const popStyle = ref<Record<string, string>>({})
 const currentZ = ref(2000)
+const zIndexManager = useZIndexManager()
 let hideTimer: ReturnType<typeof setTimeout> | null = null
 
 function updateTriggerElement(vnode: VNode) {
@@ -85,7 +87,7 @@ function clearHideTimer() {
 
 function onMouseEnter() {
   clearHideTimer()
-  currentZ.value = nextZIndex()
+  currentZ.value = zIndexManager.next()
   effectivePlacement.value = props.placement
   visible.value = true
 }
@@ -175,7 +177,8 @@ onBeforeUnmount(() => {
 }
 
 .yiz-tooltip-content {
-  background: #303133;
+  color: var(--yiz-color-tooltip-text);
+  background: var(--yiz-color-tooltip-bg);
   color: var(--yiz-color-text-inverse);
   border-radius: var(--yiz-pane-border-radius);
   padding: 6px 12px;
@@ -198,7 +201,7 @@ onBeforeUnmount(() => {
     bottom: -2px;
     left: 50%;
     transform: translateX(-50%);
-    border-top-color: #303133;
+    border-top-color: var(--yiz-color-tooltip-bg);
   }
 }
 
@@ -210,7 +213,7 @@ onBeforeUnmount(() => {
     top: -2px;
     left: 50%;
     transform: translateX(-50%);
-    border-bottom-color: #303133;
+    border-bottom-color: var(--yiz-color-tooltip-bg);
   }
 }
 
@@ -222,7 +225,7 @@ onBeforeUnmount(() => {
     right: -2px;
     top: 50%;
     transform: translateY(-50%);
-    border-left-color: #303133;
+    border-left-color: var(--yiz-color-tooltip-bg);
   }
 }
 
@@ -234,7 +237,7 @@ onBeforeUnmount(() => {
     left: -2px;
     top: 50%;
     transform: translateY(-50%);
-    border-right-color: #303133;
+    border-right-color: var(--yiz-color-tooltip-bg);
   }
 }
 

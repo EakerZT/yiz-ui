@@ -11,8 +11,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, provide, ref, toRef } from 'vue'
+import { computed, provide, ref } from 'vue'
 import { inputGroupStyleKey } from '../input-style'
+import { useThemeInputStyleMode, useThemeSize } from '../theme'
 
 const props = withDefaults(
   defineProps<{
@@ -24,8 +25,6 @@ const props = withDefaults(
   }>(),
   {
     block: false,
-    size: 'default',
-    styleMode: 'outlined',
   },
 )
 
@@ -35,19 +34,21 @@ defineSlots<{
   afterAddon?: any
 }>()
 
+const resolvedSize = useThemeSize(() => props.size)
+const resolvedStyleMode = useThemeInputStyleMode(() => props.styleMode)
 const vClass = computed(() => ({
   'yiz-input-group-block': props.block,
-  'yiz-input-group-small': props.size === 'small',
-  'yiz-input-group-default': props.size === 'default',
-  'yiz-input-group-large': props.size === 'large',
-  [`yiz-input-group-${props.styleMode}`]: true,
+  'yiz-input-group-small': resolvedSize.value === 'small',
+  'yiz-input-group-default': resolvedSize.value === 'default',
+  'yiz-input-group-large': resolvedSize.value === 'large',
+  [`yiz-input-group-${resolvedStyleMode.value}`]: true,
 }))
 
 const groupRef = ref<HTMLElement>()
 
 provide(inputGroupStyleKey, {
-  styleMode: toRef(props, 'styleMode'),
-  size: toRef(props, 'size'),
+  styleMode: resolvedStyleMode,
+  size: resolvedSize,
 })
 
 function focus() {

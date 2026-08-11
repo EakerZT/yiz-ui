@@ -281,12 +281,18 @@ export function generateComponentApi() {
     [
       'message',
       'scripts/message/message.ts',
-      [['message[type]', '(content: MessageContent, options?: MessageOptions) => MessageHandle']],
+      [
+        ['message[type]', '(content: MessageContent, options?: MessageOptions) => MessageHandle'],
+        ['useMessage', '() => MessageFn'],
+      ],
     ],
     [
       'notification',
       'scripts/notification/notification.ts',
-      [['notification[type]', '(options: NotificationOptions) => NotificationHandle']],
+      [
+        ['notification[type]', '(options: NotificationOptions) => NotificationHandle'],
+        ['useNotification', '() => NotificationFn'],
+      ],
     ],
     [
       'loadingBar',
@@ -305,7 +311,10 @@ export function generateComponentApi() {
     [
       'showContextMenu',
       'scripts/context-menu/showContextMenu.ts',
-      [['showContextMenu', '(x: number, y: number, items: ContextMenuItem[], onSelect?: Function) => void']],
+      [
+        ['showContextMenu', '(options: ShowContextMenuOptions) => void'],
+        ['useContextMenu', '() => ContextMenuApi'],
+      ],
     ],
     [
       'Emitter',

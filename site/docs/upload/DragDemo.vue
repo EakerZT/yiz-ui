@@ -1,8 +1,8 @@
 <template>
   <y-upload multiple accept=".png,.jpg,.jpeg,image/*" allow-drag @upload="onDragUpload">
     <div class="demo-upload-drop">
-      <strong>{{ $t('demo.upload.dropTitle') }}</strong>
-      <span>{{ $t('demo.upload.dropDesc') }}</span>
+      <strong>{{ t('demo.upload.dropTitle') }}</strong>
+      <span>{{ t('demo.upload.dropDesc') }}</span>
     </div>
   </y-upload>
   <p class="demo-upload-info">{{ dragFilesText }}</p>
@@ -10,7 +10,9 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const dragFiles = ref<File[]>([])
 
@@ -21,7 +23,7 @@ function onDragUpload(files: File[]) {
 }
 
 function formatFiles(files: File[]) {
-  if (files.length === 0) return $t('demo.upload.noFiles')
+  if (files.length === 0) return t('demo.upload.noFiles')
   return files.map((file) => file.name).join(', ')
 }
 </script>

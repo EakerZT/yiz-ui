@@ -1,12 +1,12 @@
 <template>
-  <nav class="yiz-pagination" :class="vClass" :aria-label="$t('pagination.ariaLabel')">
+  <nav class="yiz-pagination" :class="vClass" :aria-label="t('pagination.ariaLabel')">
     <span v-if="showTotal" class="yiz-pagination-total">{{ totalLabel }}</span>
 
     <button
       class="yiz-pagination-item yiz-pagination-nav"
       type="button"
       :disabled="disabled || currentPage <= 1"
-      :aria-label="$t('pagination.previousPage')"
+      :aria-label="t('pagination.previousPage')"
       @click="goToPage(currentPage - 1)"
     >
       <Icon :size="paginationIconSize" :icon="previousIcon" />
@@ -18,7 +18,7 @@
           class="yiz-pagination-input"
           v-model:value="simplePageInput"
           :disabled="disabled"
-          :size="size"
+          :size="resolvedSize"
           @press-enter="commitSimplePage"
           @focusout="commitSimplePage"
         />
@@ -50,7 +50,7 @@
       class="yiz-pagination-item yiz-pagination-nav"
       type="button"
       :disabled="disabled || currentPage >= pageCount"
-      :aria-label="$t('pagination.nextPage')"
+      :aria-label="t('pagination.nextPage')"
       @click="goToPage(currentPage + 1)"
     >
       <Icon :size="paginationIconSize" :icon="nextIcon" />
@@ -61,22 +61,22 @@
         :value="pageSizeValue"
         :options="pageSizeOptions"
         :disabled="disabled"
-        :size="size"
+        :size="resolvedSize"
         @update:value="onPageSizeChange"
       />
     </span>
 
     <span v-if="showQuickJumper" class="yiz-pagination-jumper">
-      <span>{{ $t('pagination.goTo') }}</span>
+      <span>{{ t('pagination.goTo') }}</span>
       <Input
         class="yiz-pagination-input"
         v-model:value="quickJumpInput"
         :disabled="disabled"
-        :size="size"
+        :size="resolvedSize"
         @press-enter="commitQuickJump"
       />
       <button class="yiz-pagination-go" type="button" :disabled="disabled" @click="commitQuickJump">
-        {{ $t('pagination.go') }}
+        {{ t('pagination.go') }}
       </button>
     </span>
   </nav>
@@ -92,10 +92,13 @@ import {
   MoreHorizontal16Regular,
   MoreHorizontal20Regular,
 } from '@vicons/fluent'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
 import { Icon } from '../icon'
 import Input from '../input/Input.vue'
 import Select from '../select/Select.vue'
+import { useThemeSize } from '../theme'
+
+const t = useLocale()
 
 type PagerItem = number | 'prev-more' | 'next-more'
 
@@ -123,7 +126,6 @@ const props = withDefaults(
     showQuickJumper: false,
     disabled: false,
     simple: false,
-    size: 'default',
   },
 )
 
@@ -134,6 +136,7 @@ const emit = defineEmits<{
 
 const quickJumpInput = ref('')
 const simplePageInput = ref('1')
+const resolvedSize = useThemeSize(() => props.size)
 
 const normalizedTotal = computed(() => Math.max(0, Number(props.total) || 0))
 const pageSizeValue = computed(() => Math.max(1, Number(pageSize.value) || 10))
@@ -141,33 +144,33 @@ const pageCount = computed(() => Math.max(1, Math.ceil(normalizedTotal.value / p
 const currentPage = computed(() => clampPage(Number(page.value) || 1))
 const pageSizeOptions = computed(() => {
   return props.pageSizes.map((sizeOption) => ({
-    label: $t('pagination.pageSize', { size: sizeOption }),
+    label: t('pagination.pageSize', { size: sizeOption }),
     value: sizeOption,
   }))
 })
 
 const vClass = computed(() => ({
   'yiz-pagination-disabled': props.disabled,
-  'yiz-pagination-small': props.size === 'small',
-  'yiz-pagination-large': props.size === 'large',
+  'yiz-pagination-small': resolvedSize.value === 'small',
+  'yiz-pagination-large': resolvedSize.value === 'large',
   'yiz-pagination-simple-mode': props.simple,
 }))
 
 const paginationIconSize = computed(() => {
-  if (props.size === 'small') return 14
-  if (props.size === 'large') return 20
+  if (resolvedSize.value === 'small') return 14
+  if (resolvedSize.value === 'large') return 20
   return 16
 })
 
-const previousIcon = computed(() => (props.size === 'large' ? ChevronLeft20Regular : ChevronLeft16Regular))
-const nextIcon = computed(() => (props.size === 'large' ? ChevronRight20Regular : ChevronRight16Regular))
-const moreIcon = computed(() => (props.size === 'large' ? MoreHorizontal20Regular : MoreHorizontal16Regular))
+const previousIcon = computed(() => (resolvedSize.value === 'large' ? ChevronLeft20Regular : ChevronLeft16Regular))
+const nextIcon = computed(() => (resolvedSize.value === 'large' ? ChevronRight20Regular : ChevronRight16Regular))
+const moreIcon = computed(() => (resolvedSize.value === 'large' ? MoreHorizontal20Regular : MoreHorizontal16Regular))
 
 const totalLabel = computed(() => {
-  if (normalizedTotal.value === 0) return $t('pagination.total', { total: 0 })
+  if (normalizedTotal.value === 0) return t('pagination.total', { total: 0 })
   const start = (currentPage.value - 1) * pageSizeValue.value + 1
   const end = Math.min(currentPage.value * pageSizeValue.value, normalizedTotal.value)
-  return $t('pagination.totalRange', { total: normalizedTotal.value, start, end })
+  return t('pagination.totalRange', { total: normalizedTotal.value, start, end })
 })
 
 const normalizedPagerCount = computed(() => {
@@ -335,7 +338,7 @@ function commitSimplePage() {
 .yiz-pagination-item:disabled,
 .yiz-pagination-go:disabled {
   cursor: not-allowed;
-  color: #bfbfbf;
+  color: var(--yiz-color-text-disabled);
   background: var(--yiz-color-bg-muted);
 }
 
@@ -365,7 +368,7 @@ function commitSimplePage() {
 }
 
 .yiz-pagination-disabled {
-  color: #bfbfbf;
+  color: var(--yiz-color-text-disabled);
 }
 
 .yiz-pagination-small {

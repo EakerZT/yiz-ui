@@ -57,7 +57,7 @@ const mergedDisabled = computed(() => {
   return (group?.disabled.value ?? false) || props.disabled
 })
 const mergedBorder = computed(() => props.border || (group?.border.value ?? false))
-const standaloneSize = computed(() => props.size ?? group?.size.value ?? 'default')
+const standaloneSize = computed(() => props.size ?? group?.size.value)
 const mergedSize = useInputSize(() => standaloneSize.value)
 
 const vClass = computed(() => {
@@ -132,15 +132,15 @@ defineExpose({
 
     .yiz-checkbox-inner {
       background-color: var(--yiz-color-bg-muted);
-      border-color: #d9d9d9;
+      border-color: var(--yiz-color-border);
     }
     .yiz-checkbox-label {
       color: var(--yiz-color-text-disabled);
     }
 
     &.yiz-checkbox-checked .yiz-checkbox-inner {
-      background-color: var(--yiz-color-primary-light5);
-      border-color: var(--yiz-color-primary-light5);
+      background-color: var(--yiz-color-primary-disabled);
+      border-color: var(--yiz-color-primary-disabled);
     }
   }
 }
@@ -169,7 +169,7 @@ defineExpose({
 
   &.yiz-checkbox-disabled {
     background: var(--yiz-color-bg-muted);
-    border-color: #d9d9d9;
+    border-color: var(--yiz-color-border);
   }
 }
 
@@ -256,8 +256,8 @@ defineExpose({
   }
 
   &:not(.yiz-checkbox-disabled):hover .yiz-checkbox-inner {
-    background-color: var(--yiz-color-primary-light2);
-    border-color: var(--yiz-color-primary-light2);
+    background-color: var(--yiz-color-primary-hover);
+    border-color: var(--yiz-color-primary-hover);
   }
 }
 

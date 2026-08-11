@@ -6,13 +6,15 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const statuses = ['pending', 'running', 'done'] as const
 
 const status = ref<(typeof statuses)[number]>('pending')
 
-const statusLabel = computed(() => $t(`demo.inputCustom.status.${status.value}`))
+const statusLabel = computed(() => t(`demo.inputCustom.status.${status.value}`))
 
 function toggleStatus() {
   const index = statuses.indexOf(status.value)

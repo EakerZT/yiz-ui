@@ -1,17 +1,19 @@
 <template>
   <y-menu v-model:select="v1" :items="opts" @select="onSelect" /><span class="demo-hint">{{
-    $t('demo.menu.selected', { value: v1 })
+    t('demo.menu.selected', { value: v1 })
   }}</span>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const opts = computed(() => [
-  { label: $t('demo.common.view'), key: 'view' },
-  { label: $t('demo.common.edit'), key: 'edit' },
-  { label: $t('demo.common.delete'), key: 'delete' },
+  { label: t('demo.common.view'), key: 'view' },
+  { label: t('demo.common.edit'), key: 'edit' },
+  { label: t('demo.common.delete'), key: 'delete' },
 ])
 
 const v1 = ref()

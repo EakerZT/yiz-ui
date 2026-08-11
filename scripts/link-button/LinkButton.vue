@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { TinyColor } from '@ctrl/tinycolor'
+import { deriveColorRoles, useTheme } from '../theme'
 
 const props = withDefaults(
   defineProps<{
@@ -40,6 +40,7 @@ const emit = defineEmits<{
    */
   click: [event: MouseEvent]
 }>()
+const { theme } = useTheme()
 
 defineSlots<{
   /**
@@ -66,10 +67,10 @@ const vClass = computed(() => {
 const vStyle = computed(() => {
   const s: Record<string, string> = {}
   if (props.color && props.color.match(/^#[\da-fA-F]{6}$/g)) {
-    const color = new TinyColor(props.color)
+    const color = deriveColorRoles(props.color, theme.value)
     s['--yiz-link-button-color'] = props.color
-    s['--yiz-link-button-color-hover'] = color.tint(30).toString()
-    s['--yiz-link-button-color-active'] = color.mix('#000000', 20).toString()
+    s['--yiz-link-button-color-hover'] = color.hover
+    s['--yiz-link-button-color-active'] = color.active
   }
   return s
 })
@@ -103,11 +104,11 @@ function onClick(e: MouseEvent) {
   color: var(--yiz-link-button-color, var(--yiz-color-primary));
 
   &:hover {
-    color: var(--yiz-link-button-color-hover, var(--yiz-color-primary-light2));
+    color: var(--yiz-link-button-color-hover, var(--yiz-color-primary-hover));
   }
 
   &:active {
-    color: var(--yiz-link-button-color-active, var(--yiz-color-primary-dark));
+    color: var(--yiz-link-button-color-active, var(--yiz-color-primary-active));
   }
 
   &.yiz-link-button-disabled {
@@ -132,36 +133,36 @@ function onClick(e: MouseEvent) {
 // color variants
 .yiz-link-button-color-primary {
   --yiz-link-button-color: var(--yiz-color-primary);
-  --yiz-link-button-color-hover: var(--yiz-color-primary-light2);
-  --yiz-link-button-color-active: var(--yiz-color-primary-dark);
-  --yiz-link-button-color-disabled: var(--yiz-color-primary-light5);
+  --yiz-link-button-color-hover: var(--yiz-color-primary-hover);
+  --yiz-link-button-color-active: var(--yiz-color-primary-active);
+  --yiz-link-button-color-disabled: var(--yiz-color-primary-disabled);
 }
 
 .yiz-link-button-color-default {
   --yiz-link-button-color: var(--yiz-color-text-primary);
   --yiz-link-button-color-hover: var(--yiz-color-primary);
-  --yiz-link-button-color-active: var(--yiz-color-primary-dark);
+  --yiz-link-button-color-active: var(--yiz-color-primary-active);
   --yiz-link-button-color-disabled: var(--yiz-color-text-disabled);
 }
 
 .yiz-link-button-color-success {
   --yiz-link-button-color: var(--yiz-color-success);
-  --yiz-link-button-color-hover: var(--yiz-color-success-light2);
-  --yiz-link-button-color-active: var(--yiz-color-success-dark);
-  --yiz-link-button-color-disabled: var(--yiz-color-success-light5);
+  --yiz-link-button-color-hover: var(--yiz-color-success-hover);
+  --yiz-link-button-color-active: var(--yiz-color-success-active);
+  --yiz-link-button-color-disabled: var(--yiz-color-success-disabled);
 }
 
 .yiz-link-button-color-warning {
   --yiz-link-button-color: var(--yiz-color-warning);
-  --yiz-link-button-color-hover: var(--yiz-color-warning-light2);
-  --yiz-link-button-color-active: var(--yiz-color-warning-dark);
-  --yiz-link-button-color-disabled: var(--yiz-color-warning-light5);
+  --yiz-link-button-color-hover: var(--yiz-color-warning-hover);
+  --yiz-link-button-color-active: var(--yiz-color-warning-active);
+  --yiz-link-button-color-disabled: var(--yiz-color-warning-disabled);
 }
 
 .yiz-link-button-color-error {
   --yiz-link-button-color: var(--yiz-color-error);
-  --yiz-link-button-color-hover: var(--yiz-color-error-light2);
-  --yiz-link-button-color-active: var(--yiz-color-error-dark);
-  --yiz-link-button-color-disabled: var(--yiz-color-error-light5);
+  --yiz-link-button-color-hover: var(--yiz-color-error-hover);
+  --yiz-link-button-color-active: var(--yiz-color-error-active);
+  --yiz-link-button-color-disabled: var(--yiz-color-error-disabled);
 }
 </style>

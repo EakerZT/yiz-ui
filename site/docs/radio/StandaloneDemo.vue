@@ -1,12 +1,14 @@
 <template>
-  <y-radio-button v-model:checked="buttonRadioLeft" value="left">{{ $t('demo.radio.left') }}</y-radio-button
-  ><y-radio-button v-model:checked="buttonRadioRight" value="right">{{ $t('demo.radio.right') }}</y-radio-button
+  <y-radio-button v-model:checked="buttonRadioLeft" value="left">{{ t('demo.radio.left') }}</y-radio-button
+  ><y-radio-button v-model:checked="buttonRadioRight" value="right">{{ t('demo.radio.right') }}</y-radio-button
   ><span class="demo-hint">{{ buttonRadioLeft }} / {{ buttonRadioRight }}</span>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const buttonRadioLeft = ref(true)
 

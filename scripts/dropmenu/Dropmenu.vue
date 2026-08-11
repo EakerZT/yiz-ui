@@ -33,7 +33,7 @@ import { ChevronDown16Regular } from '@vicons/fluent'
 import DropmenuItemComp from '../dropmenu-item/DropmenuItem.vue'
 import { Icon } from '../icon'
 import { findFirstTriggerVNode } from '../triggerVNode'
-import { nextZIndex } from '../zIndex'
+import { useZIndexManager } from '../zIndex'
 import DropmenuPanel from './DropmenuPanel.vue'
 import type { DropmenuOption } from './types'
 
@@ -83,6 +83,7 @@ function clearTriggerElement(vnode: VNode) {
 }
 const popupStyle = ref<Record<string, string>>({})
 const currentZIndex = ref(0)
+const zIndexManager = useZIndexManager()
 
 function renderTrigger(): VNode {
   const children = slots.trigger?.({ open: open.value }) ?? []
@@ -228,7 +229,7 @@ function updatePopupPosition() {
 
 async function openMenu(focus: 'first' | 'last' | null = null) {
   if (props.disabled) return
-  currentZIndex.value = nextZIndex()
+  currentZIndex.value = zIndexManager.next()
   pendingFocus = focus
   open.value = true
   await nextTick()

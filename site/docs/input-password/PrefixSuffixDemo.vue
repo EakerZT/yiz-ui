@@ -1,7 +1,7 @@
 <template>
   <y-input-password
     v-model:value="affixPassword"
-    :placeholder="$t('demo.inputPassword.placeholder')"
+    :placeholder="t('demo.inputPassword.placeholder')"
     prefix="Key"
     suffix="Safe"
     clearable
@@ -10,7 +10,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const affixPassword = ref('')
 </script>

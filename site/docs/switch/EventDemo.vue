@@ -1,12 +1,14 @@
 <template>
   <y-switch v-model:value="v9" @change="onChange" /><span class="demo-hint">{{
-    $t('demo.switch.toggleCount', { count: changeCount })
+    t('demo.switch.toggleCount', { count: changeCount })
   }}</span>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const v9 = ref(true)
 

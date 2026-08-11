@@ -1,14 +1,16 @@
 <template>
   <div class="demo-info-list">
-    <y-info closable :message="$t('demo.info.closableMessage')" @close="onClose" />
-    <y-info closable :close-text="$t('demo.common.close')" :message="$t('demo.info.closeTextMessage')" />
-    <p class="demo-info-event">{{ $t('demo.info.closeCount', { count: closeCount }) }}</p>
+    <y-info closable :message="t('demo.info.closableMessage')" @close="onClose" />
+    <y-info closable :close-text="t('demo.common.close')" :message="t('demo.info.closeTextMessage')" />
+    <p class="demo-info-event">{{ t('demo.info.closeCount', { count: closeCount }) }}</p>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const closeCount = ref(0)
 

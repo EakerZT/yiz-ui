@@ -1,13 +1,15 @@
 <template>
   <div class="demo-empty-size-panel">
     <y-radio-button-group v-model:value="emptySize" :options="sizeOptions" />
-    <y-empty :size="emptySize" :description="$t('demo.empty.listEmpty')" />
+    <y-empty :size="emptySize" :description="t('demo.empty.listEmpty')" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 type DemoSize = 'small' | 'default' | 'large'
 

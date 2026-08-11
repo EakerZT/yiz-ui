@@ -48,7 +48,7 @@
     </div>
   </div>
 
-  <Teleport to="body">
+  <AppTeleport>
     <Transition name="yiz-date-picker-panel-fade">
       <div v-if="open" ref="panelRef" class="yiz-date-picker-panel" :style="panelStyle" @click.stop>
         <!-- 月份导航 -->
@@ -56,7 +56,7 @@
           <Icon class="yiz-date-picker-nav" size="16" :icon="ChevronDoubleLeft16Regular" @click="prevYear" />
           <Icon class="yiz-date-picker-nav" size="16" :icon="ChevronLeft16Regular" @click="prevMonth" />
           <span class="yiz-date-picker-month-year" @click="showYearPicker = !showYearPicker">
-            {{ $t('datePicker.yearMonth', { year, month }) }}
+            {{ t('datePicker.yearMonth', { year, month }) }}
           </span>
           <Icon class="yiz-date-picker-nav" size="16" :icon="ChevronRight16Regular" @click="nextMonth" />
           <Icon class="yiz-date-picker-nav" size="16" :icon="ChevronDoubleRight16Regular" @click="nextYear" />
@@ -100,17 +100,18 @@
 
         <!-- 底部 -->
         <div class="yiz-date-picker-footer">
-          <LinkButton @click="onToday">{{ $t('datePicker.today') }}</LinkButton>
+          <LinkButton @click="onToday">{{ t('datePicker.today') }}</LinkButton>
           <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">{{
-            $t('common.confirm')
+            t('common.confirm')
           }}</Button>
         </div>
       </div>
     </Transition>
-  </Teleport>
+  </AppTeleport>
 </template>
 
 <script lang="ts" setup>
+import AppTeleport from '../app/AppTeleport.vue'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import {
   CalendarLtr16Regular,
@@ -124,9 +125,11 @@ import { Icon } from '../icon'
 import { useInputStyle } from '../input-style'
 import Button from '../button/Button.vue'
 import LinkButton from '../link-button/LinkButton.vue'
-import { $t, $tList } from '../locale'
+import { useLocale } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
-import { nextZIndex } from '../zIndex'
+import { useZIndexManager } from '../zIndex'
+
+const t = useLocale()
 
 const props = withDefaults(
   defineProps<{
@@ -146,8 +149,6 @@ const props = withDefaults(
     disabled: false,
     readonly: false,
     clearable: false,
-    size: 'default',
-    styleMode: 'outlined',
     format: 'YYYY-MM-DD',
   },
 )
@@ -164,6 +165,7 @@ const modelValue = defineModel<DatePickerValue>('value')
 
 const open = ref(false)
 const currentZIndex = ref(0)
+const zIndexManager = useZIndexManager()
 const triggerRef = ref<HTMLElement>()
 const panelRef = ref<HTMLElement>()
 useOverlayElement(panelRef, open)
@@ -179,13 +181,13 @@ const now = new Date()
 const viewYear = ref(now.getFullYear())
 const viewMonth = ref(now.getMonth() + 1)
 
-const weekDays = computed(() => $tList('datePicker.weekdays'))
+const weekDays = computed(() => t.list('datePicker.weekdays'))
 
 // ==================== 计算属性 ====================
 
 const year = computed(() => viewYear.value)
 const month = computed(() => viewMonth.value)
-const placeholderText = computed(() => props.placeholder ?? $t('datePicker.placeholder'))
+const placeholderText = computed(() => props.placeholder ?? t('datePicker.placeholder'))
 
 const yearRange = computed(() => {
   const start = viewYear.value - 6
@@ -393,7 +395,7 @@ function applyInputText(value: string): Date | null {
 function openPanel() {
   if (props.disabled || props.readonly) return
   if (open.value) return
-  currentZIndex.value = nextZIndex()
+  currentZIndex.value = zIndexManager.next()
   showYearPicker.value = false
   const currentDate = parseModelValue(modelValue.value)
   draft.value = cloneDate(currentDate)
@@ -691,7 +693,7 @@ defineExpose({
 
 .yiz-date-picker-open .yiz-date-picker-input {
   border-color: var(--yiz-color-primary);
-  box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+  box-shadow: var(--yiz-control-focus-shadow);
 }
 
 .yiz-form-item-error-status .yiz-date-picker:not(.yiz-date-picker-disabled) .yiz-date-picker-input {
@@ -704,7 +706,7 @@ defineExpose({
 
 .yiz-form-item-error-status .yiz-date-picker-open:not(.yiz-date-picker-disabled) .yiz-date-picker-input {
   border-color: var(--yiz-color-error);
-  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+  box-shadow: var(--yiz-control-error-focus-shadow);
 }
 
 .yiz-date-picker-disabled .yiz-date-picker-input {
@@ -756,12 +758,12 @@ defineExpose({
   align-items: center;
   user-select: none;
   cursor: pointer;
-  color: rgba(0, 0, 0, 0.45);
+  color: var(--yiz-color-text-tertiary);
   transition: color 0.3s;
   z-index: 1;
 
   &:hover {
-    color: rgba(0, 0, 0, 0.88);
+    color: var(--yiz-color-text-primary);
   }
 }
 
@@ -806,7 +808,7 @@ defineExpose({
   background: var(--yiz-color-bg-elevated);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--yiz-shadow-popup);
   padding: 8px 12px;
   width: 260px;
   user-select: none;
@@ -878,7 +880,7 @@ defineExpose({
   &--active,
   &--active:hover {
     color: var(--yiz-color-primary);
-    background: var(--yiz-color-primary-light8);
+    background: var(--yiz-color-primary-bg-hover);
     font-weight: 600;
   }
 }
@@ -917,7 +919,7 @@ defineExpose({
     cursor: default;
 
     .yiz-date-picker-cell-inner {
-      color: #d9d9d9;
+      color: var(--yiz-color-text-disabled);
     }
   }
 
@@ -925,7 +927,7 @@ defineExpose({
     cursor: not-allowed;
 
     .yiz-date-picker-cell-inner {
-      color: #d9d9d9;
+      color: var(--yiz-color-text-disabled);
     }
   }
 

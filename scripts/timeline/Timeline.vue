@@ -6,6 +6,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { useThemeSize } from '../theme'
 
 const props = withDefaults(
   defineProps<{
@@ -14,7 +15,6 @@ const props = withDefaults(
   }>(),
   {
     mode: 'left',
-    size: 'default',
   },
 )
 
@@ -22,9 +22,11 @@ defineSlots<{
   default?: any
 }>()
 
+const resolvedSize = useThemeSize(() => props.size)
+
 const vClass = computed(() => ({
   [`yiz-timeline-mode-${props.mode}`]: true,
-  [`yiz-timeline-size-${props.size}`]: true,
+  [`yiz-timeline-size-${resolvedSize.value}`]: true,
 }))
 </script>
 

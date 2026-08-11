@@ -1,5 +1,8 @@
 <template>
-  <div class="yiz-empty" :class="{ 'yiz-empty-small': size === 'small', 'yiz-empty-large': size === 'large' }">
+  <div
+    class="yiz-empty"
+    :class="{ 'yiz-empty-small': resolvedSize === 'small', 'yiz-empty-large': resolvedSize === 'large' }"
+  >
     <div class="yiz-empty-image">
       <slot name="image">
         <svg viewBox="0 0 64 41" width="64" height="41">
@@ -31,19 +34,21 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
+import { useThemeSize } from '../theme'
+
+const t = useLocale()
 
 const props = withDefaults(
   defineProps<{
     description?: string
     size?: 'small' | 'default' | 'large'
   }>(),
-  {
-    size: 'default',
-  },
+  {},
 )
 
-const descriptionText = computed(() => props.description ?? $t('common.noData'))
+const resolvedSize = useThemeSize(() => props.size)
+const descriptionText = computed(() => props.description ?? t('common.noData'))
 
 defineSlots<{
   image?: any

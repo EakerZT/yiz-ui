@@ -1,20 +1,20 @@
 <template>
   <div class="yiz-input-number" :class="vClass">
     <button
-      v-if="controls === 'separate'"
+      v-if="mergedControls === 'separate'"
       type="button"
       class="yiz-input-number-btn yiz-input-number-decrease"
-      :aria-label="$t('inputNumber.decrease')"
+      :aria-label="t('inputNumber.decrease')"
       :disabled="disabled || readonly || isMin"
       @click="decrease"
     >
       <Icon size="16" :icon="Subtract16Regular" />
     </button>
-    <div v-if="controls === 'left'" class="yiz-input-number-controls yiz-input-number-controls-left">
+    <div v-if="mergedControls === 'left'" class="yiz-input-number-controls yiz-input-number-controls-left">
       <button
         type="button"
         class="yiz-input-number-btn yiz-input-number-increase"
-        :aria-label="$t('inputNumber.increase')"
+        :aria-label="t('inputNumber.increase')"
         :disabled="disabled || readonly || isMax"
         @click="increase"
       >
@@ -23,7 +23,7 @@
       <button
         type="button"
         class="yiz-input-number-btn yiz-input-number-decrease"
-        :aria-label="$t('inputNumber.decrease')"
+        :aria-label="t('inputNumber.decrease')"
         :disabled="disabled || readonly || isMin"
         @click="decrease"
       >
@@ -54,11 +54,11 @@
       <template v-if="$props.suffix">{{ $props.suffix }}</template>
       <slot v-else name="suffix" />
     </div>
-    <div v-if="controls === 'right'" class="yiz-input-number-controls yiz-input-number-controls-right">
+    <div v-if="mergedControls === 'right'" class="yiz-input-number-controls yiz-input-number-controls-right">
       <button
         type="button"
         class="yiz-input-number-btn yiz-input-number-increase"
-        :aria-label="$t('inputNumber.increase')"
+        :aria-label="t('inputNumber.increase')"
         :disabled="disabled || readonly || isMax"
         @click="increase"
       >
@@ -67,7 +67,7 @@
       <button
         type="button"
         class="yiz-input-number-btn yiz-input-number-decrease"
-        :aria-label="$t('inputNumber.decrease')"
+        :aria-label="t('inputNumber.decrease')"
         :disabled="disabled || readonly || isMin"
         @click="decrease"
       >
@@ -75,10 +75,10 @@
       </button>
     </div>
     <button
-      v-if="controls === 'separate'"
+      v-if="mergedControls === 'separate'"
       type="button"
       class="yiz-input-number-btn yiz-input-number-increase"
-      :aria-label="$t('inputNumber.increase')"
+      :aria-label="t('inputNumber.increase')"
       :disabled="disabled || readonly || isMax"
       @click="increase"
     >
@@ -92,7 +92,10 @@ import { computed, ref, useSlots } from 'vue'
 import { Add16Regular, Subtract16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { useInputStyle } from '../input-style'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
+import { useTheme, type InputNumberControls } from '../theme'
+
+const t = useLocale()
 
 const slots = useSlots()
 
@@ -107,20 +110,17 @@ const props = withDefaults(
     placeholder?: string
     size?: 'small' | 'default' | 'large'
     styleMode?: 'outlined' | 'filled'
-    controls?: 'left' | 'right' | 'separate' | 'none'
+    controls?: InputNumberControls
     align?: 'left' | 'center' | 'right'
     prefix?: string
     suffix?: string
   }>(),
   {
     step: 1,
-    controls: 'right',
     align: 'left',
     disabled: false,
     readonly: false,
     placeholder: '',
-    size: 'default',
-    styleMode: 'outlined',
   },
 )
 
@@ -135,6 +135,8 @@ const modelValue = defineModel<number | null>('value')
 
 const inputRef = ref<HTMLInputElement>()
 const isFocus = ref(false)
+const { theme } = useTheme()
+const mergedControls = computed(() => props.controls ?? theme.value.inputNumber.controls)
 const { styleMode: mergedStyleMode, size: mergedSize } = useInputStyle(
   () => props.styleMode,
   () => props.size,
@@ -151,7 +153,7 @@ const vClass = computed(() => {
   c[`yiz-input-number-align-${props.align}`] = true
   if (props.prefix || slots.prefix) c['yiz-input-number-has-prefix'] = true
   if (props.suffix || slots.suffix) c['yiz-input-number-has-suffix'] = true
-  c[`yiz-input-number-controls-${props.controls}`] = true
+  c[`yiz-input-number-controls-${mergedControls.value}`] = true
   return c
 })
 
@@ -327,7 +329,7 @@ defineExpose({
 
   &:hover:not(:disabled) {
     color: var(--yiz-color-primary);
-    background: #f0f5ff;
+    background: var(--yiz-color-primary-bg);
   }
 
   &:disabled {
@@ -336,7 +338,7 @@ defineExpose({
   }
 
   &:active:not(:disabled) {
-    background: #e6efff;
+    background: var(--yiz-color-primary-bg-hover);
   }
 }
 

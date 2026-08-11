@@ -62,8 +62,6 @@ const props = withDefaults(
     clearable: false,
     disabled: false,
     readonly: false,
-    size: 'default',
-    styleMode: 'outlined',
   },
 )
 
@@ -206,11 +204,11 @@ defineExpose({
     margin-left: var(--yiz-control-affix-gap-default);
     user-select: none;
     cursor: pointer;
-    color: rgba(0, 0, 0, 0.45);
+    color: var(--yiz-color-text-tertiary);
     transition: 0.3s all;
 
     &:hover {
-      color: rgba(0, 0, 0, 0.88);
+      color: var(--yiz-color-text-primary);
     }
   }
 

@@ -1,19 +1,21 @@
 <template>
-  <y-button type="primary" @click="openDialog">{{ $t('demo.layerManager.openDialog') }}</y-button>
+  <y-button type="primary" @click="openDialog">{{ t('demo.layerManager.openDialog') }}</y-button>
 
-  <y-dialog v-model:show="showDialog" :title="$t('demo.layerManager.dialogTitle')" @after-leave="deactivateLayer">
-    <p>{{ $t('demo.layerManager.dialogContent') }}</p>
+  <y-dialog v-model:show="showDialog" :title="t('demo.layerManager.dialogTitle')" @after-leave="deactivateLayer">
+    <p>{{ t('demo.layerManager.dialogContent') }}</p>
   </y-dialog>
 
   <ul v-if="logs.length" class="layer-event-list">
     <li v-for="(item, index) in logs" :key="index">{{ item }}</li>
   </ul>
-  <p v-else class="layer-empty-log">{{ $t('demo.layerManager.noEvent') }}</p>
+  <p v-else class="layer-empty-log">{{ t('demo.layerManager.noEvent') }}</p>
 </template>
 
 <script lang="ts" setup>
 import { computed, nextTick, ref } from 'vue'
-import { $t, useModalLayer } from 'yiz-ui'
+import { useLocale, useModalLayer } from 'yiz-ui'
+
+const t = useLocale()
 
 interface LayerLog {
   type: 'activate' | 'deactivate'
@@ -26,7 +28,7 @@ const showDialog = ref(false)
 const logEvents = ref<LayerLog[]>([])
 const logs = computed(() =>
   logEvents.value.map((event) =>
-    $t(event.type === 'activate' ? 'demo.layerManager.logActivate' : 'demo.layerManager.logDeactivate', {
+    t(event.type === 'activate' ? 'demo.layerManager.logActivate' : 'demo.layerManager.logDeactivate', {
       index: event.index,
       count: event.count,
     }),

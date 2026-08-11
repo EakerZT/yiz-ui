@@ -1,7 +1,7 @@
 <template>
   <div class="yiz-loading" :class="{ 'yiz-loading-container': $slots.default, 'yiz-loading-full-height': fullHeight }">
     <Transition name="yiz-loading-fade">
-      <div v-if="visible" class="yiz-loading-spinner" :class="[`yiz-loading-${size}`]">
+      <div v-if="visible" class="yiz-loading-spinner" :class="[`yiz-loading-${resolvedSize}`]">
         <span class="yiz-loading-indicator">
           <slot name="indicator">
             <!-- Google: rotating ring -->
@@ -45,7 +45,10 @@
 
 <script lang="ts" setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
+import { useThemeSize } from '../theme'
+
+const t = useLocale()
 
 type IndicatorType = 'ring' | 'spin' | 'think'
 
@@ -60,7 +63,6 @@ const props = withDefaults(
   }>(),
   {
     loading: true,
-    size: 'default',
     indicator: 'ring',
     delay: 0,
     fullHeight: false,
@@ -73,8 +75,9 @@ defineSlots<{
   indicator?: any
 }>()
 
+const resolvedSize = useThemeSize(() => props.size)
 const visible = ref(false)
-const tipText = computed(() => props.tip ?? $t('loading.tip'))
+const tipText = computed(() => props.tip ?? t('loading.tip'))
 let timer: ReturnType<typeof setTimeout> | null = null
 
 function update() {
@@ -242,7 +245,7 @@ onBeforeUnmount(() => {
       display: block;
       width: 9px;
       height: 9px;
-      background-color: #1677ff;
+      background-color: var(--yiz-color-primary);
       border-radius: 100%;
       transform: scale(0.75);
       transform-origin: 50% 50%;

@@ -40,7 +40,7 @@
               class="yiz-tab-header-item-close"
               role="button"
               tabindex="-1"
-              :aria-label="$t('tab.close', { label: pane.label })"
+              :aria-label="t('tab.close', { label: pane.label })"
               @click.stop="onClosePane(pane)"
             >
               <Icon size="12" :icon="Dismiss16Regular" />
@@ -80,7 +80,9 @@ import { Dismiss16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
 import TabPaneComp from './TabPane.vue'
 import ScrollBox from '../scroll-box/ScrollBox.vue'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
+
+const t = useLocale()
 
 interface PaneData {
   label: string
@@ -448,7 +450,7 @@ provide('yizTab', {
   }
 
   &.yiz-tab-header-item-disabled {
-    color: #ccc;
+    color: var(--yiz-color-text-disabled);
     cursor: not-allowed;
   }
 }
@@ -563,7 +565,7 @@ provide('yizTab', {
 
     &.yiz-tab-header-item-disabled {
       background: var(--yiz-color-bg-muted);
-      color: #ccc;
+      color: var(--yiz-color-text-disabled);
     }
   }
 
@@ -680,7 +682,7 @@ provide('yizTab', {
 
   &:hover {
     color: var(--yiz-color-text-primary);
-    background: rgba(0, 0, 0, 0.06);
+    background: var(--yiz-color-hover-bg);
   }
 }
 

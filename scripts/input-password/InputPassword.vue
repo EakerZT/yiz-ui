@@ -34,7 +34,7 @@
       v-if="props.showToggle"
       type="button"
       class="yiz-input-password_toggle"
-      :aria-label="passwordVisible ? $t('inputPassword.hidePassword') : $t('inputPassword.showPassword')"
+      :aria-label="passwordVisible ? t('inputPassword.hidePassword') : t('inputPassword.showPassword')"
       :aria-pressed="passwordVisible"
       :disabled="props.disabled"
       @mousedown.prevent
@@ -50,7 +50,9 @@ import { computed, ref } from 'vue'
 import { DismissCircle16Filled, Eye16Regular, EyeOff16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { useInputStyle } from '../input-style'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
+
+const t = useLocale()
 
 defineSlots<{
   prefix: unknown
@@ -74,8 +76,6 @@ const props = withDefaults(
     disabled: false,
     showToggle: true,
     autocomplete: 'current-password',
-    size: 'default',
-    styleMode: 'outlined',
   },
 )
 
@@ -160,12 +160,12 @@ defineExpose({
     border: 0;
     outline: none;
     background: transparent;
-    color: rgba(0, 0, 0, 0.45);
+    color: var(--yiz-color-text-tertiary);
     cursor: pointer;
     transition: color 0.3s;
 
     &:hover {
-      color: rgba(0, 0, 0, 0.88);
+      color: var(--yiz-color-text-primary);
     }
 
     &:disabled {

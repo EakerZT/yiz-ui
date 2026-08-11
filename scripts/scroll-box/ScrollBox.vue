@@ -574,9 +574,6 @@ defineExpose({
   --yiz-scroll-thumb-min-size: 20px;
 
   /* theme custom properties (defaults) */
-  --yiz-scroll-thumb-bg: rgba(0, 0, 0, 0.18);
-  --yiz-scroll-thumb-bg-hover: rgba(0, 0, 0, 0.32);
-  --yiz-scroll-thumb-bg-active: rgba(0, 0, 0, 0.45);
   --yiz-scroll-thumb-radius: 4px;
 }
 

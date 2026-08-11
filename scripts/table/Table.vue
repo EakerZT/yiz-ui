@@ -232,18 +232,18 @@
 
     <div style="display: none"><slot /></div>
   </div>
-  <Teleport to="body">
+  <AppTeleport>
     <div
       v-if="resizing"
       class="yiz-table-resize-tooltip yiz-table-cell-tooltip-top"
       :style="{ left: tooltipX + 'px', top: tooltipY + 'px', zIndex: 9999 }"
     >
-      <div class="yiz-table-cell-tooltip-content">{{ $t('table.width') }}:{{ tooltipWidth }}px</div>
+      <div class="yiz-table-cell-tooltip-content">{{ t('table.width') }}:{{ tooltipWidth }}px</div>
       <div class="yiz-table-cell-tooltip-arrow" />
     </div>
-  </Teleport>
+  </AppTeleport>
 
-  <Teleport to="body">
+  <AppTeleport>
     <transition name="yiz-table-cell-tooltip-fade">
       <div
         v-if="tipVisible"
@@ -258,10 +258,11 @@
         <div class="yiz-table-cell-tooltip-arrow" />
       </div>
     </transition>
-  </Teleport>
+  </AppTeleport>
 </template>
 
 <script lang="ts" setup>
+import AppTeleport from '../app/AppTeleport.vue'
 import {
   computed,
   defineComponent,
@@ -285,8 +286,11 @@ import { Icon } from '../icon'
 import { ScrollBox } from '../scroll-box'
 import { Empty } from '../empty'
 import { Loading } from '../loading'
-import { $t } from '../locale'
-import { nextZIndex } from '../zIndex'
+import { useLocale } from '../locale'
+import { useThemeSize } from '../theme'
+import { useZIndexManager } from '../zIndex'
+
+const t = useLocale()
 
 export interface TableColumn {
   label: string
@@ -423,7 +427,6 @@ const props = withDefaults(
     data: () => [],
     bordered: false,
     stripe: false,
-    size: 'default',
     resize: false,
     no: false,
     selectMode: 'none',
@@ -886,10 +889,11 @@ function getAriaSort(col: TableColumn): 'ascending' | 'descending' | 'none' | un
   return sort.value.order === 'asc' ? 'ascending' : 'descending'
 }
 
+const resolvedSize = useThemeSize(() => props.size)
 const vClass = computed(() => ({
   'yiz-table-bordered': props.bordered,
   'yiz-table-stripe': props.stripe,
-  [`yiz-table-${props.size}`]: props.size !== 'default',
+  [`yiz-table-${resolvedSize.value}`]: resolvedSize.value !== 'default',
   'yiz-table-resizable': props.resize,
 }))
 
@@ -1140,6 +1144,7 @@ const tipContent = ref('')
 const tipPlacement = ref<'top' | 'bottom'>('top')
 const tipPos = ref({ left: 0, top: 0 })
 const tipZ = ref(2000)
+const zIndexManager = useZIndexManager()
 let activeCell: HTMLElement | null = null
 let tipHideTimer: ReturnType<typeof setTimeout> | null = null
 
@@ -1187,7 +1192,7 @@ function showTip(e: MouseEvent) {
   const text = el.textContent == null ? '' : el.textContent.trim()
   if (!text) return
   clearTipHideTimer()
-  tipZ.value = nextZIndex()
+  tipZ.value = zIndexManager.next()
   activeCell = el
   tipContent.value = text
   tipVisible.value = true
@@ -1444,7 +1449,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.72);
+  background: var(--yiz-color-loading-mask);
 }
 
 .yiz-table-loading-fade-enter-active,
@@ -1588,7 +1593,8 @@ onUnmounted(() => {
 }
 
 .yiz-table-cell-tooltip-content {
-  background: #303133;
+  color: var(--yiz-color-tooltip-text);
+  background: var(--yiz-color-tooltip-bg);
   color: var(--yiz-color-text-inverse);
   border-radius: var(--yiz-pane-border-radius);
   padding: 6px 12px;
@@ -1610,7 +1616,7 @@ onUnmounted(() => {
     bottom: -2px;
     left: 50%;
     transform: translateX(-50%);
-    border-top-color: #303133;
+    border-top-color: var(--yiz-color-tooltip-bg);
   }
 }
 
@@ -1621,7 +1627,7 @@ onUnmounted(() => {
     top: -2px;
     left: 50%;
     transform: translateX(-50%);
-    border-bottom-color: #303133;
+    border-bottom-color: var(--yiz-color-tooltip-bg);
   }
 }
 

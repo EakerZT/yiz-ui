@@ -55,7 +55,6 @@ const props = withDefaults(
     disabled: false,
     readonly: false,
     resize: 'vertical',
-    styleMode: 'outlined',
   },
 )
 
@@ -195,11 +194,11 @@ defineExpose({
   margin-right: 4px;
   user-select: none;
   cursor: pointer;
-  color: rgba(0, 0, 0, 0.45);
+  color: var(--yiz-color-text-tertiary);
   transition: 0.3s all;
 
   &:hover {
-    color: rgba(0, 0, 0, 0.88);
+    color: var(--yiz-color-text-primary);
   }
 }
 </style>

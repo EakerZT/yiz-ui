@@ -54,8 +54,8 @@
               v-if="hiddenSelectedCount > 0"
               class="yiz-select-selection-tag yiz-select-selection-summary"
               :size="mergedSize"
-              :title="$t('select.moreSelected', { count: hiddenSelectedCount })"
-              :aria-label="$t('select.moreSelected', { count: hiddenSelectedCount })"
+              :title="t('select.moreSelected', { count: hiddenSelectedCount })"
+              :aria-label="t('select.moreSelected', { count: hiddenSelectedCount })"
             >
               +{{ hiddenSelectedCount }}
             </Tag>
@@ -90,7 +90,7 @@
       </span>
     </Transition>
   </div>
-  <Teleport to="body">
+  <AppTeleport>
     <Transition name="yiz-select-dropdown-fade">
       <div
         v-if="open"
@@ -105,7 +105,7 @@
           <Input
             ref="searchInputRef"
             v-model:value="searchQuery"
-            :placeholder="$t('select.searchPlaceholder')"
+            :placeholder="t('select.searchPlaceholder')"
             @keydown.stop="onKeydown"
           />
         </div>
@@ -139,15 +139,16 @@
               aria-hidden="true"
             />
           </div>
-          <div v-if="filteredOptions.length === 0" class="yiz-select-empty">{{ $t('common.noData') }}</div>
+          <div v-if="filteredOptions.length === 0" class="yiz-select-empty">{{ t('common.noData') }}</div>
         </ScrollBox>
       </div>
     </Transition>
-  </Teleport>
+  </AppTeleport>
   <div style="display: none"><slot /></div>
 </template>
 
 <script lang="ts" setup>
+import AppTeleport from '../app/AppTeleport.vue'
 import {
   computed,
   defineComponent,
@@ -167,12 +168,14 @@ import { Checkmark16Regular, ChevronDown16Regular, DismissCircle16Filled } from 
 import { Icon } from '../icon'
 import { Input } from '../input'
 import { useInputStyle } from '../input-style'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
 import { ScrollBox } from '../scroll-box'
 import SelectOptionComp from '../select-option/SelectOption.vue'
 import { Tag } from '../tag'
-import { nextZIndex } from '../zIndex'
+import { useZIndexManager } from '../zIndex'
+
+const t = useLocale()
 
 export type SelectOptionContent = VNodeChild | (() => VNodeChild)
 
@@ -265,8 +268,6 @@ const props = withDefaults(
     readonly: false,
     clearable: false,
     multiple: false,
-    size: 'default',
-    styleMode: 'outlined',
   },
 )
 
@@ -357,6 +358,7 @@ const allOptions = computed(() => {
 const open = ref(false)
 const isHovering = ref(false)
 const currentZIndex = ref(0)
+const zIndexManager = useZIndexManager()
 const triggerRef = ref<HTMLElement>()
 const dropdownRef = ref<HTMLElement>()
 const hoverIndex = ref(-1)
@@ -433,7 +435,7 @@ const selectionLimit = computed(() => {
 const selectionLimitReached = computed(() => {
   return props.multiple && selectionLimit.value !== undefined && multipleValues.value.length >= selectionLimit.value
 })
-const placeholderText = computed(() => props.placeholder ?? $t('select.placeholder'))
+const placeholderText = computed(() => props.placeholder ?? t('select.placeholder'))
 const activeOptionId = computed(() => {
   const option = filteredOptions.value[hoverIndex.value]
   return open.value && option && !isOptionDisabled(option) ? getOptionId(hoverIndex.value) : undefined
@@ -465,7 +467,7 @@ function getOptionId(index: number) {
 function openDropdown() {
   if (props.disabled || props.readonly || open.value) return
   open.value = true
-  currentZIndex.value = nextZIndex()
+  currentZIndex.value = zIndexManager.next()
   hoverIndex.value = -1
   searchQuery.value = ''
   filteredOptions.value = [...allOptions.value]
@@ -887,12 +889,12 @@ defineExpose({
   align-items: center;
   user-select: none;
   cursor: pointer;
-  color: rgba(0, 0, 0, 0.45);
+  color: var(--yiz-color-text-tertiary);
   transition: color 0.3s;
   z-index: 1;
 
   &:hover {
-    color: rgba(0, 0, 0, 0.88);
+    color: var(--yiz-color-text-primary);
   }
 }
 
@@ -948,7 +950,7 @@ defineExpose({
 
   &.yiz-select-option-selected {
     color: var(--yiz-color-primary);
-    background-color: var(--yiz-color-primary-light8);
+    background-color: var(--yiz-color-primary-bg-hover);
     font-weight: 500;
   }
 

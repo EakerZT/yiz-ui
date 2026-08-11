@@ -1,9 +1,11 @@
 <template>
-  <y-button @click="onIndeterminate">{{ $t('demo.loadingBar.indeterminate') }}</y-button>
+  <y-button @click="onIndeterminate">{{ t('demo.loadingBar.indeterminate') }}</y-button>
 </template>
 
 <script lang="ts" setup>
-import { $t, loadingBar } from 'yiz-ui'
+import { useLocale, loadingBar } from 'yiz-ui'
+
+const t = useLocale()
 
 function onIndeterminate() {
   loadingBar.configure({ indeterminate: true })

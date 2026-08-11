@@ -72,7 +72,7 @@
     </div>
   </div>
 
-  <Teleport to="body">
+  <AppTeleport>
     <Transition name="yiz-date-range-picker-panel-fade">
       <div v-if="open" ref="panelRef" class="yiz-date-range-picker-panel" :style="panelStyle" @click.stop>
         <div class="yiz-date-range-picker-panels">
@@ -182,17 +182,18 @@
         </div>
 
         <div class="yiz-date-range-picker-footer">
-          <LinkButton @click="onToday">{{ $t('datePicker.today') }}</LinkButton>
+          <LinkButton @click="onToday">{{ t('datePicker.today') }}</LinkButton>
           <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">{{
-            $t('common.confirm')
+            t('common.confirm')
           }}</Button>
         </div>
       </div>
     </Transition>
-  </Teleport>
+  </AppTeleport>
 </template>
 
 <script lang="ts" setup>
+import AppTeleport from '../app/AppTeleport.vue'
 import { computed, defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, watch, type PropType } from 'vue'
 import {
   ArrowRight16Regular,
@@ -207,9 +208,11 @@ import Button from '../button/Button.vue'
 import { Icon } from '../icon'
 import { useInputStyle } from '../input-style'
 import LinkButton from '../link-button/LinkButton.vue'
-import { $t, $tList } from '../locale'
+import { useLocale } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
-import { nextZIndex } from '../zIndex'
+import { useZIndexManager } from '../zIndex'
+
+const t = useLocale()
 
 defineSlots<{
   prefix: unknown
@@ -300,8 +303,6 @@ const props = withDefaults(
     clearable: false,
     forceRange: false,
     autoSort: true,
-    size: 'default',
-    styleMode: 'outlined',
     format: 'YYYY-MM-DD',
     separator: '-',
   },
@@ -316,6 +317,7 @@ const open = ref(false)
 const isHovering = ref(false)
 const activeSide = ref<DateRangeSide>('start')
 const currentZIndex = ref(0)
+const zIndexManager = useZIndexManager()
 const triggerRef = ref<HTMLElement>()
 const panelRef = ref<HTMLElement>()
 useOverlayElement(panelRef, open)
@@ -337,10 +339,10 @@ const startShowYearPicker = ref(false)
 const endShowYearPicker = ref(false)
 const dropdownPos = ref<{ top?: string; bottom?: string; left?: string }>({})
 
-const weekDays = computed(() => $tList('datePicker.weekdays'))
+const weekDays = computed(() => t.list('datePicker.weekdays'))
 
-const startPlaceholder = computed(() => props.startPlaceholder ?? $t('dateRangePicker.startPlaceholder'))
-const endPlaceholder = computed(() => props.endPlaceholder ?? $t('dateRangePicker.endPlaceholder'))
+const startPlaceholder = computed(() => props.startPlaceholder ?? t('dateRangePicker.startPlaceholder'))
+const endPlaceholder = computed(() => props.endPlaceholder ?? t('dateRangePicker.endPlaceholder'))
 const separator = computed(() => props.separator)
 const disabled = computed(() => props.disabled)
 const clearable = computed(() => props.clearable)
@@ -623,7 +625,7 @@ function openPanel(side: DateRangeSide) {
   syncInputTextFromDraft('end')
   startInputDirty.value = false
   endInputDirty.value = false
-  currentZIndex.value = nextZIndex()
+  currentZIndex.value = zIndexManager.next()
   open.value = true
 }
 
@@ -916,7 +918,7 @@ defineExpose({
 
 .yiz-date-range-picker-open .yiz-date-range-picker-input {
   border-color: var(--yiz-color-primary);
-  box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+  box-shadow: var(--yiz-control-focus-shadow);
 }
 
 .yiz-form-item-error-status .yiz-date-range-picker:not(.yiz-date-range-picker-disabled) .yiz-date-range-picker-input {
@@ -933,7 +935,7 @@ defineExpose({
   .yiz-date-range-picker-open:not(.yiz-date-range-picker-disabled)
   .yiz-date-range-picker-input {
   border-color: var(--yiz-color-error);
-  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+  box-shadow: var(--yiz-control-error-focus-shadow);
 }
 
 .yiz-date-range-picker-disabled .yiz-date-range-picker-input {
@@ -1013,13 +1015,13 @@ defineExpose({
   transform: translateY(-50%);
   user-select: none;
   cursor: pointer;
-  color: rgba(0, 0, 0, 0.45);
+  color: var(--yiz-color-text-tertiary);
   transition: color 0.3s;
   z-index: 1;
 }
 
 .yiz-date-range-picker-clear:hover {
-  color: rgba(0, 0, 0, 0.88);
+  color: var(--yiz-color-text-primary);
 }
 
 .yiz-date-range-picker-small .yiz-date-range-picker-input {
@@ -1046,7 +1048,7 @@ defineExpose({
   background: var(--yiz-color-bg-elevated);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--yiz-shadow-popup);
   user-select: none;
 }
 
@@ -1132,7 +1134,7 @@ defineExpose({
 .yiz-date-range-picker-year-item-active,
 .yiz-date-range-picker-year-item-active:hover {
   color: var(--yiz-color-primary);
-  background: var(--yiz-color-primary-light8);
+  background: var(--yiz-color-primary-bg-hover);
   font-weight: 600;
 }
 
@@ -1175,7 +1177,7 @@ defineExpose({
 
 .yiz-date-range-picker-cell-other .yiz-date-range-picker-cell-inner,
 .yiz-date-range-picker-cell-disabled .yiz-date-range-picker-cell-inner {
-  color: #d9d9d9;
+  color: var(--yiz-color-text-disabled);
 }
 
 .yiz-date-range-picker-cell-today .yiz-date-range-picker-cell-inner {

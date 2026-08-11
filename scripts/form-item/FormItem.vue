@@ -46,7 +46,7 @@
 import { QuestionCircle16Regular } from '@vicons/fluent'
 import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'
 import { Icon } from '../icon'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
 import { Tooltip } from '../tooltip'
 import {
   formContextKey,
@@ -57,6 +57,8 @@ import {
   type FormRule,
   type FormValidateTrigger,
 } from '../form/types'
+
+const t = useLocale()
 
 const props = withDefaults(
   defineProps<{
@@ -253,7 +255,7 @@ function shouldValidateRule(rule: FormRule, trigger?: FormValidateTrigger) {
 }
 
 function getRuleMessage(rule: FormRule) {
-  return rule.message || $t('form.required', { label: fieldLabel.value })
+  return rule.message || t('form.required', { label: fieldLabel.value })
 }
 
 async function validateRule(rule: FormRule): Promise<FormItemValidateResult> {
@@ -266,19 +268,19 @@ async function validateRule(rule: FormRule): Promise<FormItemValidateResult> {
   if (!isEmpty(value) && rule.pattern) {
     const pattern = typeof rule.pattern === 'string' ? new RegExp(rule.pattern) : rule.pattern
     if (!pattern.test(String(value))) {
-      return { valid: false, message: rule.message || $t('form.pattern', { label: fieldLabel.value }) }
+      return { valid: false, message: rule.message || t('form.pattern', { label: fieldLabel.value }) }
     }
   }
 
   const measure = getLengthOrValue(value)
   if (!isEmpty(value) && rule.len !== undefined && measure !== rule.len) {
-    return { valid: false, message: rule.message || $t('form.length', { label: fieldLabel.value, len: rule.len }) }
+    return { valid: false, message: rule.message || t('form.length', { label: fieldLabel.value, len: rule.len }) }
   }
   if (!isEmpty(value) && rule.min !== undefined && measure !== undefined && measure < rule.min) {
-    return { valid: false, message: rule.message || $t('form.min', { label: fieldLabel.value, min: rule.min }) }
+    return { valid: false, message: rule.message || t('form.min', { label: fieldLabel.value, min: rule.min }) }
   }
   if (!isEmpty(value) && rule.max !== undefined && measure !== undefined && measure > rule.max) {
-    return { valid: false, message: rule.message || $t('form.max', { label: fieldLabel.value, max: rule.max }) }
+    return { valid: false, message: rule.message || t('form.max', { label: fieldLabel.value, max: rule.max }) }
   }
 
   if (rule.validator) {
@@ -371,7 +373,7 @@ defineExpose({
   min-height: var(--yiz-control-height-default);
   padding-right: 12px;
   line-height: var(--yiz-control-height-default);
-  color: rgba(0, 0, 0, 0.88);
+  color: var(--yiz-color-text-primary);
   box-sizing: border-box;
 }
 

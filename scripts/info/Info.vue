@@ -19,7 +19,7 @@
       <slot name="action" />
     </div>
 
-    <button v-if="closable" class="yiz-info-close" type="button" :aria-label="$t('common.close')" @click="close">
+    <button v-if="closable" class="yiz-info-close" type="button" :aria-label="t('common.close')" @click="close">
       <span v-if="closeText" class="yiz-info-close-text">{{ closeText }}</span>
       <Icon v-else size="16" :icon="Dismiss16Regular" />
     </button>
@@ -37,7 +37,9 @@ import {
   Warning20Regular,
 } from '@vicons/fluent'
 import { Icon } from '../icon'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
+
+const t = useLocale()
 
 export type InfoType = 'info' | 'success' | 'warning' | 'error'
 
@@ -188,25 +190,25 @@ function close(event: MouseEvent) {
 
 .yiz-info-info {
   --yiz-info-color: var(--yiz-color-primary);
-  --yiz-info-bg: var(--yiz-color-primary-light9);
-  --yiz-info-border-color: var(--yiz-color-primary-light8);
+  --yiz-info-bg: var(--yiz-color-primary-bg);
+  --yiz-info-border-color: var(--yiz-color-primary-bg-hover);
 }
 
 .yiz-info-success {
   --yiz-info-color: var(--yiz-color-success);
-  --yiz-info-bg: var(--yiz-color-success-light9);
-  --yiz-info-border-color: var(--yiz-color-success-light8);
+  --yiz-info-bg: var(--yiz-color-success-bg);
+  --yiz-info-border-color: var(--yiz-color-success-bg-hover);
 }
 
 .yiz-info-warning {
-  --yiz-info-color: var(--yiz-color-warning-dark5);
-  --yiz-info-bg: var(--yiz-color-warning-light9);
-  --yiz-info-border-color: var(--yiz-color-warning-light8);
+  --yiz-info-color: var(--yiz-color-warning-text);
+  --yiz-info-bg: var(--yiz-color-warning-bg);
+  --yiz-info-border-color: var(--yiz-color-warning-bg-hover);
 }
 
 .yiz-info-error {
   --yiz-info-color: var(--yiz-color-error);
-  --yiz-info-bg: var(--yiz-color-error-light9);
-  --yiz-info-border-color: var(--yiz-color-error-light8);
+  --yiz-info-bg: var(--yiz-color-error-bg);
+  --yiz-info-border-color: var(--yiz-color-error-bg-hover);
 }
 </style>

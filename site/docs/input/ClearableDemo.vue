@@ -1,10 +1,12 @@
 <template>
-  <y-input v-model:value="clearText" :placeholder="$t('demo.common.clearable')" clearable />
+  <y-input v-model:value="clearText" :placeholder="t('demo.common.clearable')" clearable />
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const clearText = ref('')
 </script>

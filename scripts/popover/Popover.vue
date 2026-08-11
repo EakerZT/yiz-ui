@@ -1,7 +1,7 @@
 <template>
   <component :is="renderTrigger()" />
 
-  <Teleport to="body">
+  <AppTeleport>
     <transition :name="transitionName">
       <div
         v-if="visible"
@@ -23,12 +23,13 @@
         <div v-if="showArrow" class="yiz-popover-arrow" :style="arrowPosition" />
       </div>
     </transition>
-  </Teleport>
+  </AppTeleport>
 </template>
 
 <script lang="ts" setup>
+import AppTeleport from '../app/AppTeleport.vue'
 import { cloneVNode, computed, h, nextTick, onBeforeUnmount, onMounted, ref, useSlots, watch, type VNode } from 'vue'
-import { nextZIndex } from '../zIndex'
+import { useZIndexManager } from '../zIndex'
 import { findFirstTriggerVNode } from '../triggerVNode'
 import {
   createOverlayScope,
@@ -87,6 +88,7 @@ const popPosition = ref<Record<string, string>>({})
 const arrowPosition = ref<Record<string, string>>({})
 const positioned = ref(false)
 const currentZIndex = ref(0)
+const zIndexManager = useZIndexManager()
 let closeTimer: ReturnType<typeof setTimeout> | null = null
 let unregisterParentOverlay: (() => void) | null = null
 
@@ -289,7 +291,7 @@ function onReposition() {
 
 watch(visible, async (open) => {
   if (open) {
-    currentZIndex.value = nextZIndex()
+    currentZIndex.value = zIndexManager.next()
     effectivePlacement.value = props.placement
     popPosition.value = {}
     arrowPosition.value = {}

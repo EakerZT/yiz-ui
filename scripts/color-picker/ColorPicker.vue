@@ -18,7 +18,7 @@
       <slot v-else name="suffix" />
     </span>
   </div>
-  <Teleport to="body">
+  <AppTeleport>
     <Transition name="yiz-color-picker-dropdown-fade">
       <div v-if="open" ref="dropdownRef" class="yiz-color-picker-dropdown" :style="dropdownStyle" @click.stop>
         <div
@@ -80,22 +80,25 @@
         </div>
 
         <div class="yiz-color-picker-actions">
-          <Button size="small" @click="cancel">{{ $t('common.cancel') }}</Button>
-          <Button type="primary" size="small" @click="confirm">{{ $t('common.confirm') }}</Button>
+          <Button size="small" @click="cancel">{{ t('common.cancel') }}</Button>
+          <Button type="primary" size="small" @click="confirm">{{ t('common.confirm') }}</Button>
         </div>
       </div>
     </Transition>
-  </Teleport>
+  </AppTeleport>
 </template>
 
 <script lang="ts" setup>
+import AppTeleport from '../app/AppTeleport.vue'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import Button from '../button/Button.vue'
 import Input from '../input/Input.vue'
 import { useInputStyle } from '../input-style'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
-import { nextZIndex } from '../zIndex'
+import { useZIndexManager } from '../zIndex'
+
+const t = useLocale()
 
 interface HsvColor {
   h: number
@@ -117,8 +120,6 @@ const props = withDefaults(
   {
     disabled: false,
     readonly: false,
-    size: 'default',
-    styleMode: 'outlined',
     alpha: false,
     presets: () => [
       '#1677ff',
@@ -143,6 +144,7 @@ const modelValue = defineModel<string>('value')
 
 const open = ref(false)
 const currentZIndex = ref(0)
+const zIndexManager = useZIndexManager()
 const triggerRef = ref<HTMLElement>()
 const dropdownRef = ref<HTMLElement>()
 useOverlayElement(dropdownRef, open)
@@ -357,7 +359,7 @@ function onTriggerClick() {
   open.value = !open.value
   if (open.value) {
     setDraftColor(displayColor.value)
-    currentZIndex.value = nextZIndex()
+    currentZIndex.value = zIndexManager.next()
     nextTick(repositionDropdown)
   }
 }
@@ -804,7 +806,7 @@ defineExpose({
   }
 
   &.yiz-color-picker-preset-white.yiz-color-picker-preset-active {
-    border-color: #bfbfbf;
+    border-color: var(--yiz-color-text-disabled);
     box-shadow:
       inset 0 0 0 1px #fff,
       0 0 0 1px rgba(0, 0, 0, 0.28),

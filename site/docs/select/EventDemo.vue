@@ -1,18 +1,20 @@
 <template>
   <y-select v-model:value="value" :options="options" @change="changeCount++" />
-  <span class="demo-hint">{{ $t('demo.select.changeCount', { count: changeCount }) }}</span>
+  <span class="demo-hint">{{ t('demo.select.changeCount', { count: changeCount }) }}</span>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const value = ref()
 const changeCount = ref(0)
 const options = computed(() => [
-  { label: $t('demo.common.beijing'), value: 'beijing' },
-  { label: $t('demo.common.shanghai'), value: 'shanghai' },
-  { label: $t('demo.common.guangzhou'), value: 'guangzhou' },
+  { label: t('demo.common.beijing'), value: 'beijing' },
+  { label: t('demo.common.shanghai'), value: 'shanghai' },
+  { label: t('demo.common.guangzhou'), value: 'guangzhou' },
 ])
 </script>
 

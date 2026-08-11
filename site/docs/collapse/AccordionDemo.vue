@@ -1,23 +1,25 @@
 <template>
   <y-collapse v-model:value="accordionValue" accordion>
-    <y-collapse-item name="account" :title="$t('demo.collapse.accountTitle')">
-      {{ $t('demo.collapse.accountContent') }}
+    <y-collapse-item name="account" :title="t('demo.collapse.accountTitle')">
+      {{ t('demo.collapse.accountContent') }}
     </y-collapse-item>
-    <y-collapse-item name="security" :title="$t('demo.collapse.securityTitle')">
-      {{ $t('demo.collapse.securityContent') }}
+    <y-collapse-item name="security" :title="t('demo.collapse.securityTitle')">
+      {{ t('demo.collapse.securityContent') }}
     </y-collapse-item>
-    <y-collapse-item name="notice" :title="$t('demo.collapse.noticeTitle')">
-      {{ $t('demo.collapse.noticeContent') }}
+    <y-collapse-item name="notice" :title="t('demo.collapse.noticeTitle')">
+      {{ t('demo.collapse.noticeContent') }}
     </y-collapse-item>
   </y-collapse>
   <p class="demo-collapse-info">
-    {{ $t('demo.collapse.activeValue', { value: accordionValue ?? $t('demo.common.none') }) }}
+    {{ t('demo.collapse.activeValue', { value: accordionValue ?? t('demo.common.none') }) }}
   </p>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const accordionValue = ref<string | undefined>('security')
 </script>

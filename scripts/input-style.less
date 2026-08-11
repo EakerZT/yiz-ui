@@ -31,7 +31,7 @@
 .yiz-color-picker.yiz-color-picker-filled:focus:not(.yiz-color-picker-disabled) {
   border-color: var(--yiz-color-primary);
   background: var(--yiz-control-active-bg);
-  box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+  box-shadow: var(--yiz-control-focus-shadow);
 }
 
 .yiz-input-number.yiz-input-number-filled {
@@ -130,7 +130,7 @@
   .yiz-datetime-range-picker-input {
   border-color: var(--yiz-color-primary);
   background: var(--yiz-control-active-bg);
-  box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+  box-shadow: var(--yiz-control-focus-shadow);
 }
 
 .yiz-form-item-error-status {
@@ -184,7 +184,7 @@
   .yiz-datetime-range-picker.yiz-datetime-range-picker-filled:focus-within:not(.yiz-datetime-range-picker-disabled)
     .yiz-datetime-range-picker-input {
     border-color: var(--yiz-color-error);
-    box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+    box-shadow: var(--yiz-control-error-focus-shadow);
   }
 }
 

@@ -25,7 +25,7 @@
         type="button"
         :disabled="node.disabled"
         tabindex="-1"
-        :aria-label="$t(expanded ? 'tree.collapse' : 'tree.expand', { label: node.label })"
+        :aria-label="t(expanded ? 'tree.collapse' : 'tree.expand', { label: node.label })"
         @click.stop="context.toggleExpand(node)"
       >
         <Icon class="yiz-tree-switcher-icon" size="16" :icon="ChevronRight16Regular" />
@@ -82,7 +82,9 @@ import { ChevronRight16Regular } from '@vicons/fluent'
 import Checkbox from '../checkbox/Checkbox.vue'
 import { Icon } from '../icon'
 import type { TreeContext, TreeNodeData, TreeSlotProps } from './Tree.vue'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
+
+const t = useLocale()
 
 defineOptions({
   name: 'TreeNode',

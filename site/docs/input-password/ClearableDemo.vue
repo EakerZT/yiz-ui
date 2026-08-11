@@ -1,10 +1,12 @@
 <template>
-  <y-input-password v-model:value="clearPassword" :placeholder="$t('demo.common.clearable')" clearable />
+  <y-input-password v-model:value="clearPassword" :placeholder="t('demo.common.clearable')" clearable />
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const clearPassword = ref('')
 </script>

@@ -8,14 +8,16 @@
       clearable
     />
     <span class="demo-item-hint"
-      >{{ stringStart ?? $t('demo.common.empty') }} - {{ stringEnd ?? $t('demo.common.empty') }}</span
+      >{{ stringStart ?? t('demo.common.empty') }} - {{ stringEnd ?? t('demo.common.empty') }}</span
     >
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const stringStart = ref<string | null>('2026-06-01 00:00:00')
 

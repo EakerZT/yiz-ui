@@ -6,12 +6,14 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const viewOptions = computed(() => [
-  { label: $t('demo.segmented.list'), value: 'list' },
-  { label: $t('demo.segmented.card'), value: 'card' },
-  { label: $t('demo.segmented.chart'), value: 'chart' },
+  { label: t('demo.segmented.list'), value: 'list' },
+  { label: t('demo.segmented.card'), value: 'card' },
+  { label: t('demo.segmented.chart'), value: 'chart' },
 ])
 
 const block = ref('card')

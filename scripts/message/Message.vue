@@ -22,7 +22,7 @@ import {
   Warning20Regular,
 } from '@vicons/fluent'
 import { Icon } from '../icon'
-import { nextZIndex } from '../zIndex'
+import { useZIndexManager } from '../zIndex'
 
 type MessageType = 'info' | 'success' | 'warning' | 'error' | 'loading'
 
@@ -53,6 +53,7 @@ const emit = defineEmits<{
 
 const visible = defineModel<boolean>('modelValue', { default: false })
 const currentZIndex = ref(0)
+const zIndexManager = useZIndexManager()
 const slots = useSlots()
 let timer: ReturnType<typeof setTimeout> | null = null
 
@@ -100,7 +101,7 @@ watch(
   visible,
   (val) => {
     if (val) {
-      currentZIndex.value = nextZIndex()
+      currentZIndex.value = zIndexManager.next()
       startTimer()
     } else {
       clearTimer()

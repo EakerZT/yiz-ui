@@ -1,20 +1,22 @@
 <template>
   <y-loading :loading="containerLoading">
     <div class="demo-loading-content">
-      <p>{{ $t('demo.loading.wrappedContent') }}</p>
-      <p>{{ $t('demo.loading.wrappedHint') }}</p>
+      <p>{{ t('demo.loading.wrappedContent') }}</p>
+      <p>{{ t('demo.loading.wrappedHint') }}</p>
     </div>
   </y-loading>
   <div style="margin-top: 8px">
     <y-button size="small" @click="containerLoading = !containerLoading">
-      {{ containerLoading ? $t('demo.loading.stopLoading') : $t('demo.loading.startLoading') }}
+      {{ containerLoading ? t('demo.loading.stopLoading') : t('demo.loading.startLoading') }}
     </y-button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const containerLoading = ref(true)
 </script>

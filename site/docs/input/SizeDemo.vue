@@ -1,13 +1,15 @@
 <template>
   <div class="demo-input-row">
     <y-radio-button-group v-model:value="inputSize" :options="sizeOptions" />
-    <y-input v-model:value="sizeText" :placeholder="$t('demo.common.pleaseInput')" :size="inputSize" />
+    <y-input v-model:value="sizeText" :placeholder="t('demo.common.pleaseInput')" :size="inputSize" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 type DemoSize = 'small' | 'default' | 'large'
 

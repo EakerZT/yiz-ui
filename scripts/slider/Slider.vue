@@ -301,7 +301,7 @@ defineExpose({
   --yiz-slider-height: 4px;
   --yiz-slider-handle-size: 14px;
   --yiz-slider-color: var(--yiz-color-primary);
-  --yiz-slider-disabled-color: #bfbfbf;
+  --yiz-slider-disabled-color: var(--yiz-color-text-disabled);
 
   position: relative;
   box-sizing: border-box;
@@ -331,7 +331,7 @@ defineExpose({
 .yiz-slider-rail {
   left: 0;
   right: 0;
-  background: #f0f0f0;
+  background: var(--yiz-color-bg-active);
 }
 
 .yiz-slider-fill {
@@ -345,7 +345,7 @@ defineExpose({
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #d9d9d9;
+  background: var(--yiz-color-border);
   transform: translate(-50%, -50%);
 }
 
@@ -379,7 +379,7 @@ defineExpose({
 
   &:hover,
   &:focus-visible {
-    box-shadow: 0 0 0 4px var(--yiz-color-primary-light9);
+    box-shadow: 0 0 0 4px var(--yiz-color-primary-bg);
   }
 
   &:active {
@@ -395,7 +395,8 @@ defineExpose({
   z-index: 3;
   padding: 2px 6px;
   border-radius: 4px;
-  background: rgba(0, 0, 0, 0.75);
+  color: var(--yiz-color-tooltip-text);
+  background: var(--yiz-color-tooltip-bg);
   color: var(--yiz-color-text-inverse);
   font-size: 12px;
   line-height: 18px;
@@ -462,7 +463,7 @@ defineExpose({
   }
 
   .yiz-slider-mark {
-    color: #bfbfbf;
+    color: var(--yiz-color-text-disabled);
     cursor: not-allowed;
   }
 }

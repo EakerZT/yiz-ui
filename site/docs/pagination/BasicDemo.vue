@@ -1,11 +1,13 @@
 <template>
   <y-pagination v-model:page="page" :total="128" />
-  <p class="demo-pagination-info">{{ $t('demo.pagination.currentPage', { page }) }}</p>
+  <p class="demo-pagination-info">{{ t('demo.pagination.currentPage', { page }) }}</p>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const page = ref(1)
 </script>

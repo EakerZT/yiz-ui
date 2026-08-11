@@ -1,14 +1,16 @@
 <template>
   <y-checkbox-group v-model:value="slotGroup" direction="horizontal">
-    <y-checkbox value="a">{{ $t('demo.checkbox.customA') }}</y-checkbox>
-    <y-checkbox value="b">{{ $t('demo.checkbox.customB') }}</y-checkbox>
-    <y-checkbox value="c">{{ $t('demo.checkbox.customC') }}</y-checkbox> </y-checkbox-group
+    <y-checkbox value="a">{{ t('demo.checkbox.customA') }}</y-checkbox>
+    <y-checkbox value="b">{{ t('demo.checkbox.customB') }}</y-checkbox>
+    <y-checkbox value="c">{{ t('demo.checkbox.customC') }}</y-checkbox> </y-checkbox-group
   ><span class="demo-hint">{{ slotGroup }}</span>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const slotGroup = ref(['a', 'c'])
 </script>

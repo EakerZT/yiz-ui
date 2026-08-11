@@ -9,23 +9,25 @@
       :cell-class="cellClass"
       :cell-style="cellStyle"
     >
-      <y-table-column :label="$t('demo.common.name')" field="name" header-class="table-name-header" />
+      <y-table-column :label="t('demo.common.name')" field="name" header-class="table-name-header" />
       <y-table-column
-        :label="$t('demo.table.score')"
+        :label="t('demo.table.score')"
         field="score"
         align="center"
         :cell-class="scoreCellClass"
         :cell-style="scoreCellStyle"
         :header-style="scoreHeaderStyle"
       />
-      <y-table-column :label="$t('demo.common.status')" field="status" align="center" :formatter="statusFormatter" />
+      <y-table-column :label="t('demo.common.status')" field="status" align="center" :formatter="statusFormatter" />
     </y-table>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { $t, type TableCellContext, type TableHeaderCellContext, type TableRowContext } from 'yiz-ui'
+import { useLocale, type TableCellContext, type TableHeaderCellContext, type TableRowContext } from 'yiz-ui'
+
+const t = useLocale()
 
 interface Row {
   name: string
@@ -34,10 +36,10 @@ interface Row {
 }
 
 const data = computed<Row[]>(() => [
-  { name: $t('demo.common.personZhangsan'), score: 92, status: 'normal' },
-  { name: $t('demo.common.personLisi'), score: 68, status: 'attention' },
-  { name: $t('demo.common.personWangwu'), score: 45, status: 'blocked' },
-  { name: $t('demo.common.personZhaoliu'), score: 81, status: 'normal' },
+  { name: t('demo.common.personZhangsan'), score: 92, status: 'normal' },
+  { name: t('demo.common.personLisi'), score: 68, status: 'attention' },
+  { name: t('demo.common.personWangwu'), score: 45, status: 'blocked' },
+  { name: t('demo.common.personZhaoliu'), score: 81, status: 'normal' },
 ])
 
 function rowClass({ row }: TableRowContext<Row>) {
@@ -45,7 +47,7 @@ function rowClass({ row }: TableRowContext<Row>) {
 }
 
 function rowStyle({ row }: TableRowContext<Row>) {
-  return row.status === 'attention' ? { backgroundColor: 'var(--yiz-color-warning-light9)' } : undefined
+  return row.status === 'attention' ? { backgroundColor: 'var(--yiz-color-warning-bg)' } : undefined
 }
 
 function cellClass({ column, row }: TableCellContext<Row>) {
@@ -70,7 +72,7 @@ function scoreHeaderStyle({ columnIndex }: TableHeaderCellContext) {
 }
 
 function statusFormatter(value: Row['status']) {
-  return $t(`demo.table.status.${value}`)
+  return t(`demo.table.status.${value}`)
 }
 </script>
 
@@ -80,7 +82,7 @@ function statusFormatter(value: Row['status']) {
 }
 
 :deep(.table-row-blocked) {
-  background: var(--yiz-color-error-light9);
+  background: var(--yiz-color-error-bg);
 }
 
 :deep(.table-status-emphasis) {

@@ -1,5 +1,5 @@
 <template>
-  <y-empty :description="$t('demo.empty.networkError')">
+  <y-empty :description="t('demo.empty.networkError')">
     <template #image>
       <svg viewBox="0 0 64 64" width="64" height="64" fill="none">
         <circle cx="32" cy="32" r="30" stroke="#d9d9d9" stroke-width="2" />
@@ -10,5 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 </script>

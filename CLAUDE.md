@@ -263,7 +263,7 @@ Menu entries use the `MenuEntry` union (`MenuItemOption | MenuDividerOption`). D
 
 **ContextMenu submenus** — nested submenus render inline and position with `position: absolute; left: 100%`. Submenu placement flips to `right: 100%` when the submenu would overflow the viewport right edge, and flips vertically when it would overflow the bottom.
 
-**ContextMenu imperative API** — unlike Menu (which is used declaratively in templates), ContextMenu also exposes `showContextMenu(options, event)` as an imperative function from `scripts/context-menu/index.ts`. It follows the same `createVNode` + `render()` pattern as Notification, mounting a ContextMenu instance at the pointer position on right-click or at a specified event target.
+**ContextMenu imperative API** — unlike Menu (which is used declaratively in templates), ContextMenu also exposes `showContextMenu({ x, y, width, menus, onSelect, onClose })` as an imperative function from `scripts/context-menu/index.ts`. It follows the same `createVNode` + `render()` pattern as Notification, mounting a ContextMenu instance at the specified coordinates.
 
 **v-model:select:** Menu uses `defineModel<any>('select')` to track the currently selected item value.
 

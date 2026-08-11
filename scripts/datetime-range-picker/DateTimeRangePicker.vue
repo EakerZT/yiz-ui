@@ -74,7 +74,7 @@
     </div>
   </div>
 
-  <Teleport to="body">
+  <AppTeleport>
     <Transition name="yiz-datetime-range-picker-panel-fade">
       <div v-if="open" ref="panelRef" class="yiz-datetime-range-picker-panel" :style="panelStyle" @click.stop>
         <div class="yiz-datetime-range-picker-panels">
@@ -152,7 +152,7 @@
 
               <div class="yiz-datetime-range-picker-time">
                 <div class="yiz-datetime-range-picker-time-col">
-                  <div class="yiz-datetime-range-picker-time-title">{{ $t('timePicker.hour') }}</div>
+                  <div class="yiz-datetime-range-picker-time-title">{{ t('timePicker.hour') }}</div>
                   <div ref="startHourListRef" class="yiz-datetime-range-picker-time-list">
                     <div
                       v-for="h in hours"
@@ -166,7 +166,7 @@
                   </div>
                 </div>
                 <div class="yiz-datetime-range-picker-time-col">
-                  <div class="yiz-datetime-range-picker-time-title">{{ $t('timePicker.minute') }}</div>
+                  <div class="yiz-datetime-range-picker-time-title">{{ t('timePicker.minute') }}</div>
                   <div ref="startMinuteListRef" class="yiz-datetime-range-picker-time-list">
                     <div
                       v-for="m in minutes"
@@ -180,7 +180,7 @@
                   </div>
                 </div>
                 <div class="yiz-datetime-range-picker-time-col">
-                  <div class="yiz-datetime-range-picker-time-title">{{ $t('timePicker.second') }}</div>
+                  <div class="yiz-datetime-range-picker-time-title">{{ t('timePicker.second') }}</div>
                   <div ref="startSecondListRef" class="yiz-datetime-range-picker-time-list">
                     <div
                       v-for="s in 60"
@@ -268,7 +268,7 @@
 
               <div class="yiz-datetime-range-picker-time">
                 <div class="yiz-datetime-range-picker-time-col">
-                  <div class="yiz-datetime-range-picker-time-title">{{ $t('timePicker.hour') }}</div>
+                  <div class="yiz-datetime-range-picker-time-title">{{ t('timePicker.hour') }}</div>
                   <div ref="endHourListRef" class="yiz-datetime-range-picker-time-list">
                     <div
                       v-for="h in hours"
@@ -282,7 +282,7 @@
                   </div>
                 </div>
                 <div class="yiz-datetime-range-picker-time-col">
-                  <div class="yiz-datetime-range-picker-time-title">{{ $t('timePicker.minute') }}</div>
+                  <div class="yiz-datetime-range-picker-time-title">{{ t('timePicker.minute') }}</div>
                   <div ref="endMinuteListRef" class="yiz-datetime-range-picker-time-list">
                     <div
                       v-for="m in minutes"
@@ -296,7 +296,7 @@
                   </div>
                 </div>
                 <div class="yiz-datetime-range-picker-time-col">
-                  <div class="yiz-datetime-range-picker-time-title">{{ $t('timePicker.second') }}</div>
+                  <div class="yiz-datetime-range-picker-time-title">{{ t('timePicker.second') }}</div>
                   <div ref="endSecondListRef" class="yiz-datetime-range-picker-time-list">
                     <div
                       v-for="s in 60"
@@ -315,17 +315,18 @@
         </div>
 
         <div class="yiz-datetime-range-picker-footer">
-          <LinkButton @click="onNow">{{ $t('timePicker.now') }}</LinkButton>
+          <LinkButton @click="onNow">{{ t('timePicker.now') }}</LinkButton>
           <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">{{
-            $t('common.confirm')
+            t('common.confirm')
           }}</Button>
         </div>
       </div>
     </Transition>
-  </Teleport>
+  </AppTeleport>
 </template>
 
 <script lang="ts" setup>
+import AppTeleport from '../app/AppTeleport.vue'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import {
   ArrowRight16Regular,
@@ -340,10 +341,12 @@ import Button from '../button/Button.vue'
 import { Icon } from '../icon'
 import { useInputStyle } from '../input-style'
 import LinkButton from '../link-button/LinkButton.vue'
-import { $t, $tList } from '../locale'
+import { useLocale } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
-import { nextZIndex } from '../zIndex'
+import { useZIndexManager } from '../zIndex'
 import { formatDateTime, parseDateTime, parseDateTimeValue, type DateTimeValue } from '../datetime-utils'
+
+const t = useLocale()
 
 defineSlots<{
   prefix: unknown
@@ -391,8 +394,6 @@ const props = withDefaults(
     clearable: false,
     forceRange: false,
     autoSort: true,
-    size: 'default',
-    styleMode: 'outlined',
     format: 'YYYY-MM-DD HH:mm:ss',
     separator: '-',
   },
@@ -407,6 +408,7 @@ const open = ref(false)
 const isHovering = ref(false)
 const activeSide = ref<DateTimeRangeSide>('start')
 const currentZIndex = ref(0)
+const zIndexManager = useZIndexManager()
 const triggerRef = ref<HTMLElement>()
 const panelRef = ref<HTMLElement>()
 useOverlayElement(panelRef, open)
@@ -443,9 +445,9 @@ const inputEnterHandledOnKeydown = ref(false)
 
 const hours = Array.from({ length: 24 }, (_, i) => i)
 const minutes = Array.from({ length: 60 }, (_, i) => i)
-const weekDays = computed(() => $tList('datePicker.weekdays'))
-const startPlaceholder = computed(() => props.startPlaceholder ?? $t('dateRangePicker.startPlaceholder'))
-const endPlaceholder = computed(() => props.endPlaceholder ?? $t('dateRangePicker.endPlaceholder'))
+const weekDays = computed(() => t.list('datePicker.weekdays'))
+const startPlaceholder = computed(() => props.startPlaceholder ?? t('dateRangePicker.startPlaceholder'))
+const endPlaceholder = computed(() => props.endPlaceholder ?? t('dateRangePicker.endPlaceholder'))
 const disabled = computed(() => props.disabled)
 const clearable = computed(() => props.clearable)
 const separator = computed(() => props.separator)
@@ -670,7 +672,7 @@ function openPanel(side: DateTimeRangeSide) {
   syncInputTextFromDraft('end')
   startInputDirty.value = false
   endInputDirty.value = false
-  currentZIndex.value = nextZIndex()
+  currentZIndex.value = zIndexManager.next()
   open.value = true
 }
 
@@ -1012,7 +1014,7 @@ defineExpose({
 
 .yiz-datetime-range-picker-open .yiz-datetime-range-picker-input {
   border-color: var(--yiz-color-primary);
-  box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+  box-shadow: var(--yiz-control-focus-shadow);
 }
 
 .yiz-form-item-error-status
@@ -1031,7 +1033,7 @@ defineExpose({
   .yiz-datetime-range-picker-open:not(.yiz-datetime-range-picker-disabled)
   .yiz-datetime-range-picker-input {
   border-color: var(--yiz-color-error);
-  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+  box-shadow: var(--yiz-control-error-focus-shadow);
 }
 
 .yiz-datetime-range-picker-disabled .yiz-datetime-range-picker-input {
@@ -1111,13 +1113,13 @@ defineExpose({
   transform: translateY(-50%);
   user-select: none;
   cursor: pointer;
-  color: rgba(0, 0, 0, 0.45);
+  color: var(--yiz-color-text-tertiary);
   transition: color 0.3s;
   z-index: 1;
 }
 
 .yiz-datetime-range-picker-clear:hover {
-  color: rgba(0, 0, 0, 0.88);
+  color: var(--yiz-color-text-primary);
 }
 
 .yiz-datetime-range-picker-small .yiz-datetime-range-picker-input {
@@ -1144,7 +1146,7 @@ defineExpose({
   background: var(--yiz-color-bg-elevated);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--yiz-shadow-popup);
   user-select: none;
   font-size: 14px;
 }
@@ -1242,7 +1244,7 @@ defineExpose({
 .yiz-datetime-range-picker-year-item-active,
 .yiz-datetime-range-picker-year-item-active:hover {
   color: var(--yiz-color-primary);
-  background: var(--yiz-color-primary-light8);
+  background: var(--yiz-color-primary-bg-hover);
   font-weight: 600;
 }
 
@@ -1303,7 +1305,7 @@ defineExpose({
 
 .yiz-datetime-range-picker-cell-other .yiz-datetime-range-picker-cell-inner,
 .yiz-datetime-range-picker-cell-disabled .yiz-datetime-range-picker-cell-inner {
-  color: #d9d9d9;
+  color: var(--yiz-color-text-disabled);
 }
 
 .yiz-datetime-range-picker-cell-today .yiz-datetime-range-picker-cell-inner {
@@ -1373,7 +1375,7 @@ defineExpose({
 .yiz-datetime-range-picker-time-item-active,
 .yiz-datetime-range-picker-time-item-active:hover {
   color: var(--yiz-color-primary);
-  background: var(--yiz-color-primary-light8);
+  background: var(--yiz-color-primary-bg-hover);
   font-weight: 600;
 }
 

@@ -1,7 +1,7 @@
 <template>
   <section class="demo-section docs-component-page">
-    <h2 class="demo-section-title">{{ $t(titleKey) }}</h2>
-    <p class="demo-section-desc">{{ $t(descriptionKey) }}</p>
+    <h2 class="demo-section-title">{{ t(titleKey) }}</h2>
+    <p class="demo-section-desc">{{ t(descriptionKey) }}</p>
 
     <slot />
 
@@ -15,7 +15,7 @@
     />
 
     <section class="docs-api-section">
-      <h2>{{ $t('demo.docs.api') }}</h2>
+      <h2>{{ t('demo.docs.api') }}</h2>
       <api-section v-for="api in selectedApis" :key="api.name" :api="api" />
     </section>
   </section>
@@ -23,11 +23,13 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { $t } from '../../i18n'
+import { useLocale } from '../../i18n'
 import apiData from '../../generated/component-api.json'
 import type { ComponentApi, DemoDefinition } from '../../docs/types'
 import ApiSection from './ApiSection.vue'
 import DemoBlock from './DemoBlock.vue'
+
+const t = useLocale()
 
 const props = defineProps<{
   titleKey: string

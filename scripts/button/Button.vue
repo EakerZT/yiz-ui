@@ -12,9 +12,9 @@
 
 <script lang="ts" setup>
 import { Comment, computed, Fragment, h, isVNode, nextTick, ref, Text, type VNode } from 'vue'
-import { TinyColor } from '@ctrl/tinycolor'
 import Icon from '../icon/Icon.vue'
 import { useInputSize } from '../input-style'
+import { deriveColorRoles, useTheme } from '../theme'
 
 export type ButtonType = 'outlined' | 'primary' | 'plain' | 'dash' | 'filled' | 'text'
 
@@ -84,7 +84,6 @@ const props = withDefaults(
     type: 'outlined',
     color: 'default',
     shape: 'default',
-    size: 'default',
     disabled: false,
     loading: false,
   },
@@ -94,6 +93,7 @@ const isDisabled = computed(() => props.disabled || props.loading)
 const hasWave = computed(() => props.type !== 'filled' && props.type !== 'text')
 const buttonRef = ref<HTMLButtonElement>()
 const mergedSize = useInputSize(() => props.size)
+const { theme } = useTheme()
 
 const vClass = computed(() => {
   const classes: Record<string, boolean> = {
@@ -119,16 +119,16 @@ const isWave = ref(false)
 const vStyle = computed(() => {
   const s: Record<string, string> = {}
   if (props.color && props.color.match(/^#[\da-fA-F]{6}$/g)) {
-    const color = new TinyColor(props.color)
-    s['--yiz-button-color-text'] = 'var(--yiz-color-text-inverse)'
+    const color = deriveColorRoles(props.color, theme.value)
+    s['--yiz-button-color-text'] = color.onColor
     s['--yiz-button-color-text2'] = 'var(--yiz-color-text-primary)'
-    s['--yiz-button-color-disabled-text'] = color.tint(50).toString()
-    s['--yiz-button-color-disabled-border'] = color.tint(80).toString()
-    s['--yiz-button-color-disabled-bg'] = color.tint(90).toString()
-    s['--yiz-button-color-bg'] = color.tint(90).toString()
+    s['--yiz-button-color-disabled-text'] = color.disabled
+    s['--yiz-button-color-disabled-border'] = color.border
+    s['--yiz-button-color-disabled-bg'] = color.bg
+    s['--yiz-button-color-bg'] = color.bg
     s['--yiz-button-color-primary'] = props.color
-    s['--yiz-button-color-hover'] = color.tint(30).toString()
-    s['--yiz-button-color-press'] = color.mix('#000000', 20).toString()
+    s['--yiz-button-color-hover'] = color.hover
+    s['--yiz-button-color-press'] = color.active
     s['--yiz-color-wave'] = props.color
   }
   return s
@@ -434,52 +434,52 @@ defineExpose({
 .yiz-button-color-default {
   --yiz-button-color-text: var(--yiz-color-text-inverse);
   --yiz-button-color-text2: var(--yiz-color-text-primary);
-  --yiz-button-color-disabled-text: var(--yiz-color-primary-light5);
-  --yiz-button-color-disabled-border: var(--yiz-color-primary-light8);
-  --yiz-button-color-disabled-bg: var(--yiz-color-primary-light9);
-  --yiz-button-color-bg: var(--yiz-color-primary-light9);
+  --yiz-button-color-disabled-text: var(--yiz-color-primary-disabled);
+  --yiz-button-color-disabled-border: var(--yiz-color-primary-bg-hover);
+  --yiz-button-color-disabled-bg: var(--yiz-color-primary-bg);
+  --yiz-button-color-bg: var(--yiz-color-primary-bg);
   --yiz-button-color-primary: var(--yiz-color-primary);
-  --yiz-button-color-hover: var(--yiz-color-primary-light2);
-  --yiz-button-color-press: var(--yiz-color-primary-dark);
+  --yiz-button-color-hover: var(--yiz-color-primary-hover);
+  --yiz-button-color-press: var(--yiz-color-primary-active);
   --yiz-color-wave: var(--yiz-color-primary);
 }
 
 .yiz-button-color-success {
   --yiz-button-color-text: var(--yiz-color-text-inverse);
   --yiz-button-color-text2: var(--yiz-color-text-primary);
-  --yiz-button-color-disabled-text: var(--yiz-color-success-light5);
-  --yiz-button-color-disabled-border: var(--yiz-color-success-light8);
-  --yiz-button-color-disabled-bg: var(--yiz-color-success-light9);
-  --yiz-button-color-bg: var(--yiz-color-success-light9);
+  --yiz-button-color-disabled-text: var(--yiz-color-success-disabled);
+  --yiz-button-color-disabled-border: var(--yiz-color-success-bg-hover);
+  --yiz-button-color-disabled-bg: var(--yiz-color-success-bg);
+  --yiz-button-color-bg: var(--yiz-color-success-bg);
   --yiz-button-color-primary: var(--yiz-color-success);
-  --yiz-button-color-hover: var(--yiz-color-success-light2);
-  --yiz-button-color-press: var(--yiz-color-success-dark);
+  --yiz-button-color-hover: var(--yiz-color-success-hover);
+  --yiz-button-color-press: var(--yiz-color-success-active);
   --yiz-color-wave: var(--yiz-color-success);
 }
 
 .yiz-button-color-warning {
   --yiz-button-color-text: var(--yiz-color-text-inverse);
   --yiz-button-color-text2: var(--yiz-color-text-primary);
-  --yiz-button-color-disabled-text: var(--yiz-color-warning-light5);
-  --yiz-button-color-disabled-border: var(--yiz-color-warning-light8);
-  --yiz-button-color-disabled-bg: var(--yiz-color-warning-light9);
-  --yiz-button-color-bg: var(--yiz-color-warning-light9);
+  --yiz-button-color-disabled-text: var(--yiz-color-warning-disabled);
+  --yiz-button-color-disabled-border: var(--yiz-color-warning-bg-hover);
+  --yiz-button-color-disabled-bg: var(--yiz-color-warning-bg);
+  --yiz-button-color-bg: var(--yiz-color-warning-bg);
   --yiz-button-color-primary: var(--yiz-color-warning);
-  --yiz-button-color-hover: var(--yiz-color-warning-light2);
-  --yiz-button-color-press: var(--yiz-color-warning-dark);
+  --yiz-button-color-hover: var(--yiz-color-warning-hover);
+  --yiz-button-color-press: var(--yiz-color-warning-active);
   --yiz-color-wave: var(--yiz-color-warning);
 }
 
 .yiz-button-color-error {
   --yiz-button-color-text: var(--yiz-color-text-inverse);
   --yiz-button-color-text2: var(--yiz-color-text-primary);
-  --yiz-button-color-disabled-text: var(--yiz-color-error-light5);
-  --yiz-button-color-disabled-border: var(--yiz-color-error-light8);
-  --yiz-button-color-disabled-bg: var(--yiz-color-error-light9);
-  --yiz-button-color-bg: var(--yiz-color-error-light9);
+  --yiz-button-color-disabled-text: var(--yiz-color-error-disabled);
+  --yiz-button-color-disabled-border: var(--yiz-color-error-bg-hover);
+  --yiz-button-color-disabled-bg: var(--yiz-color-error-bg);
+  --yiz-button-color-bg: var(--yiz-color-error-bg);
   --yiz-button-color-primary: var(--yiz-color-error);
-  --yiz-button-color-hover: var(--yiz-color-error-light2);
-  --yiz-button-color-press: var(--yiz-color-error-dark);
+  --yiz-button-color-hover: var(--yiz-color-error-hover);
+  --yiz-button-color-press: var(--yiz-color-error-active);
   --yiz-color-wave: var(--yiz-color-error);
 }
 
@@ -487,12 +487,12 @@ defineExpose({
 .yiz-button-type-dash {
   &.yiz-button-disabled {
     background-color: var(--yiz-color-bg-container);
-    border-color: #e4e7ed;
-    color: #a8abb2;
+    border-color: var(--yiz-color-border-light);
+    color: var(--yiz-color-text-disabled);
   }
 
   background-color: #00000000;
-  border-color: #d9d9d9;
+  border-color: var(--yiz-color-border);
   color: var(--yiz-button-color-text2);
 
   &:not(.yiz-button-disabled):hover {

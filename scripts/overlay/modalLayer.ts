@@ -31,6 +31,7 @@ export interface ModalLayerContext extends ModalLayer {
 type ModalLayerMode = 'layer' | 'manager'
 
 const modalLayerKey: InjectionKey<ModalLayerContext> = Symbol('yizModalLayer')
+export const modalLayerRootKey: InjectionKey<boolean> = Symbol('yizModalLayerRoot')
 const layerStack = shallowRef<ModalLayerContext[]>([])
 const instanceModes = new WeakMap<object, ModalLayerMode>()
 const instanceLayers = new WeakMap<object, ModalLayerContext>()
@@ -127,7 +128,9 @@ export function useModalLayerManager(): ModalLayerManager {
   const instance = setInstanceMode('manager')
   const layer = inject(modalLayerKey, null)
   if (!layer) {
-    throw new Error('useModalLayerManager() must be called under a modal layer. Call useModalLayer().active() in a parent component first.')
+    throw new Error(
+      'useModalLayerManager() must be called under a modal layer. Call useModalLayer().active() in a parent component first.',
+    )
   }
 
   instanceLayers.set(instance, layer)
@@ -136,12 +139,21 @@ export function useModalLayerManager(): ModalLayerManager {
 
 export function useOptionalModalLayer(parentLayer?: ModalLayerContext | null): ModalLayer {
   const parent = parentLayer ?? inject(modalLayerKey, null)
-  if (!parent) return noopModalLayer
+  const hasRoot = inject(modalLayerRootKey, false)
+  if (!parent && !hasRoot) return noopModalLayer
 
   const layer = createModalLayerContext()
   provideModalLayer(layer)
   onBeforeUnmount(layer.inactive)
   return layer
+}
+
+export function provideModalLayerRoot() {
+  provide(modalLayerRootKey, true)
+}
+
+export function injectModalLayerRoot(): boolean {
+  return inject(modalLayerRootKey, false)
 }
 
 export function injectModalLayer(): ModalLayerContext | null {

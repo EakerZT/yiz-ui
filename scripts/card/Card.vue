@@ -31,6 +31,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { useThemeSize } from '../theme'
 
 const props = withDefaults(
   defineProps<{
@@ -43,7 +44,6 @@ const props = withDefaults(
     title: '',
     bordered: true,
     shadow: 'never',
-    size: 'default',
   },
 )
 
@@ -55,6 +55,8 @@ defineSlots<{
   footer?: any
 }>()
 
+const resolvedSize = useThemeSize(() => props.size)
+
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
   if (props.bordered) {
@@ -63,8 +65,8 @@ const vClass = computed(() => {
   if (props.shadow !== 'never') {
     c[`yiz-card-shadow-${props.shadow}`] = true
   }
-  if (props.size !== 'default') {
-    c[`yiz-card-size-${props.size}`] = true
+  if (resolvedSize.value !== 'default') {
+    c[`yiz-card-size-${resolvedSize.value}`] = true
   }
   return c
 })

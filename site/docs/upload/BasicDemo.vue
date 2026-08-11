@@ -1,13 +1,15 @@
 <template>
   <y-upload @upload="onBasicUpload">
-    <y-button>{{ $t('demo.upload.selectFile') }}</y-button>
+    <y-button>{{ t('demo.upload.selectFile') }}</y-button>
   </y-upload>
   <p class="demo-upload-info">{{ basicFilesText }}</p>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const basicFiles = ref<File[]>([])
 
@@ -18,7 +20,7 @@ function onBasicUpload(files: File[]) {
 }
 
 function formatFiles(files: File[]) {
-  if (files.length === 0) return $t('demo.upload.noFiles')
+  if (files.length === 0) return t('demo.upload.noFiles')
   return files.map((file) => file.name).join(', ')
 }
 </script>

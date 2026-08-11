@@ -48,8 +48,6 @@ const props = withDefaults(
   {
     disabled: false,
     active: false,
-    size: 'default',
-    styleMode: 'outlined',
   },
 )
 

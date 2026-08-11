@@ -1,5 +1,5 @@
 <template>
-  <Teleport to="body">
+  <AppTeleport>
     <Transition name="yiz-drawer-mask-fade">
       <div v-if="visible && mask" class="yiz-drawer-mask" :style="{ zIndex: currentZIndex }" @click="onMaskClick" />
     </Transition>
@@ -18,16 +18,10 @@
         <div class="yiz-drawer-header">
           <div :id="titleId" class="yiz-drawer-title-wrap">
             <slot name="title">
-              <span class="yiz-drawer-title">{{ title || $t('drawer.ariaLabel') }}</span>
+              <span class="yiz-drawer-title">{{ title || t('drawer.ariaLabel') }}</span>
             </slot>
           </div>
-          <button
-            v-if="closable"
-            class="yiz-drawer-close"
-            type="button"
-            :aria-label="$t('common.close')"
-            @click="close"
-          >
+          <button v-if="closable" class="yiz-drawer-close" type="button" :aria-label="t('common.close')" @click="close">
             <Icon size="16" :icon="Dismiss16Regular" />
           </button>
         </div>
@@ -43,27 +37,31 @@
         <div v-if="!disabledFooter" class="yiz-drawer-footer">
           <slot name="footer">
             <div class="yiz-drawer-footer-actions">
-              <Button @click="close">{{ $t('common.close') }}</Button>
-              <Button type="primary" @click="ok">{{ $t('common.confirm') }}</Button>
+              <Button @click="close">{{ t('common.close') }}</Button>
+              <Button type="primary" @click="ok">{{ t('common.confirm') }}</Button>
             </div>
           </slot>
         </div>
       </div>
     </Transition>
-  </Teleport>
+  </AppTeleport>
 </template>
 
 <script lang="ts" setup>
+import AppTeleport from '../app/AppTeleport.vue'
 import { computed, onBeforeUnmount, onMounted, ref, useId, watch } from 'vue'
 import { Dismiss16Regular } from '@vicons/fluent'
 import { Button } from '../button'
 import { Icon } from '../icon'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
 import { useOptionalModalLayer } from '../overlay/modalLayer'
 import { useModalFocus } from '../overlay/useModalFocus'
-import { nextZIndex } from '../zIndex'
+import { useZIndexManager } from '../zIndex'
+
+const t = useLocale()
 
 const currentZIndex = ref(0)
+const zIndexManager = useZIndexManager()
 
 const props = withDefaults(
   defineProps<{
@@ -137,7 +135,7 @@ const panelStyle = computed(() => {
 const originalOverflow = ref('')
 watch(visible, (val) => {
   if (val) {
-    currentZIndex.value = nextZIndex()
+    currentZIndex.value = zIndexManager.next()
     originalOverflow.value = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     modalLayer.active()

@@ -7,16 +7,18 @@
     </y-tab>
     <div class="tab-reopen-actions">
       <y-button :disabled="tabs.some((item) => item.key === 'report')" @click="reopenReport">
-        {{ $t('demo.tab.reopenSameKey') }}
+        {{ t('demo.tab.reopenSameKey') }}
       </y-button>
-      <span>{{ $t('demo.tab.reopenHint') }}</span>
+      <span>{{ t('demo.tab.reopenHint') }}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 interface DemoTab {
   key: string
@@ -26,8 +28,8 @@ interface DemoTab {
 
 const active = ref('report')
 const tabs = ref<DemoTab[]>([
-  { key: 'home', label: $t('demo.common.home'), content: $t('demo.tab.homeContent') },
-  { key: 'report', label: $t('demo.tab.report'), content: $t('demo.tab.reportContent') },
+  { key: 'home', label: t('demo.common.home'), content: t('demo.tab.homeContent') },
+  { key: 'report', label: t('demo.tab.report'), content: t('demo.tab.reportContent') },
 ])
 
 function onClose(key: string) {
@@ -35,7 +37,7 @@ function onClose(key: string) {
 }
 
 function reopenReport() {
-  tabs.value.push({ key: 'report', label: $t('demo.tab.report'), content: $t('demo.tab.reportContent') })
+  tabs.value.push({ key: 'report', label: t('demo.tab.report'), content: t('demo.tab.reportContent') })
   active.value = 'report'
 }
 </script>

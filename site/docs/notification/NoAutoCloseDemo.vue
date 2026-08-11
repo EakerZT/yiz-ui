@@ -1,14 +1,16 @@
 <template>
-  <y-button @click="openManual">{{ $t('demo.notification.needManualClose') }}</y-button>
+  <y-button @click="openManual">{{ t('demo.notification.needManualClose') }}</y-button>
 </template>
 
 <script lang="ts" setup>
-import { $t, notification } from 'yiz-ui'
+import { useLocale, notification } from 'yiz-ui'
+
+const t = useLocale()
 
 function openManual() {
   notification({
-    title: $t('demo.notification.manualClose'),
-    content: $t('demo.notification.manualCloseHint'),
+    title: t('demo.notification.manualClose'),
+    content: t('demo.notification.manualCloseHint'),
     duration: 0,
   })
 }

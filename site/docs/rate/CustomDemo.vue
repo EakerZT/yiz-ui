@@ -3,13 +3,15 @@
     <y-rate v-model:value="value" :count="7" :size="30" color="#ff4d6d" void-color="#ffd6df">
       <template #character>♥</template>
     </y-rate>
-    <span>{{ $t('demo.rate.sevenPoint') }}</span>
+    <span>{{ t('demo.rate.sevenPoint') }}</span>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const value = ref(5)
 </script>

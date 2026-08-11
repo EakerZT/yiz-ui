@@ -1,12 +1,14 @@
 <template>
-  <y-info type="success" :message="$t('demo.info.actionMessage')">
+  <y-info type="success" :message="t('demo.info.actionMessage')">
     <template #action>
-      <y-button size="small" type="primary">{{ $t('demo.common.view') }}</y-button>
+      <y-button size="small" type="primary">{{ t('demo.common.view') }}</y-button>
     </template>
-    {{ $t('demo.info.actionDescription') }}
+    {{ t('demo.info.actionDescription') }}
   </y-info>
 </template>
 
 <script lang="ts" setup>
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 </script>

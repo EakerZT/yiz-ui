@@ -1,14 +1,16 @@
 <template>
   <y-button-group>
-    <y-button @click="onCustomColor('#52c41a')">{{ $t('demo.common.success') }}</y-button>
-    <y-button @click="onCustomColor('#faad14')">{{ $t('demo.common.warning') }}</y-button>
-    <y-button @click="onCustomColor('#ff4d4f')">{{ $t('demo.common.error') }}</y-button>
-    <y-button @click="onReset">{{ $t('demo.loadingBar.reset') }}</y-button>
+    <y-button @click="onCustomColor('#52c41a')">{{ t('demo.common.success') }}</y-button>
+    <y-button @click="onCustomColor('#faad14')">{{ t('demo.common.warning') }}</y-button>
+    <y-button @click="onCustomColor('#ff4d4f')">{{ t('demo.common.error') }}</y-button>
+    <y-button @click="onReset">{{ t('demo.loadingBar.reset') }}</y-button>
   </y-button-group>
 </template>
 
 <script lang="ts" setup>
-import { $t, loadingBar } from 'yiz-ui'
+import { useLocale, loadingBar } from 'yiz-ui'
+
+const t = useLocale()
 
 function onCustomColor(color: string) {
   loadingBar.configure({ color })

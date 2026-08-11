@@ -1,4 +1,13 @@
 import { createVNode, isVNode, render, type Component, type VNodeChild } from 'vue'
+import {
+  applyServiceTheme,
+  resolveServiceTarget,
+  useServiceContext,
+  withServiceContext,
+  type ServiceContext,
+} from '../app/serviceContext'
+import type { ThemeContext } from '../theme'
+import { nextZIndex } from '../zIndex'
 import Message from './Message.vue'
 
 export type MessageType = 'info' | 'success' | 'warning' | 'error' | 'loading'
@@ -56,6 +65,7 @@ export interface MessageFn {
 }
 
 interface MessageInstance {
+  scope: MessageScope
   key?: MessageKey
   close: () => void
   update: (options: MessageOptions) => void
@@ -64,8 +74,23 @@ interface MessageInstance {
 const GAP = 8
 const DEFAULT_DURATION = 3000
 const instances: MessageInstance[] = []
-const keyedInstances = new Map<MessageKey, MessageInstance>()
-let holder: HTMLElement | null = null
+type MessageScope = ThemeContext | typeof globalScope
+const globalScope = Symbol('yizGlobalMessageScope')
+const keyedInstances = new Map<MessageScope, Map<MessageKey, MessageInstance>>()
+const holders = new Map<MessageScope, HTMLElement>()
+
+function getScope(context?: ServiceContext): MessageScope {
+  return context?.theme ?? globalScope
+}
+
+function getKeyedInstances(scope: MessageScope) {
+  let scoped = keyedInstances.get(scope)
+  if (!scoped) {
+    scoped = new Map<MessageKey, MessageInstance>()
+    keyedInstances.set(scope, scoped)
+  }
+  return scoped
+}
 
 function isMessageOptions(value: MessageContent | MessageOptions | undefined): value is MessageOptions {
   if (value == null || typeof value !== 'object' || Array.isArray(value) || isVNode(value)) return false
@@ -96,15 +121,17 @@ function removeInstance(instance: MessageInstance) {
   if (index >= 0) {
     instances.splice(index, 1)
   }
-  if (instance.key != null && keyedInstances.get(instance.key) === instance) {
-    keyedInstances.delete(instance.key)
+  if (instance.key != null && keyedInstances.get(instance.scope)?.get(instance.key) === instance) {
+    keyedInstances.get(instance.scope)?.delete(instance.key)
   }
 }
 
-function openMessage(rawOptions: MessageOptions = {}): MessageHandle {
+function openMessage(rawOptions: MessageOptions = {}, context?: ServiceContext): MessageHandle {
+  const scope = getScope(context)
+  const scopedKeyedInstances = getKeyedInstances(scope)
   const key = rawOptions.key
   if (key != null) {
-    const existed = keyedInstances.get(key)
+    const existed = scopedKeyedInstances.get(key)
     if (existed) {
       existed.update(rawOptions)
       return { close: existed.close }
@@ -117,23 +144,24 @@ function openMessage(rawOptions: MessageOptions = {}): MessageHandle {
   let closeEmitted = false
 
   setupContainer(container)
-  getHolder().appendChild(container)
+  getHolder(scope, context).appendChild(container)
 
   const instance: MessageInstance = {
+    scope,
     key,
     close,
     update,
   }
   instances.push(instance)
   if (key != null) {
-    keyedInstances.set(key, instance)
+    scopedKeyedInstances.set(key, instance)
   }
 
   function destroy() {
     render(null, container)
     container.remove()
     removeInstance(instance)
-    removeHolderIfEmpty()
+    removeHolderIfEmpty(scope)
   }
 
   function close() {
@@ -192,7 +220,7 @@ function openMessage(rawOptions: MessageOptions = {}): MessageHandle {
         default: defaultSlot,
       },
     )
-    render(vnode, container)
+    render(withServiceContext(vnode, context), container)
   }
 
   renderMessage(true)
@@ -241,13 +269,17 @@ function collapseContainer(container: HTMLElement) {
   })
 }
 
-function getHolder() {
-  if (holder) return holder
+function getHolder(scope: MessageScope, context?: ServiceContext) {
+  const existed = holders.get(scope)
+  if (existed) {
+    applyServiceTheme(existed, context)
+    return existed
+  }
 
-  holder = document.createElement('div')
+  const holder = document.createElement('div')
   holder.className = 'yiz-message-holder'
   holder.style.position = 'fixed'
-  holder.style.zIndex = '3000'
+  holder.style.zIndex = String(context?.zIndex.next() ?? nextZIndex())
   holder.style.top = '24px'
   holder.style.left = '50%'
   holder.style.transform = 'translateX(-50%)'
@@ -256,14 +288,18 @@ function getHolder() {
   holder.style.alignItems = 'center'
   holder.style.pointerEvents = 'none'
 
-  document.body.appendChild(holder)
+  applyServiceTheme(holder, context)
+  resolveServiceTarget(context).appendChild(holder)
+  holders.set(scope, holder)
   return holder
 }
 
-function removeHolderIfEmpty() {
+function removeHolderIfEmpty(scope: MessageScope) {
+  const holder = holders.get(scope)
   if (!holder || holder.childElementCount > 0) return
   holder.remove()
-  holder = null
+  holders.delete(scope)
+  keyedInstances.delete(scope)
 }
 
 function openTypedMessage(
@@ -271,33 +307,42 @@ function openTypedMessage(
   content?: MessageContent | Omit<MessageOptions, 'type'>,
   duration?: number,
   onClose?: () => void,
+  context?: ServiceContext,
 ) {
-  return openMessage({
-    ...normalizeOptions(content, duration, onClose),
-    type,
-  })
+  return openMessage(
+    {
+      ...normalizeOptions(content, duration, onClose),
+      type,
+    },
+    context,
+  )
 }
 
-export const message = ((content?: MessageContent | MessageOptions, duration?: number, onClose?: () => void) =>
-  openMessage(normalizeOptions(content, duration, onClose))) as MessageFn
+function createMessageApi(context?: ServiceContext): MessageFn {
+  const api = ((content?: MessageContent | MessageOptions, duration?: number, onClose?: () => void) =>
+    openMessage(normalizeOptions(content, duration, onClose), context)) as MessageFn
 
-message.open = (options: MessageOptions) => openMessage(options)
-message.info = (content?: MessageContent | Omit<MessageOptions, 'type'>, duration?: number, onClose?: () => void) =>
-  openTypedMessage('info', content, duration, onClose)
-message.success = (content?: MessageContent | Omit<MessageOptions, 'type'>, duration?: number, onClose?: () => void) =>
-  openTypedMessage('success', content, duration, onClose)
-message.warning = (content?: MessageContent | Omit<MessageOptions, 'type'>, duration?: number, onClose?: () => void) =>
-  openTypedMessage('warning', content, duration, onClose)
-message.warn = (content?: MessageContent | Omit<MessageOptions, 'type'>, duration?: number, onClose?: () => void) =>
-  openTypedMessage('warning', content, duration, onClose)
-message.error = (content?: MessageContent | Omit<MessageOptions, 'type'>, duration?: number, onClose?: () => void) =>
-  openTypedMessage('error', content, duration, onClose)
-message.loading = (content?: MessageContent | Omit<MessageOptions, 'type'>, duration?: number, onClose?: () => void) =>
-  openTypedMessage('loading', content, duration, onClose)
-message.destroy = (key?: MessageKey) => {
+  api.open = (options: MessageOptions) => openMessage(options, context)
+  api.info = (content, duration, onClose) => openTypedMessage('info', content, duration, onClose, context)
+  api.success = (content, duration, onClose) => openTypedMessage('success', content, duration, onClose, context)
+  api.warning = (content, duration, onClose) => openTypedMessage('warning', content, duration, onClose, context)
+  api.warn = (content, duration, onClose) => openTypedMessage('warning', content, duration, onClose, context)
+  api.error = (content, duration, onClose) => openTypedMessage('error', content, duration, onClose, context)
+  api.loading = (content, duration, onClose) => openTypedMessage('loading', content, duration, onClose, context)
+  api.destroy = (key?: MessageKey) => destroyMessages(getScope(context), key)
+  return api
+}
+
+function destroyMessages(scope: MessageScope, key?: MessageKey) {
   if (key != null) {
-    keyedInstances.get(key)?.close()
+    keyedInstances.get(scope)?.get(key)?.close()
     return
   }
-  instances.slice().forEach((instance) => instance.close())
+  instances.filter((instance) => instance.scope === scope).forEach((instance) => instance.close())
+}
+
+export const message = createMessageApi()
+
+export function useMessage(): MessageFn {
+  return createMessageApi(useServiceContext())
 }

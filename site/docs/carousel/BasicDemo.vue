@@ -2,15 +2,17 @@
   <y-carousel height="260px">
     <y-carousel-item v-for="item in 4" :key="item">
       <div class="carousel-slide" :class="`carousel-slide-${item}`">
-        <strong>{{ $t('demo.carousel.slide', { index: item }) }}</strong>
-        <span>{{ $t('demo.carousel.slideDesc') }}</span>
+        <strong>{{ t('demo.carousel.slide', { index: item }) }}</strong>
+        <span>{{ t('demo.carousel.slideDesc') }}</span>
       </div>
     </y-carousel-item>
   </y-carousel>
 </template>
 
 <script lang="ts" setup>
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 </script>
 
 <style scoped>

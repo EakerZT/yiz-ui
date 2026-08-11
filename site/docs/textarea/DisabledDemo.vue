@@ -1,10 +1,12 @@
 <template>
-  <y-textarea v-model:value="text7" :placeholder="$t('demo.textarea.disabledPlaceholder')" disabled />
+  <y-textarea v-model:value="text7" :placeholder="t('demo.textarea.disabledPlaceholder')" disabled />
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const text7 = ref('This textarea is disabled and cannot be edited.')
 </script>

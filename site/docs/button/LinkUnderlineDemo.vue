@@ -1,7 +1,9 @@
 <template>
-  <y-link-button underline>{{ $t('demo.button.linkUnderlineHint') }}</y-link-button>
+  <y-link-button underline>{{ t('demo.button.linkUnderlineHint') }}</y-link-button>
 </template>
 
 <script lang="ts" setup>
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 </script>

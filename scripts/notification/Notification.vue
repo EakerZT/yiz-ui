@@ -1,5 +1,5 @@
 <template>
-  <component :is="inline ? 'div' : Teleport" to="body">
+  <component :is="inline ? 'div' : AppTeleport">
     <Transition :name="transitionName" appear @after-leave="emit('destroy')">
       <div v-if="visible" class="yiz-notification" :class="notificationClass" :style="notificationStyle">
         <div v-if="showIcon" class="yiz-notification-icon">
@@ -20,7 +20,7 @@
           v-if="closable"
           class="yiz-notification-close"
           type="button"
-          :aria-label="$t('common.close')"
+          :aria-label="t('common.close')"
           @click="close"
         >
           <Icon size="16" :icon="Dismiss16Regular" />
@@ -34,7 +34,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeUnmount, ref, Teleport, watch } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import AppTeleport from '../app/AppTeleport.vue'
 import {
   CheckmarkCircle24Regular,
   Dismiss16Regular,
@@ -43,8 +44,10 @@ import {
   Warning24Regular,
 } from '@vicons/fluent'
 import { Icon } from '../icon'
-import { $t } from '../locale'
-import { nextZIndex } from '../zIndex'
+import { useLocale } from '../locale'
+import { useZIndexManager } from '../zIndex'
+
+const t = useLocale()
 
 type NotificationType = 'info' | 'success' | 'warning' | 'error'
 type NotificationPlacement = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
@@ -88,6 +91,7 @@ const emit = defineEmits<{
 
 const visible = defineModel<boolean>('modelValue', { default: false })
 const currentZIndex = ref(0)
+const zIndexManager = useZIndexManager()
 let timer: ReturnType<typeof setTimeout> | null = null
 
 const type = computed(() => props.type)
@@ -147,7 +151,7 @@ watch(
   visible,
   (val) => {
     if (val) {
-      currentZIndex.value = nextZIndex()
+      currentZIndex.value = zIndexManager.next()
       startTimer()
     } else {
       clearTimer()
@@ -263,7 +267,7 @@ onBeforeUnmount(clearTimer)
   right: 0;
   bottom: 0;
   height: 3px;
-  background: rgba(0, 0, 0, 0.06);
+  background: var(--yiz-color-hover-bg);
 }
 
 .yiz-notification-progress-bar {

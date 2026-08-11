@@ -41,7 +41,7 @@
     </div>
   </div>
 
-  <Teleport to="body">
+  <AppTeleport>
     <Transition name="yiz-datetime-picker-panel-fade">
       <div v-if="open" ref="panelRef" class="yiz-datetime-picker-panel" :style="panelStyle" @click.stop>
         <div class="yiz-datetime-picker-content">
@@ -50,7 +50,7 @@
               <Icon class="yiz-datetime-picker-nav" size="16" :icon="ChevronDoubleLeft16Regular" @click="prevYear" />
               <Icon class="yiz-datetime-picker-nav" size="16" :icon="ChevronLeft16Regular" @click="prevMonth" />
               <span class="yiz-datetime-picker-month-year" @click="showYearPicker = !showYearPicker">
-                {{ $t('datePicker.yearMonth', { year, month }) }}
+                {{ t('datePicker.yearMonth', { year, month }) }}
               </span>
               <Icon class="yiz-datetime-picker-nav" size="16" :icon="ChevronRight16Regular" @click="nextMonth" />
               <Icon class="yiz-datetime-picker-nav" size="16" :icon="ChevronDoubleRight16Regular" @click="nextYear" />
@@ -93,7 +93,7 @@
 
           <div class="yiz-datetime-picker-time">
             <div class="yiz-datetime-picker-time-col">
-              <div class="yiz-datetime-picker-time-title">{{ $t('timePicker.hour') }}</div>
+              <div class="yiz-datetime-picker-time-title">{{ t('timePicker.hour') }}</div>
               <div class="yiz-datetime-picker-time-list">
                 <div
                   v-for="h in hours"
@@ -107,7 +107,7 @@
               </div>
             </div>
             <div class="yiz-datetime-picker-time-col">
-              <div class="yiz-datetime-picker-time-title">{{ $t('timePicker.minute') }}</div>
+              <div class="yiz-datetime-picker-time-title">{{ t('timePicker.minute') }}</div>
               <div class="yiz-datetime-picker-time-list">
                 <div
                   v-for="m in minutes"
@@ -121,7 +121,7 @@
               </div>
             </div>
             <div class="yiz-datetime-picker-time-col">
-              <div class="yiz-datetime-picker-time-title">{{ $t('timePicker.second') }}</div>
+              <div class="yiz-datetime-picker-time-title">{{ t('timePicker.second') }}</div>
               <div class="yiz-datetime-picker-time-list">
                 <div
                   v-for="s in 60"
@@ -138,17 +138,18 @@
         </div>
 
         <div class="yiz-datetime-picker-footer">
-          <LinkButton @click="onNow">{{ $t('timePicker.now') }}</LinkButton>
+          <LinkButton @click="onNow">{{ t('timePicker.now') }}</LinkButton>
           <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">{{
-            $t('common.confirm')
+            t('common.confirm')
           }}</Button>
         </div>
       </div>
     </Transition>
-  </Teleport>
+  </AppTeleport>
 </template>
 
 <script lang="ts" setup>
+import AppTeleport from '../app/AppTeleport.vue'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import {
   CalendarClock16Regular,
@@ -162,10 +163,12 @@ import Button from '../button/Button.vue'
 import LinkButton from '../link-button/LinkButton.vue'
 import { Icon } from '../icon'
 import { useInputStyle } from '../input-style'
-import { $t, $tList } from '../locale'
+import { useLocale } from '../locale'
 import { useOverlayElement } from '../overlay/overlayScope'
-import { nextZIndex } from '../zIndex'
+import { useZIndexManager } from '../zIndex'
 import { type DateTimeValue, formatDateTime, parseDateTime, parseDateTimeValue } from '../datetime-utils'
+
+const t = useLocale()
 
 interface CalendarCell {
   day: number
@@ -192,8 +195,6 @@ const props = withDefaults(
     disabled: false,
     readonly: false,
     clearable: false,
-    size: 'default',
-    styleMode: 'outlined',
     format: 'YYYY-MM-DD HH:mm:ss',
   },
 )
@@ -206,6 +207,7 @@ const modelValue = defineModel<DateTimeValue>('value')
 
 const open = ref(false)
 const currentZIndex = ref(0)
+const zIndexManager = useZIndexManager()
 const triggerRef = ref<HTMLElement>()
 const panelRef = ref<HTMLElement>()
 useOverlayElement(panelRef, open)
@@ -225,10 +227,10 @@ const pickedSecond = ref(0)
 
 const hours = Array.from({ length: 24 }, (_, i) => i)
 const minutes = Array.from({ length: 60 }, (_, i) => i)
-const weekDays = computed(() => $tList('datePicker.weekdays'))
+const weekDays = computed(() => t.list('datePicker.weekdays'))
 const year = computed(() => viewYear.value)
 const month = computed(() => viewMonth.value)
-const placeholderText = computed(() => props.placeholder ?? $t('datePicker.placeholder'))
+const placeholderText = computed(() => props.placeholder ?? t('datePicker.placeholder'))
 const confirmDisabled = computed(() => draft.value == null)
 const panelStyle = computed(() => ({ zIndex: currentZIndex.value + 1 }))
 const valueFormat = computed(() => props.valueFormat ?? props.format)
@@ -335,7 +337,7 @@ function openPanel() {
   syncInputFromDraft()
   inputDirty.value = false
   showYearPicker.value = false
-  currentZIndex.value = nextZIndex()
+  currentZIndex.value = zIndexManager.next()
   open.value = true
 }
 
@@ -588,7 +590,7 @@ defineExpose({
 
 .yiz-datetime-picker-open .yiz-datetime-picker-input {
   border-color: var(--yiz-color-primary);
-  box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+  box-shadow: var(--yiz-control-focus-shadow);
 }
 
 .yiz-datetime-picker-disabled .yiz-datetime-picker-input {
@@ -627,12 +629,12 @@ defineExpose({
   align-items: center;
   user-select: none;
   cursor: pointer;
-  color: rgba(0, 0, 0, 0.45);
+  color: var(--yiz-color-text-tertiary);
   transition: color 0.3s;
   z-index: 1;
 
   &:hover {
-    color: rgba(0, 0, 0, 0.88);
+    color: var(--yiz-color-text-primary);
   }
 }
 
@@ -654,7 +656,7 @@ defineExpose({
   background: var(--yiz-color-bg-elevated);
   border: 1px solid var(--yiz-color-border, #d9d9d9);
   border-radius: var(--yiz-pane-border-radius);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--yiz-shadow-popup);
   user-select: none;
   font-size: 14px;
 }
@@ -734,7 +736,7 @@ defineExpose({
 .yiz-datetime-picker-year-item-active,
 .yiz-datetime-picker-year-item-active:hover {
   color: var(--yiz-color-primary);
-  background: var(--yiz-color-primary-light8);
+  background: var(--yiz-color-primary-bg-hover);
   font-weight: 600;
 }
 
@@ -789,7 +791,7 @@ defineExpose({
 
 .yiz-datetime-picker-cell-other .yiz-datetime-picker-cell-inner,
 .yiz-datetime-picker-cell-disabled .yiz-datetime-picker-cell-inner {
-  color: #d9d9d9;
+  color: var(--yiz-color-text-disabled);
 }
 
 .yiz-datetime-picker-cell-today .yiz-datetime-picker-cell-inner {
@@ -853,7 +855,7 @@ defineExpose({
 .yiz-datetime-picker-time-item-active,
 .yiz-datetime-picker-time-item-active:hover {
   color: var(--yiz-color-primary);
-  background: var(--yiz-color-primary-light8);
+  background: var(--yiz-color-primary-bg-hover);
   font-weight: 600;
 }
 

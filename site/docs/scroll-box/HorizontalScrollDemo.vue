@@ -1,13 +1,15 @@
 <template>
   <y-scroll-box :height="80" style="width: 360px; border: 1px solid #d9d9d9; border-radius: 4px; padding: 12px">
     <div style="white-space: nowrap">
-      <span v-for="i in 12" :key="i" class="demo-h-item">{{ $t('demo.scrollBox.item', { index: i }) }}</span>
+      <span v-for="i in 12" :key="i" class="demo-h-item">{{ t('demo.scrollBox.item', { index: i }) }}</span>
     </div>
   </y-scroll-box>
 </template>
 
 <script lang="ts" setup>
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 </script>
 
 <style>

@@ -14,8 +14,10 @@
 
 <script lang="ts" setup>
 import { computed, provide, ref, watch, type ComputedRef } from 'vue'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
 import TreeNode from './TreeNode.vue'
+
+const t = useLocale()
 
 export type TreeKey = string | number
 
@@ -108,7 +110,7 @@ const vClass = computed(() => ({
 }))
 
 const indentValue = computed(() => Math.max(12, props.indent))
-const emptyTextValue = computed(() => props.emptyText ?? $t('common.noData'))
+const emptyTextValue = computed(() => props.emptyText ?? t('common.noData'))
 const checkableValue = computed(() => props.checkable)
 const selectableValue = computed(() => props.selectable)
 const expandOnClickNodeValue = computed(() => props.expandOnClickNode)
@@ -307,12 +309,12 @@ provide<TreeContext>('yizTree', {
 
 .yiz-tree-node-selected,
 .yiz-tree-node-selected:not(.yiz-tree-node-disabled):hover {
-  background: var(--yiz-color-primary-light9);
+  background: var(--yiz-color-primary-bg);
   color: var(--yiz-color-primary);
 }
 
 .yiz-tree-node-disabled {
-  color: #bfbfbf;
+  color: var(--yiz-color-text-disabled);
   cursor: not-allowed;
 }
 

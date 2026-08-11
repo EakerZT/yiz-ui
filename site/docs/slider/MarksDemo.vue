@@ -7,14 +7,16 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t, type SliderMark } from 'yiz-ui'
+import { useLocale, type SliderMark } from 'yiz-ui'
+
+const t = useLocale()
 
 const markValue = ref(40)
 
 const marks = computed<SliderMark[]>(() => [
   { value: 0, label: '0' },
-  { value: 30, label: $t('demo.slider.low') },
-  { value: 70, label: $t('demo.slider.high') },
+  { value: 30, label: t('demo.slider.low') },
+  { value: 70, label: t('demo.slider.high') },
   { value: 100, label: '100' },
 ])
 </script>

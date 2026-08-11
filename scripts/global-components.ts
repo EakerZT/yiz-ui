@@ -1,4 +1,5 @@
 import type {
+  App,
   Breadcrumb,
   BreadcrumbItem,
   Button,
@@ -70,6 +71,8 @@ import type {
 
 declare module 'vue' {
   export interface GlobalComponents {
+    YApp: typeof App
+    'y-app': typeof App
     YBreadcrumb: typeof Breadcrumb
     'y-breadcrumb': typeof Breadcrumb
     YBreadcrumbItem: typeof BreadcrumbItem

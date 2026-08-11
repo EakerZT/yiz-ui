@@ -2,7 +2,7 @@
   <div class="demo-sortable-board">
     <y-sortable-box v-model:list="leftItems" class="demo-sortable-list" item-key="id" group="guard" :min-items="1">
       <template #header>
-        <div class="demo-sortable-subtitle">{{ $t('demo.sortableBox.minOne') }}</div>
+        <div class="demo-sortable-subtitle">{{ t('demo.sortableBox.minOne') }}</div>
       </template>
       <template #item="{ element }">
         <div class="demo-sortable-item">{{ getItemTitle(element) }}</div>
@@ -10,7 +10,7 @@
     </y-sortable-box>
     <y-sortable-box v-model:list="rightItems" class="demo-sortable-list" item-key="id" group="guard">
       <template #header>
-        <div class="demo-sortable-subtitle">{{ $t('demo.sortableBox.freeList') }}</div>
+        <div class="demo-sortable-subtitle">{{ t('demo.sortableBox.freeList') }}</div>
       </template>
       <template #item="{ element }">
         <div class="demo-sortable-item">{{ getItemTitle(element) }}</div>
@@ -21,7 +21,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 interface DemoItem {
   id: string
@@ -37,7 +39,7 @@ const leftItems = ref<DemoItem[]>([
 const rightItems = ref<DemoItem[]>([{ id: 'right-1', titleKey: 'demo.sortableBox.itemRightSide' }])
 
 function getItemTitle(item: unknown) {
-  return $t((item as DemoItem).titleKey)
+  return t((item as DemoItem).titleKey)
 }
 </script>
 

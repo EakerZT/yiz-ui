@@ -1,14 +1,16 @@
 <template>
   <y-radio-button-group v-model:value="buttonGroup2">
-    <y-radio-button value="day">{{ $t('demo.radio.day') }}</y-radio-button>
-    <y-radio-button value="week">{{ $t('demo.radio.week') }}</y-radio-button>
-    <y-radio-button value="month">{{ $t('demo.radio.month') }}</y-radio-button> </y-radio-button-group
+    <y-radio-button value="day">{{ t('demo.radio.day') }}</y-radio-button>
+    <y-radio-button value="week">{{ t('demo.radio.week') }}</y-radio-button>
+    <y-radio-button value="month">{{ t('demo.radio.month') }}</y-radio-button> </y-radio-button-group
   ><span class="demo-hint">{{ buttonGroup2 }}</span>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const buttonGroup2 = ref('week')
 </script>

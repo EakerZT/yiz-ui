@@ -1,14 +1,14 @@
 <template>
   <p style="margin-bottom: 12px; font-size: 13px; color: #888">
-    {{ $t('demo.scrollBox.dragResizeHint') }}<b>{{ boxWidth }} × {{ boxHeight }}</b>
+    {{ t('demo.scrollBox.dragResizeHint') }}<b>{{ boxWidth }} × {{ boxHeight }}</b>
   </p>
   <div class="demo-resize-wrapper" :style="{ width: boxWidth + 'px', height: boxHeight + 'px' }">
     <y-scroll-box class="demo-resize-scrollbox">
       <p v-for="i in 8" :key="i" style="margin-bottom: 8px; color: #555; white-space: nowrap">
-        {{ $t('demo.scrollBox.dragResizeRow', { index: i }) }}
+        {{ t('demo.scrollBox.dragResizeRow', { index: i }) }}
       </p>
       <p style="color: #999; margin-top: 16px; white-space: nowrap">
-        {{ $t('demo.scrollBox.dragResizeLong') }}
+        {{ t('demo.scrollBox.dragResizeLong') }}
       </p>
     </y-scroll-box>
     <div class="demo-resize-handle" @pointerdown.stop="onResizeStart" />
@@ -17,7 +17,9 @@
 
 <script lang="ts" setup>
 import { onBeforeUnmount, ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const boxWidth = ref(360)
 

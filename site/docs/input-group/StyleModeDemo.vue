@@ -10,7 +10,7 @@
         v-model:value="filledOption"
         style-mode="outlined"
         :options="options"
-        :placeholder="$t('demo.common.pleaseSelect')"
+        :placeholder="t('demo.common.pleaseSelect')"
       />
     </y-input-group>
     <y-input-group style-mode="filled">
@@ -22,7 +22,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const outlinedValue = ref('')
 const outlinedNumber = ref<number | null>(null)

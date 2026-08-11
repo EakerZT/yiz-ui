@@ -20,7 +20,7 @@
           </span>
           <div class="yiz-popconfirm-message-content">
             <div :id="titleId" class="yiz-popconfirm-title">
-              <slot name="title">{{ title || $t('popconfirm.title') }}</slot>
+              <slot name="title">{{ title || t('popconfirm.title') }}</slot>
             </div>
             <div v-if="hasDescription" :id="descriptionId" class="yiz-popconfirm-description">
               <slot name="description">{{ description }}</slot>
@@ -29,10 +29,10 @@
         </div>
         <div class="yiz-popconfirm-actions">
           <Button size="small" :disabled="busy" @click="onCancel">
-            <slot name="cancel">{{ cancelText || $t('common.cancel') }}</slot>
+            <slot name="cancel">{{ cancelText || t('common.cancel') }}</slot>
           </Button>
           <Button size="small" type="primary" :color="confirmColor" :loading="busy" @click="onConfirm">
-            <slot name="confirm">{{ confirmText || $t('common.confirm') }}</slot>
+            <slot name="confirm">{{ confirmText || t('common.confirm') }}</slot>
           </Button>
         </div>
       </div>
@@ -46,8 +46,10 @@ import { computed, ref, useId, useSlots, watch } from 'vue'
 import { Warning20Filled } from '@vicons/fluent'
 import { Button } from '../button'
 import { Icon } from '../icon'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
 import { Popover } from '../popover'
+
+const t = useLocale()
 
 export type PopconfirmPlacement = 'top' | 'bottom' | 'left' | 'right'
 

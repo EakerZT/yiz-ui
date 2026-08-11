@@ -5,7 +5,7 @@
     :class="{ 'yiz-carousel-item-active': active }"
     role="group"
     :aria-hidden="!active"
-    :aria-label="name || $t('carousel.item', { index: index + 1, total: total })"
+    :aria-label="name || t('carousel.item', { index: index + 1, total: total })"
   >
     <slot />
   </div>
@@ -13,8 +13,10 @@
 
 <script lang="ts" setup>
 import { computed, inject, onBeforeUnmount, onMounted, ref } from 'vue'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
 import { carouselContextKey } from './types'
+
+const t = useLocale()
 
 defineProps<{
   /**

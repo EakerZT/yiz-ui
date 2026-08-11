@@ -1,14 +1,16 @@
 <template>
-  <y-input-password v-model:value="password" :placeholder="$t('demo.inputPassword.placeholder')" /><span
+  <y-input-password v-model:value="password" :placeholder="t('demo.inputPassword.placeholder')" /><span
     class="demo-hint"
   >
-    {{ $t('demo.inputPassword.currentValue', { value: password || $t('demo.common.empty') }) }}
+    {{ t('demo.inputPassword.currentValue', { value: password || t('demo.common.empty') }) }}
   </span>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const password = ref('')
 </script>

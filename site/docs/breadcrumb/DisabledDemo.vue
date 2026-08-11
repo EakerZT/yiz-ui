@@ -1,17 +1,19 @@
 <template>
   <y-breadcrumb>
-    <y-breadcrumb-item @click="onBreadcrumbClick(1)">{{ $t('demo.breadcrumb.home') }}</y-breadcrumb-item>
-    <y-breadcrumb-item disabled>{{ $t('demo.breadcrumb.disabled') }}</y-breadcrumb-item>
-    <y-breadcrumb-item>{{ $t('demo.breadcrumb.current') }}</y-breadcrumb-item>
+    <y-breadcrumb-item @click="onBreadcrumbClick(1)">{{ t('demo.breadcrumb.home') }}</y-breadcrumb-item>
+    <y-breadcrumb-item disabled>{{ t('demo.breadcrumb.disabled') }}</y-breadcrumb-item>
+    <y-breadcrumb-item>{{ t('demo.breadcrumb.current') }}</y-breadcrumb-item>
   </y-breadcrumb>
   <p class="demo-breadcrumb-info">
-    {{ $t('demo.breadcrumb.lastClick', { value: lastClick ?? $t('demo.common.none') }) }}
+    {{ t('demo.breadcrumb.lastClick', { value: lastClick ?? t('demo.common.none') }) }}
   </p>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const lastClick = ref<string | null>(null)
 

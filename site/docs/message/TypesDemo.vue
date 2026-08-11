@@ -8,21 +8,23 @@
 </template>
 
 <script lang="ts" setup>
-import { $t, message } from 'yiz-ui'
+import { useLocale, message } from 'yiz-ui'
+
+const t = useLocale()
 
 function openInfo() {
-  message.info($t('demo.message.infoMsg'))
+  message.info(t('demo.message.infoMsg'))
 }
 
 function openSuccess() {
-  message.success($t('demo.message.successMsg'))
+  message.success(t('demo.message.successMsg'))
 }
 
 function openWarning() {
-  message.warning($t('demo.message.warningMsg'))
+  message.warning(t('demo.message.warningMsg'))
 }
 
 function openError() {
-  message.error($t('demo.message.errorMsg'))
+  message.error(t('demo.message.errorMsg'))
 }
 </script>

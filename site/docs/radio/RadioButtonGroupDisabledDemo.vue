@@ -9,18 +9,20 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const buttonOptions = computed(() => [
-  { label: $t('demo.radio.apple'), value: 'apple' },
-  { label: $t('demo.radio.banana'), value: 'banana' },
-  { label: $t('demo.radio.orange'), value: 'orange' },
+  { label: t('demo.radio.apple'), value: 'apple' },
+  { label: t('demo.radio.banana'), value: 'banana' },
+  { label: t('demo.radio.orange'), value: 'orange' },
 ])
 
 const buttonOptionsWithDisabled = computed(() => [
-  { label: $t('demo.radio.apple'), value: 'apple' },
-  { label: $t('demo.radio.banana'), value: 'banana', disabled: true },
-  { label: $t('demo.radio.orange'), value: 'orange' },
+  { label: t('demo.radio.apple'), value: 'apple' },
+  { label: t('demo.radio.banana'), value: 'banana', disabled: true },
+  { label: t('demo.radio.orange'), value: 'orange' },
 ])
 
 const buttonGroup3 = ref('orange')

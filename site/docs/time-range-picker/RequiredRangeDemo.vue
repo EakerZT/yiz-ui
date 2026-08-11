@@ -2,14 +2,16 @@
   <div class="demo-picker-field">
     <y-time-range-picker v-model:start="requiredStart" v-model:end="requiredEnd" force-range clearable />
     <span class="demo-item-hint">{{
-      (requiredStart ?? $t('demo.common.empty')) + ' - ' + (requiredEnd ?? $t('demo.common.empty'))
+      (requiredStart ?? t('demo.common.empty')) + ' - ' + (requiredEnd ?? t('demo.common.empty'))
     }}</span>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const requiredStart = ref<string | null>(null)
 

@@ -3,12 +3,14 @@
     <y-date-range-picker v-model:start="start" v-model:end="end" clearable @change="onChange" />
     <span class="demo-item-hint">{{ format(start) }} - {{ format(end) }}</span>
   </div>
-  <p class="demo-date-range-info">{{ $t('demo.dateRangePicker.lastChange', { value: lastChangeText }) }}</p>
+  <p class="demo-date-range-info">{{ t('demo.dateRangePicker.lastChange', { value: lastChangeText }) }}</p>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const start = ref<Date | null>(new Date(2026, 5, 1))
 
@@ -21,7 +23,7 @@ function pad(n: number) {
 }
 
 function format(date: Date | null) {
-  if (!date) return $t('demo.common.empty')
+  if (!date) return t('demo.common.empty')
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
 }
 
@@ -33,7 +35,7 @@ function formatValue(value: Date | string | null) {
 const lastChangeText = computed(() =>
   lastChange.value
     ? `${formatValue(lastChange.value.start)} - ${formatValue(lastChange.value.end)}`
-    : $t('demo.common.none'),
+    : t('demo.common.none'),
 )
 
 function onChange(startValue: Date | string | null, endValue: Date | string | null) {

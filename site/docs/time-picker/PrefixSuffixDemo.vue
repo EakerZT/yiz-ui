@@ -1,13 +1,15 @@
 <template>
   <div class="demo-picker-field">
     <y-time-picker v-model:value="value7" prefix="Start" suffix="UTC+8" clearable />
-    <span class="demo-item-hint">{{ value7 || $t('demo.common.notSelected') }}</span>
+    <span class="demo-item-hint">{{ value7 || t('demo.common.notSelected') }}</span>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const value7 = ref<string | null>('09:30:00')
 </script>

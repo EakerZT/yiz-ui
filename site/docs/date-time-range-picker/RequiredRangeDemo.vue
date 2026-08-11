@@ -7,7 +7,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const requiredStart = ref<Date | null>(null)
 
@@ -18,7 +20,7 @@ function pad(n: number) {
 }
 
 function formatValue(value: Date | string | null) {
-  if (!value) return $t('demo.common.empty')
+  if (!value) return t('demo.common.empty')
   if (typeof value === 'string') return value
   return `${value.getFullYear()}-${pad(value.getMonth() + 1)}-${pad(value.getDate())} ${pad(value.getHours())}:${pad(
     value.getMinutes(),

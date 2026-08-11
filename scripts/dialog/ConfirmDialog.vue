@@ -39,9 +39,11 @@ import { computed, h, ref } from 'vue'
 import { CheckmarkCircle24Regular, DismissCircle24Regular, Info24Regular, Warning24Regular } from '@vicons/fluent'
 import { Button } from '../button'
 import { Icon } from '../icon'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
 import type { ModalLayerContext } from '../overlay/modalLayer'
 import Dialog from './Dialog.vue'
+
+const t = useLocale()
 
 type ConfirmType = 'confirm' | 'info' | 'success' | 'warning' | 'error'
 
@@ -93,8 +95,8 @@ const emit = defineEmits<{
 const visible = defineModel<boolean>('show', { default: false })
 const confirmLoading = ref(false)
 
-const okText = computed(() => props.okText ?? $t('common.confirm'))
-const cancelText = computed(() => props.cancelText ?? $t('common.cancel'))
+const okText = computed(() => props.okText ?? t('common.confirm'))
+const cancelText = computed(() => props.cancelText ?? t('common.cancel'))
 
 const iconMap: Record<ConfirmType, Component> = {
   confirm: Warning24Regular,

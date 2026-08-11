@@ -2,14 +2,16 @@
   <div class="demo-picker-field">
     <y-time-range-picker v-model:start="secondStart" v-model:end="secondEnd" show-seconds clearable />
     <span class="demo-item-hint">{{
-      (secondStart ?? $t('demo.common.empty')) + ' - ' + (secondEnd ?? $t('demo.common.empty'))
+      (secondStart ?? t('demo.common.empty')) + ' - ' + (secondEnd ?? t('demo.common.empty'))
     }}</span>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const secondStart = ref<string | null>('08:15:30')
 

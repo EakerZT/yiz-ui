@@ -1,26 +1,55 @@
 import { createVNode, render } from 'vue'
+import {
+  applyServiceTheme,
+  resolveServiceTarget,
+  useServiceContext,
+  withServiceContext,
+  type ServiceContext,
+} from '../app/serviceContext'
+import { nextZIndex } from '../zIndex'
 import ContextMenu from './ContextMenu.vue'
 import type { ContextMenuItem } from './ContextMenu.vue'
 
 const TRANSITION_MS = 120
 
-export function showContextMenu(
-  x: number,
-  y: number,
-  items: ContextMenuItem[],
-  callback: (item: ContextMenuItem) => void,
+export interface ShowContextMenuOptions {
+  x: number
+  y: number
+  width?: number
+  menus: ContextMenuItem[]
+  onSelect: (item: ContextMenuItem) => void
+  onClose: () => void
+}
+
+export interface ContextMenuApi {
+  open: (options: ShowContextMenuOptions) => void
+}
+
+export function showContextMenu({ x, y, width = 200, menus, onSelect, onClose }: ShowContextMenuOptions) {
+  return openContextMenu({ x, y, width, menus, onSelect, onClose })
+}
+
+function openContextMenu(
+  { x, y, width = 200, menus, onSelect, onClose }: ShowContextMenuOptions,
+  context?: ServiceContext,
 ) {
   const container = document.createElement('div')
   container.style.position = 'fixed'
   container.style.left = `${x}px`
   container.style.top = `${y}px`
-  container.style.zIndex = '3000'
+  container.style.zIndex = String(context?.zIndex.next() ?? nextZIndex())
+  applyServiceTheme(container, context)
 
   let removed = false
+  let closeEmitted = false
 
   function teardown() {
     render(null, container)
-    if (container.parentNode) document.body.removeChild(container)
+    container.remove()
+    if (!closeEmitted) {
+      closeEmitted = true
+      onClose()
+    }
   }
 
   function close() {
@@ -64,18 +93,22 @@ export function showContextMenu(
     }
   }
 
-  function onSelect(item: ContextMenuItem) {
-    callback(item)
-    close()
+  function handleSelect(item: ContextMenuItem) {
+    try {
+      onSelect(item)
+    } finally {
+      close()
+    }
   }
 
   const vnode = createVNode(ContextMenu, {
-    items,
-    onSelect,
+    items: menus,
+    width,
+    onSelect: handleSelect,
   })
 
-  render(vnode, container)
-  document.body.appendChild(container)
+  render(withServiceContext(vnode, context), container)
+  resolveServiceTarget(context).appendChild(container)
 
   // 入场:先标记 host 基态（隐藏），下一帧切到可见态触发 transition
   const inner = container.firstElementChild as HTMLElement | null
@@ -107,4 +140,11 @@ export function showContextMenu(
     document.addEventListener('click', onClickOutside, true)
     document.addEventListener('keydown', onKeydown)
   }, 0)
+}
+
+export function useContextMenu(): ContextMenuApi {
+  const context = useServiceContext()
+  return {
+    open: (options) => openContextMenu(options, context),
+  }
 }

@@ -1,4 +1,4 @@
-export { notification } from './notification'
+export { notification, useNotification } from './notification'
 export type {
   NotificationFn,
   NotificationHandle,

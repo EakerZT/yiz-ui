@@ -236,17 +236,18 @@ The default color follows `--yiz-color-primary`; `fail()` uses `--yiz-color-erro
 ```ts
 import { showContextMenu } from '@eakerzt/yiz-ui'
 
-showContextMenu(
-  {
-    items: [
-      { type: 'item', label: 'Refresh', key: 'refresh' },
-      { type: 'divider' },
-      { type: 'item', label: 'Delete', key: 'delete', disabled: true },
-    ],
-    onSelect: (item) => console.log(item.key),
-  },
-  event,
-)
+showContextMenu({
+  x: event.clientX,
+  y: event.clientY,
+  width: 200,
+  menus: [
+    { type: 'item', label: 'Refresh', value: 'refresh' },
+    { type: 'divider' },
+    { type: 'item', label: 'Delete', value: 'delete', disabled: true },
+  ],
+  onSelect: (item) => console.log(item.value),
+  onClose: () => console.log('closed'),
+})
 ```
 
 ### Emitter

@@ -1,12 +1,14 @@
 <template>
   <span class="demo-icon-item">
     <y-icon :icon="customSvgIcon" :size="32" />
-    <em>{{ $t('demo.icon.svgString') }}</em>
+    <em>{{ t('demo.icon.svgString') }}</em>
   </span>
 </template>
 
 <script lang="ts" setup>
-import { $t, renderSvg } from 'yiz-ui'
+import { useLocale, renderSvg } from 'yiz-ui'
+
+const t = useLocale()
 
 const customSvg = `
 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -1,10 +1,12 @@
 <template>
-  <y-switch v-model:value="v1" /><span class="demo-hint">{{ v1 ? $t('demo.switch.on') : $t('demo.switch.off') }}</span>
+  <y-switch v-model:value="v1" /><span class="demo-hint">{{ v1 ? t('demo.switch.on') : t('demo.switch.off') }}</span>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const v1 = ref(true)
 </script>

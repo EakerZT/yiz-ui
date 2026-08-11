@@ -380,7 +380,7 @@ function onCollapsedPopupSelect(item: MenuItemOption) {
     }
 
     &.yiz-menu-item-selected {
-      background: var(--yiz-color-primary-dark);
+      background: var(--yiz-color-primary-active);
       color: var(--yiz-color-text-inverse);
     }
 
@@ -469,7 +469,7 @@ function onCollapsedPopupSelect(item: MenuItemOption) {
   }
 
   &.yiz-menu-item-selected {
-    background: var(--yiz-color-primary-light8);
+    background: var(--yiz-color-primary-bg-hover);
     color: var(--yiz-color-primary);
   }
 

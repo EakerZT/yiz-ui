@@ -1,4 +1,11 @@
 import { createVNode, getCurrentInstance, render, type Component, type VNodeChild } from 'vue'
+import {
+  applyServiceTheme,
+  resolveServiceTarget,
+  useServiceContext,
+  withServiceContext,
+  type ServiceContext,
+} from '../app/serviceContext'
 import { getModalLayer, injectModalLayer, type ModalLayerContext } from '../overlay/modalLayer'
 import ConfirmDialog from './ConfirmDialog.vue'
 
@@ -45,18 +52,17 @@ export function useDialog(): DialogApi {
   }
 
   const modalLayer = getModalLayer(instance) ?? injectModalLayer()
-  if (!modalLayer) {
-    throw new Error('useDialog() must be called under a modal layer. Call useModalLayer().active() in a parent component first.')
-  }
+  const context = useServiceContext()
 
   return {
-    confirm: (options: DialogConfirmOptions = {}) => openConfirm(options, modalLayer),
+    confirm: (options: DialogConfirmOptions = {}) => openConfirm(options, modalLayer, context),
   }
 }
 
 function openConfirm(
   options: DialogConfirmOptions = {},
   modalLayerParent: ModalLayerContext | null = null,
+  context?: ServiceContext,
 ): DialogConfirmHandle {
   const container = document.createElement('div')
   let state: DialogConfirmOptions & { show: boolean } = {
@@ -66,7 +72,8 @@ function openConfirm(
   let destroyed = false
   let destroyTimer: ReturnType<typeof setTimeout> | null = null
 
-  document.body.appendChild(container)
+  applyServiceTheme(container, context)
+  resolveServiceTarget(context).appendChild(container)
 
   function clearDestroyTimer() {
     if (destroyTimer) {
@@ -125,7 +132,7 @@ function openConfirm(
         default: defaultSlot,
       },
     )
-    render(vnode, container)
+    render(withServiceContext(vnode, context), container)
   }
 
   renderConfirm()

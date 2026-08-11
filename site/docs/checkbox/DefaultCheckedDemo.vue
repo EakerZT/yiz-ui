@@ -1,11 +1,13 @@
 <template>
-  <y-checkbox v-model:checked="checked1">{{ $t('demo.checkbox.defaultChecked') }}</y-checkbox
+  <y-checkbox v-model:checked="checked1">{{ t('demo.checkbox.defaultChecked') }}</y-checkbox
   ><span class="demo-hint">A: {{ checked1 }}, B: {{ checked2 }}</span>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const checked1 = ref(true)
 

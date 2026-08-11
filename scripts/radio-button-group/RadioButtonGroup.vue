@@ -21,6 +21,7 @@
 import { computed, getCurrentInstance, provide, ref } from 'vue'
 import type { VNodeChild } from 'vue'
 import RadioButton from '../radio-button/RadioButton.vue'
+import { useThemeSize } from '../theme'
 
 export interface RadioButtonOption {
   label: string
@@ -40,7 +41,6 @@ const props = withDefaults(
   {
     options: () => [],
     disabled: false,
-    size: 'default',
     textColor: '',
     fillColor: '',
   },
@@ -64,13 +64,13 @@ const instanceId = getCurrentInstance()?.uid ?? 0
 const groupName = computed(() => props.name ?? `yiz-radio-button-group-${instanceId}`)
 
 const disabledValue = computed(() => props.disabled)
-const sizeValue = computed(() => props.size)
+const sizeValue = useThemeSize(() => props.size)
 const textColorValue = computed(() => props.textColor)
 const fillColorValue = computed(() => props.fillColor)
 
 const vClass = computed(() => ({
   'yiz-radio-button-group-disabled': props.disabled,
-  [`yiz-radio-button-group-${props.size}`]: true,
+  [`yiz-radio-button-group-${sizeValue.value}`]: true,
 }))
 
 function changeValue(value: string | number | boolean) {

@@ -2,20 +2,22 @@
   <y-collapse v-model:value="slotValue" :bordered="false">
     <y-collapse-item name="slot">
       <template #title>
-        <span class="demo-collapse-title">{{ $t('demo.collapse.slotTitle') }}</span>
+        <span class="demo-collapse-title">{{ t('demo.collapse.slotTitle') }}</span>
       </template>
       <template #extra>
-        <y-link-button @click="extraClickCount++">{{ $t('demo.collapse.extraAction') }}</y-link-button>
+        <y-link-button @click="extraClickCount++">{{ t('demo.collapse.extraAction') }}</y-link-button>
       </template>
-      {{ $t('demo.collapse.slotContent') }}
+      {{ t('demo.collapse.slotContent') }}
     </y-collapse-item>
   </y-collapse>
-  <p class="demo-collapse-info">{{ $t('demo.collapse.extraCount', { count: extraClickCount }) }}</p>
+  <p class="demo-collapse-info">{{ t('demo.collapse.extraCount', { count: extraClickCount }) }}</p>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const slotValue = ref(['slot'])
 

@@ -9,12 +9,19 @@ import './input-style.less'
 export * from './components'
 export * from './emitter'
 export * from './locale'
+export * from './theme'
 export * from './message'
 export * from './notification'
 export type { InputStyleMode } from './input-style'
 export { useModalLayer, useModalLayerManager } from './overlay/modalLayer'
 export type { ModalLayer, ModalLayerManager } from './overlay/modalLayer'
-export { showContextMenu } from './context-menu'
+export {
+  showContextMenu,
+  useContextMenu,
+  type ContextMenuApi,
+  type ContextMenuItem,
+  type ShowContextMenuOptions,
+} from './context-menu'
 export { renderSvg } from './icon/renderSvg'
 export { renderSvgIcon, type RenderSvgIconOptions } from './icon/renderSvgIcon'
 export { loadingBar } from './loading-bar'

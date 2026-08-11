@@ -1,5 +1,50 @@
 [
   {
+    "name": "App",
+    "source": "scripts/app/App.vue",
+    "props": [
+      {
+        "name": "theme",
+        "type": "DeepPartial<Theme>",
+        "required": false,
+        "description": "应用主题配置，可传入预设主题或局部覆盖。",
+        "descriptionEn": "App theme preset or partial overrides."
+      },
+      {
+        "name": "darkMode",
+        "type": "boolean",
+        "required": false,
+        "description": "覆盖主题的明暗计算模式，不负责从亮色主题生成暗色主题。",
+        "descriptionEn": "Overrides the color derivation mode without converting a light palette into a dark one."
+      },
+      {
+        "name": "locale",
+        "type": "Lang",
+        "required": false,
+        "description": "当前语言。",
+        "descriptionEn": "Current locale."
+      },
+      {
+        "name": "zIndex",
+        "type": "number",
+        "required": false,
+        "description": "浮层 z-index 起始值。",
+        "descriptionEn": "Starting z-index for overlays."
+      },
+      {
+        "name": "teleportTo",
+        "type": "string | HTMLElement",
+        "required": false,
+        "description": "浮层挂载目标。",
+        "descriptionEn": "Teleport target for overlays."
+      }
+    ],
+    "models": [],
+    "events": [],
+    "slots": [],
+    "methods": []
+  },
+  {
     "name": "Breadcrumb",
     "source": "scripts/breadcrumb/Breadcrumb.vue",
     "props": [
@@ -101,8 +146,7 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "按钮尺寸。",
-        "descriptionEn": "Size of the button.",
-        "default": "'default'"
+        "descriptionEn": "Size of the button."
       },
       {
         "name": "disabled",
@@ -235,8 +279,7 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       }
     ],
     "models": [],
@@ -553,8 +596,7 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       }
     ],
     "models": [
@@ -715,16 +757,14 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "styleMode",
         "type": "'outlined' | 'filled'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'outlined'"
+        "descriptionEn": ""
       },
       {
         "name": "alpha",
@@ -830,16 +870,14 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "styleMode",
         "type": "'outlined' | 'filled'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'outlined'"
+        "descriptionEn": ""
       },
       {
         "name": "disabledDate",
@@ -960,16 +998,14 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "styleMode",
         "type": "'outlined' | 'filled'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'outlined'"
+        "descriptionEn": ""
       },
       {
         "name": "disabledDate",
@@ -1150,16 +1186,14 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "styleMode",
         "type": "'outlined' | 'filled'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'outlined'"
+        "descriptionEn": ""
       },
       {
         "name": "format",
@@ -1266,16 +1300,14 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "styleMode",
         "type": "'outlined' | 'filled'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'outlined'"
+        "descriptionEn": ""
       },
       {
         "name": "format",
@@ -1459,8 +1491,7 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "layout",
@@ -1961,8 +1992,7 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       }
     ],
     "models": [],
@@ -2379,16 +2409,14 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "styleMode",
         "type": "'outlined' | 'filled'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'outlined'"
+        "descriptionEn": ""
       }
     ],
     "models": [
@@ -2476,16 +2504,14 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "styleMode",
         "type": "'outlined' | 'filled'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'outlined'"
+        "descriptionEn": ""
       }
     ],
     "models": [],
@@ -2542,16 +2568,14 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "styleMode",
         "type": "'outlined' | 'filled'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'outlined'"
+        "descriptionEn": ""
       },
       {
         "name": "beforeAddon",
@@ -2667,24 +2691,21 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "styleMode",
         "type": "'outlined' | 'filled'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'outlined'"
+        "descriptionEn": ""
       },
       {
         "name": "controls",
-        "type": "'left' | 'right' | 'separate' | 'none'",
+        "type": "InputNumberControls",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'right'"
+        "descriptionEn": ""
       },
       {
         "name": "align",
@@ -2817,16 +2838,14 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "styleMode",
         "type": "'outlined' | 'filled'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'outlined'"
+        "descriptionEn": ""
       }
     ],
     "models": [
@@ -2940,8 +2959,7 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "indicator",
@@ -3210,8 +3228,7 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       }
     ],
     "models": [
@@ -3725,8 +3742,7 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "textColor",
@@ -3824,8 +3840,7 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "textColor",
@@ -4023,16 +4038,14 @@
         "type": "string",
         "required": false,
         "description": "激活颜色。",
-        "descriptionEn": "Active character color.",
-        "default": "'#f7ba2a'"
+        "descriptionEn": "Active character color."
       },
       {
         "name": "voidColor",
         "type": "string",
         "required": false,
         "description": "未激活颜色。",
-        "descriptionEn": "Inactive character color.",
-        "default": "'#c6d1de'"
+        "descriptionEn": "Inactive character color."
       },
       {
         "name": "texts",
@@ -4247,8 +4260,7 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "shape",
@@ -4385,16 +4397,14 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "选择器尺寸。",
-        "descriptionEn": "Size of the select.",
-        "default": "'default'"
+        "descriptionEn": "Size of the select."
       },
       {
         "name": "styleMode",
         "type": "'outlined' | 'filled'",
         "required": false,
         "description": "输入框显示风格。",
-        "descriptionEn": "Visual style of the input control.",
-        "default": "'outlined'"
+        "descriptionEn": "Visual style of the input control."
       },
       {
         "name": "prefix",
@@ -5043,8 +5053,7 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "color",
@@ -5234,8 +5243,7 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "resize",
@@ -5609,8 +5617,7 @@
         "type": "'default' | 'small' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "checkable",
@@ -5727,8 +5734,7 @@
         "type": "'outlined' | 'filled'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'outlined'"
+        "descriptionEn": ""
       }
     ],
     "models": [
@@ -5781,8 +5787,7 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       }
     ],
     "models": [],
@@ -5914,16 +5919,14 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "styleMode",
         "type": "'outlined' | 'filled'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'outlined'"
+        "descriptionEn": ""
       },
       {
         "name": "showSeconds",
@@ -6030,16 +6033,14 @@
         "type": "'small' | 'default' | 'large'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'default'"
+        "descriptionEn": ""
       },
       {
         "name": "styleMode",
         "type": "'outlined' | 'filled'",
         "required": false,
         "description": "",
-        "descriptionEn": "",
-        "default": "'outlined'"
+        "descriptionEn": ""
       },
       {
         "name": "showSeconds",
@@ -6422,6 +6423,12 @@
         "type": "(content: MessageContent, options?: MessageOptions) => MessageHandle",
         "description": "",
         "descriptionEn": ""
+      },
+      {
+        "name": "useMessage",
+        "type": "() => MessageFn",
+        "description": "",
+        "descriptionEn": ""
       }
     ]
   },
@@ -6436,6 +6443,12 @@
       {
         "name": "notification[type]",
         "type": "(options: NotificationOptions) => NotificationHandle",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "useNotification",
+        "type": "() => NotificationFn",
         "description": "",
         "descriptionEn": ""
       }
@@ -6509,7 +6522,13 @@
     "methods": [
       {
         "name": "showContextMenu",
-        "type": "(x: number, y: number, items: ContextMenuItem[], onSelect?: Function) => void",
+        "type": "(options: ShowContextMenuOptions) => void",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "useContextMenu",
+        "type": "() => ContextMenuApi",
         "description": "",
         "descriptionEn": ""
       }

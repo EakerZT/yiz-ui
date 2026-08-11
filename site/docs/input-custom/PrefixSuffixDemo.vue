@@ -5,7 +5,7 @@
       <template #prefix>
         <y-icon :icon="Search20Regular" />
       </template>
-      <input v-model="keyword" class="demo-input-custom-native" :placeholder="$t('demo.inputCustom.keyword')" />
+      <input v-model="keyword" class="demo-input-custom-native" :placeholder="t('demo.inputCustom.keyword')" />
       <template #suffix>{{ keyword.length }}</template>
     </y-input-custom>
   </div>
@@ -14,7 +14,9 @@
 <script lang="ts" setup>
 import { Search20Regular } from '@vicons/fluent'
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 type DemoSize = 'small' | 'default' | 'large'
 

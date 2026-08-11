@@ -2,22 +2,24 @@
   <div class="rate-demo-list">
     <div>
       <y-rate v-model:value="value" />
-      <span>{{ $t('demo.rate.current', { value }) }}</span>
+      <span>{{ t('demo.rate.current', { value }) }}</span>
     </div>
     <div>
       <y-rate :value="3" disabled />
-      <span>{{ $t('demo.common.disabled') }}</span>
+      <span>{{ t('demo.common.disabled') }}</span>
     </div>
     <div>
       <y-rate :value="4" readonly />
-      <span>{{ $t('demo.rate.readonly') }}</span>
+      <span>{{ t('demo.rate.readonly') }}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const value = ref(2)
 </script>

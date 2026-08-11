@@ -19,9 +19,9 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { TinyColor } from '@ctrl/tinycolor'
 import { Dismiss16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
+import { deriveColorRoles, useTheme, useThemeSize } from '../theme'
 
 export type TagMode = 'filled' | 'solid' | 'outlined'
 
@@ -38,7 +38,6 @@ const props = withDefaults(
     color: 'default',
     mode: 'outlined',
     closable: false,
-    size: 'default',
     checkable: false,
     disabled: false,
   },
@@ -50,6 +49,8 @@ const emit = defineEmits<{
 }>()
 
 const checked = defineModel<boolean>('checked', { default: false })
+const { theme } = useTheme()
+const mergedSize = useThemeSize(() => props.size)
 
 const checkableColorMap: Record<string, string> = {
   default: 'var(--yiz-color-primary)',
@@ -74,8 +75,8 @@ const vClass = computed(() => {
     c['yiz-tag-checkable-checked'] = checked.value
     c['yiz-tag-checkable-disabled'] = props.disabled
   }
-  if (props.size !== 'default') {
-    c[`yiz-tag-size-${props.size}`] = true
+  if (mergedSize.value !== 'default') {
+    c[`yiz-tag-size-${mergedSize.value}`] = true
   }
   return c
 })
@@ -83,12 +84,12 @@ const vClass = computed(() => {
 const vStyle = computed(() => {
   const s: Record<string, string> = {}
   if (props.color && props.color.match(/^#(?:[\da-fA-F]{3}|[\da-fA-F]{6})$/)) {
-    const color = new TinyColor(props.color)
+    const color = deriveColorRoles(props.color, theme.value)
     s['--yiz-tag-base-color'] = props.color
-    s['--yiz-tag-filled-bg'] = color.setAlpha(0.1).toString()
+    s['--yiz-tag-filled-bg'] = color.bg
     s['--yiz-tag-solid-bg'] = props.color
-    s['--yiz-tag-outlined-border'] = props.color
-    s['--yiz-tag-close-hover-bg'] = color.setAlpha(0.2).toString()
+    s['--yiz-tag-outlined-border'] = color.border
+    s['--yiz-tag-close-hover-bg'] = color.bgHover
   }
   s['--yiz-tag-checkable-color'] = checkableColorMap[props.color] ?? props.color
   return s
@@ -193,34 +194,34 @@ function onKeydown(e: KeyboardEvent) {
 
 .yiz-tag-color-primary {
   --yiz-tag-base-color: var(--yiz-color-primary);
-  --yiz-tag-filled-bg: var(--yiz-color-primary-light9);
+  --yiz-tag-filled-bg: var(--yiz-color-primary-bg);
   --yiz-tag-solid-bg: var(--yiz-color-primary);
   --yiz-tag-outlined-border: var(--yiz-color-primary);
-  --yiz-tag-close-hover-bg: var(--yiz-color-primary-light8);
+  --yiz-tag-close-hover-bg: var(--yiz-color-primary-bg-hover);
 }
 
 .yiz-tag-color-success {
   --yiz-tag-base-color: var(--yiz-color-success);
-  --yiz-tag-filled-bg: var(--yiz-color-success-light9);
+  --yiz-tag-filled-bg: var(--yiz-color-success-bg);
   --yiz-tag-solid-bg: var(--yiz-color-success);
   --yiz-tag-outlined-border: var(--yiz-color-success);
-  --yiz-tag-close-hover-bg: var(--yiz-color-success-light8);
+  --yiz-tag-close-hover-bg: var(--yiz-color-success-bg-hover);
 }
 
 .yiz-tag-color-warning {
-  --yiz-tag-base-color: var(--yiz-color-warning-dark5);
-  --yiz-tag-filled-bg: var(--yiz-color-warning-light9);
+  --yiz-tag-base-color: var(--yiz-color-warning-text);
+  --yiz-tag-filled-bg: var(--yiz-color-warning-bg);
   --yiz-tag-solid-bg: var(--yiz-color-warning);
   --yiz-tag-outlined-border: var(--yiz-color-warning);
-  --yiz-tag-close-hover-bg: var(--yiz-color-warning-light8);
+  --yiz-tag-close-hover-bg: var(--yiz-color-warning-bg-hover);
 }
 
 .yiz-tag-color-error {
   --yiz-tag-base-color: var(--yiz-color-error);
-  --yiz-tag-filled-bg: var(--yiz-color-error-light9);
+  --yiz-tag-filled-bg: var(--yiz-color-error-bg);
   --yiz-tag-solid-bg: var(--yiz-color-error);
   --yiz-tag-outlined-border: var(--yiz-color-error);
-  --yiz-tag-close-hover-bg: var(--yiz-color-error-light8);
+  --yiz-tag-close-hover-bg: var(--yiz-color-error-bg-hover);
 }
 
 // mode variants
@@ -257,7 +258,7 @@ function onKeydown(e: KeyboardEvent) {
   }
 
   &:focus-visible {
-    outline: 2px solid var(--yiz-color-primary-light8);
+    outline: 2px solid var(--yiz-color-primary-bg-hover);
     outline-offset: 2px;
   }
 }

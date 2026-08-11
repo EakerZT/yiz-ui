@@ -25,7 +25,7 @@
       :empty-insert-threshold="24"
     >
       <template #header>
-        <div class="demo-sortable-subtitle">{{ $t('demo.sortableBox.emptyTarget') }}</div>
+        <div class="demo-sortable-subtitle">{{ t('demo.sortableBox.emptyTarget') }}</div>
       </template>
       <template #item="{ element }">
         <div class="demo-sortable-item">{{ getItemTitle(element) }}</div>
@@ -36,7 +36,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 interface DemoItem {
   id: string
@@ -53,7 +55,7 @@ const thresholdLeftItems = ref<DemoItem[]>([
 const thresholdRightItems = ref<DemoItem[]>([])
 
 function getItemTitle(item: unknown) {
-  return $t((item as DemoItem).titleKey)
+  return t((item as DemoItem).titleKey)
 }
 </script>
 

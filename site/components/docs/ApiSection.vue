@@ -4,22 +4,22 @@
 
     <template v-for="section in sections" :key="section.key">
       <div v-if="section.items.length" class="docs-api-group">
-        <h4>{{ $t(section.titleKey) }}</h4>
+        <h4>{{ t(section.titleKey) }}</h4>
         <div class="docs-api-table-wrap">
           <table>
             <thead>
               <tr>
-                <th>{{ $t('demo.docs.name') }}</th>
-                <th>{{ $t('demo.docs.description') }}</th>
-                <th>{{ $t('demo.docs.type') }}</th>
-                <th v-if="section.showDefault">{{ $t('demo.docs.default') }}</th>
+                <th>{{ t('demo.docs.name') }}</th>
+                <th>{{ t('demo.docs.description') }}</th>
+                <th>{{ t('demo.docs.type') }}</th>
+                <th v-if="section.showDefault">{{ t('demo.docs.default') }}</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="item in section.items" :key="item.name">
                 <td>
                   <code>{{ item.name }}</code>
-                  <span v-if="item.required" class="docs-api-required">{{ $t('demo.docs.required') }}</span>
+                  <span v-if="item.required" class="docs-api-required">{{ t('demo.docs.required') }}</span>
                 </td>
                 <td>{{ getDescription(item) || '—' }}</td>
                 <td>
@@ -39,8 +39,10 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { $t, demoLang } from '../../i18n'
+import { demoLang, useLocale } from '../../i18n'
 import type { ApiItem, ComponentApi } from '../../docs/types'
+
+const t = useLocale()
 
 const props = defineProps<{ api: ComponentApi }>()
 
@@ -64,7 +66,7 @@ function getDescription(item: ApiItem) {
 
 .docs-api-component > h3 {
   padding-bottom: 10px;
-  border-bottom: 1px solid #e6e8eb;
+  border-bottom: 1px solid var(--yiz-color-border-light);
   font-size: 18px;
 }
 
@@ -79,14 +81,14 @@ function getDescription(item: ApiItem) {
 
 .docs-api-table-wrap {
   overflow-x: auto;
-  border: 1px solid #e6e8eb;
+  border: 1px solid var(--yiz-color-border-light);
   border-radius: 6px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
+  background: var(--yiz-color-bg-container);
   font-size: 13px;
   line-height: 1.55;
 }
@@ -94,14 +96,14 @@ table {
 th,
 td {
   padding: 11px 14px;
-  border-bottom: 1px solid #eef0f2;
+  border-bottom: 1px solid var(--yiz-color-border-subtle);
   text-align: left;
   vertical-align: top;
 }
 
 th {
-  background: #f8f9fb;
-  color: #666;
+  background: var(--yiz-color-bg-subtle);
+  color: var(--yiz-color-text-secondary);
   font-weight: 500;
   white-space: nowrap;
 }
@@ -111,7 +113,7 @@ tbody tr:last-child td {
 }
 
 td code {
-  color: #5b21b6;
+  color: var(--yiz-color-primary-text);
   font-family: Consolas, 'SFMono-Regular', monospace;
   overflow-wrap: anywhere;
 }

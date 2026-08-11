@@ -3,14 +3,16 @@
     <y-radio-button-group v-model:value="svgIconSize" :options="sizeOptions" />
     <span class="demo-icon-item">
       <component :is="customSvgIconVNode" />
-      <em>{{ $t('demo.icon.svgStringWithSize') }}</em>
+      <em>{{ t('demo.icon.svgStringWithSize') }}</em>
     </span>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t, renderSvgIcon } from 'yiz-ui'
+import { useLocale, renderSvgIcon } from 'yiz-ui'
+
+const t = useLocale()
 
 const sizeOptions = [
   { label: '12px', value: 12 },

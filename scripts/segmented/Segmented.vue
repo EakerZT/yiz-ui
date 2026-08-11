@@ -39,6 +39,7 @@ import {
   watch,
 } from 'vue'
 import type { ComponentPublicInstance, VNodeChild } from 'vue'
+import { useThemeSize } from '../theme'
 
 export interface SegmentedOption {
   label: string
@@ -58,7 +59,6 @@ const props = withDefaults(
   {
     options: () => [],
     disabled: false,
-    size: 'default',
     shape: 'block',
     block: false,
     name: '',
@@ -76,6 +76,7 @@ const segmentedRef = ref<HTMLElement>()
 const itemElements = new Map<string, HTMLElement>()
 const indicatorStyle = ref<Record<string, string>>({ opacity: '0' })
 const indicatorTransitionReady = ref(false)
+const resolvedSize = useThemeSize(() => props.size)
 
 let resizeObserver: ResizeObserver | null = null
 let transitionFrameId: number | null = null
@@ -87,7 +88,7 @@ const vClass = computed(() => ({
   'yiz-segmented-disabled': props.disabled,
   'yiz-segmented-block': props.block,
   [`yiz-segmented-shape-${props.shape}`]: true,
-  [`yiz-segmented-${props.size}`]: true,
+  [`yiz-segmented-${resolvedSize.value}`]: true,
 }))
 
 const indicatorClass = computed(() => ({
@@ -96,7 +97,7 @@ const indicatorClass = computed(() => ({
 }))
 
 watch(
-  () => [modelValue.value, props.options, props.size, props.shape, props.block],
+  () => [modelValue.value, props.options, resolvedSize.value, props.shape, props.block],
   () => {
     nextTick(() => {
       updateIndicator()
@@ -336,7 +337,7 @@ defineExpose({
 
 .yiz-segmented-item-disabled {
   cursor: not-allowed;
-  color: #bfbfbf;
+  color: var(--yiz-color-text-disabled);
 }
 
 .yiz-segmented-item-disabled .yiz-segmented-input {
@@ -344,7 +345,7 @@ defineExpose({
 }
 
 .yiz-segmented-item-disabled.yiz-segmented-item-selected {
-  color: var(--yiz-color-primary-light5);
+  color: var(--yiz-color-primary-disabled);
 }
 
 .yiz-segmented-small {

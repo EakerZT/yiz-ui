@@ -1,7 +1,9 @@
 <template>
-  <y-divider dashed /><y-divider dashed>{{ $t('demo.divider.dashedText') }}</y-divider>
+  <y-divider dashed /><y-divider dashed>{{ t('demo.divider.dashedText') }}</y-divider>
 </template>
 
 <script lang="ts" setup>
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 </script>

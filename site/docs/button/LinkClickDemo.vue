@@ -1,10 +1,12 @@
 <template>
-  <y-link-button @click="count++">{{ $t('demo.button.clickCount', { count }) }}</y-link-button>
+  <y-link-button @click="count++">{{ t('demo.button.clickCount', { count }) }}</y-link-button>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const count = ref(0)
 </script>

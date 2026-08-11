@@ -1,7 +1,9 @@
 <template>
-  <y-empty :description="$t('demo.empty.noResult')" />
+  <y-empty :description="t('demo.empty.noResult')" />
 </template>
 
 <script lang="ts" setup>
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 </script>

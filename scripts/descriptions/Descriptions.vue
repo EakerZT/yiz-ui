@@ -62,6 +62,7 @@
 
 <script lang="ts" setup>
 import { computed, defineComponent, Fragment, useSlots } from 'vue'
+import { useThemeSize } from '../theme'
 import DescriptionItemComp from './DescriptionItem.vue'
 
 export interface DescriptionItemData {
@@ -88,12 +89,12 @@ const props = withDefaults(
     title: '',
     column: 3,
     bordered: false,
-    size: 'default',
     layout: 'horizontal',
   },
 )
 
 const slots = useSlots()
+const resolvedSize = useThemeSize(() => props.size)
 
 defineSlots<{
   default?: any
@@ -120,7 +121,7 @@ const columnCount = computed(() => {
 
 const vClass = computed(() => ({
   'yiz-descriptions-bordered': props.bordered,
-  [`yiz-descriptions-size-${props.size}`]: props.size !== 'default',
+  [`yiz-descriptions-size-${resolvedSize.value}`]: resolvedSize.value !== 'default',
   [`yiz-descriptions-layout-${props.layout}`]: true,
 }))
 

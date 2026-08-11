@@ -18,7 +18,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 interface DemoItem {
   id: string
@@ -36,7 +38,7 @@ const basicItems = ref<DemoItem[]>([
 const basicLog = ref('')
 
 function getItemTitle(item: unknown) {
-  return $t((item as DemoItem).titleKey)
+  return t((item as DemoItem).titleKey)
 }
 </script>
 

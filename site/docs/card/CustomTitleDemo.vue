@@ -1,12 +1,14 @@
 <template>
   <y-card style="width: 360px">
     <template #title>
-      <span style="color: var(--yiz-color-primary); font-weight: 600">{{ $t('demo.card.customTitleStyle') }}</span>
+      <span style="color: var(--yiz-color-primary); font-weight: 600">{{ t('demo.card.customTitleStyle') }}</span>
     </template>
-    <p>{{ $t('demo.card.customTitleHint') }}</p>
+    <p>{{ t('demo.card.customTitleHint') }}</p>
   </y-card>
 </template>
 
 <script lang="ts" setup>
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 </script>

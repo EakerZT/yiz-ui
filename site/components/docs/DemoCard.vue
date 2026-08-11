@@ -6,7 +6,7 @@
       <template #extra>
         <slot name="extra" />
         <button class="docs-demo-card-action" type="button" :aria-expanded="sourceVisible" @click="toggleSource">
-          {{ $t(sourceVisible ? 'demo.docs.hideCode' : 'demo.docs.showCode') }}
+          {{ t(sourceVisible ? 'demo.docs.hideCode' : 'demo.docs.showCode') }}
         </button>
       </template>
 
@@ -19,7 +19,7 @@
       <div class="docs-demo-card-toolbar">
         <span>Vue</span>
         <button type="button" @click="copySource">
-          {{ $t(copied ? 'demo.docs.copied' : 'demo.docs.copyCode') }}
+          {{ t(copied ? 'demo.docs.copied' : 'demo.docs.copyCode') }}
         </button>
       </div>
       <pre><code>{{ source }}</code></pre>
@@ -30,7 +30,9 @@
 <script lang="ts" setup>
 import { onBeforeUnmount, ref } from 'vue'
 import { Card } from 'yiz-ui'
-import { $t } from '../../i18n'
+import { useLocale } from '../../i18n'
+
+const t = useLocale()
 
 defineOptions({ inheritAttrs: false })
 
@@ -83,10 +85,10 @@ onBeforeUnmount(() => {
 <style scoped>
 .docs-demo-card-source {
   overflow: hidden;
-  border: 1px solid #e6e8eb;
+  border: 1px solid var(--yiz-color-border-light);
   border-top: 0;
   border-radius: 0 0 8px 8px;
-  background: #f8f9fb;
+  background: var(--yiz-color-bg-subtle);
 }
 
 .docs-demo-card-action,
@@ -104,8 +106,8 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: space-between;
   padding: 8px 14px;
-  border-bottom: 1px solid #e8eaed;
-  color: #999;
+  border-bottom: 1px solid var(--yiz-color-border-light);
+  color: var(--yiz-color-text-tertiary);
   font-size: 12px;
 }
 
@@ -114,7 +116,7 @@ onBeforeUnmount(() => {
   margin: 0;
   overflow: auto;
   padding: 18px 20px;
-  color: #303846;
+  color: var(--yiz-color-text-primary);
   font:
     13px/1.7 Consolas,
     'SFMono-Regular',

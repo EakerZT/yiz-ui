@@ -1,14 +1,16 @@
 <template>
-  <y-card :title="$t('demo.card.userList')" style="width: 400px">
+  <y-card :title="t('demo.card.userList')" style="width: 400px">
     <template #extra>
-      <span class="demo-link">{{ $t('demo.common.more') }}</span>
+      <span class="demo-link">{{ t('demo.common.more') }}</span>
     </template>
-    <p>{{ $t('demo.card.extraHint') }}</p>
+    <p>{{ t('demo.card.extraHint') }}</p>
   </y-card>
 </template>
 
 <script lang="ts" setup>
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 </script>
 
 <style scoped>

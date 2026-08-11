@@ -1,7 +1,7 @@
 <template>
   <div ref="groupRef" class="yiz-checkbox-group" :class="[`yiz-checkbox-group-${direction}`]">
     <template v-if="options">
-      <Checkbox v-for="opt in options" :key="opt.value" :value="opt.value" :border="border" :size="size">
+      <Checkbox v-for="opt in options" :key="opt.value" :value="opt.value" :border="border" :size="resolvedSize">
         {{ opt.label }}
       </Checkbox>
     </template>
@@ -12,6 +12,7 @@
 <script lang="ts" setup>
 import { provide, ref, toRef } from 'vue'
 import { Checkbox } from '../checkbox'
+import { useThemeSize } from '../theme'
 
 export interface CheckboxOption {
   label: string
@@ -30,7 +31,6 @@ const props = withDefaults(
     direction: 'horizontal',
     disabled: false,
     border: false,
-    size: 'default',
   },
 )
 
@@ -40,6 +40,7 @@ defineSlots<{
 
 const modelValue = defineModel<(string | number)[]>('value', { default: () => [] })
 const groupRef = ref<HTMLElement>()
+const resolvedSize = useThemeSize(() => props.size)
 
 function toggleValue(val: string | number) {
   if (modelValue.value.includes(val)) {
@@ -53,7 +54,7 @@ provide('yizCheckboxGroup', {
   modelValue,
   disabled: toRef(props, 'disabled'),
   border: toRef(props, 'border'),
-  size: toRef(props, 'size'),
+  size: resolvedSize,
   toggleValue,
 })
 

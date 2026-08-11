@@ -1,13 +1,13 @@
 <template>
   <div class="demo-descriptions-panel">
     <y-radio-button-group v-model:value="size" :options="sizeOptions" />
-    <y-descriptions bordered :size="size" :title="$t('demo.descriptions.sizeTitle')">
-      <y-description-item :label="$t('demo.descriptions.username')">
-        {{ $t('demo.common.personLisi') }}
+    <y-descriptions bordered :size="size" :title="t('demo.descriptions.sizeTitle')">
+      <y-description-item :label="t('demo.descriptions.username')">
+        {{ t('demo.common.personLisi') }}
       </y-description-item>
-      <y-description-item :label="$t('demo.descriptions.role')">{{ $t('demo.common.rolePm') }}</y-description-item>
-      <y-description-item :label="$t('demo.descriptions.department')">
-        {{ $t('demo.common.deptProduct') }}
+      <y-description-item :label="t('demo.descriptions.role')">{{ t('demo.common.rolePm') }}</y-description-item>
+      <y-description-item :label="t('demo.descriptions.department')">
+        {{ t('demo.common.deptProduct') }}
       </y-description-item>
     </y-descriptions>
   </div>
@@ -15,7 +15,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 type DemoSize = 'small' | 'default' | 'large'
 

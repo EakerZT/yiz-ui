@@ -1,17 +1,19 @@
 <template>
-  <y-button @click="visible10 = true">{{ $t('demo.common.open') }}</y-button
+  <y-button @click="visible10 = true">{{ t('demo.common.open') }}</y-button
   ><span v-if="closeCount > 0 || okCount > 0" class="demo-hint">
-    {{ $t('demo.drawer.footerEventCount', { close: closeCount, ok: okCount }) }}
+    {{ t('demo.drawer.footerEventCount', { close: closeCount, ok: okCount }) }}
   </span>
 
-  <y-drawer v-model:show="visible10" :title="$t('demo.dialog.closeEvent')" @close="closeCount++" @ok="okCount++">
-    <p>{{ $t('demo.dialog.closeEventHint') }}</p>
+  <y-drawer v-model:show="visible10" :title="t('demo.dialog.closeEvent')" @close="closeCount++" @ok="okCount++">
+    <p>{{ t('demo.dialog.closeEventHint') }}</p>
   </y-drawer>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const visible10 = ref(false)
 

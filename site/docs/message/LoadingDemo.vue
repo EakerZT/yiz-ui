@@ -1,19 +1,21 @@
 <template>
-  <y-button @click="openLoading">{{ $t('demo.message.loadingButton') }}</y-button>
+  <y-button @click="openLoading">{{ t('demo.message.loadingButton') }}</y-button>
 </template>
 
 <script lang="ts" setup>
-import { $t, message } from 'yiz-ui'
+import { useLocale, message } from 'yiz-ui'
+
+const t = useLocale()
 
 function openLoading() {
   message.loading({
     key: 'message-demo-loading',
-    content: $t('demo.message.loadingMsg'),
+    content: t('demo.message.loadingMsg'),
   })
   window.setTimeout(() => {
     message.success({
       key: 'message-demo-loading',
-      content: $t('demo.message.loadedMsg'),
+      content: t('demo.message.loadedMsg'),
       duration: 2000,
     })
   }, 1200)

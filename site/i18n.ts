@@ -1,9 +1,12 @@
 import { ref } from 'vue'
-import { registerLangItem, setLang, $t, type Lang, type LangMessages } from 'yiz-ui'
-
-export { $t }
+import { createTranslator, registerLangItem, type Lang, type LangMessages } from 'yiz-ui'
 
 export const demoLang = ref<Lang>('zh-CN')
+const translate = createTranslator(demoLang)
+
+export function useLocale() {
+  return translate
+}
 
 export const demoLangOptions = [
   { label: '中文', value: 'zh-CN' },
@@ -13,6 +16,30 @@ export const demoLangOptions = [
 const zhCN: LangMessages = {
   'demo.app.title': 'Vue 3 组件库',
   'demo.app.lang': '语言',
+  'demo.app.darkMode': '暗色',
+  'demo.app.themeColor': '主题色',
+  'demo.app.scope': '局部配置',
+  'demo.app.desc': '为应用及命令式服务统一提供主题、语言、默认尺寸、输入风格、挂载位置和层级管理。',
+  'demo.app.theme.allOptions': 'Theme 全部配置项',
+  'demo.app.theme.hint':
+    'Theme 支持 DeepPartial 局部覆盖。下表完整列出当前所有配置路径、类型以及亮色和暗色预设的默认值。',
+  'demo.app.theme.path': '配置路径',
+  'demo.app.theme.type': '类型',
+  'demo.app.theme.lightDefault': '亮色默认值',
+  'demo.app.theme.darkDefault': '暗色默认值',
+  'demo.app.theme.section.behavior': '行为与组件默认值',
+  'demo.app.theme.section.behavior.desc':
+    '控制颜色派生模式、组件默认尺寸、输入框样式，以及 InputNumber 控制按钮的位置。组件自身的 prop 优先级更高。',
+  'demo.app.theme.section.colors': '颜色',
+  'demo.app.theme.section.colors.desc': '包含品牌语义色、背景、文字、边框、遮罩、Tooltip、Loading 遮罩和滚动条颜色。',
+  'demo.app.theme.section.typography': '字体',
+  'demo.app.theme.section.typography.desc': '控制字号、字重和行高。',
+  'demo.app.theme.section.sizing': '控件尺寸',
+  'demo.app.theme.section.sizing.desc': '控制三种尺寸的控件高度和横向内边距。',
+  'demo.app.theme.section.radius': '圆角',
+  'demo.app.theme.section.radius.desc': '控制组件、容器和全圆角形态的圆角值。',
+  'demo.app.theme.section.motion': '动效',
+  'demo.app.theme.section.motion.desc': '控制快速、默认、慢速动画时长及标准缓动函数。',
 
   'demo.docs.showCode': '查看源码',
   'demo.docs.hideCode': '收起源码',
@@ -38,6 +65,7 @@ const zhCN: LangMessages = {
   'demo.navGroup.feedback': '反馈',
   'demo.navGroup.utilities': '工具',
 
+  'demo.nav.app': 'App 全局配置',
   'demo.nav.breadcrumb': 'Breadcrumb 面包屑',
   'demo.nav.button': 'Button 按钮',
   'demo.nav.card': 'Card 卡片',
@@ -1247,6 +1275,33 @@ const zhCN: LangMessages = {
 const enUS: LangMessages = {
   'demo.app.title': 'Vue 3 component library',
   'demo.app.lang': 'Language',
+  'demo.app.darkMode': 'Dark',
+  'demo.app.themeColor': 'Theme color',
+  'demo.app.scope': 'Scoped configuration',
+  'demo.app.desc':
+    'Provides theme, locale, default size, input style, teleport target, and layer management for the app and contextual services.',
+  'demo.app.theme.allOptions': 'All Theme options',
+  'demo.app.theme.hint':
+    'Theme accepts DeepPartial overrides. The table lists every current configuration path, its type, and the light and dark preset defaults.',
+  'demo.app.theme.path': 'Configuration path',
+  'demo.app.theme.type': 'Type',
+  'demo.app.theme.lightDefault': 'Light default',
+  'demo.app.theme.darkDefault': 'Dark default',
+  'demo.app.theme.section.behavior': 'Behavior and component defaults',
+  'demo.app.theme.section.behavior.desc':
+    'Controls color derivation mode, default component size, input style, and InputNumber control placement. Component props take precedence.',
+  'demo.app.theme.section.colors': 'Colors',
+  'demo.app.theme.section.colors.desc':
+    'Includes brand semantic colors, surfaces, text, borders, masks, Tooltip, Loading mask, and scrollbar colors.',
+  'demo.app.theme.section.typography': 'Typography',
+  'demo.app.theme.section.typography.desc': 'Controls font sizes, font weights, and line heights.',
+  'demo.app.theme.section.sizing': 'Control sizing',
+  'demo.app.theme.section.sizing.desc': 'Controls heights and horizontal padding for the three component sizes.',
+  'demo.app.theme.section.radius': 'Radius',
+  'demo.app.theme.section.radius.desc': 'Controls component, container, and fully rounded corner values.',
+  'demo.app.theme.section.motion': 'Motion',
+  'demo.app.theme.section.motion.desc':
+    'Controls fast, default, and slow animation durations plus the standard easing curve.',
 
   'demo.docs.showCode': 'Show code',
   'demo.docs.hideCode': 'Hide code',
@@ -1272,6 +1327,7 @@ const enUS: LangMessages = {
   'demo.navGroup.feedback': 'Feedback',
   'demo.navGroup.utilities': 'Utilities',
 
+  'demo.nav.app': 'App',
   'demo.nav.breadcrumb': 'Breadcrumb',
   'demo.nav.button': 'Button',
   'demo.nav.card': 'Card',
@@ -2513,7 +2569,4 @@ registerLangItem('en-US', enUS)
 
 export function setDemoLang(lang: Lang) {
   demoLang.value = lang
-  setLang(lang)
 }
-
-setLang(demoLang.value)

@@ -1,5 +1,5 @@
 <template>
-  <p class="demo-section-desc" style="margin-bottom: 12px">{{ $t('demo.table.remoteSortDesc') }}</p>
+  <p class="demo-section-desc" style="margin-bottom: 12px">{{ t('demo.table.remoteSortDesc') }}</p>
   <div style="height: 250px">
     <y-table
       :data="remoteData"
@@ -8,10 +8,10 @@
       :loading="remoteSortLoading"
       @sort-change="onRemoteSortChange"
     >
-      <y-table-column :label="$t('demo.common.name')" field="name" width="160px" sortable />
-      <y-table-column :label="$t('demo.common.age')" field="age" width="120px" sortable align="center" />
-      <y-table-column :label="$t('demo.common.city')" field="city" width="180px" />
-      <y-table-column :label="$t('demo.common.status')" field="status" align="center" />
+      <y-table-column :label="t('demo.common.name')" field="name" width="160px" sortable />
+      <y-table-column :label="t('demo.common.age')" field="age" width="120px" sortable align="center" />
+      <y-table-column :label="t('demo.common.city')" field="city" width="180px" />
+      <y-table-column :label="t('demo.common.status')" field="status" align="center" />
     </y-table>
   </div>
   <p class="demo-table-info">{{ remoteSortSignalText }}</p>
@@ -19,7 +19,9 @@
 
 <script lang="ts" setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import { $t, type TableSortState } from 'yiz-ui'
+import { useLocale, type TableSortState } from 'yiz-ui'
+
+const t = useLocale()
 
 interface Row {
   name: string
@@ -30,29 +32,29 @@ interface Row {
 
 const data = computed<Row[]>(() => [
   {
-    name: $t('demo.common.personZhangsan'),
+    name: t('demo.common.personZhangsan'),
     age: 28,
-    city: $t('demo.common.beijing'),
-    status: $t('demo.common.enabled'),
+    city: t('demo.common.beijing'),
+    status: t('demo.common.enabled'),
   },
-  { name: $t('demo.common.personLisi'), age: 35, city: $t('demo.common.shanghai'), status: $t('demo.common.disabled') },
+  { name: t('demo.common.personLisi'), age: 35, city: t('demo.common.shanghai'), status: t('demo.common.disabled') },
   {
-    name: $t('demo.common.personWangwu'),
+    name: t('demo.common.personWangwu'),
     age: 22,
-    city: $t('demo.common.guangzhou'),
-    status: $t('demo.common.enabled'),
+    city: t('demo.common.guangzhou'),
+    status: t('demo.common.enabled'),
   },
   {
-    name: $t('demo.common.personZhaoliu'),
+    name: t('demo.common.personZhaoliu'),
     age: 30,
-    city: $t('demo.common.shenzhen'),
-    status: $t('demo.common.enabled'),
+    city: t('demo.common.shenzhen'),
+    status: t('demo.common.enabled'),
   },
   {
-    name: $t('demo.common.personSunqi'),
+    name: t('demo.common.personSunqi'),
     age: 41,
-    city: $t('demo.common.hangzhou'),
-    status: $t('demo.common.disabled'),
+    city: t('demo.common.hangzhou'),
+    status: t('demo.common.disabled'),
   },
 ])
 
@@ -100,8 +102,8 @@ function onRemoteSortChange(sortState: TableSortState | null) {
 const remoteSortSignalText = computed(() => {
   const sortState = remoteSortSignal.value
   return sortState
-    ? $t('demo.table.remoteSortSignal', { field: sortState.field, order: sortState.order })
-    : $t('demo.table.remoteSortCleared')
+    ? t('demo.table.remoteSortSignal', { field: sortState.field, order: sortState.order })
+    : t('demo.table.remoteSortCleared')
 })
 
 onBeforeUnmount(() => {

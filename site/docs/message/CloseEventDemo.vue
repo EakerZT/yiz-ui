@@ -1,16 +1,18 @@
 <template>
-  <y-button @click="openCloseEvent">{{ $t('demo.common.open') }}</y-button
-  ><span class="demo-hint">{{ $t('demo.message.closeCount', { count: closeCount }) }}</span>
+  <y-button @click="openCloseEvent">{{ t('demo.common.open') }}</y-button
+  ><span class="demo-hint">{{ t('demo.message.closeCount', { count: closeCount }) }}</span>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t, message } from 'yiz-ui'
+import { useLocale, message } from 'yiz-ui'
+
+const t = useLocale()
 
 const closeCount = ref(0)
 
 function openCloseEvent() {
-  message.info($t('demo.message.closeEventHint'), 1500, () => {
+  message.info(t('demo.message.closeEventHint'), 1500, () => {
     closeCount.value++
   })
 }

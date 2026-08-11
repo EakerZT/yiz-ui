@@ -1,11 +1,11 @@
 <template>
   <div class="popconfirm-async-demo">
     <y-popconfirm
-      :title="$t('demo.popconfirm.publishTitle')"
+      :title="t('demo.popconfirm.publishTitle')"
       :before-confirm="beforeConfirm"
-      @confirm="status = $t('demo.popconfirm.publishDone')"
+      @confirm="status = t('demo.popconfirm.publishDone')"
     >
-      <y-button type="primary">{{ $t('demo.popconfirm.publish') }}</y-button>
+      <y-button type="primary">{{ t('demo.popconfirm.publish') }}</y-button>
     </y-popconfirm>
     <span>{{ status }}</span>
   </div>
@@ -13,12 +13,14 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
 
-const status = ref($t('demo.popconfirm.publishWaiting'))
+const t = useLocale()
+
+const status = ref(t('demo.popconfirm.publishWaiting'))
 
 async function beforeConfirm() {
-  status.value = $t('demo.popconfirm.publishing')
+  status.value = t('demo.popconfirm.publishing')
   await new Promise((resolve) => setTimeout(resolve, 1200))
 }
 </script>

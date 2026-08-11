@@ -6,11 +6,11 @@
     :style="rateStyle"
     role="slider"
     :tabindex="disabled ? -1 : 0"
-    :aria-label="ariaLabel || $t('rate.ariaLabel')"
+    :aria-label="ariaLabel || t('rate.ariaLabel')"
     aria-valuemin="0"
     :aria-valuemax="normalizedCount"
     :aria-valuenow="normalizedValue"
-    :aria-valuetext="$t('rate.value', { value: normalizedValue, total: normalizedCount })"
+    :aria-valuetext="t('rate.value', { value: normalizedValue, total: normalizedCount })"
     :aria-disabled="disabled || undefined"
     :aria-readonly="readonly || undefined"
     @keydown="onKeydown"
@@ -49,7 +49,9 @@
 import { computed, ref, watch, type CSSProperties } from 'vue'
 import { Star24Filled, Star24Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
+
+const t = useLocale()
 
 const props = withDefaults(
   defineProps<{
@@ -126,8 +128,6 @@ const props = withDefaults(
     disabled: false,
     readonly: false,
     size: 24,
-    color: '#f7ba2a',
-    voidColor: '#c6d1de',
     texts: () => [],
     showText: false,
     showScore: false,
@@ -254,8 +254,8 @@ defineExpose({ focus, blur })
 <style lang="less">
 .yiz-rate {
   --yiz-rate-size: 24px;
-  --yiz-rate-color: #f7ba2a;
-  --yiz-rate-void-color: #c6d1de;
+  --yiz-rate-color: var(--yiz-color-warning);
+  --yiz-rate-void-color: var(--yiz-color-text-disabled);
 
   display: inline-flex;
   align-items: center;
@@ -311,11 +311,11 @@ defineExpose({ focus, blur })
 
 .yiz-rate:focus-visible .yiz-rate-items {
   border-radius: var(--yiz-base-border-radius-default);
-  box-shadow: 0 0 0 2px var(--yiz-color-primary-light8);
+  box-shadow: 0 0 0 2px var(--yiz-color-primary-bg-hover);
 }
 
 .yiz-rate-text {
-  color: #606266;
+  color: var(--yiz-color-text-secondary);
   font-size: var(--yiz-font-size-default);
   line-height: var(--yiz-rate-size);
   white-space: nowrap;

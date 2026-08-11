@@ -1,24 +1,26 @@
 <template>
   <div class="layer-status-grid">
     <div class="layer-status-item">
-      <span>{{ $t('demo.layerManager.isTopLayer') }}</span>
+      <span>{{ t('demo.layerManager.isTopLayer') }}</span>
       <strong :class="{ inactive: !layer.isTopLayer.value }">
-        {{ layer.isTopLayer.value ? $t('demo.layerManager.top') : $t('demo.layerManager.notTop') }}
+        {{ layer.isTopLayer.value ? t('demo.layerManager.top') : t('demo.layerManager.notTop') }}
       </strong>
     </div>
     <div class="layer-status-item">
-      <span>{{ $t('demo.layerManager.count') }}</span>
+      <span>{{ t('demo.layerManager.count') }}</span>
       <strong>{{ layer.count.value }}</strong>
     </div>
     <div class="layer-status-item">
-      <span>{{ $t('demo.layerManager.index') }}</span>
+      <span>{{ t('demo.layerManager.index') }}</span>
       <strong>{{ layer.index.value }}</strong>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { $t, useModalLayer } from 'yiz-ui'
+import { useLocale, useModalLayer } from 'yiz-ui'
+
+const t = useLocale()
 
 const layer = useModalLayer()
 

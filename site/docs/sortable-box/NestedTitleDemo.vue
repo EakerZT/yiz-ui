@@ -30,7 +30,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 interface NestedCard {
   id: string
@@ -76,7 +78,7 @@ function getNestedCards(item: unknown) {
 }
 
 function getNestedCardTitle(item: unknown) {
-  return $t((item as NestedCard).titleKey)
+  return t((item as NestedCard).titleKey)
 }
 
 function updateNestedCards(column: unknown, cards: unknown[]) {

@@ -1,7 +1,7 @@
 <template>
   <div class="demo-sortable-sync-board">
     <div>
-      <div class="demo-sortable-subtitle">{{ $t('demo.sortableBox.canvasView') }}</div>
+      <div class="demo-sortable-subtitle">{{ t('demo.sortableBox.canvasView') }}</div>
       <y-sortable-box
         :list="syncDisplayItems"
         class="demo-sortable-sync-canvas"
@@ -24,7 +24,7 @@
       </y-sortable-box>
     </div>
     <div>
-      <div class="demo-sortable-subtitle">{{ $t('demo.sortableBox.layersView') }}</div>
+      <div class="demo-sortable-subtitle">{{ t('demo.sortableBox.layersView') }}</div>
       <y-sortable-box
         :list="syncDisplayItems"
         class="demo-sortable-list"
@@ -51,7 +51,9 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t, type SortablePreviewChange } from 'yiz-ui'
+import { useLocale, type SortablePreviewChange } from 'yiz-ui'
+
+const t = useLocale()
 
 interface DemoItem {
   id: string
@@ -75,7 +77,7 @@ const syncDraggingSource = ref<'canvas' | 'layers' | ''>('')
 const syncDisplayItems = computed(() => syncPreviewItems.value ?? syncItems.value)
 
 function getItemTitle(item: unknown) {
-  return $t((item as DemoItem).titleKey)
+  return t((item as DemoItem).titleKey)
 }
 
 function getItemType(item: unknown) {

@@ -236,17 +236,18 @@ loadingBar.reset()
 ```ts
 import { showContextMenu } from '@eakerzt/yiz-ui'
 
-showContextMenu(
-  {
-    items: [
-      { type: 'item', label: '刷新', key: 'refresh' },
-      { type: 'divider' },
-      { type: 'item', label: '删除', key: 'delete', disabled: true },
-    ],
-    onSelect: (item) => console.log(item.key),
-  },
-  event,
-)
+showContextMenu({
+  x: event.clientX,
+  y: event.clientY,
+  width: 200,
+  menus: [
+    { type: 'item', label: '刷新', value: 'refresh' },
+    { type: 'divider' },
+    { type: 'item', label: '删除', value: 'delete', disabled: true },
+  ],
+  onSelect: (item) => console.log(item.value),
+  onClose: () => console.log('已关闭'),
+})
 ```
 
 ### Emitter

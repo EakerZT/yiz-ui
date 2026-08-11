@@ -1,18 +1,20 @@
 <template>
   <y-dropmenu :options="options" @select="onSelect1">
     <template #trigger>
-      <y-button>{{ $t('demo.dropmenu.open') }}</y-button>
+      <y-button>{{ t('demo.dropmenu.open') }}</y-button>
     </template>
     <template #icon="{ icon }">
       <y-icon :icon="iconMap[icon]" />
     </template> </y-dropmenu
-  ><span class="demo-hint">{{ $t('demo.dropmenu.selected', { value: v1 ?? $t('demo.common.empty') }) }}</span>
+  ><span class="demo-hint">{{ t('demo.dropmenu.selected', { value: v1 ?? t('demo.common.empty') }) }}</span>
 </template>
 
 <script lang="ts" setup>
 import { Delete16Filled, Edit16Regular, Eye16Regular, Folder20Regular, Settings20Regular } from '@vicons/fluent'
 import { computed, ref } from 'vue'
-import { $t, type DropmenuOption } from 'yiz-ui'
+import { useLocale, type DropmenuOption } from 'yiz-ui'
+
+const t = useLocale()
 
 const v1 = ref()
 
@@ -25,10 +27,10 @@ const iconMap: Record<string, any> = {
 }
 
 const options = computed<DropmenuOption[]>(() => [
-  { label: $t('demo.common.view'), key: 'view', icon: 'view' },
-  { label: $t('demo.common.edit'), key: 'edit', icon: 'edit' },
+  { label: t('demo.common.view'), key: 'view', icon: 'view' },
+  { label: t('demo.common.edit'), key: 'edit', icon: 'edit' },
   { type: 'divider' },
-  { label: $t('demo.common.delete'), key: 'delete', icon: 'delete' },
+  { label: t('demo.common.delete'), key: 'delete', icon: 'delete' },
 ])
 
 function onSelect1(item: any) {

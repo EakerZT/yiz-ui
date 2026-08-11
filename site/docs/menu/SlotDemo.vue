@@ -1,24 +1,26 @@
 <template>
   <y-menu v-model:select="v3" @select="onSelect3">
-    <y-menu-item :label="$t('demo.common.home')" key="home" />
-    <y-menu-divider :name="$t('demo.menu.navigationGroup')" />
-    <y-menu-item :label="$t('demo.common.products')" key="products">
-      <y-menu-item :label="$t('demo.common.allProducts')" key="all-products" />
+    <y-menu-item :label="t('demo.common.home')" key="home" />
+    <y-menu-divider :name="t('demo.menu.navigationGroup')" />
+    <y-menu-item :label="t('demo.common.products')" key="products">
+      <y-menu-item :label="t('demo.common.allProducts')" key="all-products" />
       <y-menu-divider />
-      <y-menu-item :label="$t('demo.common.categories')" key="categories">
-        <y-menu-item :label="$t('demo.common.tags')" key="tags" />
+      <y-menu-item :label="t('demo.common.categories')" key="categories">
+        <y-menu-item :label="t('demo.common.tags')" key="tags" />
       </y-menu-item>
     </y-menu-item>
-    <y-menu-item :label="$t('demo.common.settings')" key="settings">
-      <y-menu-item :label="$t('demo.common.profile')" key="profile" />
-      <y-menu-item :label="$t('demo.common.systemSettings')" key="system" />
+    <y-menu-item :label="t('demo.common.settings')" key="settings">
+      <y-menu-item :label="t('demo.common.profile')" key="profile" />
+      <y-menu-item :label="t('demo.common.systemSettings')" key="system" />
     </y-menu-item> </y-menu
-  ><span class="demo-hint">{{ $t('demo.menu.selected', { value: v3 }) }}</span>
+  ><span class="demo-hint">{{ t('demo.menu.selected', { value: v3 }) }}</span>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const v3 = ref()
 

@@ -1,6 +1,15 @@
 import { createVNode, render, type VNodeChild } from 'vue'
+import {
+  applyServiceTheme,
+  resolveServiceTarget,
+  useServiceContext,
+  withServiceContext,
+  type ServiceContext,
+} from '../app/serviceContext'
+import { createTranslator } from '../locale'
+import type { ThemeContext } from '../theme'
+import { nextZIndex } from '../zIndex'
 import Notification from './Notification.vue'
-import { $t } from '../locale'
 
 export type NotificationType = 'info' | 'success' | 'warning' | 'error'
 export type NotificationPlacement = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
@@ -31,13 +40,16 @@ export interface NotificationFn {
 }
 
 interface NotificationInstance {
+  scope: NotificationScope
   placement: NotificationPlacement
   close: () => void
 }
 
 const GAP = 12
 const instances: NotificationInstance[] = []
-const holders = new Map<NotificationPlacement, HTMLElement>()
+const globalScope = Symbol('yizGlobalNotificationScope')
+type NotificationScope = ThemeContext | typeof globalScope
+const holders = new Map<NotificationScope, Map<NotificationPlacement, HTMLElement>>()
 const defaultTitleKeys: Record<NotificationType, string> = {
   info: 'notification.title.info',
   success: 'notification.title.success',
@@ -52,7 +64,12 @@ function removeInstance(instance: NotificationInstance) {
   }
 }
 
-function openNotification(options: NotificationOptions = {}): NotificationHandle {
+function getScope(context?: ServiceContext): NotificationScope {
+  return context?.theme ?? globalScope
+}
+
+function openNotification(options: NotificationOptions = {}, context?: ServiceContext): NotificationHandle {
+  const scope = getScope(context)
   const container = document.createElement('div')
   const type = options.type ?? 'info'
   const placement = options.placement ?? 'top-right'
@@ -60,11 +77,12 @@ function openNotification(options: NotificationOptions = {}): NotificationHandle
   let closed = false
   let closeEmitted = false
 
-  const holder = getHolder(placement, baseOffset)
+  const holder = getHolder(scope, placement, baseOffset, context)
   setupContainer(container, placement)
   holder.appendChild(container)
 
   const instance: NotificationInstance = {
+    scope,
     placement,
     close,
   }
@@ -74,7 +92,7 @@ function openNotification(options: NotificationOptions = {}): NotificationHandle
     render(null, container)
     container.remove()
     removeInstance(instance)
-    removeHolderIfEmpty(placement)
+    removeHolderIfEmpty(scope, placement)
   }
 
   function close() {
@@ -98,7 +116,7 @@ function openNotification(options: NotificationOptions = {}): NotificationHandle
     options.onClose?.()
   }
 
-  const title = options.title == null ? $t(defaultTitleKeys[type]) : options.title
+  const title = options.title == null ? createTranslator(context?.locale)(defaultTitleKeys[type]) : options.title
   const titleSlot = typeof title === 'string' ? undefined : () => title
   const defaultSlot = typeof options.content === 'string' || options.content == null ? undefined : () => options.content
 
@@ -132,7 +150,7 @@ function openNotification(options: NotificationOptions = {}): NotificationHandle
       },
     )
 
-    render(vnode, container)
+    render(withServiceContext(vnode, context), container)
   }
 
   renderNotification(true)
@@ -177,14 +195,24 @@ function getMarginProperty(placement: NotificationPlacement): 'marginTop' | 'mar
   return placement.startsWith('bottom') ? 'marginTop' : 'marginBottom'
 }
 
-function getHolder(placement: NotificationPlacement, offset: number) {
-  const existed = holders.get(placement)
+function getHolder(
+  scope: NotificationScope,
+  placement: NotificationPlacement,
+  offset: number,
+  context?: ServiceContext,
+) {
+  let scopedHolders = holders.get(scope)
+  if (!scopedHolders) {
+    scopedHolders = new Map<NotificationPlacement, HTMLElement>()
+    holders.set(scope, scopedHolders)
+  }
+  const existed = scopedHolders.get(placement)
   if (existed) return existed
 
   const holder = document.createElement('div')
   holder.className = `yiz-notification-holder yiz-notification-holder-${placement}`
   holder.style.position = 'fixed'
-  holder.style.zIndex = '3000'
+  holder.style.zIndex = String(context?.zIndex.next() ?? nextZIndex())
   holder.style.display = 'flex'
   holder.style.flexDirection = placement.startsWith('bottom') ? 'column-reverse' : 'column'
   holder.style.pointerEvents = 'none'
@@ -193,23 +221,32 @@ function getHolder(placement: NotificationPlacement, offset: number) {
   holder.style[vertical as 'top' | 'bottom'] = `${offset}px`
   holder.style[horizontal as 'left' | 'right'] = `${offset}px`
 
-  document.body.appendChild(holder)
-  holders.set(placement, holder)
+  applyServiceTheme(holder, context)
+  resolveServiceTarget(context).appendChild(holder)
+  scopedHolders.set(placement, holder)
   return holder
 }
 
-function removeHolderIfEmpty(placement: NotificationPlacement) {
-  const holder = holders.get(placement)
+function removeHolderIfEmpty(scope: NotificationScope, placement: NotificationPlacement) {
+  const scopedHolders = holders.get(scope)
+  const holder = scopedHolders?.get(placement)
   if (!holder || holder.childElementCount > 0) return
   holder.remove()
-  holders.delete(placement)
+  scopedHolders?.delete(placement)
+  if (scopedHolders?.size === 0) holders.delete(scope)
 }
 
-export const notification = openNotification as NotificationFn
+function createNotificationApi(context?: ServiceContext): NotificationFn {
+  const api = ((options: NotificationOptions = {}) => openNotification(options, context)) as NotificationFn
+  api.info = (options = {}) => api({ ...options, type: 'info' })
+  api.success = (options = {}) => api({ ...options, type: 'success' })
+  api.warning = (options = {}) => api({ ...options, type: 'warning' })
+  api.error = (options = {}) => api({ ...options, type: 'error' })
+  return api
+}
 
-notification.info = (options: Omit<NotificationOptions, 'type'> = {}) => notification({ ...options, type: 'info' })
-notification.success = (options: Omit<NotificationOptions, 'type'> = {}) =>
-  notification({ ...options, type: 'success' })
-notification.warning = (options: Omit<NotificationOptions, 'type'> = {}) =>
-  notification({ ...options, type: 'warning' })
-notification.error = (options: Omit<NotificationOptions, 'type'> = {}) => notification({ ...options, type: 'error' })
+export const notification = createNotificationApi()
+
+export function useNotification(): NotificationFn {
+  return createNotificationApi(useServiceContext())
+}

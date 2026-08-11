@@ -6,7 +6,7 @@
     <y-carousel-item v-for="item in 4" :key="item">
       <div class="vertical-slide">
         <span>0{{ item }}</span>
-        {{ $t('demo.carousel.positionItem') }}
+        {{ t('demo.carousel.positionItem') }}
       </div>
     </y-carousel-item>
   </y-carousel>
@@ -14,14 +14,16 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t, type CarouselDotPosition } from 'yiz-ui'
+import { useLocale, type CarouselDotPosition } from 'yiz-ui'
+
+const t = useLocale()
 
 const dotPosition = ref<CarouselDotPosition>('right')
 const positionOptions = computed(() => [
-  { label: $t('demo.carousel.positionTop'), value: 'top' },
-  { label: $t('demo.carousel.positionBottom'), value: 'bottom' },
-  { label: $t('demo.carousel.positionLeft'), value: 'left' },
-  { label: $t('demo.carousel.positionRight'), value: 'right' },
+  { label: t('demo.carousel.positionTop'), value: 'top' },
+  { label: t('demo.carousel.positionBottom'), value: 'bottom' },
+  { label: t('demo.carousel.positionLeft'), value: 'left' },
+  { label: t('demo.carousel.positionRight'), value: 'right' },
 ])
 </script>
 

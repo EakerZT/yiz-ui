@@ -1,5 +1,5 @@
 <template>
-  <Teleport to="body">
+  <AppTeleport>
     <div
       v-if="visible"
       ref="panelRef"
@@ -65,10 +65,11 @@
         <template #item="scope"><slot name="item" v-bind="scope" /></template>
       </PopupSubMenu>
     </div>
-  </Teleport>
+  </AppTeleport>
 </template>
 
 <script lang="ts" setup>
+import AppTeleport from '../app/AppTeleport.vue'
 import { computed, ref, toRef } from 'vue'
 import { ChevronRight16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'

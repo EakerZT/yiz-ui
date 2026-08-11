@@ -1,12 +1,14 @@
 <template>
   <y-input-number v-model:value="v3" :min="0" :max="100" /><span class="demo-hint">{{
-    $t('demo.inputNumber.rangeValue', { value: v3 ?? '' })
+    t('demo.inputNumber.rangeValue', { value: v3 ?? '' })
   }}</span>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const v3 = ref<number | null>(0)
 </script>

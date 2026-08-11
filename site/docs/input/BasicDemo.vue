@@ -1,12 +1,14 @@
 <template>
-  <y-input v-model:value="inputText" :placeholder="$t('demo.common.pleaseInput')" /><span class="demo-hint">{{
-    $t('demo.input.currentValue', { value: inputText || $t('demo.common.empty') })
+  <y-input v-model:value="inputText" :placeholder="t('demo.common.pleaseInput')" /><span class="demo-hint">{{
+    t('demo.input.currentValue', { value: inputText || t('demo.common.empty') })
   }}</span>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const inputText = ref('')
 </script>

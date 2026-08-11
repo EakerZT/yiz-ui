@@ -5,18 +5,20 @@
       <y-input-number
         v-model:value="values[size]"
         :size="size"
-        :prefix="$t('demo.inputNumber.length')"
+        :prefix="t('demo.inputNumber.length')"
         controls="none"
         style="width: 120px"
       />
-      <y-checkbox v-model:checked="nullable[size]">{{ $t('demo.inputNumber.allowEmpty') }}</y-checkbox>
+      <y-checkbox v-model:checked="nullable[size]">{{ t('demo.inputNumber.allowEmpty') }}</y-checkbox>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 type InputNumberSize = 'small' | 'default' | 'large'
 

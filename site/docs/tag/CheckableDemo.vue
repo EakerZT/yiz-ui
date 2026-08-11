@@ -1,20 +1,20 @@
 <template>
   <div class="demo-tag-checkable-panel">
     <y-button-group>
-      <y-tag v-model:checked="checkableTag1" checkable>{{ $t('demo.tag.checkableDefault') }}</y-tag>
+      <y-tag v-model:checked="checkableTag1" checkable>{{ t('demo.tag.checkableDefault') }}</y-tag>
       <y-tag v-model:checked="checkableTag2" color="success" checkable closable>
-        {{ $t('demo.tag.checkableClosable') }}
+        {{ t('demo.tag.checkableClosable') }}
       </y-tag>
       <y-tag v-model:checked="disabledCheckableTag" checkable disabled>
-        {{ $t('demo.tag.checkableDisabled') }}
+        {{ t('demo.tag.checkableDisabled') }}
       </y-tag>
       <y-tag v-model:checked="disabledCheckedTag" color="warning" checkable disabled>
-        {{ $t('demo.tag.checkableDisabledChecked') }}
+        {{ t('demo.tag.checkableDisabledChecked') }}
       </y-tag>
     </y-button-group>
     <span class="demo-tag-state">
       {{
-        $t('demo.tag.checkedState', {
+        t('demo.tag.checkedState', {
           first: checkableTag1 ? 'true' : 'false',
           second: checkableTag2 ? 'true' : 'false',
         })
@@ -25,7 +25,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const checkableTag1 = ref(false)
 

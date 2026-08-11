@@ -1,5 +1,5 @@
 <template>
-  <Teleport to="body">
+  <AppTeleport>
     <Transition name="yiz-dropmenu-panel-fade">
       <div
         v-if="visible"
@@ -64,10 +64,11 @@
         </DropmenuPanel>
       </div>
     </Transition>
-  </Teleport>
+  </AppTeleport>
 </template>
 
 <script lang="ts" setup>
+import AppTeleport from '../app/AppTeleport.vue'
 import { computed, nextTick, onBeforeUnmount, ref, toRef, watch, type ComponentPublicInstance } from 'vue'
 import { ChevronRight16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'

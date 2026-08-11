@@ -1,17 +1,19 @@
 <template>
   <y-button-group>
     <y-tag v-for="tag in tags" :key="tag.id" closable @close="handleClose(tag.id)">
-      {{ $t(tag.labelKey, tag.index ? { index: tag.index } : undefined) }}
+      {{ t(tag.labelKey, tag.index ? { index: tag.index } : undefined) }}
     </y-tag>
   </y-button-group>
   <div style="margin-top: 8px">
-    <y-button size="small" @click="addTag">{{ $t('demo.tag.addTag') }}</y-button>
+    <y-button size="small" @click="addTag">{{ t('demo.tag.addTag') }}</y-button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 interface DemoTag {
   id: number

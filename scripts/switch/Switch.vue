@@ -34,7 +34,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, ref } from 'vue'
-import { TinyColor } from '@ctrl/tinycolor'
+import { deriveColorRoles, useTheme, useThemeSize } from '../theme'
 
 const props = withDefaults(
   defineProps<{
@@ -47,7 +47,6 @@ const props = withDefaults(
   }>(),
   {
     disabled: false,
-    size: 'default',
     loading: false,
     checkedValue: true,
     uncheckedValue: false,
@@ -60,13 +59,15 @@ const emit = defineEmits<{
 
 const modelValue = defineModel<any>('value')
 const isChecked = computed(() => Object.is(modelValue.value, props.checkedValue))
+const { theme } = useTheme()
+const mergedSize = useThemeSize(() => props.size)
 
 const vClass = computed(() => {
   const c: Record<string, boolean> = {}
   if (isChecked.value) c['yiz-switch-checked'] = true
   if (props.disabled) c['yiz-switch-disabled'] = true
-  if (props.size === 'small') c['yiz-switch-small'] = true
-  if (props.size === 'large') c['yiz-switch-large'] = true
+  if (mergedSize.value === 'small') c['yiz-switch-small'] = true
+  if (mergedSize.value === 'large') c['yiz-switch-large'] = true
   if (props.loading) c['yiz-switch-loading-state'] = true
   return c
 })
@@ -74,9 +75,9 @@ const vClass = computed(() => {
 const vStyle = computed(() => {
   const s: Record<string, string> = {}
   if (props.color && props.color.match(/^#[\da-fA-F]{6}$/g)) {
-    const color = new TinyColor(props.color)
+    const color = deriveColorRoles(props.color, theme.value)
     s['--yiz-switch-checked-bg'] = props.color
-    s['--yiz-switch-checked-hover'] = color.tint(20).toString()
+    s['--yiz-switch-checked-hover'] = color.hover
     s['--yiz-color-wave'] = props.color
   } else {
     s['--yiz-color-wave'] = 'var(--yiz-color-primary)'
@@ -196,7 +197,7 @@ defineExpose({
   }
 
   &.yiz-switch-checked:hover .yiz-switch-track {
-    background: var(--yiz-switch-checked-hover, var(--yiz-color-primary-light2));
+    background: var(--yiz-switch-checked-hover, var(--yiz-color-primary-hover));
   }
 
   &:active .yiz-switch-thumb {
@@ -218,7 +219,7 @@ defineExpose({
   }
 
   &.yiz-switch-checked .yiz-switch-track {
-    background: var(--yiz-switch-checked-bg, var(--yiz-color-primary-light5));
+    background: var(--yiz-switch-checked-bg, var(--yiz-color-primary-disabled));
   }
 }
 

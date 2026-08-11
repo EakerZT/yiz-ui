@@ -130,17 +130,17 @@ defineExpose({
 
     .yiz-radio-inner {
       background-color: var(--yiz-color-bg-muted);
-      border-color: #d9d9d9;
+      border-color: var(--yiz-color-border);
     }
     .yiz-radio-label {
       color: var(--yiz-color-text-disabled);
     }
 
     &.yiz-radio-checked .yiz-radio-inner {
-      border-color: var(--yiz-color-primary-light5);
+      border-color: var(--yiz-color-primary-disabled);
 
       &::after {
-        background-color: var(--yiz-color-primary-light5);
+        background-color: var(--yiz-color-primary-disabled);
       }
     }
   }
@@ -204,8 +204,8 @@ defineExpose({
   }
 
   &:not(.yiz-radio-disabled):hover .yiz-radio-inner {
-    background-color: var(--yiz-color-primary-light2);
-    border-color: var(--yiz-color-primary-light2);
+    background-color: var(--yiz-color-primary-hover);
+    border-color: var(--yiz-color-primary-hover);
   }
 }
 

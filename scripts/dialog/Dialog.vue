@@ -1,5 +1,5 @@
 <template>
-  <Teleport to="body">
+  <AppTeleport>
     <Transition name="yiz-dialog-mask-fade" appear>
       <div v-if="visible && mask" class="yiz-dialog-mask" :style="{ zIndex: currentZIndex }" @click="onMaskClick" />
     </Transition>
@@ -18,14 +18,14 @@
           role="dialog"
           aria-modal="true"
           :aria-labelledby="!disabledHeader && (title || $slots.title) ? titleId : undefined"
-          :aria-label="disabledHeader || (!title && !$slots.title) ? title || $t('dialog.ariaLabel') : undefined"
+          :aria-label="disabledHeader || (!title && !$slots.title) ? title || t('dialog.ariaLabel') : undefined"
           tabindex="-1"
         >
           <button
             v-if="disabledHeader && closable"
             class="yiz-dialog-close yiz-dialog-close-standalone"
             type="button"
-            :aria-label="$t('common.close')"
+            :aria-label="t('common.close')"
             @click="close"
           >
             <Icon size="16" :icon="Dismiss16Regular" />
@@ -45,7 +45,7 @@
               v-if="closable"
               class="yiz-dialog-close"
               type="button"
-              :aria-label="$t('common.close')"
+              :aria-label="t('common.close')"
               @click="close"
             >
               <Icon size="16" :icon="Dismiss16Regular" />
@@ -57,28 +57,32 @@
           <div v-if="!disabledFooter" class="yiz-dialog-footer">
             <slot name="footer">
               <div class="yiz-dialog-footer-actions">
-                <Button @click="close">{{ $t('common.close') }}</Button>
-                <Button type="primary" @click="ok">{{ $t('common.confirm') }}</Button>
+                <Button @click="close">{{ t('common.close') }}</Button>
+                <Button type="primary" @click="ok">{{ t('common.confirm') }}</Button>
               </div>
             </slot>
           </div>
         </div>
       </div>
     </Transition>
-  </Teleport>
+  </AppTeleport>
 </template>
 
 <script lang="ts" setup>
+import AppTeleport from '../app/AppTeleport.vue'
 import { computed, onBeforeUnmount, onMounted, ref, useId, watch } from 'vue'
 import { Dismiss16Regular } from '@vicons/fluent'
 import { Button } from '../button'
 import { Icon } from '../icon'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
 import { useOptionalModalLayer, type ModalLayerContext } from '../overlay/modalLayer'
 import { useModalFocus } from '../overlay/useModalFocus'
-import { nextZIndex } from '../zIndex'
+import { useZIndexManager } from '../zIndex'
+
+const t = useLocale()
 
 const currentZIndex = ref(0)
+const zIndexManager = useZIndexManager()
 
 const props = withDefaults(
   defineProps<{
@@ -213,7 +217,7 @@ const dragStyle = computed(() => {
 const originalOverflow = ref('')
 function handleVisibleChange(val: boolean) {
   if (val) {
-    currentZIndex.value = nextZIndex()
+    currentZIndex.value = zIndexManager.next()
     originalOverflow.value = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     modalLayer.active()

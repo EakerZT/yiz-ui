@@ -8,36 +8,38 @@
 </template>
 
 <script lang="ts" setup>
-import { $t, notification } from 'yiz-ui'
+import { useLocale, notification } from 'yiz-ui'
+
+const t = useLocale()
 
 function openTopLeft() {
   notification({
-    title: $t('demo.notification.topLeft'),
-    content: $t('demo.notification.topLeftHint'),
+    title: t('demo.notification.topLeft'),
+    content: t('demo.notification.topLeftHint'),
     placement: 'top-left',
   })
 }
 
 function openTopRight() {
   notification({
-    title: $t('demo.notification.topRight'),
-    content: $t('demo.notification.topRightHint'),
+    title: t('demo.notification.topRight'),
+    content: t('demo.notification.topRightHint'),
     placement: 'top-right',
   })
 }
 
 function openBottomLeft() {
   notification({
-    title: $t('demo.notification.bottomLeft'),
-    content: $t('demo.notification.bottomLeftHint'),
+    title: t('demo.notification.bottomLeft'),
+    content: t('demo.notification.bottomLeftHint'),
     placement: 'bottom-left',
   })
 }
 
 function openBottomRight() {
   notification({
-    title: $t('demo.notification.bottomRight'),
-    content: $t('demo.notification.bottomRightHint'),
+    title: t('demo.notification.bottomRight'),
+    content: t('demo.notification.bottomRightHint'),
     placement: 'bottom-right',
   })
 }

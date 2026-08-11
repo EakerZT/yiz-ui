@@ -1,22 +1,24 @@
 <template>
   <y-input-group>
-    <template #beforeAddon>{{ $t('demo.inputCustom.filter') }}</template>
+    <template #beforeAddon>{{ t('demo.inputCustom.filter') }}</template>
     <y-input-custom style="width: 180px" @click="toggleStatus">
       <span class="demo-input-custom-value">{{ statusLabel }}</span>
     </y-input-custom>
-    <y-button type="primary">{{ $t('demo.inputGroup.searchButton') }}</y-button>
+    <y-button type="primary">{{ t('demo.inputGroup.searchButton') }}</y-button>
   </y-input-group>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { $t } from 'yiz-ui'
+import { useLocale } from 'yiz-ui'
+
+const t = useLocale()
 
 const statuses = ['pending', 'running', 'done'] as const
 
 const status = ref<(typeof statuses)[number]>('pending')
 
-const statusLabel = computed(() => $t(`demo.inputCustom.status.${status.value}`))
+const statusLabel = computed(() => t(`demo.inputCustom.status.${status.value}`))
 
 function toggleStatus() {
   const index = statuses.indexOf(status.value)

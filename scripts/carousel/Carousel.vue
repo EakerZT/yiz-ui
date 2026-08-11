@@ -9,7 +9,7 @@
     ]"
     role="region"
     aria-roledescription="carousel"
-    :aria-label="ariaLabel || $t('carousel.ariaLabel')"
+    :aria-label="ariaLabel || t('carousel.ariaLabel')"
     tabindex="0"
     @mouseenter="onMouseEnter"
     @mouseleave="onMouseLeave"
@@ -25,7 +25,7 @@
           class="yiz-carousel-arrow yiz-carousel-arrow-prev"
           type="button"
           :disabled="!loop && activeIndex === 0"
-          :aria-label="$t('carousel.previous')"
+          :aria-label="t('carousel.previous')"
           @click="prev"
         >
           <Icon size="20" :icon="isVertical ? ChevronUp20Regular : ChevronLeft20Regular" />
@@ -34,7 +34,7 @@
           class="yiz-carousel-arrow yiz-carousel-arrow-next"
           type="button"
           :disabled="!loop && activeIndex === itemCount - 1"
-          :aria-label="$t('carousel.next')"
+          :aria-label="t('carousel.next')"
           @click="next"
         >
           <Icon size="20" :icon="isVertical ? ChevronDown20Regular : ChevronRight20Regular" />
@@ -49,7 +49,7 @@
         class="yiz-carousel-indicator"
         :class="{ 'yiz-carousel-indicator-active': index - 1 === activeIndex }"
         type="button"
-        :aria-label="$t('carousel.goTo', { index })"
+        :aria-label="t('carousel.goTo', { index })"
         :aria-current="index - 1 === activeIndex ? 'true' : undefined"
         @click="onIndicatorClick(index - 1)"
         @mouseenter="onIndicatorMouseenter(index - 1)"
@@ -64,7 +64,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, provide, readonly, ref, watch, type CSSProperties } from 'vue'
 import { ChevronDown20Regular, ChevronLeft20Regular, ChevronRight20Regular, ChevronUp20Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
-import { $t } from '../locale'
+import { useLocale } from '../locale'
 import {
   carouselContextKey,
   type CarouselArrow,
@@ -72,6 +72,8 @@ import {
   type CarouselIndicatorPosition,
   type CarouselTrigger,
 } from './types'
+
+const t = useLocale()
 
 const props = withDefaults(
   defineProps<{
@@ -344,7 +346,7 @@ defineExpose({
 
 .yiz-carousel:focus-visible {
   border-radius: var(--yiz-base-border-radius-default);
-  box-shadow: 0 0 0 2px var(--yiz-color-primary-light8);
+  box-shadow: 0 0 0 2px var(--yiz-color-primary-bg-hover);
 }
 
 .yiz-carousel-viewport {
