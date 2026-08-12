@@ -245,8 +245,6 @@ function createNotificationApi(context?: ServiceContext): NotificationFn {
   return api
 }
 
-export const notification = createNotificationApi()
-
 export function useNotification(): NotificationFn {
   return createNotificationApi(useServiceContext())
 }

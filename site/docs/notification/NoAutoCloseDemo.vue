@@ -3,9 +3,10 @@
 </template>
 
 <script lang="ts" setup>
-import { useLocale, notification } from 'yiz-ui'
+import { useLocale, useNotification } from 'yiz-ui'
 
 const t = useLocale()
+const notification = useNotification()
 
 function openManual() {
   notification({

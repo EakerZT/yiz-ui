@@ -4,9 +4,10 @@
 
 <script lang="ts" setup>
 import { h } from 'vue'
-import { useLocale, message } from 'yiz-ui'
+import { useLocale, useMessage } from 'yiz-ui'
 
 const t = useLocale()
+const message = useMessage()
 
 function openCustom() {
   message.open({

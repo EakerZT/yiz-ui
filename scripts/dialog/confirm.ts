@@ -41,10 +41,6 @@ export interface DialogApi {
 
 const DESTROY_DELAY = 360
 
-export function confirm(options: DialogConfirmOptions = {}): DialogConfirmHandle {
-  return openConfirm(options)
-}
-
 export function useDialog(): DialogApi {
   const instance = getCurrentInstance()
   if (!instance) {

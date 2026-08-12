@@ -43,9 +43,10 @@
 
 <script lang="ts" setup>
 import { nextTick, ref, watch } from 'vue'
-import { useLocale, message, useDialog, useModalLayer } from 'yiz-ui'
+import { useLocale, useDialog, useMessage, useModalLayer } from 'yiz-ui'
 
 const t = useLocale()
+const message = useMessage()
 
 const layer = useModalLayer()
 const dialog = useDialog()

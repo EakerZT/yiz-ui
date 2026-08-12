@@ -5,9 +5,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useLocale, message } from 'yiz-ui'
+import { useLocale, useMessage } from 'yiz-ui'
 
 const t = useLocale()
+const message = useMessage()
 
 const closeCount = ref(0)
 

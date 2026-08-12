@@ -274,24 +274,27 @@ export function generateComponentApi() {
   const result = getPublicComponentFiles().map(([name, file]) => extractComponentMeta(name, file))
   const manualApis = [
     [
-      'Dialog.confirm',
-      'scripts/dialog/confirm.ts',
-      [['Dialog.confirm', '(options: DialogConfirmOptions) => DialogConfirmHandle']],
-    ],
-    [
-      'message',
+      'useMessage',
       'scripts/message/message.ts',
       [
-        ['message[type]', '(content: MessageContent, options?: MessageOptions) => MessageHandle'],
         ['useMessage', '() => MessageFn'],
+        ['message[type]', '(content: MessageContent, options?: MessageOptions) => MessageHandle'],
       ],
     ],
     [
-      'notification',
+      'useNotification',
       'scripts/notification/notification.ts',
       [
-        ['notification[type]', '(options: NotificationOptions) => NotificationHandle'],
         ['useNotification', '() => NotificationFn'],
+        ['notification[type]', '(options: NotificationOptions) => NotificationHandle'],
+      ],
+    ],
+    [
+      'useDialog',
+      'scripts/dialog/confirm.ts',
+      [
+        ['useDialog', '() => DialogApi'],
+        ['confirm', '(options: DialogConfirmOptions) => DialogConfirmHandle'],
       ],
     ],
     [
@@ -332,7 +335,6 @@ export function generateComponentApi() {
       [
         ['useModalLayer', '() => ModalLayerContext'],
         ['useModalLayerManager', '() => ModalLayerManager'],
-        ['useDialog', '() => DialogApi'],
       ],
     ],
   ]

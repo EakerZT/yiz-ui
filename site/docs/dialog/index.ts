@@ -46,4 +46,4 @@ export const demos: DemoDefinition[] = [
   { id: 'EventDemo', titleKey: 'demo.dialog.closeEvent', component: EventDemo, source: eventSource },
 ]
 
-export const apiComponents = ['Dialog', 'Dialog.confirm']
+export const apiComponents = ['Dialog', 'useDialog']

@@ -6395,23 +6395,7 @@
     ]
   },
   {
-    "name": "Dialog.confirm",
-    "source": "scripts/dialog/confirm.ts",
-    "props": [],
-    "models": [],
-    "events": [],
-    "slots": [],
-    "methods": [
-      {
-        "name": "Dialog.confirm",
-        "type": "(options: DialogConfirmOptions) => DialogConfirmHandle",
-        "description": "",
-        "descriptionEn": ""
-      }
-    ]
-  },
-  {
-    "name": "message",
+    "name": "useMessage",
     "source": "scripts/message/message.ts",
     "props": [],
     "models": [],
@@ -6419,21 +6403,21 @@
     "slots": [],
     "methods": [
       {
-        "name": "message[type]",
-        "type": "(content: MessageContent, options?: MessageOptions) => MessageHandle",
+        "name": "useMessage",
+        "type": "() => MessageFn",
         "description": "",
         "descriptionEn": ""
       },
       {
-        "name": "useMessage",
-        "type": "() => MessageFn",
+        "name": "message[type]",
+        "type": "(content: MessageContent, options?: MessageOptions) => MessageHandle",
         "description": "",
         "descriptionEn": ""
       }
     ]
   },
   {
-    "name": "notification",
+    "name": "useNotification",
     "source": "scripts/notification/notification.ts",
     "props": [],
     "models": [],
@@ -6441,14 +6425,36 @@
     "slots": [],
     "methods": [
       {
-        "name": "notification[type]",
-        "type": "(options: NotificationOptions) => NotificationHandle",
+        "name": "useNotification",
+        "type": "() => NotificationFn",
         "description": "",
         "descriptionEn": ""
       },
       {
-        "name": "useNotification",
-        "type": "() => NotificationFn",
+        "name": "notification[type]",
+        "type": "(options: NotificationOptions) => NotificationHandle",
+        "description": "",
+        "descriptionEn": ""
+      }
+    ]
+  },
+  {
+    "name": "useDialog",
+    "source": "scripts/dialog/confirm.ts",
+    "props": [],
+    "models": [],
+    "events": [],
+    "slots": [],
+    "methods": [
+      {
+        "name": "useDialog",
+        "type": "() => DialogApi",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "confirm",
+        "type": "(options: DialogConfirmOptions) => DialogConfirmHandle",
         "description": "",
         "descriptionEn": ""
       }
@@ -6585,12 +6591,6 @@
       {
         "name": "useModalLayerManager",
         "type": "() => ModalLayerManager",
-        "description": "",
-        "descriptionEn": ""
-      },
-      {
-        "name": "useDialog",
-        "type": "() => DialogApi",
         "description": "",
         "descriptionEn": ""
       }

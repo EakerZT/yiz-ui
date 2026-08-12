@@ -134,7 +134,9 @@ import '@eakerzt/yiz-ui/dist/yiz-ui.css'
 ### Message
 
 ```ts
-import { message } from '@eakerzt/yiz-ui'
+import { useMessage } from '@eakerzt/yiz-ui'
+
+const message = useMessage()
 
 message('操作完成')
 message.success('保存成功')
@@ -147,12 +149,14 @@ message.success({ key: 'save', content: '已保存', duration: 2000 })
 message.destroy()
 ```
 
-### Dialog.confirm
+### useDialog
 
 ```ts
-import { Dialog } from '@eakerzt/yiz-ui'
+import { useDialog } from '@eakerzt/yiz-ui'
 
-Dialog.confirm({
+const dialog = useDialog()
+
+dialog.confirm({
   title: '确认执行操作？',
   content: '该操作会立即生效，请确认是否继续。',
   onOk: async () => {
@@ -163,18 +167,7 @@ Dialog.confirm({
 
 `onOk` 可以返回 Promise，此时确认按钮会进入 loading；返回 `false` 时确认框不会关闭。
 
-如果项目启用了模态层级管理，推荐使用 `useDialog()`，这样确认框可以继承当前层级：
-
-```ts
-import { useDialog } from '@eakerzt/yiz-ui'
-
-const dialog = useDialog()
-
-dialog.confirm({
-  title: '确认执行操作？',
-  content: '这个确认框属于当前 modal layer。',
-})
-```
+确认框会继承当前应用的主题、语言、挂载目标、z-index 管理器和 modal layer 上下文。
 
 ### LayerManager
 
@@ -197,7 +190,9 @@ window.addEventListener('keydown', (event) => {
 ### Notification
 
 ```ts
-import { notification } from '@eakerzt/yiz-ui'
+import { useNotification } from '@eakerzt/yiz-ui'
+
+const notification = useNotification()
 
 notification({ title: '成功', content: '操作完成', type: 'success' })
 

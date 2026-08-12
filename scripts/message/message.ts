@@ -341,8 +341,6 @@ function destroyMessages(scope: MessageScope, key?: MessageKey) {
   instances.filter((instance) => instance.scope === scope).forEach((instance) => instance.close())
 }
 
-export const message = createMessageApi()
-
 export function useMessage(): MessageFn {
   return createMessageApi(useServiceContext())
 }

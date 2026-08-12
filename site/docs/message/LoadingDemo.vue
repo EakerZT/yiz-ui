@@ -3,9 +3,10 @@
 </template>
 
 <script lang="ts" setup>
-import { useLocale, message } from 'yiz-ui'
+import { useLocale, useMessage } from 'yiz-ui'
 
 const t = useLocale()
+const message = useMessage()
 
 function openLoading() {
   message.loading({

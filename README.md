@@ -134,7 +134,9 @@ import '@eakerzt/yiz-ui/dist/yiz-ui.css'
 ### Message
 
 ```ts
-import { message } from '@eakerzt/yiz-ui'
+import { useMessage } from '@eakerzt/yiz-ui'
+
+const message = useMessage()
 
 message('Operation completed')
 message.success('Saved successfully')
@@ -147,12 +149,14 @@ message.success({ key: 'save', content: 'Saved', duration: 2000 })
 message.destroy()
 ```
 
-### Dialog.confirm
+### useDialog
 
 ```ts
-import { Dialog } from '@eakerzt/yiz-ui'
+import { useDialog } from '@eakerzt/yiz-ui'
 
-Dialog.confirm({
+const dialog = useDialog()
+
+dialog.confirm({
   title: 'Confirm this action?',
   content: 'This action takes effect immediately. Continue?',
   onOk: async () => {
@@ -163,18 +167,7 @@ Dialog.confirm({
 
 `onOk` can return a Promise to show loading on the OK button. Return `false` to keep the confirm dialog open.
 
-For projects that use modal layer management, prefer `useDialog()` so confirm dialogs inherit the current layer:
-
-```ts
-import { useDialog } from '@eakerzt/yiz-ui'
-
-const dialog = useDialog()
-
-dialog.confirm({
-  title: 'Confirm this action?',
-  content: 'This confirm belongs to the current modal layer.',
-})
-```
+The confirm dialog inherits the current app theme, locale, teleport target, z-index manager, and modal layer context.
 
 ### LayerManager
 
@@ -197,7 +190,9 @@ window.addEventListener('keydown', (event) => {
 ### Notification
 
 ```ts
-import { notification } from '@eakerzt/yiz-ui'
+import { useNotification } from '@eakerzt/yiz-ui'
+
+const notification = useNotification()
 
 notification({ title: 'Success', content: 'Operation completed', type: 'success' })
 

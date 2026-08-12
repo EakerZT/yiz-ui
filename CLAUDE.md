@@ -83,12 +83,14 @@ Components that display user-facing text (Empty, Pagination, Select, DatePicker,
 
 **The demo app** (`site/i18n.ts`) registers its own UI strings via `registerLangItem('zh-CN', ...)` and `registerLangItem('en-US', ...)`, then calls `setLang()` with the demo's language selector.
 
-### Notification imperative API (`scripts/notification/`)
+### Notification composable API (`scripts/notification/`)
 
-Unlike most components, Notification is used **imperatively** via a function call, not declaratively in templates:
+Notification is accessed through `useNotification()` so service instances inherit the current app context. The returned API remains callable and supports multiple stacked notifications:
 
 ```ts
-import { notification } from 'yiz-ui'
+import { useNotification } from 'yiz-ui'
+
+const notification = useNotification()
 
 // Basic usage
 notification({ title: 'Success', content: 'Operation completed.', type: 'success' })

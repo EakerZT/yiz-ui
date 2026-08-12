@@ -26,4 +26,4 @@ export const demos: DemoDefinition[] = [
   { id: 'CloseDemo', titleKey: 'demo.common.close', component: CloseDemo, source: closeDemoSource },
 ]
 
-export const apiComponents = ['message']
+export const apiComponents = ['useMessage']
