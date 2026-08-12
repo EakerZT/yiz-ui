@@ -1,4 +1,4 @@
-import { mostReadable, TinyColor } from '@ctrl/tinycolor'
+import { TinyColor } from '@ctrl/tinycolor'
 import { computed, inject, type ComputedRef, type CSSProperties, type InjectionKey } from 'vue'
 import type { InputSize, InputStyleMode } from '../input-style'
 
@@ -252,7 +252,7 @@ export function deriveColorRoles(color: string, theme: Pick<Theme, 'darkMode' | 
       bgHover: surfaceColor.mix(base, 26).toHexString(),
       border: surfaceColor.mix(base, 45).toHexString(),
       text: baseColor.tint(18).toHexString(),
-      onColor: readableText(base, theme.colors.textInverse, theme.colors.textPrimary),
+      onColor: getReadableTextColor(base),
     }
   }
 
@@ -265,7 +265,7 @@ export function deriveColorRoles(color: string, theme: Pick<Theme, 'darkMode' | 
     bgHover: surfaceColor.mix(base, 18).toHexString(),
     border: surfaceColor.mix(base, 28).toHexString(),
     text: baseColor.shade(10).toHexString(),
-    onColor: readableText(base, theme.colors.textInverse, theme.colors.textPrimary),
+    onColor: getReadableTextColor(base),
   }
 }
 
@@ -384,10 +384,9 @@ function normalizeColor(color: string, fallback: string): string {
   return value.isValid ? value.toHexString() : new TinyColor(fallback).toHexString()
 }
 
-function readableText(background: string, light: string, dark: string): string {
-  return (
-    mostReadable(background, [light, dark], { includeFallbackColors: true }) ?? new TinyColor(light)
-  ).toHexString()
+export function getReadableTextColor(background: string): '#ffffff' | '#000000' {
+  const color = new TinyColor(background)
+  return !color.isValid || color.isDark() ? '#ffffff' : '#000000'
 }
 
 function deepFreeze<T>(value: T): Readonly<T> {

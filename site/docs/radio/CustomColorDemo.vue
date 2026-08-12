@@ -1,15 +1,10 @@
 <template>
   <div class="demo-radio-button-stack">
-    <y-radio-button-group
-      v-model:value="buttonColor1"
-      :options="buttonOptions"
-      text-color="#ffffff"
-      fill-color="#52c41a"
-    />
+    <y-radio-button-group v-model:value="buttonColor1" :options="buttonOptions" fill-color="#1677ff" />
     <y-radio-button-group v-model:value="buttonColor2">
-      <y-radio-button value="day" text-color="#ffffff" fill-color="#faad14">{{ t('demo.radio.day') }}</y-radio-button>
-      <y-radio-button value="week" text-color="#ffffff" fill-color="#ff4d4f">{{ t('demo.radio.week') }}</y-radio-button>
-      <y-radio-button value="month" text-color="#ffffff" fill-color="#722ed1">
+      <y-radio-button value="day" fill-color="#faad14">{{ t('demo.radio.day') }}</y-radio-button>
+      <y-radio-button value="week" fill-color="#ff4d4f">{{ t('demo.radio.week') }}</y-radio-button>
+      <y-radio-button value="month" text-color="#ffeb3b" fill-color="#722ed1">
         {{ t('demo.radio.month') }}
       </y-radio-button>
     </y-radio-button-group>

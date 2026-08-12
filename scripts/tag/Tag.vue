@@ -28,6 +28,11 @@ export type TagMode = 'filled' | 'solid' | 'outlined'
 const props = withDefaults(
   defineProps<{
     color?: 'default' | 'primary' | 'success' | 'warning' | 'error' | string
+    /**
+     * 自定义标签文字颜色，优先于自动计算的文字颜色。
+     * @en Custom tag text color. Takes precedence over the automatically calculated text color.
+     */
+    textColor?: string
     mode?: TagMode
     closable?: boolean
     size?: 'default' | 'small' | 'large'
@@ -90,8 +95,15 @@ const vStyle = computed(() => {
     s['--yiz-tag-solid-bg'] = props.color
     s['--yiz-tag-outlined-border'] = color.border
     s['--yiz-tag-close-hover-bg'] = color.bgHover
+    s['--yiz-tag-solid-on-color'] = color.onColor
+    s['--yiz-tag-checkable-on-color'] = color.onColor
+    s['--yiz-tag-solid-close-hover-bg'] =
+      color.onColor === '#ffffff' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.12)'
   }
   s['--yiz-tag-checkable-color'] = checkableColorMap[props.color] ?? props.color
+  if (props.textColor) {
+    s.color = props.textColor
+  }
   return s
 })
 
@@ -190,6 +202,9 @@ function onKeydown(e: KeyboardEvent) {
   --yiz-tag-solid-bg: #595959;
   --yiz-tag-outlined-border: #d9d9d9;
   --yiz-tag-close-hover-bg: rgba(0, 0, 0, 0.08);
+  --yiz-tag-solid-on-color: #ffffff;
+  --yiz-tag-checkable-on-color: var(--yiz-color-text-inverse);
+  --yiz-tag-solid-close-hover-bg: rgba(255, 255, 255, 0.2);
 }
 
 .yiz-tag-color-primary {
@@ -198,6 +213,8 @@ function onKeydown(e: KeyboardEvent) {
   --yiz-tag-solid-bg: var(--yiz-color-primary);
   --yiz-tag-outlined-border: var(--yiz-color-primary);
   --yiz-tag-close-hover-bg: var(--yiz-color-primary-bg-hover);
+  --yiz-tag-solid-on-color: var(--yiz-color-text-inverse);
+  --yiz-tag-checkable-on-color: var(--yiz-color-text-inverse);
 }
 
 .yiz-tag-color-success {
@@ -206,6 +223,8 @@ function onKeydown(e: KeyboardEvent) {
   --yiz-tag-solid-bg: var(--yiz-color-success);
   --yiz-tag-outlined-border: var(--yiz-color-success);
   --yiz-tag-close-hover-bg: var(--yiz-color-success-bg-hover);
+  --yiz-tag-solid-on-color: var(--yiz-color-text-inverse);
+  --yiz-tag-checkable-on-color: var(--yiz-color-text-inverse);
 }
 
 .yiz-tag-color-warning {
@@ -214,6 +233,8 @@ function onKeydown(e: KeyboardEvent) {
   --yiz-tag-solid-bg: var(--yiz-color-warning);
   --yiz-tag-outlined-border: var(--yiz-color-warning);
   --yiz-tag-close-hover-bg: var(--yiz-color-warning-bg-hover);
+  --yiz-tag-solid-on-color: var(--yiz-color-text-inverse);
+  --yiz-tag-checkable-on-color: var(--yiz-color-text-inverse);
 }
 
 .yiz-tag-color-error {
@@ -222,6 +243,8 @@ function onKeydown(e: KeyboardEvent) {
   --yiz-tag-solid-bg: var(--yiz-color-error);
   --yiz-tag-outlined-border: var(--yiz-color-error);
   --yiz-tag-close-hover-bg: var(--yiz-color-error-bg-hover);
+  --yiz-tag-solid-on-color: var(--yiz-color-text-inverse);
+  --yiz-tag-checkable-on-color: var(--yiz-color-text-inverse);
 }
 
 // mode variants
@@ -232,10 +255,10 @@ function onKeydown(e: KeyboardEvent) {
 }
 
 .yiz-tag-mode-solid {
-  --yiz-tag-color: var(--yiz-color-text-inverse);
+  --yiz-tag-color: var(--yiz-tag-solid-on-color, var(--yiz-color-text-inverse));
   --yiz-tag-bg: var(--yiz-tag-solid-bg);
   --yiz-tag-border-color: var(--yiz-tag-solid-bg);
-  --yiz-tag-close-hover-bg: rgba(255, 255, 255, 0.2);
+  --yiz-tag-close-hover-bg: var(--yiz-tag-solid-close-hover-bg, rgba(255, 255, 255, 0.2));
 }
 
 .yiz-tag-mode-outlined {
@@ -265,7 +288,7 @@ function onKeydown(e: KeyboardEvent) {
 
 .yiz-tag.yiz-tag-checkable-checked,
 .yiz-tag.yiz-tag-checkable-checked:hover {
-  color: var(--yiz-color-text-inverse);
+  color: var(--yiz-tag-checkable-on-color, var(--yiz-color-on-primary));
   background: var(--yiz-tag-checkable-color, var(--yiz-color-primary));
   border-color: transparent;
 }
@@ -281,7 +304,7 @@ function onKeydown(e: KeyboardEvent) {
 
 .yiz-tag.yiz-tag-checkable-checked.yiz-tag-checkable-disabled,
 .yiz-tag.yiz-tag-checkable-checked.yiz-tag-checkable-disabled:hover {
-  color: var(--yiz-color-text-inverse);
+  color: var(--yiz-tag-checkable-on-color, var(--yiz-color-on-primary));
   background: var(--yiz-tag-checkable-color, var(--yiz-color-primary));
 }
 </style>

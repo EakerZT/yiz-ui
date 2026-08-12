@@ -60,6 +60,11 @@ const props = withDefaults(
      */
     color?: 'default' | 'success' | 'warning' | 'error' | string
     /**
+     * 自定义按钮文字颜色，优先于自动计算的文字颜色。
+     * @en Custom button text color. Takes precedence over the automatically calculated text color.
+     */
+    textColor?: string
+    /**
      * 按钮形状。
      * @en Shape of the button.
      */
@@ -130,6 +135,9 @@ const vStyle = computed(() => {
     s['--yiz-button-color-hover'] = color.hover
     s['--yiz-button-color-press'] = color.active
     s['--yiz-color-wave'] = props.color
+  }
+  if (props.textColor) {
+    s.color = props.textColor
   }
   return s
 })
@@ -514,7 +522,7 @@ defineExpose({
   &.yiz-button-disabled {
     background-color: var(--yiz-button-color-disabled-text);
     border-color: var(--yiz-button-color-disabled-text);
-    color: var(--yiz-color-text-inverse);
+    color: var(--yiz-button-color-text);
   }
 
   background-color: var(--yiz-button-color-primary);
@@ -524,11 +532,13 @@ defineExpose({
   &:not(.yiz-button-disabled):hover {
     background-color: var(--yiz-button-color-hover);
     border-color: var(--yiz-button-color-hover);
+    color: var(--yiz-button-color-text);
   }
 
   &:not(.yiz-button-disabled):active {
     background-color: var(--yiz-button-color-press);
     border-color: var(--yiz-button-color-press);
+    color: var(--yiz-button-color-text);
   }
 }
 
@@ -549,13 +559,13 @@ defineExpose({
   &:not(.yiz-button-disabled):hover {
     background-color: var(--yiz-button-color-hover);
     border-color: var(--yiz-button-color-hover);
-    color: var(--yiz-color-text-inverse);
+    color: var(--yiz-button-color-text);
   }
 
   &:not(.yiz-button-disabled):active {
     background-color: var(--yiz-button-color-press);
     border-color: var(--yiz-button-color-press);
-    color: var(--yiz-color-text-inverse);
+    color: var(--yiz-button-color-text);
   }
 }
 
@@ -589,7 +599,7 @@ defineExpose({
   &:not(.yiz-button-disabled):active {
     background-color: var(--yiz-button-color-press);
     border-color: transparent;
-    color: var(--yiz-color-text-inverse);
+    color: var(--yiz-button-color-text);
   }
 }
 </style>

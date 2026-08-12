@@ -134,6 +134,13 @@
         "default": "'default'"
       },
       {
+        "name": "textColor",
+        "type": "string",
+        "required": false,
+        "description": "自定义按钮文字颜色，优先于自动计算的文字颜色。",
+        "descriptionEn": "Custom button text color. Takes precedence over the automatically calculated text color."
+      },
+      {
         "name": "shape",
         "type": "'default' | 'round' | 'circle'",
         "required": false,
@@ -3343,6 +3350,13 @@
         "default": "'default'"
       },
       {
+        "name": "confirmTextColor",
+        "type": "string",
+        "required": false,
+        "description": "确认按钮文字颜色，优先于自动计算的文字颜色。",
+        "descriptionEn": "Confirm button text color. Takes precedence over the automatically calculated text color."
+      },
+      {
         "name": "confirmLoading",
         "type": "boolean",
         "required": false,
@@ -5595,6 +5609,13 @@
         "description": "",
         "descriptionEn": "",
         "default": "'default'"
+      },
+      {
+        "name": "textColor",
+        "type": "string",
+        "required": false,
+        "description": "自定义标签文字颜色，优先于自动计算的文字颜色。",
+        "descriptionEn": "Custom tag text color. Takes precedence over the automatically calculated text color."
       },
       {
         "name": "mode",

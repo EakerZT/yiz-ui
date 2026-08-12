@@ -183,7 +183,7 @@ defineExpose({
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: var(--yiz-color-text-inverse);
+    background-color: var(--yiz-color-on-primary);
     transform: translate(-50%, -50%) scale(0);
     transition: transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
   }

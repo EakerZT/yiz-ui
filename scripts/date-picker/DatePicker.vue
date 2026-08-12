@@ -940,7 +940,7 @@ defineExpose({
     .yiz-date-picker-cell-inner,
     .yiz-date-picker-cell-inner:hover {
       background: var(--yiz-color-primary);
-      color: var(--yiz-color-text-inverse);
+      color: var(--yiz-color-on-primary);
       border-radius: var(--yiz-pane-item-border-radius);
     }
   }

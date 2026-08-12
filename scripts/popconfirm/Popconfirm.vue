@@ -31,7 +31,14 @@
           <Button size="small" :disabled="busy" @click="onCancel">
             <slot name="cancel">{{ cancelText || t('common.cancel') }}</slot>
           </Button>
-          <Button size="small" type="primary" :color="confirmColor" :loading="busy" @click="onConfirm">
+          <Button
+            size="small"
+            type="primary"
+            :color="confirmColor"
+            :text-color="confirmTextColor"
+            :loading="busy"
+            @click="onConfirm"
+          >
             <slot name="confirm">{{ confirmText || t('common.confirm') }}</slot>
           </Button>
         </div>
@@ -100,6 +107,11 @@ const props = withDefaults(
      * @en Confirm button color.
      */
     confirmColor?: 'default' | 'success' | 'warning' | 'error' | string
+    /**
+     * 确认按钮文字颜色，优先于自动计算的文字颜色。
+     * @en Confirm button text color. Takes precedence over the automatically calculated text color.
+     */
+    confirmTextColor?: string
     /**
      * 外部控制的确认加载状态。
      * @en Externally controlled loading state of the confirm button.

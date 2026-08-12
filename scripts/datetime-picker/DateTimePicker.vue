@@ -802,7 +802,7 @@ defineExpose({
 .yiz-datetime-picker-cell-selected .yiz-datetime-picker-cell-inner,
 .yiz-datetime-picker-cell-selected .yiz-datetime-picker-cell-inner:hover {
   background: var(--yiz-color-primary);
-  color: var(--yiz-color-text-inverse);
+  color: var(--yiz-color-on-primary);
 }
 
 .yiz-datetime-picker-time {

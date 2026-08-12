@@ -19,6 +19,7 @@ export interface DialogConfirmOptions {
   okText?: string
   cancelText?: string
   okButtonColor?: 'default' | 'success' | 'warning' | 'error' | string
+  okButtonTextColor?: string
   showCancel?: boolean
   showIcon?: boolean
   icon?: Component

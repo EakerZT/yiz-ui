@@ -28,7 +28,7 @@
 <script lang="ts" setup>
 import { computed, inject, ref } from 'vue'
 import type { Ref, VNodeChild } from 'vue'
-import { useThemeSize } from '../theme'
+import { getReadableTextColor, useThemeSize } from '../theme'
 
 interface RadioButtonGroupContext {
   modelValue: Ref<string | number | boolean | undefined>
@@ -90,9 +90,9 @@ const vClass = computed(() => ({
 
 const vStyle = computed(() => {
   const style: Record<string, string> = {}
-  if (mergedTextColor.value) {
-    style['--yiz-radio-button-checked-text-color'] = mergedTextColor.value
-  }
+  const checkedTextColor =
+    mergedTextColor.value || (mergedFillColor.value ? getReadableTextColor(mergedFillColor.value) : '')
+  if (checkedTextColor) style['--yiz-radio-button-checked-text-color'] = checkedTextColor
   if (mergedFillColor.value) {
     style['--yiz-radio-button-checked-fill-color'] = mergedFillColor.value
     style['--yiz-radio-button-checked-hover-fill-color'] = mergedFillColor.value
@@ -119,7 +119,7 @@ defineExpose({
 
 <style lang="less">
 .yiz-radio-button {
-  --yiz-radio-button-checked-text-color: var(--yiz-color-text-inverse);
+  --yiz-radio-button-checked-text-color: var(--yiz-color-on-primary);
   --yiz-radio-button-checked-fill-color: var(--yiz-color-primary);
   --yiz-radio-button-checked-hover-fill-color: var(--yiz-color-primary-hover);
   --yiz-radio-button-min-width: 68px;
@@ -194,7 +194,7 @@ defineExpose({
 .yiz-radio-button-disabled.yiz-radio-button-checked {
   background: var(--yiz-color-primary-bg-hover);
   border-color: var(--yiz-color-primary-bg-hover);
-  color: var(--yiz-color-text-inverse);
+  color: var(--yiz-radio-button-checked-text-color);
 }
 
 .yiz-radio-button-small {

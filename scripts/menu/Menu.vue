@@ -381,7 +381,7 @@ function onCollapsedPopupSelect(item: MenuItemOption) {
 
     &.yiz-menu-item-selected {
       background: var(--yiz-color-primary-active);
-      color: var(--yiz-color-text-inverse);
+      color: var(--yiz-color-on-primary);
     }
 
     &.yiz-menu-item-ancestor {

@@ -233,7 +233,7 @@ defineExpose({
     inset-inline-start: 21.5%;
     width: 5.7142857142857135px;
     height: 9.142857142857142px;
-    border: 2px solid var(--yiz-color-text-inverse);
+    border: 2px solid var(--yiz-color-on-primary);
     border-top: 0;
     border-left: 0;
     transform: rotate(45deg) scale(0) translate(-50%, -50%);

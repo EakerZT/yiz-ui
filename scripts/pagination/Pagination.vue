@@ -328,7 +328,7 @@ function commitSimplePage() {
 .yiz-pagination-item-active:not(:disabled):hover {
   background: var(--yiz-color-primary);
   border-color: var(--yiz-color-primary);
-  color: var(--yiz-color-text-inverse);
+  color: var(--yiz-color-on-primary);
 }
 
 .yiz-pagination-more {

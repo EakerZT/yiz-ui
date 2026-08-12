@@ -361,7 +361,7 @@ provide<TreeContext>('yizTree', {
   width: 8px;
   height: 2px;
   border: none;
-  background: var(--yiz-color-text-inverse);
+  background: var(--yiz-color-on-primary);
   transform: translate(-50%, -50%);
 }
 

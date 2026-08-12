@@ -24,9 +24,15 @@
         </div>
         <div class="yiz-dialog-confirm-actions">
           <Button v-if="showCancel" @click="handleCancel">{{ cancelText }}</Button>
-          <Button type="primary" :color="okButtonColor" :loading="confirmLoading" @click="handleOk">{{
-            okText
-          }}</Button>
+          <Button
+            type="primary"
+            :color="okButtonColor"
+            :text-color="okButtonTextColor"
+            :loading="confirmLoading"
+            @click="handleOk"
+          >
+            {{ okText }}
+          </Button>
         </div>
       </div>
     </div>
@@ -56,6 +62,7 @@ const props = withDefaults(
     okText?: string
     cancelText?: string
     okButtonColor?: 'default' | 'success' | 'warning' | 'error' | string
+    okButtonTextColor?: string
     showCancel?: boolean
     showIcon?: boolean
     icon?: Component
