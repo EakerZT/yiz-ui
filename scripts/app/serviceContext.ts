@@ -47,6 +47,8 @@ export function withServiceContext(vnode: VNode, context?: ServiceContext): VNod
 }
 
 export function resolveServiceTarget(context?: ServiceContext): HTMLElement {
+  const overlayTarget = context?.runtime.overlayTarget.value
+  if (overlayTarget) return overlayTarget
   const target = context?.runtime.teleportTo.value ?? 'body'
   if (typeof target !== 'string') return target
   return document.querySelector<HTMLElement>(target) ?? document.body
@@ -54,6 +56,11 @@ export function resolveServiceTarget(context?: ServiceContext): HTMLElement {
 
 export function applyServiceTheme(element: HTMLElement, context?: ServiceContext) {
   if (!context) return
+  const themeClass = context.runtime.themeClass
+  if (themeClass) {
+    element.classList.add(themeClass)
+    return
+  }
   const styles = context.theme.cssVars.value as Record<string, string | number | undefined>
   for (const [name, value] of Object.entries(styles)) {
     if (value == null) continue

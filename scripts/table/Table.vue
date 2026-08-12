@@ -250,7 +250,7 @@
         ref="tooltipRef"
         class="yiz-table-cell-tooltip"
         :class="`yiz-table-cell-tooltip-${tipPlacement}`"
-        :style="{ left: tipPos.left + 'px', top: tipPos.top + 'px', zIndex: tipZ }"
+        :style="{ left: tipPos.left + 'px', top: tipPos.top + 'px', zIndex: 9999 }"
         @mouseenter="onTipMouseEnter"
         @mouseleave="onTipMouseLeave"
       >
@@ -288,7 +288,6 @@ import { Empty } from '../empty'
 import { Loading } from '../loading'
 import { useLocale } from '../locale'
 import { useThemeSize } from '../theme'
-import { useZIndexManager } from '../zIndex'
 
 const t = useLocale()
 
@@ -1143,8 +1142,6 @@ const tipVisible = ref(false)
 const tipContent = ref('')
 const tipPlacement = ref<'top' | 'bottom'>('top')
 const tipPos = ref({ left: 0, top: 0 })
-const tipZ = ref(2000)
-const zIndexManager = useZIndexManager()
 let activeCell: HTMLElement | null = null
 let tipHideTimer: ReturnType<typeof setTimeout> | null = null
 
@@ -1192,7 +1189,6 @@ function showTip(e: MouseEvent) {
   const text = el.textContent == null ? '' : el.textContent.trim()
   if (!text) return
   clearTipHideTimer()
-  tipZ.value = zIndexManager.next()
   activeCell = el
   tipContent.value = text
   tipVisible.value = true

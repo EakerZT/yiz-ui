@@ -1,15 +1,17 @@
-import { computed, inject, type ComputedRef, type CSSProperties, type InjectionKey } from 'vue'
-import { useTheme } from '../theme'
+import { computed, inject, shallowRef, type ComputedRef, type InjectionKey, type ShallowRef } from 'vue'
 
 export type TeleportTarget = string | HTMLElement
 
 export interface AppRuntimeContext {
   teleportTo: ComputedRef<TeleportTarget>
+  overlayTarget: ShallowRef<HTMLElement | null>
+  themeClass?: string
 }
 
 export const appRuntimeContextKey: InjectionKey<AppRuntimeContext> = Symbol('yizAppRuntime')
 const defaultRuntimeContext: AppRuntimeContext = {
   teleportTo: computed<TeleportTarget>(() => 'body'),
+  overlayTarget: shallowRef(null),
 }
 
 export function useAppRuntime(): AppRuntimeContext {
@@ -18,12 +20,9 @@ export function useAppRuntime(): AppRuntimeContext {
 
 export function useAppTeleport(): {
   teleportTo: ComputedRef<TeleportTarget>
-  teleportTheme: ComputedRef<CSSProperties>
 } {
   const runtime = useAppRuntime()
-  const { cssVars } = useTheme()
   return {
-    teleportTo: runtime.teleportTo,
-    teleportTheme: cssVars,
+    teleportTo: computed(() => runtime.overlayTarget.value ?? runtime.teleportTo.value),
   }
 }

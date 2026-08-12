@@ -6,4 +6,4 @@ export const demos: DemoDefinition[] = [
   { id: 'FnCallDemo', titleKey: 'demo.contextMenu.fnCall', component: FnCallDemo, source: fnCallDemoSource },
 ]
 
-export const apiComponents = ['showContextMenu']
+export const apiComponents = ['useContextMenu']

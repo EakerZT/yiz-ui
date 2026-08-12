@@ -23,7 +23,6 @@
 import AppTeleport from '../app/AppTeleport.vue'
 import { cloneVNode, h, nextTick, onBeforeUnmount, ref, useSlots, watch, type VNode } from 'vue'
 import { findFirstTriggerVNode } from '../triggerVNode'
-import { useZIndexManager } from '../zIndex'
 
 const props = withDefaults(
   defineProps<{
@@ -46,8 +45,6 @@ const popRef = ref<HTMLDivElement>()
 const visible = ref(false)
 const effectivePlacement = ref<'top' | 'bottom' | 'left' | 'right'>(props.placement)
 const popStyle = ref<Record<string, string>>({})
-const currentZ = ref(2000)
-const zIndexManager = useZIndexManager()
 let hideTimer: ReturnType<typeof setTimeout> | null = null
 
 function updateTriggerElement(vnode: VNode) {
@@ -87,7 +84,6 @@ function clearHideTimer() {
 
 function onMouseEnter() {
   clearHideTimer()
-  currentZ.value = zIndexManager.next()
   effectivePlacement.value = props.placement
   visible.value = true
 }
@@ -138,7 +134,7 @@ function reposition() {
   popStyle.value = {
     left: `${left}px`,
     top: `${top}px`,
-    zIndex: String(currentZ.value),
+    zIndex: '9999',
   }
   effectivePlacement.value = placement
 }

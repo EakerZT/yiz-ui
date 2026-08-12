@@ -16,11 +16,11 @@ export type { InputStyleMode } from './input-style'
 export { useModalLayer, useModalLayerManager } from './overlay/modalLayer'
 export type { ModalLayer, ModalLayerManager } from './overlay/modalLayer'
 export {
-  showContextMenu,
   useContextMenu,
   type ContextMenuApi,
+  type ContextMenuHandle,
   type ContextMenuItem,
-  type ShowContextMenuOptions,
+  type ContextMenuOptions,
 } from './context-menu'
 export { renderSvg } from './icon/renderSvg'
 export { renderSvgIcon, type RenderSvgIconOptions } from './icon/renderSvgIcon'

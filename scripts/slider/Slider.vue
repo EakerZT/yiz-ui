@@ -363,6 +363,12 @@ defineExpose({
   transform: translate(-50%, -50%);
 }
 
+.yiz-slider-handle-wrap:hover,
+.yiz-slider-handle-wrap-active,
+.yiz-slider-handle-wrap:focus-within {
+  z-index: 9999;
+}
+
 .yiz-slider-handle {
   width: var(--yiz-slider-handle-size);
   height: var(--yiz-slider-handle-size);

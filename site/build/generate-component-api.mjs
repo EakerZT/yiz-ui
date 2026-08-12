@@ -309,11 +309,12 @@ export function generateComponentApi() {
       ],
     ],
     [
-      'showContextMenu',
-      'scripts/context-menu/showContextMenu.ts',
+      'useContextMenu',
+      'scripts/context-menu/useContextMenu.ts',
       [
-        ['showContextMenu', '(options: ShowContextMenuOptions) => void'],
         ['useContextMenu', '() => ContextMenuApi'],
+        ['open', '(options: ContextMenuOptions) => ContextMenuHandle'],
+        ['handle.close', '() => void'],
       ],
     ],
     [

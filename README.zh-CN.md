@@ -234,9 +234,10 @@ loadingBar.reset()
 ### ContextMenu
 
 ```ts
-import { showContextMenu } from '@eakerzt/yiz-ui'
+import { useContextMenu } from '@eakerzt/yiz-ui'
 
-showContextMenu({
+const contextMenu = useContextMenu()
+const handle = contextMenu.open({
   x: event.clientX,
   y: event.clientY,
   width: 200,
@@ -248,6 +249,8 @@ showContextMenu({
   onSelect: (item) => console.log(item.value),
   onClose: () => console.log('已关闭'),
 })
+
+handle.close()
 ```
 
 ### Emitter

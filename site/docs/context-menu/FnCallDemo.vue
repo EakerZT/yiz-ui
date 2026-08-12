@@ -1,15 +1,17 @@
 <template>
-  <y-button @click="onShowMenu">{{ t('demo.contextMenu.clickToOpen') }}</y-button
-  ><span class="demo-hint">{{ t('demo.contextMenu.selected', { value: lastLabel }) }}</span>
+  <y-button @click="onShowMenu">{{ t('demo.contextMenu.clickToOpen') }}</y-button>
+  <y-button class="close-button" @click="menuHandle?.close()">{{ t('demo.contextMenu.close') }}</y-button>
+  <span class="demo-hint">{{ t('demo.contextMenu.selected', { value: lastLabel }) }}</span>
 </template>
 
 <script lang="ts" setup>
 import { Copy16Regular, Cut20Regular, Delete16Regular } from '@vicons/fluent'
-import { computed, h, ref } from 'vue'
-import { useContextMenu, useLocale, Icon } from 'yiz-ui'
+import { computed, h, ref, shallowRef } from 'vue'
+import { useContextMenu, useLocale, Icon, type ContextMenuHandle } from 'yiz-ui'
 
 const t = useLocale()
 const contextMenu = useContextMenu()
+const menuHandle = shallowRef<ContextMenuHandle>()
 
 const lastValue = ref<string | null>(null)
 
@@ -73,19 +75,25 @@ const lastLabel = computed(() => {
 function onShowMenu(e: MouseEvent) {
   const el = e.currentTarget as HTMLElement
   const rect = el.getBoundingClientRect()
-  contextMenu.open({
+  menuHandle.value = contextMenu.open({
     x: rect.left,
     y: rect.bottom + 4,
     menus: allItems.value,
     onSelect: (item) => {
       lastValue.value = String(item.value)
     },
-    onClose: () => undefined,
+    onClose: () => {
+      menuHandle.value = undefined
+    },
   })
 }
 </script>
 
 <style scoped>
+.close-button {
+  margin-left: 8px;
+}
+
 .demo-hint {
   display: inline-block;
   margin-left: 8px;

@@ -1,12 +1,13 @@
 <template>
-  <div class="yiz-app" :class="{ 'yiz-app-dark': resolvedTheme.darkMode }" :style="cssVars">
+  <div class="yiz-app" :class="[themeClass, { 'yiz-app-dark': resolvedTheme.darkMode }]">
     <slot />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, provide } from 'vue'
+import { computed, inject, onBeforeMount, onMounted, onUnmounted, provide, shallowRef, watch } from 'vue'
 import { appRuntimeContextKey } from './context'
+import { createThemeClass, createThemeStyle } from './themeStyle'
 import { provideLocale, useLocaleRef, type Lang } from '../locale'
 import { provideModalLayerRoot } from '../overlay/modalLayer'
 import { createZIndexManager, provideZIndexManager, zIndexManagerKey } from '../zIndex'
@@ -52,6 +53,9 @@ const parentTheme = inject(themeContextKey, null)
 const parentRuntime = inject(appRuntimeContextKey, null)
 const parentLocale = useLocaleRef()
 const parentZIndex = inject(zIndexManagerKey, null)
+const themeClass = createThemeClass()
+const overlayTarget = shallowRef<HTMLElement | null>(null)
+const teleportTo = computed(() => props.teleportTo ?? parentRuntime?.teleportTo.value ?? 'body')
 const resolvedTheme = computed(() => {
   const theme = mergeTheme(parentTheme?.theme.value ?? (lightTheme as Theme), props.theme ?? {})
   return props.darkMode == null ? theme : { ...theme, darkMode: props.darkMode }
@@ -62,10 +66,47 @@ const context: ThemeContext = {
   cssVars,
 }
 
+let overlayHost: HTMLElement | undefined
+let themeStyle: ReturnType<typeof createThemeStyle> | undefined
+
+function resolveTeleportTarget(target: string | HTMLElement): HTMLElement {
+  if (typeof target !== 'string') return target
+  return document.querySelector<HTMLElement>(target) ?? document.body
+}
+
+function syncOverlayHost() {
+  if (!overlayHost) return
+  const target = resolveTeleportTarget(teleportTo.value)
+  if (overlayHost.parentElement !== target) target.appendChild(overlayHost)
+}
+
+onBeforeMount(() => {
+  themeStyle = createThemeStyle(themeClass)
+  themeStyle.update(cssVars.value)
+
+  overlayHost = document.createElement('div')
+  overlayHost.className = `yiz-app-overlay-container ${themeClass}`
+  overlayTarget.value = overlayHost
+  syncOverlayHost()
+})
+
+onMounted(syncOverlayHost)
+
+watch(cssVars, (value) => themeStyle?.update(value))
+watch(teleportTo, syncOverlayHost, { flush: 'post' })
+
+onUnmounted(() => {
+  overlayTarget.value = null
+  overlayHost?.remove()
+  themeStyle?.remove()
+})
+
 provide(themeContextKey, context)
 provideModalLayerRoot()
 provide(appRuntimeContextKey, {
-  teleportTo: computed(() => props.teleportTo ?? parentRuntime?.teleportTo.value ?? 'body'),
+  teleportTo,
+  overlayTarget,
+  themeClass,
 })
 provideLocale(computed(() => props.locale ?? parentLocale.value))
 provideZIndexManager(
@@ -78,5 +119,9 @@ provideZIndexManager(
   min-width: 0;
   color: var(--yiz-color-text-primary);
   background: var(--yiz-color-bg);
+}
+
+.yiz-app-overlay-container {
+  display: contents;
 }
 </style>

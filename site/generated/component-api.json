@@ -6513,22 +6513,28 @@
     ]
   },
   {
-    "name": "showContextMenu",
-    "source": "scripts/context-menu/showContextMenu.ts",
+    "name": "useContextMenu",
+    "source": "scripts/context-menu/useContextMenu.ts",
     "props": [],
     "models": [],
     "events": [],
     "slots": [],
     "methods": [
       {
-        "name": "showContextMenu",
-        "type": "(options: ShowContextMenuOptions) => void",
+        "name": "useContextMenu",
+        "type": "() => ContextMenuApi",
         "description": "",
         "descriptionEn": ""
       },
       {
-        "name": "useContextMenu",
-        "type": "() => ContextMenuApi",
+        "name": "open",
+        "type": "(options: ContextMenuOptions) => ContextMenuHandle",
+        "description": "",
+        "descriptionEn": ""
+      },
+      {
+        "name": "handle.close",
+        "type": "() => void",
         "description": "",
         "descriptionEn": ""
       }
