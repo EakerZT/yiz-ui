@@ -8,6 +8,8 @@
 - 优化 主题样式生成
 - 调整 ContextMenu组件
 - 修复 Tooltip层级
+- 移除 Dialog,Message,Notification命令式导出
+- 修复 默认暗色主题输入型组件背景色
 
 ## 0.0.30
 

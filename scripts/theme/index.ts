@@ -301,6 +301,7 @@ export function themeToCssVars(theme: Theme): CSSProperties {
     '--yiz-color-hover-bg': theme.colors.hoverBg,
     '--yiz-control-filled-bg': theme.colors.controlFilledBg,
     '--yiz-control-filled-hover-bg': theme.colors.controlFilledHoverBg,
+    '--yiz-control-active-bg': theme.colors.bg,
     '--yiz-color-loading-mask': theme.colors.loadingMask,
     '--yiz-color-tooltip-bg': theme.colors.tooltipBg,
     '--yiz-color-tooltip-text': theme.colors.tooltipText,
