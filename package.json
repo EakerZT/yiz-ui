@@ -1,6 +1,6 @@
 {
   "name": "@eakerzt/yiz-ui",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "description": "A clean, lightweight, and practical Vue 3 component library built with TypeScript.",
   "keywords": [
     "ui",
