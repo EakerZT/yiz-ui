@@ -1593,6 +1593,14 @@
         "default": "false"
       },
       {
+        "name": "escClosable",
+        "type": "boolean",
+        "required": false,
+        "description": "按下 Escape 键时是否关闭。",
+        "descriptionEn": "Whether pressing Escape closes the dialog.",
+        "default": "true"
+      },
+      {
         "name": "drag",
         "type": "boolean",
         "required": false,
@@ -1777,6 +1785,14 @@
         "description": "",
         "descriptionEn": "",
         "default": "false"
+      },
+      {
+        "name": "escClosable",
+        "type": "boolean",
+        "required": false,
+        "description": "",
+        "descriptionEn": "",
+        "default": "true"
       },
       {
         "name": "resize",

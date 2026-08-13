@@ -26,6 +26,7 @@ export interface DialogConfirmOptions {
   closable?: boolean
   mask?: boolean
   maskClosable?: boolean
+  escClosable?: boolean
   onOk?: () => boolean | void | Promise<boolean | void>
   onCancel?: () => void
 }

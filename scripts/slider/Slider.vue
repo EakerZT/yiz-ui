@@ -403,7 +403,6 @@ defineExpose({
   border-radius: 4px;
   color: var(--yiz-color-tooltip-text);
   background: var(--yiz-color-tooltip-bg);
-  color: var(--yiz-color-text-inverse);
   font-size: 12px;
   line-height: 18px;
   white-space: nowrap;

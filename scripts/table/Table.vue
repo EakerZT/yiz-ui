@@ -1591,7 +1591,6 @@ onUnmounted(() => {
 .yiz-table-cell-tooltip-content {
   color: var(--yiz-color-tooltip-text);
   background: var(--yiz-color-tooltip-bg);
-  color: var(--yiz-color-text-inverse);
   border-radius: var(--yiz-pane-border-radius);
   padding: 6px 12px;
   line-height: 1.4;

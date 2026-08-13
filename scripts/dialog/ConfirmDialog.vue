@@ -5,6 +5,7 @@
     :closable="closable"
     :mask="mask"
     :mask-closable="maskClosable"
+    :esc-closable="escClosable"
     :modal-layer-parent="modalLayerParent"
     disabled-header
     disabled-footer
@@ -69,6 +70,7 @@ const props = withDefaults(
     closable?: boolean
     mask?: boolean
     maskClosable?: boolean
+    escClosable?: boolean
     modalLayerParent?: ModalLayerContext | null
     onOk?: () => boolean | void | Promise<boolean | void>
     onCancel?: () => void
@@ -86,6 +88,7 @@ const props = withDefaults(
     closable: false,
     mask: true,
     maskClosable: false,
+    escClosable: true,
     modalLayerParent: null,
   },
 )

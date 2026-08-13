@@ -72,6 +72,7 @@ const props = withDefaults(
     closable?: boolean
     mask?: boolean
     maskClosable?: boolean
+    escClosable?: boolean
     resize?: boolean
     resizeMin?: string
     resizeMax?: string
@@ -85,6 +86,7 @@ const props = withDefaults(
     closable: true,
     mask: true,
     maskClosable: false,
+    escClosable: true,
     resize: false,
     resizeMin: '200px',
     resizeMax: '',
@@ -168,7 +170,7 @@ function onMaskClick() {
 }
 
 function onKeydown(e: KeyboardEvent) {
-  if (e.key !== 'Escape' || !visible.value || !modalFocus.isTopLayer.value) return
+  if (e.key !== 'Escape' || !props.escClosable || !visible.value || !modalFocus.isTopLayer.value) return
   e.stopPropagation()
   close()
 }

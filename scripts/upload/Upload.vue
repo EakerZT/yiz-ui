@@ -100,25 +100,8 @@ function emitFiles(fileList: FileList | null | undefined, event: Event) {
 
 function normalizeFiles(fileList: FileList | null | undefined) {
   if (!fileList) return []
-  const files = Array.from(fileList).filter(matchAccept)
+  const files = Array.from(fileList)
   return props.multiple ? files : files.slice(0, 1)
-}
-
-function matchAccept(file: File) {
-  const acceptList = props.accept
-    .split(',')
-    .map((item) => item.trim())
-    .filter(Boolean)
-  if (acceptList.length === 0) return true
-
-  const fileName = file.name.toLowerCase()
-  const fileType = file.type.toLowerCase()
-  return acceptList.some((accept) => {
-    const value = accept.toLowerCase()
-    if (value.startsWith('.')) return fileName.endsWith(value)
-    if (value.endsWith('/*')) return fileType.startsWith(value.slice(0, -1))
-    return fileType === value
-  })
 }
 
 defineExpose({

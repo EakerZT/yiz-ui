@@ -392,10 +392,15 @@ defineExpose({
   font-size: var(--yiz-font-size-default);
   font-family: inherit;
   padding: 0 var(--yiz-control-content-padding-inline-default);
+  color: var(--yiz-color-text-primary);
   background: transparent;
   box-sizing: border-box;
   min-width: 0;
   -moz-appearance: textfield;
+
+  &::placeholder {
+    color: var(--yiz-color-text-disabled);
+  }
 
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {

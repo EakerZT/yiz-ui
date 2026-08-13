@@ -236,8 +236,13 @@ defineExpose({
       box-sizing: border-box;
       font-size: var(--yiz-font-size-default);
       font-family: inherit;
+      color: var(--yiz-color-text-primary);
       background: transparent;
       min-width: 0;
+
+      &::placeholder {
+        color: var(--yiz-color-text-disabled);
+      }
 
       &:disabled {
         cursor: not-allowed;

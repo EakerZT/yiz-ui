@@ -164,8 +164,13 @@ defineExpose({
   font-family: inherit;
   line-height: 1.5;
   padding: 0;
+  color: var(--yiz-color-text-primary);
   background: transparent;
   resize: vertical;
+
+  &::placeholder {
+    color: var(--yiz-color-text-disabled);
+  }
 
   &:disabled {
     color: var(--yiz-color-text-disabled);

@@ -584,7 +584,17 @@ defineExpose({
     box-sizing: border-box;
     background: transparent;
     font-size: var(--yiz-font-size-default);
+    color: var(--yiz-color-text-primary);
     cursor: text;
+
+    &::placeholder {
+      color: var(--yiz-color-text-disabled);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      color: var(--yiz-color-text-disabled);
+    }
   }
 }
 

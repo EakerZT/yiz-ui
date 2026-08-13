@@ -117,6 +117,11 @@ const props = withDefaults(
      */
     maskClosable?: boolean
     /**
+     * 按下 Escape 键时是否关闭。
+     * @en Whether pressing Escape closes the dialog.
+     */
+    escClosable?: boolean
+    /**
      * 是否允许拖动标题栏移动对话框。
      * @en Whether the dialog can be moved by dragging its header.
      */
@@ -143,6 +148,7 @@ const props = withDefaults(
     closable: true,
     mask: true,
     maskClosable: false,
+    escClosable: true,
     drag: false,
     disabledHeader: false,
     disabledFooter: false,
@@ -267,7 +273,7 @@ function onWrapperClick() {
 
 // Escape key
 function onKeydown(e: KeyboardEvent) {
-  if (e.key === 'Escape' && visible.value && modalFocus.isTopLayer.value) {
+  if (e.key === 'Escape' && props.escClosable && visible.value && modalFocus.isTopLayer.value) {
     e.stopPropagation()
     close()
   }
