@@ -145,6 +145,7 @@ const pages: Record<string, Component> = {
   tree: createPage('Tree'),
   upload: createPage('Upload'),
   icon: createPage('Icon'),
+  'image-viewer': createPage('ImageViewer'),
 }
 
 const menuItems = computed(() => [
@@ -194,6 +195,7 @@ const menuItems = computed(() => [
   { type: 'divider' as const, name: t('demo.navGroup.dataDisplay') },
   { label: t('demo.nav.descriptions'), key: 'descriptions' },
   { label: t('demo.nav.carousel'), key: 'carousel' },
+  { label: t('demo.nav.imageViewer'), key: 'image-viewer' },
   { label: t('demo.nav.empty'), key: 'empty' },
   { label: t('demo.nav.progress'), key: 'progress' },
   { label: t('demo.nav.table'), key: 'table' },

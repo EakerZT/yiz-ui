@@ -24,6 +24,8 @@ export {
 } from './context-menu'
 export { renderSvg } from './icon/renderSvg'
 export { renderSvgIcon, type RenderSvgIconOptions } from './icon/renderSvgIcon'
+export { useImageViewer } from './image-viewer'
+export type { ImageViewerApi, ImageViewerHandle, ImageViewerItem, ImageViewerOptions } from './image-viewer'
 export { loadingBar } from './loading-bar'
 export type { LoadingBarOptions, LoadingBarDirection, LoadingBarPositionUsing } from './loading-bar'
 

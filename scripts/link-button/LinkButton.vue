@@ -1,5 +1,12 @@
 <template>
-  <button class="yiz-link-button" :class="vClass" :style="vStyle" @click="onClick" :disabled="$props.disabled">
+  <button
+    class="yiz-link-button"
+    :class="vClass"
+    :style="vStyle"
+    type="button"
+    :disabled="$props.disabled"
+    @click="onClick"
+  >
     <slot />
   </button>
 </template>

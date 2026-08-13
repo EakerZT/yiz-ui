@@ -368,12 +368,14 @@ function onCollapsedPopupSelect(item: MenuItemOption) {
 }
 
 .yiz-menu-dark {
+  --yiz-menu-dark-text-color: rgba(255, 255, 255, 0.85);
+
   background: rgb(0, 20, 40);
-  color: var(--yiz-color-text-inverse);
+  color: var(--yiz-menu-dark-text-color);
   border-right-color: rgb(0, 20, 40);
 
   .yiz-menu-item {
-    color: var(--yiz-color-text-inverse);
+    color: var(--yiz-menu-dark-text-color);
 
     &:hover {
       background: rgba(255, 255, 255, 0.12);
@@ -385,7 +387,7 @@ function onCollapsedPopupSelect(item: MenuItemOption) {
     }
 
     &.yiz-menu-item-ancestor {
-      color: var(--yiz-color-text-inverse);
+      color: var(--yiz-menu-dark-text-color);
     }
   }
 

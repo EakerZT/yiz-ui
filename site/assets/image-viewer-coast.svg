@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+  <title id="title">Coast</title>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4d8fd8" />
+      <stop offset="1" stop-color="#b7dbf1" />
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#207ca8" />
+      <stop offset="1" stop-color="#0c456c" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sky)" />
+  <path d="M0 357h1200v443H0z" fill="url(#sea)" />
+  <path d="M0 626c210-76 331-38 489-126s275-107 467-50 244 47 244 47v303H0z" fill="#e4c18b" />
+  <path d="M0 645c213-75 337-34 496-123s264-97 454-46 250 42 250 42" fill="none" stroke="#effcff" stroke-width="30" opacity=".8" />
+  <path d="M85 446 244 247l124 165 110-97 139 145z" fill="#445c63" />
+  <path d="M776 259c58-36 106-36 164 0-58-18-106-18-164 0zm111-78c39-24 71-24 110 0-39-12-71-12-110 0z" fill="#fff" opacity=".85" />
+</svg>

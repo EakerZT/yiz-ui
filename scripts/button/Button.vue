@@ -1,5 +1,13 @@
 <template>
-  <button ref="buttonRef" class="yiz-button" :class="vClass" :style="vStyle" @click="onClick" :disabled="isDisabled">
+  <button
+    ref="buttonRef"
+    class="yiz-button"
+    :class="vClass"
+    :style="vStyle"
+    :type="props.nativeType"
+    :disabled="isDisabled"
+    @click="onClick"
+  >
     <component v-for="i in c" :key="i" :is="i" />
     <span v-if="props.loading" class="yiz-button-loading-icon" aria-hidden="true">
       <svg viewBox="0 0 50 50" width="16px" height="16px" class="yiz-button-loading-ring">
@@ -17,6 +25,7 @@ import { useInputSize } from '../input-style'
 import { deriveColorRoles, useTheme } from '../theme'
 
 export type ButtonType = 'outlined' | 'primary' | 'plain' | 'dash' | 'filled' | 'text'
+export type ButtonNativeType = 'button' | 'submit' | 'reset'
 
 const slots = defineSlots<{
   /**
@@ -55,6 +64,11 @@ const props = withDefaults(
      */
     type?: ButtonType
     /**
+     * 原生 button 元素的 type 属性。
+     * @en Native type attribute of the button element.
+     */
+    nativeType?: ButtonNativeType
+    /**
      * 预设语义色或自定义 HEX 颜色。
      * @en Preset semantic color or a custom HEX color.
      */
@@ -87,6 +101,7 @@ const props = withDefaults(
   }>(),
   {
     type: 'outlined',
+    nativeType: 'button',
     color: 'default',
     shape: 'default',
     disabled: false,

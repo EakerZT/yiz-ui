@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+  <title id="title">Forest road</title>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c9e8d2" />
+      <stop offset="1" stop-color="#f4efc7" />
+    </linearGradient>
+    <linearGradient id="road" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9c8b75" />
+      <stop offset="1" stop-color="#d8c9b4" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sky)" />
+  <path d="M0 230 170 80l145 171L463 67l151 191L776 86l173 176 132-142 119 105v575H0z" fill="#1f5e47" />
+  <path d="M0 346 130 191l134 155 118-191 160 190 135-160 145 167 124-157 154 148v457H0z" fill="#2d7957" />
+  <path d="M522 800 585 357h51l92 443z" fill="url(#road)" />
+  <path d="m603 407 11 75m-18 63 30 202" stroke="#fff5d7" stroke-width="8" stroke-linecap="round" opacity=".75" />
+</svg>

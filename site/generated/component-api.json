@@ -126,6 +126,14 @@
         "default": "'outlined'"
       },
       {
+        "name": "nativeType",
+        "type": "ButtonNativeType",
+        "required": false,
+        "description": "原生 button 元素的 type 属性。",
+        "descriptionEn": "Native type attribute of the button element.",
+        "default": "'button'"
+      },
+      {
         "name": "color",
         "type": "'default' | 'success' | 'warning' | 'error' | string",
         "required": false,

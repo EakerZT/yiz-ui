@@ -5,6 +5,9 @@
 `2026/08/13`
 
 - 优化 Button组件文字颜色计算
+- 添加 Button组件添加NativeType属性
+- 添加 useImageViewer
+- 优化 Menu组件视觉效果
 
 ## 0.0.31
 
