@@ -1,6 +1,8 @@
 import type { DemoDefinition } from '../types'
 import BasicDemo from './BasicDemo.vue'
 import basicDemoSource from './BasicDemo.vue?raw'
+import ClearableDemo from './ClearableDemo.vue'
+import clearableDemoSource from './ClearableDemo.vue?raw'
 import StepDemo from './StepDemo.vue'
 import stepDemoSource from './StepDemo.vue?raw'
 import RangeDemo from './RangeDemo.vue'
@@ -22,6 +24,12 @@ import spacingDemoSource from './SpacingDemo.vue?raw'
 
 export const demos: DemoDefinition[] = [
   { id: 'BasicDemo', titleKey: 'demo.common.basicShort', component: BasicDemo, source: basicDemoSource },
+  {
+    id: 'ClearableDemo',
+    titleKey: 'demo.common.clearable',
+    component: ClearableDemo,
+    source: clearableDemoSource,
+  },
   { id: 'StepDemo', titleKey: 'demo.inputNumber.step', component: StepDemo, source: stepDemoSource },
   { id: 'RangeDemo', titleKey: 'demo.inputNumber.range', component: RangeDemo, source: rangeDemoSource },
   {

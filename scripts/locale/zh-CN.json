@@ -22,6 +22,7 @@
   "dialog.ariaLabel": "对话框",
   "drawer.ariaLabel": "抽屉",
   "inputNumber.decrease": "减少数值",
+  "inputNumber.clear": "清空数值",
   "inputNumber.increase": "增加数值",
   "tab.close": "关闭 {label}",
   "tree.expand": "展开 {label}",

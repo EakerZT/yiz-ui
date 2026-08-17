@@ -50,6 +50,16 @@
         @keydown.down.prevent="decrease"
       />
     </div>
+    <button
+      v-if="clearable && modelValue != null && !disabled && !readonly"
+      type="button"
+      class="yiz-input-number-clear"
+      :aria-label="t('inputNumber.clear')"
+      @mousedown.prevent
+      @click.stop="onClear"
+    >
+      <Icon size="16" :icon="DismissCircle16Filled" />
+    </button>
     <div class="yiz-input-number-suffix" v-if="$props.suffix || $slots.suffix">
       <template v-if="$props.suffix">{{ $props.suffix }}</template>
       <slot v-else name="suffix" />
@@ -89,7 +99,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, useSlots } from 'vue'
-import { Add16Regular, Subtract16Regular } from '@vicons/fluent'
+import { Add16Regular, DismissCircle16Filled, Subtract16Regular } from '@vicons/fluent'
 import { Icon } from '../icon'
 import { useInputStyle } from '../input-style'
 import { useLocale } from '../locale'
@@ -107,6 +117,11 @@ const props = withDefaults(
     precision?: number
     disabled?: boolean
     readonly?: boolean
+    /**
+     * 是否允许清空当前值。
+     * @en Whether the current value can be cleared.
+     */
+    clearable?: boolean
     placeholder?: string
     size?: 'small' | 'default' | 'large'
     styleMode?: 'outlined' | 'filled'
@@ -120,6 +135,7 @@ const props = withDefaults(
     align: 'left',
     disabled: false,
     readonly: false,
+    clearable: false,
     placeholder: '',
   },
 )
@@ -194,6 +210,11 @@ function increase() {
 
 function decrease() {
   adjust(-props.step)
+}
+
+function onClear() {
+  if (props.disabled || props.readonly) return
+  modelValue.value = null
 }
 
 function onInput(e: Event) {
@@ -308,6 +329,26 @@ defineExpose({
   user-select: none;
   font-size: var(--yiz-font-size-default);
   line-height: 1;
+}
+
+.yiz-input-number-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin: 0 var(--yiz-control-padding-inline-default) 0 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--yiz-color-text-tertiary);
+  cursor: pointer;
+  transition: color 0.3s;
+
+  &:hover {
+    color: var(--yiz-color-text-primary);
+  }
 }
 
 .yiz-input-number-btn {
@@ -433,6 +474,10 @@ defineExpose({
   .yiz-input-number-btn {
     width: 24px;
   }
+
+  .yiz-input-number-clear {
+    margin-right: var(--yiz-control-padding-inline-small);
+  }
 }
 
 .yiz-input-number-large {
@@ -457,6 +502,14 @@ defineExpose({
   .yiz-input-number-btn {
     width: 36px;
   }
+
+  .yiz-input-number-clear {
+    margin-right: var(--yiz-control-padding-inline-large);
+  }
+}
+
+.yiz-input-number-has-suffix .yiz-input-number-clear {
+  margin-right: 0;
 }
 
 .yiz-input-number-align-left .yiz-input-number-input {

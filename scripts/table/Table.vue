@@ -313,9 +313,12 @@ export type TableClassValue = string | Record<string, boolean> | TableClassValue
 
 export type TableStyleValue = CSSProperties | string | TableStyleValue[] | false | null | undefined
 
-type TablePresentationResolver<Context, Result> = {
+type BivariantResolver<Context, Result> = {
   bivarianceHack(context: Context): Result
 }['bivarianceHack']
+
+// Keep Function visible to Vue's type-to-runtime props inference.
+type TablePresentationResolver<Context, Result> = Function & BivariantResolver<Context, Result>
 
 export type TableClassSource<Context> = TableClassValue | TablePresentationResolver<Context, TableClassValue>
 

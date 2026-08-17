@@ -1,5 +1,12 @@
 # update
 
+## 0.0.34
+
+`2026/08/17`
+
+- 修复 Table组件CellStyle导出说明
+- 修复 InputNumber组件添加Clearable
+
 ## 0.0.33
 
 `2026/08/14`

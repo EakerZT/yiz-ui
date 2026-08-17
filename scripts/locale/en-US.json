@@ -22,6 +22,7 @@
   "dialog.ariaLabel": "Dialog",
   "drawer.ariaLabel": "Drawer",
   "inputNumber.decrease": "Decrease value",
+  "inputNumber.clear": "Clear value",
   "inputNumber.increase": "Increase value",
   "tab.close": "Close {label}",
   "tree.expand": "Expand {label}",

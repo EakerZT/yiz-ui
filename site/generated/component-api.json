@@ -2710,6 +2710,14 @@
         "default": "false"
       },
       {
+        "name": "clearable",
+        "type": "boolean",
+        "required": false,
+        "description": "是否允许清空当前值。",
+        "descriptionEn": "Whether the current value can be cleared.",
+        "default": "false"
+      },
+      {
         "name": "placeholder",
         "type": "string",
         "required": false,
