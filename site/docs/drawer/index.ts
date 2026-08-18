@@ -9,6 +9,8 @@ import MaskClosableDemo from './MaskClosableDemo.vue'
 import maskClosableDemoSource from './MaskClosableDemo.vue?raw'
 import HideCloseButtonDemo from './HideCloseButtonDemo.vue'
 import hideCloseButtonDemoSource from './HideCloseButtonDemo.vue?raw'
+import ClosePlacementDemo from './ClosePlacementDemo.vue'
+import closePlacementDemoSource from './ClosePlacementDemo.vue?raw'
 import CustomWidthHeightDemo from './CustomWidthHeightDemo.vue'
 import customWidthHeightDemoSource from './CustomWidthHeightDemo.vue?raw'
 import ResizeDemo from './ResizeDemo.vue'
@@ -37,6 +39,12 @@ export const demos: DemoDefinition[] = [
     titleKey: 'demo.common.hideCloseButton',
     component: HideCloseButtonDemo,
     source: hideCloseButtonDemoSource,
+  },
+  {
+    id: 'ClosePlacementDemo',
+    titleKey: 'demo.drawer.closePlacement',
+    component: ClosePlacementDemo,
+    source: closePlacementDemoSource,
   },
   {
     id: 'CustomWidthHeightDemo',

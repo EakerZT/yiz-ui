@@ -15,7 +15,7 @@
         :aria-labelledby="titleId"
         tabindex="-1"
       >
-        <div class="yiz-drawer-header">
+        <div class="yiz-drawer-header" :class="`yiz-drawer-header-close-${resolvedClosePlacement}`">
           <div :id="titleId" class="yiz-drawer-title-wrap">
             <slot name="title">
               <span class="yiz-drawer-title">{{ title || t('drawer.ariaLabel') }}</span>
@@ -70,6 +70,11 @@ const props = withDefaults(
     width?: string
     height?: string
     closable?: boolean
+    /**
+     * 关闭按钮的位置。out 仅支持左右侧抽屉，其他方向会回退为 end。
+     * @en Close button placement. out only supports left and right drawers; other placements fall back to end.
+     */
+    closePlacement?: 'start' | 'end' | 'out'
     mask?: boolean
     maskClosable?: boolean
     escClosable?: boolean
@@ -84,6 +89,7 @@ const props = withDefaults(
     width: '30%',
     height: '30%',
     closable: true,
+    closePlacement: 'end',
     mask: true,
     maskClosable: false,
     escClosable: true,
@@ -112,6 +118,10 @@ const titleId = `yiz-drawer-title-${useId()}`
 const modalFocus = useModalFocus(visible, drawerRef)
 
 const transitionName = computed(() => `yiz-drawer-slide-${props.placement}`)
+const resolvedClosePlacement = computed(() => {
+  if (props.closePlacement === 'out' && props.placement !== 'left' && props.placement !== 'right') return 'end'
+  return props.closePlacement
+})
 
 const currentResizeSize = ref('')
 
@@ -316,6 +326,8 @@ function parseSize(val: string, refSize: number): number {
 }
 
 .yiz-drawer-close {
+  flex-shrink: 0;
+  margin-left: var(--yiz-space-3);
   border: none;
   background: none;
   cursor: pointer;
@@ -332,6 +344,33 @@ function parseSize(val: string, refSize: number): number {
     color: var(--yiz-color-text-primary);
     background: var(--yiz-color-bg-muted);
   }
+}
+
+.yiz-drawer-header-close-start .yiz-drawer-close {
+  order: -1;
+  margin-right: var(--yiz-space-3);
+  margin-left: 0;
+}
+
+.yiz-drawer-header-close-out .yiz-drawer-close {
+  position: absolute;
+  top: var(--yiz-space-4);
+  z-index: 11;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  background: var(--yiz-color-bg-elevated);
+  box-shadow: var(--yiz-shadow-drawer);
+}
+
+.yiz-drawer-right .yiz-drawer-header-close-out .yiz-drawer-close {
+  right: 100%;
+  border-radius: 4px 0 0 4px;
+}
+
+.yiz-drawer-left .yiz-drawer-header-close-out .yiz-drawer-close {
+  left: 100%;
+  border-radius: 0 4px 4px 0;
 }
 
 .yiz-drawer-body {

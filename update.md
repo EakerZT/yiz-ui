@@ -2,10 +2,11 @@
 
 ## 0.0.34
 
-`2026/08/17`
+`2026/08/18`
 
 - 修复 Table组件CellStyle导出说明
 - 修复 InputNumber组件添加Clearable
+- 添加 Drawer组件支持关闭按钮位置
 
 ## 0.0.33
 

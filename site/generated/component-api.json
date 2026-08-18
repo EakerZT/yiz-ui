@@ -1771,6 +1771,14 @@
         "default": "true"
       },
       {
+        "name": "closePlacement",
+        "type": "'start' | 'end' | 'out'",
+        "required": false,
+        "description": "关闭按钮的位置。out 仅支持左右侧抽屉，其他方向会回退为 end。",
+        "descriptionEn": "Close button placement. out only supports left and right drawers; other placements fall back to end.",
+        "default": "'end'"
+      },
+      {
         "name": "mask",
         "type": "boolean",
         "required": false,
