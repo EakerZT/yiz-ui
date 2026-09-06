@@ -7,6 +7,7 @@ import type {
   Card,
   Carousel,
   CarouselItem,
+  Cascader,
   Checkbox,
   CheckboxGroup,
   Collapse,
@@ -87,6 +88,8 @@ declare module 'vue' {
     'y-carousel': typeof Carousel
     YCarouselItem: typeof CarouselItem
     'y-carousel-item': typeof CarouselItem
+    YCascader: typeof Cascader
+    'y-cascader': typeof Cascader
     YCheckbox: typeof Checkbox
     'y-checkbox': typeof Checkbox
     YCheckboxGroup: typeof CheckboxGroup

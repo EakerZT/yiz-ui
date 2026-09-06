@@ -497,6 +497,136 @@
     "methods": []
   },
   {
+    "name": "Cascader",
+    "source": "scripts/cascader/Cascader.vue",
+    "props": [
+      {
+        "name": "options",
+        "type": "CascaderOption[]",
+        "required": false,
+        "description": "级联选项，同级 value 必须唯一。",
+        "descriptionEn": "Hierarchical options with unique values among siblings.",
+        "default": "[]"
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "占位文本。",
+        "descriptionEn": "Placeholder text."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "禁用选择器。",
+        "descriptionEn": "Disables the cascader.",
+        "default": "false"
+      },
+      {
+        "name": "readonly",
+        "type": "boolean",
+        "required": false,
+        "description": "只读，允许聚焦。",
+        "descriptionEn": "Read-only while remaining focusable.",
+        "default": "false"
+      },
+      {
+        "name": "clearable",
+        "type": "boolean",
+        "required": false,
+        "description": "允许清空为 undefined。",
+        "descriptionEn": "Allows clearing the value to undefined.",
+        "default": "false"
+      },
+      {
+        "name": "changeOnSelect",
+        "type": "boolean",
+        "required": false,
+        "description": "允许选择任意层级，选择父节点后继续展开。",
+        "descriptionEn": "Allows selecting any level while expanding parent nodes.",
+        "default": "false"
+      },
+      {
+        "name": "expandTrigger",
+        "type": "'click' | 'hover'",
+        "required": false,
+        "description": "展开子级的方式。",
+        "descriptionEn": "How child columns are expanded.",
+        "default": "'click'"
+      },
+      {
+        "name": "showAllLevels",
+        "type": "boolean",
+        "required": false,
+        "description": "是否显示完整路径。",
+        "descriptionEn": "Whether to display the full selected path.",
+        "default": "true"
+      },
+      {
+        "name": "separator",
+        "type": "string",
+        "required": false,
+        "description": "路径显示分隔符。",
+        "descriptionEn": "Separator between path labels.",
+        "default": "' / '"
+      },
+      {
+        "name": "size",
+        "type": "'small' | 'default' | 'large'",
+        "required": false,
+        "description": "控件尺寸，继承 InputGroup 或 App。",
+        "descriptionEn": "Control size, inherited from InputGroup or App."
+      },
+      {
+        "name": "styleMode",
+        "type": "'outlined' | 'filled'",
+        "required": false,
+        "description": "输入框显示风格。",
+        "descriptionEn": "Input appearance."
+      }
+    ],
+    "models": [
+      {
+        "name": "v-model:value",
+        "type": "CascaderValue[]",
+        "required": false,
+        "description": "从根节点到选中节点的 value 数组。",
+        "descriptionEn": "Values from the root to the selected node."
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": "[path: CascaderOption[]]",
+        "description": "用户选择或清空时触发，清空返回空路径。",
+        "descriptionEn": "Emitted on user selection or clear, with an empty path on clear."
+      }
+    ],
+    "slots": [
+      {
+        "name": "option",
+        "type": "(props: { option: CascaderOption; level: number; selected: boolean }) => unknown",
+        "description": "自定义选项内容。",
+        "descriptionEn": "Custom option content."
+      }
+    ],
+    "methods": [
+      {
+        "name": "focus",
+        "type": "focus",
+        "description": "聚焦控件。",
+        "descriptionEn": "Focuses the control."
+      },
+      {
+        "name": "blur",
+        "type": "() => void",
+        "description": "关闭面板并移除焦点。",
+        "descriptionEn": "Closes the panel and removes focus."
+      }
+    ]
+  },
+  {
     "name": "Checkbox",
     "source": "scripts/checkbox/Checkbox.vue",
     "props": [

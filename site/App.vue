@@ -94,6 +94,7 @@ const pages: Record<string, Component> = {
   button: createPage('Button'),
   card: createPage('Card'),
   carousel: createPage('Carousel'),
+  cascader: createPage('Cascader'),
   checkbox: createPage('Checkbox'),
   collapse: createPage('Collapse'),
   'color-picker': createPage('ColorPicker'),
@@ -169,6 +170,7 @@ const menuItems = computed(() => [
   { label: t('demo.nav.tab'), key: 'tab' },
 
   { type: 'divider' as const, name: t('demo.navGroup.dataEntry') },
+  { label: t('demo.nav.cascader'), key: 'cascader' },
   { label: t('demo.nav.checkbox'), key: 'checkbox' },
   { label: t('demo.nav.colorPicker'), key: 'color-picker' },
   { label: t('demo.nav.datePicker'), key: 'date-picker' },
