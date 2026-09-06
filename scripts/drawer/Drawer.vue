@@ -352,25 +352,47 @@ function parseSize(val: string, refSize: number): number {
   margin-left: 0;
 }
 
+.yiz-drawer-header-close-out {
+  position: relative;
+}
+
 .yiz-drawer-header-close-out .yiz-drawer-close {
   position: absolute;
-  top: var(--yiz-space-4);
+  top: calc(100% + var(--yiz-space-2));
   z-index: 11;
   width: 32px;
-  height: 32px;
+  height: var(--yiz-control-height-default);
   margin: 0;
-  background: var(--yiz-color-bg-elevated);
-  box-shadow: var(--yiz-shadow-drawer);
+  padding: 0;
+  border: 1px solid var(--yiz-color-primary);
+  background: var(--yiz-color-primary);
+  color: var(--yiz-color-text-inverse);
+  transition:
+    color var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard),
+    background-color var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard),
+    border-color var(--yiz-motion-duration-slow) var(--yiz-motion-easing-standard);
+
+  &:hover {
+    border-color: var(--yiz-color-primary-hover);
+    background: var(--yiz-color-primary-hover);
+    color: var(--yiz-color-text-inverse);
+  }
+
+  &:active {
+    border-color: var(--yiz-color-primary-active);
+    background: var(--yiz-color-primary-active);
+    color: var(--yiz-color-text-inverse);
+  }
 }
 
 .yiz-drawer-right .yiz-drawer-header-close-out .yiz-drawer-close {
   right: 100%;
-  border-radius: 4px 0 0 4px;
+  border-radius: var(--yiz-base-border-radius-default) 0 0 var(--yiz-base-border-radius-default);
 }
 
 .yiz-drawer-left .yiz-drawer-header-close-out .yiz-drawer-close {
   left: 100%;
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 var(--yiz-base-border-radius-default) var(--yiz-base-border-radius-default) 0;
 }
 
 .yiz-drawer-body {
