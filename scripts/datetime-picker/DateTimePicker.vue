@@ -46,28 +46,74 @@
       <div v-if="open" ref="panelRef" class="yiz-datetime-picker-panel" :style="panelStyle" @click.stop>
         <div class="yiz-datetime-picker-content">
           <div class="yiz-datetime-picker-date-panel">
-            <div class="yiz-datetime-picker-header">
+            <!-- 年、月、日期面板导航 -->
+            <div class="yiz-datetime-picker-header" @keydown.enter.stop>
               <Icon class="yiz-datetime-picker-nav" size="16" :icon="ChevronDoubleLeft16Regular" @click="prevYear" />
-              <Icon class="yiz-datetime-picker-nav" size="16" :icon="ChevronLeft16Regular" @click="prevMonth" />
-              <span class="yiz-datetime-picker-month-year" @click="showYearPicker = !showYearPicker">
-                {{ t('datePicker.yearMonth', { year, month }) }}
-              </span>
-              <Icon class="yiz-datetime-picker-nav" size="16" :icon="ChevronRight16Regular" @click="nextMonth" />
+              <Icon
+                v-if="panelMode === 'date'"
+                class="yiz-datetime-picker-nav"
+                size="16"
+                :icon="ChevronLeft16Regular"
+                @click="prevMonth"
+              />
+              <div class="yiz-datetime-picker-month-year">
+                <span v-if="panelMode === 'year'" class="yiz-datetime-picker-year-range">
+                  {{ t('datePicker.yearRange', { start: decadeStart, end: decadeStart + 9 }) }}
+                </span>
+                <template v-else>
+                  <button type="button" class="yiz-datetime-picker-header-label" @click="panelMode = 'year'">
+                    {{ t('datePicker.year', { year }) }}
+                  </button>
+                  <button
+                    v-if="panelMode === 'date'"
+                    type="button"
+                    class="yiz-datetime-picker-header-label"
+                    @click="panelMode = 'month'"
+                  >
+                    {{ t('datePicker.month', { month }) }}
+                  </button>
+                </template>
+              </div>
+              <Icon
+                v-if="panelMode === 'date'"
+                class="yiz-datetime-picker-nav"
+                size="16"
+                :icon="ChevronRight16Regular"
+                @click="nextMonth"
+              />
               <Icon class="yiz-datetime-picker-nav" size="16" :icon="ChevronDoubleRight16Regular" @click="nextYear" />
             </div>
 
-            <div v-if="showYearPicker" class="yiz-datetime-picker-year-grid">
-              <div
+            <!-- 年份快速选择 -->
+            <div v-if="panelMode === 'year'" class="yiz-datetime-picker-year-grid" @keydown.enter.stop>
+              <button
                 v-for="y in yearRange"
                 :key="y"
+                type="button"
                 class="yiz-datetime-picker-year-item"
-                :class="{ 'yiz-datetime-picker-year-item-active': y === year }"
+                :class="{
+                  'yiz-datetime-picker-year-item-active': y === year,
+                  'yiz-datetime-picker-year-item-other': y < decadeStart || y > decadeStart + 9,
+                }"
                 @click="selectYear(y)"
               >
                 {{ y }}
-              </div>
+              </button>
             </div>
 
+            <!-- 月份快速选择 -->
+            <div v-else-if="panelMode === 'month'" class="yiz-datetime-picker-month-grid" @keydown.enter.stop>
+              <button
+                v-for="m in 12"
+                :key="m"
+                type="button"
+                class="yiz-datetime-picker-month-item"
+                :class="{ 'yiz-datetime-picker-month-item-active': m === month }"
+                @click="selectMonth(m)"
+              >
+                {{ t('datePicker.month', { month: m }) }}
+              </button>
+            </div>
             <div v-else class="yiz-datetime-picker-body">
               <div class="yiz-datetime-picker-weekdays">
                 <span v-for="d in weekDays" :key="d" class="yiz-datetime-picker-weekday">{{ d }}</span>
@@ -137,7 +183,7 @@
           </div>
         </div>
 
-        <div class="yiz-datetime-picker-footer">
+        <div v-if="panelMode === 'date'" class="yiz-datetime-picker-footer">
           <LinkButton @click="onNow">{{ t('timePicker.now') }}</LinkButton>
           <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">{{
             t('common.confirm')
@@ -216,7 +262,7 @@ const isHovering = ref(false)
 const inputFocused = ref(false)
 const inputDirty = ref(false)
 const inputText = ref('')
-const showYearPicker = ref(false)
+const panelMode = ref<'date' | 'month' | 'year'>('date')
 const draft = ref<Date | null>(null)
 const now = new Date()
 const viewYear = ref(now.getFullYear())
@@ -249,8 +295,10 @@ const vClass = computed(() => ({
   'yiz-datetime-picker-large': mergedSize.value === 'large',
 }))
 
+const decadeStart = computed(() => Math.floor(viewYear.value / 10) * 10)
+
 const yearRange = computed(() => {
-  const start = viewYear.value - 6
+  const start = decadeStart.value - 1
   return Array.from({ length: 12 }, (_, i) => start + i)
 })
 
@@ -316,7 +364,7 @@ function applyInputText(value: string) {
   syncTimeFromDate(parsed)
   viewYear.value = parsed.getFullYear()
   viewMonth.value = parsed.getMonth() + 1
-  showYearPicker.value = false
+  panelMode.value = 'date'
   return parsed
 }
 
@@ -336,7 +384,7 @@ function openPanel() {
   }
   syncInputFromDraft()
   inputDirty.value = false
-  showYearPicker.value = false
+  panelMode.value = 'date'
   currentZIndex.value = zIndexManager.next()
   open.value = true
 }
@@ -424,7 +472,7 @@ function onNow() {
 }
 
 function onConfirm() {
-  if (props.disabled || props.readonly) return
+  if (props.disabled || props.readonly || panelMode.value !== 'date') return
   if (inputDirty.value) {
     if (!applyInputText(inputText.value)) return
     inputDirty.value = false
@@ -456,16 +504,21 @@ function nextMonth() {
 }
 
 function prevYear() {
-  viewYear.value--
+  viewYear.value -= panelMode.value === 'year' ? 10 : 1
 }
 
 function nextYear() {
-  viewYear.value++
+  viewYear.value += panelMode.value === 'year' ? 10 : 1
 }
 
 function selectYear(y: number) {
   viewYear.value = y
-  showYearPicker.value = false
+  panelMode.value = 'month'
+}
+
+function selectMonth(m: number) {
+  viewMonth.value = m
+  panelMode.value = 'date'
 }
 
 function repositionPanel() {
@@ -496,6 +549,12 @@ function repositionPanel() {
   if (left < margin) left = margin
   panelRef.value.style.left = `${left}px`
 }
+
+watch(panelMode, async () => {
+  if (!open.value) return
+  await nextTick()
+  repositionPanel()
+})
 
 watch(open, async (val) => {
   if (val) {
@@ -695,59 +754,89 @@ defineExpose({
   color: var(--yiz-color-text-secondary);
   border-radius: 2px;
   flex-shrink: 0;
-  transition:
-    color 0.2s,
-    background 0.2s;
+  transition: color 0.2s;
 }
 
 .yiz-datetime-picker-nav:hover {
   color: var(--yiz-color-primary);
-  background: var(--yiz-color-hover-bg);
 }
 
 .yiz-datetime-picker-month-year {
   flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   text-align: center;
   font-size: 14px;
   font-weight: 600;
   color: var(--yiz-color-text-primary);
+}
+
+.yiz-datetime-picker-header-label {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
   cursor: pointer;
   padding: 2px 0;
   border-radius: var(--yiz-pane-item-border-radius);
-  transition: background 0.2s;
+  transition: color 0.2s;
+
+  &:hover {
+    color: var(--yiz-color-primary);
+  }
 }
 
-.yiz-datetime-picker-month-year:hover {
-  background: var(--yiz-color-hover-bg);
+.yiz-datetime-picker-year-range {
+  padding: 2px 0;
+  color: var(--yiz-color-primary);
 }
 
-.yiz-datetime-picker-year-grid {
+// 年份和月份选择：三列四行
+.yiz-datetime-picker-year-grid,
+.yiz-datetime-picker-month-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  align-items: center;
+  justify-items: center;
   gap: 4px;
+  height: 256px;
+  padding-top: 4px;
+  border-top: 1px solid var(--yiz-color-border, #d9d9d9);
 }
 
-.yiz-datetime-picker-year-item {
-  padding: 6px 0;
+.yiz-datetime-picker-year-item,
+.yiz-datetime-picker-month-item {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  min-width: 52px;
+  padding: 6px 8px;
   text-align: center;
   font-size: 13px;
   color: var(--yiz-color-text-secondary);
-  cursor: pointer;
   border-radius: var(--yiz-pane-item-border-radius);
+  cursor: pointer;
   transition:
     background 0.2s,
     color 0.2s;
-}
 
-.yiz-datetime-picker-year-item:hover {
-  background: var(--yiz-color-hover-bg);
-}
+  &:hover {
+    background: var(--yiz-color-hover-bg);
+  }
 
-.yiz-datetime-picker-year-item-active,
-.yiz-datetime-picker-year-item-active:hover {
-  color: var(--yiz-color-primary);
-  background: var(--yiz-color-primary-bg-hover);
-  font-weight: 600;
+  &-other {
+    color: var(--yiz-color-text-disabled);
+  }
+
+  &-active,
+  &-active:hover {
+    color: var(--yiz-color-primary);
+    background: var(--yiz-color-primary-bg-hover);
+    font-weight: 600;
+  }
 }
 
 .yiz-datetime-picker-weekdays,
@@ -773,7 +862,6 @@ defineExpose({
   line-height: 28px;
   color: var(--yiz-color-text-tertiary);
   font-size: 12px;
-  font-weight: 600;
 }
 
 .yiz-datetime-picker-cell {
@@ -847,8 +935,15 @@ defineExpose({
 }
 
 .yiz-datetime-picker-time-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  margin: 0 auto 2px;
   text-align: center;
-  padding: 6px 0;
+  padding: 0;
   font-size: 14px;
   color: var(--yiz-color-text-secondary);
   border-radius: var(--yiz-pane-item-border-radius);
@@ -864,9 +959,8 @@ defineExpose({
 
 .yiz-datetime-picker-time-item-active,
 .yiz-datetime-picker-time-item-active:hover {
-  color: var(--yiz-color-primary);
-  background: var(--yiz-color-primary-bg-hover);
-  font-weight: 600;
+  color: var(--yiz-color-on-primary);
+  background: var(--yiz-color-primary);
 }
 
 .yiz-datetime-picker-footer {

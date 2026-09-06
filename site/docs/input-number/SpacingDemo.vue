@@ -2,6 +2,14 @@
   <div class="input-number-spacing-demo">
     <div v-for="size in sizes" :key="size" class="input-number-spacing-row">
       <code class="input-number-spacing-size">{{ size }}</code>
+      <y-input :value="String(values[size] ?? '')" :size="size" style="width: 120px" />
+      <y-input-number :value="values[size]" :size="size" controls="none" style="width: 120px" />
+      <y-input
+        :value="String(values[size] ?? '')"
+        :size="size"
+        :prefix="t('demo.inputNumber.length')"
+        style="width: 120px"
+      />
       <y-input-number
         v-model:value="values[size]"
         :size="size"
@@ -45,6 +53,7 @@ const nullable = reactive<Record<InputNumberSize, boolean>>({
 .input-number-spacing-row {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
 }
 

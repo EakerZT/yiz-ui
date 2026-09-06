@@ -169,6 +169,9 @@ const vClass = computed(() => {
   c[`yiz-input-number-align-${props.align}`] = true
   if (props.prefix || slots.prefix) c['yiz-input-number-has-prefix'] = true
   if (props.suffix || slots.suffix) c['yiz-input-number-has-suffix'] = true
+  if (props.clearable && modelValue.value != null && !props.disabled && !props.readonly) {
+    c['yiz-input-number-has-clear'] = true
+  }
   c[`yiz-input-number-controls-${mergedControls.value}`] = true
   return c
 })
@@ -432,7 +435,7 @@ defineExpose({
   outline: none;
   font-size: var(--yiz-font-size-default);
   font-family: inherit;
-  padding: 0 var(--yiz-control-content-padding-inline-default);
+  padding: 0 var(--yiz-control-padding-inline-default);
   color: var(--yiz-color-text-primary);
   background: transparent;
   box-sizing: border-box;
@@ -467,7 +470,7 @@ defineExpose({
   }
 
   .yiz-input-number-input {
-    padding: 0 var(--yiz-control-content-padding-inline-small);
+    padding: 0 var(--yiz-control-padding-inline-small);
     font-size: var(--yiz-font-size-small);
   }
 
@@ -496,7 +499,7 @@ defineExpose({
   }
 
   .yiz-input-number-input {
-    padding: 0 var(--yiz-control-content-padding-inline-large);
+    padding: 0 var(--yiz-control-padding-inline-large);
   }
 
   .yiz-input-number-btn {
@@ -506,6 +509,26 @@ defineExpose({
   .yiz-input-number-clear {
     margin-right: var(--yiz-control-padding-inline-large);
   }
+}
+
+.yiz-input-number-has-prefix .yiz-input-number-input {
+  padding-left: 0;
+}
+
+.yiz-input-number-has-suffix .yiz-input-number-input {
+  padding-right: 0;
+}
+
+.yiz-input-number-has-clear .yiz-input-number-input {
+  padding-right: var(--yiz-control-affix-gap-default);
+}
+
+.yiz-input-number-small.yiz-input-number-has-clear .yiz-input-number-input {
+  padding-right: var(--yiz-control-affix-gap-small);
+}
+
+.yiz-input-number-large.yiz-input-number-has-clear .yiz-input-number-input {
+  padding-right: var(--yiz-control-affix-gap-large);
 }
 
 .yiz-input-number-has-suffix .yiz-input-number-clear {

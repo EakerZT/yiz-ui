@@ -940,8 +940,15 @@ defineExpose({
 }
 
 .yiz-time-range-picker-col-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  margin: 0 auto 2px;
   text-align: center;
-  padding: 6px 0;
+  padding: 0;
   font-size: 14px;
   color: var(--yiz-color-text-secondary);
   cursor: pointer;
@@ -957,9 +964,8 @@ defineExpose({
 
 .yiz-time-range-picker-col-item-active,
 .yiz-time-range-picker-col-item-active:hover {
-  color: var(--yiz-color-primary);
-  background: var(--yiz-color-primary-bg-hover);
-  font-weight: 600;
+  color: var(--yiz-color-on-primary);
+  background: var(--yiz-color-primary);
 }
 
 .yiz-time-range-picker-footer {

@@ -80,7 +80,8 @@
             class="yiz-date-range-picker-side"
             :class="{ 'yiz-date-range-picker-side-active': activeSide === 'start' }"
           >
-            <div class="yiz-date-range-picker-header">
+            <!-- 年、月、日期面板导航 -->
+            <div class="yiz-date-range-picker-header" @keydown.enter.stop>
               <Icon
                 class="yiz-date-range-picker-nav"
                 size="16"
@@ -88,15 +89,32 @@
                 @click="shiftYear('start', -1)"
               />
               <Icon
+                v-if="startPanelMode === 'date'"
                 class="yiz-date-range-picker-nav"
                 size="16"
                 :icon="ChevronLeft16Regular"
                 @click="shiftMonth('start', -1)"
               />
-              <span class="yiz-date-range-picker-month-year" @click="startShowYearPicker = !startShowYearPicker">
-                {{ startViewYear }}-{{ pad(startViewMonth) }}
-              </span>
+              <div class="yiz-date-range-picker-month-year">
+                <span v-if="startPanelMode === 'year'" class="yiz-date-range-picker-year-range">
+                  {{ t('datePicker.yearRange', { start: startDecadeStart, end: startDecadeStart + 9 }) }}
+                </span>
+                <template v-else>
+                  <button type="button" class="yiz-date-range-picker-header-label" @click="startPanelMode = 'year'">
+                    {{ t('datePicker.year', { year: startViewYear }) }}
+                  </button>
+                  <button
+                    v-if="startPanelMode === 'date'"
+                    type="button"
+                    class="yiz-date-range-picker-header-label"
+                    @click="startPanelMode = 'month'"
+                  >
+                    {{ t('datePicker.month', { month: startViewMonth }) }}
+                  </button>
+                </template>
+              </div>
               <Icon
+                v-if="startPanelMode === 'date'"
                 class="yiz-date-range-picker-nav"
                 size="16"
                 :icon="ChevronRight16Regular"
@@ -109,16 +127,36 @@
                 @click="shiftYear('start', 1)"
               />
             </div>
-            <div v-if="startShowYearPicker" class="yiz-date-range-picker-year-grid">
-              <div
+
+            <!-- 年份快速选择 -->
+            <div v-if="startPanelMode === 'year'" class="yiz-date-range-picker-year-grid" @keydown.enter.stop>
+              <button
                 v-for="y in startYearRange"
                 :key="y"
+                type="button"
                 class="yiz-date-range-picker-year-item"
-                :class="{ 'yiz-date-range-picker-year-item-active': y === startViewYear }"
+                :class="{
+                  'yiz-date-range-picker-year-item-active': y === startViewYear,
+                  'yiz-date-range-picker-year-item-other': y < startDecadeStart || y > startDecadeStart + 9,
+                }"
                 @click="selectYear('start', y)"
               >
                 {{ y }}
-              </div>
+              </button>
+            </div>
+
+            <!-- 月份快速选择 -->
+            <div v-else-if="startPanelMode === 'month'" class="yiz-date-range-picker-month-grid" @keydown.enter.stop>
+              <button
+                v-for="m in 12"
+                :key="m"
+                type="button"
+                class="yiz-date-range-picker-month-item"
+                :class="{ 'yiz-date-range-picker-month-item-active': m === startViewMonth }"
+                @click="selectMonth('start', m)"
+              >
+                {{ t('datePicker.month', { month: m }) }}
+              </button>
             </div>
             <DateRangeCalendar
               v-else
@@ -132,7 +170,8 @@
             class="yiz-date-range-picker-side"
             :class="{ 'yiz-date-range-picker-side-active': activeSide === 'end' }"
           >
-            <div class="yiz-date-range-picker-header">
+            <!-- 年、月、日期面板导航 -->
+            <div class="yiz-date-range-picker-header" @keydown.enter.stop>
               <Icon
                 class="yiz-date-range-picker-nav"
                 size="16"
@@ -140,15 +179,32 @@
                 @click="shiftYear('end', -1)"
               />
               <Icon
+                v-if="endPanelMode === 'date'"
                 class="yiz-date-range-picker-nav"
                 size="16"
                 :icon="ChevronLeft16Regular"
                 @click="shiftMonth('end', -1)"
               />
-              <span class="yiz-date-range-picker-month-year" @click="endShowYearPicker = !endShowYearPicker">
-                {{ endViewYear }}-{{ pad(endViewMonth) }}
-              </span>
+              <div class="yiz-date-range-picker-month-year">
+                <span v-if="endPanelMode === 'year'" class="yiz-date-range-picker-year-range">
+                  {{ t('datePicker.yearRange', { start: endDecadeStart, end: endDecadeStart + 9 }) }}
+                </span>
+                <template v-else>
+                  <button type="button" class="yiz-date-range-picker-header-label" @click="endPanelMode = 'year'">
+                    {{ t('datePicker.year', { year: endViewYear }) }}
+                  </button>
+                  <button
+                    v-if="endPanelMode === 'date'"
+                    type="button"
+                    class="yiz-date-range-picker-header-label"
+                    @click="endPanelMode = 'month'"
+                  >
+                    {{ t('datePicker.month', { month: endViewMonth }) }}
+                  </button>
+                </template>
+              </div>
               <Icon
+                v-if="endPanelMode === 'date'"
                 class="yiz-date-range-picker-nav"
                 size="16"
                 :icon="ChevronRight16Regular"
@@ -161,16 +217,36 @@
                 @click="shiftYear('end', 1)"
               />
             </div>
-            <div v-if="endShowYearPicker" class="yiz-date-range-picker-year-grid">
-              <div
+
+            <!-- 年份快速选择 -->
+            <div v-if="endPanelMode === 'year'" class="yiz-date-range-picker-year-grid" @keydown.enter.stop>
+              <button
                 v-for="y in endYearRange"
                 :key="y"
+                type="button"
                 class="yiz-date-range-picker-year-item"
-                :class="{ 'yiz-date-range-picker-year-item-active': y === endViewYear }"
+                :class="{
+                  'yiz-date-range-picker-year-item-active': y === endViewYear,
+                  'yiz-date-range-picker-year-item-other': y < endDecadeStart || y > endDecadeStart + 9,
+                }"
                 @click="selectYear('end', y)"
               >
                 {{ y }}
-              </div>
+              </button>
+            </div>
+
+            <!-- 月份快速选择 -->
+            <div v-else-if="endPanelMode === 'month'" class="yiz-date-range-picker-month-grid" @keydown.enter.stop>
+              <button
+                v-for="m in 12"
+                :key="m"
+                type="button"
+                class="yiz-date-range-picker-month-item"
+                :class="{ 'yiz-date-range-picker-month-item-active': m === endViewMonth }"
+                @click="selectMonth('end', m)"
+              >
+                {{ t('datePicker.month', { month: m }) }}
+              </button>
             </div>
             <DateRangeCalendar
               v-else
@@ -181,7 +257,7 @@
           </div>
         </div>
 
-        <div class="yiz-date-range-picker-footer">
+        <div v-if="isDatePanel" class="yiz-date-range-picker-footer">
           <LinkButton @click="onToday">{{ t('datePicker.today') }}</LinkButton>
           <Button type="primary" size="small" :disabled="confirmDisabled" @click="onConfirm">{{
             t('common.confirm')
@@ -335,8 +411,8 @@ const startViewYear = ref(now.getFullYear())
 const startViewMonth = ref(now.getMonth() + 1)
 const endViewYear = ref(now.getFullYear())
 const endViewMonth = ref(now.getMonth() + 1)
-const startShowYearPicker = ref(false)
-const endShowYearPicker = ref(false)
+const startPanelMode = ref<'date' | 'month' | 'year'>('date')
+const endPanelMode = ref<'date' | 'month' | 'year'>('date')
 const dropdownPos = ref<{ top?: string; bottom?: string; left?: string }>({})
 
 const weekDays = computed(() => t.list('datePicker.weekdays'))
@@ -367,10 +443,19 @@ const vClass = computed(() => ({
   'yiz-date-range-picker-large': mergedSize.value === 'large',
 }))
 
+const isDatePanel = computed(() => startPanelMode.value === 'date' && endPanelMode.value === 'date')
+const startDecadeStart = computed(() => Math.floor(startViewYear.value / 10) * 10)
+const endDecadeStart = computed(() => Math.floor(endViewYear.value / 10) * 10)
 const startYearRange = computed(() => makeYearRange(startViewYear.value))
 const endYearRange = computed(() => makeYearRange(endViewYear.value))
 const startCalendarCells = computed(() => makeCalendarCells('start', startViewYear.value, startViewMonth.value))
 const endCalendarCells = computed(() => makeCalendarCells('end', endViewYear.value, endViewMonth.value))
+
+watch([startPanelMode, endPanelMode], async () => {
+  if (!open.value) return
+  await nextTick()
+  repositionPanel()
+})
 
 watch(open, async (val) => {
   if (val) {
@@ -552,16 +637,16 @@ function applyInputText(side: DateRangeSide, value: string): Date | null {
   setView(side, parsed.getFullYear(), parsed.getMonth() + 1)
   activeSide.value = side
   if (side === 'start') {
-    startShowYearPicker.value = false
+    startPanelMode.value = 'date'
   } else {
-    endShowYearPicker.value = false
+    endPanelMode.value = 'date'
   }
   return parsed
 }
 
 function makeYearRange(year: number) {
   const result: number[] = []
-  const start = year - 6
+  const start = Math.floor(year / 10) * 10 - 1
   for (let i = 0; i < 12; i++) {
     result.push(start + i)
   }
@@ -618,8 +703,8 @@ function openPanel(side: DateRangeSide) {
   activeSide.value = side
   draftStart.value = parseModelValue('start', startModel.value)
   draftEnd.value = parseModelValue('end', endModel.value)
-  startShowYearPicker.value = false
-  endShowYearPicker.value = false
+  startPanelMode.value = 'date'
+  endPanelMode.value = 'date'
   syncViewFromDraft()
   syncInputTextFromDraft('start')
   syncInputTextFromDraft('end')
@@ -721,7 +806,7 @@ function onToday() {
 }
 
 function onConfirm() {
-  if (props.disabled || props.readonly) return
+  if (props.disabled || props.readonly || !isDatePanel.value) return
   if (startInputDirty.value) {
     if (!applyInputText('start', startInputText.value)) return
     startInputDirty.value = false
@@ -785,19 +870,29 @@ function shiftMonth(side: DateRangeSide, offset: number) {
 
 function shiftYear(side: DateRangeSide, offset: number) {
   if (side === 'start') {
-    startViewYear.value += offset
+    startViewYear.value += offset * (startPanelMode.value === 'year' ? 10 : 1)
   } else {
-    endViewYear.value += offset
+    endViewYear.value += offset * (endPanelMode.value === 'year' ? 10 : 1)
   }
 }
 
 function selectYear(side: DateRangeSide, year: number) {
   if (side === 'start') {
     startViewYear.value = year
-    startShowYearPicker.value = false
+    startPanelMode.value = 'month'
   } else {
     endViewYear.value = year
-    endShowYearPicker.value = false
+    endPanelMode.value = 'month'
+  }
+}
+
+function selectMonth(side: DateRangeSide, month: number) {
+  if (side === 'start') {
+    startViewMonth.value = month
+    startPanelMode.value = 'date'
+  } else {
+    endViewMonth.value = month
+    endPanelMode.value = 'date'
   }
 }
 
@@ -1082,41 +1177,66 @@ defineExpose({
   color: var(--yiz-color-text-secondary);
   border-radius: 2px;
   flex-shrink: 0;
-  transition:
-    color 0.2s,
-    background 0.2s;
+  transition: color 0.2s;
 }
 
 .yiz-date-range-picker-nav:hover {
   color: var(--yiz-color-primary);
-  background: var(--yiz-color-hover-bg);
 }
 
 .yiz-date-range-picker-month-year {
   flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   text-align: center;
   font-size: 14px;
   font-weight: 600;
   color: var(--yiz-color-text-primary);
+}
+
+.yiz-date-range-picker-header-label {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
   cursor: pointer;
   padding: 2px 0;
   border-radius: var(--yiz-pane-item-border-radius);
-  transition: background 0.2s;
+  transition: color 0.2s;
+
+  &:hover {
+    color: var(--yiz-color-primary);
+  }
 }
 
-.yiz-date-range-picker-month-year:hover {
-  background: var(--yiz-color-hover-bg);
+.yiz-date-range-picker-year-range {
+  padding: 2px 0;
+  color: var(--yiz-color-primary);
 }
 
-.yiz-date-range-picker-year-grid {
+// 年份和月份选择：三列四行
+.yiz-date-range-picker-year-grid,
+.yiz-date-range-picker-month-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  align-items: center;
+  justify-items: center;
   gap: 4px;
-  padding: 4px 0;
+  height: 256px;
+  padding-top: 4px;
+  border-top: 1px solid var(--yiz-color-border, #d9d9d9);
 }
 
-.yiz-date-range-picker-year-item {
-  padding: 6px 0;
+.yiz-date-range-picker-year-item,
+.yiz-date-range-picker-month-item {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  min-width: 52px;
+  padding: 6px 8px;
   text-align: center;
   font-size: 13px;
   color: var(--yiz-color-text-secondary);
@@ -1125,17 +1245,21 @@ defineExpose({
   transition:
     background 0.2s,
     color 0.2s;
-}
 
-.yiz-date-range-picker-year-item:hover {
-  background: var(--yiz-color-hover-bg);
-}
+  &:hover {
+    background: var(--yiz-color-hover-bg);
+  }
 
-.yiz-date-range-picker-year-item-active,
-.yiz-date-range-picker-year-item-active:hover {
-  color: var(--yiz-color-primary);
-  background: var(--yiz-color-primary-bg-hover);
-  font-weight: 600;
+  &-other {
+    color: var(--yiz-color-text-disabled);
+  }
+
+  &-active,
+  &-active:hover {
+    color: var(--yiz-color-primary);
+    background: var(--yiz-color-primary-bg-hover);
+    font-weight: 600;
+  }
 }
 
 .yiz-date-range-picker-weekdays {
@@ -1149,7 +1273,6 @@ defineExpose({
   flex: 1;
   text-align: center;
   font-size: 12px;
-  font-weight: 600;
   color: var(--yiz-color-text-tertiary);
   height: 28px;
   line-height: 28px;
