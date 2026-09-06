@@ -1,17 +1,18 @@
 <template>
   <div ref="groupRef" class="yiz-input-group" :class="vClass">
-    <div v-if="$slots.beforeAddon || beforeAddon != null" class="yiz-input-group-addon yiz-input-group-before-addon">
+    <InputAddon v-if="$slots.beforeAddon || beforeAddon != null" class="yiz-input-group-before-addon">
       <slot name="beforeAddon">{{ beforeAddon }}</slot>
-    </div>
+    </InputAddon>
     <slot />
-    <div v-if="$slots.afterAddon || afterAddon != null" class="yiz-input-group-addon yiz-input-group-after-addon">
+    <InputAddon v-if="$slots.afterAddon || afterAddon != null" class="yiz-input-group-after-addon">
       <slot name="afterAddon">{{ afterAddon }}</slot>
-    </div>
+    </InputAddon>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, provide, ref } from 'vue'
+import { InputAddon } from '../input-addon'
 import { inputGroupStyleKey } from '../input-style'
 import { useThemeInputStyleMode, useThemeSize } from '../theme'
 

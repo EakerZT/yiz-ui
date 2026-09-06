@@ -2635,6 +2635,22 @@
     ]
   },
   {
+    "name": "InputAddon",
+    "source": "scripts/input-addon/InputAddon.vue",
+    "props": [],
+    "models": [],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "type": "() => unknown",
+        "description": "InputGroup 内的附加内容，可放在开头、中间或结尾。",
+        "descriptionEn": "Addon content placed at the start, between controls, or at the end of an InputGroup."
+      }
+    ],
+    "methods": []
+  },
+  {
     "name": "InputCustom",
     "source": "scripts/input-custom/InputCustom.vue",
     "props": [

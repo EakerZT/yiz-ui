@@ -1,4 +1,6 @@
 import type { DemoDefinition } from '../types'
+import InlineAddonDemo from './InlineAddonDemo.vue'
+import inlineAddonDemoSource from './InlineAddonDemo.vue?raw'
 import AddonPropsDemo from './AddonPropsDemo.vue'
 import addonPropsDemoSource from './AddonPropsDemo.vue?raw'
 import AddonSlotsDemo from './AddonSlotsDemo.vue'
@@ -19,6 +21,12 @@ import StyleModeDemo from './StyleModeDemo.vue'
 import styleModeDemoSource from './StyleModeDemo.vue?raw'
 
 export const demos: DemoDefinition[] = [
+  {
+    id: 'InlineAddonDemo',
+    titleKey: 'demo.inputGroup.inlineAddon',
+    component: InlineAddonDemo,
+    source: inlineAddonDemoSource,
+  },
   {
     id: 'StyleModeDemo',
     titleKey: 'demo.common.styleMode',
@@ -45,4 +53,4 @@ export const demos: DemoDefinition[] = [
   { id: 'BlockDemo', titleKey: 'demo.inputGroup.block', component: BlockDemo, source: blockDemoSource },
 ]
 
-export const apiComponents = ['InputGroup']
+export const apiComponents = ['InputGroup', 'InputAddon']
